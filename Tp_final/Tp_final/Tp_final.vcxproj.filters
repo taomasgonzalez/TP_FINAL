@@ -136,7 +136,7 @@
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
     <ClCompile Include="MapCell.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Map_related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,7 +231,7 @@
       <Filter>Header Files\Net_related</Filter>
     </ClInclude>
     <ClInclude Include="MapCell.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Map_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
