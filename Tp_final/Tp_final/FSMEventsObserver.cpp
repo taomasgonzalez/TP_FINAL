@@ -2,13 +2,13 @@
 
 
 
-FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container)
+FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container, Scene* scenario)
 {
 	this->event_gen = event_gen;
 	this->fsm = fsm;
 	this->allegro_container = allegro_container;
+	this->scenario = scenario;
 }
-
 
 FSMEventsObserver::~FSMEventsObserver()
 {
@@ -37,5 +37,31 @@ void FSMEventsObserver::update() {
 		event_gen->net_queue->empty();
 		event_gen->soft_queue->empty();				
 	}
+
+	if (fsm->check_action) {
+		EventPackage* old_pack =  fsm->get_fsm_ev_pack();
+		if (scenario->action_is_possible()) {
+			EventPackage* new_ev_pack = new EventPackage();
+			*new_ev_pack = *old_pack;
+			if(old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
+				new_ev_pack->ev = Event::EXTERN_ACTION_ACCEPTED;
+			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)
+				new_ev_pack->ev = Event::LOCAL_ACTION;
+
+			event_gen->append_new_soft_event(new_ev_pack);
+		}
+		else{
+			/*esto en teoria es innecesario, pero lo hacemos para mayor claridad, 
+			para que pueda haber tanto eventos de tipo EXTERN_ACTION_ACCEPTED
+			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*/
+			if (old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
+				old_pack->ev = Event::EXTERN_ACTION_DENIED;
+			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)
+				old_pack->ev = Event::LOCAL_ACTION_DENIED;
+
+			event_gen->append_new_soft_event(old_pack);
+		}
+	}
+
 	
 }
