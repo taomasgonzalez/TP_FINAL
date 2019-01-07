@@ -25,6 +25,7 @@ private:
 	std::vector <Player*> players;
 
 	Map map;
+	char original_map_distribution[192];
 
 
 	static bool game_finished;

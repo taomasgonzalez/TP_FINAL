@@ -14,6 +14,9 @@ FSMCommunicationObserver::~FSMCommunicationObserver()
 	
 }
 void FSMCommunicationObserver::update() {
+
+	PackageInfo my_package_info;
+
 	//NAME
 	if (fsm->ask_name) {
 		//tengo que mandar paquete NAME con mi nombre.
