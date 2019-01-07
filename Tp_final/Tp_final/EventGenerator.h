@@ -91,11 +91,12 @@ public:
 	friend class ScenarioEventsObserver;
 	friend class FSMEventsObserver;
 
-	static Move_type direction_to_move_type(Direction dir);
-
 	bool get_should_check_for_new_messages();
 
 	void set_should_check_for_new_messages(bool should_check);
+
+	void append_new_net_event(EventPackage* new_ev_pack);
+	void append_new_soft_event(EventPackage* new_ev_pack);
 
 protected:
 	

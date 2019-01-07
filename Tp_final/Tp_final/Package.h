@@ -35,7 +35,6 @@ public:
 	char * get_sendable_info();
 	int get_info_length();
 
-
 protected:
 	char* info_to_be_send; //for Communication::SendMessage()
 	int info_length = 1;//for Communication::SendMessage()

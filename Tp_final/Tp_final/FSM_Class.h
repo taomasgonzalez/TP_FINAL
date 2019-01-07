@@ -51,6 +51,9 @@ public:
 	 bool s_error = false;
 	 bool end_game = false;
 	 bool s_map_is = false;
+	 bool s_game_start = false;
+	 bool s_enemy_action = false;
+	 bool start_game = false;
 
 private:
 

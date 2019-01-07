@@ -1,11 +1,11 @@
 #include "FSMCommunicationObserver.h"
 
 
-
-FSMCommunicationObserver::FSMCommunicationObserver(Fsm * fsm, Communication* com)
+FSMCommunicationObserver::FSMCommunicationObserver(Fsm * fsm, Communication* com, Scene* scenario)
 {
 	this->fsm = fsm;
 	this->com = com;
+	this->scenario = scenario;
 }
 
 
@@ -41,6 +41,14 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_map_is) {
 		//tengo qeu mandar paquete MAP_IS!
+		//package_info.map_coords = scenario->get_map_coords();
+		//Package * new_pack = creeate_package(package_info);
+		//com->sendMessage(new_pack);
+
+	}
+	if (fsm->s_game_start) {
+		//tengo que mandar paquete GAME_START!
 
 	}
 }
+

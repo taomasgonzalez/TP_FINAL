@@ -7,7 +7,7 @@
 class FSMEventsObserver: public Observer
 {
 public:
-	FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm);
+	FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container);
 	~FSMEventsObserver();
 
 	virtual void update();
