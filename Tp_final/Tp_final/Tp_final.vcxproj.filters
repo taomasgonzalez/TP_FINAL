@@ -1,0 +1,240 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Net_related">
+      <UniqueIdentifier>{bbaa04b4-7d71-40dc-b41f-861657c2b961}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event_related">
+      <UniqueIdentifier>{ff193356-7774-4418-9c65-1c3324612155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Observers">
+      <UniqueIdentifier>{4b8c3c93-bf05-4ac1-b499-71cf8bc94c4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related">
+      <UniqueIdentifier>{d350ab17-344d-454b-981f-ba43a1df5c50}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related">
+      <UniqueIdentifier>{c65ba519-5308-44fe-b92a-78e5ad75f9cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Net_related">
+      <UniqueIdentifier>{7538be39-aa5d-4de5-a6a4-0391b510770c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{c5d5f7be-918c-439d-82ca-bce3724e3936}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map_related">
+      <UniqueIdentifier>{c86cd00a-ab6f-400e-8ef6-d49d35ec150c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related">
+      <UniqueIdentifier>{efb731d0-0200-4f26-8204-3411d0410ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map_related">
+      <UniqueIdentifier>{29098223-8905-45dc-a53f-eb0d8dd7801c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Allegroclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Drawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parseCmdLine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Userdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Package.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Communication.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="CommunicationEventsObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="EventGenerator.cpp">
+      <Filter>Source Files\Event_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\Event_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Crazy.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenFatty.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuy.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Proyectile.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioEventsObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowball.cpp">
+      <Filter>Source Files\PJ_related</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThing.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Observable.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMSceneObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMEventsObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMCommunicationObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM_Class.cpp">
+      <Filter>Source Files\Event_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EventsCommunicationObserver.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AllegroClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parseCmdLine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="parser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Userdata.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMCommunicationObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMEventsObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMSceneObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Communication.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGenerator.h">
+      <Filter>Header Files\Event_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicationEventsObserver.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Crazy.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenFatty.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Proyectile.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuy.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files\Event_related</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM_Class.h">
+      <Filter>Header Files\Event_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenarioEventsObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Snowball.h">
+      <Filter>Header Files\PJ_related</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThing.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EventsCommunicationObserver.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Package.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+</Project>
