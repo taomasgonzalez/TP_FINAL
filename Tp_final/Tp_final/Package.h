@@ -7,6 +7,8 @@ extern "C" {
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
+#define QBLOCKS 192
+
 /***********************************************************************************************************************
 ************************************************************************************************************************
 									PACKAGE ZONE
@@ -30,9 +32,13 @@ class Package {
 public:
 	Package(Package_type type);
 	Package_type get_package_header();
+	char * get_sendable_info();
+	int get_info_length();
 
 
 protected:
+	char* info_to_be_send; //for Communication::SendMessage()
+	int info_length = 1;//for Communication::SendMessage()
 	Package_type header;
 
 };
@@ -100,7 +106,7 @@ public:
 
 private:
 	char * map;
-	char Checksum;
+	char Checksum=0;
 };
 
 /******************************************************************************
