@@ -50,5 +50,21 @@ void FSMCommunicationObserver::update() {
 		//tengo que mandar paquete GAME_START!
 
 	}
+
+	if (fsm->s_action) {
+		//tengo que mandar una action !! (esta todo guardado en fsm->get_ev_pack())
+
+	}
+	if (fsm->s_action_request) {
+		//tengo que andar un action request!! (esta todo guardado en fsm->get_ev_pack())
+
+	}
+
+	if (fsm->receive_name) {
+		//tengo que guardar el nombre del wachin.
+
+	}
+
+
 }
 

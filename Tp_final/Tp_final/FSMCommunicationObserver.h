@@ -1,11 +1,12 @@
 #pragma once
 #include "Communication.h"
 #include "FSM_Class.h"
+#include "Scene.h"
 
 class FSMCommunicationObserver: public Observer
 {
 public:
-	FSMCommunicationObserver(Fsm * fsm, Communication * com);
+	FSMCommunicationObserver(Fsm * fsm, Communication * com, Scene* scenario);
 	~FSMCommunicationObserver();
 
 	virtual void update();

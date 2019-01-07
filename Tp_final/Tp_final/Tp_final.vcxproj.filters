@@ -69,9 +69,6 @@
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
-    <ClCompile Include="CommunicationEventsObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related</Filter>
     </ClCompile>
@@ -142,7 +139,7 @@
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
     <ClCompile Include="PackageFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Net_related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -180,9 +177,6 @@
       <Filter>Header Files\Event_related</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="CommunicationEventsObserver.h">
       <Filter>Header Files\PJ_related</Filter>
     </ClInclude>
     <ClInclude Include="Crazy.h">
@@ -243,7 +237,7 @@
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
     <ClInclude Include="PackageFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Net_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

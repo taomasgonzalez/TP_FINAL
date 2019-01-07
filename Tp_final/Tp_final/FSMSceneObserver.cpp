@@ -20,4 +20,7 @@ void FSMSceneObserver::update() {
 	if (fsm->start_game) {
 		scenario->start_game();
 	}
+	if (fsm->execute_action) {
+		
+	}
 }

@@ -4,31 +4,35 @@
 #include "FSM_Class.h"
 void copy_event(edge_t to_copy[], edge_t to_be_copied[], int length);
 
-void do_nothing(void *);//Dummy for the debugging of the protocol structure
-void send_map_is(void *);
-void send_ack(void *);
+void do_nothing(void * data);//Dummy for the debugging of the protocol structure
+void send_map_is(void * data);
+void send_ack(void * data);
 void received_ack_routine(void* data);
-void send_quit(void *);
-void send_action(void *);
+void send_quit(void * data);
 
-void ask_for_name(void*);
-void send_name_is(void*);
-void send_ack_and_quit(void*);
-void check_map_and_save(void*);
-void send_enemy_action(void*);
-void send_game_start(void*);
-void finish_game(void *);
-void send_error_and_finish_game(void*);
-void check_sum_and_send_ack(void*);
-void load_action_and_send_ack(void*);
-void start_game_and_send_ack(void*);
-void set_ack_time_out(void*);
+void load_enemy_action(void* data);
+void check_action_request(void* data);
+void ask_for_name(void* data);
+void send_name_is(void* data);
+void send_ack_and_quit(void* data);
+void check_map_and_save(void* data);
+void send_enemy_action(void* data);
+void send_game_start(void* data);
+void finish_game(void * data);
+void send_error_and_finish_game(void* data);
+void check_sum_and_send_ack(void* data);
+void load_action_and_send_ack(void* data);
+void start_game_and_send_ack(void* data);
+void set_ack_time_out(void* data);
+void send_action_and_set_ack_time_out(void* data);
+
 
 /*******************************************************************************
 							FSM CONSTRCUTOR
 ******************************************************************************/
 
 Fsm::Fsm(bool is_client) : Observable(){
+	this->ev_pack = new EventPackage();
 
 	waiting_for_ack = false;
 	reset_ack_timer = false;
@@ -43,7 +47,13 @@ Fsm::Fsm(bool is_client) : Observable(){
 	end_game = false;
 	s_game_start = false;
 	s_enemy_action = false;
+	s_action_request = false;
+	s_action = false;
 	start_game = false;
+	check_action = false;
+	execute_action = false;
+	receive_name = false;
+
 
 	if (is_client) 
 		init_fsm_client();
@@ -83,7 +93,7 @@ void Fsm::init_fsm_server(){
 	edge_t* Waiting_for_ACK_enemy_actions_state_aux = new edge_t[7];
 	this->Waiting_for_ACK_enemy_actions_state = Waiting_for_ACK_enemy_actions_state_aux;
 
-	edge_t * Playing_state_aux = new edge_t[8];
+	edge_t * Playing_state_aux = new edge_t[11];
 	this->Playing_state = Playing_state_aux;
 
 	edge_t* Waiting_for_ACK_game_start_state_aux = new edge_t[6];
@@ -102,7 +112,7 @@ void Fsm::init_fsm_server(){
 
 	edge_t Naming_him_state[6] =
 	{
-		{ Event::NAME_IS, this->Naming_me_state, send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+		{ Event::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
 	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
@@ -169,11 +179,14 @@ void Fsm::init_fsm_server(){
 
 	copy_event(Waiting_for_ACK_game_start_state_aux, Waiting_for_ACK_game_start_state, 6);
 
-	edge_t Playing_state[8] =
+	edge_t Playing_state[11] =
 	{
-		{ Event::EXTERN_ACTION_ACCEPTED, this->Playing_state, set_ack_time_out },
+		{Event::LOCAL_ENEMY_ACTION, this->Playing_state, load_and_send_enemy_action},
+	{Event::EXTERN_ACTION_REQUESTED, this->Playing_state, check_action_request },
+	{ Event::EXTERN_ACTION_ACCEPTED, this->Playing_state, execute_send_action_and_set_ack_time_out },
 	{ Event::EXTERN_ACTION_DENIED, this->Playing_state, do_nothing}, 
-	{ Event::LOCAL_ACTION, this->Playing_state, set_ack_time_out},
+	{Event::LOCAL_ACTION_REQUESTED, this->Playing_state, check_action_request}
+	{ Event::LOCAL_ACTION, this->Playing_state, execute_send_action_and_set_ack_time_out},
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, 
 	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
@@ -181,7 +194,7 @@ void Fsm::init_fsm_server(){
 	{ Event::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
-	copy_event(Playing_state_aux, Playing_state, 8);
+	copy_event(Playing_state_aux, Playing_state, 11);
 
 	edge_t Waiting_for_ACK_quit_state[4] =
 	{
@@ -233,7 +246,7 @@ void Fsm::init_fsm_client() {
 
 	edge_t Initial_state[6] =
 	{
-		{ Event::START_COMMUNICATION, this->Naming_me_state, send_im_ready }, 
+		{ Event::NAME, this->Naming_me_state,  send_name_is}, 
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
 	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
@@ -279,7 +292,7 @@ void Fsm::init_fsm_client() {
 
 	edge_t Waiting_for_enemy_actions_state[7] =
 	{
-		{ Event::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
+		{ Event::EXTERN_ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
 	{ Event::ENEMY_ACTION_IS_OK, this->Waiting_for_game_start_state, load_action_and_send_ack },
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
@@ -304,8 +317,9 @@ void Fsm::init_fsm_client() {
 
 	edge_t Playing_state[7] =
 	{
-		{ Event::LOCAL_ACTION, this->Playing_state, do_nothing }, 
-	{ Event::EXTERN_ACTION_RECEIVED, this->Playing_state, send_ack }, 
+		{Event::EXTERN_ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
+	{ Event::LOCAL_ACTION, this->Playing_state, send_action_request_and_set_ack_time_out }, 
+	{ Event::EXTERN_ACTION_RECEIVED, this->Playing_state, execute_action_and_send_ack }, 
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, 
 	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
@@ -350,7 +364,7 @@ void Fsm::init_fsm_client() {
 void Fsm:: run_fsm(EventPackage ev_pack)
 {
 	Event event1 = ev_pack.ev;
-	this->ev_pack = ev_pack;
+	*this->ev_pack = ev_pack;
 
 	while ((this->actual_state->event != event1) && (this->actual_state->event != Event::END_OF_TABLE))
 	{	
@@ -376,38 +390,10 @@ void Fsm::check_for_incorrect_event(Event event) {
 
 void Fsm::init_fsm()
 {
-	/*
-	edge_t * Waiting_for_Event_state_aux = new edge_t[7];
-
-	edge_t w_for_e_s[7] =
-	{
-	{ Event::LOCAL_MOVE, this->Waiting_for_ACK_state, send_move }, //Evento generado por allegro, se manda un MOVE  por networking, se pasa al estado Waiting for ACK
-	{ Event::EXTERN_MOVE, this->Waiting_for_Event_state, send_ack_move }, //Evento que llega por networking, se manda ACK y sigue todo igual
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_Event_state, do_nothing }
-	};
-	copy_event(Waiting_for_Event_state_aux, w_for_e_s, 7);
-	this->Waiting_for_Event_state = Waiting_for_Event_state_aux;
-
-
-	edge_t * Waiting_for_ACK_state_aux = new edge_t[11];
-	edge_t Waiting_for_ACK_state[11] =
-	{
-		{ Event::TIME_OUT_MOVE, this->Waiting_for_ACK_state, send_move },
-	{ Event::TIME_OUT_QUIT, this->Waiting_for_ACK_state, send_quit },
-	{ Event::EXTERN_MOVE, this->Waiting_for_ACK_state, send_ack_move }, //Evento que llega por networking, se manda ACK y sigue todo igual
-	{ Event::VALID_ACKCODE, this->Waiting_for_Event_state, received_ack_routine },
-	{ Event::INVALID_ACKCODE, NULL, finish_game },
-	{ Event::TIME_OUT_2, NULL, finish_game },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE,this->Waiting_for_ACK_state, do_nothing }
-	};
-	copy_event(Waiting_for_ACK_state_aux, Waiting_for_ACK_state, 11);
-	this->Waiting_for_ACK_state = Waiting_for_ACK_state_aux;
+	/*aca irian las inicializaciones comunes a tanto server como client. 
+	Habria que chequear que para ese estado en particular, todos los estados a los cuales transicionar
+	sean iguales para modo server y modo cliente, y tambien todos los eventos 
+	Y LAS RUTINAS DE ACCION!!!
 	*/
 }
  
@@ -438,15 +424,6 @@ void send_name_is(void* data ) {
 	 finish_game(data);
 }
 
-
- //Se envia un MOVE por networking
- void send_action(void * data) {
-	 Fsm * fsm = (Fsm*)data;
-	 fsm->s_name_is = true;
-	 fsm->notify_obs();
-	 fsm->s_name_is = false;
-	 set_ack_time_out(data);
-}
 
  //Se sale del programa sin avisar, rutina de acción del evento ERROR1
 void finish_game(void * data) {
@@ -495,14 +472,16 @@ void ask_for_name(void* data) {
 	fsm->ask_name = true;
 	fsm->notify_obs();
 	fsm->ask_name = false;
-
 }
 void check_map_and_save(void*data) {
 
 }
 void load_action_and_send_ack(void*data) {
-	//faltan cosas aca!
+	load_enemy_action(data);
 	send_ack(data);
+}
+void load_enemy_action(void * data) {
+
 }
 void start_game_and_send_ack(void*data) {
 	Fsm * fsm = (Fsm*)data;
@@ -528,7 +507,7 @@ void send_map_is(void * data) {
 	fsm->s_map_is = true;
 	fsm->notify_obs();
 	fsm->s_map_is = false;
-	set_ack_time_out();
+	set_ack_time_out(data);
 }
 void copy_event(edge_t* to_copy, edge_t to_be_copied[], int length) {
 	for (int i = 0; i < length; i++)
@@ -539,8 +518,65 @@ void copy_event(edge_t* to_copy, edge_t to_be_copied[], int length) {
 	}
 }
 
-EventPackage Fsm::get_fsm_ev_pack() {
+EventPackage* Fsm::get_fsm_ev_pack() {
 	return this->ev_pack;
 }
 
+void check_action_request(void* data) {
+	Fsm* fsm = (Fsm*)data;
+	fsm->check_action = true;
+	fsm->notify_obs();
+	fsm->check_action = false;
+}
 
+
+void send_action_and_set_ack_time_out(void* data){
+	Fsm* fsm = (Fsm*)data;
+	fsm->s_action = true;
+	fsm->notify_obs();
+	fsm->s_action = false;
+
+	set_ack_time_out(data);
+}
+
+void execute_send_action_and_set_ack_time_out(void* data) {
+
+	Fsm* fsm = (Fsm*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	fsm->s_action = true;
+	fsm->notify_obs();
+	fsm->s_action = false;
+
+	set_ack_time_out(data);
+}
+void execute_action_and_send_ack(void* data) {
+	Fsm* fsm = (Fsm*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+
+	send_ack(data);
+}
+
+void send_action_request_and_set_ack_time_out(void* data) {
+	Fsm* fsm = (Fsm*)data;
+	fsm->s_action_request = true;
+	fsm->notify_obs();
+	fsm->s_action_request = false;
+	set_ack_time_out(data);
+}
+
+void receive_name_and_send_ack(void*data) {
+	Fsm* fsm = (Fsm*)data;
+	fsm->receive_name = true;
+	fsm->notify_obs();
+	fsm->receive_name = false;
+	send_ack(data);
+}
+
+void load_and_send_enemy_action(void*data){
+	load_enemy_action(data);
+	send_enemy_action(data);
+}

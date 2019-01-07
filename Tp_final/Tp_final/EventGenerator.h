@@ -17,13 +17,19 @@ enum class Event
 	//EXTERN_QUIT: Evento que llega por networking del otro computador
 	EXTERN_QUIT,
 
-	//LOCAL_ACTION: Evento generado por allegro, se manda un actionpor networking, se pasa a la función Waiting for ACK
+	//LOCAL_ACTION_REQUESTED: Evento generado por allegro pero no ejecutado por la maquina.
+	LOCAL_ACTION_REQUESTED,
+
+	//LOCAL_ACTION: Evento generado por allegro y ya ejecutado por la maquina.
 	LOCAL_ACTION,
+
+	//LOCAL_ACTION_DENIED: Accion local rechazada.
+	LOCAL_ACTION_DENIED,
 
 	//EXTERN_ACTION_RECEIVED
 	EXTERN_ACTION_RECEIVED,
 
-	//EXTERN_MOVE_REQUESTED: Evento que llega por networking
+	//EXTERN_ACTION_REQUESTED: Evento que llega por networking
 	EXTERN_ACTION_REQUESTED,
 
 	//EXTERN_ACTION_DENIED
@@ -49,9 +55,12 @@ enum class Event
 
 	//MAP_IS_OK:
 	MAP_IS_OK,
+	
+	//LOCAL_ENEMY_ACTION: El servidor crea una enemy action
+	LOCAL_ENEMY_ACTION,
 
-	//ENEMY_ACTION: Recibi un enemy action del servidor
-	ENEMY_ACTION,
+	//EXTERN_ENEMY_ACTION: Recibi un enemy action del servidor
+	EXTERN_ENEMY_ACTION,
 
 	//ENEMY_ACTION_LOADED: Recibi todos los enemy  action como para poder empezar el juego
 	ENEMY_ACTION_IS_OK,
@@ -63,7 +72,6 @@ enum class Event
 	START_COMMUNICATION,
 
 	NO_EVENT
-
 
 };
 

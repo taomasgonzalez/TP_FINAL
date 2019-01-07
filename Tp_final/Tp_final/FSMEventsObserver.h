@@ -2,18 +2,20 @@
 #include "Observer.h"
 #include "FSM_Class.h"
 #include "EventGenerator.h"
-//#include "Allegroclass.h"
+#include "Scene.h"
 
 class FSMEventsObserver: public Observer
 {
 public:
-	FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container);
+	FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container, Scene * scenario);
 	~FSMEventsObserver();
 
 	virtual void update();
 
+private:
 	EventGenerator * event_gen;
 	Fsm * fsm;
 	Allegro * allegro_container;
+	Scene * scenario;
 };
 

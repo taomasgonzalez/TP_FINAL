@@ -39,7 +39,7 @@ public:
 	 virtual void run_fsm(EventPackage ev_pack);
 	 void init_fsm();
 		
-	 EventPackage get_fsm_ev_pack();
+	 EventPackage* get_fsm_ev_pack();
 
 	 bool waiting_for_ack;
 	 bool reset_ack_timer;
@@ -53,8 +53,13 @@ public:
 	 bool s_map_is = false;
 	 bool s_game_start = false;
 	 bool s_enemy_action = false;
-	 bool start_game = false;
+	 bool s_action_request = false;
+	 bool s_action = false;
+	 bool execute_action = false;
+	 bool receive_name = false;
 
+	 bool start_game = false;
+	 bool check_action = false;
 private:
 
 	edge_t * actual_state = NULL;
@@ -81,7 +86,7 @@ private:
 
 	edge_t* Waiting_for_ACK_state = NULL;
 
-	EventPackage ev_pack;
+	EventPackage* ev_pack;
 	
 	void check_for_incorrect_event(Event event);
 
