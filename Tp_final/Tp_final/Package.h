@@ -21,8 +21,6 @@ enum class Package_type {
 
 enum class Character_type { TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E' };
 
-enum class Action_type { Move = 'M', Attack = 'A' };
-
 /******************************************************************************
 *******************************************************************************
 								PACKAGE CLASS

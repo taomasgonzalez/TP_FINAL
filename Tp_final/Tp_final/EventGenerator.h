@@ -72,10 +72,11 @@ class EventPackage
 public:
 
 	Event ev = Event::NO_EVENT;
-	Action act;		
+	Action_type act;		
+	Character_type my_character;
 	unsigned int action_made_by_id;
 	Direction dir;
-	uint16_t x_init_pos;
+	map_position destiny_position;
 
 
 };
@@ -114,4 +115,11 @@ protected:
 private:
 	bool check_for_new_messages;
 
+};
+
+struct map_position
+{
+	char fil_de;
+	char col_de;
+}
 };

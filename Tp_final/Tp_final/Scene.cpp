@@ -23,6 +23,11 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction dir
 	
 }
 
+char * Scene::give_me_the_original_map()
+{
+	return this->original_map_distribution;
+}
+
 void Scene::gameInit(Userdata& Userdata, infoType * mydata) {	
 
 	this->should_init = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
