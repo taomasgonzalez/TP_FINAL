@@ -4,9 +4,8 @@
 #include "Enemy.h"
 #include "Player.h"
 #include "Observable.h"
-#include "Scene.h"
+#include "Map.h"
 #include "general.h"
-
 
 class Scene : public Observable
 {

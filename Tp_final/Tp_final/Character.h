@@ -1,11 +1,11 @@
 #pragma once
-
+#include "MapThing.h"
 
 enum class States
 {
 	Moving, Frozen
 };
-class Character
+class Character: public MapThing
 {
 public:
 	Character();
@@ -13,7 +13,6 @@ public:
 
 	unsigned int pos_x;
 	unsigned int pos_y;
-	unsigned int id;
 	States current_state;
 	//Observer_dibujo
 };

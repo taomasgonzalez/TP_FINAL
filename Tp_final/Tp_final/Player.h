@@ -8,7 +8,8 @@ public:
 
 	unsigned int lives;
 	//unsigned int potion
-	
+
+	bool is_player();
 	void move();
 	void attack();
 	void lose_life();

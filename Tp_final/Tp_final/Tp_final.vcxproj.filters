@@ -135,6 +135,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="MapCell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -226,6 +229,9 @@
     </ClInclude>
     <ClInclude Include="Package.h">
       <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="MapCell.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

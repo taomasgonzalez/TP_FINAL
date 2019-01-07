@@ -132,6 +132,7 @@
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
+    <ClCompile Include="MapCell.cpp" />
     <ClCompile Include="MapThing.cpp" />
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Observer.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="general.h" />
     <ClInclude Include="GreenFatty.h" />
     <ClInclude Include="Map.h" />
+    <ClInclude Include="MapCell.h" />
     <ClInclude Include="MapThing.h" />
     <ClInclude Include="Observable.h" />
     <ClInclude Include="Observer.h" />
