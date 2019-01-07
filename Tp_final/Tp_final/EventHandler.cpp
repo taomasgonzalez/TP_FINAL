@@ -28,5 +28,6 @@ void EventHandler::handle_event() {
 
 	set_should_check_for_new_messages(true);
 	notify_obs();
+	set_should_check_for_new_messages(false);
 }
 

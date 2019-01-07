@@ -47,7 +47,9 @@ Package_type Package::get_package_header()
 	return this->header;
 }
 
+char* Package::get_sendable_info() {
 
+}
 
 
 /******************************************************************************

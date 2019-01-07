@@ -20,6 +20,13 @@ EventGenerator::~EventGenerator()
 {
 }
 
+void EventGenerator::append_new_net_event(EventPackage* new_ev_pack) {
+	net_queue->push(new_ev_pack);
+}
+void EventGenerator::append_new_soft_event(EventPackage* new_ev_pack) {
+	soft_queue->push(new_ev_pack);
+}
+
 EventPackage EventGenerator::fetch_event_net() {
 
 	EventPackage new_events;

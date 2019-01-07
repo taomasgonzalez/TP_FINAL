@@ -43,4 +43,8 @@ void FSMCommunicationObserver::update() {
 		//tengo qeu mandar paquete MAP_IS!
 
 	}
+	if (fsm->s_game_start) {
+		//tengo que mandar paquete GAME_START!
+
+	}
 }

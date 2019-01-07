@@ -118,7 +118,6 @@
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Communication.cpp" />
-    <ClCompile Include="CommunicationEventsObserver.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Enemy.cpp" />
@@ -151,7 +150,6 @@
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Communication.h" />
-    <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Enemy.h" />

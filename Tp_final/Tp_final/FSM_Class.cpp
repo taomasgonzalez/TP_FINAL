@@ -41,6 +41,9 @@ Fsm::Fsm(bool is_client) : Observable(){
 	s_error = false;
 	s_map_is = false;
 	end_game = false;
+	s_game_start = false;
+	s_enemy_action = false;
+	start_game = false;
 
 	if (is_client) 
 		init_fsm_client();
@@ -457,9 +460,9 @@ void finish_game(void * data) {
 
 void received_ack_routine(void* data) {
 	Fsm * fsm = (Fsm*)data;
-	fsm->set_time_out_tick(false);
+	fsm->reset_ack_timer = true;
 	fsm->notify_obs();
-	
+	fsm->reset_ack_timer = false;
 }
 
 void check_sum_and_send_ack(void* data) {
@@ -473,7 +476,7 @@ void send_error_and_finish_game(void* data) {
 	fsm->s_error = false;
 }
 
-void send_enemy_action(void*) {
+void send_enemy_action(void* data) {
 	Fsm * fsm = (Fsm*)data;
 	fsm->s_enemy_action = true;
 	fsm->notify_obs();
@@ -481,7 +484,10 @@ void send_enemy_action(void*) {
 }
 
 void send_game_start(void* data) {
-
+	Fsm * fsm = (Fsm*)data;
+	fsm->s_game_start = true;
+	fsm->notify_obs();
+	fsm->s_game_start = false;
 }
 
 void ask_for_name(void* data) {
@@ -507,9 +513,9 @@ void start_game_and_send_ack(void*data) {
 }
 void set_ack_time_out(void*data) {
 	Fsm * fsm = (Fsm*)data;
-	fsm->waiting_for_ack = true;
+	fsm->new_ack_time_out = true;
 	fsm->notify_obs();
-	fsm->waiting_for_ack = false;
+	fsm->new_ack_time_out = true;
 }
 void send_ack(void * data) {
 	Fsm * fsm = (Fsm*)data;

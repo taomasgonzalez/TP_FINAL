@@ -31,7 +31,6 @@ public:
 	Package(Package_type type);
 	Package_type get_package_header();
 
-
 protected:
 	Package_type header;
 

@@ -20,7 +20,7 @@ public:
 	static bool game_is_finished();
 	static void finish_game();
 	bool should_init;
-
+	static void start_game();
 private:
 	std::vector <Enemy*> enemies;
 	std::vector <Player*> players;
