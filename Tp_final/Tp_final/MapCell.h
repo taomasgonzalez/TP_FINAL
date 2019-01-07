@@ -1,5 +1,8 @@
 #pragma once
-#include "MapThing.h"
+#include "Enemy.h"
+#include "Player.h"
+#include "SnowBall.h"
+#include "Fireball.h"
 #include <vector>
 class MapCell
 {
@@ -8,14 +11,18 @@ public:
 	~MapCell();
 
 	bool has_enemies();
-	bool get_enemies();
+	std::vector<Enemy*> get_enemies();
 
 	bool has_players();
-	bool get_players();
+	std::vector<Player*> get_players();
 
 	bool has_proyectiles();
-	bool get_proyectiles();
+	std::vector<Proyectile*> get_proyectiles();
 
+	MapThing * get_id(unsigned int wanted_id);
+	bool delete_id(unsigned int wanted_id);
+
+	void place_on_cell(MapThing* thing);
 private:
 	std::vector<MapThing*> cell_things;
 };
