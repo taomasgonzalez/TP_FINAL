@@ -1,6 +1,7 @@
 #pragma once
 #include "EventGenerator.h"
 #include "Package.h"
+#include "PackageInfo.h"
 
 class PackageFactory
 {

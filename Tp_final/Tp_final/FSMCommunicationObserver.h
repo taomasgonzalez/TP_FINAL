@@ -16,3 +16,24 @@ private:
 	Scene * scenario;
 };
 
+struct PackageInfo
+{
+
+	Package_type header;
+	//NAME_IS
+	uchar count;
+	char * Name; // without terminator
+	//MAP_IS
+	char * map;
+	char Checksum  0;
+	//MOVE - ATTACK
+	Character_type character;
+	char destination_row;
+	char destination_column;
+	// ACTION REQUEST
+	Action_type action;
+	// ENEMY_ACTION
+	uchar MonsterID;
+
+};
+
