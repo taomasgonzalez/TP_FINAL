@@ -19,7 +19,7 @@ extern "C" {
 
 #define ANIMATION_ID 0					//posicion en el mensaje YOU_GO donde ira a parar la animacion.
 #define COUNT_ID 1						//posicion en el mensaje YOU_GO donde ira a parar el COUNT
-#define MACHINES_ID (COUNT_ID+1)			//posicion en el mensaje YOU_GO de la maquina 1 (de la primera maquina). Es la prox a COUNT_ID
+#define MACHINES_ID (COUNT_ID+1)	    //posicion en el mensaje YOU_GO de la maquina 1 (de la primera maquina). Es la prox a COUNT_ID
 
 class Communication : public Observable
 {
@@ -28,8 +28,8 @@ public:
 	~Communication();
 
 	void endCom();
-	void sendMessage(Package package_received);
-	Package receiveMessage();
+	void sendMessage(Package * package_received);
+	Package * receiveMessage();
 	void parseMessage();
 
 	Package * get_received_package();

@@ -1,12 +1,5 @@
 #include "Package.h"
 
-/**************************************************************
-		INITIALIZATION OF THE STATIC COUNTER
-**************************************************************/
-//This static variable counts the amount of MOVE packages created.
-//This counter represnt the ID of the MOVE package,it´s unique. We prefer this against a rand number.
-uint32_t Package::MOVE_Package_counter = 1;
-
 /******************************************************************************
 *******************************************************************************
 			PACKAGE METHODS DEFINITIONS
@@ -28,6 +21,7 @@ uint32_t Package::MOVE_Package_counter = 1;
 Package::Package(Package_type type)
 {
 	this->header = type;
+	this->info_to_be_send = (char *)&(this->header);
 }
 
 /**************************************************************
@@ -47,9 +41,42 @@ Package_type Package::get_package_header()
 	return this->header;
 }
 
-char* Package::get_sendable_info() {
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+char * Package::get_sendable_info() {
 
+	return this->info_to_be_send;
 }
+
+/**************************************************************
+				GET_INFO_LENGTH
+**************************************************************/
+/*
+*GETTER.This function returns the lenght of the information to be
+*send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The lenght of the information to be send by networking.
+*/
+int Package::get_info_length() {
+
+	return this->info_length;
+}
+
+
 
 
 /******************************************************************************
@@ -75,7 +102,6 @@ ACK_package::ACK_package() :Package(Package_type::ACK) {
 **************************************************************/
 NAME_package::NAME_package() :Package(Package_type::NAME) {
 
-
 }
 
 /******************************************************************************
@@ -91,6 +117,8 @@ NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Pack
 	this->count = namelenght;
 	this->Name = new char[namelenght];
 	strcpy(this->Name, newname);
+	this->info_length = 2 + this->count;
+
 }
 
 /**************************************************************
@@ -105,7 +133,7 @@ uchar NAME_IS_package::get_name_lenght() {
 **************************************************************/
 char * NAME_IS_package::give_me_your_name() {
 
-
+	return this->Name;
 }
 
 /******************************************************************************
@@ -118,8 +146,10 @@ char * NAME_IS_package::give_me_your_name() {
 **************************************************************/
 MAP_IS_package::MAP_IS_package(char * themap) :Package(Package_type::MAP_IS) {
 
-	this->map = new char[192];
+	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
+	this->map = new char[QBLOCKS];
 	strcpy(this->map, themap);
+	this->info_length = 2 + QBLOCKS;
 
 }
 
@@ -162,6 +192,8 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 	this->character = the_one_that_moves;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->info_length = 4;
+
 
 }
 
@@ -191,6 +223,8 @@ ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de,
 	this->character = the_one_that_attacks;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->info_length = 4;
+
 }
 Character_type ATTACK_package::give_me_the_character() {
 	return this->character;
@@ -218,6 +252,7 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->info_length = 4;
 
 }
 
@@ -248,7 +283,7 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
-
+	this->info_length = 5;
 }
 
 uchar ENEMY_ACTION_package::give_me_the_monsterID() {

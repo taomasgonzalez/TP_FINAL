@@ -96,9 +96,9 @@ bool Communication::startConnectionForClient(const char * host) {
 startConnectionForServer inicia la conexión con maquina siendo server.
 
 INPUT:
-void.
+	void.
 OUTPUT:
-bool:.
+	bool:.
 */
 void Communication::startConnectionForServer() {
 	
@@ -113,105 +113,23 @@ void Communication::startConnectionForServer() {
 /*****************************************
 ***********sendMessage********************
 ******************************************
-sendMessage INCREMENTA EL COUNT y luego envia el mensaje a una sola maquina en espefico.
+sendMessage - Receives a package and makes the convertion to send it by networking
 
 INPUT:
-	void.
+	Package *
 OUTPUT:
 	void.
 */
-void Communication::sendMessage(Package package_received) {
+void Communication::sendMessage(Package * package_received) {
 
 	//startConnectionForClient(his_ip.c_str());
-
-		//IMPLEMENTAR RECIBIR EL PAQUETE A MANDAR COMO ARGUMENTO
-
-	Package_type package_code = package_received.get_package_header();
-
-	uint message_length;
-
-	ACK_package *ack_package = NULL;
-	MOVE_package *move_package = NULL;
-	QUIT_package * quit_package = NULL;
-	char * pos_char_pointer = NULL;
-	uint16_t * pos_pointer = NULL;
-	char * id_char_ptr = NULL;
-	uint32_t * id_pointer = NULL;
-	uint32_t  id_ack = NULL;
-	uint32_t * id_pointer_ack = NULL;
-	char * pos_char_pointer_ack = NULL;
-	uint16_t * pos_pointer_imr = NULL;
-	uint32_t id_move;
-	uint32_t * id_ptr_move = NULL;
-	char * id_char_ptr_move = NULL;
-	uint16_t  worm_pos;
-
-
-	switch (package_code)
-	{
-	case Package_type::ACK:
-
-		message_length = 1; //amount of chars in ACK_package, only header
-
-		break;
-
-	case Package_type::NAME:
-
-		message_length = 1; //amount of chars in NAME_package, only header
-		package_to_be_send = new char[message_length];
-
-		break;
-
-	 case Package_type::NAME_IS:
-
-
-		message_length = 2 + package_received.get_name_length(); //amount of chars in NAME_package, only header
-
-
-		break;
-
-	 case Package_type::MAP_IS:
-
-		 message_length = 194; //amount of chars in NAME_package, only header
-
-
-		 break;
-
-	 case Package_type::MOVE:
-	 case Package_type::ATTACK:
-	 case Package_type::ACTION_REQUEST:
-
-		 message_length = 4; //amount of chars in NAME_package, only header
-
-		 break;
-
-
-	case Package_type::QUIT:
-
-		quit_package = new QUIT_package(package_code);
-		message_length = quit_package->get_package_length();
-		package_to_be_send[0] = (char)quit_package->get_package_header();
-		this->expected_ack_id = 0;
-		break;
-
-	case Package_type::ERROR1:
-		break;
-
-	default:  //here arrives the packages that only have headers
-
-		message_length = 1;
-
-		break;
-	}
-
-
 
 	size_t len;
 	boost::system::error_code error;
 	
 	do
 	{
-		len = socket->write_some(boost::asio::buffer((char *)&package_received, message_length), error);
+		len = socket->write_some(boost::asio::buffer(package_received->get_sendable_info(), package_received->get_info_length()), error);
 	} 
 	while ((error.value() == WSAEWOULDBLOCK));
 
@@ -222,21 +140,21 @@ void Communication::sendMessage(Package package_received) {
 /*****************************************
 ***********receiveMessage*****************
 ******************************************
-sendMessage INCREMENTA EL COUNT y luego envia el mensaje a una sola maquina en espefico.
+receiveMessage - Receives a message from networking and makes the appropiate package
 
 INPUT:
-void.
+	void.
 OUTPUT:
-void.
+	Package *
 */
-bool Communication::receiveMessage() {
+Package * Communication::receiveMessage() {
 	//startConnectionForServer();
 
-	Package * package_received;
-	bool returned = false;
+	Package * package_received=NULL;
+
 	boost::system::error_code error;	
 
-	char buf[100];		// por donde recibire el input. 20 chars maximo por el protocolo
+	char buf[1000];		// por donde recibire el input
 
 	size_t len = 0;
 
@@ -246,61 +164,111 @@ bool Communication::receiveMessage() {
 	if (error.value() == WSAEWOULDBLOCK) {
 		//no leyo nada!!
 		std::cout << "NOREAD " << error.message() << std::endl;
-		returned = false;
 	}
-	else if (!error) {
-		buf[len] = '\0';
-		Package_type type = (Package_type) buf[0];
-		Package * pack;
-		uint32_t * posible_id;
-		uint16_t * worm_pos;
-		uint32_t * ID;
+	else if (!error)
+	{
+
+		Package_type type = (Package_type)buf[0];
+
+
 		switch (type)
 		{
 		case Package_type::ACK:
-			
-			Package * package_received = new ACK_package;
+
+			package_received = new ACK_package;
 
 			break;
 
-			case Package_type::NAME_IS:
+		case Package_type::NAME:
 
-			Package * package_received = new NAME_IS_package;
+			package_received = new NAME_package;
 
 			break;
 
-		case Package_type::I_AM_READY:
-			worm_pos = (uint16_t*)(&buf[1]);
-			pack = new I_AM_READY_package(type, *worm_pos);
+		case Package_type::NAME_IS:
+
+			package_received = new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
+
 			break;
+
+		case Package_type::MAP_IS:
+
+			package_received = new MAP_IS_package(&buf[1]);
+
+			break;
+
+		case Package_type::GAME_START:
+
+			package_received = new GAME_START_package;
+
+			break;
+
 		case Package_type::MOVE:
-			ID = (uint32_t*)(&buf[2]);
-			pack = new MOVE_package(type, (Move_type)buf[1], *ID);
-			received_id = ((MOVE_package *)pack)->get_ID();
+
+			package_received = new MOVE_package((Character_type)buf[1], buf[2], buf[3]);
+
 			break;
+
+		case Package_type::ATTACK:
+
+			package_received = new ATTACK_package((Character_type)buf[1], buf[2], buf[3]);
+
+			break;
+
+		case Package_type::ACTION_REQUEST:
+
+			package_received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2], buf[3]);
+
+			break;
+
+		case Package_type::ENEMY_ACTION:
+
+			package_received = new ENEMY_ACTION_package(buf[1], (Action_type)buf[2], buf[3], buf[4]);
+
+			break;
+
+		case Package_type::WE_WON:
+
+			package_received = new WE_WON_package;
+
+			break;
+
+		case Package_type::PLAY_AGAIN:
+
+			package_received = new PLAY_AGAIN_package;
+
+			break;
+
+		case Package_type::GAME_OVER:
+
+			package_received = new GAME_OVER_package;
+
+			break;
+
 		case Package_type::QUIT:
-			pack = new QUIT_package(type);
+
+			package_received = new QUIT_package;
+
 			break;
-		case Package_type::ERROR1:
-			pack = new ERROR_package(type);
+
+		case Package_type::ERROR:
+
+			package_received = new ERROR_package;
+
 			break;
-		case Package_type::NONE:
-			break;
+
 		}
-		this->received_package = pack;
-		
-		parseMessage();
-		returned = true;
 	}
+
 	else
 		std::cout << "Error while trying to connect to server " << error.message() << std::endl;
 
-	return returned;
 
+	return package_received;
 }
 
 /***************************************
-***********parseMessage*****************
+***********parseMessage*****************  NOT IN USE, DELETE AFTER REVIEW
 ****************************************
 
 INPUT:

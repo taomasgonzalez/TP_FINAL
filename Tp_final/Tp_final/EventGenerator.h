@@ -70,14 +70,14 @@ enum class Event
 class EventPackage
 {
 public:
-	EventPackage() {
-		ev = Event::NO_EVENT;
-	}
-	Event ev;
+
+	Event ev = Event::NO_EVENT;
 	Action act;		
 	unsigned int action_made_by_id;
 	Direction dir;
 	uint16_t x_init_pos;
+
+
 };
 
 
