@@ -14,7 +14,8 @@ public:
 	~Scene();
 	void gameInit(Userdata& Userdata, infoType * mydata);
 
-	void handle_movement(Character_id char_id, unsigned int id, Direction dir, Action action);
+	void handle_movement(Character_id char_id, unsigned int id, Direction dir, Action_type action);
+	char * give_me_the_original_map();
 
 	static bool game_is_finished();
 	static void finish_game();
@@ -29,7 +30,8 @@ private:
 	std::vector<Fireball*> fireballs;
 
 	Map map;
-	char original_map_distribution[192];
+
+	char original_map_distribution[192]; //loading the map is pending, reserve memory
 
 	static bool game_finished;
 };

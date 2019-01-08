@@ -138,6 +138,7 @@
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Package.cpp" />
     <ClCompile Include="PackageFactory.cpp" />
+    <ClCompile Include="PackageInfo.cpp" />
     <ClCompile Include="parseCmdLine.cpp" />
     <ClCompile Include="parser.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -172,6 +173,7 @@
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Package.h" />
     <ClInclude Include="PackageFactory.h" />
+    <ClInclude Include="PackageInfo.h" />
     <ClInclude Include="parseCmdLine.h" />
     <ClInclude Include="parser.h" />
     <ClInclude Include="Player.h" />

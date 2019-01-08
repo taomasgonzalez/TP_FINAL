@@ -31,6 +31,7 @@ public:
 	void sendMessage(Package * package_received);
 	Package * receiveMessage();
 	void parseMessage();
+	string give_me_my_name();
 
 	Package * get_received_package();
 	uint32_t get_expected_id();
@@ -61,8 +62,8 @@ private:
 
 	uint32_t expected_ack_id;
 
-	std::string my_name;
-	std::string his_name;
+	std::string my_name; //must have terminator
+	std::string his_name; //must have terminator
 
 	bool new_info;
 

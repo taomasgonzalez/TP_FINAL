@@ -281,6 +281,11 @@ void Communication::parseMessage() {
 
 }
 
+	string Communication::give_me_my_name()
+	{
+		return this->my_name;
+	}
+
 void Communication::renewClientItems() {
 	if(socket != NULL )
 		delete socket;

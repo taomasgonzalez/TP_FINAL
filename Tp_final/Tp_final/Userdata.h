@@ -13,10 +13,9 @@ enum class Direction
 {
 	Left, Right, Jump, Left_Stop, Right_Stop, Toggle
 };
-enum class Action
-{
-	Attack, Move
-};
+
+enum class Action_type { Move = 'M', Attack = 'A' };
+
 enum class Character_id {
 	Player, Enemy
 };
