@@ -1,10 +1,7 @@
 #pragma once
 #include "MapCell.h"
-#include "Enemy.h"
-#include "Player.h"
-#include "Fireball.h"
+#include "MapThingFactory.h"
 #include <vector>
-
 
 class Map
 {
@@ -24,11 +21,17 @@ public:
 	MapThing* get_from_map(unsigned int id);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
-	bool place_on_map(int coord_x, int coord_y, MapThing* thing);
+	void place_on_map(int coord_x, int coord_y, MapThing* thing);
+
+	void print_map();
+	int get_max_number_of_floors();
+
+	void load_on_map(char* map_string);
+	void reset_map();
 
 private:
 	MapCell ** map_cells;
-	MapCell get_cell(int coord_x, int coord_y);
+	MapCell *get_cell(int coord_x, int coord_y);
 
 	bool delete_from_map(unsigned int id);
 

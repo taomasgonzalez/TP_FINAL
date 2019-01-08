@@ -1,9 +1,8 @@
 #include "Scene.h"
  
-Scene::Scene():Observable()
+Scene::Scene()
 {
-	game_finished = false;
-	this->should_init = false;
+	map = new Map(12, 16);
 }
 
 
@@ -17,28 +16,20 @@ Scene::~Scene()
 	}
 }
 
-
-
-void Scene::handle_movement(Character_id char_id, unsigned int id, Direction dir, Action action) {
-	
-}
-
-void Scene::gameInit(Userdata& Userdata, infoType * mydata) {	
-
-	this->should_init = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
-	notify_obs();
-}
-
-bool Scene::game_is_finished() {
-	return game_finished;
-}
-void Scene::finish_game() {
-	game_finished = true;
-}
-
 bool Scene::action_is_possible() {
-
+	return false;
 }
 
+void Scene::print_current_map() {
+	this->map->print_map();
+}
 
-bool Scene::game_finished = false;
+void Scene::reset_game()
+{
+	map->reset_map();
+}
+
+void Scene::load_on_map(char * map_string)
+{
+	map->load_on_map(map_string);
+}
