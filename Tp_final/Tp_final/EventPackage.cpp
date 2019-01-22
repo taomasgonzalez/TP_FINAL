@@ -335,18 +335,33 @@ EXTERN_ACTION_ACCEPTED_EventPackage::EXTERN_ACTION_ACCEPTED_EventPackage() :Even
 
 /******************************************************************************
 *******************************************************************************
-			ACTION_REQUEST_REQUESTED_EventPackage METHODS DEFINITIONS
+			ACTION_REQUEST_RECIEVED_EventPackage METHODS DEFINITIONS
 *******************************************************************************
 *******************************************************************************/
 /**************************************************************
-			ACTION_REQUEST_REQUESTED_EventPackage CONSTRUCTOR
+			ACTION_REQUEST_RECIEVED_EventPackage CONSTRUCTOR
 **************************************************************/
-ACTION_REQUEST_REQUESTED_EventPackage::ACTION_REQUEST_REQUESTED_EventPackage() :EventPackage(Event_type::ACTION_REQUEST_REQUESTED) {
+ACTION_REQUEST_RECIEVED_EventPackage::ACTION_REQUEST_RECIEVED_EventPackage(Action_type the_action, char fil_de, char col_de) :EventPackage(Event_type::ACTION_REQUEST_RECIEVED) {
 
-
+	this->action = the_action;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
 
 }
+Action_type ACTION_REQUEST_RECIEVED_EventPackage::give_me_the_action() {
 
+	return this->action;
+}
+char ACTION_REQUEST_RECIEVED_EventPackage::give_me_the_destination_row() {
+
+	return this->destination_row;
+
+}
+char ACTION_REQUEST_RECIEVED_EventPackage::give_me_the_destination_column() {
+
+	return this->destination_column;
+
+}
 
 /******************************************************************************
 *******************************************************************************
@@ -577,15 +592,31 @@ char LOCAL_ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
 /**************************************************************
 			EXTERN_ENEMY_ACTION_EventPackage CONSTRUCTOR
 **************************************************************/
-EXTERN_ENEMY_ACTION_EventPackage::EXTERN_ENEMY_ACTION_EventPackage(char * themap) :EventPackage(Event_type::EXTERN_ENEMY_ACTION) {
+EXTERN_ENEMY_ACTION_EventPackage::EXTERN_ENEMY_ACTION_EventPackage(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de) :EventPackage(Event_type::EXTERN_ENEMY_ACTION) {
 
-	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
-	this->map = new char[QBLOCKS];
-	strcpy_s(this->map, themap);
-	this->info_length = 2 + QBLOCKS;
+	this->MonsterID = the_MonsterID;
+	this->action = the_action;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
 
 }
 
+uchar EXTERN_ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
+	return this->MonsterID;
+}
+
+Action_type EXTERN_ENEMY_ACTION_EventPackage::give_me_the_action() {
+	return this->action;
+}
+
+char EXTERN_ENEMY_ACTION_EventPackage::give_me_the_destination_row() {
+	return this->destination_row;
+
+}
+char EXTERN_ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
+	return this->destination_column;
+
+}
 /******************************************************************************
 *******************************************************************************
 			ENEMY_ACTION_IS_OK_EventPackage METHODS DEFINITIONS

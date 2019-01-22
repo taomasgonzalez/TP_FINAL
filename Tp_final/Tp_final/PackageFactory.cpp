@@ -105,27 +105,19 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::MOVE:  //soy cliente y me llega un MOVE del servidor
-		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Move, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row, ((MOVE_package *)package_recieved)->give_me_the_destination_column()); //soy cliente y me llega un MOVE del servidor
+		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Move, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row, ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Attack, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row, ((ATTACK_package *)package_recieved)->give_me_the_destination_column()); //soy cliente y me llega un MOVE del servidor
+		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Attack, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row, ((ATTACK_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente
-
-		 my_event_package->ev = Event_type::EXTERN_ACTION_REQUESTED;
-		 my_event_package->my_info->action = ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action();
-		 my_event_package->my_info->destination_row = ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row();
-		 my_event_package->my_info->destination_col = ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column();
+		 my_event_package = new ACTION_REQUEST_RECIEVED_EventPackage( ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ENEMY_ACTION:
-		 my_event_package->ev = Event_type::EXTERN_ACTION_RECEIVED;
-		 my_event_package->my_info->MonsterID = ((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID();
-		 my_event_package->my_info->action = ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action();
-		 my_event_package->my_info->destination_row = ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row();
-		 my_event_package->my_info->destination_col = ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column();
+		 my_event_package = new EXTERN_ENEMY_ACTION_EventPackage(((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row, ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::WE_WON:

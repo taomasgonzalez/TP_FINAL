@@ -11,6 +11,7 @@ enum class Event_type  //Events that are use by the internal function of the pro
 			EL MISMO TIPO DE EVENTO CON SUS SUBTIPOS PUEDEN SER METIDOS EN UN SOLO EVENTO CON VARIABLE DE CONTROL
 			YO SÉ SI SOY CLIENTE O SI FUE CHEQUEADO O NO. CAMBIAR!!!!!!
 	*/
+
 	END_OF_TABLE,
 
 	//ACK:
@@ -40,8 +41,8 @@ enum class Event_type  //Events that are use by the internal function of the pro
 	//EXTERN_ACTION_DENIED   Evento que llega por networking, fue chequeado y esta mal, hay que mandar ERROR
 	EXTERN_ACTION_DENIED,
 
-	//ACTION_REQUEST_REQUESTED    //action request generado por el cliente que no fue chequeado
-	ACTION_REQUEST_REQUESTED,
+	//ACTION_REQUEST_RECIEVED    //action request generado por el cliente que no fue chequeado
+	ACTION_REQUEST_RECIEVED,
 
 	//ACTION_REQUEST_ACCEPTED	//action request generado por el cliente chequedo
 	ACTION_REQUEST_ACCEPTED,
@@ -296,13 +297,22 @@ public:
 
 /******************************************************************************
 *******************************************************************************
-					ACTION_REQUEST_REQUESTED_EventPackage CLASS
+					ACTION_REQUEST_RECIEVED_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_REQUESTED_EventPackage : public EventPackage
+class ACTION_REQUEST_RECIEVED_EventPackage : public EventPackage
 {
 public:
-	ACTION_REQUEST_REQUESTED_EventPackage();
+	ACTION_REQUEST_RECIEVED_EventPackage(Action_type the_action, char fil_de, char col_de);
+
+	Action_type give_me_the_action();
+	char give_me_the_destination_row();
+	char give_me_the_destination_column();
+
+private:
+	Action_type action;
+	char destination_row;
+	char destination_column;
 
 };
 
@@ -493,10 +503,15 @@ public:
 	char give_me_the_destination_column();
 
 
-
 private:
-
+	uchar MonsterID;
+	Action_type action;
+	char destination_row;
+	char destination_column;
 };
+
+
+
 
 /******************************************************************************
 *******************************************************************************
