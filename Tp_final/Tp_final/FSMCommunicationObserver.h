@@ -3,6 +3,7 @@
 #include "FSM_Class.h"
 #include "Scene.h"
 #include "PackageFactory.h"
+#include "EventGenerator.h"
 
 class FSMCommunicationObserver: public Observer
 {

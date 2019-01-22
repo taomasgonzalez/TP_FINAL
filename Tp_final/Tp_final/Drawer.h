@@ -1,5 +1,6 @@
 #pragma once
 #include "Observer.h"
+
 #include "Scene.h"
 
 
@@ -9,7 +10,7 @@ public:
 	Drawer();
 	~Drawer();
 
-	void update();
+	void update(Observable * obs);
 
 private:
 

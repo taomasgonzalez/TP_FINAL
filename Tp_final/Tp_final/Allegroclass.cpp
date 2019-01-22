@@ -29,19 +29,19 @@ bool Allegro::Init(Userdata& Userdata) {
 				if (this->Display = al_create_display(this->SCREEN_W, this->SCREEN_H)) {
 					if ((Userdata.Background = al_create_bitmap(this->SCREEN_W, this->SCREEN_H))&&(Userdata.WindowsBackground = al_create_bitmap(this->SCREEN_W, this->SCREEN_H))) {
 						if (this->al_queue = al_create_event_queue()) {
-							if(this->time_out_timer = al_create_timer(60.0*2+30.0)){
-								if ((Userdata.Background = al_load_bitmap("Scenario.png"))&&(Userdata.WindowsBackground = al_load_bitmap("stars.png"))) {
-									ret = true;
-									al_draw_bitmap(Userdata.Background, 0, 0, NULL);
-									al_draw_bitmap(Userdata.WindowsBackground, 0, 0, NULL);
-								}
-								else {
-									ret = false;
-									al_destroy_display(this->Display);
-									al_destroy_bitmap(Userdata.Background);
-									al_destroy_event_queue(this->al_queue);
-									al_destroy_timer(this->time_out_timer);
-								}
+							if(this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()){
+										if ((Userdata.Background = al_load_bitmap("Scenario.png"))&&(Userdata.WindowsBackground = al_load_bitmap("stars.png"))) {
+											ret = true;
+											al_draw_bitmap(Userdata.Background, 0, 0, NULL);
+											al_draw_bitmap(Userdata.WindowsBackground, 0, 0, NULL);
+										}
+										else {
+											ret = false;
+											al_destroy_display(this->Display);
+											al_destroy_bitmap(Userdata.Background);
+											al_destroy_event_queue(this->al_queue);
+											//al_destroy_timer(this->time_out_timer);
+										}
 							}
 							else{
 								al_destroy_display(this->Display);
@@ -72,6 +72,10 @@ bool Allegro::Init(Userdata& Userdata) {
 	else{
 		ret = false;
 	}
+
+	this->time_out_timers_queue->push(al_create_timer(60.0 * 2 + 30.0)); //this->time_out_timer = al_create_timer(60.0*2+30.0)
+
+
 
 	if (al_install_audio()) //Inicializo los addons de audio
 	{
@@ -108,7 +112,7 @@ bool Allegro::Init(Userdata& Userdata) {
 		}
 	}
 	*/
-	loadPlayMusic();
+	//loadPlayMusic();
 
 	return ret;
 }
@@ -136,8 +140,8 @@ ALLEGRO_EVENT_QUEUE*  Allegro::get_al_queue() {
 
 ALLEGRO_TIMER * Allegro::get_front_time_out_timer() {
 
-	if (this->time_out_timers_queue->size >= 1)
-		return time_out_timers_queue->front;
+	if ((this->time_out_timers_queue->size()) >= 1)
+		return this->time_out_timers_queue->front();
 	else
 		return NULL;
 }
@@ -147,12 +151,12 @@ void Allegro::append_time_out_timer() {
 	al_register_event_source(this->al_queue, al_get_timer_event_source(new_timer));
 }
 void Allegro::start_front_timer() {
-	ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front;
+	ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
 	al_start_timer(new_timer);
 }
 void Allegro::dequeu_time_out_timer() {
-	if(this->time_out_timers_queue->size >= 1){
-		ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front;
+	if(this->time_out_timers_queue->size() >= 1){
+		ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
 		this->time_out_timers_queue->pop();
 		al_stop_timer(new_timer);
 		al_destroy_timer(new_timer);
@@ -160,5 +164,5 @@ void Allegro::dequeu_time_out_timer() {
 }
 
 bool Allegro::no_time_outs() {
-	return (time_out_timers_queue->size == 0);
+	return (time_out_timers_queue->size() == 0);
 }

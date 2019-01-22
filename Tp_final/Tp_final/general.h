@@ -1,17 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
-
-typedef struct
-{
-	std::string ip = "";
-	bool cliente = false;
-	bool receivedSth = false;
-}infoType;					//Estructura para trabajar con las keys y params
-
-
-
 #define _WIN32_WINNT 0x0501
 
 #define DISPLAY_HEIGHT 696

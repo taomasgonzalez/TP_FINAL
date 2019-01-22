@@ -33,14 +33,14 @@ void FSMEventsObserver::update() {
 	}
 
 	if(fsm->end_game){
-		//vacio las colas. Nada importa ya porque el juego va a terminar.
+		//vacio las colas. Nada importa ya porque el juego va a terminar. :(
 		event_gen->net_queue->empty();
 		event_gen->soft_queue->empty();				
 	}
 
 	if (fsm->check_action) {
 		EventPackage* old_pack =  fsm->get_fsm_ev_pack();
-		if (scenario->action_is_possible()) {
+		if (scenario->action_is_possible()) {				//Esto debería estar implementado dentro the action is possible, deberia recibir y devolver un EventPackage
 			EventPackage* new_ev_pack = new EventPackage();
 			*new_ev_pack = *old_pack;
 			if(old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
@@ -56,7 +56,7 @@ void FSMEventsObserver::update() {
 			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*/
 			if (old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
 				old_pack->ev = Event::EXTERN_ACTION_DENIED;
-			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)
+			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)  //Esto implica que hubo un error, se debe manda ERROR
 				old_pack->ev = Event::LOCAL_ACTION_DENIED;
 
 			event_gen->append_new_soft_event(old_pack);

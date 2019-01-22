@@ -14,7 +14,7 @@ Drawer::~Drawer()
 
 void Drawer:: update(Observable * obs) {
 
-	if (obs->type == Observable::Observable_type::scenario) {
+	if (obs->give_me_my_type() == Observable_type::SCENARIO) {
 		Scene * scenario = (Scene * )obs;
 	
 		this->draw(scenario);
@@ -23,7 +23,7 @@ void Drawer:: update(Observable * obs) {
 
 void Drawer::draw(Scene * scenario) {
 
-	Worm * worm_to_be_drawn;
+	/*Worm * worm_to_be_drawn;
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_draw_bitmap(Userdata::WindowsBackground, 0, 0, NULL);
@@ -35,11 +35,11 @@ void Drawer::draw(Scene * scenario) {
 	worm_to_be_drawn = scenario->get_worm(worm_id::worm2);
 	draw_my_worm(worm_to_be_drawn);
 
-	al_flip_display();
+	al_flip_display();*/
 
 }
  
-void Drawer::draw_my_worm(Worm * actual_worm)
+/*void Drawer::draw_my_worm(Worm * actual_worm)
 {
 	uint tickCount = actual_worm->gettickCount();
 	Point Position = actual_worm->getPosition();
@@ -164,4 +164,4 @@ void Drawer::draw_my_worm(Worm * actual_worm)
 
 
 
-}
+}*/

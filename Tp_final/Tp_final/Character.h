@@ -5,6 +5,7 @@ enum class States
 {
 	Moving, Frozen
 };
+
 class Character: public MapThing
 {
 public:

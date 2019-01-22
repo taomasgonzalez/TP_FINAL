@@ -1,44 +1,90 @@
 #include "Communication.h"
-#include <fstream>
-#include <string>
-#include <boost/algorithm/string.hpp>    
 
-#define IPFILE "DireccionesIP.txt"
-#define HELLO_PORT_STR "15667"
-#define HELLO_PORT 15667
 
-Communication::Communication(std::string ip) :Observable(Observable::Observable_type::com)
+
+Communication::Communication(std::string ip) :Observable(Observable_type::COMMUNICATION)
 {
-
-	IO_handler = new boost::asio::io_service();
-	socket = new boost::asio::ip::tcp::socket(*IO_handler);
-	acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
-	boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), HELLO_PORT));
-	resolver = new boost::asio::ip::tcp::resolver(*IO_handler);	
+	this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
+	this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
+	
+	Connecting_as_a_client(ip);  //First the program try to start as a client
 
 	
-	this->client_mode = true;		//siempre intento ser cliente primero.
-
-	
-	if(!startConnectionForClient(his_ip.c_str())) {
-		//generar numero aleatorio entre 2000 y 5000 segundos para esperar esa cantidad de milisegundos 
-		this->client_mode = false;
-		startConnectionForServer();
+	if(!(this->client_mode)) 
+	{
+		Connecting_as_a_server();
 	}
 
-	new_info = false;
 }
 
 Communication::~Communication()
 {
 	acceptor->close();
 	socket->close();
-	delete resolver;
+	delete client_resolver;
 	delete acceptor;
 	delete socket;
 	delete IO_handler;
 	
 }
+
+/******************************
+	Connecting_as_a_client
+/******************************
+************************
+*******************************
+The process of trying to connect as a client is done here.
+
+INPUT:
+	The ip that it´s gonna be use by the client to connect
+OUTPUT:
+	void.
+*/
+void Communication::Connecting_as_a_client(std::string host) {
+
+	this->client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
+	this->endpoint = client_resolver->resolve( boost::asio::ip::tcp::resolver::query(host, SNOWBORS_PORT_STR));
+
+	boost::system::error_code error;  //If the program can´t connect with the client boost throws an exception, we catch it here
+
+	std::cout << "Trying to connect to " << host << " on port " << SNOWBORS_PORT_STR << std::endl;	//Debugging
+
+	boost::timer::cpu_timer t;
+	t.start();
+	boost::timer::cpu_times pastTime = t.elapsed();
+	double elapsedSeconds = 0.0;
+
+	srand(time(NULL));
+	unsigned int N = (rand() % 3000) + 2000; //Generation of a random number between 2000 and 5000
+	std::cout << N << std::endl;
+
+	do
+	{
+		boost::asio::connect(*socket, endpoint, error);
+		socket->non_blocking(true);
+
+
+		boost::timer::cpu_times currentTime = t.elapsed();
+
+		if ((currentTime.wall - pastTime.wall) > 1e9)
+		{
+			elapsedSeconds += (currentTime.wall - pastTime.wall) / 1e6;
+			pastTime = currentTime;
+			std::cout << "Pasaron " << elapsedSeconds << " segundos." << std::endl;
+		}
+
+
+	} while (error && elapsedSeconds < N);
+
+
+	if (elapsedSeconds > 10)
+		std::cout << "Pasaron más de " << elapsedSeconds << " segundos." << std::endl;
+
+	if (error)
+		std::cout << "Error al intentar conectar como cliente" << std::endl;		//Debugging
+
+};
+
 
 /******************************
 
@@ -64,7 +110,7 @@ void Communication::endCom() {
 
 
 /*****************************************
-***********startConnectionForClient****************
+***********Connecting_as_a_server****************
 ******************************************
 startConnectionForClient inicia la conexión con maquina siendo cliente.
 
@@ -73,43 +119,25 @@ INPUT:
 OUTPUT:
 	bool:.
 */
-bool Communication::startConnectionForClient(const char * host) {
-	renewClientItems();
-	try{
+void Communication::Connecting_as_a_server() {
+	
+	//renewClientItems();
+	boost::system::error_code error;  //If the program can´t connect with the server boost throws an exception, we catch it here
 
-		endpoint = resolver->resolve(boost::asio::ip::tcp::resolver::query(host, HELLO_PORT_STR));
+	this->acceptor = new boost::asio::ip::tcp::acceptor(*this->IO_handler, boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SNOWBORS_PORT));
+	
+	this->acceptor->accept(*this->socket,error);
+	this->socket->non_blocking(true);
 
-		boost::asio::connect(*socket, endpoint);
-
-		socket->non_blocking(true);
+	if (error)
+		this->healthy_connection = false;
+	else
 		client_mode = false;
-	}
-	catch ( std::exception & e) {
-		std::cout << "Error al intentar conectar" << std::endl;
-	}
+
 	
 }
 
-/*****************************************
-***********startConnectionForServer****************
-******************************************
-startConnectionForServer inicia la conexión con maquina siendo server.
 
-INPUT:
-	void.
-OUTPUT:
-	bool:.
-*/
-void Communication::startConnectionForServer() {
-	
-	renewServerItems();
-	
-	acceptor->accept(*socket);
-	socket->non_blocking(true);
-
-	client_mode = true;
-
-}
 /*****************************************
 ***********sendMessage********************
 ******************************************
@@ -118,7 +146,7 @@ sendMessage - Receives a package and makes the convertion to send it by networki
 INPUT:
 	Package *
 OUTPUT:
-	void.
+	void
 */
 void Communication::sendMessage(Package * package_received) {
 
@@ -128,13 +156,18 @@ void Communication::sendMessage(Package * package_received) {
 	boost::system::error_code error;
 	
 	do
-	{
-		len = socket->write_some(boost::asio::buffer(package_received->get_sendable_info(), package_received->get_info_length()), error);
+	{ //first parameter should be char [n] not char *, possible source of error
+		len = socket->write_some(boost::asio::buffer(package_received->get_sendable_info(), package_received->get_info_length()), error); 
 	} 
 	while ((error.value() == WSAEWOULDBLOCK));
 
 	if (error)
+	{
+		this->healthy_connection = false;
 		std::cout << "Error while trying to send message. " << error.message() << std::endl;
+	}
+	delete package_received;
+
 }
 
 /*****************************************
@@ -158,13 +191,17 @@ Package * Communication::receiveMessage() {
 
 	size_t len = 0;
 
+	do
+	{
+		len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
 
-	len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina									
-	
+	} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
+
 	if (error.value() == WSAEWOULDBLOCK) {
 		//no leyo nada!!
 		std::cout << "NOREAD " << error.message() << std::endl;
 	}
+
 	else if (!error)
 	{
 
@@ -251,54 +288,48 @@ Package * Communication::receiveMessage() {
 
 			break;
 
-		case Package_type::ERROR:
+		case Package_type::ERROR1: //An error that was received by networking
 
 			package_received = new ERROR_package;
 
 			break;
 
+		default:  //The program receiverd an unknown header package, thus it consider that the package is corrupted
+
+			this->healthy_connection = false; //Must generate a LOCAL_ERROR somewhere, maybe not here
+			break;
+
 		}
 	}
 
-	else
+	else //CHEQUEAR QUE SI NO HAY MENSAJE PARA RECIBIR LO INTERPRETA COMO ERROR!!!!!!!!!!!!
+	{
 		std::cout << "Error while trying to connect to server " << error.message() << std::endl;
-
+		//this->healthy_connection = false; NO ES ERROR NECESARIAMENTE
+	}
 
 	return package_received;
 }
 
-/***************************************
-***********parseMessage*****************  NOT IN USE, DELETE AFTER REVIEW
-****************************************
 
-INPUT:
-	void.
-OUTPUT:
-*/
-void Communication::parseMessage() {
-	
-	notify_obs();
-
-}
-
-	string Communication::give_me_my_name()
-	{
+std::string Communication::give_me_my_name()
+{
 		return this->my_name;
-	}
+}
 
 void Communication::renewClientItems() {
 	if(socket != NULL )
 		delete socket;
 	if (IO_handler != NULL)
 		delete IO_handler;
-	if (resolver != NULL)
-		delete resolver;
+	if (client_resolver != NULL)
+		delete client_resolver;
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
 
 	IO_handler = new boost::asio::io_service();
 	socket = new boost::asio::ip::tcp::socket(*IO_handler);
-	resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
+	client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 }
@@ -315,7 +346,7 @@ void Communication::renewServerItems() {
 	IO_handler = new boost::asio::io_service();
 	socket = new boost::asio::ip::tcp::socket(*IO_handler);
 	acceptor = new boost::asio::ip::tcp::acceptor(*IO_handler,
-		boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), HELLO_PORT));
+		boost::asio::ip::tcp::endpoint(boost::asio::ip::tcp::v4(), SNOWBORS_PORT));
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 }
@@ -326,14 +357,19 @@ uint32_t Communication::get_expected_id() {
 }
 
 
-
+/*
 Package * Communication::get_received_package() {
 	return this->received_package;
-}
+}*/
 
 bool Communication::has_new_info() {
 	return this->new_info;
 }
 bool Communication::is_client() {
 	return this->client_mode;
+}
+
+bool Communication::is_the_connection_healthy()
+{
+	return this->healthy_connection;
 }

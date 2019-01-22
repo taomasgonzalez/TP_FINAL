@@ -1,62 +1,34 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <iostream>
-
-#include "parseCmdLine.h"
-#include "parser.h"
 #include "general.h"
-#include "EventHandler.h"
-#include "Allegroclass.h"
-#include "Userdata.h"
-#include "Scene.h"
-#include "Allegroclass.h"
-#include "Drawer.h"
-
-#include "CommunicationEventsObserver.h"
-#include "FSMEventsObserver.h"
-#include "FSMCommunicationObserver.h"
-#include "FSMSceneObserver.h"
-#include "ScenarioEventsObserver.h"
-#include "EventsCommunicationObserver.h"
-
-void add_all_observers();
+#include "Resources.h"
 
 
-int main(int argc, char *argv[]) {
-	infoType myData;
-	pCallback functionPtr = &parseCallback;
-	Drawer drawing_manager;
-	Scene scenario = Scene();
-	Event Event = Event::NO_EVENT;
-	Userdata data_container;
-	Allegro allegro_container;
-
-	Communication *com = new Communication(myData.ip);
+int main(void) {
 	
-	if (allegro_container.Init(data_container)) {
+	Resources* myResources = new Resources;		//Object that represents and allocs all the resources that are gonna be use
+	
 
-		EventHandler event_handler(&allegro_container, com->is_client());
+	if (myResources->Intialize_all_the_resources()) {	//Checks if the initialization was done properly
 
-		//add_all_observers();
-		scenario.add_observer(&drawing_manager);
-		com->add_observer(new CommunicationEventsObserver(&event_handler, com));
-		event_handler.add_observer(new FSMEventsObserver(&event_handler, &event_handler));
-		event_handler.add_observer(new FSMCommunicationObserver(&event_handler, com));
-		event_handler.add_observer(new FSMSceneObserver(&event_handler, &scenario));
-		event_handler.add_observer(new EventsCommunicationObserver(&event_handler, com));
-		scenario.add_observer(new ScenarioEventsObserver(&event_handler, &scenario));
+		EventHandler * my_event_handler = new EventHandler ((myResources->allegro_container), myResources->communication->is_client());
 
-		scenario.gameInit(data_container, &myData);
-		while (!scenario.game_is_finished()) {
-			event_handler.handle_event();
+		myResources->add_all_observers( my_event_handler);
+
+		myResources->scenario->gameInit(*myResources->my_user_data);
+
+		while (!myResources->scenario->game_is_finished()) {
+			my_event_handler->handle_event();
 		}
 	}
-	else
+	else {
+
 		std::cout << "Resources not loaded properly." << std::endl;
+		delete myResources;   //for deleating all the loaded resources
+	}
+
 	return 0;
 }
 
-void add_all_observers() {
 
-}

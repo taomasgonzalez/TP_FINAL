@@ -31,7 +31,7 @@ void send_action_and_set_ack_time_out(void* data);
 							FSM CONSTRCUTOR
 ******************************************************************************/
 
-Fsm::Fsm(bool is_client) : Observable(){
+Fsm::Fsm(bool is_client) : Observable(Observable_type::FSM){
 	this->ev_pack = new EventPackage();
 
 	waiting_for_ack = false;
@@ -246,7 +246,7 @@ void Fsm::init_fsm_client() {
 
 	edge_t Initial_state[6] =
 	{
-		{ Event::NAME, this->Naming_me_state,  send_name_is}, 
+	{ Event::NAME, this->Naming_me_state,  send_name_is}, 
 	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
 	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
@@ -416,6 +416,8 @@ void send_name_is(void* data ) {
 	 fsm->s_quit = true;
 	 fsm->notify_obs();
 	 set_ack_time_out(data);
+	 //fsm->s_quit = false; faltaría no??
+
 }
 
  //se devuelve un ACK con ID 0 para la otra compu, se sale

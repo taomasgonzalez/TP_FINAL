@@ -71,8 +71,13 @@ bool Map::move_id(unsigned int id, int final_x, int final_y) {
 			place_on_map(final_x, final_y, thingy);
 			moved = true;
 		}
+	return moved;
 }
 
 bool Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
+
+	bool ok_pos; //??
 	get_cell(coord_x, coord_y).place_on_cell(thing);
+
+	return ok_pos;
 }

@@ -2,7 +2,7 @@
 
 
 
-Character::Character()
+Character::Character():MapThing(99)
 {
 }
 

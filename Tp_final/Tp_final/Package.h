@@ -1,8 +1,8 @@
 #pragma once
 extern "C" {
 #include <stdint.h> 
-#include <string.h>
 }
+#include <string.h>
 #include "Userdata.h"
 
 typedef unsigned int uint;
@@ -11,12 +11,12 @@ typedef unsigned char uchar;
 
 /***********************************************************************************************************************
 ************************************************************************************************************************
-									PACKAGE ZONE
+										PACKAGE ZONE
 ************************************************************************************************************************
 ************************************************************************************************************************/
 enum class Package_type {
 	ACK = 0x01, NAME = 0x10, NAME_IS = 0x11, MAP_IS = 0x12, GAME_START = 0x20, MOVE = 0x31, ATTACK = 0x32
-	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR = 0xFE, QUIT = 0xFF
+	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF
 };
 
 enum class Character_type { TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E' };

@@ -2,6 +2,9 @@
 #include "Observer.h"
 #include "Communication.h"
 #include "EventGenerator.h"
+#include "PackageFactory.h"
+#include "EventGenerator.h"
+
 
 class EventsCommunicationObserver: public Observer
 {

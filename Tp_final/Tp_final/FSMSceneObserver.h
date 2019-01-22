@@ -2,6 +2,8 @@
 #include "Observer.h"
 #include "FSM_Class.h"
 #include "Scene.h"
+#include "EventGenerator.h"
+
 
 class FSMSceneObserver: public Observer
 {

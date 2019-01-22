@@ -1,17 +1,17 @@
 #pragma once
 #include "Observer.h"
-#include "EventGenerator.h"
+#include "EventHandler.h"
 #include "Scene.h"
 
 class ScenarioEventsObserver: public Observer
 {
 public:
-	ScenarioEventsObserver(EventGenerator * event_gen, Scene * scenario);
+	ScenarioEventsObserver(EventHandler * event_gen, Scene * scenario);
 	~ScenarioEventsObserver();
 
 	virtual void update();
 
-	EventGenerator * event_gen;
+	EventHandler * my_event_handler;
 	Scene * scenario;
 };
 

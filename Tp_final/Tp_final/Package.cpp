@@ -116,7 +116,7 @@ NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Pack
 
 	this->count = namelenght;
 	this->Name = new char[namelenght];
-	strcpy(this->Name, newname);
+	strcpy_s(this->Name, newname);
 	this->info_length = 2 + this->count;
 
 }
@@ -148,7 +148,7 @@ MAP_IS_package::MAP_IS_package(char * themap) :Package(Package_type::MAP_IS) {
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	this->map = new char[QBLOCKS];
-	strcpy(this->map, themap);
+	strcpy_s(this->map, themap);
 	this->info_length = 2 + QBLOCKS;
 
 }
@@ -344,7 +344,7 @@ GAME_OVER_package::GAME_OVER_package() :Package(Package_type::GAME_OVER) {
 /**************************************************************
 			ERROR_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ERROR_package::ERROR_package() :Package(Package_type::ERROR) {
+ERROR_package::ERROR_package() :Package(Package_type::ERROR1) {
 
 
 }

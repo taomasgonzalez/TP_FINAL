@@ -25,13 +25,17 @@ class Userdata
 public:
 	Userdata();
 	~Userdata();
-	void LoadWormImages();
+	void LoadWormImages(); //replace with the images of the graphics elements of the game
+
+	std::string ip = "127.0.0.10";  //ask for it in the gui, debugging
+	bool receivedSth = false;
 
 
 	static const int GroundLevel = 616;
 	static const int LeftWall = 685;
 	static const int RightWall = 1170;
-	/*
+
+	
 	static std::array<ALLEGRO_BITMAP*, 15> WormWalk; //Worm walk bitmaps
 	std::string str = "wwalk-F";
 	std::string ng = ".png";
@@ -44,10 +48,10 @@ public:
 	static ALLEGRO_BITMAP *WindowsBackground;
 
 	//Worm 1 keys
-	static const unsigned int worm1KeySet[TotalActions];
+	static const unsigned int worm1KeySet[2];
 
 	//Worm 2 keys
-	static const unsigned int worm2KeySet[TotalActions];
-	*/
+	static const unsigned int worm2KeySet[2];
+	
 };
 
