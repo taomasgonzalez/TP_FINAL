@@ -2,7 +2,7 @@
 
 
 
-FSMSceneObserver::FSMSceneObserver(Fsm* fsm, Scene* scenario)
+FSMSceneObserver::FSMSceneObserver(FSM* fsm, Scene* scenario)
 {
 	this->fsm = fsm;
 	this->scenario = scenario;

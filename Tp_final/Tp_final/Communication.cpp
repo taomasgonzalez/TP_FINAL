@@ -2,17 +2,17 @@
 
 
 
-Communication::Communication(std::string ip) :Observable(Observable_type::COMMUNICATION)
+Communication::Communication(Userdata * my_user_data) :Observable(Observable_type::COMMUNICATION)
 {
 	this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
 	this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
 	
-	Connecting_as_a_client(ip);  //First the program try to start as a client
+	Connecting_as_a_client(my_user_data->my_network_data.give_me_my_ip(), my_user_data);  //First the program try to start as a client
 
 	
-	if(!(this->client_mode)) 
+	if(!(my_user_data->my_network_data.is_client())) //me fijo si logre conectarme como cliente
 	{
-		Connecting_as_a_server();
+		Connecting_as_a_server(my_user_data);
 	}
 
 }
@@ -40,7 +40,7 @@ INPUT:
 OUTPUT:
 	void.
 */
-void Communication::Connecting_as_a_client(std::string host) {
+void Communication::Connecting_as_a_client(std::string host, Userdata * my_user_data) {
 
 	this->client_resolver = new boost::asio::ip::tcp::resolver(*IO_handler);
 	this->endpoint = client_resolver->resolve( boost::asio::ip::tcp::resolver::query(host, SNOWBORS_PORT_STR));
@@ -82,6 +82,9 @@ void Communication::Connecting_as_a_client(std::string host) {
 
 	if (error)
 		std::cout << "Error al intentar conectar como cliente" << std::endl;		//Debugging
+	else
+		my_user_data->my_network_data.set_client(true);
+
 
 };
 
@@ -119,7 +122,7 @@ INPUT:
 OUTPUT:
 	bool:.
 */
-void Communication::Connecting_as_a_server() {
+void Communication::Connecting_as_a_server(Userdata * my_user_data) {
 	
 	//renewClientItems();
 	boost::system::error_code error;  //If the program can´t connect with the server boost throws an exception, we catch it here
@@ -132,8 +135,7 @@ void Communication::Connecting_as_a_server() {
 	if (error)
 		this->healthy_connection = false;
 	else
-		client_mode = false;
-
+		my_user_data->my_network_data.set_client(false);
 	
 }
 
@@ -312,10 +314,7 @@ Package * Communication::receiveMessage() {
 }
 
 
-std::string Communication::give_me_my_name()
-{
-		return this->my_name;
-}
+
 
 void Communication::renewClientItems() {
 	if(socket != NULL )
@@ -333,6 +332,7 @@ void Communication::renewClientItems() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 
 }
+
 void Communication::renewServerItems() {
 
 	if(acceptor != NULL)
@@ -357,17 +357,6 @@ uint32_t Communication::get_expected_id() {
 }
 
 
-/*
-Package * Communication::get_received_package() {
-	return this->received_package;
-}*/
-
-bool Communication::has_new_info() {
-	return this->new_info;
-}
-bool Communication::is_client() {
-	return this->client_mode;
-}
 
 bool Communication::is_the_connection_healthy()
 {

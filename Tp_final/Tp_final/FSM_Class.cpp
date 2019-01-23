@@ -10,6 +10,9 @@ void send_ack(void * data);
 void received_ack_routine(void* data);
 void send_quit(void * data);
 
+void analyze_move(void* data);
+void analyze_attack(void* data);
+void analayze_quit(void*data);
 void load_enemy_action(void* data);
 void check_action_request(void* data);
 void ask_for_name(void* data);
@@ -25,13 +28,24 @@ void load_action_and_send_ack(void* data);
 void start_game_and_send_ack(void* data);
 void set_ack_time_out(void* data);
 void send_action_and_set_ack_time_out(void* data);
+void execute_receive_action_and_send_ack(void*data);
+
 
 
 /*******************************************************************************
 							FSM CONSTRCUTOR
 ******************************************************************************/
 
-Fsm::Fsm(bool is_client) : Observable(Observable_type::FSM){
+FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
+
+	this->my_user_data = data;
+
+	if (data->my_network_data.is_client())
+		init_fsm_client();
+	else 
+		init_fsm_server();
+
+
 	this->ev_pack = new EventPackage();
 
 	waiting_for_ack = false;
@@ -55,10 +69,6 @@ Fsm::Fsm(bool is_client) : Observable(Observable_type::FSM){
 	receive_name = false;
 
 
-	if (is_client) 
-		init_fsm_client();
-	else 
-		init_fsm_server();
 
 }
 
@@ -67,7 +77,7 @@ Fsm::Fsm(bool is_client) : Observable(Observable_type::FSM){
                            FSM_SERVER CONSTRCUTOR
 ******************************************************************************/
 
-void Fsm::init_fsm_server(){
+void FSM::init_fsm_server(){
 
 	edge_t * Initial_state_aux = new edge_t[6];
 	this->Initial_state = Initial_state_aux;
@@ -101,107 +111,88 @@ void Fsm::init_fsm_server(){
 
 	edge_t Initial_state[6] =
 	{
-		{ Event::START_COMMUNICATION, this->Naming_him_state, ask_for_name },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Initial_state, do_nothing }
+	{ Event_type::START_COMMUNICATION, this->Naming_him_state, ask_for_name },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Initial_state, do_nothing }
 	};
 	copy_event(Initial_state_aux, Initial_state, 6);
 
 	edge_t Naming_him_state[6] =
 	{
-		{ Event::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Naming_him_state, do_nothing }
+	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Naming_him_state, do_nothing }
 	};
 	copy_event(Naming_him_state_aux, Naming_him_state, 6);
 
 	edge_t Naming_me_state[6] =
 	{
-		{ Event::NAME, this->Waiting_for_ACK_map_state, send_name_is }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Naming_me_state, do_nothing }
+	{ Event_type::NAME, this->Waiting_for_ACK_map_state, send_name_is }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Naming_me_state, do_nothing }
 	};
 	copy_event(Naming_me_state_aux, Naming_me_state, 6);
 
 	edge_t  Waiting_for_ACK_name_state[6] =
 	{
-		{ Event::ACK, this->Waiting_for_ACK_map_state, send_map_is },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_name_state, do_nothing }
+	{ Event_type::ACK, this->Waiting_for_ACK_map_state, send_map_is },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_name_state, do_nothing }
 	};
 	copy_event(Waiting_for_ACK_name_state_aux, Waiting_for_ACK_name_state, 6);
 
 	edge_t Waiting_for_ACK_map_state[6] =
 	{
-		{ Event::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_map_state, do_nothing }
+	{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_map_state, do_nothing }
 	};
 	copy_event(Waiting_for_ACK_map_state_aux, Waiting_for_ACK_map_state, 6);
 
 	edge_t Waiting_for_ACK_enemy_actions_state[7] =
 	{
-		{ Event::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
-	{Event::ENEMY_ACTION_IS_OK, this->Waiting_for_ACK_game_start_state, send_game_start},
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_enemy_actions_state, do_nothing }
+	{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
+	{ Event_type::ENEMYS_LOADED, this->Waiting_for_ACK_game_start_state, send_game_start},
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_enemy_actions_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_ACK_enemy_actions_state_aux, Waiting_for_ACK_enemy_actions_state, 7);
 
 	edge_t Waiting_for_ACK_game_start_state[6] =
 	{
-		{ Event::ACK, this->Playing_state, do_nothing },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_game_start_state, do_nothing }
+	{ Event_type::ACK, this->Playing_state, do_nothing },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_game_start_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_ACK_game_start_state_aux, Waiting_for_ACK_game_start_state, 6);
 
 	edge_t Playing_state[11] =
 	{
-		{Event::LOCAL_ENEMY_ACTION, this->Playing_state, load_and_send_enemy_action},
-	{Event::EXTERN_ACTION_REQUESTED, this->Playing_state, check_action_request },
-	{ Event::EXTERN_ACTION_ACCEPTED, this->Playing_state, execute_send_action_and_set_ack_time_out },
-	{ Event::EXTERN_ACTION_DENIED, this->Playing_state, do_nothing}, 
-	{Event::LOCAL_ACTION_REQUESTED, this->Playing_state, check_action_request}
-	{ Event::LOCAL_ACTION, this->Playing_state, execute_send_action_and_set_ack_time_out},
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, 
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Playing_state, do_nothing }
+	{ Event_type::ENEMY_ACTION, this->Playing_state, load_and_send_enemy_action},
+	{ Event_type::MOVE, this->Playing_state, analyze_move},
+	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
 	copy_event(Playing_state_aux, Playing_state, 11);
 
 	edge_t Waiting_for_ACK_quit_state[4] =
 	{
-		{ Event::ACK, NULL, finish_game },
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing }
+	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_ACK_quit_state_aux, Waiting_for_ACK_quit_state, 4);
@@ -215,7 +206,7 @@ void Fsm::init_fsm_server(){
 /*******************************************************************************
 FSM_CLIENT CONSTRCUTOR
 ******************************************************************************/
-void Fsm::init_fsm_client() {
+void FSM::init_fsm_client() {
 
 	edge_t * Initial_state_aux = new edge_t[6];
 	this->Initial_state = Initial_state_aux;
@@ -246,95 +237,79 @@ void Fsm::init_fsm_client() {
 
 	edge_t Initial_state[6] =
 	{
-	{ Event::NAME, this->Naming_me_state,  send_name_is}, 
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Initial_state, do_nothing }
+	{ Event_type::NAME, this->Naming_me_state,  send_name_is},
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Initial_state, do_nothing }
 	};
 	copy_event(Initial_state_aux, Initial_state, 6);
 
 	edge_t Naming_me_state[6] =
 	{
-		{ Event::ACK, this->Naming_him_state, ask_for_name }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Naming_me_state, do_nothing }
+	{ Event_type::ACK, this->Naming_him_state, ask_for_name }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Naming_me_state, do_nothing }
 	};
 	copy_event(Naming_me_state_aux, Naming_me_state, 6);
 
 	edge_t Naming_him_state[6] =
 	{
-		{ Event::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Naming_him_state, do_nothing }
+	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Naming_him_state, do_nothing }
 	};
 	copy_event(Naming_him_state_aux, Naming_him_state, 6);
 
 	edge_t  Waiting_for_map_state[7] =
 	{
-		{ Event::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save },
-	{ Event::MAP_IS_OK, this->Waiting_for_enemy_actions_state, do_nothing},
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_map_state, do_nothing }
+	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_map_state, do_nothing }
 	};
 	copy_event(Waiting_for_map_state_aux, Waiting_for_map_state, 7);
 
 
 	edge_t Waiting_for_enemy_actions_state[7] =
 	{
-		{ Event::EXTERN_ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
-	{ Event::ENEMY_ACTION_IS_OK, this->Waiting_for_game_start_state, load_action_and_send_ack },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_enemy_actions_state, do_nothing }
+	{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_enemy_actions_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_enemy_actions_state_aux, Waiting_for_enemy_actions_state, 7);
 
 	edge_t Waiting_for_game_start_state[6] =
 	{
-		{ Event::GAME_START, this->Playing_state, start_game_and_send_ack },
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, //se devuelve un ACK con ID 0 para la otra compu, se sale
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_game_start_state, do_nothing }
+	{ Event_type::GAME_START, this->Playing_state, start_game_and_send_ack },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_game_start_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_game_start_state_aux, Waiting_for_game_start_state, 6);
 
 	edge_t Playing_state[7] =
 	{
-		{Event::EXTERN_ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
-	{ Event::LOCAL_ACTION, this->Playing_state, send_action_request_and_set_ack_time_out }, 
-	{ Event::EXTERN_ACTION_RECEIVED, this->Playing_state, execute_action_and_send_ack }, 
-	{ Event::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit },
-	{ Event::EXTERN_QUIT, NULL, send_ack_and_quit }, 
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Playing_state, do_nothing }
+	{ Event_type::ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
+	{ Event_type::MOVE, this->Playing_state, analyze_move},
+	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
 	copy_event(Playing_state_aux, Playing_state, 7);
 
 	edge_t Waiting_for_ACK_quit_state[4] =
 	{
-		{ Event::ACK, NULL, finish_game },
-	{ Event::LOCAL_ERROR, NULL, send_error_and_finish_game },
-	{ Event::EXTERN_ERROR, NULL, finish_game },
-	{ Event::END_OF_TABLE, this->Waiting_for_ACK_state, do_nothing }
+	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_state, do_nothing }
 	};
 
 	copy_event(Waiting_for_ACK_quit_state_aux, Waiting_for_ACK_quit_state, 4);
@@ -361,18 +336,17 @@ void Fsm::init_fsm_client() {
 *OUTPUT:
 *Void
 */
-void Fsm:: run_fsm(EventPackage ev_pack)
+void FSM:: run_fsm(EventPackage * ev_pack)
 {
-	Event event1 = ev_pack.ev;
-	*this->ev_pack = ev_pack;
+	Event_type event1 = ev_pack->give_me_your_event_type;
 
-	while ((this->actual_state->event != event1) && (this->actual_state->event != Event::END_OF_TABLE))
+	while ((this->actual_state->event != event1) && (this->actual_state->event != Event_type::END_OF_TABLE))
 	{	
 		this->actual_state++;
 	}
 
 	//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s
-	//if (this->actual_state->event == Event::END_OF_TABLE) 
+	//if (this->actual_state->event == My_Event::END_OF_TABLE) 
 	//	this->check_for_incorrect_event(event1);			
 
 	//Runs the functions related to that event
@@ -380,15 +354,19 @@ void Fsm:: run_fsm(EventPackage ev_pack)
 	this->actual_state = (this->actual_state->nextstate);
 
 
+	this->my_user_data->my_network_data.set_should_check_for_new_messages(true);
+	this->notify_obs();
+	this->my_user_data->my_network_data.set_should_check_for_new_messages(false);
+
 }
 
-void Fsm::check_for_incorrect_event(Event event) {
+void FSM::check_for_incorrect_event(Event_type event) {
 	//if(this->actual_state == this->Waiting..) {
 
 	//}
 }
 
-void Fsm::init_fsm()
+void FSM::init_fsm()
 {
 	/*aca irian las inicializaciones comunes a tanto server como client. 
 	Habria que chequear que para ese estado en particular, todos los estados a los cuales transicionar
@@ -403,16 +381,25 @@ void Fsm::init_fsm()
 }
 
 void send_name_is(void* data ) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_name_is = true;
 	fsm->notify_obs();
 	fsm->s_name_is = false;
 	set_ack_time_out(data);
  }
 
- //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
+ 
+void analayze_quit(void*data)
+{
+	FSM * fsm = (FSM*)data;
+	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+		send_quit(data);
+	else
+		send_ack_and_quit(data);
+}
+//se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
  void send_quit(void* data) {
-	 Fsm * fsm = (Fsm*)data;
+	 FSM * fsm = (FSM*)data;
 	 fsm->s_quit = true;
 	 fsm->notify_obs();
 	 set_ack_time_out(data);
@@ -426,10 +413,18 @@ void send_name_is(void* data ) {
 	 finish_game(data);
 }
 
+ void analayze_error(void*data)
+ {
+	 FSM * fsm = (FSM*)data;
+	 if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+		 send_error_and_finish_game(data);
+	 else
+		 finish_game(data);
+ }
 
  //Se sale del programa sin avisar, rutina de acción del evento ERROR1
 void finish_game(void * data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->end_game = true;
 	fsm->notify_obs();
 
@@ -438,7 +433,7 @@ void finish_game(void * data) {
 }
 
 void received_ack_routine(void* data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->reset_ack_timer = true;
 	fsm->notify_obs();
 	fsm->reset_ack_timer = false;
@@ -449,34 +444,35 @@ void check_sum_and_send_ack(void* data) {
 }
 
 void send_error_and_finish_game(void* data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_error = true;
 	fsm->notify_obs();
 	fsm->s_error = false;
 }
 
 void send_enemy_action(void* data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_enemy_action = true;
 	fsm->notify_obs();
 	fsm->s_enemy_action = false;
 }
 
 void send_game_start(void* data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_game_start = true;
 	fsm->notify_obs();
 	fsm->s_game_start = false;
 }
 
 void ask_for_name(void* data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->ask_name = true;
 	fsm->notify_obs();
 	fsm->ask_name = false;
 }
 void check_map_and_save(void*data) {
 
+	send_ack(data);
 }
 void load_action_and_send_ack(void*data) {
 	load_enemy_action(data);
@@ -486,26 +482,26 @@ void load_enemy_action(void * data) {
 
 }
 void start_game_and_send_ack(void*data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->start_game = true;
 	fsm->notify_obs();
 	fsm->start_game = false;
 	send_ack(data);
 }
 void set_ack_time_out(void*data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->new_ack_time_out = true;
 	fsm->notify_obs();
 	fsm->new_ack_time_out = true;
 }
 void send_ack(void * data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_ack = true;
 	fsm->notify_obs();
 	fsm->s_ack = false;
 }
 void send_map_is(void * data) {
-	Fsm * fsm = (Fsm*)data;
+	FSM * fsm = (FSM*)data;
 	fsm->s_map_is = true;
 	fsm->notify_obs();
 	fsm->s_map_is = false;
@@ -520,12 +516,47 @@ void copy_event(edge_t* to_copy, edge_t to_be_copied[], int length) {
 	}
 }
 
-EventPackage* Fsm::get_fsm_ev_pack() {
+EventPackage* FSM::get_fsm_ev_pack() {
 	return this->ev_pack;
 }
 
+void analyze_move(void* data) {
+
+	FSM * fsm = (FSM*)data;
+
+	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	{
+		execute_send_action_and_set_ack_time_out(data);
+	}
+	else
+		execute_receive_action_and_send_ack(data);
+
+}
+
+void analyze_attack(void* data) {
+
+	FSM * fsm = (FSM*)data;
+
+	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	{
+		execute_send_action_and_set_ack_time_out(data);
+	}
+	else
+		execute_receive_action_and_send_ack(data);
+}
+
+void execute_receive_action_and_send_ack(void *data) {
+
+	FSM* fsm = (FSM*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	send_ack(data);
+
+}
+
 void check_action_request(void* data) {
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->check_action = true;
 	fsm->notify_obs();
 	fsm->check_action = false;
@@ -533,7 +564,7 @@ void check_action_request(void* data) {
 
 
 void send_action_and_set_ack_time_out(void* data){
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->s_action = true;
 	fsm->notify_obs();
 	fsm->s_action = false;
@@ -543,7 +574,7 @@ void send_action_and_set_ack_time_out(void* data){
 
 void execute_send_action_and_set_ack_time_out(void* data) {
 
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->execute_action = true;
 	fsm->notify_obs();
 	fsm->execute_action = false;
@@ -554,7 +585,7 @@ void execute_send_action_and_set_ack_time_out(void* data) {
 	set_ack_time_out(data);
 }
 void execute_action_and_send_ack(void* data) {
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->execute_action = true;
 	fsm->notify_obs();
 	fsm->execute_action = false;
@@ -563,7 +594,7 @@ void execute_action_and_send_ack(void* data) {
 }
 
 void send_action_request_and_set_ack_time_out(void* data) {
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->s_action_request = true;
 	fsm->notify_obs();
 	fsm->s_action_request = false;
@@ -571,7 +602,7 @@ void send_action_request_and_set_ack_time_out(void* data) {
 }
 
 void receive_name_and_send_ack(void*data) {
-	Fsm* fsm = (Fsm*)data;
+	FSM* fsm = (FSM*)data;
 	fsm->receive_name = true;
 	fsm->notify_obs();
 	fsm->receive_name = false;

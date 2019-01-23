@@ -143,6 +143,7 @@
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="ScenarioDrawingObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="PurpleGuy.h" />
+    <ClInclude Include="ScenarioDrawingObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Snowball.h" />

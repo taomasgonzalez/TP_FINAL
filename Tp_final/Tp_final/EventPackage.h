@@ -2,8 +2,8 @@
 #include "Package.h"
 #include "Scene.h"
 #include "Communication.h"
-#include "EventGenerator.h"
 #include <cstring>
+
 enum class Event_type  //Events that are use by the internal function of the program like during FSM
 {
 	END_OF_TABLE,
@@ -68,7 +68,7 @@ public:
 
 	void this_event_package_is_correct(bool value);  //sets if the EV represents a valid action
 	bool is_this_a_valid_action();                  
-	bool is_this_an_local_action();
+	bool is_this_a_local_action();
 	
 	Event_type give_me_your_event_type();
 
@@ -113,7 +113,10 @@ public:
 class MOVE_EventPackage : public EventPackage, public MOVE_package
 {
 public:
-	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
+	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de, Direction_type direction);
+
+private:
+	Direction_type my_direction;
 
 };
 

@@ -35,10 +35,10 @@ enum class time_out_type {
 /*******************************************************************************
 							CLASE FSM
 ******************************************************************************/
-class Fsm : public  Observable{
+class FSM : public  Observable{
 public:
-	 Fsm(bool is_client);
-	 virtual void run_fsm(EventPackage ev_pack);
+	 FSM(Userdata * data);
+	 void run_fsm(EventPackage * ev_pack);
 	 void init_fsm();
 		
 	 EventPackage* get_fsm_ev_pack();
@@ -62,6 +62,8 @@ public:
 
 	 bool start_game = false;
 	 bool check_action = false;
+
+
 private:
 
 	edge_t * actual_state = NULL;
@@ -90,8 +92,9 @@ private:
 
 	EventPackage* ev_pack;
 	
-	void check_for_incorrect_event(Event event);
-
+	void check_for_incorrect_event(My_Event event);
+	Userdata * my_user_data;
+	
 	void init_fsm_server();
 	void init_fsm_client();
 };

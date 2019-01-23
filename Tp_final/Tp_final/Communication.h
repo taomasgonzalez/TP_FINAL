@@ -36,23 +36,16 @@ extern "C" {
 class Communication : public Observable
 {
 public:
-	Communication(std::string ip);
+	Communication(Userdata * my_user_data);
 	~Communication();
 
 	void endCom();
 	void sendMessage(Package * package_received);
 	Package * receiveMessage();
-	std::string give_me_my_name();
 
 	//Package * get_received_package();
 	uint32_t get_expected_id();
 
-	std::string my_ip;
-	std::string his_ip;
-
-	bool has_new_info();
-
-	bool is_client();
 	bool is_the_connection_healthy();
 
 private:
@@ -64,21 +57,18 @@ private:
 	boost::asio::ip::tcp::resolver::iterator endpoint;
 	boost::asio::ip::tcp::acceptor* acceptor = NULL;
 
-	void Connecting_as_a_server();
-	void Connecting_as_a_client(std::string ip);
+	void Connecting_as_a_server(Userdata * my_user_data);
+	void Connecting_as_a_client(std::string ip, Userdata * my_user_data);
 
 	void renewServerItems();
 	void renewClientItems();
 
-	bool client_mode=true;		//By default we try to connect as a client
-	bool new_info=false;
 	bool healthy_connection = true;
 	bool rebooting_mode = false; //When rebooting the communication between the programs with closing the program
 
 	uint32_t expected_ack_id;
 
-	std::string my_name; //must have terminator
-	std::string his_name; //must have terminator
+
 
 
 };

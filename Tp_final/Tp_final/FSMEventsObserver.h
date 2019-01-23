@@ -7,14 +7,14 @@
 class FSMEventsObserver: public Observer
 {
 public:
-	FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container, Scene * scenario);
+	FSMEventsObserver(EventGenerator * event_gen, FSM * fsm, Allegro* allegro_container, Scene * scenario);
 	~FSMEventsObserver();
 
 	virtual void update();
 
 private:
 	EventGenerator * event_gen;
-	Fsm * fsm;
+	FSM * fsm;
 	Allegro * allegro_container;
 	Scene * scenario;
 };

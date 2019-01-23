@@ -1,7 +1,7 @@
 #include "FSMCommunicationObserver.h"
 
 
-FSMCommunicationObserver::FSMCommunicationObserver(Fsm * fsm, Communication* com, Scene* scenario)
+FSMCommunicationObserver::FSMCommunicationObserver(FSM * fsm, Communication* com, Scene* scenario)
 {
 	this->fsm = fsm;
 	this->com = com;

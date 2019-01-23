@@ -4,18 +4,18 @@
 #include "Scene.h"
 
 
-class Drawer: public Observer
+class Drawer: 
 {
 public:
 	Drawer();
 	~Drawer();
 
-	void update(Observable * obs);
+	//graphical_objects
+	void draw(Scene * scenario);
+
 
 private:
 
-	//graphical_objects
-	void draw(Scene * scenario);
 	
 };
 

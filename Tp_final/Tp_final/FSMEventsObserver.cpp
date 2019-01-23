@@ -2,7 +2,7 @@
 
 
 
-FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, Fsm * fsm, Allegro* allegro_container, Scene* scenario)
+FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, FSM * fsm, Allegro* allegro_container, Scene* scenario)
 {
 	this->event_gen = event_gen;
 	this->fsm = fsm;
@@ -43,10 +43,10 @@ void FSMEventsObserver::update() {
 		if (scenario->is_the_action_possible()) {				//Esto debería estar implementado dentro the action is possible, deberia recibir y devolver un EventPackage
 			EventPackage* new_ev_pack = new EventPackage();
 			*new_ev_pack = *old_pack;
-			if(old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
-				new_ev_pack->ev = Event::EXTERN_ACTION_ACCEPTED;
-			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)
-				new_ev_pack->ev = Event::LOCAL_ACTION;
+			if(old_pack->ev == My_Event::EXTERN_ACTION_REQUESTED)
+				new_ev_pack->ev = My_Event::EXTERN_ACTION_ACCEPTED;
+			else if(old_pack->ev == My_Event::LOCAL_ACTION_REQUESTED)
+				new_ev_pack->ev = My_Event::LOCAL_ACTION;
 
 			event_gen->append_new_soft_event(new_ev_pack);
 		}
@@ -54,10 +54,10 @@ void FSMEventsObserver::update() {
 			/*esto en teoria es innecesario, pero lo hacemos para mayor claridad, 
 			para que pueda haber tanto eventos de tipo EXTERN_ACTION_ACCEPTED
 			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*/
-			if (old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
-				old_pack->ev = Event::EXTERN_ACTION_DENIED;
-			else if(old_pack->ev == Event::LOCAL_ACTION_REQUESTED)  //Esto implica que hubo un error, se debe manda ERROR
-				old_pack->ev = Event::LOCAL_ACTION_DENIED;
+			if (old_pack->ev == My_Event::EXTERN_ACTION_REQUESTED)
+				old_pack->ev = My_Event::EXTERN_ACTION_DENIED;
+			else if(old_pack->ev == My_Event::LOCAL_ACTION_REQUESTED)  //Esto implica que hubo un error, se debe manda ERROR
+				old_pack->ev = My_Event::LOCAL_ACTION_DENIED;
 
 			event_gen->append_new_soft_event(old_pack);
 		}

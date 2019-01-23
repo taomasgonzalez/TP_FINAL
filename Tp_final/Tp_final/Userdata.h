@@ -6,10 +6,9 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
-
 #define JUMP_MUSIC "Super Mario Bros - Jump Sound Effect.wav"
 
-enum class Direction
+enum class Direction_type
 {
 	Left, Right, Jump, Left_Stop, Right_Stop, Toggle
 };
@@ -20,22 +19,63 @@ enum class Character_id {
 	Player, Enemy
 };
 
+class NetworkData;
+class AllegroData;
+
 class Userdata
 {
 public:
 	Userdata();
 	~Userdata();
-	void LoadWormImages(); //replace with the images of the graphics elements of the game
 
-	std::string ip = "127.0.0.10";  //ask for it in the gui, debugging
-	bool receivedSth = false;
+	NetworkData my_network_data;
+	AllegroData my_allegro_data;
+	
+
+	
+};
+
+
+
+class NetworkData {
+
+public:
+
+	//Getters
+	std::string give_me_my_ip();
+	std::string give_me_my_name();
+	bool get_should_check_for_new_messages();
+	bool has_new_info();
+	bool is_client();
+
+	//setters
+	void set_client(bool is_client);
+	void set_should_check_for_new_messages(bool should_check);
+
+
+
+private:
+	std::string my_ip;
+	std::string his_ip;
+	bool client_mode;		//By default we try to connect as a client
+	bool new_info = false;
+	bool check_for_new_messages;
+	std::string my_name; //must have terminator
+	std::string his_name; //must have terminator
+};
+
+class AllegroData {
+
+public:
+	
+	void LoadWormImages(); //replace with the images of the graphics elements of the game
 
 
 	static const int GroundLevel = 616;
 	static const int LeftWall = 685;
 	static const int RightWall = 1170;
 
-	
+
 	static std::array<ALLEGRO_BITMAP*, 15> WormWalk; //Worm walk bitmaps
 	std::string str = "wwalk-F";
 	std::string ng = ".png";
@@ -52,6 +92,7 @@ public:
 
 	//Worm 2 keys
 	static const unsigned int worm2KeySet[2];
-	
+private:
+
 };
 

@@ -2,10 +2,10 @@
 #include "EventGenerator.h"
 #include "FSM_Class.h"
 
-class EventHandler : public EventGenerator, public Fsm
+class EventHandler : public EventGenerator
 {
 public:
-	EventHandler(Allegro * al, bool is_client);
+	EventHandler(Allegro * al, FSM* fsm, Userdata * data);
 	~EventHandler();
 
 	void handle_event();

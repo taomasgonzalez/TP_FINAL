@@ -19,7 +19,7 @@ Scene::~Scene()
 
 
 
-void Scene::handle_movement(Character_id char_id, unsigned int id, Direction dir, Action_type action) {
+void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action) {
 	
 }
 
@@ -28,17 +28,17 @@ char * Scene::give_me_the_original_map()
 	return this->original_map_distribution;
 }
 
-void Scene::gameInit(Userdata& Userdata) {	
+void Scene::gameInit() {	
 
 	this->should_init = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
 	notify_obs();
 }
 
 bool Scene::game_is_finished() {
-	return game_finished;
+	return this->game_finished;
 }
 void Scene::finish_game() {
-	game_finished = true;
+	this->game_finished = true;
 }
 
 bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) { //analyzation of the current eventpackage to check if it is a valid action
@@ -67,4 +67,3 @@ EventPackage * Scene::give_me_my_checked_package()
 }
 
 
-bool Scene::game_finished = false;

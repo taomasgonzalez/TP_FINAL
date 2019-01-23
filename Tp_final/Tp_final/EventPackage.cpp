@@ -62,7 +62,7 @@ bool EventPackage::is_this_a_valid_action()
 
 
 /**************************************************************
-				is_this_an_local_action
+				is_this_a_local_action
 **************************************************************/
 /*
 *GETTER.This function returns the information to be send by networking.
@@ -73,7 +73,7 @@ bool EventPackage::is_this_a_valid_action()
 *OUTPUT:
 *The information to be send by networking
 */
-bool EventPackage::is_this_an_local_action() {
+bool EventPackage::is_this_a_local_action() {
 
 	return this->local_action;
 }
@@ -138,9 +138,10 @@ QUIT_EventPackage::QUIT_EventPackage(bool is_local) :EventPackage(Event_type::QU
 /**************************************************************
 			MOVE_EventPackage CONSTRUCTOR
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de)
+MOVE_EventPackage::MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de, Direction_type direction)
 	:EventPackage(Event_type::MOVE, is_local),MOVE_package(the_one_that_moves, fil_de, col_de) {
 
+	this->my_direction = direction;
 
 }
 

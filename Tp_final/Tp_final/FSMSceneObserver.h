@@ -8,12 +8,12 @@
 class FSMSceneObserver: public Observer
 {
 public:
-	FSMSceneObserver(Fsm* fsm, Scene *scenario);
+	FSMSceneObserver(FSM* fsm, Scene *scenario);
 	~FSMSceneObserver();
 
 	virtual void update();
 
 private:
-	Fsm * fsm;
+	FSM * fsm;
 	Scene * scenario;
 };

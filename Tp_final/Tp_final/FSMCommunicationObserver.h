@@ -8,12 +8,12 @@
 class FSMCommunicationObserver: public Observer
 {
 public:
-	FSMCommunicationObserver(Fsm * fsm, Communication * com, Scene* scenario);
+	FSMCommunicationObserver(FSM * fsm, Communication * com, Scene* scenario);
 	~FSMCommunicationObserver();
 
 	virtual void update();
 private:
-	Fsm * fsm;
+	FSM * fsm;
 	Communication * com;
 	Scene * scenario;
 };

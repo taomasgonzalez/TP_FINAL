@@ -12,14 +12,10 @@ int main(void) {
 
 	if (myResources->Intialize_all_the_resources()) {	//Checks if the initialization was done properly
 
-		EventHandler * my_event_handler = new EventHandler ((myResources->allegro_container), myResources->communication->is_client());
+		myResources->my_scenario->gameInit();
 
-		myResources->add_all_observers( my_event_handler);
-
-		myResources->scenario->gameInit(*myResources->my_user_data);
-
-		while (!myResources->scenario->game_is_finished()) {
-			my_event_handler->handle_event();
+		while (!myResources->my_scenario->game_is_finished()) {
+			myResources->my_event_handler->handle_event();
 		}
 	}
 	else {

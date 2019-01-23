@@ -3,19 +3,19 @@
 
 Resources::Resources() {
 
-	this->scenario = new Scene;
-	this->drawing_manager = new Drawer;
-	this->allegro_container = new Allegro;
+	this->my_scenario = new Scene;
+	this->my_drawing_manager = new Drawer;
+	this->my_allegro_container = new Allegro;
 	this->my_user_data = new Userdata;
 };
 
 Resources::~Resources() {  //Delete all the resources loaded
 
-	delete this->scenario;
-	delete this->drawing_manager;
-	delete this->allegro_container;
+	delete this->my_scenario;
+	delete this->my_drawing_manager;
+	delete this->my_allegro_container;
 	delete this->my_user_data;
-	delete this->communication;
+	delete this->my_communication;
 
 };
 
@@ -24,26 +24,32 @@ bool Resources::Intialize_all_the_resources() {
 
 	bool healthy_initialization = true;
 
-	this->communication = new Communication(this->my_user_data->ip);  //Initialize the communication
-	if( this->communication->is_the_connection_healthy())  //Checks if the communication process was successful
-	//CHEQUEAR QUE SI PONELE NO ANDUVO LA COM PERO SI ALLEGRO EL PROGRAMA CORRE IGUAL
-	healthy_initialization = this->allegro_container->Init(*this->my_user_data);
+	healthy_initialization = this->my_allegro_container->Init(*this->my_user_data);  //se puede ver de pedirla por allegro, el tema es que no estaría iniciado todavía
+
+	if (healthy_initialization)
+	{
+		this->my_communication = new Communication(this->my_user_data);  //Initialize the communication
+		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful
+	}
+
+	this->my_fsm = new FSM(this->my_user_data);
+	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_fsm);
+
+	this->add_all_observers();
 
 	return healthy_initialization;
 };
 
-void Resources::add_all_observers(EventHandler * my_event_handler) {
+void Resources::add_all_observers() {
 
-	this->scenario->add_observer(this->drawing_manager);
-	this->communication->add_observer(new EventsCommunicationObserver(my_event_handler, this->communication)); //????
+	this->my_scenario->add_observer(new ScenarioDrawingObserver(this->my_scenario, this->my_drawing_manager));
+	this->my_scenario->add_observer(new ScenarioEventsObserver(my_event_handler, this->my_scenario));
 
-	my_event_handler->add_observer(new FSMEventsObserver(my_event_handler, my_event_handler, this->allegro_container,this->scenario)); 
-	//pointer to fsm and to event generator is the same because eventgenerator is an fsm, check
 
-	my_event_handler->add_observer(new FSMCommunicationObserver(my_event_handler, this->communication, this->scenario));
-	my_event_handler->add_observer(new FSMSceneObserver(my_event_handler, this->scenario));
-	my_event_handler->add_observer(new EventsCommunicationObserver(my_event_handler, this->communication));
-	this->scenario->add_observer(new ScenarioEventsObserver(my_event_handler, this->scenario));
+	this->my_fsm->add_observer(new FSMEventsObserver(this->my_event_handler, this->my_fsm, this->my_allegro_container,this->my_scenario));
+	this->my_fsm->add_observer(new FSMCommunicationObserver(this->my_fsm, this->my_communication, this->my_scenario));
+	this->my_fsm->add_observer(new FSMSceneObserver(this->my_fsm, this->my_scenario));
+	this->my_fsm->add_observer(new EventsCommunicationObserver(my_event_handler, this->my_communication));
 
 
 }

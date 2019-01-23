@@ -12,15 +12,6 @@ Drawer::~Drawer()
 }
 
 
-void Drawer:: update(Observable * obs) {
-
-	if (obs->give_me_my_type() == Observable_type::SCENARIO) {
-		Scene * scenario = (Scene * )obs;
-	
-		this->draw(scenario);
-	}
-}
-
 void Drawer::draw(Scene * scenario) {
 
 	/*Worm * worm_to_be_drawn;
@@ -44,11 +35,11 @@ void Drawer::draw(Scene * scenario) {
 	uint tickCount = actual_worm->gettickCount();
 	Point Position = actual_worm->getPosition();
 	WormState State= actual_worm->getState();
-	WormDirection Direction= actual_worm->getDirection();
+	WormDirection Direction_type= actual_worm->getDirection();
 
 
 
-	switch (Direction) {
+	switch (Direction_type) {
 	case WormDirection::Left: {
 		switch (State) {
 		case WormState::WaitingToWalk: {
