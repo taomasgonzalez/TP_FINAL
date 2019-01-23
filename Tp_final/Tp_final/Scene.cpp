@@ -41,7 +41,7 @@ void Scene::finish_game() {
 	game_finished = true;
 }
 
-bool Scene::action_is_possible(EventPackage * package_to_be_analyze) { //analyzation of the current eventpackage to check if it is a valid action
+bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) { //analyzation of the current eventpackage to check if it is a valid action
 
 	bool is_the_action_possible = true;
 

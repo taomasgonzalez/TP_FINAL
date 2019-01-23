@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "EventGenerator.h"
 #include "Observable.h"
+#include "EventPackage.h"
 
 /*****************************************************
 *          DEFINITION OF EDGE
@@ -13,7 +14,7 @@
 typedef struct edge edge_t;
 struct edge
 {
-		Event event;
+		Event_type event;
 		edge_t* nextstate;
 		void(*fun_trans)(void*);
 

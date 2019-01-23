@@ -6,64 +6,28 @@
 #include <cstring>
 enum class Event_type  //Events that are use by the internal function of the program like during FSM
 {
-	
-	/*
-			EL MISMO TIPO DE EVENTO CON SUS SUBTIPOS PUEDEN SER METIDOS EN UN SOLO EVENTO CON VARIABLE DE CONTROL
-			YO SÉ SI SOY CLIENTE O SI FUE CHEQUEADO O NO. CAMBIAR!!!!!!
-	*/
-
 	END_OF_TABLE,
 
 	//ACK:
 	ACK,
 
-	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
-	LOCAL_QUIT,
+	//QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
+	QUIT,
 
-	//EXTERN_QUIT: Evento que llega por networking del otro computador
-	EXTERN_QUIT,
+	//LOCAL_ACTION: Evento generado por allegro pero no ejecutado por la maquina,falta analizar
+	MOVE,
 
-	//LOCAL_ACTION_REQUESTED: Evento generado por allegro pero no ejecutado por la maquina,falta analizar
-	LOCAL_ACTION_REQUESTED,
+	//EXTERN_ACTION   Es un MOVE/ATTACK del servidor que llega por networking siendo cliente
+	ATTACK,  
 
-	//LOCAL_ACTION: Evento generado por allegro y ya ejecutado por la maquina, debe ser enviado por networking
-	LOCAL_ACTION_ACCEPTED,
+	//ACTION_REQUEST   //action request generado por el cliente que no fue chequeado
+	ACTION_REQUEST,
 
-	//LOCAL_ACTION_DENIED: Accion local rechazada, MUCHO QUE VER CON LA PARTE ANALÍTICA
-	LOCAL_ACTION_DENIED,
-
-	//EXTERN_ACTION_RECEIVED   Es un MOVE/ATTACK del servidor que llega por networking siendo cliente
-	EXTERN_ACTION_RECEIVED,  
-
-	//EXTERN_ACTION_REQUESTED: Evento que llega por networking y ya es chequeado
-	EXTERN_ACTION_ACCEPTED,
-
-	//EXTERN_ACTION_DENIED   Evento que llega por networking, fue chequeado y esta mal, hay que mandar ERROR
-	EXTERN_ACTION_DENIED,
-
-	//ACTION_REQUEST_RECIEVED    //action request generado por el cliente que no fue chequeado
-	ACTION_REQUEST_RECIEVED,
-
-	//ACTION_REQUEST_ACCEPTED	//action request generado por el cliente chequedo
-	ACTION_REQUEST_ACCEPTED,
-
-	//ACTION_REQUEST_DENIED //action request generado por el cliente inválido, se debe generar ERROR
-	ACTION_REQUEST_DENIED,
-
-	//ACTION_REQUEST_TO_BE_SEND action_request que va a ser enviado por el cliente
-	ACTION_REQUEST_TO_BE_SEND,
-
-	//EXTERN_ERROR: Evento de net cuando recibo un paquete de error, diversos origenes
-	EXTERN_ERROR,
-
-	//LOCAL_ERROR: Evento de software cuando se produce un error interno, diversos origenes
-	LOCAL_ERROR,
+	//ERROR: Evento de software cuando se produce un error interno, diversos origenes
+	ERROR1,
 
 	//NAME_IS: 
 	NAME_IS,
-
-	//EXTERN_NAME_IS: 
-	EXTERN_NAME_IS,
 
 	//NAME:
 	NAME,
@@ -71,17 +35,11 @@ enum class Event_type  //Events that are use by the internal function of the pro
 	//MAP_IS:
 	MAP_IS,
 
-	//MAP_IS_OK:
-	MAP_IS_OK,
+	//ENEMY_ACTION: El servidor crea una enemy action
+	ENEMY_ACTION,
 
-	//LOCAL_ENEMY_ACTION: El servidor crea una enemy action
-	LOCAL_ENEMY_ACTION,
-
-	//EXTERN_ENEMY_ACTION: Recibi un enemy action del servidor
-	EXTERN_ENEMY_ACTION,
-
-	//ENEMY_ACTION_LOADED: Recibi todos los enemy  action como para poder empezar el juego
-	ENEMY_ACTION_IS_OK,
+	//ENEMYS_LOADED: Recibi todos los enemy  action como para poder empezar el juego
+	ENEMYS_LOADED,
 
 	//GAME_START:
 	GAME_START,
@@ -102,49 +60,23 @@ enum class Event_type  //Events that are use by the internal function of the pro
 
 };
 
-struct PackageInfo //Information that is provided or is gonna me communicated by networking
-{
-
-	//PackageInfo(Package_type my_header, Scene * escenario, Communication* com, EventPackage* my_event_info);
-
-
-	Package_type header;
-	//NAME_IS
-	uchar count;
-	std::string Name; // without terminator
-	//MAP_IS
-	char * map;
-	char Checksum;
-	//MOVE - ATTACK
-	Character_type character;
-	char destination_row;
-	char destination_col;
-	// ACTION REQUEST
-	Action_type action;
-	// ENEMY_ACTION
-	uchar MonsterID;
-
-}; 
-
-
-
 
 class EventPackage
 {
 public:
-	EventPackage(Event_type event);
+	EventPackage(Event_type event, bool is_local);
 
-	Direction dir;
-
-	void this_event_package_is_correct(bool value);
-	bool is_this_a_valid_action();
-	Event_type give_me_your_event_type();
+	void this_event_package_is_correct(bool value);  //sets if the EV represents a valid action
+	bool is_this_a_valid_action();                  
+	bool is_this_an_local_action();
 	
+	Event_type give_me_your_event_type();
 
 
 protected:
-	Event_type my_internal_event = Event_type::NO_EVENT;
-	bool valid_action = false; //analyzed by the program if it´s a valid action
+	Event_type my_internal_event = Event_type::NO_EVENT; //why it has a by deafult value?
+	bool valid_action; //analyzed by the program if it´s a valid action
+	bool local_action; 
 
 
 };
@@ -157,222 +89,71 @@ protected:
 class ACK_EventPackage : public EventPackage
 {
 public:
-	ACK_EventPackage();
-
-private:
+	ACK_EventPackage(bool is_local);
 
 };
 
 /******************************************************************************
 *******************************************************************************
-							LOCAL_QUIT_EventPackage CLASS
+						QUIT_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class LOCAL_QUIT_EventPackage : public EventPackage
+class QUIT_EventPackage : public EventPackage
 {
 public:
-	LOCAL_QUIT_EventPackage();
+	QUIT_EventPackage(bool is_local);
 
 };
 
 /******************************************************************************
 *******************************************************************************
-							EXTERN_QUIT_EventPackage CLASS
+							MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class EXTERN_QUIT_EventPackage : public EventPackage
+class MOVE_EventPackage : public EventPackage, public MOVE_package
 {
 public:
-	EXTERN_QUIT_EventPackage();
+	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
 
 };
 
 /******************************************************************************
 *******************************************************************************
-							LOCAL_ACTION_ACCEPTED_EventPackage CLASS
+							ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class LOCAL_ACTION_ACCEPTED_EventPackage : public EventPackage
+class ATTACK_EventPackage : public EventPackage, public ATTACK_package
 {
 public:
-	LOCAL_ACTION_ACCEPTED_EventPackage(Action_type my_action,Character_type the_one_that_moves, char fil_de, char col_de);
-	Action_type give_me_the_move();
-	Character_type give_me_the_character();
-	char give_me_the_fil_de();
-	char give_me_the_col_de();
-
-private:
-	Action_type my_move;
-	Character_type the_one_that_moves;
-	char fil_de; 
-	char col_de;
-
-};
-
-/******************************************************************************
-*******************************************************************************
-							LOCAL_ACTION_REQUESTED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class LOCAL_ACTION_REQUESTED_EventPackage : public EventPackage
-{
-public:
-	LOCAL_ACTION_REQUESTED_EventPackage();
+	ATTACK_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
 
 };
 
 
 /******************************************************************************
 *******************************************************************************
-							LOCAL_ACTION_DENIED_EventPackage CLASS
+					ACTION_REQUEST_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class LOCAL_ACTION_DENIED_EventPackage : public EventPackage
+class ACTION_REQUEST_EventPackage : public EventPackage, public ACTION_REQUEST_package
 {
 public:
-	LOCAL_ACTION_DENIED_EventPackage();
+	ACTION_REQUEST_EventPackage(bool is_local, Action_type the_action, char fil_de, char col_de);
 
-};
 
-/******************************************************************************
-*******************************************************************************
-					EXTERN_ACTION_ACCEPTED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class EXTERN_ACTION_ACCEPTED_EventPackage : public EventPackage
-{
-public:
-	EXTERN_ACTION_ACCEPTED_EventPackage();
-
-private:
-
-};
-
-/******************************************************************************
-*******************************************************************************
-					EXTERN_ACTION_RECEIVED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class EXTERN_ACTION_RECEIVED_EventPackage : public EventPackage
-{
-public:
-	EXTERN_ACTION_RECEIVED_EventPackage(Action_type my_action, Character_type the_one_that_moves, char fil_de, char col_de);
-	Action_type give_me_the_move();
-	Character_type give_me_the_character();
-	char give_me_the_fil_de();
-	char give_me_the_col_de();
-
-private:
-	Action_type my_move;
-	Character_type the_one_that_moves;
-	char fil_de;
-	char col_de;
 
 };
 
 
 /******************************************************************************
 *******************************************************************************
-					EXTERN_ACTION_DENIED_EventPackage CLASS
+							ERROR_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class EXTERN_ACTION_DENIED_EventPackage : public EventPackage
+class ERROR_EventPackage : public EventPackage
 {
 public:
-	EXTERN_ACTION_DENIED_EventPackage();
-
-};
-
-/******************************************************************************
-*******************************************************************************
-					EXTERN_ACTION_ACCEPTED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class EXTERN_ACTION_ACCEPTED_EventPackage : public EventPackage
-{
-public:
-	EXTERN_ACTION_ACCEPTED_EventPackage();
-
-};
-
-/******************************************************************************
-*******************************************************************************
-					ACTION_REQUEST_RECIEVED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class ACTION_REQUEST_RECIEVED_EventPackage : public EventPackage
-{
-public:
-	ACTION_REQUEST_RECIEVED_EventPackage(Action_type the_action, char fil_de, char col_de);
-
-	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
-
-private:
-	Action_type action;
-	char destination_row;
-	char destination_column;
-
-};
-
-/******************************************************************************
-*******************************************************************************
-					ACTION_REQUEST_ACCEPTED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class ACTION_REQUEST_ACCEPTED_EventPackage : public EventPackage
-{
-public:
-	ACTION_REQUEST_ACCEPTED_EventPackage();
-
-	Action_type give_me_the_move();
-	char give_me_the_fil_de();
-	char give_me_the_col_de();
-
-private:
-	Action_type my_move;
-	char fil_de;
-	char col_de;
-
-};
-
-
-/******************************************************************************
-*******************************************************************************
-					ACTION_REQUEST_DENIED_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class ACTION_REQUEST_DENIED_EventPackage : public EventPackage
-{
-public:
-	ACTION_REQUEST_DENIED_EventPackage();
-
-};
-
-
-
-/******************************************************************************
-*******************************************************************************
-							EXTERN_ERROR_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class EXTERN_ERROR_EventPackage : public EventPackage
-{
-public:
-	EXTERN_ERROR_EventPackage();
-
-};
-
-/******************************************************************************
-*******************************************************************************
-							LOCAL_ERROR_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class LOCAL_ERROR_EventPackage : public EventPackage
-{
-public:
-	LOCAL_ERROR_EventPackage();
+	ERROR_EventPackage(bool is_local);
 
 };
 
@@ -386,9 +167,7 @@ public:
 class NAME_EventPackage : public EventPackage
 {
 public:
-	NAME_EventPackage();
-
-
+	NAME_EventPackage(bool is_local);
 
 };
 
@@ -398,35 +177,15 @@ public:
 *******************************************************************************
 *******************************************************************************/
 
-class NAME_IS_EventPackage : public EventPackage
+class NAME_IS_EventPackage : public EventPackage, public NAME_IS_package
 {
 public:
-	NAME_IS_EventPackage(Communication* com);
-	char * give_me_your_name();
-	uchar give_me_your_name_length();
+	NAME_IS_EventPackage(bool is_local, uchar namelenght, char * newname);
 
-private:
-	std::string Name; // without terminator
 
 };
 
-/******************************************************************************
-*******************************************************************************
-							EXTERN_NAME_IS_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
 
-class EXTERN_NAME_IS_EventPackage : public EventPackage
-{
-public:
-	EXTERN_NAME_IS_EventPackage(char * his_name);
-	char * give_me_your_name();
-	uchar give_me_your_name_length();
-
-private:
-	std::string Name; // without terminator
-
-};
 
 
 /******************************************************************************
@@ -435,99 +194,26 @@ private:
 *******************************************************************************
 *******************************************************************************/
 
-class MAP_IS_EventPackage : public EventPackage
+class MAP_IS_EventPackage : public EventPackage, public MAP_IS_package
 {
 public:
-	MAP_IS_EventPackage(const char * themap);
-	char * give_me_the_map();
-	char give_me_the_checksum();
+	MAP_IS_EventPackage(bool is_local,  const char * themap);
 
-private:
-	char * map;
-	char Checksum = 0;
 };
 
 /******************************************************************************
 *******************************************************************************
-							MAP_IS_OK_EventPackage CLASS
+							ENEMY_ACTION_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
 
-class MAP_IS_OK_EventPackage : public EventPackage
+class ENEMY_ACTION_EventPackage : public EventPackage, public ENEMY_ACTION_package
 {
 public:
-	MAP_IS_OK_EventPackage(char * themap);
-	char * give_me_the_map();
-	char give_me_the_checksum();
-
-private:
-	char * map;
-	char Checksum = 0;
-};
-
-/******************************************************************************
-*******************************************************************************
-							LOCAL_ENEMY_ACTION_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-
-class LOCAL_ENEMY_ACTION_EventPackage : public EventPackage
-{
-public:
-	LOCAL_ENEMY_ACTION_EventPackage(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-	uchar give_me_the_monsterID();
-	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
-
-private:
-	uchar MonsterID;
-	Action_type action;
-	char destination_row;
-	char destination_column;
-};
-
-/******************************************************************************
-*******************************************************************************
-							EXTERN_ENEMY_ACTION CLASS
-*******************************************************************************
-*******************************************************************************/
-
-class EXTERN_ENEMY_ACTION_EventPackage : public EventPackage
-{
-public:
-	EXTERN_ENEMY_ACTION_EventPackage(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-	uchar give_me_the_monsterID();
-	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
-
-
-private:
-	uchar MonsterID;
-	Action_type action;
-	char destination_row;
-	char destination_column;
-};
-
-
-
-
-/******************************************************************************
-*******************************************************************************
-				ENEMY_ACTION_IS_OK_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-
-class ENEMY_ACTION_IS_OK_EventPackage : public EventPackage
-{
-public:
-	ENEMY_ACTION_IS_OK_EventPackage();
-
-
-private:
+	ENEMY_ACTION_EventPackage(bool is_local,uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
 
 };
+
 
 /******************************************************************************
 *******************************************************************************
@@ -537,7 +223,7 @@ private:
 class GAME_START_EventPackage : public EventPackage
 {
 public:
-	GAME_START_EventPackage();
+	GAME_START_EventPackage(bool is_local);
 
 private:
 
@@ -552,7 +238,7 @@ private:
 class WE_WON_EventPackage : public EventPackage
 {
 public:
-	WE_WON_EventPackage();
+	WE_WON_EventPackage(bool is_local);
 
 private:
 
@@ -566,7 +252,7 @@ private:
 class PLAY_AGAIN_EventPackage : public EventPackage
 {
 public:
-	PLAY_AGAIN_EventPackage();
+	PLAY_AGAIN_EventPackage(bool is_local);
 
 private:
 
@@ -580,7 +266,7 @@ private:
 class GAME_OVER_EventPackage : public EventPackage
 {
 public:
-	GAME_OVER_EventPackage();
+	GAME_OVER_EventPackage(bool is_local);
 
 private:
 
@@ -594,7 +280,7 @@ private:
 class START_COMMUNICATION_EventPackage : public EventPackage
 {
 public:
-	START_COMMUNICATION_EventPackage();
+	START_COMMUNICATION_EventPackage(bool is_local);
 
 private:
 

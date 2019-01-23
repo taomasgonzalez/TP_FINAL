@@ -2,6 +2,7 @@
 #include "Observer.h"
 #include "EventHandler.h"
 #include "Scene.h"
+#include "EventPackage.h"
 
 class ScenarioEventsObserver: public Observer
 {

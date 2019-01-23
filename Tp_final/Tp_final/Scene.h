@@ -22,7 +22,7 @@ public:
 	static void finish_game();
 	bool should_init;
 	void start_game();
-	bool action_is_possible(EventPackage* package_to_be_analyze);
+	bool is_the_action_possible(EventPackage* package_to_be_analyze);
 	bool should_the_action_be_checked();
 	EventPackage* give_me_my_checked_package();
 

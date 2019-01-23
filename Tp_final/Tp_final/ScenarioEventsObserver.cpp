@@ -13,24 +13,22 @@ ScenarioEventsObserver::~ScenarioEventsObserver()
 
 void ScenarioEventsObserver::update() {
 	if (this->scenario->should_init) {
-		EventPackage * evento_de_inicializion = new EventPackage();
-		evento_de_inicializion->ev = Event::START_COMMUNICATION;
-		this->my_event_handler->soft_queue->push(evento_de_inicializion);
+		this->my_event_handler->soft_queue->push(new START_COMMUNICATION_EventPackage());
 		this->scenario->should_init = false;
 	}
 
 	if (scenario->should_the_action_be_checked()) {
 
-		EventPackage* old_pack = my_event_handler->get_fsm_ev_pack(); //ac´´a ya paso por la fsm el chequeo tiene que ser previo
+		EventPackage* old_pack = my_event_handler->get_fsm_ev_pack(); //aca ya paso por la fsm el chequeo tiene que ser previo
 
-		if (scenario->action_is_possible(my_event_handler->get_fsm_ev_pack())) {
+		if (scenario->is_the_action_possible(my_event_handler->get_fsm_ev_pack())) {
 			
-			EventPackage* new_ev_pack = new EventPackage();
-			*new_ev_pack = *old_pack;
-			if (old_pack->ev == Event::EXTERN_ACTION_REQUESTED)		//logica a poner en action_is_possible
-				new_ev_pack->ev = Event::EXTERN_ACTION_ACCEPTED;
-			else if (old_pack->ev == Event::LOCAL_ACTION_REQUESTED)
-				new_ev_pack->ev = Event::LOCAL_ACTION;
+			EventPackage* new_ev_pack = NULL; 
+			if (old_pack->give_me_your_event_type() == Event_type::EXTERN_ACTION_RECEIVED)		//logica a poner en is_the_action_possible
+				new_ev_pack = new EXTERN_ACTION_ACCEPTED_EventPackage;
+
+			else if (old_pack->give_me_your_event_type() == Event_type::LOCAL_ACTION_REQUESTED)
+				new_ev_pack = new LOCAL_ACTION_ACCEPTED_EventPackage(old_pack);
 
 			my_event_handler->append_new_soft_event(scenario->give_me_my_checked_package());
 		}

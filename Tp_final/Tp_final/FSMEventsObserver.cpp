@@ -40,7 +40,7 @@ void FSMEventsObserver::update() {
 
 	if (fsm->check_action) {
 		EventPackage* old_pack =  fsm->get_fsm_ev_pack();
-		if (scenario->action_is_possible()) {				//Esto debería estar implementado dentro the action is possible, deberia recibir y devolver un EventPackage
+		if (scenario->is_the_action_possible()) {				//Esto debería estar implementado dentro the action is possible, deberia recibir y devolver un EventPackage
 			EventPackage* new_ev_pack = new EventPackage();
 			*new_ev_pack = *old_pack;
 			if(old_pack->ev == Event::EXTERN_ACTION_REQUESTED)
