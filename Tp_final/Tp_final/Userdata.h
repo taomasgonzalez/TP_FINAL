@@ -19,23 +19,6 @@ enum class Character_id {
 	Player, Enemy
 };
 
-class NetworkData;
-class AllegroData;
-
-class Userdata
-{
-public:
-	Userdata();
-	~Userdata();
-
-	NetworkData my_network_data;
-	AllegroData my_allegro_data;
-	
-
-	
-};
-
-
 
 class NetworkData {
 
@@ -93,6 +76,19 @@ public:
 	//Worm 2 keys
 	static const unsigned int worm2KeySet[2];
 private:
+
+};
+
+class Userdata
+{
+public:
+	Userdata();
+	~Userdata();
+
+	NetworkData my_network_data;
+	AllegroData my_allegro_data;
+
+
 
 };
 

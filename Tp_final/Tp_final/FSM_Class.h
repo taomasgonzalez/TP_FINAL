@@ -90,9 +90,9 @@ private:
 
 	edge_t* Waiting_for_ACK_state = NULL;
 
-	EventPackage* ev_pack;
+	EventPackage* my_ev_pack;
 	
-	void check_for_incorrect_event(My_Event event);
+	void check_for_incorrect_event(Event_type event);
 	Userdata * my_user_data;
 	
 	void init_fsm_server();

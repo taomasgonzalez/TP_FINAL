@@ -1,5 +1,6 @@
 #pragma once
 #include "Userdata.h" //Data usage
+#include "FSM_Class.h"
 #include "Communication.h"
 #include "Allegroclass.h"
 #include "EventPackage.h"
@@ -12,7 +13,7 @@ class EventGenerator
 {
 public:
 
-	EventGenerator(Allegro * al, FSM * fsm,Userdata* data);
+	EventGenerator(Allegro * al, FSM * fsm, Userdata* data);
 	~EventGenerator();
 
 	friend class CommunicationEventsObserver;
@@ -40,7 +41,7 @@ protected:
 	Userdata * my_user_data;
 
 
-	static unsigned int time_out_count;
+	unsigned int time_out_count;
 
 private:
 

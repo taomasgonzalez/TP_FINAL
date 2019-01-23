@@ -1,6 +1,5 @@
 #pragma once
 #include "Observer.h"
-
 #include "Scene.h"
 
 
@@ -12,9 +11,6 @@ public:
 
 	//graphical_objects
 	void draw(Scene * scenario);
-
-
-private:
 
 	
 };

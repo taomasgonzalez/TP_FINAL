@@ -17,10 +17,10 @@ FSMCommunicationObserver::~FSMCommunicationObserver()
 
 void FSMCommunicationObserver::update() {
 
+/*     INNECESARIO, EL EVENTPACKAGE YA LLEGA CARGADO A LA FSM
+
 	EventPackage* my_event_info=this->fsm->get_fsm_ev_pack();
-	PackageInfo* my_package_info;
-
-
+	EventPackage* info_received;
 
 	//NAME
 	if (fsm->ask_name) {
@@ -93,9 +93,9 @@ void FSMCommunicationObserver::update() {
 		//tengo que guardar el nombre del wachin.
 
 
-	}
+	}*/
 
-	com->sendMessage(PackageFactory::event_package_2_package(my_package_info)); //add how to notify the game that an error happened within the communication
+	com->sendMessage(PackageFactory::event_package_2_package(this->fsm->get_fsm_ev_pack())); //add how to notify the game that an error happened within the communication
 
 
 }

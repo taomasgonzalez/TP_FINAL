@@ -21,7 +21,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::NAME_IS:
-		pac = new NAME_IS_package(((NAME_IS_EventPackage *)info_received)->give_me_your_name_length(), ((NAME_IS_EventPackage *)info_received)->give_me_your_name());
+		pac = new NAME_IS_package(((NAME_IS_EventPackage *)info_received)->get_name_lenght(), ((NAME_IS_EventPackage *)info_received)->give_me_your_name());
 		break;
 
 	case Event_type::MAP_IS:
@@ -32,23 +32,22 @@ PackageFactory::PackageFactory()
 		pac = new GAME_START_package();
 		break;
 
-	case Event_type::LOCAL_ACTION_ACCEPTED:
-		LOCAL_ACTION_ACCEPTED_EventPackage * info_to_be_send = (LOCAL_ACTION_ACCEPTED_EventPackage *)info_received;
-		if (info_to_be_send->give_me_the_move() == Action_type::Move)
-			pac = new MOVE_package(info_to_be_send->give_me_the_character(), info_to_be_send->give_me_the_fil_de(), info_to_be_send->give_me_the_col_de());
-		else
-			pac = new ATTACK_package(info_to_be_send->give_me_the_character(), info_to_be_send->give_me_the_fil_de(), info_to_be_send->give_me_the_col_de());
+	case Event_type::MOVE:
+			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_column());
 		break;
 
-	case Event_type::ACTION_REQUEST_ACCEPTED:
+	case Event_type::ATTACK:
+		pac = new ATTACK_package(((ATTACK_package *)info_received)->give_me_the_character(), ((ATTACK_package *)info_received)->give_me_the_destination_row(), ((ATTACK_package *)info_received)->give_me_the_destination_column());
 
-		pac = new ACTION_REQUEST_package(((ACTION_REQUEST_ACCEPTED_EventPackage *)info_to_be_send)->give_me_the_move(), ((ACTION_REQUEST_ACCEPTED_EventPackage *)info_to_be_send)->give_me_the_fil_de(), ((ACTION_REQUEST_ACCEPTED_EventPackage *)info_to_be_send)->give_me_the_col_de());
-		
 		break;
 
-	case Event_type::LOCAL_ENEMY_ACTION:
+	case Event_type::ACTION_REQUEST:
+		pac = new ACTION_REQUEST_package(((ACTION_REQUEST_package *)info_received)->give_me_the_action(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_column());		
+		break;
 
-		pac = new ENEMY_ACTION_package(((LOCAL_ENEMY_ACTION_EventPackage*)info_to_be_send)->give_me_the_monsterID(),((LOCAL_ENEMY_ACTION_EventPackage *)info_to_be_send)->give_me_the_action(), ((LOCAL_ENEMY_ACTION_EventPackage *)info_to_be_send)->give_me_the_destination_row(), ((LOCAL_ENEMY_ACTION_EventPackage *)info_to_be_send)->give_me_the_destination_column());
+	case Event_type::ENEMY_ACTION:
+
+		pac = new ENEMY_ACTION_package(((ENEMY_ACTION_EventPackage*)info_received)->give_me_the_monsterID(),((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_action(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_row(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_column());
 
 		break;
 
@@ -64,11 +63,11 @@ PackageFactory::PackageFactory()
 		pac = new GAME_OVER_package();
 		break;
 
-	case Event_type::LOCAL_ERROR:
+	case Event_type::ERROR1:
 		pac = new ERROR_package();
 		break;
 
-	case Event_type::LOCAL_QUIT:
+	case Event_type::QUIT:
 		pac = new QUIT_package();
 		break;
 

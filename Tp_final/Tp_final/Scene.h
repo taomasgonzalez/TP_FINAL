@@ -2,6 +2,7 @@
 #include "Userdata.h"
 #include "Allegroclass.h"
 #include "EventGenerator.h"
+#include "EventPackage.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "Observable.h"
