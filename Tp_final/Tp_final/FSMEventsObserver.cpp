@@ -38,7 +38,7 @@ void FSMEventsObserver::update() {
 		event_gen->soft_queue->empty();				
 	}
 
-	if (fsm->check_action) {
+	/*if (fsm->check_action) {  Ya se hace en ScenarioEventsObserver::update(), fijarse donde corresponde
 		EventPackage* old_pack =  fsm->get_fsm_ev_pack();
 		if (scenario->is_the_action_possible()) {				//Esto debería estar implementado dentro the action is possible, deberia recibir y devolver un EventPackage
 			EventPackage* new_ev_pack = new EventPackage();
@@ -53,14 +53,14 @@ void FSMEventsObserver::update() {
 		else{
 			/*esto en teoria es innecesario, pero lo hacemos para mayor claridad, 
 			para que pueda haber tanto eventos de tipo EXTERN_ACTION_ACCEPTED
-			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*/
+			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*//*
 			if (old_pack->ev == My_Event::EXTERN_ACTION_REQUESTED)
 				old_pack->ev = My_Event::EXTERN_ACTION_DENIED;
 			else if(old_pack->ev == My_Event::LOCAL_ACTION_REQUESTED)  //Esto implica que hubo un error, se debe manda ERROR
 				old_pack->ev = My_Event::LOCAL_ACTION_DENIED;
 
 			event_gen->append_new_soft_event(old_pack);
-		}
+		}*/
 	}
 
 	

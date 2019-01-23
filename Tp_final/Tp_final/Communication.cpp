@@ -232,7 +232,7 @@ Package * Communication::receiveMessage() {
 
 		case Package_type::MAP_IS:
 
-			package_received = new MAP_IS_package(&buf[1]);
+			package_received = new MAP_IS_package(&buf[1], buf[193]);
 
 			break;
 
@@ -296,7 +296,7 @@ Package * Communication::receiveMessage() {
 
 			break;
 
-		default:  //The program receiverd an unknown header package, thus it consider that the package is corrupted
+		default:  //The program received an unknown header package, thus it consider that the package is corrupted
 
 			this->healthy_connection = false; //Must generate a LOCAL_ERROR somewhere, maybe not here
 			break;

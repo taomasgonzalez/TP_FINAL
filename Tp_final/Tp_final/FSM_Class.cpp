@@ -29,6 +29,8 @@ void start_game_and_send_ack(void* data);
 void set_ack_time_out(void* data);
 void send_action_and_set_ack_time_out(void* data);
 void execute_receive_action_and_send_ack(void*data);
+void load_and_send_enemy_action(void*data); //to do
+void receive_name_and_send_ack(void*data);
 
 
 
@@ -45,8 +47,6 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 	else 
 		init_fsm_server();
 
-
-	this->ev_pack = new EventPackage();
 
 	waiting_for_ack = false;
 	reset_ack_timer = false;
@@ -338,7 +338,7 @@ void FSM::init_fsm_client() {
 */
 void FSM:: run_fsm(EventPackage * ev_pack)
 {
-	Event_type event1 = ev_pack->give_me_your_event_type;
+	Event_type event1 = ev_pack->give_me_your_event_type();
 	this->my_ev_pack = ev_pack;
 
 	while ((this->actual_state->event != event1) && (this->actual_state->event != Event_type::END_OF_TABLE))
@@ -553,6 +553,11 @@ void execute_receive_action_and_send_ack(void *data) {
 	fsm->notify_obs();
 	fsm->execute_action = false;
 	send_ack(data);
+
+}
+
+void load_and_send_enemy_action(void*data) {
+
 
 }
 

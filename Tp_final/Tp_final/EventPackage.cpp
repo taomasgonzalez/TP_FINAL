@@ -22,6 +22,7 @@ EventPackage::EventPackage(Event_type event,bool is_local)
 {
 	this->my_internal_event = event;
 	this->local_action = is_local;
+	this->my_internal_event = Event_type::NO_EVENT;
 
 }
 
@@ -290,7 +291,7 @@ START_COMMUNICATION_EventPackage::START_COMMUNICATION_EventPackage(bool is_local
 /**************************************************************
 		NO_EVENT_EventPackage CONSTRUCTOR
 **************************************************************/
-NO_EVENT_EventPackage::NO_EVENT_EventPackage() :EventPackage(Event_type::NO_EVENT) {
+NO_EVENT_EventPackage::NO_EVENT_EventPackage(bool is_local) :EventPackage(Event_type::NO_EVENT,is_local) {
 
 
 }
@@ -298,7 +299,7 @@ NO_EVENT_EventPackage::NO_EVENT_EventPackage() :EventPackage(Event_type::NO_EVEN
 /**************************************************************
 		END_OF_TABLE_EventPackage CONSTRUCTOR
 **************************************************************/
-END_OF_TABLE_EventPackage::END_OF_TABLE_EventPackage() :EventPackage(Event_type::END_OF_TABLE) {
+END_OF_TABLE_EventPackage::END_OF_TABLE_EventPackage(bool is_local) :EventPackage(Event_type::END_OF_TABLE, is_local) {
 
 
 }

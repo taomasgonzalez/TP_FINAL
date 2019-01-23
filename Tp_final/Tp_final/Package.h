@@ -97,7 +97,7 @@ private:
 class MAP_IS_package : public Package
 {
 public:
-	MAP_IS_package(const char * themap,char my_checksum);
+	MAP_IS_package(char * themap,char my_checksum);
 	char * give_me_the_map();
 	char give_me_the_checksum();
 

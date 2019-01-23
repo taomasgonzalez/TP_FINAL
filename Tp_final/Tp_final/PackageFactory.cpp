@@ -25,7 +25,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::MAP_IS:
-		pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map());
+		pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map(), ((MAP_IS_EventPackage *)info_received)->give_me_the_checksum());
 		break;
 
 	case Event_type::GAME_START:
@@ -104,11 +104,11 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::MOVE:  //soy cliente y me llega un MOVE del servidor
-		 my_event_package = new MOVE_EventPackage(false, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row, ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new MOVE_EventPackage(false, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row(), ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new ATTACK_EventPackage(false, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row, ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage(false, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente

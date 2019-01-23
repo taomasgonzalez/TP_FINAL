@@ -144,7 +144,7 @@ char * NAME_IS_package::give_me_your_name() {
 /**************************************************************
 			MAP_IS_PACKAGE_CONSTRUCTOR
 **************************************************************/
-MAP_IS_package::MAP_IS_package(const char * themap, char my_checksum) :Package(Package_type::MAP_IS) {
+MAP_IS_package::MAP_IS_package(char * themap, char my_checksum) :Package(Package_type::MAP_IS) {
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	this->map = new char[QBLOCKS];

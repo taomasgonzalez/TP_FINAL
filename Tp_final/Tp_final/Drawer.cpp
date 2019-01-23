@@ -1,5 +1,4 @@
 #include "Drawer.h"
-#include "Userdata.h"
 
 
 Drawer::Drawer()
@@ -29,7 +28,7 @@ void Drawer::draw(Scene * scenario) {
 	al_flip_display();*/
 
 }
- 
+
 /*void Drawer::draw_my_worm(Worm * actual_worm)
 {
 	uint tickCount = actual_worm->gettickCount();

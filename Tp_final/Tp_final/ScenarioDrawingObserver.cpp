@@ -15,7 +15,7 @@ ScenarioDrawingObserver::~ScenarioDrawingObserver()
 
 void ScenarioDrawingObserver::update() {
 
-	if(scenario->has_to_draw)
+	if(scenario->do_you_have_to_draw())
 		this->drawer->draw(scenario);
 }
 

@@ -48,9 +48,6 @@
     <ClCompile Include="Allegroclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Drawer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -144,12 +141,12 @@
     <ClCompile Include="ScenarioDrawingObserver.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="Drawer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Drawer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Userdata.h">
@@ -244,6 +241,9 @@
     </ClInclude>
     <ClInclude Include="ScenarioDrawingObserver.h">
       <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Drawer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

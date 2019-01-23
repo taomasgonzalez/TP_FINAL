@@ -18,7 +18,7 @@ void FSMSceneObserver::update() {
 		scenario->finish_game();
 	}
 	if (fsm->start_game) {
-		scenario->start_game();
+		scenario->gameInit();
 	}
 	if (fsm->execute_action) {
 		

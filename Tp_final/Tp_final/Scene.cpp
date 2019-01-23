@@ -63,7 +63,14 @@ bool Scene::should_the_action_be_checked()
 
 EventPackage * Scene::give_me_my_checked_package()
 {
+	//analizar y cambiar valid_action en los paquetes
+	
 	return this->package_to_be_appended;
+}
+
+bool Scene::do_you_have_to_draw() {
+
+	return this->has_to_draw;
 }
 
 

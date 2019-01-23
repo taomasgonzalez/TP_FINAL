@@ -26,6 +26,7 @@ public:
 	bool is_the_action_possible(EventPackage* package_to_be_analyze);
 	bool should_the_action_be_checked();
 	EventPackage* give_me_my_checked_package();
+	bool do_you_have_to_draw();
 
 private:
 
@@ -34,7 +35,7 @@ private:
 	std::vector<Snowball*> snowballs;
 	std::vector<Fireball*> fireballs;
 
-	Map map;
+	Map * map;
 
 	char original_map_distribution[192]; //loading the map is pending, reserve memory
 

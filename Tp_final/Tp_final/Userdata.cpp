@@ -51,11 +51,11 @@ void AllegroData::LoadWormImages() {
 Userdata::Userdata()
 {
 	for (int i = 0; i < 15; i++)
-		this->WormWalk[i] = NULL;
+		this->my_allegro_data.WormWalk[i] = NULL;
 	for (int i = 0; i < 10; i++)
-		this->WormJump[i] = NULL;
-	this->Background = NULL;
-	this->WindowsBackground = NULL;
+		this->my_allegro_data.WormJump[i] = NULL;
+	this->my_allegro_data.Background = NULL;
+	this->my_allegro_data.WindowsBackground = NULL;
 
 }
 
@@ -64,14 +64,14 @@ Userdata::Userdata()
 Userdata::~Userdata()
 {
 	for (int i = 0; i < 15; i++) {
-		al_destroy_bitmap(Userdata::WormWalk[i]);
+		al_destroy_bitmap(AllegroData::WormWalk[i]);
 	}
 
 	for (int i = 0; i < 10; i++) {
-		al_destroy_bitmap(Userdata::WormJump[i]);
+		al_destroy_bitmap(AllegroData::WormJump[i]);
 	}
 
-	al_destroy_bitmap(Userdata::Background);
-	al_destroy_bitmap(Userdata::WindowsBackground);
+	al_destroy_bitmap(AllegroData::Background);
+	al_destroy_bitmap(AllegroData::WindowsBackground);
 }
 

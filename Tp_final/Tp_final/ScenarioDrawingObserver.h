@@ -16,7 +16,7 @@ private:
 		EventHandler * my_event_handler;
 		Scene * scenario;
 		Drawer * drawer;
-	};
-
 };
+
+
 

@@ -1,7 +1,5 @@
 #pragma once
 #include "Package.h"
-#include "Scene.h"
-#include "Communication.h"
 #include <cstring>
 
 enum class Event_type  //Events that are use by the internal function of the program like during FSM
@@ -74,7 +72,7 @@ public:
 
 
 protected:
-	Event_type my_internal_event = Event_type::NO_EVENT; //why it has a by deafult value?
+	Event_type my_internal_event; //why it has a by deafult value?
 	bool valid_action; //analyzed by the program if it´s a valid action
 	bool local_action; 
 
@@ -295,7 +293,7 @@ private:
 class NO_EVENT_EventPackage : public EventPackage
 {
 public:
-	NO_EVENT_EventPackage();
+	NO_EVENT_EventPackage(bool is_local);
 
 private:
 
@@ -309,7 +307,7 @@ private:
 class END_OF_TABLE_EventPackage : public EventPackage
 {
 public:
-	END_OF_TABLE_EventPackage();
+	END_OF_TABLE_EventPackage(bool is_local);
 
 private:
 

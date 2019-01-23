@@ -9,7 +9,7 @@
 class EventsCommunicationObserver: public Observer
 {
 public:
-	EventsCommunicationObserver(EventGenerator * event_gen, Communication * com);
+	EventsCommunicationObserver(EventGenerator * event_gen, Communication * com, Userdata* data);
 	~EventsCommunicationObserver();
 
 	virtual void update();
@@ -17,5 +17,7 @@ public:
 private:
 	EventGenerator * event_gen;
 	Communication * com;
+	Userdata * my_user_data;
+
 };
 

@@ -1,9 +1,9 @@
 #pragma once
 #include "Observer.h"
 #include "Scene.h"
+#include "Userdata.h"
 
-
-class Drawer: 
+class Drawer
 {
 public:
 	Drawer();
@@ -11,7 +11,5 @@ public:
 
 	//graphical_objects
 	void draw(Scene * scenario);
-
-	
 };
 
