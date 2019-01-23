@@ -113,10 +113,8 @@ public:
 class MOVE_EventPackage : public EventPackage, public MOVE_package
 {
 public:
-	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de, Direction_type direction);
+	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
 
-private:
-	Direction_type my_direction;
 
 };
 
@@ -200,7 +198,7 @@ public:
 class MAP_IS_EventPackage : public EventPackage, public MAP_IS_package
 {
 public:
-	MAP_IS_EventPackage(bool is_local,  const char * themap);
+	MAP_IS_EventPackage(bool is_local,  const char * themap,char checksum);
 
 };
 

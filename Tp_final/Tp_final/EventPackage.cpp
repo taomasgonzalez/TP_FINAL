@@ -138,10 +138,9 @@ QUIT_EventPackage::QUIT_EventPackage(bool is_local) :EventPackage(Event_type::QU
 /**************************************************************
 			MOVE_EventPackage CONSTRUCTOR
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de, Direction_type direction)
+MOVE_EventPackage::MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de)
 	:EventPackage(Event_type::MOVE, is_local),MOVE_package(the_one_that_moves, fil_de, col_de) {
 
-	this->my_direction = direction;
 
 }
 
@@ -228,7 +227,7 @@ NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local , uchar namelenght, cha
 /**************************************************************
 			MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap){
+MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, char cheksum) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap,checksum){
 
 
 }

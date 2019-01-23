@@ -84,59 +84,59 @@ PackageFactory::PackageFactory()
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:
-		 my_event_package = new ACK_EventPackage();
+		 my_event_package = new ACK_EventPackage(false);
 		 break;
 
 	 case Package_type::NAME:
-		 my_event_package= new NAME_EventPackage();
+		 my_event_package= new NAME_EventPackage(false);
 		 break;
 
 	 case Package_type::NAME_IS:
-		 my_event_package = new EXTERN_NAME_IS_EventPackage(((NAME_IS_package *)package_recieved)->give_me_your_name());
+		 my_event_package = new NAME_IS_EventPackage(false,((NAME_IS_package *)package_recieved)->get_name_lenght(),((NAME_IS_package *)package_recieved)->give_me_your_name());
 		 break;
 
 	 case Package_type::MAP_IS:
-		 my_event_package = new MAP_IS_EventPackage(((MAP_IS_package *)package_recieved)->give_me_the_map());
+		 my_event_package = new MAP_IS_EventPackage(false,((MAP_IS_package *)package_recieved)->give_me_the_map(), ((MAP_IS_package *)package_recieved)->give_me_the_checksum());
 		 break;
 
 	 case Package_type::GAME_START:
-		 my_event_package = new GAME_START_EventPackage();
+		 my_event_package = new GAME_START_EventPackage(false);
 		 break;
 
 	 case Package_type::MOVE:  //soy cliente y me llega un MOVE del servidor
-		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Move, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row, ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new MOVE_EventPackage(false, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row, ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new EXTERN_ACTION_RECEIVED_EventPackage(Action_type::Attack, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row, ((ATTACK_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new ATTACK_EventPackage(false, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row, ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente
-		 my_event_package = new ACTION_REQUEST_RECIEVED_EventPackage( ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new ACTION_REQUEST_EventPackage(false, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ENEMY_ACTION:
-		 my_event_package = new EXTERN_ENEMY_ACTION_EventPackage(((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row, ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ENEMY_ACTION_EventPackage(false,((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row, ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::WE_WON:
-		 my_event_package = new WE_WON_EventPackage();
+		 my_event_package = new WE_WON_EventPackage(false);
 		 break;
 
 	 case Package_type::PLAY_AGAIN:
-		 my_event_package = new PLAY_AGAIN_EventPackage();
+		 my_event_package = new PLAY_AGAIN_EventPackage(false);
 		 break;
 
 	 case Package_type::GAME_OVER:
-		 my_event_package = new GAME_OVER_EventPackage();
+		 my_event_package = new GAME_OVER_EventPackage(false);
 		 break;
 
 	 case Package_type::ERROR1:
-		 my_event_package = new EXTERN_ERROR_EventPackage();
+		 my_event_package = new ERROR_EventPackage(false);
 		 break;
 
 	 case Package_type::QUIT:
-		 my_event_package = new EXTERN_QUIT_EventPackage();
+		 my_event_package = new QUIT_EventPackage(false);
 		 break;
 
 	 }
