@@ -4,7 +4,17 @@
 #include "general.h"
 #include "Resources.h"
 
+/*
+TO DO:
+-CONSTRUCTORES DE EVENTPACKAGES NUEVOS, VER NUEVOS EVENTOS
+-CHEQUEO GENERAL DEL FLUJO DEL PROGRAMA
+-FALTAN HACER ALGUNAS RUTINAS DE ACCIÓN
+-HACER LISTA DE IMPLEMENTACIONES QUE FALTAN
+-COMPLETAR ELEMENOS DE ESCENA LOGICOS Y UNIRLO CON LA PARTE GRÁFICA
+-HACER MENUES
+-VER DE IMPLEMENTAR WRAP DE ALLEGRO
 
+*/
 int main(void) {
 	
 	Resources* myResources = new Resources;		//Object that represents and allocs all the resources that are gonna be use

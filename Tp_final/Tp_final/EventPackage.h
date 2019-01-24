@@ -48,6 +48,9 @@ enum class Event_type  //Events that are use by the internal function of the pro
 	//PLAY_AGAIN
 	PLAY_AGAIN,
 
+	//FINISHED_LEVEL
+	FINISHED_LEVEL,
+
 	//GAME_OVER
 	GAME_OVER,
 

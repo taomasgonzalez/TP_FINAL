@@ -81,7 +81,10 @@ void Communication::Connecting_as_a_client(std::string host, Userdata * my_user_
 		std::cout << "Pasaron más de " << elapsedSeconds << " segundos." << std::endl;
 
 	if (error)
+	{
 		std::cout << "Error al intentar conectar como cliente" << std::endl;		//Debugging
+		my_user_data->my_network_data.set_client(false);
+	}
 	else
 		my_user_data->my_network_data.set_client(true);
 

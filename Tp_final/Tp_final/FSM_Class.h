@@ -89,6 +89,11 @@ private:
 
 	edge_t* Waiting_for_ACK_state = NULL;
 
+	edge_t* Waiting_if_the_client_wants_to_play_again = NULL;
+	edge_t* Waiting_if_the_server_wants_to_play_again = NULL;
+	edge_t* Waiting_if_the_user_wants_to_play_again = NULL;
+
+	
 	EventPackage* my_ev_pack;
 	
 	void check_for_incorrect_event(Event_type event);

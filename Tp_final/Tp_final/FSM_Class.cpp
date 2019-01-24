@@ -19,7 +19,7 @@ void check_action_request(void* data);
 void ask_for_name(void* data);
 void send_name_is(void* data);
 void send_ack_and_quit(void* data);
-void check_map_and_save(void* data);
+void check_map_and_save_send_ack(void* data);
 void send_enemy_action(void* data);
 void send_game_start(void* data);
 void finish_game(void * data);
@@ -33,6 +33,20 @@ void send_action_and_set_ack_time_out(void* data);
 void execute_receive_action_and_send_ack(void*data);
 void load_and_send_enemy_action(void*data); //to do
 void receive_name_and_send_ack(void*data);
+void send_next_map(void*data);  //to do
+void send_we_won(void*data); //to do
+void send_we_lost(void*data); //to do
+void analyze_we_won(void*data); //to do
+void analyze_we_lost(void*data); //to do
+void ask_user_and_send_decition(void*data); //to do
+void tell_user_send_ack_and_finish_game(void*data); //to do
+void send_game_over(void*data); //to do
+void tell_user_and_send_ack(void*data); //to do
+void send_play_again(void*data); //to do
+void ask_the_user_if_wants_to_play_again(void*data); //to do
+
+
+
 
 void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length);
 
@@ -82,16 +96,16 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 
 void FSM::init_fsm_server(){
 
-	edge_t * Initial_state_aux = new edge_t[6];
-	this->Initial_state = Initial_state_aux;
+	this->Initial_state = new edge_t[4];   //Prueba, compila, si corre bien poner todo asi, más sencillo, evitas llamar a la función copypaste
+	//this->Initial_state = Initial_state_aux;
 
-	edge_t * Naming_him_state_aux = new edge_t[6];
+	edge_t * Naming_him_state_aux = new edge_t[4];
 	this->Naming_him_state = Naming_him_state_aux;
 
-	edge_t* Naming_me_state_aux = new edge_t[6];
+	edge_t* Naming_me_state_aux = new edge_t[4];
 	this->Naming_me_state = Naming_me_state_aux;
 
-	edge_t * Waiting_for_ACK_name_state_aux = new edge_t[6];
+	edge_t * Waiting_for_ACK_name_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_name_state = Waiting_for_ACK_name_state_aux;
 
 	edge_t * Waiting_for_ACK_state_aux = new edge_t[4];
@@ -100,64 +114,70 @@ void FSM::init_fsm_server(){
 	edge_t * Waiting_for_ACK_quit_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_quit_state = Waiting_for_ACK_quit_state_aux;
 
-	edge_t* Waiting_for_ACK_map_state_aux = new edge_t [6];
+	edge_t* Waiting_for_ACK_map_state_aux = new edge_t [4];
 	this->Waiting_for_ACK_map_state = Waiting_for_ACK_map_state_aux;
 
-	edge_t* Waiting_for_ACK_enemy_actions_state_aux = new edge_t[7];
+	edge_t* Waiting_for_ACK_enemy_actions_state_aux = new edge_t[5];
 	this->Waiting_for_ACK_enemy_actions_state = Waiting_for_ACK_enemy_actions_state_aux;
 
-	edge_t * Playing_state_aux = new edge_t[11];
-	this->Playing_state = Playing_state_aux;
-
-	edge_t* Waiting_for_ACK_game_start_state_aux = new edge_t[6];
+	edge_t* Waiting_for_ACK_game_start_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_game_start_state = Waiting_for_ACK_game_start_state_aux;
 
-	edge_t Initial_state[6] =
+	edge_t * Playing_state_aux = new edge_t[9];
+	this->Playing_state = Playing_state_aux;
+
+	edge_t * Waiting_if_the_client_wants_to_play_again_aux = new edge_t[6];
+	this->Waiting_if_the_client_wants_to_play_again = Waiting_if_the_client_wants_to_play_again_aux;
+
+	edge_t * Waiting_if_the_user_wants_to_play_again_aux = new edge_t[6];
+	this->Waiting_if_the_user_wants_to_play_again = Waiting_if_the_user_wants_to_play_again_aux;
+
+	edge_t Initial_state[4] =
 	{
 	{ Event_type::START_COMMUNICATION, this->Naming_him_state, ask_for_name },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Initial_state, do_nothing }
 	};
-	copy_event(Initial_state_aux, Initial_state, 6);
+	//copy_event(Initial_state_aux, Initial_state, 4);
 
-	edge_t Naming_him_state[6] =
+	edge_t Naming_him_state[4] =
 	{
 	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Naming_him_state, do_nothing }
 	};
-	copy_event(Naming_him_state_aux, Naming_him_state, 6);
+	copy_event(Naming_him_state_aux, Naming_him_state, 4);
 
-	edge_t Naming_me_state[6] =
+	edge_t Naming_me_state[4] =
 	{
-	{ Event_type::NAME, this->Waiting_for_ACK_map_state, send_name_is }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::NAME, this->Waiting_for_ACK_name_state, send_name_is }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Naming_me_state, do_nothing }
 	};
-	copy_event(Naming_me_state_aux, Naming_me_state, 6);
+	copy_event(Naming_me_state_aux, Naming_me_state, 4);
 
-	edge_t  Waiting_for_ACK_name_state[6] =
+	edge_t  Waiting_for_ACK_name_state[4] =
 	{
 	{ Event_type::ACK, this->Waiting_for_ACK_map_state, send_map_is },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_name_state, do_nothing }
 	};
-	copy_event(Waiting_for_ACK_name_state_aux, Waiting_for_ACK_name_state, 6);
+	copy_event(Waiting_for_ACK_name_state_aux, Waiting_for_ACK_name_state, 4);
 
-	edge_t Waiting_for_ACK_map_state[6] =
+	edge_t Waiting_for_ACK_map_state[4] =
 	{
 	{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_map_state, do_nothing }
 	};
-	copy_event(Waiting_for_ACK_map_state_aux, Waiting_for_ACK_map_state, 6);
+	copy_event(Waiting_for_ACK_map_state_aux, Waiting_for_ACK_map_state, 4);
 
-	edge_t Waiting_for_ACK_enemy_actions_state[7] =
+	edge_t Waiting_for_ACK_enemy_actions_state[5] =
 	{
 	{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state, send_enemy_action },
 	{ Event_type::ENEMYS_LOADED, this->Waiting_for_ACK_game_start_state, send_game_start},
@@ -166,9 +186,9 @@ void FSM::init_fsm_server(){
 	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_enemy_actions_state, do_nothing }
 	};
 
-	copy_event(Waiting_for_ACK_enemy_actions_state_aux, Waiting_for_ACK_enemy_actions_state, 7);
+	copy_event(Waiting_for_ACK_enemy_actions_state_aux, Waiting_for_ACK_enemy_actions_state, 5);
 
-	edge_t Waiting_for_ACK_game_start_state[6] =
+	edge_t Waiting_for_ACK_game_start_state[4] =
 	{
 	{ Event_type::ACK, this->Playing_state, do_nothing },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
@@ -176,19 +196,47 @@ void FSM::init_fsm_server(){
 	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_game_start_state, do_nothing }
 	};
 
-	copy_event(Waiting_for_ACK_game_start_state_aux, Waiting_for_ACK_game_start_state, 6);
+	copy_event(Waiting_for_ACK_game_start_state_aux, Waiting_for_ACK_game_start_state, 4);
 
-	edge_t Playing_state[11] =
-	{
+	edge_t Playing_state[9] =
+	{ 
 	{ Event_type::ENEMY_ACTION, this->Playing_state, load_and_send_enemy_action},
 	{ Event_type::MOVE, this->Playing_state, analyze_move},
 	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_next_map},
+	{ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won},
+	{ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost},
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
-	copy_event(Playing_state_aux, Playing_state, 11);
+	copy_event(Playing_state_aux, Playing_state, 9);
+
+	edge_t Waiting_if_the_client_wants_to_play_again[6] =
+	{
+	{ Event_type::PLAY_AGAIN, this->Waiting_if_the_user_wants_to_play_again, ask_user_and_send_decition},
+	{ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game},
+	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
+	};
+
+	copy_event(Waiting_if_the_client_wants_to_play_again_aux, Waiting_if_the_client_wants_to_play_again, 6);
+
+	edge_t Waiting_if_the_user_wants_to_play_again[6] =
+	{
+	{ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is},
+	{ Event_type::GAME_OVER, NULL, send_game_over},
+	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
+	};
+
+	copy_event(Waiting_if_the_user_wants_to_play_again_aux, Waiting_if_the_user_wants_to_play_again, 6);
+
 
 	edge_t Waiting_for_ACK_quit_state[4] =
 	{
@@ -211,111 +259,134 @@ FSM_CLIENT CONSTRCUTOR
 ******************************************************************************/
 void FSM::init_fsm_client() {
 
-	edge_t * Initial_state_aux = new edge_t[6];
+	edge_t * Initial_state_aux = new edge_t[4];
 	this->Initial_state = Initial_state_aux;
 
-	edge_t * Naming_him_state_aux = new edge_t[6];
+	edge_t* Naming_me_state_aux = new edge_t[4];
+	this->Naming_me_state = Naming_me_state_aux;
+
+	edge_t * Naming_him_state_aux = new edge_t[4];
 	this->Naming_him_state = Naming_him_state_aux;
 
-	edge_t* Naming_me_state_aux = new edge_t[6];
-	this->Naming_me_state = Naming_me_state_aux;
+	edge_t* Waiting_for_map_state_aux = new edge_t[4];
+	this->Waiting_for_map_state = Waiting_for_map_state_aux;
+
+	edge_t* Waiting_for_enemy_actions_state_aux = new edge_t[5];
+	this->Waiting_for_enemy_actions_state = Waiting_for_enemy_actions_state_aux;
 
 	edge_t * Waiting_for_ACK_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_state = Waiting_for_ACK_state_aux;
 
+	edge_t * Playing_state_aux = new edge_t[9];
+	this->Playing_state = Playing_state_aux;
+
 	edge_t * Waiting_for_ACK_quit_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_quit_state = Waiting_for_ACK_quit_state_aux;
 
-	edge_t* Waiting_for_map_state_aux = new edge_t[7];
-	this->Waiting_for_map_state = Waiting_for_map_state_aux;
+	edge_t * Waiting_if_the_server_wants_to_play_again_aux = new edge_t[6];
+	this->Waiting_if_the_server_wants_to_play_again = Waiting_if_the_server_wants_to_play_again_aux;
 
-	edge_t* Waiting_for_enemy_actions_state_aux = new edge_t[7];
-	this->Waiting_for_enemy_actions_state = Waiting_for_enemy_actions_state_aux;
+	edge_t * Waiting_if_the_user_wants_to_play_again_aux = new edge_t[6];
+	this->Waiting_if_the_user_wants_to_play_again = Waiting_if_the_user_wants_to_play_again_aux;
 
-	edge_t * Playing_state_aux = new edge_t[7];
-	this->Playing_state = Playing_state_aux;
-
-	edge_t* Waiting_for_game_start_state_aux = new edge_t[6];
-	this->Waiting_for_game_start_state = Waiting_for_game_start_state_aux;
-
-	edge_t Initial_state[6] =
+	edge_t Initial_state[4] =
 	{
 	{ Event_type::NAME, this->Naming_me_state,  send_name_is},
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Initial_state, do_nothing }
 	};
-	copy_event(Initial_state_aux, Initial_state, 6);
+	copy_event(Initial_state_aux, Initial_state, 4);
 
-	edge_t Naming_me_state[6] =
+	edge_t Naming_me_state[4] =
 	{
 	{ Event_type::ACK, this->Naming_him_state, ask_for_name }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Naming_me_state, do_nothing }
 	};
-	copy_event(Naming_me_state_aux, Naming_me_state, 6);
+	copy_event(Naming_me_state_aux, Naming_me_state, 4);
 
-	edge_t Naming_him_state[6] =
+	edge_t Naming_him_state[4] =
 	{
-	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::NAME_IS, this->Waiting_for_map_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Naming_him_state, do_nothing }
 	};
-	copy_event(Naming_him_state_aux, Naming_him_state, 6);
+	copy_event(Naming_him_state_aux, Naming_him_state, 4);
 
-	edge_t  Waiting_for_map_state[7] =
+	edge_t  Waiting_for_map_state[4] =
 	{
-	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save },
+	{ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Waiting_for_map_state, do_nothing }
 	};
-	copy_event(Waiting_for_map_state_aux, Waiting_for_map_state, 7);
+	copy_event(Waiting_for_map_state_aux, Waiting_for_map_state, 4);
 
 
-	edge_t Waiting_for_enemy_actions_state[7] =
+	edge_t Waiting_for_enemy_actions_state[5] =
 	{
 	{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
+	{ Event_type::GAME_START, this->Playing_state, start_game_and_send_ack },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Waiting_for_enemy_actions_state, do_nothing }
 	};
 
-	copy_event(Waiting_for_enemy_actions_state_aux, Waiting_for_enemy_actions_state, 7);
+	copy_event(Waiting_for_enemy_actions_state_aux, Waiting_for_enemy_actions_state, 5);
 
-	edge_t Waiting_for_game_start_state[6] =
-	{
-	{ Event_type::GAME_START, this->Playing_state, start_game_and_send_ack },
-	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
-	{ Event_type::ERROR1, NULL, analayze_error },
-	{ Event_type::END_OF_TABLE, this->Waiting_for_game_start_state, do_nothing }
-	};
 
-	copy_event(Waiting_for_game_start_state_aux, Waiting_for_game_start_state, 6);
-
-	edge_t Playing_state[7] =
+	edge_t Playing_state[9] =
 	{
 	{ Event_type::ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
 	{ Event_type::MOVE, this->Playing_state, analyze_move},
 	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save_send_ack }, //next level
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::WE_WON, this->Waiting_if_the_user_wants_to_play_again, analyze_we_won},
+	{ Event_type::GAME_OVER, this->Waiting_if_the_user_wants_to_play_again, analyze_we_lost},
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
-	copy_event(Playing_state_aux, Playing_state, 7);
+	copy_event(Playing_state_aux, Playing_state, 9);
+
+	edge_t Waiting_if_the_user_wants_to_play_again[6] =
+	{
+	{ Event_type::PLAY_AGAIN, this->Waiting_if_the_server_wants_to_play_again, send_play_again},
+	{ Event_type::GAME_OVER, this->Waiting_if_the_server_wants_to_play_again, send_game_over}, //wait for server´s ACK
+	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::END_OF_TABLE, this->Waiting_if_the_user_wants_to_play_again, do_nothing }
+	};
+
+	copy_event(Waiting_if_the_user_wants_to_play_again_aux, Waiting_if_the_user_wants_to_play_again, 6);
+	
+	
+	edge_t Waiting_if_the_server_wants_to_play_again[6] =
+	{
+	{ Event_type::ACK, NULL, finish_game },  //ack of my game over
+	{ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack}, ////server does want to play again
+	{ Event_type::GAME_OVER, NULL, tell_user_and_send_ack},  //server doesnt want to play again
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
+	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::END_OF_TABLE, this->Waiting_if_the_server_wants_to_play_again, do_nothing }
+	};
+
+	copy_event(Waiting_if_the_server_wants_to_play_again_aux, Waiting_if_the_server_wants_to_play_again, 6);
 
 	edge_t Waiting_for_ACK_quit_state[4] =
 	{
 	{ Event_type::ACK, NULL, finish_game },
-	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
+	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_state, do_nothing }
 	};
 
-	copy_event(Waiting_for_ACK_quit_state_aux, Waiting_for_ACK_quit_state, 4);
+	copy_event(Waiting_for_ACK_quit_state_aux, Waiting_for_ACK_quit_state, 3);
 
 	this->actual_state = this->Initial_state;
 
@@ -474,7 +545,7 @@ void ask_for_name(void* data) {
 	fsm->notify_obs();
 	fsm->ask_name = false;
 }
-void check_map_and_save(void*data) {
+void check_map_and_save_send_ack(void*data) {
 
 	send_ack(data);
 }
@@ -616,6 +687,44 @@ void receive_name_and_send_ack(void*data) {
 	send_ack(data);
 }
 
+void send_next_map(void*data) {  //to do
+
+}
+
+void send_we_won(void*data) {
+
+}
+void send_we_lost(void*data) {
+}
+void analyze_we_won(void*data) {
+
+
+
+	ask_the_user_if_wants_to_play_again(data);
+}
+void analyze_we_lost(void*data) {
+
+
+	ask_the_user_if_wants_to_play_again(data);
+
+}
+
+void ask_the_user_if_wants_to_play_again(void*data) {
+
+}
+
+void ask_user_and_send_decition(void*data) {
+}
+void tell_user_send_ack_and_finish_game(void*data) {
+}
+void send_game_over(void*data) {
+}
+void tell_user_and_send_ack(void*data) {
+
+}
+void send_play_again(void*data) {
+
+}
 void load_and_send_enemy_action(void*data){
 	load_enemy_action(data);
 	send_enemy_action(data);
