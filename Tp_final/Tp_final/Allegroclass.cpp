@@ -30,7 +30,7 @@ bool Allegro::Init(Userdata& Userdata) {
 					if ((Userdata.my_allegro_data.Background = al_create_bitmap(this->SCREEN_W, this->SCREEN_H))&&(Userdata.my_allegro_data.WindowsBackground = al_create_bitmap(this->SCREEN_W, this->SCREEN_H))) {
 						if (this->al_queue = al_create_event_queue()) {
 							if(this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()){
-										if ((Userdata.my_allegro_data.Background = al_load_bitmap("Scenario.png"))&&(Userdata.my_allegro_data.WindowsBackground = al_load_bitmap("stars.png"))) {
+										if ((Userdata.my_allegro_data.Background = al_load_bitmap("Backgrounds/Scenario.png"))&&(Userdata.my_allegro_data.WindowsBackground = al_load_bitmap("Backgrounds/stars.png"))) {
 											ret = true;
 											al_draw_bitmap(Userdata.my_allegro_data.Background, 0, 0, NULL);
 											al_draw_bitmap(Userdata.my_allegro_data.WindowsBackground, 0, 0, NULL);

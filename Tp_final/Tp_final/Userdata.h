@@ -6,7 +6,6 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
-#define JUMP_MUSIC "Super Mario Bros - Jump Sound Effect.wav"
 
 enum class Direction_type
 {

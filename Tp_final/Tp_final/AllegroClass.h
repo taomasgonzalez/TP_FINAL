@@ -1,14 +1,17 @@
 #pragma once
 
-#include "allegro5\allegro.h"
-#include "allegro5\allegro_image.h"
-#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro5.h> 
+#include <allegro5/allegro.h>
+#include <allegro5/allegro_color.h> 
+#include <allegro5/allegro_primitives.h> 
+#include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_acodec.h>
+#include <allegro5/allegro_audio.h>
 
 #include "Userdata.h"
 #include <queue>
-#define BACKGROUND_MUSIC "Super Mario Bros Soundtrack.wav"
-#define JUMP_MUSIC "Super Mario Bros - Jump Sound Effect.wav"
+#define BACKGROUND_MUSIC "Soundtracks/Super Mario Bros Soundtrack.wav"
+#define JUMP_MUSIC "Soundtracks/Super Mario Bros - Jump Sound Effect.wav"
 
 class Allegro
 {
