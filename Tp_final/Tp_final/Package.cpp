@@ -116,7 +116,7 @@ NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Pack
 
 	this->count = namelenght;
 	this->Name = new char[namelenght];
-	strcpy_s(this->Name, newname);
+	memcpy(this->Name, newname, (size_t)namelenght);
 	this->info_length = 2 + this->count;
 
 }
@@ -149,7 +149,7 @@ MAP_IS_package::MAP_IS_package(char * themap, char my_checksum) :Package(Package
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	this->map = new char[QBLOCKS];
 	this->Checksum = my_checksum;
-	strcpy_s(this->map, themap);
+	memcpy(this->map, themap, (size_t)QBLOCKS);
 	this->info_length = 2 + QBLOCKS;
 
 }

@@ -8,6 +8,10 @@ MapThing::MapThing(unsigned int id)
 }
 
 
+MapThing::MapThing()
+{
+}
+
 MapThing::~MapThing()
 {
 }

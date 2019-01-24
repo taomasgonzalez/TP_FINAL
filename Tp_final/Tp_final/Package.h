@@ -1,8 +1,8 @@
 #pragma once
 extern "C" {
 #include <stdint.h> 
+#include <cstring>
 }
-#include <string.h>
 #include "Userdata.h"
 
 typedef unsigned int uint;

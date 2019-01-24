@@ -196,7 +196,7 @@ public:
 class MAP_IS_EventPackage : public EventPackage, public MAP_IS_package
 {
 public:
-	MAP_IS_EventPackage(bool is_local,  const char * themap,char checksum);
+	MAP_IS_EventPackage(bool is_local, char * themap,char checksum);
 
 };
 

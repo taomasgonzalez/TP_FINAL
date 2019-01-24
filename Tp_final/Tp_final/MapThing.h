@@ -3,6 +3,8 @@ class MapThing
 {
 public:
 	MapThing(unsigned int id);
+	MapThing(); // para que compile
+
 	~MapThing();
 	
 	virtual bool is_proyectile();

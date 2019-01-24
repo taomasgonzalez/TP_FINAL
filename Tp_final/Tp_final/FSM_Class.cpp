@@ -2,7 +2,7 @@
                       INCLUDED HEADERS a
 ******************************************************************************/
 #include "FSM_Class.h"
-void copy_event(edge_t to_copy[], edge_t to_be_copied[], int length);
+
 
 void do_nothing(void * data);//Dummy for the debugging of the protocol structure
 void send_map_is(void * data);
@@ -13,6 +13,7 @@ void send_quit(void * data);
 void analyze_move(void* data);
 void analyze_attack(void* data);
 void analayze_quit(void*data);
+void analayze_error(void*data);
 void load_enemy_action(void* data);
 void check_action_request(void* data);
 void ask_for_name(void* data);
@@ -25,6 +26,7 @@ void finish_game(void * data);
 void send_error_and_finish_game(void* data);
 void check_sum_and_send_ack(void* data);
 void load_action_and_send_ack(void* data);
+void execute_send_action_and_set_ack_time_out(void* data);
 void start_game_and_send_ack(void* data);
 void set_ack_time_out(void* data);
 void send_action_and_set_ack_time_out(void* data);
@@ -32,6 +34,7 @@ void execute_receive_action_and_send_ack(void*data);
 void load_and_send_enemy_action(void*data); //to do
 void receive_name_and_send_ack(void*data);
 
+void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length);
 
 
 /*******************************************************************************
@@ -346,7 +349,7 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		this->actual_state++;
 	}
 
-	//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s
+	//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
 	//if (this->actual_state->event == My_Event::END_OF_TABLE) 
 	//	this->check_for_incorrect_event(event1);			
 
@@ -393,7 +396,7 @@ void send_name_is(void* data ) {
 void analayze_quit(void*data)
 {
 	FSM * fsm = (FSM*)data;
-	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 		send_quit(data);
 	else
 		send_ack_and_quit(data);
@@ -417,7 +420,7 @@ void analayze_quit(void*data)
  void analayze_error(void*data)
  {
 	 FSM * fsm = (FSM*)data;
-	 if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	 if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 		 send_error_and_finish_game(data);
 	 else
 		 finish_game(data);
@@ -508,7 +511,8 @@ void send_map_is(void * data) {
 	fsm->s_map_is = false;
 	set_ack_time_out(data);
 }
-void copy_event(edge_t* to_copy, edge_t to_be_copied[], int length) {
+
+void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length) {
 	for (int i = 0; i < length; i++)
 	{
 		to_copy[i].event = to_be_copied[i].event;
@@ -518,14 +522,14 @@ void copy_event(edge_t* to_copy, edge_t to_be_copied[], int length) {
 }
 
 EventPackage* FSM::get_fsm_ev_pack() {
-	return this->ev_pack;
+	return this->my_ev_pack;
 }
 
 void analyze_move(void* data) {
 
 	FSM * fsm = (FSM*)data;
 
-	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 	{
 		execute_send_action_and_set_ack_time_out(data);
 	}
@@ -538,7 +542,7 @@ void analyze_attack(void* data) {
 
 	FSM * fsm = (FSM*)data;
 
-	if (fsm->get_fsm_ev_pack->is_this_a_local_action())
+	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 	{
 		execute_send_action_and_set_ack_time_out(data);
 	}
@@ -556,10 +560,7 @@ void execute_receive_action_and_send_ack(void *data) {
 
 }
 
-void load_and_send_enemy_action(void*data) {
 
-
-}
 
 void check_action_request(void* data) {
 	FSM* fsm = (FSM*)data;

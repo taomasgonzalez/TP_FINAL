@@ -4,7 +4,6 @@
 ******************************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
-#include "EventGenerator.h"
 #include "Observable.h"
 #include "EventPackage.h"
 

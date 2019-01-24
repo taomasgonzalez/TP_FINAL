@@ -228,7 +228,7 @@ NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local , uchar namelenght, cha
 /**************************************************************
 			MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, char cheksum) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap,checksum){
+MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  char * themap, char checksum) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap,checksum){
 
 
 }

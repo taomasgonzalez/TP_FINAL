@@ -33,7 +33,7 @@ bool Resources::Intialize_all_the_resources() {
 	}
 
 	this->my_fsm = new FSM(this->my_user_data);
-	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_fsm);
+	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_fsm,this->my_user_data);
 
 	this->add_all_observers();
 

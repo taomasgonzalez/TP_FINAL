@@ -112,11 +112,11 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente
-		 my_event_package = new ACTION_REQUEST_EventPackage(false, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new ACTION_REQUEST_EventPackage(false, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ENEMY_ACTION:
-		 my_event_package = new ENEMY_ACTION_EventPackage(false,((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row, ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ENEMY_ACTION_EventPackage(false,((ENEMY_ACTION_package *)package_recieved)->give_me_the_monsterID(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::WE_WON:
