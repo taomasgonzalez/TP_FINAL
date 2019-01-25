@@ -7,8 +7,8 @@
 void do_nothing(void * data);//Dummy for the debugging of the protocol structure
 
 //analyze
-void analyze_move(void* data);
-void analyze_attack(void* data);
+void analyze_action_being_server(void* data);
+void analyze_action_being_client(void* data);
 void analayze_quit(void*data);
 void analayze_error(void*data);
 void analyze_we_won(void*data); //to do
@@ -39,7 +39,7 @@ void ask_the_user_if_wants_to_play_again(void*data); //to do
 
 //execute
 void execute_receive_action_and_send_ack(void*data);
-void execute_send_action_and_set_ack_time_out(void* data);
+void execute_action_send_action_request_and_set_ack_time_out(void* data);
 
 //mapping
 void check_map_and_save_send_ack(void* data);
@@ -78,22 +78,25 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 	else 
 		init_fsm_server();
 
-
-	waiting_for_ack = false;
-	reset_ack_timer = false;
-	new_ack_time_out = false;
-
-	ask_name = false;
+	//sending flags
 	s_quit = false;
 	s_ack = false;
 	s_name_is = false;
 	s_error = false;
 	s_map_is = false;
-	end_game = false;
 	s_game_start = false;
 	s_enemy_action = false;
 	s_action_request = false;
 	s_action = false;
+
+	//timer flags
+	waiting_for_ack = false;
+	reset_ack_timer = false;
+	new_ack_time_out = false;
+
+	//others
+	ask_name = false;
+	end_game = false;
 	start_game = false;
 	check_action = false;
 	execute_action = false;
@@ -356,8 +359,8 @@ void FSM::init_fsm_client() {
 	edge_t Playing_state[9] =
 	{
 	{ Event_type::ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
-	{ Event_type::MOVE, this->Playing_state, analyze_move},
-	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::MOVE, this->Playing_state, analyze_action_being_client},
+	{ Event_type::ATTACK, this->Playing_state, analyze_action_being_client},
 	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save_send_ack }, //next level
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::WE_WON, this->Waiting_if_the_user_wants_to_play_again, analyze_we_won},
@@ -616,30 +619,32 @@ void FSM::load_fsm_ev_pack(EventPackage* event_package_to_be_loaded) {
 }
 
 
-void analyze_move(void* data) {
+void analyze_action_being_server(void* data) { //to do
 
 	FSM * fsm = (FSM*)data;
 
 	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 	{
-		execute_send_action_and_set_ack_time_out(data);
+		execute_action_send_action_request_and_set_ack_time_out(data);
 	}
 	else
 		execute_receive_action_and_send_ack(data);
 
 }
 
-void analyze_attack(void* data) {
+void analyze_action_being_client(void* data) {
 
 	FSM * fsm = (FSM*)data;
 
 	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 	{
-		execute_send_action_and_set_ack_time_out(data);
+		execute_action_send_action_request_and_set_ack_time_out(data);
 	}
 	else
 		execute_receive_action_and_send_ack(data);
+
 }
+
 
 void execute_receive_action_and_send_ack(void *data) {
 
@@ -649,6 +654,18 @@ void execute_receive_action_and_send_ack(void *data) {
 	fsm->execute_action = false;
 	send_ack(data);
 
+}
+void execute_action_send_action_request_and_set_ack_time_out(void* data) {
+
+	FSM* fsm = (FSM*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	fsm->s_action_request = true;
+	fsm->notify_obs();
+	fsm->s_action_request = false;
+
+	set_ack_time_out(data);
 }
 
 
@@ -670,18 +687,6 @@ void send_action_and_set_ack_time_out(void* data){
 	set_ack_time_out(data);
 }
 
-void execute_send_action_and_set_ack_time_out(void* data) {
-
-	FSM* fsm = (FSM*)data;
-	fsm->execute_action = true;
-	fsm->notify_obs();
-	fsm->execute_action = false;
-	fsm->s_action = true;
-	fsm->notify_obs();
-	fsm->s_action = false;
-
-	set_ack_time_out(data);
-}
 void execute_action_and_send_ack(void* data) {
 	FSM* fsm = (FSM*)data;
 	fsm->execute_action = true;

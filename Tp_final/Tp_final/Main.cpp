@@ -13,6 +13,7 @@ TO DO:
 -HACER MENUES
 -VER DE IMPLEMENTAR WRAP DE ALLEGRO
 -Scene::is_the_action_possible(PAcakge *) analiza el paquete que llega por netwoking a ver si es válido
+-Chequeo de movimiento posible dentro de model allegro, cuando se genera el allegro event (ver implementaciones en otros tps)
 */
 int main(void) {
 	

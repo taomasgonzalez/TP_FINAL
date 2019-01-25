@@ -26,7 +26,7 @@ void EventsCommunicationObserver::update() {
 			if (this->my_scenario->is_the_action_possible(new_pack)) //chequeo para paquetes de networking
 				event_gen->append_new_net_event(PackageFactory::package_2_event_package(new_pack));
 			else
-				event_gen->append_new_net_event(PackageFactory::package_2_event_package(new ERROR_package)); //no es un jugada válida
+				event_gen->append_new_net_event(PackageFactory::package_2_event_package(new ERROR_package)); //no es un jugada válida, se carga error en vez de la jugada recibida
 
 		}
 	}

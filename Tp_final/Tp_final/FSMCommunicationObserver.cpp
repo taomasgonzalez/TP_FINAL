@@ -70,7 +70,7 @@ void FSMCommunicationObserver::update() {
 	}
 
 	if (fsm->s_action) {
-		//tengo que mandar una action(MOVE/ATTACK) !! (esta todo guardado en fsm->get_ev_pack())
+		//tengo que mandar una action(MOVE/ATTACK) si soy servidor  (esta todo guardado en fsm->get_ev_pack())
 		info_to_be_send =  fsm->get_fsm_ev_pack();
 
 	}
@@ -82,6 +82,7 @@ void FSMCommunicationObserver::update() {
 	}
 	if (fsm->s_action_request) {
 		//tengo que andar un action request!! (esta todo guardado en fsm->get_ev_pack())
+
 		info_to_be_send = new PackageInfo(Package_type::ACTION_REQUEST, this->scenario, this->com, my_event_info);
 
 
