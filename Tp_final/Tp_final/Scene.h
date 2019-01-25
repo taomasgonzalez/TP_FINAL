@@ -17,32 +17,33 @@ public:
 	void gameInit();
 
 	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
-	char * give_me_the_original_map();
+	void load_maps();
 
+	bool should_init();
 	bool game_is_finished();
 	void finish_game();
-	bool should_init;
 	//void start_game();
-	bool is_the_action_possible(EventPackage* package_to_be_analyze);
+	bool is_the_action_possible(Package* package_to_be_analyze);
 	bool should_the_action_be_checked();
-	EventPackage* give_me_my_checked_package();
+	Package* give_me_my_checked_package();
 	bool do_you_have_to_draw();
 
+	std::vector <Map*> maps;
+	//std::vector<Map*>::iterator actual_map;
+	unsigned int actual_map;
 private:
 
-	std::vector <Enemy*> enemies;
 	std::vector <Player*> players;
-	std::vector<Snowball*> snowballs;
-	std::vector<Fireball*> fireballs;
 
-	Map * map;
 
-	char original_map_distribution[192]; //loading the map is pending, reserve memory
 
-	bool game_finished=false;
+
+
+	bool game_started;
+	bool game_finished;
 	bool check_action;		//see where this flag is turn on or off
 	bool has_to_draw;
-	EventPackage* package_to_be_appended;
+	Package* package_to_be_appended;
 
 };
 

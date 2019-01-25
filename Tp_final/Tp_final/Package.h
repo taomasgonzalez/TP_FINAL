@@ -78,7 +78,7 @@ private:
 class NAME_IS_package : public Package
 {
 public:
-	NAME_IS_package(uchar namelenght, char * newname);
+	NAME_IS_package(uchar namelenght, const char * newname);
 	uchar get_name_lenght();
 	char * give_me_your_name();
 
@@ -97,7 +97,7 @@ private:
 class MAP_IS_package : public Package
 {
 public:
-	MAP_IS_package(char * themap,char my_checksum);
+	MAP_IS_package(const char * themap,char my_checksum);
 	char * give_me_the_map();
 	char give_me_the_checksum();
 

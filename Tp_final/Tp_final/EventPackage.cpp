@@ -212,7 +212,7 @@ NAME_EventPackage::NAME_EventPackage(bool is_local) :EventPackage(Event_type::NA
 /**************************************************************
 			NAME_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local , uchar namelenght, char * newname) 
+NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local , uchar namelenght, const char * newname) 
 	:EventPackage(Event_type::NAME_IS,is_local), NAME_IS_package(namelenght,newname){
 
 
@@ -228,7 +228,7 @@ NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local , uchar namelenght, cha
 /**************************************************************
 			MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  char * themap, char checksum) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap,checksum){
+MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  const char * themap, char checksum) :EventPackage(Event_type::MAP_IS, is_local), MAP_IS_package(themap,checksum){
 
 
 }

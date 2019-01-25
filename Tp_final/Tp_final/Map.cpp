@@ -3,12 +3,41 @@
 
 Map::Map(int number_of_rows, int number_of_columns)
 {
+	load_the_map(this->original_map_distribution);
+
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
 
 	map_cells = new MapCell*[number_of_rows];
 	for (int i = 0; i < number_of_rows; ++i)
 		map_cells[i] = new MapCell[number_of_columns];
+}
+
+Map::~Map(){
+
+	for (std::vector<Enemy*>::iterator it = enemies.begin(); it != enemies.end(); ++it) {
+		delete (*it);
+	}
+}
+
+void Map::load_the_map(char * CSV_map_location) {
+
+	//reserve memory 192 bytes
+	this->my_checksum=make_checksum(CSV_map_location);
+}
+
+unsigned char Map::make_checksum(char * CSV_map_location) {
+
+}
+
+char * Map::give_me_the_original_map() {
+
+	return this->original_map_distribution;
+}
+
+unsigned char  Map::give_me_the_checksum() {
+
+	return this->my_checksum;
 }
 
 

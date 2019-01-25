@@ -182,7 +182,7 @@ public:
 class NAME_IS_EventPackage : public EventPackage, public NAME_IS_package
 {
 public:
-	NAME_IS_EventPackage(bool is_local, uchar namelenght, char * newname);
+	NAME_IS_EventPackage(bool is_local, uchar namelenght, const char * newname);
 
 
 };
@@ -199,7 +199,7 @@ public:
 class MAP_IS_EventPackage : public EventPackage, public MAP_IS_package
 {
 public:
-	MAP_IS_EventPackage(bool is_local, char * themap,char checksum);
+	MAP_IS_EventPackage(bool is_local, const char * themap,char checksum);
 
 };
 

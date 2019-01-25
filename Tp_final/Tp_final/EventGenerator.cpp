@@ -41,6 +41,9 @@ EventPackage* EventGenerator::fetch_event_net() {
 		 new_events = this->net_queue->front();
 		 this->net_queue->pop();
 	}
+	else
+		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+
 	return new_events;
 
 }
@@ -50,9 +53,12 @@ EventPackage * EventGenerator::fetch_event_soft() {
 	EventPackage * new_events=NULL;
 	
 	if (this->soft_queue->size() >= 1) {
-		 new_events = this->soft_queue->front();
-		 this->soft_queue->pop();
+		new_events = this->soft_queue->front();
+		this->soft_queue->pop();
 	}
+	else
+		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+
 	return new_events;
 	
 }

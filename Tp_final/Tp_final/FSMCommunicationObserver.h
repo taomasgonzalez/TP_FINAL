@@ -13,7 +13,7 @@
 class FSMCommunicationObserver: public Observer
 {
 public:
-	FSMCommunicationObserver(FSM * fsm, Communication * com, Scene* scenario);
+	FSMCommunicationObserver(FSM * fsm, Communication * com, Scene* scenario, Userdata * data);
 	~FSMCommunicationObserver();
 
 	virtual void update();
@@ -21,6 +21,7 @@ private:
 	FSM * fsm;
 	Communication * com;
 	Scene * scenario;
+	Userdata * my_user_data;
 };
 
 

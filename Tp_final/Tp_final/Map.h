@@ -25,12 +25,26 @@ public:
 
 	bool move_id(unsigned int id, int final_x, int final_y);
 	bool place_on_map(int coord_x, int coord_y, MapThing* thing);
+	const char * give_me_the_original_map();
+
+	unsigned char give_me_the_checksum();
+	void load_the_map(char * CSV_map_location);
+	unsigned char make_checksum(char * CSV_map_location);
+
+
 
 private:
+
+	std::vector <Enemy*> enemies;
+	std::vector<Snowball*> snowballs;
+	std::vector<Fireball*> fireballs;
 	MapCell ** map_cells;
 	MapCell get_cell(int coord_x, int coord_y);
 
 	bool delete_from_map(unsigned int id);
+	
+	oonst char* original_map_distribution; //loading the map is pending, reserve memory
+	unsigned char my_checksum;
 
 	int number_of_rows;
 	int number_of_columns;

@@ -299,15 +299,16 @@ Package * Communication::receiveMessage() {
 
 			break;
 
-		default:  //The program received an unknown header package, thus it consider that the package is corrupted
+		default:  //The program received an unknown header package, thus it´S considered that the package is corrupted
 
-			this->healthy_connection = false; //Must generate a LOCAL_ERROR somewhere, maybe not here
+			this->healthy_connection = false; 
+			package_received = new ERROR_package;
 			break;
 
 		}
 	}
 
-	else //CHEQUEAR QUE SI NO HAY MENSAJE PARA RECIBIR LO INTERPRETA COMO ERROR!!!!!!!!!!!!
+	else 
 	{
 		std::cout << "Error while trying to connect to server " << error.message() << std::endl;
 		//this->healthy_connection = false; NO ES ERROR NECESARIAMENTE

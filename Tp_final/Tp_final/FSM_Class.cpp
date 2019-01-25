@@ -5,46 +5,60 @@
 
 
 void do_nothing(void * data);//Dummy for the debugging of the protocol structure
-void send_map_is(void * data);
-void send_ack(void * data);
-void received_ack_routine(void* data);
-void send_quit(void * data);
 
+//analyze
 void analyze_move(void* data);
 void analyze_attack(void* data);
 void analayze_quit(void*data);
 void analayze_error(void*data);
-void load_enemy_action(void* data);
+void analyze_we_won(void*data); //to do
+void analyze_we_lost(void*data); //to do
 void check_action_request(void* data);
-void ask_for_name(void* data);
+
+//send
+void send_map_is(void * data);
+void send_ack(void * data);
+void send_quit(void * data);
 void send_name_is(void* data);
 void send_ack_and_quit(void* data);
-void check_map_and_save_send_ack(void* data);
 void send_enemy_action(void* data);
 void send_game_start(void* data);
-void finish_game(void * data);
 void send_error_and_finish_game(void* data);
-void check_sum_and_send_ack(void* data);
-void load_action_and_send_ack(void* data);
-void execute_send_action_and_set_ack_time_out(void* data);
-void start_game_and_send_ack(void* data);
-void set_ack_time_out(void* data);
 void send_action_and_set_ack_time_out(void* data);
-void execute_receive_action_and_send_ack(void*data);
-void load_and_send_enemy_action(void*data); //to do
-void receive_name_and_send_ack(void*data);
 void send_next_map(void*data);  //to do
 void send_we_won(void*data); //to do
 void send_we_lost(void*data); //to do
-void analyze_we_won(void*data); //to do
-void analyze_we_lost(void*data); //to do
+void send_game_over(void*data); //to do
+void send_play_again(void*data); //to do
+
+//UI
 void ask_user_and_send_decition(void*data); //to do
 void tell_user_send_ack_and_finish_game(void*data); //to do
-void send_game_over(void*data); //to do
 void tell_user_and_send_ack(void*data); //to do
-void send_play_again(void*data); //to do
 void ask_the_user_if_wants_to_play_again(void*data); //to do
 
+//execute
+void execute_receive_action_and_send_ack(void*data);
+void execute_send_action_and_set_ack_time_out(void* data);
+
+//mapping
+void check_map_and_save_send_ack(void* data);
+void check_sum_and_send_ack(void* data);
+
+//timers
+void set_ack_time_out(void* data);
+void received_ack_routine(void* data);
+
+//others
+void ask_for_name(void* data);
+void finish_game(void * data);
+void start_game_and_send_ack(void* data);
+void receive_name_and_send_ack(void*data);
+
+//loading
+void load_and_send_enemy_action(void*data); //to do
+void load_enemy_action_and_send_ack(void* data);
+void load_action_and_send_it_back(void* data);
 
 
 
@@ -123,7 +137,7 @@ void FSM::init_fsm_server(){
 	edge_t* Waiting_for_ACK_game_start_state_aux = new edge_t[4];
 	this->Waiting_for_ACK_game_start_state = Waiting_for_ACK_game_start_state_aux;
 
-	edge_t * Playing_state_aux = new edge_t[9];
+	edge_t * Playing_state_aux = new edge_t[10];
 	this->Playing_state = Playing_state_aux;
 
 	edge_t * Waiting_if_the_client_wants_to_play_again_aux = new edge_t[6];
@@ -198,11 +212,12 @@ void FSM::init_fsm_server(){
 
 	copy_event(Waiting_for_ACK_game_start_state_aux, Waiting_for_ACK_game_start_state, 4);
 
-	edge_t Playing_state[9] =
+	edge_t Playing_state[10] =
 	{ 
-	{ Event_type::ENEMY_ACTION, this->Playing_state, load_and_send_enemy_action},
+	{ Event_type::ENEMY_ACTION, this->Playing_state, send_enemy_action}, //local ENEMY_ACTION already loaded, only has to be sent
 	{ Event_type::MOVE, this->Playing_state, analyze_move},
 	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
+	{ Event_type::ACTION_REQUEST, this->Playing_state, load_action_and_send_it_back},
 	{ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_next_map},
 	{ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won},
 	{ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost},
@@ -211,7 +226,7 @@ void FSM::init_fsm_server(){
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
 	};
 
-	copy_event(Playing_state_aux, Playing_state, 9);
+	copy_event(Playing_state_aux, Playing_state, 10);
 
 	edge_t Waiting_if_the_client_wants_to_play_again[6] =
 	{
@@ -429,7 +444,7 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	this->actual_state = (this->actual_state->nextstate);
 
 
-	this->my_user_data->my_network_data.set_should_check_for_new_messages(true);
+	this->my_user_data->my_network_data.set_should_check_for_new_messages(true); //cada vez que entro a correr la FSM chequeo los mensajes
 	this->notify_obs();
 	this->my_user_data->my_network_data.set_should_check_for_new_messages(false);
 
@@ -549,11 +564,11 @@ void check_map_and_save_send_ack(void*data) {
 
 	send_ack(data);
 }
-void load_action_and_send_ack(void*data) {
+void load_enemy_action_and_send_ack(void*data) {
 	load_enemy_action(data);
 	send_ack(data);
 }
-void load_enemy_action(void * data) {
+void load_action_and_send_it_back(void * data) {
 
 }
 void start_game_and_send_ack(void*data) {
@@ -595,6 +610,11 @@ void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length) {
 EventPackage* FSM::get_fsm_ev_pack() {
 	return this->my_ev_pack;
 }
+
+void FSM::load_fsm_ev_pack(EventPackage* event_package_to_be_loaded) {
+	 this->my_ev_pack= event_package_to_be_loaded;
+}
+
 
 void analyze_move(void* data) {
 

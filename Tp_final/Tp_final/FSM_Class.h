@@ -41,6 +41,7 @@ public:
 	 void init_fsm();
 		
 	 EventPackage* get_fsm_ev_pack();
+	 void load_fsm_ev_pack(EventPackage* event_package_to_be_loaded);
 
 	 bool waiting_for_ack;
 	 bool reset_ack_timer;

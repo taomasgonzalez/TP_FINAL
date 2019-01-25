@@ -13,10 +13,11 @@ ScenarioEventsObserver::~ScenarioEventsObserver()
 }
 
 void ScenarioEventsObserver::update() {
-	if (this->scenario->should_init)
+
+	if (this->scenario->should_init())
 	{
+		if(this->my_event_handler->my_user_data->my_network_data.is_client())  //si es cliente carga el paquete que inicia la fsm
 		this->my_event_handler->soft_queue->push(new START_COMMUNICATION_EventPackage(true));
-		this->scenario->should_init = false;
 	}
 
 	if (scenario->should_the_action_be_checked()) 
