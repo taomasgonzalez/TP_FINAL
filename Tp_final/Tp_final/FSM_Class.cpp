@@ -720,16 +720,7 @@ void execute_receive_action_and_send_ack(void *data) {
 	send_ack(data);
 
 }
-void send_action_request_and_set_ack_time_out(void* data) {
 
-	FSM* fsm = (FSM*)data;
-
-	fsm->s_action_request = true;
-	fsm->notify_obs();
-	fsm->s_action_request = false;
-
-	set_ack_time_out(data);
-}
 
 
 
