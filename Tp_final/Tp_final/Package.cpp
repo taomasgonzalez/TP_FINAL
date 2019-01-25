@@ -112,7 +112,7 @@ NAME_package::NAME_package() :Package(Package_type::NAME) {
 /**************************************************************
 			NAME_IS_PACKAGE_CONSTRUCTOR
 **************************************************************/
-NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
+NAME_IS_package::NAME_IS_package(uchar namelenght,const  char * newname) :Package(Package_type::NAME_IS) {
 
 	this->count = namelenght;
 	this->Name = new char[namelenght];

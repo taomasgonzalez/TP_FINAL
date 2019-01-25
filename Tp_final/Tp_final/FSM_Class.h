@@ -42,27 +42,34 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void load_fsm_ev_pack(EventPackage* event_package_to_be_loaded);
+	 //sending
+	 bool s_quit;
+	 bool s_ack;
+	 bool s_name_is;
+	 bool s_error;
+	 bool s_map_is;
+	 bool s_game_start;
+	 bool s_enemy_action;
+	 bool s_action_request;
+	 bool s_action_from_action_request;
+	 bool s_action;
+	 bool s_game_over;
+	 bool s_we_won;
+	 bool s_play_again;
+
 
 	 bool waiting_for_ack;
 	 bool reset_ack_timer;
 	 bool new_ack_time_out;
-	 bool ask_name = false;
-	 bool s_quit = false;
-	 bool s_ack = false;
-	 bool s_name_is = false;
-	 bool s_error = false;
-	 bool end_game = false;
-	 bool s_map_is = false;
-	 bool s_game_start = false;
-	 bool s_enemy_action = false;
-	 bool s_action_request = false;
-	 bool s_action = false;
-	 bool execute_action = false;
-	 bool receive_name = false;
+	 bool ask_name;
+	 bool end_game;
+	 bool execute_action;
+	 bool receive_name;
 
-	 bool start_game = false;
-	 bool check_action = false;
-
+	 bool start_game;
+	 bool check_action;
+	 //loading
+	 bool load_enemy_action;
 
 private:
 

@@ -21,15 +21,17 @@ void send_ack(void * data);
 void send_quit(void * data);
 void send_name_is(void* data);
 void send_ack_and_quit(void* data);
-void send_enemy_action(void* data);
+void execute_and_send_enemy_action(void* data);
 void send_game_start(void* data);
 void send_error_and_finish_game(void* data);
 void send_action_and_set_ack_time_out(void* data);
 void send_next_map(void*data);  //to do
-void send_we_won(void*data); //to do
-void send_we_lost(void*data); //to do
-void send_game_over(void*data); //to do
-void send_play_again(void*data); //to do
+void send_we_won(void*data); 
+void send_we_lost(void*data);
+void send_game_over(void*data); 
+void send_play_again(void*data); 
+void send_enemy_action(void*data);
+void send_action_request_and_set_ack_time_out(void* data); //for client
 
 //UI
 void ask_user_and_send_decition(void*data); //to do
@@ -38,8 +40,11 @@ void tell_user_and_send_ack(void*data); //to do
 void ask_the_user_if_wants_to_play_again(void*data); //to do
 
 //execute
-void execute_receive_action_and_send_ack(void*data);
-void execute_action_send_action_request_and_set_ack_time_out(void* data);
+void execute_receive_action_and_send_ack(void*data); //for client
+void execute_action_send_it_and_set_ack_time_out(void* data); //for server
+void execute_receive_action_request_send_action_and_send_ack(void * data); //for server
+
+
 
 //mapping
 void check_map_and_save_send_ack(void* data);
@@ -59,6 +64,7 @@ void receive_name_and_send_ack(void*data);
 void load_and_send_enemy_action(void*data); //to do
 void load_enemy_action_and_send_ack(void* data);
 void load_action_and_send_it_back(void* data);
+void load_enemy_action(void* data);
 
 
 
@@ -88,20 +94,22 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 	s_enemy_action = false;
 	s_action_request = false;
 	s_action = false;
+	s_action_from_action_request = false;
 
 	//timer flags
 	waiting_for_ack = false;
 	reset_ack_timer = false;
 	new_ack_time_out = false;
 
-	//others
+	//others flags
 	ask_name = false;
 	end_game = false;
 	start_game = false;
 	check_action = false;
 	execute_action = false;
 	receive_name = false;
-
+	load_enemy_action = false;
+	//sending flags
 
 
 }
@@ -217,13 +225,13 @@ void FSM::init_fsm_server(){
 
 	edge_t Playing_state[10] =
 	{ 
-	{ Event_type::ENEMY_ACTION, this->Playing_state, send_enemy_action}, //local ENEMY_ACTION already loaded, only has to be sent
-	{ Event_type::MOVE, this->Playing_state, analyze_move},
-	{ Event_type::ATTACK, this->Playing_state, analyze_attack},
-	{ Event_type::ACTION_REQUEST, this->Playing_state, load_action_and_send_it_back},
-	{ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_next_map},
-	{ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won},
-	{ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost},
+	{ Event_type::ENEMY_ACTION, this->Playing_state, execute_and_send_enemy_action}, //local ENEMY_ACTION evento software already loaded, only has to be sent
+	{ Event_type::MOVE, this->Playing_state, analyze_action_being_server},
+	{ Event_type::ATTACK, this->Playing_state, analyze_action_being_server},
+	{ Event_type::ACTION_REQUEST, this->Playing_state, load_action_and_send_it_back},   //AR del cliente ya convalidada
+	{ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_next_map},		//evento de software que se termino el nivel
+	{ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won}, //we_won local generado por soft, le aviso a client que ganamos
+	{ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost},  //game_over local generado por soft, le aviso a client que perdimos
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
@@ -233,9 +241,9 @@ void FSM::init_fsm_server(){
 
 	edge_t Waiting_if_the_client_wants_to_play_again[6] =
 	{
-	{ Event_type::PLAY_AGAIN, this->Waiting_if_the_user_wants_to_play_again, ask_user_and_send_decition},
-	{ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game},
-	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::PLAY_AGAIN, this->Waiting_if_the_user_wants_to_play_again, ask_user_and_send_decition}, //se recibe un PLAY_AGAIN del client que quiere volver a jugar
+	{ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game},  //se recibe un GAME_OVER del client que no quiere volver a jugar
+	{ Event_type::ACK, NULL, finish_game },								//validación del client a un paquete GAME_OVER mandado por el servidor desde ask_user_and_send_decition()
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
@@ -245,9 +253,9 @@ void FSM::init_fsm_server(){
 
 	edge_t Waiting_if_the_user_wants_to_play_again[6] =
 	{
-	{ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is},
-	{ Event_type::GAME_OVER, NULL, send_game_over},
-	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is},  //el usuario del servidor quiere volver a jugar
+	{ Event_type::GAME_OVER, NULL, send_game_over},							  //el usuario del servidor no quiere volver a jugar
+	{ Event_type::ACK, NULL, finish_game },										//ACK del GAME_OVER del usuario del servidor
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Playing_state, do_nothing }
@@ -346,7 +354,7 @@ void FSM::init_fsm_client() {
 
 	edge_t Waiting_for_enemy_actions_state[5] =
 	{
-	{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_action_and_send_ack },
+	{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_enemy_action_and_send_ack },
 	{ Event_type::GAME_START, this->Playing_state, start_game_and_send_ack },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
@@ -358,7 +366,7 @@ void FSM::init_fsm_client() {
 
 	edge_t Playing_state[9] =
 	{
-	{ Event_type::ENEMY_ACTION, this->Playing_state, load_action_and_send_ack},
+	{ Event_type::ENEMY_ACTION, this->Playing_state, load_enemy_action_and_send_ack},
 	{ Event_type::MOVE, this->Playing_state, analyze_action_being_client},
 	{ Event_type::ATTACK, this->Playing_state, analyze_action_being_client},
 	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save_send_ack }, //next level
@@ -490,13 +498,14 @@ void analayze_quit(void*data)
 	else
 		send_ack_and_quit(data);
 }
+
 //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
  void send_quit(void* data) {
 	 FSM * fsm = (FSM*)data;
 	 fsm->s_quit = true;
 	 fsm->notify_obs();
+	 fsm->s_quit = false; 
 	 set_ack_time_out(data);
-	 //fsm->s_quit = false; faltaría no??
 
 }
 
@@ -543,8 +552,19 @@ void send_error_and_finish_game(void* data) {
 	fsm->s_error = false;
 }
 
-void send_enemy_action(void* data) {
+void execute_and_send_enemy_action(void* data) {
 	FSM * fsm = (FSM*)data;
+
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	send_enemy_action(data);
+}
+
+void send_enemy_action(void* data) {
+	
+	FSM * fsm = (FSM*)data;
+
 	fsm->s_enemy_action = true;
 	fsm->notify_obs();
 	fsm->s_enemy_action = false;
@@ -565,14 +585,34 @@ void ask_for_name(void* data) {
 }
 void check_map_and_save_send_ack(void*data) {
 
+
 	send_ack(data);
 }
 void load_enemy_action_and_send_ack(void*data) {
+
+	FSM * fsm = (FSM*)data;
 	load_enemy_action(data);
 	send_ack(data);
 }
-void load_action_and_send_it_back(void * data) {
+void load_enemy_action(void*data) {
 
+	FSM * fsm = (FSM*)data;
+
+	fsm->load_enemy_action = true;
+	fsm->notify_obs();
+	fsm->load_enemy_action = false;
+}
+void load_action_and_send_it_back(void * data) {
+	
+	FSM * fsm = (FSM*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	fsm->s_action_from_action_request = true;
+	fsm->notify_obs();
+	fsm->s_action_from_action_request = false;
+
+	set_ack_time_out(data);
 }
 void start_game_and_send_ack(void*data) {
 	FSM * fsm = (FSM*)data;
@@ -619,29 +659,54 @@ void FSM::load_fsm_ev_pack(EventPackage* event_package_to_be_loaded) {
 }
 
 
-void analyze_action_being_server(void* data) { //to do
+void analyze_action_being_server(void* data) { 
 
 	FSM * fsm = (FSM*)data;
 
 	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
 	{
-		execute_action_send_action_request_and_set_ack_time_out(data);
+		execute_action_send_it_and_set_ack_time_out(data);
 	}
 	else
-		execute_receive_action_and_send_ack(data);
+		execute_receive_action_request_send_action_and_send_ack(data); //esto no pasaría nunca en teoría nunca llega move o attack externo sino actionrequest
 
+}
+
+void execute_action_send_it_and_set_ack_time_out(void * data) {
+
+	FSM* fsm = (FSM*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	fsm->s_action = true;
+	fsm->notify_obs();
+	fsm->s_action = false;
+
+	set_ack_time_out(data);
+
+}
+
+void execute_receive_action_request_send_action_and_send_ack(void * data) {
+
+	FSM* fsm = (FSM*)data;
+	fsm->execute_action = true;
+	fsm->notify_obs();
+	fsm->execute_action = false;
+	fsm->s_action = true;
+	fsm->notify_obs();
+	fsm->s_action = false;
 }
 
 void analyze_action_being_client(void* data) {
 
 	FSM * fsm = (FSM*)data;
 
-	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
+	if (fsm->get_fsm_ev_pack()->is_this_a_local_action()) //move o attack local del cliente, tengo que mandar action_request
 	{
-		execute_action_send_action_request_and_set_ack_time_out(data);
+		send_action_request_and_set_ack_time_out(data);
 	}
 	else
-		execute_receive_action_and_send_ack(data);
+		execute_receive_action_and_send_ack(data);  //move o attack externo, lo paso a ejecutar
 
 }
 
@@ -655,12 +720,10 @@ void execute_receive_action_and_send_ack(void *data) {
 	send_ack(data);
 
 }
-void execute_action_send_action_request_and_set_ack_time_out(void* data) {
+void send_action_request_and_set_ack_time_out(void* data) {
 
 	FSM* fsm = (FSM*)data;
-	fsm->execute_action = true;
-	fsm->notify_obs();
-	fsm->execute_action = false;
+
 	fsm->s_action_request = true;
 	fsm->notify_obs();
 	fsm->s_action_request = false;
@@ -718,9 +781,12 @@ void send_next_map(void*data) {  //to do
 
 void send_we_won(void*data) {
 
+	FSM* fsm = (FSM*)data;
+	fsm->s_we_won = true;
+	fsm->notify_obs();
+	fsm->s_we_won = false;
 }
-void send_we_lost(void*data) {
-}
+
 void analyze_we_won(void*data) {
 
 
@@ -742,15 +808,35 @@ void ask_user_and_send_decition(void*data) {
 }
 void tell_user_send_ack_and_finish_game(void*data) {
 }
+
+void send_we_lost(void*data) { //el servidor le avisa a client que se perdió
+
+	FSM* fsm = (FSM*)data;
+	fsm->s_game_over = true;
+	fsm->notify_obs();
+	fsm->s_game_over = false;
+}
 void send_game_over(void*data) {
+
+	FSM* fsm = (FSM*)data;
+	fsm->s_game_over = true;
+	fsm->notify_obs();
+	fsm->s_game_over = false;
 }
 void tell_user_and_send_ack(void*data) {
 
+	//hacer una función que diga por allegro que 
+	send_ack(data);
 }
 void send_play_again(void*data) {
-
+	FSM* fsm = (FSM*)data;
+	fsm->s_play_again = true;
+	fsm->notify_obs();
+	fsm->s_play_again = false;
 }
+
 void load_and_send_enemy_action(void*data){
 	load_enemy_action(data);
 	send_enemy_action(data);
 }
+ 

@@ -14,43 +14,31 @@ ScenarioEventsObserver::~ScenarioEventsObserver()
 
 void ScenarioEventsObserver::update() {
 
-	if (this->scenario->should_init())
+	if (this->scenario->game_started)
 	{
 		if(this->my_event_handler->my_user_data->my_network_data.is_client())  //si es cliente carga el paquete que inicia la fsm
 		this->my_event_handler->soft_queue->push(new START_COMMUNICATION_EventPackage(true));
 	}
 
-	if (scenario->should_the_action_be_checked()) 
+	if (scenario->check_local_action)  //lo llamo para chequear un evento de allegro antes de ponerlo en la cola de allegro
 	{
 
-		EventPackage* old_pack = this->my_fsm->get_fsm_ev_pack(); //aca ya paso por la fsm el chequeo tiene que ser previo
+		EventPackage* event_to_be_checked = this->scenario->give_me_my_allegro_event(); 
 
-		if(scenario->is_the_action_possible(old_pack))
-			my_event_handler->append_new_soft_event(scenario->give_me_my_checked_package());
+		if (event_to_be_checked != NULL)
+		{
+			this->scenario->is_the_action_possible(event_to_be_checked);//mando a analizar el EventPackage que llego desde allegro
 
-		/*
-		
-		if (scenario->is_the_action_possible(my_event_handler->get_fsm_ev_pack())) {
-			
-			EventPackage* new_ev_pack = NULL; 
-			if (old_pack->give_me_your_event_type() == My_event::EXTERN_ACTION_RECEIVED)		//logica a poner en is_the_action_possible
-				new_ev_pack = new EXTERN_ACTION_ACCEPTED_EventPackage;
+			if (event_to_be_checked->is_this_a_valid_action() == true) //es una jugada válida, se carga la jugada en la cola
+				my_event_handler->append_new_allegro_event(event_to_be_checked);
 
-			else if (old_pack->give_me_your_event_type() == My_event::LOCAL_ACTION_REQUESTED)
-				new_ev_pack = new LOCAL_ACTION_ACCEPTED_EventPackage(old_pack);
+			if (event_to_be_checked->is_this_a_valid_action() == false) //no es un jugada válida, se carga error externo en vez de la jugada recibida
+				my_event_handler->append_new_allegro_event(new ERROR_EventPackage(false));
 
-			my_event_handler->append_new_soft_event(scenario->give_me_my_checked_package());
 		}
-		else {
-			/*esto en teoria es innecesario, pero lo hacemos para mayor claridad,
-			para que pueda haber tanto eventos de tipo EXTERN_ACTION_ACCEPTED
-			como EXTERN_ACTION_DENIED y sean los dos procesados por la fsm*//*
-			if (old_pack->ev == My_Event::EXTERN_ACTION_REQUESTED)
-				old_pack->ev = My_Event::EXTERN_ACTION_DENIED;
-			else if (old_pack->ev == My_Event::LOCAL_ACTION_REQUESTED)  //Esto implica que hubo un error, se debe manda ERROR
-				old_pack->ev = My_Event::LOCAL_ACTION_DENIED;
-
-			my_event_handler->append_new_soft_event(old_pack);
-		}*/
+		else
+		{
+			std::cout << "Error interno, no llego el evento de allegro" << std::endl;
+		}
 	}
 }

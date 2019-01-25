@@ -20,17 +20,21 @@ Map::~Map(){
 	}
 }
 
-void Map::load_the_map(char * CSV_map_location) {
+void Map::load_the_map(const char * CSV_map_location) {
 
 	//reserve memory 192 bytes
 	this->my_checksum=make_checksum(CSV_map_location);
 }
 
-unsigned char Map::make_checksum(char * CSV_map_location) {
+//hace checksum local
+unsigned char Map::make_checksum(const char * CSV_map_location) {
 
+	unsigned char local_checksum='d'; //prueba
+
+	return local_checksum;
 }
 
-char * Map::give_me_the_original_map() {
+const char * Map::give_me_the_original_map() {
 
 	return this->original_map_distribution;
 }
@@ -41,9 +45,6 @@ unsigned char  Map::give_me_the_checksum() {
 }
 
 
-Map::~Map()
-{
-}
 
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();

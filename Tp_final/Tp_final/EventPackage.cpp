@@ -82,7 +82,7 @@ bool EventPackage::is_this_a_local_action() {
 
 
 /**************************************************************
-				this_event_package_is_correct
+				is_this_event_package_is_correct
 **************************************************************/
 /*
 *GETTER.This function returns the lenght of the information to be
@@ -94,7 +94,7 @@ bool EventPackage::is_this_a_local_action() {
 *OUTPUT:
 *The lenght of the information to be send by networking.
 */
-void EventPackage::this_event_package_is_correct(bool value) 
+void EventPackage::is_this_event_package_is_correct(bool value) 
 {
 	 this->valid_action=value;
 }

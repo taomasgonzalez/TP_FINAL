@@ -4,9 +4,9 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 {
 	this->game_finished = false;
 	this->game_started = false;
-	this->check_action = false;		//see where this flag is turn on or off
+	this->check_local_action = false;		//see where this flag is turn on or off
 	this->has_to_draw = false;
-	
+	this->action_from_allegro = NULL;
 
 	load_maps(); //levanto los CVS, construyo los mapas y los cargo en el vector
 }
@@ -44,9 +44,24 @@ void Scene::gameInit() {
 
 }
 
-bool Scene::should_init() {
 
-	return this->game_started;
+
+EventPackage * Scene::give_me_my_allegro_event() {
+	return this->action_from_allegro;
+}
+
+Character_type Scene::give_me_my_player() {
+
+	return this-> my_player;
+}
+Character_type Scene::give_the_other_player() {
+
+	return this->other_player;
+
+}
+
+void Scene::set_new_allegro_event(EventPackage * new_event) {
+	 this->action_from_allegro= new_event;
 }
 
 
@@ -57,31 +72,53 @@ void Scene::finish_game() {
 	this->game_finished = true;
 }
 
-bool Scene::is_the_action_possible(Package * package_to_be_analyze) { //analyzation of the current package from networking to check if it is a valid action
+
+//analizo jugadas externas e internas relacionadas a scene
+bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) { 
 
 	bool is_the_action_possible = true;
 
-	//analysis
+	//fijarse si no son iguales los eventos que llegan por net, los de soft y los de allegro
+	//creo que son iguales, despu´´es seguir flujo y cheuqearlo
 
-	if (is_the_action_possible)
-		this->package_to_be_appended = package_to_be_analyze;
+
+	if (package_to_be_analyze->is_this_a_local_action()) //analisis de todo paquete generado por allegro
+	{
+
+		//analysis
+		is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
+		
+		if (is_the_action_possible)
+			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
+		else
+			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
+
+	}
+	else //analisis de todo pquete que llega por nwt
+	{
+		//analysis
+
+
+		if (is_the_action_possible)
+			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
+		else
+			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
+	}
+
+	//if (is_the_action_possible) al pedo no? EventsCommunicationObserver::update() ya tiene el paquete
+		//this->package_to_be_appended = package_to_be_analyze;
 
 
 	return is_the_action_possible;
 }
 
-bool Scene::should_the_action_be_checked()
-{
-	
-	return this->check_action;
+bool Scene::check_action(EventPackage * package_to_be_analyze) {
+
+	//hacer función chequeo
+	return true;
 }
 
-EventPackage * Scene::give_me_my_checked_package()
-{
-	//analizar y cambiar valid_action en los paquetes
-	
-	return this->package_to_be_appended;
-}
+
 
 bool Scene::do_you_have_to_draw() {
 

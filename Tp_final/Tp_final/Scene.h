@@ -19,31 +19,39 @@ public:
 	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
 	void load_maps();
 
-	bool should_init();
+	EventPackage * give_me_my_allegro_event();
+	Character_type give_me_my_player();
+	Character_type give_the_other_player();
+	void set_new_allegro_event(EventPackage * new_event);
 	bool game_is_finished();
 	void finish_game();
-	//void start_game();
-	bool is_the_action_possible(Package* package_to_be_analyze);
-	bool should_the_action_be_checked();
-	Package* give_me_my_checked_package();
+	bool is_the_action_possible(EventPackage* package_to_be_analyze);
+	bool check_action(EventPackage * package_to_be_analyze);
 	bool do_you_have_to_draw();
 
 	std::vector <Map*> maps;
-	//std::vector<Map*>::iterator actual_map;
+	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
-private:
-
-	std::vector <Player*> players;
-
-
-
-
 
 	bool game_started;
 	bool game_finished;
-	bool check_action;		//see where this flag is turn on or off
+	//para chequear un evento INTERNO de allegro por ejemplo, se usa en ScenarioEventsObserver::update()
+	//hay que prenderlo y hacer notify_obs de scene cuando se levante un evento de allegro, tiene que estar cargado ese
+	//evento de allegro convertido en eventpackage en Scene::Package* action_from_allegro;
+	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
-	Package* package_to_be_appended;
+
+private:
+
+	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
+	std::vector <Player*> players;
+	Character_type my_player;
+	Character_type other_player;
+
+
+
+
+
 
 };
 

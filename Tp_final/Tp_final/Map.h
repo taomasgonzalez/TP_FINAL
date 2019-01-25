@@ -28,8 +28,8 @@ public:
 	const char * give_me_the_original_map();
 
 	unsigned char give_me_the_checksum();
-	void load_the_map(char * CSV_map_location);
-	unsigned char make_checksum(char * CSV_map_location);
+	void load_the_map(const char * CSV_map_location);
+	unsigned char make_checksum(const char * CSV_map_location);
 
 
 
@@ -43,7 +43,7 @@ private:
 
 	bool delete_from_map(unsigned int id);
 	
-	oonst char* original_map_distribution; //loading the map is pending, reserve memory
+	const char* original_map_distribution; //loading the map is pending, reserve memory
 	unsigned char my_checksum;
 
 	int number_of_rows;
