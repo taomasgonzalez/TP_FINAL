@@ -289,6 +289,14 @@ START_COMMUNICATION_EventPackage::START_COMMUNICATION_EventPackage(bool is_local
 }
 
 /**************************************************************
+		FINISHED_LEVEL_EventPackage CONSTRUCTOR
+**************************************************************/
+FINISHED_LEVEL_EventPackage::FINISHED_LEVEL_EventPackage(bool is_local) :EventPackage(Event_type::FINISHED_LEVEL, is_local) {
+
+
+}
+
+/**************************************************************
 		NO_EVENT_EventPackage CONSTRUCTOR
 **************************************************************/
 NO_EVENT_EventPackage::NO_EVENT_EventPackage(bool is_local) :EventPackage(Event_type::NO_EVENT,is_local) {
