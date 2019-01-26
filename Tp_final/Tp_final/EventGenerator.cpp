@@ -72,10 +72,14 @@ EventPackage * EventGenerator::fetch_event_al() {
 		this->allegro_queue->pop();
 	}
 	return new_events;
+}
 
-/*		LOGICA TIENE QUE IR AL HACER UN EVENTO DE ALLEGRO, ANALISIS PREVIO ANTES TE METERLO A UNA COLA
+//		IMPORTANTE:COMO LOS LEVANTAS DIRACTAMENTE DE ALLEGRO QUEUE ESTOS MOVIMEINTOS PUEDEN NO SER VALIDOS POR
+//		IRSE DEL MAPA POR EJMPLO, Y SE MANDAN DIRECTAMENTE A LA FSM SIN ANALIZAR, SE PUEDE LLAMAR A LA FUNCIÓN
+//	    Scene::is_the_action_possible(EventPackage* package_to_be_analyze)  como en ScenarioEventsObserver::update()
+
 	
-	ALLEGRO_EVENT * allegroEvent=NULL;
+/*	ALLEGRO_EVENT * allegroEvent=NULL;
 	EventPackage * ev_pack;
 
 	if (al_get_next_event(al_queue, allegroEvent)) {			//tomo de la cola en caso de que no este vacia
@@ -86,24 +90,20 @@ EventPackage * EventGenerator::fetch_event_al() {
 		else if (allegroEvent->type == ALLEGRO_EVENT_KEY_DOWN) {					//tecla presionada
 			if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_UP) {		//tecla saltar
 				
-				ev_pack=new MOVE_EventPackage(true,)
-				ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-				ev_pack.my_info->action = Action_type::Move;
-				ev_pack.dir = Direction_type::Jump;
+				//ev_pack=new MOVE_EventPackage(true, ) mi jugador esta en scenario(Scene::give_me_my_player();), hay que buscar la otra info también en scene imagino
+
 			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
-				ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-				ev_pack.my_info->action = Action_type::Move;
-				ev_pack.dir = Direction_type::Left;
+			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
+				//ev_pack=new MOVE_EventPackage(true, ) mi jugador esta en scenario, hay que buscar la otra info también en scene imagino
+
 			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-				ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-				ev_pack.my_info->action = Action_type::Move;
-				ev_pack.dir = Direction_type::Right;
+			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
+				//ev_pack=new MOVE_EventPackage(true, ) mi jugador esta en scenario, hay que buscar la otra info también en scene imagino
+
 			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE) {
-				ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-				ev_pack.my_info->action = Action_type::Attack;
+			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_SPACE) {
+				//ev_pack=new ATTACK_EventPackage(true, ) mi jugador esta en scenario, hay que buscar la otra info también en scene imagino
+
 
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_Q){
@@ -113,7 +113,7 @@ EventPackage * EventGenerator::fetch_event_al() {
 
 		}
 
-		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {					//no estaría levantando doble, cuando presiono y cuando suelto???
+		/*else if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {					//no estaría levantando doble, cuando presiono y cuando suelto??? Yo diría que si
 			if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) {		//solte la izquierda
 				ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
 				ev_pack.dir = Direction_type::Left;
@@ -123,21 +123,21 @@ EventPackage * EventGenerator::fetch_event_al() {
 				ev_pack.dir = Direction_type::Right;
 			}
 		}
-		else if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+		else if (allegroEvent->type == ALLEGRO_EVENT_TIMER) { //?
 			//if () {
 			//	ev_pack.ev = My_Event::LOCAL_ERROR;
 			//}
 		}
 	}
 	else
-		ev_pack.ev = Event_type::NO_EVENT;			//no hubo evento
+		ev_pack = new NO_EVENT_EventPackage(true);
+		
 
 	return ev_pack;
-*/
+
 
 
 }
-
-
+*/
 
 

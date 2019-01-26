@@ -30,11 +30,13 @@ public:
 
 protected:
 	
-	ALLEGRO_EVENT_QUEUE * al_queue;				//Debería estar en clase allegro o por ahí
+	ALLEGRO_EVENT_QUEUE * al_queue;				
 
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
 	std::queue<EventPackage*>* allegro_queue;		//cola para eventos de networking.
+
+
 
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??
 	FSM * my_fsm;
