@@ -13,20 +13,20 @@ TO DO:
 -COMPLETAR ELEMENtOS DE ESCENA LOGICOS Y UNIRLO CON LA PARTE GRÁFICA
 -HACER MENUES
 -VER DE IMPLEMENTAR WRAP DE ALLEGRO
--Scene::is_the_action_possible(PAcakge *) analiza el paquete que llega por netwoking a ver si es válido
 -Chequeo de movimiento posible dentro de model allegro, cuando se genera el allegro event (ver implementaciones en otros tps)
 
 GERMAN:
--Terminar ultimas rutinas de acción fsm
--Chequeo final fsm
--Terminar Scene con todos sus componentes y hacer parte lógica
-
-TOMMY:
 -Ver de como meter lo que hizo guido en el resto del programa manteniendolo modular.
 Ver como aplicar Drawer, sería un controller que seria llamadao por un observer de la clase allegro y que tenga un ptr a scene, allegro y a userdata. allegrodata
 (donde estarían cargados los recursos)
 -Diferenciar bien backend de frontend en cuanto a la parte de allegro, yo lo veo más que scene es como la parte logica con las reglas del juego (BE) y la clase
 allegro el FE con sus recursos
+
+TOMMY:
+-Terminar ultimas rutinas de acción fsm
+-Chequeo final fsm
+-Terminar Scene con todos sus componentes y hacer parte lógica
+-Scene::is_the_action_possible(PAcakge *) analiza el paquete que llega por netwoking a ver si es válido
 
 GUIDO:
 - Hacer 10 mapas con el formato pedido(Ver anexo mapas en la consigna)
