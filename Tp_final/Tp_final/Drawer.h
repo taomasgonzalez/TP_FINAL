@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Userdata.h"
 
-class Drawer
+class Drawer 
 {
 public:
 	Drawer();

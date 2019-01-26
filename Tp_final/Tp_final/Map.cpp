@@ -1,16 +1,18 @@
 #include "Map.h"
 
 
-Map::Map(int number_of_rows, int number_of_columns)
+Map::Map(int number_of_rows, int number_of_columns, const char * original_map_distribution)
 {
-	load_the_map(this->original_map_distribution);
 
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
+	this->original_map_distribution = new char[192]; //reservo la memoria
 
 	map_cells = new MapCell*[number_of_rows];
 	for (int i = 0; i < number_of_rows; ++i)
 		map_cells[i] = new MapCell[number_of_columns];
+
+	load_the_map(original_map_distribution);
 }
 
 Map::~Map(){
@@ -22,17 +24,18 @@ Map::~Map(){
 
 void Map::load_the_map(const char * CSV_map_location) {
 
-	//reserve memory 192 bytes
+	memcpy((void *)this->original_map_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
 	this->my_checksum=make_checksum(CSV_map_location);
 }
 
-//hace checksum local
+//hace checksum local, función guido
 unsigned char Map::make_checksum(const char * CSV_map_location) {
 
-	unsigned char local_checksum='d'; //prueba
+	unsigned char local_checksum='d'; 
 
 	return local_checksum;
 }
+//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos
 
 const char * Map::give_me_the_original_map() {
 

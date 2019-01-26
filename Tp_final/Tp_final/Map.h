@@ -9,7 +9,7 @@
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns);
+	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution);
 	~Map();
 
 	bool cell_has_proyectiles(int coord_x, int coord_y);

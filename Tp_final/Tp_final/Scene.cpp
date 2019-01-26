@@ -30,10 +30,26 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 
 void Scene::load_maps() {
 
-	//load_vectors with txt
-	//this->actual_map = maps.begin();  //asign iterator to the first map
 	this->actual_map = 1;
 
+	//cargo los 10 mapas
+	while (this->actual_map < 11) //ver de hacer con un iterador asi no queda tan cabeza
+	{
+		//en el tercer argumento va el CSV cargado en un const char *
+		maps.push_back(new Map(12, 16,give_me_the_CSV(actual_map)));
+		this->actual_map++;
+
+	}
+	//load_vectors with txt
+	//this->actual_map = maps.begin();  //asign iterator to the first map
+
+}
+
+//función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
+const char * Scene::give_me_the_CSV(unsigned int actual_map) {
+
+	const char * prueba=NULL;
+	return prueba;
 }
 
 void Scene::gameInit() {	
@@ -115,6 +131,7 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 bool Scene::check_action(EventPackage * package_to_be_analyze) {
 
 	//hacer función chequeo
+	//unsigned char Map::make_checksum(const char * CSV_map_location) función para chequear el map_is entrante
 	return true;
 }
 

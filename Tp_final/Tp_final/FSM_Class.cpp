@@ -254,7 +254,7 @@ void FSM::init_fsm_server(){
 	edge_t Waiting_if_the_user_wants_to_play_again[6] =
 	{
 	{ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is},  //el usuario del servidor quiere volver a jugar
-	{ Event_type::GAME_OVER, NULL, send_game_over},							  //el usuario del servidor no quiere volver a jugar
+	{ Event_type::GAME_OVER, Waiting_if_the_user_wants_to_play_again, send_game_over}, //el usuario del servidor no quiere volver a jugar
 	{ Event_type::ACK, NULL, finish_game },										//ACK del GAME_OVER del usuario del servidor
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::ERROR1, NULL, analayze_error },
@@ -379,11 +379,11 @@ void FSM::init_fsm_client() {
 
 	copy_event(Playing_state_aux, Playing_state, 9);
 
-	edge_t Waiting_if_the_user_wants_to_play_again[6] =
+	edge_t Waiting_if_the_user_wants_to_play_again[6] =  //the client´s user
 	{
 	{ Event_type::PLAY_AGAIN, this->Waiting_if_the_server_wants_to_play_again, send_play_again},
 	{ Event_type::GAME_OVER, this->Waiting_if_the_server_wants_to_play_again, send_game_over}, //wait for server´s ACK
-	{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::ACK, NULL, finish_game },  //ACK from my client´s GAME_OVER
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::QUIT, this->Waiting_for_ACK_quit_state, analayze_quit }, //se recibe un envio un quit pog, paso a esperar el ACK
 	{ Event_type::END_OF_TABLE, this->Waiting_if_the_user_wants_to_play_again, do_nothing }
@@ -818,6 +818,7 @@ void tell_user_and_send_ack(void*data) {
 
 	//hacer una función que diga por allegro que 
 	send_ack(data);
+	finish_game(data);
 }
 void send_play_again(void*data) {
 	FSM* fsm = (FSM*)data;

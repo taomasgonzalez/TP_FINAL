@@ -29,6 +29,9 @@ public:
 	bool check_action(EventPackage * package_to_be_analyze);
 	bool do_you_have_to_draw();
 
+	const char * give_me_the_CSV(unsigned int actual_map);
+
+
 	std::vector <Map*> maps;
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
