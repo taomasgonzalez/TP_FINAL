@@ -11,7 +11,7 @@ class EventGenerator
 {
 public:
 
-	EventGenerator(Allegro * al, FSM * fsm, Userdata* data);
+	EventGenerator(Allegro * al, Userdata* data);
 	~EventGenerator();
 
 	friend class CommunicationEventsObserver;
@@ -21,7 +21,6 @@ public:
 
 	void append_new_net_event(EventPackage* new_ev_pack);
 	void append_new_soft_event(EventPackage* new_ev_pack);
-	void append_new_allegro_event(EventPackage* new_ev_pack);
 
 	EventPackage * fetch_event_al();
 	EventPackage * fetch_event_net();
@@ -33,11 +32,8 @@ protected:
 
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
-	std::queue<EventPackage*>* allegro_queue;		//cola para eventos de networking.
-
 
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??
-	FSM * my_fsm;
 	Userdata * my_user_data;
 
 
