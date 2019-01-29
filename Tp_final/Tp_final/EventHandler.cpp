@@ -25,5 +25,9 @@ void EventHandler::handle_event() {
 	if (ev_pack_net->give_me_your_event_type() != Event_type::NO_EVENT)
 		this->my_fsm->run_fsm(ev_pack_net);
 
+
+	this->my_user_data->my_network_data.set_should_check_for_new_messages(true); //cada vez que entro a correr la FSM chequeo los mensajes
+	this->my_fsm->notify_obs();
+	this->my_user_data->my_network_data.set_should_check_for_new_messages(false);
 }
 

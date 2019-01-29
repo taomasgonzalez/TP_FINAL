@@ -43,8 +43,8 @@ private:
 	bool client_mode;		//By default we try to connect as a client
 	bool new_info = false;
 	bool check_for_new_messages;
-	std::string my_name; //must have terminator
-	std::string his_name; //must have terminator
+	std::string my_name="Eberto"; //must have terminator
+	std::string his_name="Juacho"; //must have terminator
 };
 
 class AllegroData {

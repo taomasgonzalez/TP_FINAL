@@ -8,7 +8,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->has_to_draw = false;
 	this->action_from_allegro = NULL;
 
-	load_maps(); //levanto los CVS, construyo los mapas y los cargo en el vector
+	//load_maps(); //levanto los CVS, construyo los mapas y los cargo en el vector
 }
 
 
@@ -97,30 +97,27 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	//fijarse si no son iguales los eventos que llegan por net, los de soft y los de allegro
 	//creo que son iguales, despu´´es seguir flujo y cheuqearlo
 
+		//analysis
+	is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
+		
+
 
 	if (package_to_be_analyze->is_this_a_local_action()) //analisis de todo paquete generado por allegro
 	{
-
-		//analysis
-		is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
-		
-		if (is_the_action_possible)
-			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
-		else
-			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
+		//la ignoroo
 
 	}
 	else //analisis de todo pquete que llega por nwt
 	{
 		//analysis
 
+		//mando error
+	}
 
 		if (is_the_action_possible)
 			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
 		else
 			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
-	}
-
 	//if (is_the_action_possible) al pedo no? EventsCommunicationObserver::update() ya tiene el paquete
 		//this->package_to_be_appended = package_to_be_analyze;
 

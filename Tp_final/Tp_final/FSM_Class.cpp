@@ -121,8 +121,8 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 
 void FSM::init_fsm_server(){
 
-	this->Initial_state = new edge_t[4];   //Prueba, compila, si corre bien poner todo asi, más sencillo, evitas llamar a la función copypaste
-	//this->Initial_state = Initial_state_aux;
+	edge_t *Initial_state_aux = new edge_t[4];   //Prueba, compila, si corre bien poner todo asi, más sencillo, evitas llamar a la función copypaste
+	this->Initial_state = Initial_state_aux;
 
 	edge_t * Naming_him_state_aux = new edge_t[4];
 	this->Naming_him_state = Naming_him_state_aux;
@@ -164,7 +164,7 @@ void FSM::init_fsm_server(){
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::END_OF_TABLE, this->Initial_state, do_nothing }
 	};
-	//copy_event(Initial_state_aux, Initial_state, 4);
+	copy_event(Initial_state_aux, Initial_state, 4);
 
 	edge_t Naming_him_state[4] =
 	{
@@ -324,6 +324,7 @@ void FSM::init_fsm_client() {
 	};
 	copy_event(Initial_state_aux, Initial_state, 4);
 
+
 	edge_t Naming_me_state[4] =
 	{
 	{ Event_type::ACK, this->Naming_him_state, ask_for_name }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
@@ -454,10 +455,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	(this->actual_state->fun_trans)(this);
 	this->actual_state = (this->actual_state->nextstate);
 
-
-	this->my_user_data->my_network_data.set_should_check_for_new_messages(true); //cada vez que entro a correr la FSM chequeo los mensajes
-	this->notify_obs();
-	this->my_user_data->my_network_data.set_should_check_for_new_messages(false);
 
 }
 
@@ -675,6 +672,13 @@ void analyze_action_being_server(void* data) {
 void execute_action_send_it_and_set_ack_time_out(void * data) {
 
 	FSM* fsm = (FSM*)data;
+	/*
+	analyze=true
+	notify
+	false
+	if(is_okaY==true)
+
+	*/
 	fsm->execute_action = true;
 	fsm->notify_obs();
 	fsm->execute_action = false;

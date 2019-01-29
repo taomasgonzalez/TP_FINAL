@@ -12,7 +12,7 @@ Map::Map(int number_of_rows, int number_of_columns, const char * original_map_di
 	for (int i = 0; i < number_of_rows; ++i)
 		map_cells[i] = new MapCell[number_of_columns];
 
-	load_the_map(original_map_distribution);
+	//load_the_map(original_map_distribution);
 }
 
 Map::~Map(){
@@ -25,7 +25,7 @@ Map::~Map(){
 void Map::load_the_map(const char * CSV_map_location) {
 
 	memcpy((void *)this->original_map_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
-	this->my_checksum=make_checksum(CSV_map_location);
+	//this->my_checksum=make_checksum(CSV_map_location);
 }
 
 //hace checksum local, función guido

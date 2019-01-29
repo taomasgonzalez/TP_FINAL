@@ -16,7 +16,7 @@ void ScenarioEventsObserver::update() {
 
 	if (this->scenario->game_started)
 	{
-		if(this->my_event_handler->my_user_data->my_network_data.is_client())  //si es cliente carga el paquete que inicia la fsm
+		if(this->my_event_handler->my_user_data->my_network_data.is_client()==false)  //si es cliente carga el paquete que inicia la fsm
 		this->my_event_handler->soft_queue->push(new START_COMMUNICATION_EventPackage(true));
 	}
 

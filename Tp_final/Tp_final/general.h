@@ -1,5 +1,10 @@
 #pragma once
 
+#define DEBUG
+#ifdef DEBUG
+
+#endif // DEBUG
+
 #define _WIN32_WINNT 0x0501
 
 #define DISPLAY_HEIGHT 696

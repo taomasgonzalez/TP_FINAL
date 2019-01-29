@@ -11,6 +11,8 @@ EventGenerator::EventGenerator(Allegro * al, FSM * fsm, Userdata* data)
 	this->al_queue = al->get_al_queue(); 
 	this->soft_queue = new std::queue<EventPackage*>();
 	this->net_queue = new std::queue<EventPackage*>();
+	this->allegro_queue = new std::queue<EventPackage*>(); ///para debbugear tommy, no me fajes
+
 	this->time_out_timer = al->get_front_time_out_timer();
 	this->time_out_count = 0;
 	this->my_fsm = fsm;
@@ -71,6 +73,9 @@ EventPackage * EventGenerator::fetch_event_al() {
 		new_events = this->allegro_queue->front();
 		this->allegro_queue->pop();
 	}
+	else
+		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+
 	return new_events;
 }
 
