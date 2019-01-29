@@ -24,7 +24,7 @@ void FSMCommunicationObserver::update() {
 	EventPackage* info_to_be_send=NULL;
 
 	//NAME
-	if (fsm->ask_name) {
+	if (fsm->s_name) {
 		//tengo que mandar paquete NAME para preguntar nombre
 		info_to_be_send = new NAME_EventPackage(true);
 
@@ -34,7 +34,6 @@ void FSMCommunicationObserver::update() {
 	if (fsm->s_quit) {
 		//tengo que mandar paquete QUIT
 		info_to_be_send = new QUIT_EventPackage(true);
-
 
 	}
 
@@ -60,7 +59,7 @@ void FSMCommunicationObserver::update() {
 	if (fsm->s_map_is) {
 		//tengo qeu mandar paquete MAP_IS! //investigar vectores y ponerlo lindo, solo pasará si soy server
 		info_to_be_send = new MAP_IS_EventPackage(true,this->scenario->maps.at(this->scenario->actual_map)->give_me_the_original_map(), this->scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum() );
-
+		this->scenario->actual_map++;
 
 	}
 	if (fsm->s_game_start) {

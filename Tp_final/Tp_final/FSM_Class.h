@@ -57,6 +57,7 @@ public:
 	 bool s_game_over;
 	 bool s_we_won;
 	 bool s_play_again;
+	 bool s_name;
 
 	 //user decition flags
 	 bool want_to_play_again;
@@ -69,16 +70,18 @@ public:
 	 bool waiting_for_ack;
 	 bool reset_ack_timer;
 	 bool new_ack_time_out;
-	 bool ask_name;
 	 bool end_game;
-	 bool execute_action;
 	 bool receive_name;
 
 	 bool start_game;
+
+	 //check flags
 	 bool check_action;
+	 bool check_map;
 
 	 //loading
 	 bool load_enemy_action;
+	 bool load_new_map;
 
 private:
 

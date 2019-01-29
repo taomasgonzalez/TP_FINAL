@@ -4,17 +4,16 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 {
 	this->game_finished = false;
 	this->game_started = false;
-	this->check_local_action = false;		//see where this flag is turn on or off
+	this->check_local_action = false;		
 	this->has_to_draw = false;
 	this->action_from_allegro = NULL;
+	this->actual_map = 1;
 
-	//load_maps(); //levanto los CVS, construyo los mapas y los cargo en el vector
 }
 
 
 Scene::~Scene()
 {
-
 	for (std::vector<Player*>::iterator it = players.begin(); it != players.end(); ++it) {
 		delete (*it);
 	}
@@ -32,23 +31,45 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 {
 }
 
-void Scene::load_maps() {
+void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
-	this->actual_map = 1;
 
-	//cargo los 10 mapas
-	while (this->actual_map < 11) //ver de hacer con un iterador asi no queda tan cabeza
-	{
-		//en el tercer argumento va el CSV cargado en un const char *
-		maps.push_back(new Map(12, 16,give_me_the_CSV(actual_map)));
+
+	if (is_client) //The map came by networking, already checked
+	{	
+		maps.push_back(new Map(12, 16, ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map(), ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum()));
 		this->actual_map++;
-
 	}
-	this->actual_map = 1;
+	else
+	{	//I´m server, I´ve the map available
+		maps.push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
+	}
 
-	//load_vectors with txt
-	//this->actual_map = maps.begin();  //asign iterator to the first map
 
+
+}
+
+//hace checksum , función guido
+unsigned char Scene::make_checksum(const char * CSV_map_location) {
+
+	unsigned char local_checksum = 'd';
+
+	return local_checksum;
+}//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos(hecho)
+
+
+bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
+{
+	bool map_validation;
+	unsigned char extern_checksum = ((MAP_IS_EventPackage *)map_to_be_checked)->give_me_the_checksum();
+	unsigned char local_checksum = this->make_checksum(((MAP_IS_EventPackage *)map_to_be_checked)->give_me_the_map());
+
+	if (local_checksum == extern_checksum)
+		map_validation = true;
+	else
+		map_validation = false;
+	
+	return map_validation;
 }
 
 //función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve

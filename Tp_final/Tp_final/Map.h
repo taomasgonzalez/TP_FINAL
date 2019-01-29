@@ -9,7 +9,7 @@
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution);
+	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution, unsigned char checksum);
 	~Map();
 
 	bool cell_has_proyectiles(int coord_x, int coord_y);
@@ -31,7 +31,6 @@ public:
 	const char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
 	void load_the_map(const char * CSV_map_location);
-	unsigned char make_checksum(const char * CSV_map_location);
 
 
 

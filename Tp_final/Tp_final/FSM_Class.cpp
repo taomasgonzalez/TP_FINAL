@@ -94,6 +94,7 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 	s_action_request = false;
 	s_action = false;
 	s_action_from_action_request = false;
+	s_name = false;
 
 	//timer flags
 	waiting_for_ack = false;
@@ -106,13 +107,19 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 
 
 	//others flags
-	ask_name = false;
 	end_game = false;
 	start_game = false;
-	check_action = false;
-	execute_action = false;
 	receive_name = false;
+
+	//check flags
+	check_action = false;
+	check_map = false;
+
+	//loading flags
 	load_enemy_action = false;
+	load_new_map=false;
+
+
 	//game conditions flags
 	bool we_won=false;
 	bool we_lost=false;
@@ -175,7 +182,7 @@ void FSM::init_fsm_server(){
 
 	edge_t Naming_him_state[5] =
 	{
-	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::NAME_IS, this->Naming_me_state, receive_name_and_send_ack }, 
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 	{ Event_type::ERROR1, NULL, analayze_error },
@@ -185,7 +192,7 @@ void FSM::init_fsm_server(){
 
 	edge_t Naming_me_state[5] =
 	{
-	{ Event_type::NAME, this->Waiting_for_ACK_name_state, send_name_is }, //va a estar creado el worm, mando evento IAMREADY CON SU POSICION
+	{ Event_type::NAME, this->Waiting_for_ACK_name_state, send_name_is }, //
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 	{ Event_type::ERROR1, NULL, analayze_error },
@@ -604,14 +611,31 @@ void send_game_start(void* data) {
 
 void ask_for_name(void* data) {
 	FSM * fsm = (FSM*)data;
-	fsm->ask_name = true;
+	fsm->s_name = true;
 	fsm->notify_obs();
-	fsm->ask_name = false;
+	fsm->s_name = false;
 }
 void check_map_and_save_send_ack(void*data) {
+	FSM * fsm = (FSM*)data;
 
+	fsm->check_map = true;
+	fsm->notify_obs();
+	fsm->check_map = false;
 
+	if(fsm->s_ack) //the map is valid, I should send an ACK
 	send_ack(data);
+}
+void send_map_is(void * data) { 
+	FSM * fsm = (FSM*)data;
+
+	fsm->load_new_map = true;
+	fsm->notify_obs();
+	fsm->load_new_map = false;
+
+	fsm->s_map_is = true;
+	fsm->notify_obs();
+	fsm->s_map_is = false;
+	set_ack_time_out(data);
 }
 void load_enemy_action_and_send_ack(void*data) {
 
@@ -619,6 +643,7 @@ void load_enemy_action_and_send_ack(void*data) {
 	load_enemy_action(data);
 	send_ack(data);
 }
+
 void load_enemy_action(void*data) {
 
 	FSM * fsm = (FSM*)data;
@@ -627,6 +652,7 @@ void load_enemy_action(void*data) {
 	fsm->notify_obs();
 	fsm->load_enemy_action = false;
 }
+
 void load_action_and_send_it_back(void * data) {
 	
 	FSM * fsm = (FSM*)data;
@@ -657,13 +683,6 @@ void send_ack(void * data) {
 	fsm->s_ack = true;
 	fsm->notify_obs();
 	fsm->s_ack = false;
-}
-void send_map_is(void * data) { 
-	FSM * fsm = (FSM*)data;
-	fsm->s_map_is = true;
-	fsm->notify_obs();
-	fsm->s_map_is = false;
-	set_ack_time_out(data);
 }
 
 void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length) {

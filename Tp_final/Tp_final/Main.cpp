@@ -38,7 +38,7 @@ Probala aparte y fijate que funcione, ahí agregala
 
 -Hacer checksums
 Tener que hacer los checksums de los mapas que vas cargando. Ver consigna(anexo)
-Tenés que hacer la funcióon unsigned char Map::make_checksum(const char * CSV_map_location) en Map.cpp, probalo antes de agregarlo
+Tenés que hacer la funcióon unsigned char Scene::make_checksum(const char * CSV_map_location) en Scene.cpp, probalo antes de agregarlo
 
 -Terminar lo que quedo pendiente de la parte gráfica
 Para que saques imagenes para probar, después buscamos unas copadas o vemos de donde las conseguimos

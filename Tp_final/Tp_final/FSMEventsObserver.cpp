@@ -7,7 +7,7 @@ FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, FSM * fsm, Alle
 	this->event_gen = event_gen;
 	this->fsm = fsm;
 	this->allegro_container = allegro_container;
-	this->scenario = scenario;
+
 }
 
 FSMEventsObserver::~FSMEventsObserver()
@@ -31,7 +31,7 @@ void FSMEventsObserver::update() {
 		if (allegro_container->no_time_outs())		//me fijo si ya no toy esperando ningun ack mas
 			fsm->waiting_for_ack = false;
 	}
-
+	
 	if(fsm->end_game){
 		//vacio las colas. Nada importa ya porque el juego va a terminar. :(
 		this->event_gen->empty_all_queues();
@@ -56,56 +56,6 @@ void FSMEventsObserver::update() {
 		char * his_name = ((NAME_IS_EventPackage *)his_new_name_package)->give_me_your_name();
 
 		this->event_gen->my_user_data->my_network_data.tell_me_his_name(his_name, his_namelenght);
-
-	}
-	if (fsm->check_action) {
-
-		EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
-
-		if (!this->scenario->is_the_action_possible(event_to_be_checked))//mando a analizar el EventPackage 
-		{
-			//If the EventPackage is not valid, the program can take two paths depending on the origin of the action
-			//If it is a local action, the action is incompatible with the current developing of the game like a move into a wall
-			//If it´s a extern action, a corruption in the received package has ocurred beacause a computer can not send invalid plays
-			//thus, we send an error.
-			if (event_to_be_checked->is_this_a_local_action() == false) 
-			{
-				this->event_gen->empty_all_queues();
-				this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
-			}
-
-		}
-		else
-			this->scenario->execute_action(event_to_be_checked); //The action is instantly executed if it´s valid
-	}
-
-	if (fsm->we_won) { 
-
-		EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
-
-		if (!this->scenario->did_we_win(event_to_be_checked))
-		{
-			this->event_gen->empty_all_queues(); 
-			this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
-		}
-	
-		else
-			this->event_gen->append_new_soft_event(new WE_WON_EventPackage(true));
-
-	}
-
-	if (fsm->we_lost) {
-
-		EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
-
-		if (!this->scenario->did_we_lost(event_to_be_checked)) //mando a analizar el EventPackage sea local 
-		{
-			this->event_gen->empty_all_queues(); 
-			this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
-		}
-		
-		else
-			this->event_gen->append_new_soft_event(new GAME_OVER_EventPackage(true));
 
 	}
 	

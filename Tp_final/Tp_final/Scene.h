@@ -40,7 +40,10 @@ public:
 	bool game_is_finished();
 	bool do_you_have_to_draw();
 
-	void load_maps();
+	//map functions
+	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
+	bool is_the_map_okay(EventPackage * map_to_be_checked);
+	unsigned char make_checksum(const char * CSV_map_location);
 
 
 	void set_new_allegro_event(EventPackage * new_event);
