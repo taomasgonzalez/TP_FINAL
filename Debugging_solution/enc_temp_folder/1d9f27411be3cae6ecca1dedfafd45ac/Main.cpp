@@ -16,9 +16,8 @@ int main(void) {
 	char * string = random_192_string();
 	printf("%s\n", string);
 	mapa->load_on_map(string);
-	//carga bien, verificar con llamados particulares a mapa->print_cell(x,y); imprime bien asi
-
-	mapa->print_map();		//funciona mal, imprime cualquier cosa, es una funcion bastante rebuscada, o cambiarla o arreglarla.
+	for (int i = 0; i < 192; i++)
+		mapa->print_cell(i / 16, i % 16);
 	getchar();
 	return 0;
 }

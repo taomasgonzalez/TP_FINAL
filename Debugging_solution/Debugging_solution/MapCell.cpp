@@ -86,6 +86,19 @@ bool MapCell::delete_id(unsigned int wanted_id) {
 	return successfully_deleted;
 }
 
+bool MapCell::delete_map_thing(MapThing * thing)
+{
+	bool successfully_deleted = false;
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
+		if ((*it) == thing) {
+			successfully_deleted = true;
+			cell_things->erase(it);
+			break;
+		}
+	}
+	return successfully_deleted;
+}
+
 void MapCell::place_on_cell(MapThing* thing) {
 	cell_things->push_back(thing);
 }
@@ -97,4 +110,10 @@ std::vector<MapThing*> MapCell::get_floors()
 
 unsigned int MapCell::get_number_of_floors() {
 	return (unsigned int)(cell_things->size());
+}
+
+void MapCell::print() {
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
+		printf("%c", (*it)->get_printable());
+	}
 }
