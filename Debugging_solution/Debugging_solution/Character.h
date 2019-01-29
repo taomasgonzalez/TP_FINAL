@@ -15,5 +15,6 @@ public:
 	unsigned int pos_y;
 	States current_state;
 	//Observer_dibujo
+
 };
 

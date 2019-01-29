@@ -21,11 +21,14 @@ public:
 
 	MapThing * get_id(unsigned int wanted_id);
 	bool delete_id(unsigned int wanted_id);
+	bool delete_map_thing(MapThing * thing);
 
 	void place_on_cell(MapThing* thing);
 
 	std::vector<MapThing*> get_floors();
 	unsigned int get_number_of_floors();
+
+	void print();
 
 private:
 	std::vector<MapThing*>* cell_things;

@@ -5,7 +5,7 @@
 #include "Scene.h"
 
 
-EventGenerator::EventGenerator(Allegro * al, FSM * fsm, Userdata* data)
+EventGenerator::EventGenerator(Allegro * al, Userdata* data)
 {
 
 	this->al_queue = al->get_al_queue(); 
@@ -15,7 +15,6 @@ EventGenerator::EventGenerator(Allegro * al, FSM * fsm, Userdata* data)
 
 	this->time_out_timer = al->get_front_time_out_timer();
 	this->time_out_count = 0;
-	this->my_fsm = fsm;
 	this->my_user_data = data;
 
 }
@@ -46,9 +45,7 @@ void EventGenerator::append_new_net_event(EventPackage* new_ev_pack) {
 void EventGenerator::append_new_soft_event(EventPackage* new_ev_pack) {
 	soft_queue->push(new_ev_pack);
 }
-void EventGenerator::append_new_allegro_event(EventPackage* new_ev_pack) {
-	allegro_queue->push(new_ev_pack);
-}
+
 
 EventPackage* EventGenerator::fetch_event_net() {
 

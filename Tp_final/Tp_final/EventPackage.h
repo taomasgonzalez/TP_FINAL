@@ -2,7 +2,7 @@
 #include "Package.h"
 #include <cstring>
 
-enum class Event_type  //Events that are use by the internal function of the program like during FSM
+enum class Event_type  //Events that are usde by the internal function of the program 
 {
 	END_OF_TABLE,
 
@@ -118,7 +118,6 @@ class MOVE_EventPackage : public EventPackage, public MOVE_package
 {
 public:
 	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
-
 
 };
 

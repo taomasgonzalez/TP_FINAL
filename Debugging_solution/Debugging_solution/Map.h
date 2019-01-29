@@ -26,14 +26,19 @@ public:
 	void print_map();
 	int get_max_number_of_floors();
 
-	void load_on_map(char* map_string);
+	//llamar despues de construir al mapa para cargar las cosas!!
+	void load_on_map(const char* map_string);
+
 	void reset_map();
+
+	bool delete_from_map(unsigned int id);
+	bool delete_from_map(MapThing* thing);
+
+	void print_cell(int coord_x, int coord_y);
 
 private:
 	MapCell ** map_cells;
-	MapCell *get_cell(int coord_x, int coord_y);
-
-	bool delete_from_map(unsigned int id);
+	MapCell get_cell(int coord_x, int coord_y);
 
 	int number_of_rows;
 	int number_of_columns;
