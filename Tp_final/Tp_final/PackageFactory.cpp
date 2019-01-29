@@ -88,6 +88,7 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::NAME:
+		 std::cout << "me llego un NAME" << std :: endl;
 		 my_event_package= new NAME_EventPackage(false);
 		 break;
 

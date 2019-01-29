@@ -121,7 +121,7 @@ void FSMCommunicationObserver::update() {
 	}
 
 
-
+	if(info_to_be_send != NULL) //hay algo para mandar
 	com->sendMessage(PackageFactory::event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 

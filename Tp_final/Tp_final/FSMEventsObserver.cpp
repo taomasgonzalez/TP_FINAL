@@ -34,8 +34,7 @@ void FSMEventsObserver::update() {
 
 	if(fsm->end_game){
 		//vacio las colas. Nada importa ya porque el juego va a terminar. :(
-		event_gen->net_queue->empty();
-		event_gen->soft_queue->empty();				
+		
 	}
 
 	if (fsm->receive_name) {
@@ -46,9 +45,58 @@ void FSMEventsObserver::update() {
 		this->event_gen->my_user_data->my_network_data.tell_me_his_name(his_name, his_namelenght);
 
 	}
-	//if (fsm->check_action) {  Ya se hace en EventsCommunicationObserver::update(), fijarse donde corresponde, eliminar el proceso de check_action de 
+	if (fsm->check_action) {
 
+		EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
 
+		if (!this->my_scenario->is_the_action_possible(event_to_be_checked))//mando a analizar el EventPackage sea local 
+		{
+			if (event_to_be_checked->is_this_a_local_action() == false)
+			{
+				this->event_gen->empty_all_queues(); //hay que hacerla
+				this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
+			}
+
+		}
+		else
+			this->my_scenario->execute_action(event_to_be_checked); //hay que hacerla
+	}
+		if (fsm->we_won) {
+
+			EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
+
+			if (!this->my_scenario->did_we_win(event_to_be_checked))//mando a analizar el EventPackage sea local 
+			{
+				if (event_to_be_checked->is_this_a_local_action() == false)
+				{
+					this->event_gen->empty_all_queues(); //hay que hacerla
+					this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
+				}
+
+			}
+			else
+				this->event_gen->append_new_soft_event(new WE_WON_EventPackage(true));
+
+		}
+
+		if (fsm->we_lost) {
+
+			EventPackage* event_to_be_checked = this->fsm->get_fsm_ev_pack();
+
+			if (!this->my_scenario->do_we_won(event_to_be_checked))//mando a analizar el EventPackage sea local 
+			{
+				if (event_to_be_checked->is_this_a_local_action() == false)
+				{
+					this->event_gen->empty_all_queues(); //hay que hacerla
+					this->event_gen->append_new_soft_event(new ERROR_EventPackage(true));
+				}
+
+			}
+			else
+				this->event_gen->append_new_soft_event(new GAME_OVER_EventPackage(true));
+
+		}
+	
 }
 
 	
