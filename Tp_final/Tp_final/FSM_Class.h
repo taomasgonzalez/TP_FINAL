@@ -42,6 +42,7 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void load_fsm_ev_pack(EventPackage* event_package_to_be_loaded);
+
 	 //sending
 	 bool s_quit;
 	 bool s_ack;
@@ -57,6 +58,13 @@ public:
 	 bool s_we_won;
 	 bool s_play_again;
 
+	 //user decition flags
+	 bool want_to_play_again;
+	 bool do_not_want_to_play_again;
+
+	 //game conditions flags
+	 bool we_won;
+	 bool we_lost;
 
 	 bool waiting_for_ack;
 	 bool reset_ack_timer;
@@ -68,6 +76,7 @@ public:
 
 	 bool start_game;
 	 bool check_action;
+
 	 //loading
 	 bool load_enemy_action;
 

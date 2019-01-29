@@ -9,8 +9,11 @@ enum class Event_type  //Events that are use by the internal function of the pro
 	//ACK:
 	ACK,
 
-	//QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
-	QUIT,
+	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
+	LOCAL_QUIT,
+
+	//EXTERN_QUIT:Evento de networking de quit
+	EXTERN_QUIT,
 
 	//LOCAL_ACTION: Evento generado por allegro pero no ejecutado por la maquina,falta analizar
 	MOVE,

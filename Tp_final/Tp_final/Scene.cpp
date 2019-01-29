@@ -28,6 +28,10 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 
 
 
+void Scene::execute_action(EventPackage * action_to_be_executed)
+{
+}
+
 void Scene::load_maps() {
 
 	this->actual_map = 1;
@@ -40,6 +44,8 @@ void Scene::load_maps() {
 		this->actual_map++;
 
 	}
+	this->actual_map = 1;
+
 	//load_vectors with txt
 	//this->actual_map = maps.begin();  //asign iterator to the first map
 
@@ -84,8 +90,11 @@ void Scene::set_new_allegro_event(EventPackage * new_event) {
 bool Scene::game_is_finished() {
 	return this->game_finished;
 }
+
 void Scene::finish_game() {
 	this->game_finished = true;
+	notify_obs();
+	this->game_finished = false;
 }
 
 
@@ -94,33 +103,16 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 
 	bool is_the_action_possible = true;
 
-	//fijarse si no son iguales los eventos que llegan por net, los de soft y los de allegro
-	//creo que son iguales, despu´´es seguir flujo y cheuqearlo
 
-		//analysis
+	//analysis
 	is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
 		
 
 
-	if (package_to_be_analyze->is_this_a_local_action()) //analisis de todo paquete generado por allegro
-	{
-		//la ignoroo
-
-	}
-	else //analisis de todo pquete que llega por nwt
-	{
-		//analysis
-
-		//mando error
-	}
-
-		if (is_the_action_possible)
+	if (is_the_action_possible) //Implementación al pedo por como está hecho en FSMEventsObserver
 			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
-		else
+	else
 			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
-	//if (is_the_action_possible) al pedo no? EventsCommunicationObserver::update() ya tiene el paquete
-		//this->package_to_be_appended = package_to_be_analyze;
-
 
 	return is_the_action_possible;
 }
@@ -130,6 +122,16 @@ bool Scene::check_action(EventPackage * package_to_be_analyze) {
 	//hacer función chequeo
 	//unsigned char Map::make_checksum(const char * CSV_map_location) función para chequear el map_is entrante
 	return true;
+}
+
+bool Scene::did_we_win(EventPackage * package_to_be_analyze)
+{
+	return false;
+}
+
+bool Scene::did_we_lost(EventPackage * package_to_be_analyze)
+{
+	return false;
 }
 
 

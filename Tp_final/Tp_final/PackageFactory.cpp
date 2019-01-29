@@ -71,6 +71,10 @@ PackageFactory::PackageFactory()
 		pac = new QUIT_package();
 		break;
 
+	default: //me llego un EventPackage corrompido que no se que tiene, cargo un error
+		pac = new ERROR_package();
+		std::cout << "Me llego un EventPackage con header irrecononocible" << std::endl;
+		break;
 	}
 	
 	return pac;
@@ -140,6 +144,9 @@ PackageFactory::PackageFactory()
 		 my_event_package = new QUIT_EventPackage(false);
 		 break;
 
+	 default: //No puedo reconocer el paquete que llego, implica que está corrompido, se produjo un error de comunicación
+		 my_event_package = new ERROR_EventPackage(false);
+		 break;
 	 }
 
 	 return my_event_package;
