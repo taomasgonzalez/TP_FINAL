@@ -33,7 +33,7 @@ bool Resources::Intialize_all_the_resources() {
 	}
 
 	this->my_fsm = new FSM(this->my_user_data);
-	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_fsm,this->my_user_data);
+	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_user_data);
 
 	this->add_all_observers();
 
@@ -48,7 +48,7 @@ void Resources::add_all_observers() {
 
 	this->my_fsm->add_observer(new FSMEventsObserver(this->my_event_handler, this->my_fsm, this->my_allegro_container,this->my_scenario));
 	this->my_fsm->add_observer(new FSMCommunicationObserver(this->my_fsm, this->my_communication, this->my_scenario,this->my_user_data));
-	this->my_fsm->add_observer(new FSMSceneObserver(this->my_fsm, this->my_scenario));
+	this->my_fsm->add_observer(new FSMSceneObserver(this->my_fsm, this->my_scenario, this->my_event_handler, this->my_user_data));
 	this->my_fsm->add_observer(new EventsCommunicationObserver(this->my_event_handler, this->my_communication, this->my_user_data,this->my_scenario));
 
 

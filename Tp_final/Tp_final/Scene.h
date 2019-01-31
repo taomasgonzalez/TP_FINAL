@@ -17,19 +17,37 @@ public:
 	void gameInit();
 
 	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
-	void load_maps();
 
+	//Analyze of gaming situations
+	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
+	bool check_action(EventPackage * package_to_be_analyze);
+	bool did_we_win(EventPackage * package_to_be_analyze);  //Analyze if the game was won by the players
+	bool did_we_lost(EventPackage * package_to_be_analyze); //Analyze if the game was lost by the players
+
+
+
+	//Executing functions
+	void execute_action(EventPackage * action_to_be_executed);
+	void finish_game();
+
+	//Getters
 	EventPackage * give_me_my_allegro_event();
 	Character_type give_me_my_player();
 	Character_type give_the_other_player();
-	void set_new_allegro_event(EventPackage * new_event);
+	const char * give_me_the_CSV(unsigned int actual_map);
+
+	//Control Flags getters
 	bool game_is_finished();
-	void finish_game();
-	bool is_the_action_possible(EventPackage* package_to_be_analyze);
-	bool check_action(EventPackage * package_to_be_analyze);
 	bool do_you_have_to_draw();
 
-	const char * give_me_the_CSV(unsigned int actual_map);
+	//map functions
+	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
+	bool is_the_map_okay(EventPackage * map_to_be_checked);
+	unsigned char make_checksum(const char * CSV_map_location);
+
+
+	void set_new_allegro_event(EventPackage * new_event);
+
 
 
 	std::vector <Map*> maps;
@@ -50,11 +68,6 @@ private:
 	std::vector <Player*> players;
 	Character_type my_player;
 	Character_type other_player;
-
-
-
-
-
 
 };
 

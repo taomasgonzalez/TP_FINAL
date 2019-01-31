@@ -24,6 +24,21 @@ EventGenerator::~EventGenerator()
 {
 }
 
+void EventGenerator::empty_all_queues() {
+
+	while (this->net_queue->size() >= 1) 
+	{
+		this->net_queue->pop();
+	}
+
+	while (this->soft_queue->size() >= 1)
+	{
+		this->soft_queue->pop();
+	}
+
+	al_flush_event_queue(al_queue);
+}
+
 void EventGenerator::append_new_net_event(EventPackage* new_ev_pack) {
 	net_queue->push(new_ev_pack);
 }

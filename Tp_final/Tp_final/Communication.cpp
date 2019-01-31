@@ -180,11 +180,11 @@ void Communication::sendMessage(Package * package_received) {
 	size_t len;
 	boost::system::error_code error;
 	
-	do
-	{ //first parameter should be char [n] not char *, possible source of error
+	//do         //Evito el loopeo
+	//{ //first parameter should be char [n] not char *, possible source of error
 		len = socket->write_some(boost::asio::buffer(package_received->get_sendable_info(), (size_t)(package_received->get_info_length())), error); 
-	} 
-	while ((error.value() == WSAEWOULDBLOCK));
+	//} 
+	//while ((error.value() == WSAEWOULDBLOCK));
 
 	if (error)
 	{
@@ -216,11 +216,11 @@ Package * Communication::receiveMessage() {
 
 	size_t len = 0;
 
-	do
-	{
+	//do
+	//{
 		len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
 
-	} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
+	//} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
 
 	if (error.value() == WSAEWOULDBLOCK) {
 		//no leyo nada!!

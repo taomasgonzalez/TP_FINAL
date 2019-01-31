@@ -18,6 +18,8 @@ public:
 	friend class ScenarioEventsObserver;
 	friend class FSMEventsObserver;
 
+	//In case an error ocurred and there are pending events to be run by the fsm
+	void empty_all_queues();
 
 	void append_new_net_event(EventPackage* new_ev_pack);
 	void append_new_soft_event(EventPackage* new_ev_pack);
