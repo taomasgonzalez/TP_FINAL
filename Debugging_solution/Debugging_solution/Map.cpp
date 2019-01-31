@@ -14,6 +14,9 @@ Map::Map(int number_of_rows, int number_of_columns)
 
 Map::~Map()
 {
+	for (int i = 0; i < number_of_rows; ++i)
+		delete[] map_cells[i];
+	delete[] map_cells;
 }
 
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {

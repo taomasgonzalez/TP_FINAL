@@ -2,7 +2,7 @@
 
 
 
-Proyectile::Proyectile()
+Proyectile::Proyectile(unsigned int id) : MapThing(id, false)
 {
 }
 

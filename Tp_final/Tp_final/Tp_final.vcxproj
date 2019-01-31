@@ -147,6 +147,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapCell.cpp" />
     <ClCompile Include="MapThing.cpp" />
+    <ClCompile Include="MapThingFactory.cpp" />
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Package.cpp" />
@@ -178,6 +179,7 @@
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
     <ClInclude Include="Map.h" />

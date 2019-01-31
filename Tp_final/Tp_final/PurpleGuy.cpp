@@ -2,8 +2,9 @@
 
 double PurpleGuy::moving_speed = 300;
 
-PurpleGuy::PurpleGuy()
+PurpleGuy::PurpleGuy(unsigned int id) :Enemy(id)
 {
+	printable = 'P';
 }
 
 

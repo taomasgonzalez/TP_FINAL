@@ -9,7 +9,7 @@ enum class States
 class Character: public MapThing
 {
 public:
-	Character();
+	Character(unsigned int id);
 	~Character();
 
 	unsigned int pos_x;

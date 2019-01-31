@@ -4,7 +4,7 @@
 class Enemy: public Character
 {
 public:
-	Enemy();
+	Enemy(unsigned int id);
 	~Enemy();
 
 	unsigned int amount_of_hits_taken;

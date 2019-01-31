@@ -3,7 +3,7 @@
 class GreenFatty: public Enemy
 {
 public:
-	GreenFatty();
+	GreenFatty(unsigned int id);
 	~GreenFatty();
 
 private:

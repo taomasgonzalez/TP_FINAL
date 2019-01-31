@@ -2,18 +2,16 @@
 #include <cstdlib>
 #include <ctime>
 #include <iostream>
-
+#include <vector>
 char* random_192_string();
 
 int main(void) {
-
 	Scene scenario;
 	srand(time(NULL));
 	//scenario.load_on_map(random_192_string());
 	//scenario.print_current_map();
 
 	Map * mapa = new Map(12, 16);
-
 
 	char * string = random_192_string();
 	printf("%s\n", string);
@@ -28,6 +26,8 @@ int main(void) {
 
 	mapa->print_map();		//funciona bien.
 	getchar();
+	std::vector<Map>* mapas = new std::vector<Map>();
+	mapas->clear();
 	return 0;
 }
 

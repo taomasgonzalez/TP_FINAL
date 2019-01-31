@@ -147,6 +147,9 @@
     <ClCompile Include="Drawer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="MapThingFactory.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -247,6 +250,9 @@
     </ClInclude>
     <ClInclude Include="Drawer.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThingFactory.h">
+      <Filter>Header Files\Map_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
