@@ -13,12 +13,20 @@ int main(void) {
 	//scenario.print_current_map();
 
 	Map * mapa = new Map(12, 16);
+
+
 	char * string = random_192_string();
 	printf("%s\n", string);
 	mapa->load_on_map(string);
+
+	printf("Segundo piso\n");
+	char * string1 = random_192_string();
+	printf("%s\n", string1);
+	mapa->load_on_map(string1);
+
 	//carga bien, verificar con llamados particulares a mapa->print_cell(x,y); imprime bien asi
 
-	mapa->print_map();		//funciona mal, imprime cualquier cosa, es una funcion bastante rebuscada, o cambiarla o arreglarla.
+	mapa->print_map();		//funciona bien.
 	getchar();
 	return 0;
 }

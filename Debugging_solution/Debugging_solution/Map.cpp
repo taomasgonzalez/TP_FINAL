@@ -53,6 +53,11 @@ MapThing * Map::get_from_map(unsigned int id) {
 	return gotten;
 }
 
+MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
+{
+	return get_cell(coord_x, coord_y).get_floor(coord_z);
+}
+
 bool Map::delete_from_map(unsigned int id) {
 	bool successfully_deleted = false;
 	for (int i = 0; i < number_of_rows; i++) 
@@ -94,27 +99,21 @@ void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 
 
 void Map::print_map() {
-	int number_of_floors = get_max_number_of_floors();
 
-	char* printable = new char[number_of_rows * number_of_columns * number_of_floors];
-	for (int i = 0; i < number_of_rows; i++)
-		for (int j = 0; j < number_of_columns; j++) {
-			std::vector<MapThing*> floors = get_cell(i, j).get_floors();
-			int floor_number = 0;
-			for (std::vector<MapThing*>::iterator it = floors.begin(); it != floors.end(); ++it) {
-				//arr[x + width * (y + depth * z)]
-				printable[i + number_of_columns* (j + number_of_floors * floor_number)] = (*it)->id;
-				floor_number++;
+	for (int z = 0; z < get_max_number_of_floors(); z++){
+		printf("FLOOR %u : \n", z);
+		for (int x = 0; x < number_of_rows; x++) 
+			for (int y = 0; y < number_of_columns; y++) {
+				MapCell curr_cell = get_cell(x, y);
+				int num_floors = curr_cell.get_number_of_floors();
+				if ( num_floors >= z)
+					printf("%c", curr_cell.get_floor(z)->get_printable());
+				else 
+					printf(" ");
 			}
-		}
-
-	for(int f = 0; f < number_of_floors; f++){
-		printf("FLOOR %u : \n",f);
-		for(int i = 0; i < number_of_rows; i++)
-			for (int j = 0; j < number_of_columns; j++)
-				printf("%c", printable[i + number_of_columns * (j + number_of_floors * f)]);
 		printf("\n\n");
 	}
+
 }
 
 int Map::get_max_number_of_floors() {
@@ -143,4 +142,6 @@ void Map::load_on_map(const char* map_string) {
 
 void Map::reset_map()
 {
+	
+
 }

@@ -19,6 +19,7 @@ public:
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
 	
 	MapThing* get_from_map(unsigned int id);
+	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
 	void place_on_map(int coord_x, int coord_y, MapThing* thing);
