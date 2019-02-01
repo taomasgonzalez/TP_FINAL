@@ -97,6 +97,9 @@ EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
 	return my_enemy_action_event;
 }
 
+void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
+	assistant_queue->push(new_ev_pack);
+}
 
 EventPackage* give_me_my_enemy_action(bool is_initializing);
 

@@ -54,6 +54,7 @@ private:
 
 	int number_of_rows;
 	int number_of_columns;
+	unsigned char my_checksum;
 
 	const char* original_distribution;
 

@@ -47,6 +47,7 @@ void EventGenerator::append_new_soft_event(EventPackage* new_ev_pack) {
 }
 
 
+
 EventPackage* EventGenerator::fetch_event_net() {
 
 	EventPackage * new_events=NULL;

@@ -32,7 +32,7 @@ Map::~Map()
 
 void Map::load_the_map(const char * CSV_map_location) {
 
-	memcpy((void *)this->original_map_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
+	memcpy((void *)this->original_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
 }
 
 
@@ -40,7 +40,7 @@ void Map::load_the_map(const char * CSV_map_location) {
 
 const char * Map::give_me_the_original_map() {
 
-	return this->original_map_distribution;
+	return this->original_distribution;
 }
 
 EventPackage* Map::give_me_my_enemy_action(bool is_initializing) {
@@ -182,6 +182,7 @@ int Map::get_max_number_of_floors() {
 }
 
 void Map::load_on_map(const char* map_string) {
+
 	original_distribution = map_string;
 
 	MapThingFactory map_filler;

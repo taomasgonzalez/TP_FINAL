@@ -54,6 +54,7 @@ public:
 
 
 	void set_new_allegro_event(EventPackage * new_event);
+	void append_new_auxilar_event(EventPackage* new_ev_pack);
 
 
 
@@ -71,6 +72,7 @@ public:
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
+	std::queue<EventPackage*>* assistant_queue;
 private:
 
 
