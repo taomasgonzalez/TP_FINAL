@@ -1,11 +1,5 @@
 #include "Map.h"
 
-/*
-//////////////////Map::give_me_my_enemy_action///////////// escribo el encabezdo y la función vacia asi compila
--To do: Llamo a esta función ya sea para cargar los EA iniciales o durante el juego normal. Tenés que ir por el vector con un iterador o algo
-e ir mandandomelos, no te mando info adicional de que moustruo es. 
--input: bool (si recibe true es porque esta en modo inicialización, si false es que estás jugando)
--output: EventPackage* el paquete enemy action para enviar por networking
 
 IMPORTANTE: Si ya fueron mandados todos los EA iniciales tenés que devolver NULL, sólo cuando estas en modo inicialización(te llega un true como argumento)
 Aclaración: no sé si vale realmente la diferencia entre inicializando y no, lo dejo por si hay que implementar algo más adelante
@@ -30,6 +24,17 @@ Map::~Map()
 	delete[] map_cells;
 }
 
+std::vector<Enemy*> Map::get_all_enemies()
+{
+	std::vector<Enemy*> all_enemies = std::vector<Enemy*>();
+	for(int i = 0; i < number_of_rows; i++)
+		for (int j = 0; j < number_of_columns; j++) {
+			if(cell_has_enemies(i, j)){
+				std::vector<Enemy*> some_enemies = get_cell_enemies(i, j);
+				all_enemies.insert(std::end(all_enemies), std::begin(some_enemies), std::end(some_enemies));
+			}
+		}
+	return all_enemies;
 void Map::load_the_map(const char * CSV_map_location) {
 
 	memcpy((void *)this->original_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
@@ -51,9 +56,18 @@ EventPackage* Map::give_me_my_enemy_action(bool is_initializing) {
 unsigned char  Map::give_me_the_checksum() {
 
 	return this->my_checksum;
+std::vector<Enemy*> Map::get_all_proyectiles()
+{
+	std::vector<Proyectile*> all_proyectiles = std::vector<Proyectile*>();
+	for (int i = 0; i < number_of_rows; i++)
+		for (int j = 0; j < number_of_columns; j++) {
+			if (cell_has_proyectiles(i, j)) {
+				std::vector<Proyectile*> some_proyectiles = get_cell_proyectiles(i, j);
+				all_proyectiles.insert(std::end(all_proyectiles), std::begin(some_proyectiles), std::end(some_proyectiles));
+			}
+		}
+	return all_proyectiles;
 }
-
-
 
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();
