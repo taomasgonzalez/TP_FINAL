@@ -2,8 +2,9 @@
 
 double GreenFatty::moving_speed = 200;
 
-GreenFatty::GreenFatty()
+GreenFatty::GreenFatty(unsigned int id) : Enemy(id)
 {
+	printable = 'G';
 }
 
 

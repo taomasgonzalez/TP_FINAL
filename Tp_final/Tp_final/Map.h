@@ -4,8 +4,8 @@
 #include "Player.h"
 #include "Fireball.h"
 #include "EventPackage.h"
+#include "MapThingFactory.h"
 #include <vector>
-
 
 class Map
 {
@@ -21,34 +21,41 @@ public:
 
 	bool cell_has_enemies(int coord_x, int coord_y);
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
-	
+
 	MapThing* get_from_map(unsigned int id);
+	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
-	bool place_on_map(int coord_x, int coord_y, MapThing* thing);
-	bool delete_from_map(unsigned int id);
-	
+	void place_on_map(int coord_x, int coord_y, MapThing* thing);
 
+	void print_map();
+	int get_max_number_of_floors();
+
+	//llamar despues de construir al mapa para cargar las cosas!!
+	void load_on_map(const char* map_string);
+
+	void reset_map();
+
+	bool delete_from_map(unsigned int id);
+	bool delete_from_map(MapThing* thing);
 	const char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
 	void load_the_map(const char * CSV_map_location);
 	EventPackage* give_me_my_enemy_action(bool is_initializing);
 
 
+	void print_cell(int coord_x, int coord_y);
 
+	const char* get_last_loaded_distribution();
 
 private:
-
-	std::vector <Enemy*> enemies;
-	std::vector<Snowball*> snowballs;
-	std::vector<Fireball*> fireballs;
-	MapCell ** map_cells;
+	MapCell * * map_cells;
 	MapCell get_cell(int coord_x, int coord_y);
-
-	
-	const char* original_map_distribution; //loading the map is pending, reserve memory
-	unsigned char my_checksum;
 
 	int number_of_rows;
 	int number_of_columns;
+
+	const char* original_distribution;
+
+	void clear();
 };

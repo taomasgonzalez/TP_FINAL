@@ -2,8 +2,9 @@
 
 
 
-Character::Character():MapThing(99)
+Character::Character(unsigned int id) : MapThing(id, false)
 {
+
 }
 
 

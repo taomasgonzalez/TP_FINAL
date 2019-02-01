@@ -2,7 +2,7 @@
 
 
 
-Enemy::Enemy()
+Enemy::Enemy(unsigned  int id) : Character(id)
 {
 }
 

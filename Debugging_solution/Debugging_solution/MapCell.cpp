@@ -112,6 +112,11 @@ unsigned int MapCell::get_number_of_floors() {
 	return (unsigned int)(cell_things->size());
 }
 
+MapThing * MapCell::get_floor(int floor_number)
+{
+	return (*cell_things)[floor_number];
+}
+
 void MapCell::print() {
 	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
 		printf("%c", (*it)->get_printable());

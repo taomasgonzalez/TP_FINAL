@@ -2,8 +2,9 @@
 
 
 
-Player::Player()
+Player::Player(unsigned int id) :Character(id)
 {
+	printable = 'N';
 }
 
 

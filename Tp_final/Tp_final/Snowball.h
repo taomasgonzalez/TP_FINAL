@@ -4,7 +4,7 @@
 class Snowball: public Proyectile
 {
 public:
-	Snowball();
+	Snowball(unsigned int id);
 	~Snowball();
 
 private:

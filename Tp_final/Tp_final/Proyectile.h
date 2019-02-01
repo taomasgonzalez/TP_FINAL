@@ -4,7 +4,7 @@
 class Proyectile: public MapThing
 {
 public:
-	Proyectile();
+	Proyectile(unsigned int id);
 	~Proyectile();
 
 	bool is_proyectile();
