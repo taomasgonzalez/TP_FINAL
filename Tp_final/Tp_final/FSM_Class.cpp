@@ -7,12 +7,11 @@
 void do_nothing(void * data);//Dummy for the debugging of the protocol structure
 
 //analyze
-void analyze_action_being_client(void* data);
-void analayze_quit(void*data);
 void analayze_error(void*data);
 void analyze_we_won(void*data); //to do
 void analyze_we_lost(void*data); //to do
-void check_action_request(void* data);
+void check_action(void* data);
+
 
 //send
 void send_map_is(void * data);
@@ -32,6 +31,7 @@ void send_play_again(void*data);
 void send_enemy_action(void*data);
 void save_enemy_action_and_send_it(void* data);
 void send_action_request_and_set_ack_time_out(void* data); //for client
+void send_action(void * data);
 
 //UI
 void tell_user_send_ack_and_finish_game(void*data); //to do
@@ -44,6 +44,9 @@ void execute_receive_action_and_send_ack(void*data); //for client
 void execute_action_send_it_and_set_ack_time_out(void* data); //for server
 void execute_receive_action_request_send_action_and_send_ack(void * data); //for server
 void execute_saved_enemy_actions(void* data);
+void execute_local_action(void* data);
+void execute_extern_action(void* data);
+
 
 
 
@@ -122,8 +125,8 @@ FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 	//check flags
 	check_action = false;
 	check_map = false;
-	check_local_action_request = false;
-	valid_local_action_request = false;
+	valid_local_action = false;
+	valid_extern_action = false;
 	error_ocurred = false;
 
 
@@ -543,14 +546,7 @@ void send_name_is(void* data ) {
  }
 
  
-void analayze_quit(void*data)
-{
-	FSM * fsm = (FSM*)data;
-	if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
-		send_quit(data);
-	else
-		send_ack_and_quit(data);
-}
+
 
 //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
  void send_quit(void* data) {
@@ -573,7 +569,8 @@ void analayze_quit(void*data)
  void analayze_error(void*data)
  {
 	 FSM * fsm = (FSM*)data;
-	 if (fsm->get_fsm_ev_pack()->is_this_a_local_action())
+
+	 if (((ERROR_EventPackage *)fsm->get_fsm_ev_pack())->is_this_a_local_error())
 		 send_error_and_finish_game(data);
 	 else
 		 finish_game(data);
@@ -630,7 +627,34 @@ void execute_saved_enemy_actions(void* data) {
 	fsm->ex_saved_enemy_actions = false;
 }
 
+void execute_local_action(void* data) {
+	FSM * fsm = (FSM*)data;
 
+	if (fsm->error_ocurred)
+		fsm->valid_local_action = false;
+	else
+		fsm->valid_local_action = true;
+
+
+	fsm->ex_action = true;
+	fsm->notify_obs();
+	fsm->ex_action = false;
+
+}
+
+void execute_extern_action(void* data) {
+	FSM * fsm = (FSM*)data;
+
+	if (fsm->error_ocurred)
+		fsm->valid_extern_action = false;
+	else
+		fsm->valid_extern_action = true;
+
+
+	fsm->ex_action = true;
+	fsm->notify_obs();
+	fsm->ex_action = false;
+}
 
 void save_enemy_action(void* data) {
 
@@ -689,32 +713,47 @@ void send_map_is(void * data) {
 }
 void load_enemy_action_and_send_ack(void*data) {
 
+	FSM * fsm = (FSM*)data;
+	check_action(data);
+
+	if (fsm->error_ocurred)
+		fsm->valid_extern_action = false;
+	else
+		fsm->valid_extern_action = true;
+
 
 	load_enemy_action(data);
-	send_ack(data);
 }
 
 void load_enemy_action(void*data) {
 
 	FSM * fsm = (FSM*)data;
 
-	fsm->ld_enemy_action = true;
-	fsm->notify_obs();
-	fsm->ld_enemy_action = false;
+	if (fsm->error_ocurred) 
+		execute_extern_action(data);
+	else
+	{
+		fsm->ld_enemy_action = true;
+		fsm->notify_obs();
+		fsm->ld_enemy_action = false;
+		send_ack(data);
+	}
 }
 
 void load_action_and_send_it_back(void * data) {
 	
 	FSM * fsm = (FSM*)data;
-	fsm->check_action = true;
-	fsm->notify_obs();
-	fsm->check_action = false;
+
+	check_action(data);
+	execute_extern_action(data);
+
 	fsm->s_action_from_action_request = true;
 	fsm->notify_obs();
 	fsm->s_action_from_action_request = false;
 
 	set_ack_time_out(data);
 }
+
 void start_game_and_send_ack(void*data) {
 	FSM * fsm = (FSM*)data;
 	fsm->start_game = true;
@@ -764,16 +803,20 @@ void FSM::load_fsm_ev_pack(EventPackage* event_package_to_be_loaded) {
 
 void execute_action_send_it_and_set_ack_time_out(void * data) {
 
+	check_action(data);
+	execute_local_action(data);
+	send_action(data);
+	set_ack_time_out(data);
+
+}
+
+void send_action(void* data) {
+
 	FSM* fsm = (FSM*)data;
 
-	fsm->check_action = true;
-	fsm->notify_obs();
-	fsm->check_action = false;
 	fsm->s_action = true;
 	fsm->notify_obs();
 	fsm->s_action = false;
-
-	set_ack_time_out(data);
 
 }
 
@@ -791,37 +834,24 @@ void execute_receive_action_request_send_action_and_send_ack(void * data) {
 void check_and_send_action_request(void*data) {
 
 	FSM* fsm = (FSM*)data;
+	check_action(data);
 
-	fsm->check_local_action_request = true;
-	fsm->notify_obs();
-	fsm->check_local_action_request = false;
-
-	if(fsm->valid_local_action_request)
+	if (!fsm->error_ocurred)  //The action request was valid
 		send_action_request_and_set_ack_time_out(data);
-
-}
-
-
-void analyze_action_being_client(void* data) {
-
-	FSM * fsm = (FSM*)data;
-
-	if (fsm->get_fsm_ev_pack()->is_this_a_local_action()) //move o attack local del cliente, tengo que mandar action_request
-	{
-		send_action_request_and_set_ack_time_out(data);
-	}
 	else
-		execute_receive_action_and_send_ack(data);  //move o attack externo, lo paso a ejecutar
+		fsm->error_ocurred = false; //The action request was invalid
 
 }
+
+
 
 
 void execute_receive_action_and_send_ack(void *data) {
 
 	FSM* fsm = (FSM*)data;
-	fsm->check_action = true;
-	fsm->notify_obs();
-	fsm->check_action = false;
+	check_action(data);
+	execute_extern_action(data);
+	received_ack_routine(data);
 	send_ack(data);
 
 }
@@ -829,7 +859,7 @@ void execute_receive_action_and_send_ack(void *data) {
 
 
 
-void check_action_request(void* data) {
+void check_action(void* data) {
 	FSM* fsm = (FSM*)data;
 	fsm->check_action = true;
 	fsm->notify_obs();
@@ -857,7 +887,6 @@ void execute_action_and_send_ack(void* data) {
 
 void send_action_request_and_set_ack_time_out(void* data) {
 	FSM* fsm = (FSM*)data;
-	fsm->valid_local_action_request = false;
 	fsm->s_action_request = true;
 	fsm->notify_obs();
 	fsm->s_action_request = false;

@@ -83,8 +83,8 @@ public:
 	 //check flags
 	 bool check_action;
 	 bool check_map;
-	 bool check_local_action_request;
-	 bool valid_local_action_request;
+	 bool valid_local_action;
+	 bool valid_extern_action;
 	 bool error_ocurred;
 
 	 //loading

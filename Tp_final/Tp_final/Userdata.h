@@ -9,7 +9,7 @@
 
 enum class Direction_type
 {
-	Left, Right, Jump, Left_Stop, Right_Stop, Toggle
+	Left, Right, Jump_Straight, Jump_Left, Jump_Right
 };
 
 enum class Action_type { Move = 'M', Attack = 'A' };

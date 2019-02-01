@@ -25,18 +25,17 @@ public:
 	void append_new_soft_event(EventPackage* new_ev_pack);
 
 
-	EventPackage * fetch_event_al();
 	EventPackage * fetch_event_net();
 	EventPackage * fetch_event_soft();
+	EventPackage * fetch_event_al();
 
 
 protected:
 	
-	ALLEGRO_EVENT_QUEUE * al_queue;				
 
+	ALLEGRO_EVENT_QUEUE * al_queue;				
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
-	std::queue<EventPackage*>* allegro_queue;		//cola para eventos de Allegro ya traducidos.
 
 	Userdata * my_user_data; //PQ tienne este puntero? lo necesita realmente?
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??

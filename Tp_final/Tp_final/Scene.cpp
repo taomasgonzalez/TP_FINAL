@@ -11,7 +11,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->we_won = false;
 	this->we_lost = false;
 
-
+	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
 
@@ -74,7 +74,7 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 		//maps->push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
 
-		maps->push_back(new_map);
+		maps.push_back(new_map);
 
 }
 
@@ -112,7 +112,7 @@ EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
 
 	EventPackage* my_enemy_action_event = NULL;
 
-	my_enemy_action_event=maps->at(this->actual_map)->give_me_my_enemy_action(is_initializing);
+	my_enemy_action_event=maps.at(this->actual_map)->give_me_my_enemy_action(is_initializing);
 
 	if (my_enemy_action_event == NULL) //ENEMYS_LOADED MUST BE SENT
 	{
@@ -157,7 +157,7 @@ void Scene::set_new_allegro_event(EventPackage * new_event) {
 
 bool Scene::both_players_dead()
 {
-	std::vector<Player*>* players = maps[actual_map].get_all_players();
+	std::vector<Player*>* players = maps[actual_map]->get_all_players();
 	bool all_dead = true;
 	for (int i = 0; i < players->size(); i++) 
 		if (!players->at(i)->is_dead()) {
@@ -169,7 +169,7 @@ bool Scene::both_players_dead()
 
 bool Scene::any_monsters_left()
 {
-	std::vector<Enemy*>* monsters = maps[actual_map].get_all_enemies();
+	std::vector<Enemy*>* monsters = maps[actual_map]->get_all_enemies();
 
 	bool any_left = false;
 	for (int i = 0; i < monsters->size(); i++)
@@ -203,11 +203,6 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
 		
 
-
-	if (is_the_action_possible) //Implementación al pedo por como está hecho en FSMEventsObserver
-			package_to_be_analyze->is_this_event_package_is_correct(true);  //valido el EventPackage
-	else
-			package_to_be_analyze->is_this_event_package_is_correct(false);  //invalido el EventPackage
 
 	return is_the_action_possible;
 }

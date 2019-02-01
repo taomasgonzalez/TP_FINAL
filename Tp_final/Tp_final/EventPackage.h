@@ -68,19 +68,11 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 class EventPackage
 {
 public:
-	EventPackage(Event_type event, bool is_local);
-
-	void is_this_event_package_is_correct(bool value);  //sets if the EV represents a valid action
-	bool is_this_a_local_action();
-	
+	EventPackage(Event_type event);	
 	Event_type give_me_your_event_type();
 
-
 protected:
-	Event_type my_internal_event; //why it has a by deafult value?
-	bool valid_action; //analyzed by the program if it´s a valid action
-	bool local_action; 
-
+	Event_type my_internal_event; 
 
 };
 
@@ -92,19 +84,31 @@ protected:
 class ACK_EventPackage : public EventPackage
 {
 public:
-	ACK_EventPackage(bool is_local);
+	ACK_EventPackage();
 
 };
 
 /******************************************************************************
 *******************************************************************************
-						QUIT_EventPackage CLASS
+						LOCAL_QUIT_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class QUIT_EventPackage : public EventPackage
+class LOCAL_QUIT_EventPackage : public EventPackage
 {
 public:
-	QUIT_EventPackage(bool is_local);
+	LOCAL_QUIT_EventPackage();
+
+};
+
+/******************************************************************************
+*******************************************************************************
+						EXTERN_QUIT_EventPackage CLASS
+*******************************************************************************
+*******************************************************************************/
+class EXTERN_QUIT_EventPackage : public EventPackage
+{
+public:
+	EXTERN_QUIT_EventPackage();
 
 };
 
@@ -113,10 +117,10 @@ public:
 							MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_EventPackage : public EventPackage, public MOVE_package
+class MOVE_EventPackage : public EventPackage
 {
 public:
-	MOVE_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
+	MOVE_EventPackage(Direction_type my_direction_type);
 
 };
 
@@ -125,10 +129,10 @@ public:
 							ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_EventPackage : public EventPackage, public ATTACK_package
+class ATTACK_EventPackage : public EventPackage
 {
 public:
-	ATTACK_EventPackage(bool is_local, Character_type the_one_that_moves, char fil_de, char col_de);
+	ATTACK_EventPackage();
 
 };
 
@@ -157,6 +161,10 @@ class ERROR_EventPackage : public EventPackage
 {
 public:
 	ERROR_EventPackage(bool is_local);
+	bool is_this_a_local_error();
+
+private:
+	bool local_error;  //For the FSM recogniztion analyze_error() function
 
 };
 
@@ -170,7 +178,7 @@ public:
 class NAME_EventPackage : public EventPackage
 {
 public:
-	NAME_EventPackage(bool is_local);
+	NAME_EventPackage();
 
 };
 
@@ -226,7 +234,7 @@ public:
 class ENEMYS_LOADED_EventPackage : public EventPackage
 {
 public:
-	ENEMYS_LOADED_EventPackage(bool is_local);
+	ENEMYS_LOADED_EventPackage();
 
 };
 
@@ -239,7 +247,7 @@ public:
 class GAME_START_EventPackage : public EventPackage
 {
 public:
-	GAME_START_EventPackage(bool is_local);
+	GAME_START_EventPackage();
 
 private:
 
@@ -254,7 +262,7 @@ private:
 class WE_WON_EventPackage : public EventPackage
 {
 public:
-	WE_WON_EventPackage(bool is_local);
+	WE_WON_EventPackage();
 
 private:
 
@@ -268,7 +276,7 @@ private:
 class PLAY_AGAIN_EventPackage : public EventPackage
 {
 public:
-	PLAY_AGAIN_EventPackage(bool is_local);
+	PLAY_AGAIN_EventPackage();
 
 private:
 
@@ -282,7 +290,7 @@ private:
 class GAME_OVER_EventPackage : public EventPackage
 {
 public:
-	GAME_OVER_EventPackage(bool is_local);
+	GAME_OVER_EventPackage();
 
 private:
 
@@ -296,7 +304,7 @@ private:
 class START_COMMUNICATION_EventPackage : public EventPackage
 {
 public:
-	START_COMMUNICATION_EventPackage(bool is_local);
+	START_COMMUNICATION_EventPackage();
 
 private:
 
@@ -310,7 +318,7 @@ private:
 class FINISHED_LEVEL_EventPackage : public EventPackage
 {
 public:
-	FINISHED_LEVEL_EventPackage(bool is_local);
+	FINISHED_LEVEL_EventPackage();
 
 private:
 
@@ -324,7 +332,7 @@ private:
 class NO_EVENT_EventPackage : public EventPackage
 {
 public:
-	NO_EVENT_EventPackage(bool is_local);
+	NO_EVENT_EventPackage();
 
 private:
 
@@ -338,7 +346,7 @@ private:
 class END_OF_TABLE_EventPackage : public EventPackage
 {
 public:
-	END_OF_TABLE_EventPackage(bool is_local);
+	END_OF_TABLE_EventPackage();
 
 private:
 

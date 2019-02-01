@@ -45,10 +45,6 @@ void FSMSceneObserver::update() {
 		}
 	}
 	
-	if (my_fsm->ex_action)
-	{
-		this->my_scenario->execute_action(this->my_fsm->get_fsm_ev_pack()); 
-	}
 	if (my_fsm->check_map) //I´m client and i receive a map from the server
 	{
 		EventPackage* map_to_be_checked = this->my_fsm->get_fsm_ev_pack();
@@ -69,35 +65,30 @@ void FSMSceneObserver::update() {
 
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
 
-		if (!this->my_scenario->is_the_action_possible(event_to_be_checked))//mando a analizar el EventPackage 
+		if (!this->my_scenario->is_the_action_possible(event_to_be_checked)) //mando a analizar el EventPackage 
 		{
-			//If the EventPackage is not valid, the program can take two paths depending on the origin of the action
-			//If it is a local action, the action is incompatible with the current developing of the game like a move into a wall so it´s skipped
-			//If it´s a extern action, a corruption in the received package has ocurred beacause a computer can not send invalid plays
-			//thus, we send an error.
-			if (event_to_be_checked->is_this_a_local_action() == false)
-			{
-				this->my_event_gen->empty_all_queues();
-				this->my_event_gen->append_new_soft_event(new ERROR_EventPackage(true));
-			}
-
+			my_fsm->error_ocurred = true;
 		}
-		else
-			this->my_scenario->execute_action(event_to_be_checked); //The action is instantly executed if it´s valid
+
 	}
 
-	if (my_fsm->check_local_action_request) //I´m client
+	if (my_fsm->ex_action)
 	{
-		EventPackage* action_request_to_be_checked = this->my_fsm->get_fsm_ev_pack();
-
-		if (this->my_scenario->is_the_action_possible(action_request_to_be_checked))//mando a analizar el EventPackage 
+		if (!my_fsm->valid_extern_action)
 		{
-			//If valid, it should be send by networking
-			my_fsm->valid_local_action_request = true;
-			//If the ActionRequest is not valid, the action is incompatible with the current developing of the game like a move into a wall so it´s skipped
+			this->my_event_gen->empty_all_queues();
+			this->my_event_gen->append_new_soft_event(new ERROR_EventPackage(true));
+			my_fsm->error_ocurred = false;
 		}
-
+		else if (!my_fsm->valid_local_action)
+		{
+			(void)0; //ignore
+			my_fsm->error_ocurred = false;
+		}
+		else //if it´s valid, it should be execute
+			this->my_scenario->execute_action(this->my_fsm->get_fsm_ev_pack()); 
 	}
+
 
 
 	if (my_fsm->we_won) {

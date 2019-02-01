@@ -26,20 +26,20 @@ void FSMCommunicationObserver::update() {
 	//NAME
 	if (fsm->s_name) {
 		//tengo que mandar paquete NAME para preguntar nombre
-		info_to_be_send = new NAME_EventPackage(true);
+		info_to_be_send = new NAME_EventPackage();
 
 	}
 
 	//QUIT
 	if (fsm->s_quit) {
 		//tengo que mandar paquete QUIT
-		info_to_be_send = new QUIT_EventPackage(true);
+		info_to_be_send = new LOCAL_QUIT_EventPackage();
 
 	}
 
 	if (fsm->s_ack) {
 		//tengo qeu mandar paquete ACK
-		info_to_be_send = new ACK_EventPackage(true);
+		info_to_be_send = new ACK_EventPackage();
 
 
 	}
@@ -52,7 +52,7 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_error) {
 		//tengo que mandar paquete ERROR
-		info_to_be_send = new ERROR_EventPackage(true);
+		info_to_be_send = new ERROR_EventPackage();
 
 	}
 
@@ -64,22 +64,22 @@ void FSMCommunicationObserver::update() {
 	}
 	if (fsm->s_game_start) {
 		//tengo que mandar paquete GAME_START!
-		info_to_be_send = new GAME_START_EventPackage(true);
+		info_to_be_send = new GAME_START_EventPackage();
 		scenario->initializing = false; //Initialization has ended, not more Enemy Actions to be loaded
 
 	}
 	if (fsm->s_game_over) {
 		//tengo que mandar paquete GAME_OVER!
-		info_to_be_send = new GAME_OVER_EventPackage(true);
+		info_to_be_send = new GAME_OVER_EventPackage();
 	}
 
 	if (fsm->s_we_won) {
 		//tengo que mandar paquete WE_WON!
-		info_to_be_send = new WE_WON_EventPackage(true);
+		info_to_be_send = new WE_WON_EventPackage();
 	}
 	if (fsm->s_play_again) {
 		//tengo que mandar paquete PLAY_AGAIN!
-		info_to_be_send = new PLAY_AGAIN_EventPackage(true);
+		info_to_be_send = new PLAY_AGAIN_EventPackage();
 	}
 
 	if (fsm->s_action) {
@@ -125,7 +125,7 @@ void FSMCommunicationObserver::update() {
 
 
 	if(info_to_be_send != NULL) //hay algo para mandar
-	com->sendMessage(PackageFactory::event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+		com->sendMessage(PackageFactory::event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 
 }

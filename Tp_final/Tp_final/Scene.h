@@ -26,7 +26,7 @@ public:
 	bool both_players_dead();
 	bool any_monsters_left();
 	bool did_we_win(EventPackage * package_to_be_analyze);  //I´m client, analyze if the game was won by the players
-	bool did_we_lost(EventPackage * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
+	bool did_we_lose(EventPackage * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
 
 
 
@@ -73,9 +73,9 @@ public:
 	bool has_to_draw;
 
 	void append_new_auxilar_event(EventPackage* new_ev_pack);
+	std::queue<EventPackage*>* assistant_queue;
 
 private:
-
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 
