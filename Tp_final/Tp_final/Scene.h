@@ -77,8 +77,8 @@ private:
 
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
-	std::vector <Player*> players;
-	std::vector <Enemy*> monsters;
+	std::vector <Player*>* players;
+	std::vector <Enemy*> *monsters;
 	std::vector <Proyectile*> proyectiles;
 	Character_type my_player;
 	Character_type other_player;

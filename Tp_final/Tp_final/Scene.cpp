@@ -9,13 +9,14 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->enemys_ready = false;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
-	players = new std::vector<Player>();
+	this->players = new std::vector<Player*>();
+	this->monsters = new std::vector<Enemy*>();
 }
 
 
 Scene::~Scene()
 {
-	for (std::vector<Player*>::iterator it = players.begin(); it != players.end(); ++it) {
+	for (std::vector<Player*>::iterator it = players->begin(); it != players->end(); ++it) {
 		delete (*it);
 	}
 }

@@ -1,9 +1,6 @@
 #include "Map.h"
 
 
-IMPORTANTE: Si ya fueron mandados todos los EA iniciales tenés que devolver NULL, sólo cuando estas en modo inicialización(te llega un true como argumento)
-Aclaración: no sé si vale realmente la diferencia entre inicializando y no, lo dejo por si hay que implementar algo más adelante
-*/
 
 Map::Map(int number_of_rows, int number_of_columns, const char * original_map_distribution, unsigned char checksum )
 {
@@ -27,14 +24,15 @@ Map::~Map()
 std::vector<Enemy*> Map::get_all_enemies()
 {
 	std::vector<Enemy*> all_enemies = std::vector<Enemy*>();
-	for(int i = 0; i < number_of_rows; i++)
+	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++) {
-			if(cell_has_enemies(i, j)){
+			if (cell_has_enemies(i, j)) {
 				std::vector<Enemy*> some_enemies = get_cell_enemies(i, j);
 				all_enemies.insert(std::end(all_enemies), std::begin(some_enemies), std::end(some_enemies));
 			}
 		}
 	return all_enemies;
+}
 void Map::load_the_map(const char * CSV_map_location) {
 
 	memcpy((void *)this->original_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
@@ -56,7 +54,9 @@ EventPackage* Map::give_me_my_enemy_action(bool is_initializing) {
 unsigned char  Map::give_me_the_checksum() {
 
 	return this->my_checksum;
-std::vector<Enemy*> Map::get_all_proyectiles()
+}
+
+std::vector<Proyectile*> Map::get_all_proyectiles()
 {
 	std::vector<Proyectile*> all_proyectiles = std::vector<Proyectile*>();
 	for (int i = 0; i < number_of_rows; i++)
@@ -68,6 +68,20 @@ std::vector<Enemy*> Map::get_all_proyectiles()
 		}
 	return all_proyectiles;
 }
+
+std::vector<Player*> Map::get_all_players()
+{
+	std::vector<Player*> all_players = std::vector<Player*>();
+	for (int i = 0; i < number_of_rows; i++)
+		for (int j = 0; j < number_of_columns; j++) {
+			if (cell_has_players(i, j)) {
+				std::vector<Player*> some_players = get_cell_players(i, j);
+				all_players.insert(std::end(all_players), std::begin(some_players), std::end(some_players));
+			}
+		}
+	return all_players;
+}
+
 
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();
