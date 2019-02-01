@@ -66,6 +66,8 @@ public:
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
+	void append_new_auxilar_event(EventPackage* new_ev_pack);
+
 private:
 
 
@@ -78,5 +80,6 @@ private:
 	bool both_players_dead();
 	bool any_monsters_left();
 
+	std::queue<EventPackage*>* assistant_queue;
 };
 
