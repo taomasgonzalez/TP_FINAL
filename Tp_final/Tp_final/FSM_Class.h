@@ -42,7 +42,7 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void load_fsm_ev_pack(EventPackage* event_package_to_be_loaded);
-
+	 edge_t * give_me_the_actual_state();
 	 //sending
 	 bool s_quit;
 	 bool s_ack;
@@ -84,6 +84,7 @@ public:
 	 bool load_new_map;
 
 private:
+
 
 	edge_t * actual_state = NULL;
 

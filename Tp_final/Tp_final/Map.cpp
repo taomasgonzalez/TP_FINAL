@@ -1,5 +1,15 @@
 #include "Map.h"
 
+/*
+//////////////////Map::give_me_my_enemy_action///////////// escribo el encabezdo y la función vacia asi compila
+-To do: Llamo a esta función ya sea para cargar los EA iniciales o durante el juego normal. Tenés que ir por el vector con un iterador o algo
+e ir mandandomelos, no te mando info adicional de que moustruo es. 
+-input: bool (si recibe true es porque esta en modo inicialización, si false es que estás jugando)
+-output: EventPackage* el paquete enemy action para enviar por networking
+
+IMPORTANTE: Si ya fueron mandados todos los EA iniciales tenés que devolver NULL, sólo cuando estas en modo inicialización(te llega un true como argumento)
+Aclaración: no sé si vale realmente la diferencia entre inicializando y no, lo dejo por si hay que implementar algo más adelante
+*/
 
 Map::Map(int number_of_rows, int number_of_columns, const char * original_map_distribution, unsigned char checksum )
 {
@@ -34,6 +44,11 @@ void Map::load_the_map(const char * CSV_map_location) {
 const char * Map::give_me_the_original_map() {
 
 	return this->original_map_distribution;
+}
+
+EventPackage* Map::give_me_my_enemy_action(bool is_initializing) {
+
+
 }
 
 unsigned char  Map::give_me_the_checksum() {

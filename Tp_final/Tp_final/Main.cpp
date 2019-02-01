@@ -14,6 +14,7 @@ TO DO:
 -HACER MENUES
 -VER DE IMPLEMENTAR WRAP DE ALLEGRO
 -Chequeo de movimiento posible dentro de model allegro, cuando se genera el allegro event (ver implementaciones en otros tps)
+-Mover toda la info que no sea del juego a los controllers(Ver con cuidado)
 
 GERMAN:
 -Ver de como meter lo que hizo guido en el resto del programa manteniendolo modular.

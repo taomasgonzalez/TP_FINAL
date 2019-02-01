@@ -65,6 +65,7 @@ void FSMCommunicationObserver::update() {
 	if (fsm->s_game_start) {
 		//tengo que mandar paquete GAME_START!
 		info_to_be_send = new GAME_START_EventPackage(true);
+		scenario->initializing = false; //Initialization has ended, not more Enemy Actions to be loaded
 
 	}
 	if (fsm->s_game_over) {
@@ -102,9 +103,11 @@ void FSMCommunicationObserver::update() {
 	}
 
 	if (fsm->s_enemy_action) {
-		//tengo que mandar una enemy_action !! (esta todo guardado en fsm->get_ev_pack())
-		info_to_be_send = fsm->get_fsm_ev_pack();
-
+		//If Scene::give_me_my_enemy_action() returns NULL, it means that all the local EA with the initial distributions where already sent to the cliente
+		if (scenario->initializing)
+			info_to_be_send = scenario->give_me_my_enemy_action(true); //EA when initializing
+		else
+			info_to_be_send = scenario->give_me_my_enemy_action(false); //EA when playing
 
 	}
 	if (fsm->s_action_request) {

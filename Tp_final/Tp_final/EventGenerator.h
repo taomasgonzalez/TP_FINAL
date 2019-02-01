@@ -28,6 +28,7 @@ public:
 	EventPackage * fetch_event_net();
 	EventPackage * fetch_event_soft();
 
+
 protected:
 	
 	ALLEGRO_EVENT_QUEUE * al_queue;				
@@ -35,8 +36,8 @@ protected:
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
 
+	Userdata * my_user_data; //PQ tienne este puntero? lo necesita realmente?
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??
-	Userdata * my_user_data;
 
 
 	unsigned int time_out_count;

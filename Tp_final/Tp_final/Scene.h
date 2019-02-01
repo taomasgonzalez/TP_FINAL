@@ -9,6 +9,10 @@
 #include "Map.h"
 #include "general.h"
 
+/*******************************************************************************
+							ENUM CLASS STATE_TYPE
+******************************************************************************/
+
 class Scene : public Observable
 {
 public:
@@ -35,6 +39,9 @@ public:
 	Character_type give_me_my_player();
 	Character_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
+	EventPackage* give_me_my_enemy_action(bool is_initializing);
+
+
 
 	//Control Flags getters
 	bool game_is_finished();
@@ -56,6 +63,8 @@ public:
 
 	bool game_started;
 	bool game_finished;
+	bool initializing;
+	bool enemys_ready;
 	//para chequear un evento INTERNO de allegro por ejemplo, se usa en ScenarioEventsObserver::update()
 	//hay que prenderlo y hacer notify_obs de scene cuando se levante un evento de allegro, tiene que estar cargado ese
 	//evento de allegro convertido en eventpackage en Scene::Package* action_from_allegro;
@@ -63,6 +72,7 @@ public:
 	bool has_to_draw;
 
 private:
+
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	std::vector <Player*> players;

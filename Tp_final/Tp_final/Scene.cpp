@@ -6,6 +6,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->game_started = false;
 	this->check_local_action = false;		
 	this->has_to_draw = false;
+	this->enemys_ready = false;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
 
@@ -78,6 +79,27 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	const char * prueba=NULL;
 	return prueba;
 }
+
+EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
+
+	EventPackage* my_enemy_action_event = NULL;
+
+	my_enemy_action_event=maps.at(this->actual_map)->give_me_my_enemy_action(is_initializing);
+
+	if (my_enemy_action_event == NULL) //ENEMYS_LOADED MUST BE SENT
+	{
+		bool enemys_ready=true;
+		notify_obs();
+		bool enemys_ready = true;
+	}
+
+
+	return my_enemy_action_event;
+}
+
+
+EventPackage* give_me_my_enemy_action(bool is_initializing);
+
 
 void Scene::gameInit() {	
 

@@ -43,7 +43,7 @@ bool Resources::Intialize_all_the_resources() {
 void Resources::add_all_observers() {
 
 	this->my_scenario->add_observer(new ScenarioDrawingObserver(this->my_scenario, this->my_drawing_manager));
-	this->my_scenario->add_observer(new ScenarioEventsObserver(this->my_event_handler, this->my_scenario, this->my_fsm));
+	this->my_scenario->add_observer(new ScenarioEventsObserver(this->my_event_handler, this->my_scenario, this->my_fsm,this->my_user_data));
 
 
 	this->my_fsm->add_observer(new FSMEventsObserver(this->my_event_handler, this->my_fsm, this->my_allegro_container,this->my_scenario));
