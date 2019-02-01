@@ -8,7 +8,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->has_to_draw = false;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
-
+	players = new std::vector<Player>();
 }
 
 
@@ -31,20 +31,25 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 {
 }
 
-void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
+void Scene::load_new_map(bool is_client, MAP_IS_EventPackage* map_to_be_checked=NULL) {
 
 
 
 	if (is_client) //The map came by networking, already checked
 	{	
-		maps.push_back(new Map(12, 16, ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map(), ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum()));
+		//esto es lo que tenias antes, que por ahora no se condice con lo que programe de Map. despues coordinar conmigo para que esto funke.
+		//Map * new_map = new Map(12, 16, ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map(), ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
+		Map new_map = Map(12, 16);
+		new_map.load_on_map((const char*) map_to_be_checked->give_me_the_map());
+		
+		maps.push_back(new_map);
+		
 		this->actual_map++;
 	}
 	else
 	{	//I´m server, I´ve the map available
 		maps.push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
-
 
 
 }
@@ -105,6 +110,16 @@ Character_type Scene::give_the_other_player() {
 
 void Scene::set_new_allegro_event(EventPackage * new_event) {
 	 this->action_from_allegro= new_event;
+}
+
+bool Scene::both_players_dead()
+{
+	return false;
+}
+
+bool Scene::any_monsters_left()
+{
+	return false;
 }
 
 

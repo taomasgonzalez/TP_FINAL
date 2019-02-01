@@ -9,12 +9,7 @@ MapCell::~MapCell()
 {
 }
 bool MapCell::has_enemies() {
-
-	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
-		if ((*it)->is_enemy())
-			return true;
-	}
-	return false;
+	return i_have_enemies;
 }
 
 //debe ser llamada has_enemies previamente!!!
@@ -27,12 +22,7 @@ std::vector<Enemy*> MapCell::get_enemies() {
 	return enemigos;
 }
 bool MapCell::has_players() {
-
-	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it)
-		if ((*it)->is_player())
-			return true;
-
-	return false;
+	return i_have_players;
 }
 //debe ser llamada has_players previamente!!!
 std::vector<Player*> MapCell::get_players() {
@@ -45,12 +35,7 @@ std::vector<Player*> MapCell::get_players() {
 }
 
 bool MapCell::has_proyectiles() {
-
-	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it)
-		if ((*it)->is_proyectile())
-			return true;
-
-	return false;
+	return i_have_proyectiles;
 }
 //debe ser llamada has_proyectiles previamente!!!
 std::vector<Proyectile*> MapCell::get_proyectiles() {
@@ -87,17 +72,36 @@ bool MapCell::delete_id(unsigned int wanted_id) {
 bool MapCell::delete_map_thing(MapThing * thing)
 {
 	bool successfully_deleted = false;
-	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
+
+	//does the deletion and sets the according i_have variable to false, so that it may be updated more easily afterwards. 
+	Thing_Type deleted_type = thing->get_map_thing_type();
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) 
 		if ((*it) == thing) {
 			successfully_deleted = true;
 			cell_things->erase(it);
+			set_i_have_variable(deleted_type, false);
 			break;
 		}
-	}
+	
+	//updates the value of the i_have variables according to the new state of the cell after the deletion.
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) 
+		if((*it)->get_map_thing_type() == deleted_type){
+			set_i_have_variable(deleted_type, true);
+			break;
+		}
+	
 	return successfully_deleted;
 }
 
 void MapCell::place_on_cell(MapThing* thing) {
+
+	if (thing->is_proyectile())
+		i_have_proyectiles = true;
+	else if (thing->is_enemy())
+		i_have_enemies = true;
+	else if (thing->is_player())
+		i_have_players = true;
+
 	cell_things->push_back(thing);
 }
 
@@ -123,4 +127,13 @@ void MapCell::print() {
 
 void MapCell::clear() {
 	cell_things->clear();
+}
+
+void MapCell::set_i_have_variable(Thing_Type type,bool set_to) {
+	if (type == Thing_Type::PROYECTILE)
+		i_have_proyectiles = set_to;
+	else if (type == Thing_Type::ENEMY)
+		i_have_enemies = set_to;
+	else if (type == Thing_Type::PLAYER)
+		i_have_players = set_to;
 }

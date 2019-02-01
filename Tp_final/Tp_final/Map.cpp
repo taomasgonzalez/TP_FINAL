@@ -20,6 +20,32 @@ Map::~Map()
 	delete[] map_cells;
 }
 
+std::vector<Enemy*> Map::get_all_enemies()
+{
+	std::vector<Enemy*> all_enemies = std::vector<Enemy*>();
+	for(int i = 0; i < number_of_rows; i++)
+		for (int j = 0; j < number_of_columns; j++) {
+			if(cell_has_enemies(i, j)){
+				std::vector<Enemy*> some_enemies = get_cell_enemies(i, j);
+				all_enemies.insert(std::end(all_enemies), std::begin(some_enemies), std::end(some_enemies));
+			}
+		}
+	return all_enemies;
+}
+
+std::vector<Enemy*> Map::get_all_proyectiles()
+{
+	std::vector<Proyectile*> all_proyectiles = std::vector<Proyectile*>();
+	for (int i = 0; i < number_of_rows; i++)
+		for (int j = 0; j < number_of_columns; j++) {
+			if (cell_has_proyectiles(i, j)) {
+				std::vector<Proyectile*> some_proyectiles = get_cell_proyectiles(i, j);
+				all_proyectiles.insert(std::end(all_proyectiles), std::begin(some_proyectiles), std::end(some_proyectiles));
+			}
+		}
+	return all_proyectiles;
+}
+
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();
 }

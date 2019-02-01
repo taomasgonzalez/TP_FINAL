@@ -43,7 +43,7 @@
     <Filter Include="Header Files\Map_related">
       <UniqueIdentifier>{29098223-8905-45dc-a53f-eb0d8dd7801c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Mapas">
+    <Filter Include="Source Files\Info_Mapas">
       <UniqueIdentifier>{327f9de3-4247-4907-9eee-90a0b21e4489}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -259,19 +259,19 @@
     <None Include="packages.config" />
     <None Include="ClassDiagram.cd" />
     <None Include="Mis mapas\Bertachini_mapa1.csv">
-      <Filter>Source Files\Mapas</Filter>
+      <Filter>Source Files\Info_Mapas</Filter>
     </None>
     <None Include="Mis mapas\Bertachini_mapa2.csv">
-      <Filter>Source Files\Mapas</Filter>
+      <Filter>Source Files\Info_Mapas</Filter>
     </None>
     <None Include="Mis mapas\Bertachini_mapa3.csv">
-      <Filter>Source Files\Mapas</Filter>
+      <Filter>Source Files\Info_Mapas</Filter>
     </None>
     <None Include="Mis mapas\Bertachini_mapa4.csv">
-      <Filter>Source Files\Mapas</Filter>
+      <Filter>Source Files\Info_Mapas</Filter>
     </None>
     <None Include="Mis mapas\Bertachini_mapa5.csv">
-      <Filter>Source Files\Mapas</Filter>
+      <Filter>Source Files\Info_Mapas</Filter>
     </None>
   </ItemGroup>
 </Project>

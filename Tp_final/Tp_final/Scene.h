@@ -41,7 +41,7 @@ public:
 	bool do_you_have_to_draw();
 
 	//map functions
-	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
+	void load_new_map(bool is_client, MAP_IS_EventPackage* map_to_be_checked = NULL);
 	bool is_the_map_okay(EventPackage * map_to_be_checked);
 	unsigned char make_checksum(const char * CSV_map_location);
 
@@ -66,8 +66,13 @@ private:
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	std::vector <Player*> players;
+	std::vector <Enemy*> monsters;
+	std::vector <Proyectile*> proyectiles;
 	Character_type my_player;
 	Character_type other_player;
 
+	//generadas por tommy para hacer mas facil el manejo de mapas
+	bool both_players_dead();
+	bool any_monsters_left();
 };
 

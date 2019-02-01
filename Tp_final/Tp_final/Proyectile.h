@@ -12,6 +12,5 @@ public:
 	virtual bool is_snowball();
 	virtual bool is_fireball();
 
-	
 };
 

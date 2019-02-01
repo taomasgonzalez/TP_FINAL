@@ -34,6 +34,12 @@ public:
 	void clear();
 private:
 	std::vector<MapThing*>* cell_things;
+
+	void set_i_have_variable(Thing_Type type, bool set_to);
+
+	bool i_have_proyectiles = false;;
+	bool i_have_enemies = false;
+	bool i_have_players = false;
 };
 
 
