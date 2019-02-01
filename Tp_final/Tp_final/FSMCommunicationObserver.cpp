@@ -103,22 +103,23 @@ void FSMCommunicationObserver::update() {
 	}
 
 	if (fsm->s_enemy_action) {
-		//If Scene::give_me_my_enemy_action() returns NULL, it means that all the local EA with the initial distributions where already sent to the cliente
-		if (scenario->initializing)
-			info_to_be_send = scenario->give_me_my_enemy_action(true); //EA when initializing
-		else
-			info_to_be_send = scenario->give_me_my_enemy_action(false); //EA when playing
-
+		//If Scene::give_me_my_enemy_action() returns NULL, it means that all the local EA with the initial distributions where already sent to the client
+		info_to_be_send = this->fsm->get_fsm_ev_pack(); //EA when playing
 	}
-	if (fsm->s_action_request) {
-		//soy cliente, vengo de un move/ attack local tengo que convertirlo a un action request!! (esta todo guardado en fsm->get_ev_pack())
-		EventPackage * my_movement = fsm->get_fsm_ev_pack();   //MOVE O ATTACK LOCAL que es como llega a la fsm
-		if (((MOVE_EventPackage *)my_movement)->give_me_your_event_type() == Event_type::MOVE)
 
-			info_to_be_send =  new ACTION_REQUEST_EventPackage(true, Action_type::Move, ((MOVE_EventPackage *)my_movement)->give_me_the_destination_row(), ((MOVE_EventPackage *)my_movement)->give_me_the_destination_column());
+	if (fsm->s_action_request) {
+		//soy cliente, allegro lo detecta y me genera directamente un action request qeu ingresa a la FSM, por tanto queda guardado en la misma 
+		info_to_be_send = this->fsm->get_fsm_ev_pack(); //EA when playing
+
 		
-		else
-			info_to_be_send = new ACTION_REQUEST_EventPackage(true, Action_type::Attack, ((MOVE_EventPackage *)my_movement)->give_me_the_destination_row(), ((MOVE_EventPackage *)my_movement)->give_me_the_destination_column());
+		//soy cliente, vengo de un move/ attack local tengo que convertirlo a un action request!! (esta todo guardado en fsm->get_ev_pack())
+		//EventPackage * my_movement = fsm->get_fsm_ev_pack();   //MOVE O ATTACK LOCAL que es como llega a la fsm
+		//if (((MOVE_EventPackage *)my_movement)->give_me_your_event_type() == Event_type::MOVE)
+
+		//	info_to_be_send =  new ACTION_REQUEST_EventPackage(true, Action_type::Move, ((MOVE_EventPackage *)my_movement)->give_me_the_destination_row(), ((MOVE_EventPackage *)my_movement)->give_me_the_destination_column());
+		//
+		//else
+		//	info_to_be_send = new ACTION_REQUEST_EventPackage(true, Action_type::Attack, ((MOVE_EventPackage *)my_movement)->give_me_the_destination_row(), ((MOVE_EventPackage *)my_movement)->give_me_the_destination_column());
 
 	}
 

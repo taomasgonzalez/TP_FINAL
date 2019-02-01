@@ -73,15 +73,22 @@ public:
 	 bool end_game;
 	 bool receive_name;
 
+	//execute falgs
+	 bool ex_action;
+	 bool ex_saved_enemy_actions;
+
 	 bool start_game;
 
 	 //check flags
 	 bool check_action;
 	 bool check_map;
+	 bool check_local_action_request;
+	 bool valid_local_action_request;
 
 	 //loading
-	 bool load_enemy_action;
-	 bool load_new_map;
+	 bool ld_enemy_action; //for client
+	 bool sv_enemy_action; //for server
+	 bool ld_new_map;
 
 private:
 
