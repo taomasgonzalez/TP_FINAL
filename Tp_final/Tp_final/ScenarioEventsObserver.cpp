@@ -25,6 +25,16 @@ void ScenarioEventsObserver::update() {
 	{
 		this->my_event_handler->soft_queue->push(new ENEMYS_LOADED_EventPackage(true));
 	}
+	if (this->scenario->we_won)
+	{
+		if(!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
+			this->my_event_handler->soft_queue->push(new WE_WON_EventPackage(true));
+	}
+	if (this->scenario->we_lost)
+	{
+		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
+			this->my_event_handler->soft_queue->push(new GAME_OVER_EventPackage(true));
+	}
 
 	//if (scenario->check_local_action)  //lo llamo para chequear un evento de allegro antes de ponerlo en la cola de allegro
 	//{

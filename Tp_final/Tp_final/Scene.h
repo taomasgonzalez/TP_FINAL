@@ -25,8 +25,11 @@ public:
 	//Analyze of gaming situations
 	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
 	bool check_action(EventPackage * package_to_be_analyze);
-	bool did_we_win(EventPackage * package_to_be_analyze);  //Analyze if the game was won by the players
-	bool did_we_lost(EventPackage * package_to_be_analyze); //Analyze if the game was lost by the players
+	//generadas por tommy para hacer mas facil el manejo de mapas
+	bool both_players_dead();
+	bool any_monsters_left();
+	bool did_we_win(EventPackage * package_to_be_analyze);  //I´m client, analyze if the game was won by the players
+	bool did_we_lost(EventPackage * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
 
 
 
@@ -48,7 +51,7 @@ public:
 	bool do_you_have_to_draw();
 
 	//map functions
-	void load_new_map(bool is_client, MAP_IS_EventPackage* map_to_be_checked = NULL);
+	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
 	bool is_the_map_okay(EventPackage * map_to_be_checked);
 	unsigned char make_checksum(const char * CSV_map_location);
 
@@ -66,6 +69,8 @@ public:
 	bool game_finished;
 	bool initializing;
 	bool enemys_ready;
+	bool we_lost;
+	bool we_won;
 	//para chequear un evento INTERNO de allegro por ejemplo, se usa en ScenarioEventsObserver::update()
 	//hay que prenderlo y hacer notify_obs de scene cuando se levante un evento de allegro, tiene que estar cargado ese
 	//evento de allegro convertido en eventpackage en Scene::Package* action_from_allegro;
@@ -77,14 +82,12 @@ private:
 
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
+	std::vector <Map*>* maps;
 	std::vector <Player*>* players;
 	std::vector <Enemy*> *monsters;
 	std::vector <Proyectile*> proyectiles;
 	Character_type my_player;
 	Character_type other_player;
 
-	//generadas por tommy para hacer mas facil el manejo de mapas
-	bool both_players_dead();
-	bool any_monsters_left();
 };
 

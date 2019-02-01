@@ -43,6 +43,7 @@ public:
 	 EventPackage* get_fsm_ev_pack();
 	 void load_fsm_ev_pack(EventPackage* event_package_to_be_loaded);
 	 edge_t * give_me_the_actual_state();
+
 	 //sending
 	 bool s_quit;
 	 bool s_ack;
@@ -61,7 +62,7 @@ public:
 
 	 //user decition flags
 	 bool want_to_play_again;
-	 bool do_not_want_to_play_again;
+
 
 	 //game conditions flags
 	 bool we_won;
@@ -84,11 +85,14 @@ public:
 	 bool check_map;
 	 bool check_local_action_request;
 	 bool valid_local_action_request;
+	 bool error_ocurred;
 
 	 //loading
 	 bool ld_enemy_action; //for client
 	 bool sv_enemy_action; //for server
 	 bool ld_new_map;
+	 bool ld_play_again;
+	 bool ld_game_over;
 
 private:
 
@@ -115,7 +119,8 @@ private:
 
 	edge_t* Waiting_for_ACK_quit_state = NULL;
 
-	edge_t* Waiting_for_ACK_state = NULL;
+	edge_t* Waiting_for_ACK_playing_state = NULL;
+	edge_t* Waiting_for_servers_response_state = NULL;
 
 	edge_t* Waiting_if_the_client_wants_to_play_again = NULL;
 	edge_t* Waiting_if_the_server_wants_to_play_again = NULL;

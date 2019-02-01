@@ -80,24 +80,24 @@ EventPackage * EventGenerator::fetch_event_soft() {
 
 EventPackage * EventGenerator::fetch_event_al() {
 
-	EventPackage * new_events = NULL;
+	//EventPackage * new_events = NULL;
 
-	if (this->allegro_queue->size() >= 1) {
-		new_events = this->allegro_queue->front();
-		this->allegro_queue->pop();
-	}
-	else
-		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+	//if (this->allegro_queue->size() >= 1) {
+	//	new_events = this->allegro_queue->front();
+	//	this->allegro_queue->pop();
+	//}
+	//else
+	//	new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
 
-	return new_events;
-}
+	//return new_events;
+
 
 //		IMPORTANTE:COMO LOS LEVANTAS DIRACTAMENTE DE ALLEGRO QUEUE ESTOS MOVIMEINTOS PUEDEN NO SER VALIDOS POR
 //		IRSE DEL MAPA POR EJMPLO, Y SE MANDAN DIRECTAMENTE A LA FSM SIN ANALIZAR, SE PUEDE LLAMAR A LA FUNCIÓN
 //	    Scene::is_the_action_possible(EventPackage* package_to_be_analyze)  como en ScenarioEventsObserver::update()
 
 	
-/*	ALLEGRO_EVENT * allegroEvent=NULL;
+	ALLEGRO_EVENT * allegroEvent=NULL;
 	EventPackage * ev_pack;
 
 	if (al_get_next_event(al_queue, allegroEvent)) {			//tomo de la cola en caso de que no este vacia
@@ -156,6 +156,6 @@ EventPackage * EventGenerator::fetch_event_al() {
 
 
 }
-*/
+
 
 

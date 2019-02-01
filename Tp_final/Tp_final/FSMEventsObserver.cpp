@@ -38,17 +38,15 @@ void FSMEventsObserver::update() {
 		scenario->finish_game();
 	}
 
-	if (fsm->want_to_play_again) //The user wants to play again
-	{
-		this->event_gen->empty_all_queues();
+	if (fsm->ld_game_over) {
+		this->event_gen->append_new_soft_event(new GAME_OVER_EventPackage(true));
+	}
+
+	if (fsm->ld_play_again) {
 		this->event_gen->append_new_soft_event(new PLAY_AGAIN_EventPackage(true));
 	}
 
-	if (fsm->do_not_want_to_play_again) //The user doesn´t want to play again
-	{
-		this->event_gen->empty_all_queues();
-		this->event_gen->append_new_soft_event(new GAME_OVER_EventPackage(true));
-	}
+
 
 	if (fsm->receive_name) {
 		EventPackage* his_new_name_package=this->fsm->get_fsm_ev_pack();

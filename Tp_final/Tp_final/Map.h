@@ -10,7 +10,7 @@
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution, unsigned char checksum);
+	Map(int number_of_rows, int number_of_columns);
 	~Map();
 
 	std::vector<Proyectile*> get_all_proyectiles();
@@ -39,6 +39,7 @@ public:
 
 	//llamar despues de construir al mapa para cargar las cosas!!
 	void load_on_map(const char* map_string);
+	void load_checksum(unsigned char checksum);
 
 	void reset_map();
 

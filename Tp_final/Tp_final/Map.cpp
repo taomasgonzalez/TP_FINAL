@@ -2,7 +2,7 @@
 
 
 
-Map::Map(int number_of_rows, int number_of_columns, const char * original_map_distribution, unsigned char checksum )
+Map::Map(int number_of_rows, int number_of_columns)
 {
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
@@ -220,6 +220,13 @@ void Map::load_on_map(const char* map_string) {
 		place_on_map(fil, col, map_filler.create_map_thing(map_string[i]));
 	}
 }
+
+void Map::load_checksum(unsigned char checksum) {
+
+	this->my_checksum = checksum;
+}
+
+
 
 void Map::reset_map()
 {

@@ -71,7 +71,6 @@ public:
 	EventPackage(Event_type event, bool is_local);
 
 	void is_this_event_package_is_correct(bool value);  //sets if the EV represents a valid action
-	bool is_this_a_valid_action();                  
 	bool is_this_a_local_action();
 	
 	Event_type give_me_your_event_type();
