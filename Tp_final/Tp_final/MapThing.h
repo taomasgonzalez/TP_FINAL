@@ -21,6 +21,9 @@ public:
 	void set_printable(char printable);
 	char get_printable();
 
+	int pos_x;
+	int pos_y;
+
 protected:
 	char printable;
 };

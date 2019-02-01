@@ -11,10 +11,13 @@ class Character: public MapThing
 public:
 	Character(unsigned int id);
 	~Character();
-
-	unsigned int pos_x;
-	unsigned int pos_y;
 	States current_state;
 	//Observer_dibujo
+
+	virtual void die();
+	bool is_dead();
+
+protected:
+	bool dead = false;
 };
 

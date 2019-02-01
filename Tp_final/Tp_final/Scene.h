@@ -1,13 +1,10 @@
 #pragma once
 #include "Userdata.h"
 #include "Allegroclass.h"
-#include "EventGenerator.h"
 #include "EventPackage.h"
-#include "Enemy.h"
-#include "Player.h"
+#include "general.h"
 #include "Observable.h"
 #include "Map.h"
-#include "general.h"
 
 /*******************************************************************************
 							ENUM CLASS STATE_TYPE
@@ -57,8 +54,6 @@ public:
 
 
 	void set_new_allegro_event(EventPackage * new_event);
-	void append_new_auxilar_event(EventPackage* new_ev_pack);
-
 
 
 	std::vector <Map*> maps;
@@ -77,15 +72,13 @@ public:
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
-	std::queue<EventPackage*>* assistant_queue;
+	void append_new_auxilar_event(EventPackage* new_ev_pack);
+
 private:
 
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
-	std::vector <Map*>* maps;
-	std::vector <Player*>* players;
-	std::vector <Enemy*> *monsters;
-	std::vector <Proyectile*> proyectiles;
+
 	Character_type my_player;
 	Character_type other_player;
 

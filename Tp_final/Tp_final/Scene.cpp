@@ -15,18 +15,12 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
 
-	//vectors
-	this->players = new std::vector<Player*>();
-	this->monsters = new std::vector<Enemy*>();
-	this->maps = new std::vector<Map*>();
 }
 
 
 Scene::~Scene()
 {
-	for (std::vector<Player*>::iterator it = players->begin(); it != players->end(); ++it) {
-		delete (*it);
-	}
+
 }
 
 
@@ -131,9 +125,6 @@ EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
 	return my_enemy_action_event;
 }
 
-void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
-	assistant_queue->push(new_ev_pack);
-}
 
 EventPackage* give_me_my_enemy_action(bool is_initializing);
 
@@ -145,7 +136,6 @@ void Scene::gameInit() {
 	this->game_started = false;
 
 }
-
 
 
 EventPackage * Scene::give_me_my_allegro_event() {
@@ -167,12 +157,28 @@ void Scene::set_new_allegro_event(EventPackage * new_event) {
 
 bool Scene::both_players_dead()
 {
-	return false;
+	std::vector<Player*>* players = maps[actual_map].get_all_players();
+	bool all_dead = true;
+	for (int i = 0; i < players->size(); i++) 
+		if (!players->at(i)->is_dead()) {
+			all_dead = false;
+			break;
+		}
+	return all_dead;
 }
 
 bool Scene::any_monsters_left()
 {
-	return false;
+	std::vector<Enemy*>* monsters = maps[actual_map].get_all_enemies();
+
+	bool any_left = false;
+	for (int i = 0; i < monsters->size(); i++)
+		if (!monsters->at(i)->is_dead()) {
+			any_left = true;
+			break;
+		}
+
+	return any_left;
 }
 
 
@@ -228,7 +234,7 @@ bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 	return we_won;
 }
 
-bool Scene::did_we_lost(EventPackage * package_to_be_analyze)
+bool Scene::did_we_lose(EventPackage * package_to_be_analyze)
 {
 	bool we_lost;
 
@@ -249,4 +255,6 @@ bool Scene::do_you_have_to_draw() {
 	return this->has_to_draw;
 }
 
-
+void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
+	assistant_queue->push(new_ev_pack);
+}
