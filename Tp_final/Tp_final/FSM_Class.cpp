@@ -698,6 +698,11 @@ EventPackage* FSM::get_fsm_ev_pack() {
 	return this->my_ev_pack;
 }
 
+edge_t * FSM::give_me_the_actual_state() {
+
+	return this->actual_state;
+}
+
 void FSM::load_fsm_ev_pack(EventPackage* event_package_to_be_loaded) {
 	 this->my_ev_pack= event_package_to_be_loaded;
 }

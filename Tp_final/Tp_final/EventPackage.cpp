@@ -246,7 +246,18 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_Mo
 
 }
 
+/******************************************************************************
+*******************************************************************************
+			ENEMYS_LOADED_EventPackage METHODS DEFINITIONS
+*******************************************************************************
+*******************************************************************************/
+/**************************************************************
+			ENEMYS_LOADED_EventPackage CONSTRUCTOR
+**************************************************************/
+ENEMYS_LOADED_EventPackage::ENEMYS_LOADED_EventPackage(bool is_local)
+	:EventPackage(Event_type::ENEMYS_LOADED, is_local) {
 
+}
 
 /**************************************************************
 			GAME_START_EventPackage

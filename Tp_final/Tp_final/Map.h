@@ -1,12 +1,16 @@
 #pragma once
 #include "MapCell.h"
+#include "Enemy.h"
+#include "Player.h"
+#include "Fireball.h"
+#include "EventPackage.h"
 #include "MapThingFactory.h"
 #include <vector>
 
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns);
+	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution, unsigned char checksum);
 	~Map();
 
 	std::vector<Proyectile*> get_all_proyectiles();
@@ -40,6 +44,11 @@ public:
 
 	bool delete_from_map(unsigned int id);
 	bool delete_from_map(MapThing* thing);
+	const char * give_me_the_original_map();
+	unsigned char give_me_the_checksum();
+	void load_the_map(const char * CSV_map_location);
+	EventPackage* give_me_my_enemy_action(bool is_initializing);
+
 
 	void print_cell(int coord_x, int coord_y);
 
