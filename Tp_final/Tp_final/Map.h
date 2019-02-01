@@ -10,14 +10,12 @@
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns, const char * my_original_map_distribution, unsigned char checksum);
+	Map(int number_of_rows, int number_of_columns);
 	~Map();
 
-	std::vector<Proyectile*> get_all_proyectiles();
-	std::vector<Player*> get_all_players();
-	std::vector<Enemy*> get_all_enemies();
-
-
+	std::vector<Proyectile*>* get_all_proyectiles();
+	std::vector<Player*>* get_all_players();
+	std::vector<Enemy*>* get_all_enemies();
 
 	bool cell_has_proyectiles(int coord_x, int coord_y);
 	std::vector<Proyectile*> get_cell_proyectiles(int coord_x, int coord_y);
@@ -29,7 +27,6 @@ public:
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
 
 	MapThing* get_from_map(unsigned int id);
-	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
 	void place_on_map(int coord_x, int coord_y, MapThing* thing);
@@ -54,7 +51,6 @@ public:
 
 	const char* get_last_loaded_distribution();
 
-
 private:
 	MapCell * * map_cells;
 	MapCell get_cell(int coord_x, int coord_y);
@@ -63,6 +59,15 @@ private:
 	int number_of_columns;
 
 	const char* original_distribution;
+	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
 	void clear();
+
+
+	std::vector<Proyectile*>* all_proyectiles = NULL;
+	std::vector<Player*>* all_players = NULL;
+	std::vector<Enemy*>* all_enemies = NULL;
+
+	void delete_from_map_thing_vectors(MapThing* thing);
+	void place_on_map_thing_vectors(MapThing* thing);
 };

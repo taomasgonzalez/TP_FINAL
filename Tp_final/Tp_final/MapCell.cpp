@@ -47,6 +47,7 @@ std::vector<Proyectile*> MapCell::get_proyectiles() {
 	return proy;
 }
 
+
 //devuelve null en caso de que no este el id deseado
 MapThing* MapCell::get_id(unsigned int wanted_id) {
 	MapThing * found_id = NULL;

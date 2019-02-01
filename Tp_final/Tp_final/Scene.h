@@ -1,13 +1,10 @@
 #pragma once
 #include "Userdata.h"
 #include "Allegroclass.h"
-#include "EventGenerator.h"
 #include "EventPackage.h"
-#include "Enemy.h"
-#include "Player.h"
+#include "general.h"
 #include "Observable.h"
 #include "Map.h"
-#include "general.h"
 
 /*******************************************************************************
 							ENUM CLASS STATE_TYPE
@@ -26,8 +23,7 @@ public:
 	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
 	bool check_action(EventPackage * package_to_be_analyze);
 	bool did_we_win(EventPackage * package_to_be_analyze);  //Analyze if the game was won by the players
-	bool did_we_lost(EventPackage * package_to_be_analyze); //Analyze if the game was lost by the players
-
+	bool did_we_lose(EventPackage * package_to_be_analyze); //Analyze if the game was lost by the players
 
 
 	//Executing functions
@@ -56,7 +52,6 @@ public:
 	void set_new_allegro_event(EventPackage * new_event);
 
 
-
 	std::vector <Map*> maps;
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
@@ -75,14 +70,13 @@ private:
 
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
-	std::vector <Player*> players;
-	std::vector <Enemy*> monsters;
-	std::vector <Proyectile*> proyectiles;
+
 	Character_type my_player;
 	Character_type other_player;
 
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
 	bool any_monsters_left();
+
 };
 
