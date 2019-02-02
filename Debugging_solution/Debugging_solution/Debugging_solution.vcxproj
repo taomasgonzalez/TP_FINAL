@@ -114,39 +114,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Crazy.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Fireball.cpp" />
-    <ClCompile Include="GreenFatty.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapCell.cpp" />
-    <ClCompile Include="MapThing.cpp" />
-    <ClCompile Include="MapThingFactory.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="Proyectile.cpp" />
-    <ClCompile Include="PurpleGuy.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="Snowball.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="Crazy.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Fireball.h" />
-    <ClInclude Include="GreenFatty.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapCell.h" />
-    <ClInclude Include="MapThing.h" />
-    <ClInclude Include="MapThingFactory.h" />
-    <ClInclude Include="Player.h" />
-    <ClInclude Include="Proyectile.h" />
-    <ClInclude Include="PurpleGuy.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="Snowball.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
