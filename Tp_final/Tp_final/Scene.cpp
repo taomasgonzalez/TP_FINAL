@@ -126,7 +126,6 @@ EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
 }
 
 
-EventPackage* give_me_my_enemy_action(bool is_initializing);
 
 
 void Scene::gameInit() {	
@@ -196,24 +195,61 @@ void Scene::finish_game() {
 //analizo jugadas externas e internas relacionadas a scene
 bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) { 
 
-	bool is_the_action_possible = true;
+	bool is_the_action_possible;
+	Event_type event_to_be_analyze = package_to_be_analyze->give_me_your_event_type();
 
+	switch (event_to_be_analyze)
+	{
+	case Event_type::MOVE:
+		is_the_action_possible=check_move(package_to_be_analyze);
+		break;
+	case Event_type::ATTACK:
+		is_the_action_possible = check_attack(package_to_be_analyze);
+		break;
+	case Event_type::ACTION_REQUEST:
+		is_the_action_possible = check_action_request(package_to_be_analyze);
+		break;
 
-	//analysis
-	is_the_action_possible = check_action(package_to_be_analyze); //función aparte que chequea realemnte para mayor prolijidad
+	case Event_type::ENEMY_ACTION:
+		is_the_action_possible = check_enemy_action(package_to_be_analyze);
+		break;
+	default:
+		std::cout << "Acción no analizable" << std::endl;
+		break;
+	
+	}
 		
-
 
 	return is_the_action_possible;
 }
 
-bool Scene::check_action(EventPackage * package_to_be_analyze) {
+bool Scene::check_move(EventPackage * package_to_be_analyze) {
 
-	//hacer función chequeo
-	//unsigned char Map::make_checksum(const char * CSV_map_location) función para chequear el map_is entrante
+	bool is_the_move_possible;
+	MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
+	Direction_type my_direction = my_event_package->give_me_your_direction();
+
+
 	return true;
 }
+bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 
+	bool is_the_attack_possible;
+
+	return true;
+}
+bool Scene::check_action_request(EventPackage * package_to_be_analyze) {
+
+	bool is_the_action_possible;
+
+	return true;
+}
+bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
+
+	bool is_the_enemy_action_possible;
+
+	return true;
+}
 bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 {
 	bool we_won;

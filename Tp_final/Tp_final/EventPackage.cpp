@@ -90,10 +90,19 @@ EXTERN_QUIT_EventPackage::EXTERN_QUIT_EventPackage() :EventPackage(Event_type::E
 /**************************************************************
 			MOVE_EventPackage CONSTRUCTOR
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Direction_type my_direction_type) :EventPackage(Event_type::MOVE)  {
+MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE)  {
 
-
+	this->my_direction = direction_type;
 }
+
+/**************************************************************
+				give_me_your_direction 
+**************************************************************/
+Direction_type MOVE_EventPackage::give_me_your_direction() {
+
+	return this->my_direction;
+}
+
 
 /******************************************************************************
 *******************************************************************************

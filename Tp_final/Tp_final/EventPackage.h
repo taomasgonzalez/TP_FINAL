@@ -70,9 +70,12 @@ class EventPackage
 public:
 	EventPackage(Event_type event);	
 	Event_type give_me_your_event_type();
+	bool is_this_a_local_action();
+
 
 protected:
-	Event_type my_internal_event; 
+	Event_type my_internal_event;
+	bool local_action;
 
 };
 
@@ -120,8 +123,10 @@ public:
 class MOVE_EventPackage : public EventPackage
 {
 public:
-	MOVE_EventPackage(Direction_type my_direction_type);
-
+	MOVE_EventPackage(Direction_type direction_type);
+	Direction_type give_me_your_direction();
+private:
+	Direction_type my_direction;
 };
 
 /******************************************************************************

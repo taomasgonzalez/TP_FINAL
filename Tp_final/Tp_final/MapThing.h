@@ -1,5 +1,5 @@
 #pragma once
-enum class Thing_Type { PLAYER, ENEMY, PROYECTILE };
+enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 
 class MapThing
 {

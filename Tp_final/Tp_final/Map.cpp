@@ -42,8 +42,6 @@ std::vector<Enemy*>* Map::get_all_enemies()
 	return all_enemies;
 }
 
-	memcpy((void *)this->original_distribution, CSV_map_location, 192); //copio el csv que me llega en la clase
-}
 
 
 

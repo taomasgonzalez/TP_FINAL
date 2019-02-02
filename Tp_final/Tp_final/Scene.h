@@ -5,6 +5,8 @@
 #include "general.h"
 #include "Observable.h"
 #include "Map.h"
+#include <iostream>
+
 
 /*******************************************************************************
 							ENUM CLASS STATE_TYPE
@@ -21,7 +23,11 @@ public:
 
 	//Analyze of gaming situations
 	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
-	bool check_action(EventPackage * package_to_be_analyze);
+	bool check_move(EventPackage * package_to_be_analyze);
+	bool check_attack(EventPackage * package_to_be_analyze);
+	bool check_enemy_action(EventPackage * package_to_be_analyze);
+	bool check_action_request(EventPackage * package_to_be_analyze);
+
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
 	bool any_monsters_left();
