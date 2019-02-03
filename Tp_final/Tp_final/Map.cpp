@@ -236,7 +236,8 @@ void Map::load_on_map(const char* map_string) {
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;
-		place_on_map(fil, col, map_filler.create_map_thing(map_string[i]));
+		MapThing * new_thing = map_filler.create_map_thing(map_string[i]);
+		place_on_map(fil, col, new_thing);
 	}
 }
 

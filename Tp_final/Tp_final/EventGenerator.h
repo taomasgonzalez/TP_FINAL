@@ -24,7 +24,6 @@ public:
 	void append_new_net_event(EventPackage* new_ev_pack);
 	void append_new_soft_event(EventPackage* new_ev_pack);
 
-
 	EventPackage * fetch_event_net();
 	EventPackage * fetch_event_soft();
 	EventPackage * fetch_event_al();

@@ -41,5 +41,6 @@ private:
 	ALLEGRO_EVENT_QUEUE * al_queue;			//cola para eventos de allegro
 	std::queue<ALLEGRO_TIMER*>* time_out_timers_queue;
 
+
 };
 

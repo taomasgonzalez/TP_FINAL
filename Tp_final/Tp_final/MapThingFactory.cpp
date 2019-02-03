@@ -53,8 +53,10 @@ MapThing * MapThingFactory::create_map_thing(char identifyer)
 
 			break;
 	}
+
 	return new_born;
 }
+
 
 unsigned int MapThingFactory::get_enemy_id()
 {

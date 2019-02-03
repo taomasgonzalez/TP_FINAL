@@ -53,8 +53,6 @@ public:
 
 	const char* get_last_loaded_distribution();
 
-
-
 private:
 	MapCell * * map_cells;
 	MapCell get_cell(int coord_x, int coord_y);
