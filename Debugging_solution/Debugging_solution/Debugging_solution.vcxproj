@@ -18,6 +18,34 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Allegroclass.cpp" />
+    <ClCompile Include="EventGenerator.cpp" />
+    <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="EventPackage.cpp" />
+    <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Package.cpp" />
+    <ClCompile Include="PackageFactory.cpp" />
+    <ClCompile Include="Userdata.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="AllegroClass.h" />
+    <ClInclude Include="EventGenerator.h" />
+    <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="EventPackage.h" />
+    <ClInclude Include="FSM_Class.h" />
+    <ClInclude Include="Observable.h" />
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Package.h" />
+    <ClInclude Include="PackageFactory.h" />
+    <ClInclude Include="Userdata.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FA80EA00-5A99-4BEC-8D5E-4BDB69456CB5}</ProjectGuid>
@@ -116,5 +144,14 @@
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets" Condition="Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" />
+    <Import Project="..\packages\Allegro.5.2.4.0\build\native\Allegro.targets" Condition="Exists('..\packages\Allegro.5.2.4.0\build\native\Allegro.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\AllegroDeps.1.7.0.0\build\native\AllegroDeps.targets'))" />
+    <Error Condition="!Exists('..\packages\Allegro.5.2.4.0\build\native\Allegro.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Allegro.5.2.4.0\build\native\Allegro.targets'))" />
+  </Target>
 </Project>

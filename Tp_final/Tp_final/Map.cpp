@@ -113,6 +113,11 @@ std::vector<Enemy*> Map::get_cell_enemies(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).get_enemies();
 }
 
+bool Map::cell_has_floor(int coord_x, int coord_y)
+{
+	return get_cell(coord_x, coord_y).has_floor();
+}
+
 std::vector<Player*> Map::get_cell_players(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).get_players();
 }

@@ -26,6 +26,8 @@ public:
 	bool cell_has_enemies(int coord_x, int coord_y);
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
 
+	bool cell_has_floor(int coord_x, int coord_y);
+
 	MapThing* get_from_map(unsigned int id);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
@@ -50,6 +52,8 @@ public:
 	void print_cell(int coord_x, int coord_y);
 
 	const char* get_last_loaded_distribution();
+
+
 
 private:
 	MapCell * * map_cells;

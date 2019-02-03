@@ -29,6 +29,8 @@ public:
 	std::vector<MapThing*> get_floors();
 	unsigned int get_number_of_floors();
 	MapThing * get_floor(int floor_number);
+
+	bool has_floor();
 	void print();
 
 	void clear();

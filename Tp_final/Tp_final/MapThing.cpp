@@ -4,9 +4,9 @@ MapThing::MapThing(unsigned int id, bool is_nothing)
 {
 	this->id = id;
 	if (is_nothing)
-		this->printable = 'E';		//thing vacio
+		printable = 'E';		//thing vacio
 	else
-		this->printable = 'F';		//es pared
+		printable = 'F';		//es pared
 }
 
 MapThing::~MapThing()
@@ -19,7 +19,7 @@ bool MapThing::is_enemy() {
 	return false;
 }
 bool MapThing::is_floor() {
-	return false;
+	return (printable == 'F');
 }
 
 bool MapThing::is_player() {
