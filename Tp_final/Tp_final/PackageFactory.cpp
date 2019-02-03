@@ -113,11 +113,11 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new ATTACK_EventPackage( ((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage(((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente
-		 my_event_package = new ACTION_REQUEST_EventPackage(false, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new ACTION_REQUEST_EventPackage(((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ENEMY_ACTION:
@@ -125,15 +125,15 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::WE_WON:
-		 my_event_package = new WE_WON_EventPackage(false);
+		 my_event_package = new WE_WON_EventPackage();
 		 break;
 
 	 case Package_type::PLAY_AGAIN:
-		 my_event_package = new PLAY_AGAIN_EventPackage(false);
+		 my_event_package = new PLAY_AGAIN_EventPackage();
 		 break;
 
 	 case Package_type::GAME_OVER:
-		 my_event_package = new GAME_OVER_EventPackage(false);
+		 my_event_package = new GAME_OVER_EventPackage();
 		 break;
 
 	 case Package_type::ERROR1:
@@ -141,7 +141,7 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::QUIT:
-		 my_event_package = new QUIT_EventPackage(false);
+		 my_event_package = new EXTERN_QUIT_EventPackage();
 		 break;
 
 	 default: //No puedo reconocer el paquete que llego, implica que está corrompido, se produjo un error de comunicación

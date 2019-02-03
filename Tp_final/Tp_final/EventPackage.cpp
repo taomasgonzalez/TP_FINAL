@@ -206,11 +206,32 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action,
 unsigned char ACTION_REQUEST_EventPackage::give_me_your_destination_row() {
 	return this->destination_row;
 }
+
 /**************************************************************
 					give_me_your_destination_column(EXTERN)
 **************************************************************/
 unsigned char ACTION_REQUEST_EventPackage::give_me_your_destination_column() {
 	return this->destination_column;
+
+}
+/**************************************************************
+					give_me_the_action
+**************************************************************/
+Action_type ACTION_REQUEST_EventPackage::give_me_the_action() {
+	return this->action;
+}
+/**************************************************************
+				give_me_your_direction
+**************************************************************/
+Direction_type ACTION_REQUEST_EventPackage::give_me_your_direction() {
+
+	return this->my_direction;
+}
+/**************************************************************
+					set_direction (LOCAL)
+**************************************************************/
+void ACTION_REQUEST_EventPackage::set_direction(Direction_type new_direction) {
+	this->my_direction = new_direction;
 
 }
 

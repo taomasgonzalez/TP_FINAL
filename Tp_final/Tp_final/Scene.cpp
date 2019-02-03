@@ -206,17 +206,25 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 
 		is_the_action_possible=check_move(package_to_be_analyze);
 		break;
+
 	case Event_type::ATTACK:
+
 		is_the_action_possible = check_attack(package_to_be_analyze);
 		break;
+
 	case Event_type::ACTION_REQUEST:
 
-		is_the_action_possible = check_action_request(package_to_be_analyze);
+		if(((ACTION_REQUEST_EventPackage *)package_to_be_analyze)->give_me_the_action==Action_type::Move)
+			is_the_action_possible = check_move(package_to_be_analyze);
+		else
+			is_the_action_possible = check_attack(package_to_be_analyze);
+
 		break;
 
 	case Event_type::ENEMY_ACTION:
 		is_the_action_possible = check_enemy_action(package_to_be_analyze);
 		break;
+
 	default:
 		std::cout << "Acción no analizable" << std::endl;
 		break;
@@ -323,9 +331,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
 				{
-					is_the_move_possible = false;
-					my_event_package->set_direction(Direction_type::Jump_Straight);
-
+					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -347,8 +353,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
 				{
-					is_the_move_possible = false;
-					my_event_package->set_direction(Direction_type::Jump_Straight);
+					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -437,12 +442,7 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 	return is_the_attack_possible;
 }
 
-bool Scene::check_action_request(EventPackage * package_to_be_analyze) {
 
-	bool is_the_action_request_possible;
-
-	return is_the_action_request_possible;
-}
 bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible;

@@ -132,9 +132,9 @@ public:
 	unsigned char give_me_your_destination_column();
 
 private:
-	Direction_type my_direction;
 	unsigned char destination_row;
 	unsigned char destination_column;
+	Direction_type my_direction;
 };
 
 /******************************************************************************
@@ -166,14 +166,17 @@ class ACTION_REQUEST_EventPackage : public EventPackage
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
 	ACTION_REQUEST_EventPackage( Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
+	Action_type give_me_the_action();
+	Direction_type give_me_your_direction();
+	void set_direction(Direction_type new_direction);
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
 
 private:
-	Action_type action;
-	Direction_type my_direction;
 	char destination_row;
 	char destination_column;
+	Direction_type my_direction;
+	Action_type action;
 
 };
 
