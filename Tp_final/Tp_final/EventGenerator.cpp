@@ -91,22 +91,22 @@ EventPackage * EventGenerator::fetch_event_al() {
 			if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_UP) {
 
 				if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
+					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left,true);
 				else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
+					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right,true);
 				else
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
+					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight,true);
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
-				ev_pack = new MOVE_EventPackage(Direction_type::Left);
+				ev_pack = new MOVE_EventPackage(Direction_type::Left,true);
 
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-				ev_pack = new MOVE_EventPackage(Direction_type::Right);
+				ev_pack = new MOVE_EventPackage(Direction_type::Right,true);
 
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_SPACE) {
-				ev_pack = new ATTACK_EventPackage();
+				ev_pack = new ATTACK_EventPackage(true);
 
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_Q) {

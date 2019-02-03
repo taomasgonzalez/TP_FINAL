@@ -1,4 +1,5 @@
 #include "Scene.h"
+#include "general.h"
  
 Scene::Scene():Observable(Observable_type::SCENARIO)
 {
@@ -141,11 +142,11 @@ EventPackage * Scene::give_me_my_allegro_event() {
 	return this->action_from_allegro;
 }
 
-Character_type Scene::give_me_my_player() {
+Item_type Scene::give_me_my_player() {
 
 	return this-> my_player;
 }
-Character_type Scene::give_the_other_player() {
+Item_type Scene::give_the_other_player() {
 
 	return this->other_player;
 }
@@ -198,15 +199,18 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	bool is_the_action_possible;
 	Event_type event_to_be_analyze = package_to_be_analyze->give_me_your_event_type();
 
+
 	switch (event_to_be_analyze)
 	{
 	case Event_type::MOVE:
+
 		is_the_action_possible=check_move(package_to_be_analyze);
 		break;
 	case Event_type::ATTACK:
 		is_the_action_possible = check_attack(package_to_be_analyze);
 		break;
 	case Event_type::ACTION_REQUEST:
+
 		is_the_action_possible = check_action_request(package_to_be_analyze);
 		break;
 
@@ -223,33 +227,243 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	return is_the_action_possible;
 }
 
-bool Scene::check_move(EventPackage * package_to_be_analyze) {
+bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 
 	bool is_the_move_possible;
+	bool is_local;
 	MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
-	Direction_type my_direction = my_event_package->give_me_your_direction();
+	Player * the_one_that_moves = NULL;
+	Position extern_destination;
+	Direction_type my_direction;
+
+	if (package_to_be_analyze->is_this_a_local_action())
+	{
+		is_local = true;
+		the_one_that_moves = get_player(my_player);
+		my_direction = my_event_package->give_me_your_direction();
+	}
+	else
+	{
+		is_local = false;
+		the_one_that_moves = get_player(other_player);
+		extern_destination.fil = my_event_package->give_me_your_destination_row();
+		extern_destination.col = my_event_package->give_me_your_destination_column();
+
+		if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Left
+			my_direction = Direction_type::Left;
+		else if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Right
+			my_direction = Direction_type::Right;
+		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col == the_one_that_moves->pos_y)) //Jump_Straight
+			my_direction = Direction_type::Jump_Straight;
+		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Jump_Left
+			my_direction = Direction_type::Jump_Left;
+		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Jump_Right
+			my_direction = Direction_type::Jump_Right;
+	}
 
 
-	return true;
+
+	if (the_one_that_moves->is_dead())
+		is_the_move_possible = false;
+	else
+	{
+
+		switch (my_direction)
+		{
+		case Direction_type::Left:
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x , the_one_that_moves->pos_y - 1))
+					is_the_move_possible = false;
+				else
+					is_the_move_possible = true;
+			}
+			else
+			{
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+					is_the_move_possible = false;
+				else
+					is_the_move_possible = true;
+			}
+
+			break;
+
+		case Direction_type::Right:
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x , the_one_that_moves->pos_y + 1))
+					is_the_move_possible = false;
+				else
+					is_the_move_possible = true;
+			}
+			else
+			{
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+					is_the_move_possible = false;
+				else
+					is_the_move_possible = true;
+			}
+			break;
+
+		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+			break;
+
+		case Direction_type::Jump_Left:
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y - 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y - 1))
+				{
+					my_event_package->set_direction(Direction_type::Jump_Straight);
+					is_the_move_possible = true;
+				}
+				else
+					is_the_move_possible = true;
+			}
+			else
+			{
+				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
+				{
+					is_the_move_possible = false;
+					my_event_package->set_direction(Direction_type::Jump_Straight);
+
+				}
+				else
+					is_the_move_possible = true;
+			}
+			break;
+
+		case Direction_type::Jump_Right:
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y + 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y + 1))
+				{
+					my_event_package->set_direction(Direction_type::Jump_Straight);
+					is_the_move_possible = true;
+				}
+				else
+					is_the_move_possible = true;
+			}
+			else
+			{
+				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
+				{
+					is_the_move_possible = false;
+					my_event_package->set_direction(Direction_type::Jump_Straight);
+				}
+				else
+					is_the_move_possible = true;
+			}
+			break;
+
+		default:
+			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+			break;
+		}
+	}
+
+	return is_the_move_possible;
 }
 bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 
 	bool is_the_attack_possible;
+	bool is_local;
+	ATTACK_EventPackage* my_event_package = ((ATTACK_EventPackage *)package_to_be_analyze);
+	Player * the_one_that_moves = NULL;
+	Sense_type in_witch_direction_is_he_looking;
+	Position extern_destination;
 
-	return true;
+
+	if (package_to_be_analyze->is_this_a_local_action())
+	{
+		is_local = true;
+		the_one_that_moves = get_player(my_player);
+		in_witch_direction_is_he_looking = the_one_that_moves->get_sense();
+	}
+	else
+	{
+		is_local = false;
+		the_one_that_moves = get_player(other_player);
+		extern_destination.fil = my_event_package->give_me_your_destination_row();
+		extern_destination.col = my_event_package->give_me_your_destination_column();
+
+		if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Left
+			in_witch_direction_is_he_looking = Sense_type::Left;
+		else  //Right
+			in_witch_direction_is_he_looking = Sense_type::Right;
+	}
+
+
+	if (the_one_that_moves->is_dead())
+		is_the_attack_possible = false;
+	else
+	{
+		if (in_witch_direction_is_he_looking == Sense_type::Left)
+		{
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y -1))
+					is_the_attack_possible = false;
+				else
+					is_the_attack_possible = true;
+			}
+			else
+			{
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+					is_the_attack_possible = false;
+				else
+					is_the_attack_possible = true;
+			}
+		}
+		else //Sense_type::Right
+		{
+			if (is_local)
+			{
+				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + 1))
+					is_the_attack_possible = false;
+				else
+					is_the_attack_possible = true;
+			}
+			else
+			{
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+					is_the_attack_possible = false;
+				else
+					is_the_attack_possible = true;
+			}
+		}
+
+	}
+
+	return is_the_attack_possible;
 }
+
 bool Scene::check_action_request(EventPackage * package_to_be_analyze) {
 
-	bool is_the_action_possible;
+	bool is_the_action_request_possible;
 
-	return true;
+	return is_the_action_request_possible;
 }
 bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible;
 
-	return true;
+	return is_the_enemy_action_possible;
 }
+
+
+Player * Scene::get_player(Item_type player_to_be_found) {
+
+	Player * player_found = NULL;
+	std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
+
+	if ((*my_vector_of_players)[0]->get_printable() == player_to_be_found)
+		player_found = (*my_vector_of_players)[0];
+	else
+		player_found = (*my_vector_of_players)[1];
+
+	return player_found;
+}
+
 bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 {
 	bool we_won;

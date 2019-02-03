@@ -1,5 +1,6 @@
 #pragma once
 #include "Package.h"
+#include "Userdata.h"
 #include <cstring>
 
 enum class Event_type  //Events that are usde by the internal function of the program 
@@ -68,7 +69,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 class EventPackage
 {
 public:
-	EventPackage(Event_type event);	
+	EventPackage(Event_type event, bool is_local = NULL);
 	Event_type give_me_your_event_type();
 	bool is_this_a_local_action();
 
@@ -123,10 +124,17 @@ public:
 class MOVE_EventPackage : public EventPackage
 {
 public:
-	MOVE_EventPackage(Direction_type direction_type);
+	MOVE_EventPackage(Direction_type direction_type); //local MOVE
+	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
 	Direction_type give_me_your_direction();
+	void set_direction (Direction_type new_direction);
+	unsigned char give_me_your_destination_row();
+	unsigned char give_me_your_destination_column();
+
 private:
 	Direction_type my_direction;
+	unsigned char destination_row;
+	unsigned char destination_column;
 };
 
 /******************************************************************************
@@ -137,7 +145,13 @@ private:
 class ATTACK_EventPackage : public EventPackage
 {
 public:
-	ATTACK_EventPackage();
+	ATTACK_EventPackage(); // local ATTACK
+	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
+	unsigned char give_me_your_destination_row();
+	unsigned char give_me_your_destination_column();
+private:
+	unsigned char destination_row;
+	unsigned char destination_column;
 
 };
 

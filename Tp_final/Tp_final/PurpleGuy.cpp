@@ -4,7 +4,7 @@ double PurpleGuy::moving_speed = 300;
 
 PurpleGuy::PurpleGuy(unsigned int id) :Enemy(id)
 {
-	printable = 'P';
+	printable = Item_type::PURPLE_GUY;
 }
 
 

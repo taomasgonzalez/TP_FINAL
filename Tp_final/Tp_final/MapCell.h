@@ -32,6 +32,7 @@ public:
 	void print();
 
 	void clear();
+
 private:
 	std::vector<MapThing*>* cell_things;
 

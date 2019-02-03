@@ -19,7 +19,7 @@ enum class Package_type {
 	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF
 };
 
-enum class Character_type { TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E' };
+
 
 /******************************************************************************
 *******************************************************************************

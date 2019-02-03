@@ -18,9 +18,10 @@
 *OUTPUT:
 *Void
 */
-EventPackage::EventPackage(Event_type event)
+EventPackage::EventPackage(Event_type event, bool is_local = NULL)
 {
 	this->my_internal_event = event;
+	this->local_action = is_local;
 
 }
 
@@ -40,6 +41,15 @@ EventPackage::EventPackage(Event_type event)
 Event_type EventPackage::give_me_your_event_type()
 {
 	return this->my_internal_event;
+}
+
+/**************************************************************
+				is_this_a_local_action
+**************************************************************/
+
+bool EventPackage::is_this_a_local_action() {
+
+	return this->local_action;
 }
 
 
@@ -88,11 +98,20 @@ EXTERN_QUIT_EventPackage::EXTERN_QUIT_EventPackage() :EventPackage(Event_type::E
 *******************************************************************************
 *******************************************************************************/
 /**************************************************************
-			MOVE_EventPackage CONSTRUCTOR
+			MOVE_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE)  {
+MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE,  true)  { //LOCAL MOVE
 
 	this->my_direction = direction_type;
+}
+/**************************************************************
+			MOVE_EventPackage CONSTRUCTOR (EXTERN)
+**************************************************************/
+MOVE_EventPackage::MOVE_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::MOVE, false) {			//EXTERN MOVE
+
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+
 }
 
 /**************************************************************
@@ -102,21 +121,61 @@ Direction_type MOVE_EventPackage::give_me_your_direction() {
 
 	return this->my_direction;
 }
+/**************************************************************
+					set_direction (LOCAL)
+**************************************************************/
+void MOVE_EventPackage::set_direction(Direction_type new_direction) {
+	this->my_direction = new_direction;
 
+}
+/**************************************************************
+					give_me_your_destination_row (EXTERN)
+**************************************************************/
+unsigned char MOVE_EventPackage::give_me_your_destination_row() {
+	return this->destination_row;
+}
+/**************************************************************
+					give_me_your_destination_column(EXTERN)
+**************************************************************/
+unsigned char MOVE_EventPackage::give_me_your_destination_column() {
+	return this->destination_column;
 
+}
 /******************************************************************************
 *******************************************************************************
 			ATTACK_EventPackage METHODS DEFINITIONS
 *******************************************************************************
 *******************************************************************************/
 /**************************************************************
-			ATTACK_EventPackage CONSTRUCTOR
+			ATTACK_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage():EventPackage(Event_type::ATTACK) {
+ATTACK_EventPackage::ATTACK_EventPackage():EventPackage(Event_type::ATTACK, true) {
 
 
 }
+/**************************************************************
+			ATTACK_EventPackage CONSTRUCTOR (EXTERN)
+**************************************************************/
+ATTACK_EventPackage::ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false) {			//EXTERN MOVE
 
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+
+}
+
+/**************************************************************
+					give_me_your_destination_row (EXTERN)
+**************************************************************/
+unsigned char ATTACK_EventPackage::give_me_your_destination_row() {
+	return this->destination_row;
+}
+/**************************************************************
+					give_me_your_destination_column(EXTERN)
+**************************************************************/
+unsigned char ATTACK_EventPackage::give_me_your_destination_column() {
+	return this->destination_column;
+
+}
 
 
 /******************************************************************************

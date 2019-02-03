@@ -5,7 +5,7 @@ int Fireball::life_of_use = 3; //in number of squares visited.
 
 Fireball::Fireball(unsigned int id): Proyectile(id)
 {
-	printable = 'B';
+	printable = Item_type::FIREBALL;
 
 }
 

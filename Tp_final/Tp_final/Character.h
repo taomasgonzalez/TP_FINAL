@@ -6,6 +6,7 @@ enum class States
 	Moving, Frozen
 };
 
+
 class Character: public MapThing
 {
 public:
@@ -17,7 +18,10 @@ public:
 	virtual void die();
 	bool is_dead();
 
+
 protected:
 	bool dead = false;
+
+
 };
 

@@ -4,9 +4,9 @@ MapThing::MapThing(unsigned int id, bool is_nothing)
 {
 	this->id = id;
 	if (is_nothing)
-		this->printable = 'E';		//thing vacio
+		this->printable = Item_type::NADA;		//thing vacio
 	else
-		this->printable = 'F';		//es pared
+		this->printable = Item_type::FLOOR;		//es pared
 }
 
 MapThing::~MapThing()
@@ -35,12 +35,22 @@ Thing_Type MapThing::get_map_thing_type()
 
 }
 
-void MapThing::set_printable(char printable)
+void MapThing::set_printable(Item_type printable)
 {
 	this->printable = printable;
 }
 
-char MapThing::get_printable()
+Item_type MapThing::get_printable()
 {
 	return printable;
 }
+
+void MapThing::set_sense(Sense_type sense) {
+
+	this->my_sense = sense;
+}
+Sense_type MapThing::get_sense() {
+
+	return this->my_sense;
+}
+

@@ -42,10 +42,11 @@ public:
 
 	//Getters
 	EventPackage * give_me_my_allegro_event();
-	Character_type give_me_my_player();
-	Character_type give_the_other_player();
+	Item_type give_me_my_player();
+	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
 	EventPackage* give_me_my_enemy_action(bool is_initializing);
+	Player * get_player(Item_type player_to_be_found);
 
 
 
@@ -84,9 +85,9 @@ public:
 private:
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
-
-	Character_type my_player;
-	Character_type other_player;
+	unsigned int points;
+	Item_type my_player;
+	Item_type other_player;
 
 };
 

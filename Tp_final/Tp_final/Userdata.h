@@ -12,12 +12,15 @@ enum class Direction_type
 	Left, Right, Jump_Straight, Jump_Left, Jump_Right
 };
 
-enum class Action_type { Move = 'M', Attack = 'A' };
+enum class Action_type { 
+	Move = 'M', Attack = 'A' };
 
 enum class Character_id {
 	Player, Enemy
 };
 
+enum class Character_type { 
+	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E' };
 
 class NetworkData {
 

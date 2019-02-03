@@ -31,13 +31,11 @@ public:
 
 
 protected:
-	
-
 	ALLEGRO_EVENT_QUEUE * al_queue;				
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
 
-	Userdata * my_user_data; //PQ tienne este puntero? lo necesita realmente?
+	Userdata * my_user_data;
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??
 
 
