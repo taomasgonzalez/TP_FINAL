@@ -84,7 +84,7 @@ void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length);
 
 FSM::FSM(Userdata * data) : Observable(Observable_type::FSM){
 
-	this->my_user_data = data;
+	this->user_data = data;
 
 	if (data->my_network_data.is_client())
 		init_fsm_client();

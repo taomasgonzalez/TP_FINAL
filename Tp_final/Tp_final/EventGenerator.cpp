@@ -3,6 +3,7 @@
 #include "Package.h"
 #include "FSM_Class.h"
 #include "Scene.h"
+#include "Userdata.h"
 
 
 EventGenerator::EventGenerator(Allegro * al, Userdata* data)
@@ -71,13 +72,13 @@ EventPackage * EventGenerator::fetch_event_soft() {
 		this->soft_queue->pop();
 	}
 	else
-		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+		new_events = new NO_EVENT_EventPackage(); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
 
 	return new_events;
 	
 }
 
-EventPackage * EventGenerator::fetch_event_al() {
+EventPackage * EventGenerator::fetch_event_al(bool is_client) {
 
 	ALLEGRO_EVENT * allegroEvent = NULL;
 	EventPackage * ev_pack=NULL;
@@ -91,22 +92,47 @@ EventPackage * EventGenerator::fetch_event_al() {
 			if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_UP) {
 
 				if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left,true);
+
+					if(is_client)
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move,Direction_type::Jump_Left);
+
 				else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right,true);
+
+					if (is_client)
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Right);
 				else
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight,true);
+
+					if(is_client)
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Straight);
 			}
+
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
-				ev_pack = new MOVE_EventPackage(Direction_type::Left,true);
 
+				if(is_client)
+					ev_pack = new MOVE_EventPackage(Direction_type::Left);
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Left);
 			}
-			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-				ev_pack = new MOVE_EventPackage(Direction_type::Right,true);
 
+			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
+
+				if (is_client)
+					ev_pack = new MOVE_EventPackage(Direction_type::Right);
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Right);
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_SPACE) {
-				ev_pack = new ATTACK_EventPackage(true);
+				
+				if (is_client)
+					ev_pack = new ATTACK_EventPackage();
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Attack, Direction_type::None);
 
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_Q) {

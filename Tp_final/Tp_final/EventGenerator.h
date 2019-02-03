@@ -27,7 +27,7 @@ public:
 
 	EventPackage * fetch_event_net();
 	EventPackage * fetch_event_soft();
-	EventPackage * fetch_event_al();
+	EventPackage * fetch_event_al(bool is_client);
 
 
 protected:

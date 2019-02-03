@@ -184,14 +184,35 @@ unsigned char ATTACK_EventPackage::give_me_your_destination_column() {
 *******************************************************************************
 *******************************************************************************/
 /**************************************************************
-			ACTION_REQUEST_EventPackage CONSTRUCTOR
+			ACTION_REQUEST_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(bool is_local, Action_type the_action, char fil_de, char col_de) 
-	:EventPackage(Event_type::ACTION_REQUEST, is_local), ACTION_REQUEST_package(the_action,fil_de,col_de){
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction ) : EventPackage(Event_type::ACTION_REQUEST, true) { //local ACTION_REQUEST
 
+	this->action = the_action;
+	this->my_direction = direction; //If attack, the direction is None
+}
+/**************************************************************
+			ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
+**************************************************************/
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de) : EventPackage(Event_type::ACTION_REQUEST, false) { //extern ACTION_REQUEST
+
+	this->action = the_action;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+}
+/**************************************************************
+					give_me_your_destination_row (EXTERN)
+**************************************************************/
+unsigned char ACTION_REQUEST_EventPackage::give_me_your_destination_row() {
+	return this->destination_row;
+}
+/**************************************************************
+					give_me_your_destination_column(EXTERN)
+**************************************************************/
+unsigned char ACTION_REQUEST_EventPackage::give_me_your_destination_column() {
+	return this->destination_column;
 
 }
-
 
 /******************************************************************************
 *******************************************************************************

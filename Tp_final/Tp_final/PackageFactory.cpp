@@ -88,12 +88,12 @@ PackageFactory::PackageFactory()
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:
-		 my_event_package = new ACK_EventPackage(false);
+		 my_event_package = new ACK_EventPackage();
 		 break;
 
 	 case Package_type::NAME:
 		 std::cout << "me llego un NAME" << std :: endl;
-		 my_event_package= new NAME_EventPackage(false);
+		 my_event_package= new NAME_EventPackage();
 		 break;
 
 	 case Package_type::NAME_IS:
@@ -105,15 +105,15 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::GAME_START:
-		 my_event_package = new GAME_START_EventPackage(false);
+		 my_event_package = new GAME_START_EventPackage();
 		 break;
 
 	 case Package_type::MOVE:  //soy cliente y me llega un MOVE del servidor
-		 my_event_package = new MOVE_EventPackage(false, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row(), ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new MOVE_EventPackage(((MOVE_package *)package_recieved)->give_me_the_destination_row(), ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new ATTACK_EventPackage(false, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage( ((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente

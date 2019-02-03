@@ -9,7 +9,7 @@
 
 enum class Direction_type
 {
-	Left, Right, Jump_Straight, Jump_Left, Jump_Right
+	Left, Right, Jump_Straight, Jump_Left, Jump_Right , None
 };
 
 enum class Action_type { 

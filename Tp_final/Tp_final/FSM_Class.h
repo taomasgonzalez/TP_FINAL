@@ -130,7 +130,7 @@ private:
 	EventPackage* my_ev_pack;
 	
 	void check_for_incorrect_event(Event_type event);
-	Userdata * my_user_data;
+	Userdata * user_data;
 	
 	void init_fsm_server();
 	void init_fsm_client();

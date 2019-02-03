@@ -4,7 +4,6 @@
 EventHandler::EventHandler(Allegro * al, Userdata * data) :
  EventGenerator(al, data), FSM(data)
 {
-	this->my_user_data = data;
 }
 
 
@@ -18,7 +17,7 @@ void EventHandler::handle_event() {
 	if (ev_pack_soft->give_me_your_event_type() != Event_type::NO_EVENT)
 		this->run_fsm(ev_pack_soft);
 
-	EventPackage * ev_pack_al = fetch_event_al();
+	EventPackage * ev_pack_al = fetch_event_al(my_user_data->my_network_data.is_client());
 	if (ev_pack_al->give_me_your_event_type() != Event_type::NO_EVENT) 
 		this->run_fsm(ev_pack_al);
 
