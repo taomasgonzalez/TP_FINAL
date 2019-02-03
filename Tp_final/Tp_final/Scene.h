@@ -46,6 +46,7 @@ public:
 	const char * give_me_the_CSV(unsigned int actual_map);
 	EventPackage* give_me_my_enemy_action(bool is_initializing);
 	Player * get_player(Item_type player_to_be_found);
+	Enemy * get_enemy(uchar enemy_to_be_found);
 
 
 

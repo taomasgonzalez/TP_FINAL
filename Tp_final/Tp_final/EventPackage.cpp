@@ -317,10 +317,29 @@ MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  const char * themap, ch
 			ENEMY_ACTION_EventPackage CONSTRUCTOR
 **************************************************************/
 ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de) 
-	:EventPackage(Event_type::ENEMY_ACTION, is_local), ENEMY_ACTION_package(the_MonsterID, the_action, fil_de, col_de){
+	:EventPackage(Event_type::ENEMY_ACTION, is_local) {
 
+	this->MonsterID = the_MonsterID;
+	this->action = the_action;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+}
+uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
+	return this->MonsterID;
 }
 
+Action_type ENEMY_ACTION_EventPackage::give_me_the_action() {
+	return this->action;
+}
+
+char ENEMY_ACTION_EventPackage::give_me_the_destination_row() {
+	return this->destination_row;
+
+}
+char ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
+	return this->destination_column;
+
+}
 /******************************************************************************
 *******************************************************************************
 			ENEMYS_LOADED_EventPackage METHODS DEFINITIONS

@@ -247,11 +247,19 @@ public:
 *******************************************************************************
 *******************************************************************************/
 
-class ENEMY_ACTION_EventPackage : public EventPackage, public ENEMY_ACTION_package
+class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local,uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-
+	uchar give_me_the_monsterID();
+	Action_type give_me_the_action();
+	char give_me_the_destination_row();
+	char give_me_the_destination_column();
+private:
+	uchar MonsterID;
+	Action_type action;
+	char destination_row;
+	char destination_column;
 };
 
 /******************************************************************************
