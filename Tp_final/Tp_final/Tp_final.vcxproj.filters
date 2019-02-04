@@ -150,6 +150,12 @@
     <ClCompile Include="MapThingFactory.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicEventGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicEventGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -253,6 +259,12 @@
     </ClInclude>
     <ClInclude Include="MapThingFactory.h">
       <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicEventGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicEventGenerator.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -26,6 +26,9 @@ public:
 	bool cell_has_enemies(int coord_x, int coord_y);
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
 
+	bool cell_has_enemy_proyectiles(int coord_x, int coord_y);
+	bool cell_has_player_proyectiles(int coord_x, int coord_y);
+
 	bool cell_has_floor(int coord_x, int coord_y);
 
 	MapThing* get_from_map(unsigned int id);
@@ -38,6 +41,7 @@ public:
 
 	//llamar despues de construir al mapa para cargar las cosas!!
 	void load_on_map(const char* map_string);
+	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue);
 	void load_checksum(unsigned char checksum);
 
 	void reset_map();
@@ -73,4 +77,6 @@ private:
 
 	void delete_from_map_thing_vectors(MapThing* thing);
 	void place_on_map_thing_vectors(MapThing* thing);
+
+	MapThingFactory map_filler;
 };

@@ -97,8 +97,7 @@ private:
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
 	*/
 	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = al_create_event_queue();
-	//debe ser llamada cada vez que se crea un nuevo enemigo!!!!
-	void register_timer(Enemy * en);
+
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	
 	

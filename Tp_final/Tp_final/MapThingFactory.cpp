@@ -10,7 +10,6 @@ MapThingFactory::MapThingFactory()
 	next_enemy_id = 0;
 	next_player_id = next_enemy_id + MAX_NUMBER_OF_MONSTERS;
 	next_proyectile_id = next_player_id + MAX_NUMBER_OF_PLAYERS;
-
 }
 
 
@@ -53,8 +52,15 @@ MapThing * MapThingFactory::create_map_thing(char identifyer)
 
 			break;
 	}
+	if (new_born->is_enemy())
+		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(((Enemy*)new_born)->get_acting_timer()));
 
 	return new_born;
+}
+
+void MapThingFactory::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue)
+{
+	enemies_ev_queue = ev_queue;
 }
 
 

@@ -13,6 +13,7 @@ Enemy::Enemy(unsigned  int id) : Character(id)
 
 Enemy::~Enemy()
 {
+	al_destroy_timer(acting_timer);
 }
 
 bool Enemy::is_enemy() {

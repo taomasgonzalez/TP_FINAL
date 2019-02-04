@@ -34,9 +34,6 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 void Scene::execute_action(EventPackage * action_to_be_executed)
 {
 
-
-
-
 	//Lastly, we analyze the current game_situation
 	if (this->both_players_dead())
 	{
@@ -52,10 +49,11 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 	}
 }
 
-void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
+void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL) {
 
 
 	Map * new_map = new Map(12, 16);
+	new_map->register_enemies_event_queue(enemy_actions_queue);
 
 	if (is_client) //The map came by networking, already checked
 	{	
@@ -73,8 +71,6 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 		//maps->push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
-	for (std::vector<Enemy*>::iterator it = new_map->get_all_enemies.begin(); it != new_map->get_all_enemies.end(); ++it)
-		register_timer(*it, enemy_actions_queue);
 
 	maps.push_back(new_map);
 
@@ -295,17 +291,13 @@ void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
 void Scene::control_enemy_actions()
 {
 	ALLEGRO_EVENT * allegroEvent = NULL;
-	if (al_get_next_event(enemy_actions_queue, allegroEvent)) {
+	while (al_get_next_event(enemy_actions_queue, allegroEvent)) 
 		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
 			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
 			if (wanted_enemy != NULL) 
 				wanted_enemy->act();
 		}
-	}
-}
-
-void Scene::register_timer(Enemy* en) {
-	al_register_event_source(enemy_actions_queue, al_get_timer_event_source(en->get_acting_timer()));
+	
 }
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
