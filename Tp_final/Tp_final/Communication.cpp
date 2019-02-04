@@ -2,7 +2,7 @@
 
 
 
-Communication::Communication(Userdata * my_user_data) :Observable(Observable_type::COMMUNICATION)
+Communication::Communication(Userdata * my_user_data) : Observable()
 {
 	//this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
 	//this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
