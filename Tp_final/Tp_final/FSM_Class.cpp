@@ -1,7 +1,5 @@
 #include "FSM_Class.h"
 
-void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length);
-
 
 FSM::FSM(Userdata * data) : Observable(){
 

@@ -1,7 +1,7 @@
 #include "Scene.h"
 #include "general.h"
  
-Scene::Scene():Observable(Observable_type::SCENARIO)
+Scene::Scene():Observable()
 {
 	//flags
 	this->game_finished = false;
@@ -177,6 +177,8 @@ void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 	al_flush_event_queue(enemy_actions_queue);
+	al_flush_event_queue(proyectile_actions_queue);
+
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 
@@ -831,11 +833,28 @@ void Scene::control_enemy_actions()
 	//falta notificarle al wachin que actuaste.
 }
 
+void Scene::control_proyectile_actions() {
+	ALLEGRO_EVENT * allegroEvent = NULL;
+	while (al_get_next_event(proyectile_actions_queue, allegroEvent))
+		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
+			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent->timer.source);
+			//if (wanted_proyectile != NULL)
+				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
+		}
+}
+
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
 {
-	std::vector<Enemy*>* enemies = maps[actual_map].get_all_enemies();
-	for (std::vector<Enemy*>::iterator it = enemies->begin(); it != enemies->end(); ++it) 
+	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		if ((*it)->get_acting_timer() == timer)
+			return (*it);
+
+	return NULL;
+}
+
+Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
+	for (std::vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
+		if ((*it)->get_moving_timer() == timer)
 			return (*it);
 
 	return NULL;

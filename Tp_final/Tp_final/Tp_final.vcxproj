@@ -138,12 +138,12 @@
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventsCommunicationObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="FireballGraphicFSM.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="FSMEventsObserver.cpp" />
     <ClCompile Include="FSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
-    <ClCompile Include="GraphicFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="LogicEventGenerator.cpp" />
     <ClCompile Include="LogicFSM.cpp" />
@@ -165,6 +165,7 @@
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
+    <ClCompile Include="SnowballGraphicFSM.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -178,13 +179,13 @@
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="EventsCommunicationObserver.h" />
     <ClInclude Include="Fireball.h" />
+    <ClInclude Include="FireballGraphicFSM.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
     <ClInclude Include="FSMEventsObserver.h" />
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
-    <ClInclude Include="GraphicFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
@@ -205,6 +206,7 @@
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Snowball.h" />
+    <ClInclude Include="SnowballGraphicFSM.h" />
     <ClInclude Include="Userdata.h" />
   </ItemGroup>
   <ItemGroup>

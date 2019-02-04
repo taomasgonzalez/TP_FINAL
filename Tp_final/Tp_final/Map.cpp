@@ -50,10 +50,6 @@ const char * Map::give_me_the_original_map() {
 	return this->original_distribution;
 }
 
-EventPackage* Map::give_me_my_enemy_action(bool is_initializing) {
-
-
-}
 
 unsigned char  Map::give_me_the_checksum() {
 
@@ -298,3 +294,18 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
 	map_filler.register_enemies_event_queue(enemies_ev_queue);
 }
+
+Enemy::EA_info Map::get_initial_enemy_actions() {
+	static int loading_EA_number = 0;
+	Enemy::EA_info returnable_EA;
+
+	if (returnable_EA.finished_loading = (loading_EA_number >= all_enemies->size()) ) 
+		loading_EA_number = 0;
+	else {
+		returnable_EA = (all_enemies->at(loading_EA_number))->act();
+		loading_EA_number++;
+	}
+	return returnable_EA;
+}
+
+

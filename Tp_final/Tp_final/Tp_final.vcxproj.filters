@@ -55,6 +55,12 @@
     <Filter Include="Header Files\Event_related\Generic">
       <UniqueIdentifier>{c9a51ce1-1979-4bda-b532-f662b0a1583d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Event_related\Graphic">
+      <UniqueIdentifier>{e1e47c3a-1f01-42c0-8663-0ddffeddf385}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related\Logic">
+      <UniqueIdentifier>{867b34ed-6754-481e-8233-b5a42d60eb89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp">
@@ -159,17 +165,20 @@
     <ClCompile Include="MapThingFactory.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="LogicEventGenerator.cpp">
-      <Filter>Source Files\Event_related</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicEventGenerator.cpp">
-      <Filter>Source Files\Event_related</Filter>
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicEventGenerator.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="FireballGraphicFSM.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="SnowballGraphicFSM.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="LogicFSM.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicFSM.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -272,9 +281,6 @@
     <ClInclude Include="LogicFSM.h">
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="EventGenerator.h">
       <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
@@ -286,6 +292,12 @@
     </ClInclude>
     <ClInclude Include="FSM_Class.h">
       <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="FireballGraphicFSM.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="SnowballGraphicFSM.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

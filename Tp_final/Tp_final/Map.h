@@ -54,8 +54,8 @@ public:
 	bool delete_from_map(MapThing* thing);
 	const char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
-	EventPackage* give_me_my_enemy_action(bool is_initializing);
 
+	Enemy::EA_info get_initial_enemy_actions();
 
 	void print_cell(int coord_x, int coord_y);
 
@@ -86,4 +86,5 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
+
 };

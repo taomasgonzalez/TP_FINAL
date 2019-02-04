@@ -52,8 +52,11 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 
 			break;
 	}
+
 	if (new_born->is_enemy())
 		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(((Enemy*)new_born)->get_acting_timer()));
+	else if (new_born->is_proyectile())
+		al_register_event_source(proyectiles_ev_queue, al_get_timer_event_source(((Proyectile*)new_born)->get_moving_timer()));
 
 	return new_born;
 }
@@ -61,6 +64,11 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 void MapThingFactory::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue)
 {
 	enemies_ev_queue = ev_queue;
+}
+
+void MapThingFactory::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * ev_queue)
+{
+	proyectiles_ev_queue = ev_queue;
 }
 
 

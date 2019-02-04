@@ -7,7 +7,8 @@ public:
 	PurpleGuy(unsigned int id);
 	~PurpleGuy();
 
-	void act();
+	EA_info act();
+
 private:
 	static double moving_speed;	//in miliseconds	
 

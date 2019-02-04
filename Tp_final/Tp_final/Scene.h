@@ -84,6 +84,8 @@ public:
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
 	*/
 	void control_enemy_actions();
+	void control_proyectile_actions();
+
 private:
 	//checkes
 	bool check_move(EventPackage * package_to_be_analyze);
@@ -107,9 +109,10 @@ private:
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
 	*/
 	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = al_create_event_queue();
+	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = al_create_event_queue();
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
-	
+	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
 	
 };
 

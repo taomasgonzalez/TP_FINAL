@@ -5,7 +5,7 @@ class GreenFatty: public Enemy
 public:
 	GreenFatty(unsigned int id);
 	~GreenFatty();
-	void act();
+	EA_info act();
 private:
 	static double moving_speed;	//in miliseconds		
 
