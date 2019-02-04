@@ -30,7 +30,8 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->sv_enemy_action) { //I´m the server, EA generated before send it during initialization
-		EventPackage * my_enemy_action = my_scenario->give_me_my_enemy_action(true);;
+		//EventPackage * my_enemy_action = my_scenario->give_me_my_enemy_action(true);
+
 		my_scenario->append_new_auxilar_event(my_enemy_action);
 		my_fsm->load_fsm_ev_pack(my_enemy_action); //saves it in the FSM so it can be send to the client later
 	}

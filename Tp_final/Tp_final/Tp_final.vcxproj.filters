@@ -46,6 +46,15 @@
     <Filter Include="Source Files\Info_Mapas">
       <UniqueIdentifier>{327f9de3-4247-4907-9eee-90a0b21e4489}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Event_related\Logic">
+      <UniqueIdentifier>{4cfca083-f015-4b09-82af-828e9b7af6a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event_related\Graphic">
+      <UniqueIdentifier>{329b0540-b128-4fd5-af0f-49ca077e9c74}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Event_related\Generic">
+      <UniqueIdentifier>{c9a51ce1-1979-4bda-b532-f662b0a1583d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp">
@@ -156,6 +165,12 @@
     <ClCompile Include="GraphicEventGenerator.cpp">
       <Filter>Source Files\Event_related</Filter>
     </ClCompile>
+    <ClCompile Include="LogicFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -175,9 +190,6 @@
     </ClInclude>
     <ClInclude Include="Communication.h">
       <Filter>Header Files\Net_related</Filter>
-    </ClInclude>
-    <ClInclude Include="EventGenerator.h">
-      <Filter>Header Files\Event_related</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
       <Filter>Header Files\PJ_related</Filter>
@@ -202,12 +214,6 @@
     </ClInclude>
     <ClInclude Include="PurpleGuy.h">
       <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="EventHandler.h">
-      <Filter>Header Files\Event_related</Filter>
-    </ClInclude>
-    <ClInclude Include="FSM_Class.h">
-      <Filter>Header Files\Event_related</Filter>
     </ClInclude>
     <ClInclude Include="Observable.h">
       <Filter>Header Files\Observers</Filter>
@@ -248,9 +254,6 @@
     <ClInclude Include="general.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="EventPackage.h">
-      <Filter>Header Files\Event_related</Filter>
-    </ClInclude>
     <ClInclude Include="ScenarioDrawingObserver.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
@@ -261,10 +264,28 @@
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
     <ClInclude Include="GraphicEventGenerator.h">
-      <Filter>Header Files\Event_related</Filter>
+      <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="LogicEventGenerator.h">
-      <Filter>Header Files\Event_related</Filter>
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicFSM.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGenerator.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPackage.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM_Class.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

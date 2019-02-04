@@ -1,8 +1,7 @@
 #include "Observable.h"
 
-Observable::Observable(Observable_type type)
+Observable::Observable()
 {
-	this->my_type = type;
 }
 
 
@@ -18,14 +17,3 @@ void Observable::notify_obs() {
 		(*it)->update();
 	}
 }
-
-Observable_type Observable::give_me_my_type()
-{
-	return this->my_type;
-}
-
-COM_Observable::COM_Observable() : Observable(Observable_type::COMMUNICATION) {
-	
-};
-
-

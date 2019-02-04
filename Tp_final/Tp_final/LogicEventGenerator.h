@@ -6,7 +6,7 @@ class LogicEventGenerator : public EventGenerator
 {
 	
 public:
-	enum class Queues { allegro, net, soft, TOTAL_QUEUES };
+	
 
 	LogicEventGenerator(Allegro * al, Userdata* data);
 	~LogicEventGenerator();

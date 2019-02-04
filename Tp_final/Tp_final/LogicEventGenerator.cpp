@@ -7,7 +7,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 	time_out_timer = al->get_front_time_out_timer();
 	time_out_count = 0;
 	
-	append_all_queues( (int) LogicEventGenerator::Queues::TOTAL_QUEUES);
+	append_all_queues( (int) LogicQueues::TOTAL_QUEUES);
 }
 
 
@@ -86,7 +86,7 @@ void LogicEventGenerator::update_from_allegro_events() {
 	else
 		ev_pack = new NO_EVENT_EventPackage();
 
-	append_new_event(ev_pack,(int) LogicEventGenerator::Queues::allegro);
+	append_new_event(ev_pack,(int) LogicQueues::allegro);
 
 }
 void LogicEventGenerator::empty_all_queues() {
