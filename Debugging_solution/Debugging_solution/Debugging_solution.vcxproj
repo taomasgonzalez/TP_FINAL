@@ -19,32 +19,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Allegroclass.cpp" />
-    <ClCompile Include="EventGenerator.cpp" />
-    <ClCompile Include="EventHandler.cpp" />
-    <ClCompile Include="EventPackage.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Observable.cpp" />
-    <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Package.cpp" />
-    <ClCompile Include="PackageFactory.cpp" />
-    <ClCompile Include="Userdata.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="AllegroClass.h" />
-    <ClInclude Include="EventGenerator.h" />
-    <ClInclude Include="EventHandler.h" />
-    <ClInclude Include="EventPackage.h" />
-    <ClInclude Include="FSM_Class.h" />
-    <ClInclude Include="Observable.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Package.h" />
-    <ClInclude Include="PackageFactory.h" />
-    <ClInclude Include="Userdata.h" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>

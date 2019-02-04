@@ -4,8 +4,10 @@
 
 class LogicEventGenerator : public EventGenerator
 {
-	enum class Queues {allegro, net, soft};
+	
 public:
+	enum class Queues { allegro, net, soft, TOTAL_QUEUES };
+
 	LogicEventGenerator(Allegro * al, Userdata* data);
 	~LogicEventGenerator();
 
@@ -17,11 +19,7 @@ public:
 	void empty_all_queues();
 
 private:
-	void append_all_queues();
 	ALLEGRO_EVENT_QUEUE * al_queue;
-	std::queue<EventPackage*>* allegro_queue;
-	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
-	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
 
 	Userdata * my_user_data; //PQ tienne este puntero? lo necesita realmente?
 	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??

@@ -150,11 +150,11 @@
     <ClCompile Include="MapThingFactory.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicEventGenerator.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="LogicEventGenerator.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Event_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicEventGenerator.cpp">
+      <Filter>Source Files\Event_related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -261,10 +261,10 @@
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
     <ClInclude Include="GraphicEventGenerator.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Event_related</Filter>
     </ClInclude>
     <ClInclude Include="LogicEventGenerator.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Event_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

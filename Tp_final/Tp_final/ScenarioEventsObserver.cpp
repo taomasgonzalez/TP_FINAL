@@ -1,8 +1,8 @@
 #include "ScenarioEventsObserver.h"
 
-ScenarioEventsObserver::ScenarioEventsObserver(EventHandler * event_gen, Scene * scenario,FSM * fsm, Userdata * data)
+ScenarioEventsObserver::ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario,FSM * fsm, Userdata * data)
 {
-	this->my_event_handler = event_gen;
+	this->ev_gen = event_gen;
 	this->scenario = scenario;
 	this->my_fsm = fsm;
 	this->my_user_data = data;
@@ -17,23 +17,23 @@ void ScenarioEventsObserver::update() {
 
 	if (this->scenario->game_started)
 	{
-		if(this->my_user_data->my_network_data.is_client()==false)  //si es cliente carga el paquete que inicia la fsm
-		this->my_event_handler->soft_queue->push(new START_COMMUNICATION_EventPackage(true));
+		if (this->my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
+			ev_gen->append_new_event(new START_COMMUNICATION_EventPackage(), (int) LogicEventGenerator::Queues::soft);
 		this->scenario->initializing = true;
 	}
 	if (this->scenario->enemys_ready)
 	{
-		this->my_event_handler->soft_queue->push(new ENEMYS_LOADED_EventPackage(true));
+		ev_gen->append_new_event(new ENEMYS_LOADED_EventPackage(),(int) LogicEventGenerator::Queues::soft);
 	}
 	if (this->scenario->we_won)
 	{
-		if(!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
-			this->my_event_handler->soft_queue->push(new WE_WON_EventPackage(true));
+		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
+			ev_gen->append_new_event(new WE_WON_EventPackage(), (int)LogicEventGenerator::Queues::soft);
 	}
 	if (this->scenario->we_lost)
 	{
 		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
-			this->my_event_handler->soft_queue->push(new GAME_OVER_EventPackage(true));
+			ev_gen->append_new_event(new GAME_OVER_EventPackage(), (int)LogicEventGenerator::Queues::soft);
 	}
 
 	//if (scenario->check_local_action)  //lo llamo para chequear un evento de allegro antes de ponerlo en la cola de allegro

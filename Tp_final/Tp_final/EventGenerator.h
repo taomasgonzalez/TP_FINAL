@@ -15,12 +15,14 @@ public:
 	~EventGenerator();
 	
 	virtual EventPackage * fetch_event();
-	void append_new_event(EventPackage* ev_pack, int queue_id);
+	virtual void append_new_event(EventPackage* ev_pack, int queue_id);
 	//In case an error ocurred and there are pending events to be run by the fsm
 	virtual void empty_all_queues();
 protected:
-	std::vector<std::queue<EventPackage*>*> event_queues;
-	virtual void append_all_queues();
+	std::vector<std::queue<EventPackage*>> event_queues;
+
+	//para ser llamado dentro del constructor hijo!!!
+	virtual void append_all_queues(int total_number_of_queues);
 
 private:
 };

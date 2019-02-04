@@ -4,21 +4,16 @@
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator(Allegro * al, Userdata* data)
 {
 	al_queue = al->get_al_queue();
-	soft_queue = new std::queue<EventPackage*>();
-	net_queue = new std::queue<EventPackage*>();
-	allegro_queue = new std::queue<EventPackage*>();
 	time_out_timer = al->get_front_time_out_timer();
 	time_out_count = 0;
 	
+	append_all_queues( (int) LogicEventGenerator::Queues::TOTAL_QUEUES);
 	my_user_data = data;
 }
 
 
 LogicEventGenerator::~LogicEventGenerator()
 {
-	delete allegro_queue;
-	delete soft_queue;
-	delete net_queue;
 }
 
 EventPackage * LogicEventGenerator::fetch_event()
@@ -88,20 +83,12 @@ void LogicEventGenerator::update_from_allegro_events() {
 	else
 		ev_pack = new NO_EVENT_EventPackage();
 
-	allegro_queue->push(ev_pack);
+	append_new_event(ev_pack,(int) LogicEventGenerator::Queues::allegro);
+
 }
 
 void LogicEventGenerator::empty_all_queues() {
 	EventGenerator::empty_all_queues();
 	al_flush_event_queue(al_queue);
-}
-
-void LogicEventGenerator::append_all_queues()
-{
-	std::vector<std::vector<EventPackage*>*>::iterator it = event_queues.begin();
-	//fijarse bien porque tal vez los inserta mal, tiene que ver con capacidad y tama;o y el orden en que inserto.
-	event_queues.insert(it + LogicEventGenerator::Queues::allegro, allegro_queue);
-	event_queues.insert(it + LogicEventGenerator::Queues::net, net_queue);
-	event_queues.insert(it + LogicEventGenerator::Queues::soft, soft_queue);
-
+	
 }
