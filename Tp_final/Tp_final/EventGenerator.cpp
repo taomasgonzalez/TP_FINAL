@@ -49,6 +49,8 @@ EventPackage * EventGenerator::fetch_event()
 	return returned_package;
 }
 
+
+
 void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
 {
 	(event_queues.at(queue_id)).push(ev_pack);

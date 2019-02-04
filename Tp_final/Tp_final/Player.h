@@ -3,7 +3,7 @@
 class Player: public Character
 {
 public:
-	Player(unsigned int id);
+	Player(unsigned int id, bool is_nick);
 	~Player();
 
 	unsigned int lives = 3;

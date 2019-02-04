@@ -23,10 +23,6 @@ public:
 
 	//Analyze of gaming situations
 	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
-	bool check_move(EventPackage * package_to_be_analyze);
-	bool check_attack(EventPackage * package_to_be_analyze);
-	bool check_enemy_action(EventPackage * package_to_be_analyze);
-	bool check_action_request(EventPackage * package_to_be_analyze);
 
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
@@ -37,14 +33,16 @@ public:
 
 	//Executing functions
 	void execute_action(EventPackage * action_to_be_executed);
+
 	void finish_game();
 
 	//Getters
 	EventPackage * give_me_my_allegro_event();
-	Character_type give_me_my_player();
-	Character_type give_the_other_player();
+	Item_type give_me_my_player();
+	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
 	EventPackage* give_me_my_enemy_action(bool is_initializing);
+	Player * get_player(Item_type player_to_be_found);
 
 
 
@@ -87,11 +85,23 @@ public:
 	*/
 	void control_enemy_actions();
 private:
+	//checkes
+	bool check_move(EventPackage * package_to_be_analyze);
+	bool check_attack(EventPackage * package_to_be_analyze);
+	bool check_enemy_action(EventPackage * package_to_be_analyze);
+	//executers
+	void execute_move(EventPackage * move_to_be_executed);
+	void execute_attack(EventPackage * attack_to_be_executed);
+	void execute_enemy_action(EventPackage * enemy_action_to_be_executed);
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
+	unsigned int points;
+	Item_type my_player;
+	Item_type other_player;
 
-	Character_type my_player;
-	Character_type other_player;
+	std::vector<Player*>* curr_players;
+	std::vector<Enemy*>* curr_enemies;
+	std::vector<Proyectile*>* curr_proyectiles;
 	
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 

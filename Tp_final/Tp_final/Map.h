@@ -13,6 +13,7 @@ public:
 	Map(int number_of_rows, int number_of_columns);
 	~Map();
 
+
 	std::vector<Proyectile*>* get_all_proyectiles();
 	std::vector<Player*>* get_all_players();
 	std::vector<Enemy*>* get_all_enemies();
@@ -61,12 +62,13 @@ public:
 	const char* get_last_loaded_distribution();
 
 private:
-	MapCell * * map_cells;
 	MapCell get_cell(int coord_x, int coord_y);
+	MapCell * * map_cells;
 
 	int number_of_rows;
 	int number_of_columns;
 	unsigned char my_checksum;
+
 
 	const char* original_distribution;
 	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);

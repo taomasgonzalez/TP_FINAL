@@ -4,7 +4,7 @@ double Crazy::moving_speed = 300;
 
 Crazy::Crazy(unsigned int id): Enemy(id)
 {
-	printable = 'C';
+	printable = Item_type::CRAZY;
 }
 
 

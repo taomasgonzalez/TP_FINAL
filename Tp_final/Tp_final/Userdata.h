@@ -9,15 +9,19 @@
 
 enum class Direction_type
 {
-	Left, Right, Jump_Straight, Jump_Left, Jump_Right
+	Left, Right, Jump_Straight, Jump_Left, Jump_Right , None
 };
 
-enum class Action_type { Move = 'M', Attack = 'A' };
+enum class Action_type { 
+	Move = 'M', Attack = 'A' };
 
 enum class Character_id {
 	Player, Enemy
 };
 
+enum class Item_type {
+	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
+};
 
 class NetworkData {
 

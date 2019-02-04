@@ -3,8 +3,9 @@
 
 enum class States
 {
-	Moving, Frozen
+	Moving, Frozen, Snowballed, Iddle//faltaría el estado iddle
 };
+
 
 class Character: public MapThing
 {
@@ -17,7 +18,10 @@ public:
 	virtual void die();
 	bool is_dead();
 
+
 protected:
 	bool dead = false;
+
+
 };
 

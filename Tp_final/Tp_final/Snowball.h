@@ -4,7 +4,7 @@
 class Snowball: public Proyectile
 {
 public:
-	Snowball(unsigned int id);
+	Snowball(unsigned int id, Sense_type proyectile_sense);
 	~Snowball();
 
 private:

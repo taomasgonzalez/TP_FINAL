@@ -1,5 +1,6 @@
 #pragma once
 #include "Package.h"
+#include "Userdata.h"
 #include <cstring>
 
 enum class Event_type  //Events that are usde by the internal function of the program 
@@ -68,7 +69,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 class EventPackage
 {
 public:
-	EventPackage(Event_type event);	
+	EventPackage(Event_type event, bool is_local = NULL);
 	Event_type give_me_your_event_type();
 	bool is_this_a_local_action();
 
@@ -77,6 +78,26 @@ protected:
 	Event_type my_internal_event;
 	bool local_action;
 
+};
+
+class Action_EventPackage
+{
+public:
+	Action_EventPackage(unsigned char fil_de, unsigned char col_de);
+	Action_EventPackage(Direction_type direction_type);
+
+	unsigned char give_me_your_destination_row();
+	unsigned char give_me_your_destination_column();
+	void set_destination_row(unsigned char my_destination_row);
+	void set_destination_column(unsigned char my_destination_column);
+	Direction_type give_me_your_direction();
+	void set_direction(Direction_type new_direction);
+
+
+private:
+	unsigned char destination_row;
+	unsigned char destination_column;
+	Direction_type my_direction;
 };
 
 /******************************************************************************
@@ -120,13 +141,18 @@ public:
 							MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_EventPackage : public EventPackage
+class MOVE_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	MOVE_EventPackage(Direction_type direction_type);
-	Direction_type give_me_your_direction();
+	MOVE_EventPackage(Direction_type direction_type); //local MOVE
+	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
+	MOVE_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
+
+	Character_type give_me_the_character();
+	void set_character(Character_type the_one_that_moves);
+
 private:
-	Direction_type my_direction;
+	Character_type character;
 };
 
 /******************************************************************************
@@ -134,10 +160,16 @@ private:
 							ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_EventPackage : public EventPackage
+class ATTACK_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	ATTACK_EventPackage();
+	ATTACK_EventPackage(); // local ATTACK
+	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
+	ATTACK_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
+
+private:
+	Character_type character;
+
 
 };
 
@@ -147,12 +179,16 @@ public:
 					ACTION_REQUEST_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_EventPackage : public EventPackage, public ACTION_REQUEST_package
+class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	ACTION_REQUEST_EventPackage(bool is_local, Action_type the_action, char fil_de, char col_de);
+	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
+	ACTION_REQUEST_EventPackage( Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
+	Action_type give_me_the_action();
 
 
+private:
+	Action_type action;
 
 };
 
@@ -223,11 +259,19 @@ public:
 *******************************************************************************
 *******************************************************************************/
 
-class ENEMY_ACTION_EventPackage : public EventPackage, public ENEMY_ACTION_package
+class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local,uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-
+	uchar give_me_the_monsterID();
+	Action_type give_me_the_action();
+	char give_me_the_destination_row();
+	char give_me_the_destination_column();
+private:
+	uchar MonsterID;
+	Action_type action;
+	char destination_row;
+	char destination_column;
 };
 
 /******************************************************************************

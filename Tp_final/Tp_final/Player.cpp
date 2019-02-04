@@ -1,10 +1,14 @@
 #include "Player.h"
 
+//agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
 
-
-Player::Player(unsigned int id) :Character(id)
+Player::Player(unsigned int id,bool is_nick) :Character(id)
 {
-	printable = 'N';
+	if (is_nick)
+		printable = Item_type::NICK;
+	else
+		printable = Item_type::TOM;
+
 }
 
 

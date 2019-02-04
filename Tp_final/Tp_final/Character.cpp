@@ -21,3 +21,5 @@ bool Character::is_dead()
 {
 	return dead;
 }
+
+

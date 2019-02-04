@@ -4,7 +4,6 @@
 EventHandler::EventHandler(Allegro * al, Userdata * data) :
  EventGenerator(al, data), FSM(data)
 {
-
 }
 
 

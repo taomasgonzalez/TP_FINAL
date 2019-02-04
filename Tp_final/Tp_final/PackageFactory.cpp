@@ -33,7 +33,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::MOVE:
-			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_column());
+			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
 		break;
 
 	case Event_type::ATTACK:
@@ -67,13 +67,13 @@ PackageFactory::PackageFactory()
 		pac = new ERROR_package();
 		break;
 
-	case Event_type::QUIT:
+	case Event_type::LOCAL_QUIT:
 		pac = new QUIT_package();
 		break;
 
 	default: //me llego un EventPackage corrompido que no se que tiene, cargo un error
 		pac = new ERROR_package();
-		std::cout << "Me llego un EventPackage con header irrecononocible" << std::endl;
+		std::cout << "Me llego un EventPackage con header irrecononocible, en  PackageFactory::event_package_2_package()" << std::endl;
 		break;
 	}
 	
@@ -88,12 +88,12 @@ PackageFactory::PackageFactory()
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:
-		 my_event_package = new ACK_EventPackage(false);
+		 my_event_package = new ACK_EventPackage();
 		 break;
 
 	 case Package_type::NAME:
 		 std::cout << "me llego un NAME" << std :: endl;
-		 my_event_package= new NAME_EventPackage(false);
+		 my_event_package= new NAME_EventPackage();
 		 break;
 
 	 case Package_type::NAME_IS:
@@ -105,19 +105,19 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::GAME_START:
-		 my_event_package = new GAME_START_EventPackage(false);
+		 my_event_package = new GAME_START_EventPackage();
 		 break;
 
 	 case Package_type::MOVE:  //soy cliente y me llega un MOVE del servidor
-		 my_event_package = new MOVE_EventPackage(false, ((MOVE_package *)package_recieved)->give_me_the_character(), ((MOVE_package *)package_recieved)->give_me_the_destination_row(), ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new MOVE_EventPackage(((MOVE_package *)package_recieved)->give_me_the_destination_row(), ((MOVE_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ATTACK: //soy cliente y me llega un ATTACK del servidor
-		 my_event_package = new ATTACK_EventPackage(false, ((ATTACK_package *)package_recieved)->give_me_the_character(), ((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage(((ATTACK_package *)package_recieved)->give_me_the_destination_row(), ((ATTACK_package *)package_recieved)->give_me_the_destination_column());
 		 break;
 
 	 case Package_type::ACTION_REQUEST:  //soy servidor y me llega un ACTION_REQUEST del cliente
-		 my_event_package = new ACTION_REQUEST_EventPackage(false, ((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
+		 my_event_package = new ACTION_REQUEST_EventPackage(((ACTION_REQUEST_package *)package_recieved)->give_me_the_action(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)package_recieved)->give_me_the_destination_column()); 
 		 break;
 
 	 case Package_type::ENEMY_ACTION:
@@ -125,15 +125,15 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::WE_WON:
-		 my_event_package = new WE_WON_EventPackage(false);
+		 my_event_package = new WE_WON_EventPackage();
 		 break;
 
 	 case Package_type::PLAY_AGAIN:
-		 my_event_package = new PLAY_AGAIN_EventPackage(false);
+		 my_event_package = new PLAY_AGAIN_EventPackage();
 		 break;
 
 	 case Package_type::GAME_OVER:
-		 my_event_package = new GAME_OVER_EventPackage(false);
+		 my_event_package = new GAME_OVER_EventPackage();
 		 break;
 
 	 case Package_type::ERROR1:
@@ -141,7 +141,7 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::QUIT:
-		 my_event_package = new QUIT_EventPackage(false);
+		 my_event_package = new EXTERN_QUIT_EventPackage();
 		 break;
 
 	 default: //No puedo reconocer el paquete que llego, implica que está corrompido, se produjo un error de comunicación

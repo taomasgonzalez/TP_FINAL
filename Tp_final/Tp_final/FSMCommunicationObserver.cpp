@@ -52,7 +52,7 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_error) {
 		//tengo que mandar paquete ERROR
-		info_to_be_send = new ERROR_EventPackage();
+		info_to_be_send = new ERROR_EventPackage(true);
 
 	}
 
@@ -83,7 +83,7 @@ void FSMCommunicationObserver::update() {
 	}
 
 	if (fsm->s_action) {
-		//tengo que mandar una action(MOVE/ATTACK) si soy servidor  (esta todo guardado en fsm->get_ev_pack())
+		//tengo que mandar una action(MOVE/ATTACK) LOCAL si soy servidor  (esta todo guardado en fsm->get_ev_pack())
 		info_to_be_send =  fsm->get_fsm_ev_pack();
 
 	}
@@ -93,10 +93,10 @@ void FSMCommunicationObserver::update() {
 		EventPackage * my_movement = fsm->get_fsm_ev_pack();   //AR externo que es como llega a la fsm
 		if (((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_action() == Action_type::Move)
 
-			info_to_be_send = new MOVE_EventPackage(true, this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_destination_column());
+			info_to_be_send = new MOVE_EventPackage( (Character_type)this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
 
 		else
-			info_to_be_send = new ATTACK_EventPackage(true, this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_destination_column());
+			info_to_be_send = new ATTACK_EventPackage((Character_type)this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
 
 
 

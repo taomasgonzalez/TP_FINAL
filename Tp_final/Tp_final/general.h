@@ -45,3 +45,9 @@
 #define Analyzing_ACKSTR "Analyzing_ACK"
 
 #define Sending_ERRORSTR "Sending_ERROR"
+
+struct Position {
+
+	int fil;
+	int col;
+};
