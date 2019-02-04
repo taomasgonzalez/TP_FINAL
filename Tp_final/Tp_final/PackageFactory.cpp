@@ -51,6 +51,7 @@ PackageFactory::PackageFactory()
 
 		break;
 
+
 	case Event_type::WE_WON:
 		pac = new WE_WON_package();
 		break;

@@ -41,6 +41,7 @@ void ask_user_being_server_and_send_decition(void*data);
 
 //execute
 void execute_receive_action_and_send_ack(void*data); //for client
+void execute_receive_enemy_action_and_send_ack(void *data);
 void execute_action_send_it_and_set_ack_time_out(void* data); //for server
 void execute_receive_action_request_send_action_and_send_ack(void * data); //for server
 void execute_saved_enemy_actions(void* data);
@@ -249,7 +250,7 @@ void FSM::init_fsm_server(){
 
 	//IMPORTANTE!!!!!!!
 //tiene que cargar el EA en la fsm, no mandar directamente cargandolo en la fSM agregar nueva fila
-	{ Event_type::GENERATED_EA, this->Waiting_for_ACK_enemy_actions_state,  send_enemy_action },
+	{ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_enemy_actions_state,  send_enemy_action },
 
 	{ Event_type::ENEMYS_LOADED, this->Waiting_for_ACK_game_start_state, send_game_start},
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
@@ -434,7 +435,7 @@ void FSM::init_fsm_client() {
 
 	edge_t Playing_state[9] =
 	{
-	{ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_action_and_send_ack},
+	{ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_enemy_action_and_send_ack},
 	{ Event_type::ACTION_REQUEST, this->Waiting_for_servers_response_state, check_and_send_action_request},  //Action request generate by allegro, has to be send to the server
 	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save_send_ack }, //next level
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
@@ -862,6 +863,15 @@ void execute_receive_action_and_send_ack(void *data) {
 	check_action(data);
 	execute_extern_action(data);
 	received_ack_routine(data);
+	send_ack(data);
+
+}
+
+void execute_receive_enemy_action_and_send_ack(void *data) {
+
+	FSM* fsm = (FSM*)data;
+	check_action(data);
+	execute_extern_action(data);
 	send_ack(data);
 
 }
