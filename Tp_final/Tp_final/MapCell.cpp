@@ -120,10 +120,19 @@ MapThing * MapCell::get_floor(int floor_number)
 	return (*cell_things)[floor_number];
 }
 
+bool MapCell::has_floor()
+{
+
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) 
+		if ( (*it)->is_floor() )
+			return true;
+
+	return false;
+}
+
 void MapCell::print() {
-	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) {
+	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it) 
 		printf("%c", (*it)->get_printable());
-	}
 }
 
 void MapCell::clear() {

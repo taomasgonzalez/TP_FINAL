@@ -2,7 +2,7 @@
 
 
 
-FSMEventsObserver::FSMEventsObserver(EventGenerator * event_gen, FSM * fsm, Allegro* allegro_container, Scene* scenario)
+FSMEventsObserver::FSMEventsObserver(LogicEventGenerator * event_gen, FSM * fsm, Allegro* allegro_container, Scene* scenario)
 {
 	this->event_gen = event_gen;
 	this->fsm = fsm;
@@ -39,11 +39,11 @@ void FSMEventsObserver::update() {
 	}
 
 	if (fsm->ld_game_over) {
-		this->event_gen->append_new_soft_event(new GAME_OVER_EventPackage(true));
+		this->event_gen->append_new_event(new GAME_OVER_EventPackage(), (int) LogicEventGenerator::Queues::soft);
 	}
 
 	if (fsm->ld_play_again) {
-		this->event_gen->append_new_soft_event(new PLAY_AGAIN_EventPackage(true));
+		this->event_gen->append_new_event(new PLAY_AGAIN_EventPackage(), (int)LogicEventGenerator::Queues::soft);
 	}
 
 

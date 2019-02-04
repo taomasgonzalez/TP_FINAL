@@ -13,108 +13,13 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\PJ_related">
-      <UniqueIdentifier>{09217a3e-341b-4b51-abfa-16173dcca2e0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Map_related">
-      <UniqueIdentifier>{4a7d7bc2-f5e6-4e79-817e-318248d235db}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Map_related">
-      <UniqueIdentifier>{6853aca2-ede2-4893-b54c-a6c7c7ff929e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PJ_related">
-      <UniqueIdentifier>{7c4a0bb5-0e6a-46c6-a229-54cb667c12fd}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="MapThing.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Map.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="MapCell.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Crazy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Fireball.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="GreenFatty.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Proyectile.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="PurpleGuy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Snowball.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="MapThingFactory.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Crazy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Fireball.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="GreenFatty.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Proyectile.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="PurpleGuy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Snowball.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Map.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="MapCell.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="MapThing.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="MapThingFactory.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
+    <ClCompile Include="Source.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -22,8 +22,8 @@ public:
 	virtual bool is_proyectile();
 	virtual bool is_enemy();
 	virtual bool is_player();
-	virtual bool is_floor();
-	
+	bool is_floor();			//este se decide inmediatamente, no necesita virtual
+
 	Thing_Type get_map_thing_type();
 
 	unsigned int id;

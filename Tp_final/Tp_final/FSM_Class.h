@@ -16,8 +16,6 @@ struct edge
 		Event_type event;
 		edge_t* nextstate;
 		void(*fun_trans)(void*);
-
-
 };
 
 

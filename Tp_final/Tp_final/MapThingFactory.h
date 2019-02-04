@@ -12,6 +12,7 @@ public:
 	MapThingFactory();
 	~MapThingFactory();
 	MapThing* create_map_thing(char identifyer);
+	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 private:
 	unsigned int get_enemy_id();
 	unsigned int get_player_id();
@@ -22,6 +23,9 @@ private:
 	static unsigned int next_enemy_id;
 	static unsigned int next_player_id;
 	static unsigned int next_proyectile_id;
+
+	ALLEGRO_EVENT_QUEUE * enemies_ev_queue;
+
 };
 
 

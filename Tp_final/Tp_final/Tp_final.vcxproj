@@ -142,7 +142,9 @@
     <ClCompile Include="FSMEventsObserver.cpp" />
     <ClCompile Include="FSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="GraphicEventGenerator.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
+    <ClCompile Include="LogicEventGenerator.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapCell.cpp" />
@@ -179,6 +181,8 @@
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="GraphicEventGenerator.h" />
+    <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />

@@ -166,3 +166,4 @@ void Allegro::dequeu_time_out_timer() {
 bool Allegro::no_time_outs() {
 	return (time_out_timers_queue->size() == 0);
 }
+

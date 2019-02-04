@@ -3,19 +3,11 @@
 #include "Package.h"
 #include "FSM_Class.h"
 #include "Scene.h"
-#include "Userdata.h"
 
 
 EventGenerator::EventGenerator(Allegro * al, Userdata* data)
 {
-
-	this->al_queue = al->get_al_queue(); 
-	this->soft_queue = new std::queue<EventPackage*>();
-	this->net_queue = new std::queue<EventPackage*>();
-
-	this->time_out_timer = al->get_front_time_out_timer();
-	this->time_out_count = 0;
-	this->my_user_data = data;
+	std::vector<std::vector<EventPackage*>> event_queues = std::vector<std::vector<EventPackage*>>();
 
 }
 
@@ -25,42 +17,36 @@ EventGenerator::~EventGenerator()
 }
 
 void EventGenerator::empty_all_queues() {
-
-	while (this->net_queue->size() >= 1) 
-	{
-		this->net_queue->pop();
-	}
-
-	while (this->soft_queue->size() >= 1)
-	{
-		this->soft_queue->pop();
-	}
-
-	al_flush_event_queue(al_queue);
+	for (std::vector<std::queue<EventPackage*>>::iterator it = event_queues.begin(); it != event_queues.end(); ++it) 
+		while ((*it).size() >= 1)
+			(*it).pop();
 }
 
-void EventGenerator::append_new_net_event(EventPackage* new_ev_pack) {
-	net_queue->push(new_ev_pack);
-}
-void EventGenerator::append_new_soft_event(EventPackage* new_ev_pack) {
-	soft_queue->push(new_ev_pack);
+void EventGenerator::append_all_queues(int total_number_of_queues)
+{
+	for(int i =0; i < total_number_of_queues; i++)
+		event_queues.push_back(std::vector<std::queue<EventPackage*>>());
 }
 
 
 
-EventPackage* EventGenerator::fetch_event_net() {
+EventPackage * EventGenerator::fetch_event()
+{
+	static int actual_queue = 0;
+	EventPackage * returned_package = NULL;
 
-	EventPackage * new_events=NULL;
+	if (event_queues.size() > 0) {
+		returned_package = (event_queues.at(actual_queue)).front();
+		(event_queues.at(actual_queue)).pop();
 
-	if (this->net_queue->size() >= 1) {
-		 new_events = this->net_queue->front();
-		 this->net_queue->pop();
+		actual_queue++;
+		if (actual_queue >= event_queues.size())
+			actual_queue = 0;
 	}
-	else
-		new_events = new NO_EVENT_EventPackage(true); //no hay ningun evento para extraer entonces se manda un NO_EVENT_EventPackage
+	if(returned_package == NULL)
+		returned_package = new NO_EVENT_EventPackage();
 
-	return new_events;
-
+	return returned_package;
 }
 
 EventPackage * EventGenerator::fetch_event_soft() {
@@ -168,3 +154,7 @@ EventPackage * EventGenerator::fetch_event_al(bool is_client) {
 }
 
 
+void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
+{
+	(event_queues.at(queue_id)).push(ev_pack);
+}

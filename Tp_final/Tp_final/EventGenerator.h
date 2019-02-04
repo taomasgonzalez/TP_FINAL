@@ -13,35 +13,17 @@ public:
 
 	EventGenerator(Allegro * al, Userdata* data);
 	~EventGenerator();
-
-	friend class CommunicationEventsObserver;
-	friend class ScenarioEventsObserver;
-	friend class FSMEventsObserver;
-
+	
+	virtual EventPackage * fetch_event();
+	virtual void append_new_event(EventPackage* ev_pack, int queue_id);
 	//In case an error ocurred and there are pending events to be run by the fsm
-	void empty_all_queues();
-
-	void append_new_net_event(EventPackage* new_ev_pack);
-	void append_new_soft_event(EventPackage* new_ev_pack);
-
-
-	EventPackage * fetch_event_net();
-	EventPackage * fetch_event_soft();
-	EventPackage * fetch_event_al(bool is_client);
-
-
+	virtual void empty_all_queues();
 protected:
-	ALLEGRO_EVENT_QUEUE * al_queue;				
-	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
-	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
+	std::vector<std::queue<EventPackage*>> event_queues;
 
-	Userdata * my_user_data;
-	ALLEGRO_TIMER * time_out_timer;  // has to be moved to allegro.cpp??
-
-
-	unsigned int time_out_count;
+	//para ser llamado dentro del constructor hijo!!!
+	virtual void append_all_queues(int total_number_of_queues);
 
 private:
-
 };
 

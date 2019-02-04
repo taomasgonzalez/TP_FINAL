@@ -15,6 +15,7 @@ Map::Map(int number_of_rows, int number_of_columns)
 	all_players = new std::vector<Player*>();
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
+	map_filler = MapThingFactory();
 
 }
 
@@ -111,6 +112,38 @@ void Map::clear()
 
 std::vector<Enemy*> Map::get_cell_enemies(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).get_enemies();
+}
+
+bool Map::cell_has_enemy_proyectiles(int coord_x, int coord_y)
+{
+	if (cell_has_proyectiles(coord_x, coord_y)) {
+		std::vector<Proyectile*> proyectiles = get_cell_proyectiles(coord_x, coord_y);
+		for (std::vector<Proyectile*>::iterator it = proyectiles.begin(); it != proyectiles.end(); ++it) {
+			if ((*it)->is_fireball()) 
+				return true;
+		}
+	}
+	
+	return false;
+
+}
+
+bool Map::cell_has_player_proyectiles(int coord_x, int coord_y)
+{
+	if (cell_has_proyectiles(coord_x, coord_y)) {
+		std::vector<Proyectile*> proyectiles = get_cell_proyectiles(coord_x, coord_y);
+		for (std::vector<Proyectile*>::iterator it = proyectiles.begin(); it != proyectiles.end(); ++it) {
+			if ((*it)->is_snowball())
+				return true;
+		}
+	}
+	return false;
+
+}
+
+bool Map::cell_has_floor(int coord_x, int coord_y)
+{
+	return get_cell(coord_x, coord_y).has_floor();
 }
 
 std::vector<Player*> Map::get_cell_players(int coord_x, int coord_y) {
@@ -227,11 +260,12 @@ int Map::get_max_number_of_floors() {
 void Map::load_on_map(const char* map_string) {
 	original_distribution = map_string;
 
-	MapThingFactory map_filler;
+	map_filler.register_enemies_event_queue()
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;
-		place_on_map(fil, col, map_filler.create_map_thing(map_string[i]));
+		MapThing * new_thing = map_filler.create_map_thing(map_string[i]);
+		place_on_map(fil, col, new_thing);
 	}
 }
 
@@ -275,4 +309,8 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 		all_enemies->push_back(thing);
 	else if (thing->is_player())
 		all_players->push_back(thing);
+}
+
+void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
+	map_filler.register_enemies_event_queue(enemies_ev_queue);
 }

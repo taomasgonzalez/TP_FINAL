@@ -24,7 +24,7 @@ bool MapThing::is_enemy() {
 	return false;
 }
 bool MapThing::is_floor() {
-	return false;
+	return (printable == 'F');
 }
 
 bool MapThing::is_player() {

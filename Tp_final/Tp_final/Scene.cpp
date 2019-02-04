@@ -14,7 +14,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 
 	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
-	this->actual_map = 1;
+	this->actual_map = 0;
 
 }
 
@@ -177,7 +177,8 @@ void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 
-		Map * new_map = new Map(12, 16);
+	Map * new_map = new Map(12, 16);
+	new_map->register_enemies_event_queue(enemy_actions_queue);
 
 	if (is_client) //The map came by networking, already checked
 	{	
@@ -350,9 +351,9 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	default:
 		std::cout << "Acción no analizable" << std::endl;
 		break;
-	
+
 	}
-		
+
 
 	return is_the_action_possible;
 }
@@ -808,4 +809,26 @@ bool Scene::do_you_have_to_draw() {
 
 void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
 	assistant_queue->push(new_ev_pack);
+}
+
+void Scene::control_enemy_actions()
+{
+	ALLEGRO_EVENT * allegroEvent = NULL;
+	while (al_get_next_event(enemy_actions_queue, allegroEvent)) 
+		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
+			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
+			if (wanted_enemy != NULL) 
+				wanted_enemy->act();
+		}
+	
+}
+
+Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
+{
+	std::vector<Enemy*>* enemies = maps[actual_map].get_all_enemies();
+	for (std::vector<Enemy*>::iterator it = enemies->begin(); it != enemies->end(); ++it) 
+		if ((*it)->get_acting_timer() == timer)
+			return (*it);
+
+	return NULL;
 }

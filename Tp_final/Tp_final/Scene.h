@@ -30,6 +30,7 @@ public:
 	bool did_we_win(EventPackage * package_to_be_analyze);  //I´m client, analyze if the game was won by the players
 	bool did_we_lose(EventPackage * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
 
+
 	//Executing functions
 	void execute_action(EventPackage * action_to_be_executed);
 
@@ -74,9 +75,15 @@ public:
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
+
 	void append_new_auxilar_event(EventPackage* new_ev_pack);
+	
 	std::queue<EventPackage*>* assistant_queue;
 
+	/*nuevas funciones de timer para los enemies, agregadas por tommy
+	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
+	*/
+	void control_enemy_actions();
 private:
 	//checkes
 	bool check_move(EventPackage * package_to_be_analyze);
@@ -96,5 +103,16 @@ private:
 	std::vector<Enemy*>* curr_enemies;
 	std::vector<Proyectile*>* curr_proyectiles;
 
+	Character_type my_player;
+	Character_type other_player;
+	
+	/*nuevas funciones de timer para los enemies, agregadas por tommy
+	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
+	*/
+	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = al_create_event_queue();
+
+	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
+	
+	
 };
 
