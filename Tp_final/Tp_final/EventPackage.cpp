@@ -113,6 +113,17 @@ MOVE_EventPackage::MOVE_EventPackage(unsigned char fil_de, unsigned char col_de)
 	this->destination_column = col_de;
 
 }
+/**************************************************************
+			MOVE_EventPackage CONSTRUCTOR (MADE FROM AN AR)
+**************************************************************/
+MOVE_EventPackage::MOVE_EventPackage(Character_type my_character,unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::MOVE, false) {			//EXTERN MOVE
+
+	this->character = my_character;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+
+}
+
 
 /**************************************************************
 				give_me_your_direction 
@@ -127,6 +138,24 @@ Direction_type MOVE_EventPackage::give_me_your_direction() {
 void MOVE_EventPackage::set_direction(Direction_type new_direction) {
 	this->my_direction = new_direction;
 
+}
+/**************************************************************
+				give_me_the_character
+**************************************************************/
+Character_type MOVE_EventPackage::give_me_the_character() {
+
+	return this->character;
+}
+/**************************************************************
+					set_character (LOCAL)
+**************************************************************/
+void MOVE_EventPackage::set_character(Character_type the_one_that_moves) {
+	this->character = the_one_that_moves;
+
+}
+
+Character_type MOVE_package::give_me_the_character() {
+	return this->character;
 }
 /**************************************************************
 					give_me_your_destination_row (EXTERN)
@@ -156,13 +185,22 @@ ATTACK_EventPackage::ATTACK_EventPackage():EventPackage(Event_type::ATTACK, true
 /**************************************************************
 			ATTACK_EventPackage CONSTRUCTOR (EXTERN)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false) {			//EXTERN MOVE
+ATTACK_EventPackage::ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false) {			
 
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
 
 }
+/**************************************************************
+			ATTACK_EventPackage CONSTRUCTOR (MADE FROM AN AR)
+**************************************************************/
+ATTACK_EventPackage::ATTACK_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false) {			
 
+	this->character = my_character;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
+
+}
 /**************************************************************
 					give_me_your_destination_row (EXTERN)
 **************************************************************/

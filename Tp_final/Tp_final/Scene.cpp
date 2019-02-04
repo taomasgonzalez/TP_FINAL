@@ -247,12 +247,14 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 	if (package_to_be_analyze->is_this_a_local_action())
 	{
 		is_local = true;
+		my_event_package->set_character((Character_type)my_player);
 		the_one_that_moves = get_player(my_player);
 		my_direction = my_event_package->give_me_your_direction();
 	}
 	else
 	{
 		is_local = false;
+		my_event_package->set_character((Character_type)other_player);
 		the_one_that_moves = get_player(other_player);
 		extern_destination.fil = my_event_package->give_me_your_destination_row();
 		extern_destination.col = my_event_package->give_me_your_destination_column();

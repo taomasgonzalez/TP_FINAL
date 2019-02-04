@@ -33,7 +33,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::MOVE:
-			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_the_destination_column());
+			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
 		break;
 
 	case Event_type::ATTACK:
@@ -67,13 +67,13 @@ PackageFactory::PackageFactory()
 		pac = new ERROR_package();
 		break;
 
-	case Event_type::QUIT:
+	case Event_type::LOCAL_QUIT:
 		pac = new QUIT_package();
 		break;
 
 	default: //me llego un EventPackage corrompido que no se que tiene, cargo un error
 		pac = new ERROR_package();
-		std::cout << "Me llego un EventPackage con header irrecononocible" << std::endl;
+		std::cout << "Me llego un EventPackage con header irrecononocible, en  PackageFactory::event_package_2_package()" << std::endl;
 		break;
 	}
 	

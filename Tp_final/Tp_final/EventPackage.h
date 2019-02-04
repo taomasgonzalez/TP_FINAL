@@ -126,12 +126,17 @@ class MOVE_EventPackage : public EventPackage
 public:
 	MOVE_EventPackage(Direction_type direction_type); //local MOVE
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
+	MOVE_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
+
 	Direction_type give_me_your_direction();
 	void set_direction (Direction_type new_direction);
+	Character_type give_me_the_character();
+	void set_character(Character_type the_one_that_moves);
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
 
 private:
+	Character_type character;
 	unsigned char destination_row;
 	unsigned char destination_column;
 	Direction_type my_direction;
@@ -147,9 +152,12 @@ class ATTACK_EventPackage : public EventPackage
 public:
 	ATTACK_EventPackage(); // local ATTACK
 	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
+	ATTACK_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
+
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
 private:
+	Character_type character;
 	unsigned char destination_row;
 	unsigned char destination_column;
 
