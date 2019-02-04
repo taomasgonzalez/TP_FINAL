@@ -22,6 +22,8 @@ void EventGenerator::empty_all_queues() {
 			(*it)->pop();
 }
 
+
+
 EventPackage * EventGenerator::fetch_event()
 {
 	static int actual_queue = 0;
@@ -41,6 +43,13 @@ EventPackage * EventGenerator::fetch_event()
 	return returned_package;
 }
 
+void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
+{
+	(event_queues.at(queue_id))->push(ev_pack);
+}
+
+
+//vector<Type>::iterator nth = v.begin() + index;
 
 
 

@@ -1,8 +1,10 @@
 #pragma once
 #include "EventGenerator.h"
 
+
 class LogicEventGenerator : public EventGenerator
 {
+	enum class Queues {allegro, net, soft};
 public:
 	LogicEventGenerator(Allegro * al, Userdata* data);
 	~LogicEventGenerator();
@@ -11,16 +13,13 @@ public:
 	friend class ScenarioEventsObserver;
 	friend class FSMEventsObserver;
 
-
-	void append_new_net_event(EventPackage* new_ev_pack);
-	void append_new_soft_event(EventPackage* new_ev_pack);
-
 	EventPackage* fetch_event();
 	void empty_all_queues();
-private:
 
+private:
+	void append_all_queues();
 	ALLEGRO_EVENT_QUEUE * al_queue;
-	std::queue<EventPackage*> allegro_queue;
+	std::queue<EventPackage*>* allegro_queue;
 	std::queue<EventPackage*>* soft_queue;		//cola para eventos de software.
 	std::queue<EventPackage*>* net_queue;		//cola para eventos de networking.
 

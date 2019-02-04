@@ -4,6 +4,7 @@
 
 GraphicEventGenerator(Allegro * al, Userdata* data) : EventGenerator(Allegro * al, Userdata* data)
 {
+
 }
 
 
