@@ -13,6 +13,7 @@ Crazy::~Crazy()
 }
 
 void Crazy::act() {
+	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 

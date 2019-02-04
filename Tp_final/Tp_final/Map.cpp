@@ -32,20 +32,18 @@ Map::~Map()
 
 std::vector<Enemy*>* Map::get_all_enemies()
 {
-	std::vector<Enemy*> all_enemies = std::vector<Enemy*>();
-	for (int i = 0; i < number_of_rows; i++)
-		for (int j = 0; j < number_of_columns; j++) {
-			if (cell_has_enemies(i, j)) {
-				std::vector<Enemy*> some_enemies = get_cell_enemies(i, j);
-				all_enemies.insert(std::end(all_enemies), std::begin(some_enemies), std::end(some_enemies));
-			}
-		}
 	return all_enemies;
 }
 
+std::vector<Proyectile*>* Map::get_all_proyectiles()
+{
+	return all_proyectiles;
+}
 
-
-
+std::vector<Player*>* Map::get_all_players()
+{
+	return all_players;
+}
 
 const char * Map::give_me_the_original_map() {
 
@@ -62,31 +60,6 @@ unsigned char  Map::give_me_the_checksum() {
 	return this->my_checksum;
 }
 
-std::vector<Proyectile*> Map::get_all_proyectiles()
-{
-	std::vector<Proyectile*> all_proyectiles = std::vector<Proyectile*>();
-	for (int i = 0; i < number_of_rows; i++)
-		for (int j = 0; j < number_of_columns; j++) {
-			if (cell_has_proyectiles(i, j)) {
-				std::vector<Proyectile*> some_proyectiles = get_cell_proyectiles(i, j);
-				all_proyectiles.insert(std::end(all_proyectiles), std::begin(some_proyectiles), std::end(some_proyectiles));
-			}
-		}
-	return all_proyectiles;
-}
-
-std::vector<Player*>* Map::get_all_players()
-{
-	std::vector<Player*> all_players = std::vector<Player*>();
-	for (int i = 0; i < number_of_rows; i++)
-		for (int j = 0; j < number_of_columns; j++) {
-			if (cell_has_players(i, j)) {
-				std::vector<Player*> some_players = get_cell_players(i, j);
-				all_players.insert(std::end(all_players), std::begin(some_players), std::end(some_players));
-			}
-		}
-	return all_players;
-}
 
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();
@@ -215,12 +188,23 @@ bool Map::move_id(unsigned int id, int final_x, int final_y) {
 	return moved;
 }
 
+bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
+{
+	return move_id(thing->id, final_x, final_y);
+}
+
 void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 	MapCell cell = get_cell(coord_x, coord_y);
 	cell.place_on_cell(thing);
 	thing->pos_x = coord_x;
 	thing->pos_y = coord_y;
 	place_on_map_thing_vectors(thing);
+	
+}
+
+void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction)
+{
+	place_on_map(coord_x, coord_y, map_filler.create_map_thing(identifyer, direction));
 }
 
 

@@ -12,10 +12,11 @@ public:
 	bool is_player();
 	void move();
 	void attack();
-	void lose_life();
-	void revive();
 	void die();
+	void revive();
 
+private:
+	void lose_life();
 
 };
 

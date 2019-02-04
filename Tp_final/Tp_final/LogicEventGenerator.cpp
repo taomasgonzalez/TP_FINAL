@@ -44,39 +44,18 @@ void LogicEventGenerator::update_from_allegro_events() {
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
 				ev_pack = new MOVE_EventPackage(Direction_type::Left);
-
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
 				ev_pack = new MOVE_EventPackage(Direction_type::Right);
-
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_SPACE) {
 				ev_pack = new ATTACK_EventPackage();
-
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_Q) {
 				ev_pack = new LOCAL_QUIT_EventPackage();
 			}
 
 		}
-
-		/*else if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {					//no estaría levantando doble, cuando presiono y cuando suelto??? Yo diría que si
-		if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) {		//solte la izquierda
-		ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-		ev_pack.dir = Direction_type::Left;
-		}
-		else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//solte la derecha
-		ev_pack.ev = Event_type::LOCAL_ACTION_ACCEPTED;
-		ev_pack.dir = Direction_type::Right;
-		}
-		}
-		else if (allegroEvent->type == ALLEGRO_EVENT_TIMER) { //?
-		//if () {
-		//	ev_pack.ev = My_Event::LOCAL_ERROR;
-		//}
-		}
-		}
-		}*/
 
 	}
 

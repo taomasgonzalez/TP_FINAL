@@ -14,6 +14,7 @@ PurpleGuy::~PurpleGuy()
 
 void PurpleGuy::act()
 {
+	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 	if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
@@ -29,4 +30,5 @@ void PurpleGuy::act()
 		//timer_speed= 
 	}
 	al_set_timer_speed(acting_timer, timer_speed);
+	al_start_timer(acting_timer);
 }

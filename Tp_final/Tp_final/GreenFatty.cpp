@@ -13,6 +13,7 @@ GreenFatty::~GreenFatty()
 }
 
 void GreenFatty::act() {
+	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 	if ((sample >= 0) && (sample <= 0.3)) {			//0.3 probability
@@ -40,5 +41,4 @@ void GreenFatty::act() {
 		}
 	}
 	al_set_timer_speed(acting_timer, timer_speed);
-
 }

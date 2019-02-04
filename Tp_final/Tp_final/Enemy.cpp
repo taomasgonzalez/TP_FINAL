@@ -23,3 +23,4 @@ bool Enemy::is_enemy() {
 ALLEGRO_TIMER * Enemy::get_acting_timer() {
 	return this->acting_timer;
 }
+

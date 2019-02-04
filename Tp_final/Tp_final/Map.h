@@ -34,7 +34,10 @@ public:
 	MapThing* get_from_map(unsigned int id);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
-	void place_on_map(int coord_x, int coord_y, MapThing* thing);
+	bool move_map_thing(MapThing* thing, int final_x, int final_y);
+
+	//creates a new MapThing object and places it on the map.
+	void place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction);
 
 	void print_map();
 	int get_max_number_of_floors();
@@ -68,6 +71,8 @@ private:
 	const char* original_distribution;
 	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
+	void place_on_map(int coord_x, int coord_y, MapThing* thing);
+	
 	void clear();
 
 

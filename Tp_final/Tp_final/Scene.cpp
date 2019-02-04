@@ -35,23 +35,23 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 {
 
 	//Lastly, we analyze the current game_situation
-	if (this->both_players_dead())
+	if (both_players_dead())
 	{
-		this->we_lost = true;
+		we_lost = true;
 		notify_obs();
-		this->we_lost = false;
+		we_lost = false;
 	}
-	if ((!this->both_players_dead())&&(!this->any_monsters_left())&&(this->actual_map==10))
+	if ((!both_players_dead())&&(!any_monsters_left())&&(actual_map==10))
 	{
-		this->we_won = true;
+		we_won = true;
 		notify_obs();
-		this->we_won = false;
+		we_won = false;
 	}
 }
 
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL) {
 
-
+	al_flush_event_queue(enemy_actions_queue);
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 
@@ -71,6 +71,10 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL)
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 		//maps->push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
+
+	curr_enemies = new_map->get_all_enemies();
+	curr_players = new_map->get_all_players();
+	curr_proyectiles = new_map->get_all_proyectiles();
 
 	maps.push_back(new_map);
 
@@ -288,6 +292,7 @@ void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
 	assistant_queue->push(new_ev_pack);
 }
 
+//esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
 	ALLEGRO_EVENT * allegroEvent = NULL;
@@ -295,9 +300,13 @@ void Scene::control_enemy_actions()
 		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
 			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
 			if (wanted_enemy != NULL) 
-				wanted_enemy->act();
+				wanted_enemy->act();			//aca en realidad deberia agregar un paquete!!
 		}
-	
+
+	//new_enemy_action = true;
+	//notify_obs();			//meto en la cola de eventos 
+	//new_enemy_action = false;
+	//falta notificarle al wachin que actuaste.
 }
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)

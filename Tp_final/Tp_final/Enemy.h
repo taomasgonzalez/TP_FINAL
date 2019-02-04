@@ -14,7 +14,7 @@ public:
 	unsigned int amount_of_hits_taken;
 	
 	bool is_enemy();
-	virtual void act();
+	virtual void act() = 0;
 	virtual void unfreeze();
 	virtual void be_hit();
 
@@ -30,6 +30,5 @@ protected:
 	static unsigned seed;
 	static std::default_random_engine generator;
 	
-
 };
 
