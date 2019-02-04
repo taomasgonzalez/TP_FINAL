@@ -25,5 +25,6 @@ protected:
 	virtual void append_all_queues(int total_number_of_queues);
 
 private:
+	Userdata * my_user_data;
 };
 

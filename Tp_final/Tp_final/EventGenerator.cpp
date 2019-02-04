@@ -8,7 +8,7 @@
 EventGenerator::EventGenerator(Allegro * al, Userdata* data)
 {
 	std::vector<std::vector<EventPackage*>> event_queues = std::vector<std::vector<EventPackage*>>();
-
+	my_user_data = data;
 }
 
 

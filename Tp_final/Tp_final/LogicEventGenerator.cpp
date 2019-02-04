@@ -1,14 +1,13 @@
 #include "LogicEventGenerator.h"
 
 
-LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator(Allegro * al, Userdata* data)
+LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator(al, data)
 {
 	al_queue = al->get_al_queue();
 	time_out_timer = al->get_front_time_out_timer();
 	time_out_count = 0;
 	
 	append_all_queues( (int) LogicEventGenerator::Queues::TOTAL_QUEUES);
-	my_user_data = data;
 }
 
 
