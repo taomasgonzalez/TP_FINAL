@@ -37,6 +37,10 @@ public:
 
 	//Executing functions
 	void execute_action(EventPackage * action_to_be_executed);
+	void execute_move(EventPackage * move_to_be_executed);
+	void execute_attack(EventPackage * attack_to_be_executed);
+	void execute_enemy_action(EventPackage * enemy_action_to_be_executed);
+
 	void finish_game();
 
 	//Getters

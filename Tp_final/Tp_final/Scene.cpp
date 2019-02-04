@@ -34,11 +34,41 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 
 void Scene::execute_action(EventPackage * action_to_be_executed)
 {
+	Event_type event_to_be_execute = action_to_be_executed->give_me_your_event_type();
 
 
+	switch (event_to_be_execute)
+	{
+	case Event_type::MOVE:
+		execute_move(action_to_be_executed);
+		break;
 
+	case Event_type::ATTACK:
+		execute_attack(action_to_be_executed);
 
-	//Lastly, we analyze the current game_situation
+		break;
+
+	case Event_type::ACTION_REQUEST:
+
+		if (((ACTION_REQUEST_EventPackage *)action_to_be_executed)->give_me_the_action == Action_type::Move)
+			execute_move(action_to_be_executed);
+		else
+			execute_attack(action_to_be_executed);
+
+		break;
+
+	case Event_type::ENEMY_ACTION:
+		execute_enemy_action(action_to_be_executed);
+
+		break;
+
+	default:
+		std::cout << "Error, Acción no ejecutable" << std::endl;
+		break;
+
+	}
+
+//Lastly, we analyze the current game_situation
 	if (this->both_players_dead())
 	{
 		this->we_lost = true;
@@ -52,6 +82,20 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 		this->we_won = false;
 	}
 }
+
+void Scene::execute_move(EventPackage * move_to_be_executed) {
+
+}
+
+void Scene::execute_attack(EventPackage * attack_to_be_executed) {
+
+}
+
+void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
+
+
+}
+
 
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
@@ -242,6 +286,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 	MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
+	Position local_destination;
 	Direction_type my_direction;
 
 	if (package_to_be_analyze->is_this_a_local_action())
@@ -290,7 +335,11 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x , the_one_that_moves->pos_y - 1))
 					is_the_move_possible = false;
 				else
+				{
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x;
+					local_destination.col = the_one_that_moves->pos_y - 1;
+				}
 			}
 			else
 			{
@@ -308,7 +357,11 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x , the_one_that_moves->pos_y + 1))
 					is_the_move_possible = false;
 				else
+				{
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x;
+					local_destination.col = the_one_that_moves->pos_y + 1;
+				}
 			}
 			else
 			{
@@ -331,7 +384,11 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 					is_the_move_possible = true;
 				}
 				else
+				{
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x - 2;
+					local_destination.col = the_one_that_moves->pos_y - 1;
+				}
 			}
 			else
 			{
@@ -353,7 +410,11 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 					is_the_move_possible = true;
 				}
 				else
+				{
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x - 2;
+					local_destination.col = the_one_that_moves->pos_y + 1;
+				}
 			}
 			else
 			{
@@ -372,6 +433,13 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 		}
 	}
 
+	if (is_the_move_possible && is_local) //load the destination column and row in the eventpackage
+	{
+		my_event_package->set_destination_row(local_destination.fil);
+		my_event_package->set_destination_column(local_destination.col);
+
+	}
+
 	return is_the_move_possible;
 }
 bool Scene::check_attack(EventPackage * package_to_be_analyze) {
@@ -382,6 +450,8 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 	Player * the_one_that_attack = NULL;
 	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;
+	Position local_destination;
+
 
 
 	if (package_to_be_analyze->is_this_a_local_action())
@@ -418,7 +488,11 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 				if (maps[actual_map]->cell_has_floor(the_one_that_attack->pos_x, the_one_that_attack->pos_y -1))
 					is_the_attack_possible = false;
 				else
+				{
 					is_the_attack_possible = true;
+					local_destination.fil = the_one_that_attack->pos_x;
+					local_destination.col = the_one_that_attack->pos_y - 1;
+				}
 			}
 			else
 			{
@@ -435,7 +509,11 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 				if (maps[actual_map]->cell_has_floor(the_one_that_attack->pos_x, the_one_that_attack->pos_y + 1))
 					is_the_attack_possible = false;
 				else
+				{
 					is_the_attack_possible = true;
+					local_destination.fil = the_one_that_attack->pos_x;
+					local_destination.col = the_one_that_attack->pos_y + 1;
+				}
 			}
 			else
 			{
@@ -447,7 +525,12 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 		}
 
 	}
+	if (is_the_attack_possible && is_local) //load the destination column and row in the eventpackage
+	{
+		my_event_package->set_destination_row(local_destination.fil);
+		my_event_package->set_destination_column(local_destination.col);
 
+	}
 	return is_the_attack_possible;
 }
 

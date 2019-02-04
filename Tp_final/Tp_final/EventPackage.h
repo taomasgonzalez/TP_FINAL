@@ -80,6 +80,21 @@ protected:
 
 };
 
+class Action_EventPackage
+{
+public:
+	Action_EventPackage(unsigned char fil_de, unsigned char col_de);
+	unsigned char give_me_your_destination_row();
+	unsigned char give_me_your_destination_column();
+	void set_destination_row(unsigned char my_destination_row);
+	void set_destination_column(unsigned char my_destination_column);
+
+
+private:
+	unsigned char destination_row;
+	unsigned char destination_column;
+};
+
 /******************************************************************************
 *******************************************************************************
 							ACK_EventPackage CLASS
@@ -121,7 +136,7 @@ public:
 							MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_EventPackage : public EventPackage
+class MOVE_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	MOVE_EventPackage(Direction_type direction_type); //local MOVE
@@ -132,13 +147,9 @@ public:
 	void set_direction (Direction_type new_direction);
 	Character_type give_me_the_character();
 	void set_character(Character_type the_one_that_moves);
-	unsigned char give_me_your_destination_row();
-	unsigned char give_me_your_destination_column();
 
 private:
 	Character_type character;
-	unsigned char destination_row;
-	unsigned char destination_column;
 	Direction_type my_direction;
 };
 
@@ -147,19 +158,16 @@ private:
 							ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_EventPackage : public EventPackage
+class ATTACK_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	ATTACK_EventPackage(); // local ATTACK
 	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
 	ATTACK_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
 
-	unsigned char give_me_your_destination_row();
-	unsigned char give_me_your_destination_column();
 private:
 	Character_type character;
-	unsigned char destination_row;
-	unsigned char destination_column;
+
 
 };
 
@@ -169,7 +177,7 @@ private:
 					ACTION_REQUEST_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_EventPackage : public EventPackage
+class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
@@ -177,12 +185,9 @@ public:
 	Action_type give_me_the_action();
 	Direction_type give_me_your_direction();
 	void set_direction(Direction_type new_direction);
-	unsigned char give_me_your_destination_row();
-	unsigned char give_me_your_destination_column();
+
 
 private:
-	char destination_row;
-	char destination_column;
 	Direction_type my_direction;
 	Action_type action;
 
