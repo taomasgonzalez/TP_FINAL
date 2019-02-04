@@ -102,9 +102,6 @@ private:
 	std::vector<Player*>* curr_players;
 	std::vector<Enemy*>* curr_enemies;
 	std::vector<Proyectile*>* curr_proyectiles;
-
-	Character_type my_player;
-	Character_type other_player;
 	
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
