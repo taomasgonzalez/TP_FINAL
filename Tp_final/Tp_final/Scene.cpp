@@ -93,7 +93,6 @@ void Scene::execute_move(EventPackage * move_to_be_executed) {
 	Position local_destination;
 	Direction_type my_direction;
 
-	al_flush_event_queue(enemy_actions_queue);
 	extern_destination.fil = move_movement->give_me_your_destination_row();
 	extern_destination.col = move_movement->give_me_your_destination_column();
 	my_direction = move_movement->give_me_your_direction();
@@ -177,7 +176,7 @@ void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
 
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
-
+	al_flush_event_queue(enemy_actions_queue);
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 

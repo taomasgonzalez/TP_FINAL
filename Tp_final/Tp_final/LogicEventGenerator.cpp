@@ -29,43 +29,67 @@ void LogicEventGenerator::update_from_allegro_events() {
 
 	if (al_get_next_event(al_queue, allegroEvent)) {			//tomo de la cola en caso de que no este vacia
 
-		if (allegroEvent->type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo quittear porque mandaron a cerrar la pantalla
+		if (allegroEvent->type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo quittear porque mandaron a cerrar la pantalla				
 			ev_pack = new LOCAL_QUIT_EventPackage();
 		}
 		else if (allegroEvent->type == ALLEGRO_EVENT_KEY_DOWN) {					//tecla presionada
 			if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_UP) {
 
 				if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
+
+					if (my_user_data->my_network_data.is_client())
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Left);
+
 				else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT)
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
+
+					if (my_user_data->my_network_data.is_client())
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Right);
 				else
-					ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
+
+					if (my_user_data->my_network_data.is_client())
+						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
+					else
+						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Straight);
 			}
+
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
-				ev_pack = new MOVE_EventPackage(Direction_type::Left);
+
+				if (my_user_data->my_network_data.is_client())
+					ev_pack = new MOVE_EventPackage(Direction_type::Left);
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Left);
 			}
+
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-				ev_pack = new MOVE_EventPackage(Direction_type::Right);
+
+				if (my_user_data->my_network_data.is_client())
+					ev_pack = new MOVE_EventPackage(Direction_type::Right);
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Right);
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_SPACE) {
-				ev_pack = new ATTACK_EventPackage();
+
+				if (my_user_data->my_network_data.is_client())
+					ev_pack = new ATTACK_EventPackage();
+				else
+					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Attack, Direction_type::None);
+
 			}
 			else if (allegroEvent->keyboard.keycode == ALLEGRO_KEY_Q) {
 				ev_pack = new LOCAL_QUIT_EventPackage();
 			}
-
 		}
-
 	}
-
 	else
 		ev_pack = new NO_EVENT_EventPackage();
 
 	append_new_event(ev_pack,(int) LogicEventGenerator::Queues::allegro);
 
 }
-
 void LogicEventGenerator::empty_all_queues() {
 	EventGenerator::empty_all_queues();
 	al_flush_event_queue(al_queue);
