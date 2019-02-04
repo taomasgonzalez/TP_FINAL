@@ -1,8 +1,7 @@
 #pragma once
+#include "Userdata.h"
 
-enum class Item_type {
-	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL='B', SNOWBALL = 'S'
-};
+
 
 enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 

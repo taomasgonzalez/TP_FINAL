@@ -33,6 +33,7 @@ public:
 	MapThing* get_from_map(unsigned int id);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
+
 	void place_on_map(int coord_x, int coord_y, MapThing* thing);
 
 	void print_map();

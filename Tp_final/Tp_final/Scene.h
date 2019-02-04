@@ -23,9 +23,6 @@ public:
 
 	//Analyze of gaming situations
 	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
-	bool check_move(EventPackage * package_to_be_analyze);
-	bool check_attack(EventPackage * package_to_be_analyze);
-	bool check_enemy_action(EventPackage * package_to_be_analyze);
 
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
@@ -33,13 +30,8 @@ public:
 	bool did_we_win(EventPackage * package_to_be_analyze);  //I´m client, analyze if the game was won by the players
 	bool did_we_lose(EventPackage * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
 
-
-
 	//Executing functions
 	void execute_action(EventPackage * action_to_be_executed);
-	void execute_move(EventPackage * move_to_be_executed);
-	void execute_attack(EventPackage * attack_to_be_executed);
-	void execute_enemy_action(EventPackage * enemy_action_to_be_executed);
 
 	void finish_game();
 
@@ -50,7 +42,6 @@ public:
 	const char * give_me_the_CSV(unsigned int actual_map);
 	EventPackage* give_me_my_enemy_action(bool is_initializing);
 	Player * get_player(Item_type player_to_be_found);
-	Enemy * get_enemy(uchar enemy_to_be_found);
 
 
 
@@ -87,13 +78,23 @@ public:
 	std::queue<EventPackage*>* assistant_queue;
 
 private:
-
-	unsigned int number_of_proyectiles;
+	//checkes
+	bool check_move(EventPackage * package_to_be_analyze);
+	bool check_attack(EventPackage * package_to_be_analyze);
+	bool check_enemy_action(EventPackage * package_to_be_analyze);
+	//executers
+	void execute_move(EventPackage * move_to_be_executed);
+	void execute_attack(EventPackage * attack_to_be_executed);
+	void execute_enemy_action(EventPackage * enemy_action_to_be_executed);
 
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	unsigned int points;
 	Item_type my_player;
 	Item_type other_player;
+
+	std::vector<Player*>* curr_players;
+	std::vector<Enemy*>* curr_enemies;
+	std::vector<Proyectile*>* curr_proyectiles;
 
 };
 

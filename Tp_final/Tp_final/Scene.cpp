@@ -15,7 +15,6 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
-	this->number_of_proyectiles = 0;
 
 }
 
@@ -88,7 +87,6 @@ void Scene::execute_move(EventPackage * move_to_be_executed) {
 
 	bool move_succesful;
 	bool enemy_can_be_moved;
-	bool is_local;
 	MOVE_EventPackage* move_movement = ((MOVE_EventPackage *)move_to_be_executed);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
@@ -118,14 +116,12 @@ void Scene::execute_move(EventPackage * move_to_be_executed) {
 		std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
 		for (int i = 0; i < my_vector_of_enemys.size(); i++)
 		{
-			if ((my_vector_of_enemys)[i]->current_state != States::Frozen)
+			if ((my_vector_of_enemys)[i]->current_state != States::Frozen) esta mal, faltan estados
 			{
-				if (the_one_that_moves->lives == 1)
 					the_one_that_moves->die();
-				else
-					the_one_that_moves->lose_life();
 
-				move_succesful = false;
+					move_succesful = false;
+					break;
 			}
 		}
 
@@ -140,8 +136,14 @@ void Scene::execute_move(EventPackage * move_to_be_executed) {
 	else
 		move_succesful = true;
 
+	if (maps[actual_map]->cell_has_enemy_proyectiles(extern_destination.fil, extern_destination.col))
+	{
+		the_one_that_moves->die();
+		move_succesful = false;
+	}
+
 	if(move_succesful)
-		maps[actual_map]->move_id(11, extern_destination.fil, extern_destination.col); //cual es ID de TOM /NICK   ?!?!
+		maps[actual_map]->move_id(get_player(my_player)->id , extern_destination.fil, extern_destination.col); //cual es ID de TOM /NICK   ?!?!
 
 }
 
@@ -162,7 +164,7 @@ void Scene::execute_attack(EventPackage * attack_to_be_executed) {
 		my_direction = Sense_type::Right;
 
 
-	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, new Snowball(number_of_proyectiles++, my_direction));
+	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction );
 
 }
 
@@ -196,7 +198,6 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 		maps.push_back(new_map);
 		
-		this->number_of_proyectiles = 0;
 
 }
 
@@ -369,14 +370,14 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 	if (package_to_be_analyze->is_this_a_local_action())
 	{
 		is_local = true;
-		my_event_package->set_character((Character_type)my_player);
+		my_event_package->set_character(my_player);
 		the_one_that_moves = get_player(my_player);
 		my_direction = my_event_package->give_me_your_direction();
 	}
 	else
 	{
 		is_local = false;
-		my_event_package->set_character((Character_type)other_player);
+		my_event_package->set_character(other_player);
 		the_one_that_moves = get_player(other_player);
 		extern_destination.fil = my_event_package->give_me_your_destination_row();
 		extern_destination.col = my_event_package->give_me_your_destination_column();
@@ -641,7 +642,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 	else
 	{
 		is_local = false;
-		the_enemy_that_acts = get_enemy(my_event_package->give_me_the_monsterID);
+		the_enemy_that_acts = maps[actual_map]->get_from_map(my_event_package->give_me_the_monsterID);
 		extern_destination.fil = my_event_package->give_me_the_destination_row();
 		extern_destination.col = my_event_package->give_me_the_destination_column();
 		action_to_be_checked = my_event_package->give_me_the_action();
@@ -757,30 +758,17 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 Player * Scene::get_player(Item_type player_to_be_found) {
 
 	Player * player_found = NULL;
-	std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
-
-	if ((*my_vector_of_players)[0]->get_printable() == player_to_be_found)
-		player_found = (*my_vector_of_players)[0];
+	//usar get_from_map()
+	//std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
+	if ((*curr_players)[0]->get_printable() == player_to_be_found)
+		player_found = (*curr_players)[0];
 	else
-		player_found = (*my_vector_of_players)[1];
+		player_found = (*curr_players)[1];
 
 	return player_found;
 }
 
-Enemy * Scene::get_enemy(uchar enemy_to_be_found) {
 
-	Enemy * enemy_found = NULL;
-	std::vector<Enemy*>* my_vector_of_enemys = maps[actual_map]->get_all_enemies();
-
-	for (int i = 0; i < my_vector_of_enemys->size(); i++)
-	{
-		if ((*my_vector_of_enemys)[i]->id == enemy_to_be_found)
-			enemy_found = (*my_vector_of_enemys)[0];
-	}
-
-
-	return enemy_found;
-}
 
 bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 {
