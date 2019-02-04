@@ -243,11 +243,11 @@ EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
 
 	my_enemy_action_event=maps.at(this->actual_map)->give_me_my_enemy_action(is_initializing);
 
-	if (my_enemy_action_event == NULL) //ENEMYS_LOADED MUST BE SENT
+	if (my_enemy_action_event == NULL) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
 	{
 		bool enemys_ready=true;
 		notify_obs();
-		bool enemys_ready = true;
+		bool enemys_ready = false;
 	}
 
 

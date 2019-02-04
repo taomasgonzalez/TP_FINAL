@@ -30,10 +30,14 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->sv_enemy_action) { //I´m the server, EA generated before send it during initialization
-		//EventPackage * my_enemy_action = my_scenario->give_me_my_enemy_action(true);
-
-		my_scenario->append_new_auxilar_event(my_enemy_action);
-		my_fsm->load_fsm_ev_pack(my_enemy_action); //saves it in the FSM so it can be send to the client later
+		EventPackage * my_enemy_action_struct = my_scenario->give_me_my_enemy_action(true); //me devuelve * EA_info
+		//traducir esa struct a Enemy_action_EVP
+		//appendearlo a lo cola de soft
+		if (my_enemy_action_struct != NULL)
+		{
+			my_scenario->append_new_auxilar_event(my_enemy_action_struct);  //cola de la struct y no EVPs}
+			my_event_gen->append_new_event(struct2EAEVP(my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //mandar EA traducido desde la struct a la fsm
+		}
 	}
 
 	if (my_fsm->ex_saved_enemy_actions) //for both client and server
@@ -41,7 +45,7 @@ void FSMSceneObserver::update() {
 
 		while (my_scenario->assistant_queue->size() >= 1) //Execute all the pending Enemy actions beacuse the game starts
 		{			
-			this->my_scenario->execute_action(my_scenario->assistant_queue->front());
+			this->my_scenario->execute_action(struct2EAEVP(my_scenario->assistant_queue->front()));
 			my_scenario->assistant_queue->pop();
 		}
 	}
