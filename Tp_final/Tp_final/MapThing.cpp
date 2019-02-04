@@ -1,12 +1,17 @@
 #include "MapThing.h"
 
-MapThing::MapThing(unsigned int id, bool is_nothing)
+MapThing::MapThing(unsigned int id, bool is_nothing, Sense_type sense)
 {
 	this->id = id;
+	this->my_sense = sense;
 	if (is_nothing)
 		this->printable = Item_type::NADA;		//thing vacio
 	else
+	{
 		this->printable = Item_type::FLOOR;		//es pared
+		this->my_sense = Sense_type::None;
+	}
+
 }
 
 MapThing::~MapThing()

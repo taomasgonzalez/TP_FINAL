@@ -67,6 +67,12 @@ Action_EventPackage::Action_EventPackage(unsigned char fil_de=NULL, unsigned cha
 	this->destination_column = col_de;
 }
 
+Action_EventPackage::Action_EventPackage(Direction_type direction_type= Direction_type::None) {
+
+	this->my_direction = direction_type;
+}
+
+
 /**************************************************************
 					give_me_your_destination_row 
 **************************************************************/
@@ -93,6 +99,20 @@ void Action_EventPackage::set_destination_row(unsigned char my_destination_row) 
 void Action_EventPackage::set_destination_column(unsigned char my_destination_column) {
 
 	this->destination_column = my_destination_column;
+
+}
+/**************************************************************
+				give_me_your_direction
+**************************************************************/
+Direction_type Action_EventPackage::give_me_your_direction() {
+
+	return this->my_direction;
+}
+/**************************************************************
+					set_direction 
+**************************************************************/
+void Action_EventPackage::set_direction(Direction_type new_direction) {
+	this->my_direction = new_direction;
 
 }
 /******************************************************************************
@@ -141,9 +161,8 @@ EXTERN_QUIT_EventPackage::EXTERN_QUIT_EventPackage() :EventPackage(Event_type::E
 /**************************************************************
 			MOVE_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE,  true)  { //LOCAL MOVE
+MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE,  true), Action_EventPackage(direction_type) { //LOCAL MOVE
 
-	this->my_direction = direction_type;
 }
 /**************************************************************
 			MOVE_EventPackage CONSTRUCTOR (EXTERN)
@@ -162,20 +181,7 @@ MOVE_EventPackage::MOVE_EventPackage(Character_type my_character,unsigned char f
 }
 
 
-/**************************************************************
-				give_me_your_direction 
-**************************************************************/
-Direction_type MOVE_EventPackage::give_me_your_direction() {
 
-	return this->my_direction;
-}
-/**************************************************************
-					set_direction (LOCAL)
-**************************************************************/
-void MOVE_EventPackage::set_direction(Direction_type new_direction) {
-	this->my_direction = new_direction;
-
-}
 /**************************************************************
 				give_me_the_character
 **************************************************************/
@@ -204,7 +210,7 @@ Character_type MOVE_package::give_me_the_character() {
 /**************************************************************
 			ATTACK_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage():EventPackage(Event_type::ATTACK, true) {
+ATTACK_EventPackage::ATTACK_EventPackage():EventPackage(Event_type::ATTACK, true), Action_EventPackage(Direction_type::None) {
 
 
 }
@@ -234,10 +240,9 @@ ATTACK_EventPackage::ATTACK_EventPackage(Character_type my_character, unsigned c
 /**************************************************************
 			ACTION_REQUEST_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction ) : EventPackage(Event_type::ACTION_REQUEST, true) { //local ACTION_REQUEST
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction ) : EventPackage(Event_type::ACTION_REQUEST, true), Action_EventPackage(direction) { //local ACTION_REQUEST
 
 	this->action = the_action;
-	this->my_direction = direction; //If attack, the direction is None
 }
 /**************************************************************
 			ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
@@ -254,20 +259,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action,
 Action_type ACTION_REQUEST_EventPackage::give_me_the_action() {
 	return this->action;
 }
-/**************************************************************
-				give_me_your_direction
-**************************************************************/
-Direction_type ACTION_REQUEST_EventPackage::give_me_your_direction() {
 
-	return this->my_direction;
-}
-/**************************************************************
-					set_direction (LOCAL)
-**************************************************************/
-void ACTION_REQUEST_EventPackage::set_direction(Direction_type new_direction) {
-	this->my_direction = new_direction;
-
-}
 
 /******************************************************************************
 *******************************************************************************

@@ -7,7 +7,7 @@ enum class Item_type {
 enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 
 enum class Sense_type {
-	Right, Left
+	Right, Left, None
 };
 
 
@@ -16,7 +16,7 @@ class MapThing
 
 public:
 
-	MapThing(unsigned int id, bool is_nothing);
+	MapThing(unsigned int id, bool is_nothing, Sense_type sense);
 
 	~MapThing();
 	

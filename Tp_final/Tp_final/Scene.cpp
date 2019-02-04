@@ -15,6 +15,7 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
 	this->actual_map = 1;
+	this->number_of_proyectiles = 0;
 
 }
 
@@ -85,9 +86,83 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 
 void Scene::execute_move(EventPackage * move_to_be_executed) {
 
+	bool move_succesful;
+	bool enemy_can_be_moved;
+	bool is_local;
+	MOVE_EventPackage* move_movement = ((MOVE_EventPackage *)move_to_be_executed);
+	Player * the_one_that_moves = NULL;
+	Position extern_destination;
+	Position local_destination;
+	Direction_type my_direction;
+
+	extern_destination.fil = move_movement->give_me_your_destination_row();
+	extern_destination.col = move_movement->give_me_your_destination_column();
+	my_direction = move_movement->give_me_your_direction();
+
+	if (move_to_be_executed->is_this_a_local_action())
+	{
+		the_one_that_moves = get_player(my_player);
+	}
+	else
+	{
+		the_one_that_moves = get_player(other_player);
+	}
+
+
+
+
+	//FALTA LOGICA DE LA BOLA DE NIEVE
+	//VER BIEN PROTOCOLO DE IDS
+	if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
+	{
+		std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
+		for (int i = 0; i < my_vector_of_enemys.size(); i++)
+		{
+			if ((my_vector_of_enemys)[i]->current_state != States::Frozen)
+			{
+				if (the_one_that_moves->lives == 1)
+					the_one_that_moves->die();
+				else
+					the_one_that_moves->lose_life();
+
+				move_succesful = false;
+			}
+		}
+
+		for (int i = 0; i < my_vector_of_enemys.size(); i++)
+		{
+			if ((my_vector_of_enemys)[i]->amount_of_hits_taken>=3) //The enemy is snowballed
+				maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col); //The snowballed enemy moves along with the player
+
+		}
+
+	}
+	else
+		move_succesful = true;
+
+	if(move_succesful)
+		maps[actual_map]->move_id(11, extern_destination.fil, extern_destination.col); //cual es ID de TOM /NICK   ?!?!
+
 }
 
 void Scene::execute_attack(EventPackage * attack_to_be_executed) {
+
+	bool is_local;
+	ATTACK_EventPackage* attack_movement = ((ATTACK_EventPackage *)attack_to_be_executed);
+	Player * the_one_that_moves = NULL;
+	Position extern_destination;
+	Position local_destination;
+	Sense_type my_direction;
+
+	extern_destination.fil = attack_movement->give_me_your_destination_row();
+	extern_destination.col = attack_movement->give_me_your_destination_column();
+	if (attack_movement->give_me_your_direction() == Direction_type::Left)
+		my_direction = Sense_type::Left;
+	else
+		my_direction = Sense_type::Right;
+
+
+	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, new Snowball(number_of_proyectiles++, my_direction));
 
 }
 
@@ -120,6 +195,8 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 	}
 
 		maps.push_back(new_map);
+		
+		this->number_of_proyectiles = 0;
 
 }
 
@@ -314,6 +391,8 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			my_direction = Direction_type::Jump_Left;
 		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Jump_Right
 			my_direction = Direction_type::Jump_Right;
+
+		my_event_package->set_direction(my_direction);
 	}
 
 
@@ -530,6 +609,11 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 		my_event_package->set_destination_row(local_destination.fil);
 		my_event_package->set_destination_column(local_destination.col);
 
+		if(in_witch_direction_is_he_looking==Sense_type::Left)
+			my_event_package->set_direction(Direction_type::Left);
+		else
+			my_event_package->set_direction(Direction_type::Right);
+
 	}
 	return is_the_attack_possible;
 }
@@ -690,7 +774,7 @@ Enemy * Scene::get_enemy(uchar enemy_to_be_found) {
 
 	for (int i = 0; i < my_vector_of_enemys->size(); i++)
 	{
-		if ((*my_vector_of_enemys)[0]->id == enemy_to_be_found)
+		if ((*my_vector_of_enemys)[i]->id == enemy_to_be_found)
 			enemy_found = (*my_vector_of_enemys)[0];
 	}
 

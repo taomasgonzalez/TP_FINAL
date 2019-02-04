@@ -27,6 +27,9 @@ public:
 	bool cell_has_enemies(int coord_x, int coord_y);
 	std::vector<Enemy*> get_cell_enemies(int coord_x, int coord_y);
 
+	bool cell_has_enemy_proyectiles(int coord_x, int coord_y);
+	bool cell_has_player_proyectiles(int coord_x, int coord_y);
+
 	MapThing* get_from_map(unsigned int id);
 
 	bool move_id(unsigned int id, int final_x, int final_y);
@@ -59,6 +62,7 @@ private:
 	int number_of_rows;
 	int number_of_columns;
 	unsigned char my_checksum;
+
 
 	const char* original_distribution;
 	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);

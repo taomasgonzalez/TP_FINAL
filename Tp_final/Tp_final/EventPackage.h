@@ -84,15 +84,20 @@ class Action_EventPackage
 {
 public:
 	Action_EventPackage(unsigned char fil_de, unsigned char col_de);
+	Action_EventPackage(Direction_type direction_type);
+
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
 	void set_destination_row(unsigned char my_destination_row);
 	void set_destination_column(unsigned char my_destination_column);
+	Direction_type give_me_your_direction();
+	void set_direction(Direction_type new_direction);
 
 
 private:
 	unsigned char destination_row;
 	unsigned char destination_column;
+	Direction_type my_direction;
 };
 
 /******************************************************************************
@@ -143,14 +148,11 @@ public:
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
 	MOVE_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
 
-	Direction_type give_me_your_direction();
-	void set_direction (Direction_type new_direction);
 	Character_type give_me_the_character();
 	void set_character(Character_type the_one_that_moves);
 
 private:
 	Character_type character;
-	Direction_type my_direction;
 };
 
 /******************************************************************************
@@ -183,12 +185,9 @@ public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
 	ACTION_REQUEST_EventPackage( Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
 	Action_type give_me_the_action();
-	Direction_type give_me_your_direction();
-	void set_direction(Direction_type new_direction);
 
 
 private:
-	Direction_type my_direction;
 	Action_type action;
 
 };

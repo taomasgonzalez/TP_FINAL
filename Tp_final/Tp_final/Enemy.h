@@ -16,6 +16,6 @@ public:
 	
 private:
 	//frozen_timer;
-	void freeze();
+	void freeze();  //si es privada me imagino que se llama desde be_hit() al llegar al tercer tiro
 };
 

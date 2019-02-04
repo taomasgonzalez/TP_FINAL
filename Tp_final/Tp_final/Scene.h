@@ -88,6 +88,8 @@ public:
 
 private:
 
+	unsigned int number_of_proyectiles;
+
 	EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	unsigned int points;
 	Item_type my_player;

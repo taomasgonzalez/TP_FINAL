@@ -3,7 +3,7 @@
 
 enum class States
 {
-	Moving, Frozen
+	Moving, Frozen, Snowballed //faltaría el estado iddle
 };
 
 

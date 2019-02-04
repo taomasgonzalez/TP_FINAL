@@ -3,7 +3,7 @@
 class Fireball: public Proyectile
 {
 public:
-	Fireball(unsigned int id);
+	Fireball(unsigned int id, Sense_type proyectile_sense);
 	~Fireball();
 
 private:
