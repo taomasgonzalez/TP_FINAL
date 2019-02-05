@@ -43,7 +43,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	(this->actual_state->fun_trans)(this);
 	this->actual_state = (this->actual_state->nextstate);
 
-	delete ev_pack;
 }
 
 void FSM::check_for_incorrect_event(Event_type event) {
@@ -52,15 +51,6 @@ void FSM::check_for_incorrect_event(Event_type event) {
 	//}
 }
 
-void FSM::init_fsm()
-{
-	/*aca irian las inicializaciones comunes a tanto server como client. 
-	Habria que chequear que para ese estado en particular, todos los estados a los cuales transicionar
-	sean iguales para modo server y modo cliente, y tambien todos los eventos 
-	Y LAS RUTINAS DE ACCION!!!
-	*/
-}
- 
 
 void FSM::copy_event(edge_t* to_copy, edge_t* to_be_copied, int length) {
 	for (int i = 0; i < length; i++)
