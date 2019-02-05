@@ -180,6 +180,15 @@
     <ClCompile Include="LogicFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="FSMFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicClientFSM.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicServerFSM.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -293,11 +302,14 @@
     <ClInclude Include="FSM_Class.h">
       <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="FireballGraphicFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
+    <ClInclude Include="FSMFactory.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="SnowballGraphicFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
+    <ClInclude Include="LogicServerFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicClientFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -843,11 +843,6 @@ void Scene::control_proyectile_actions() {
 		}
 }
 
-EA_info Scene::get_ea_info()
-{
-	return enemy_action_info;
-}
-
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
 {
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)

@@ -1,16 +1,23 @@
 #pragma once
-#include "EventGenerator.h"
+#include "LogicFSM.h"
 
-class GraphicEventGenerator: public EventGenerator
+class LogicServerFSM: public LogicFSM
 {
 public:
-	GraphicEventGenerator(Allegro * al, Userdata* data);
-	~GraphicEventGenerator();
+	LogicServerFSM(Userdata * data);
+	~LogicServerFSM();
 
-	edge_t* Iddle_state = NULL;
+private:
 
-	edge_t* Moving_state = NULL;
-	edge_t* _state = NULL;
+	/****************************
+	states
+	******************************/
+
+
+	edge_t* Initial_state = NULL;
+
+	edge_t* Naming_him_state = NULL;
+	edge_t* Naming_me_state = NULL;
 
 	edge_t* Waiting_for_ACK_name_state = NULL;
 

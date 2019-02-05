@@ -56,7 +56,6 @@ unsigned char  Map::give_me_the_checksum() {
 	return this->my_checksum;
 }
 
-
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).has_proyectiles();
 }
@@ -203,7 +202,6 @@ void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_typ
 	place_on_map(coord_x, coord_y, map_filler.create_map_thing(identifyer, direction));
 }
 
-
 void Map::print_map() {
 
 	for (int z = 0; z < get_max_number_of_floors(); z++) {
@@ -254,14 +252,11 @@ void Map::load_checksum(unsigned char checksum) {
 	this->my_checksum = checksum;
 }
 
-
-
 void Map::reset_map()
 {
 	clear();
 	load_on_map(original_distribution);
 }
-
 
 void Map::delete_from_map_thing_vectors(MapThing* thing) {
 
@@ -297,9 +292,9 @@ void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
 void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
 	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
 }
-Enemy::EA_info Map::get_initial_enemy_actions() {
+EA_info Map::get_initial_enemy_actions() {
 	static int loading_EA_number = 0;
-	Enemy::EA_info returnable_EA;
+	EA_info returnable_EA;
 
 	if (returnable_EA.finished_loading = (loading_EA_number >= all_enemies->size()) ) 
 		loading_EA_number = 0;
