@@ -22,8 +22,8 @@ EventPackage::EventPackage(Event_type event, bool is_local)
 {
 	this->my_internal_event = event;
 	this->local_action = is_local;
-
 }
+
 
 
 /**************************************************************

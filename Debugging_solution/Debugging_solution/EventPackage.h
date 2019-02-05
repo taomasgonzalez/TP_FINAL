@@ -6,6 +6,7 @@
 typedef unsigned int uint;
 typedef unsigned char uchar;
 
+
 enum class Event_type  //Events that are usde by the internal function of the program 
 {
 	END_OF_TABLE,
@@ -23,7 +24,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	MOVE,
 
 	//EXTERN_ACTION   Es un MOVE/ATTACK del servidor que llega por networking siendo cliente
-	ATTACK,  
+	ATTACK,
 
 	//ACTION_REQUEST   //action request generado por el cliente que no fue chequeado
 	ACTION_REQUEST,
@@ -64,10 +65,13 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//START_COMMUNICATION: Evento de software generado cuando se inicilizo todo correctamente, el servidor esta listo para inicilizar
 	START_COMMUNICATION,
 
-	NO_EVENT
+	NO_EVENT,
+
+	//eventos para la parte grafica!!!
+
+	GOT_HIT,
 
 };
-
 
 class EventPackage
 {
@@ -82,6 +86,7 @@ protected:
 	bool local_action;
 
 };
+
 
 class Action_EventPackage
 {

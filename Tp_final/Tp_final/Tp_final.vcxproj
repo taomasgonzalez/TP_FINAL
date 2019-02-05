@@ -144,7 +144,10 @@
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="FSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="GraphicCharacterFSM.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
+    <ClCompile Include="GraphicEventPackage.cpp" />
+    <ClCompile Include="GraphicProyectileFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="LogicClientFSM.cpp" />
     <ClCompile Include="LogicEventGenerator.cpp" />
@@ -163,6 +166,7 @@
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Proyectile.cpp" />
+    <ClCompile Include="ProyectileFSMDrawerObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ScenarioDrawingObserver.cpp" />
@@ -189,13 +193,17 @@
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="GraphicCharacterFSM.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
+    <ClInclude Include="GraphicEventPackage.h" />
+    <ClInclude Include="GraphicProyectileFSM.h" />
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />
     <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
+    <ClInclude Include="ProyectileFSMDrawerObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
     <ClInclude Include="Map.h" />
