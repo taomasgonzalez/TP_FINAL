@@ -146,13 +146,13 @@ class MOVE_EventPackage : public EventPackage, public Action_EventPackage
 public:
 	MOVE_EventPackage(Direction_type direction_type); //local MOVE
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
-	MOVE_EventPackage(Character_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
+	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
 
-	Character_type give_me_the_character();
-	void set_character(Character_type the_one_that_moves);
+	Item_type give_me_the_character();
+	void set_character(Item_type the_one_that_moves);
 
 private:
-	Character_type character;
+	Item_type character;
 };
 
 /******************************************************************************
@@ -263,6 +263,7 @@ class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local,uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
+	ENEMY_ACTION_EventPackage(EA_info ea_info);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();

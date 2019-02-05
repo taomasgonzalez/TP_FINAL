@@ -75,7 +75,7 @@ public:
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
-
+	bool new_enemy_action;
 	void append_new_auxilar_event(EventPackage* new_ev_pack);
 	
 	std::queue<EventPackage*>* assistant_queue;
@@ -85,6 +85,7 @@ public:
 	*/
 	void control_enemy_actions();
 	void control_proyectile_actions();
+	EA_info get_ea_info();
 
 private:
 	//checkes
@@ -113,6 +114,6 @@ private:
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
-	
+	EA_info enemy_action_info;
 };
 

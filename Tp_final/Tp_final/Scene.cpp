@@ -11,11 +11,11 @@ Scene::Scene():Observable()
 	this->enemys_ready = false;
 	this->we_won = false;
 	this->we_lost = false;
+	new_enemy_action = false;
 
 	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
 	this->actual_map = 0;
-
 }
 
 
@@ -181,12 +181,10 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
+	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 
 	if (is_client) //The map came by networking, already checked
 	{	
-		//esto es lo que tenias antes, que por ahora no se condice con lo que programe de Map. despues coordinar conmigo para que esto funke.
-		//Map * new_map = new Map(12, 16, ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map(), ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
-		//por que no meter todo esto en el constructor?
 		new_map->load_on_map((const char*)(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map()));
 		new_map->load_checksum(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
 		
@@ -196,7 +194,6 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 	{	//I´m server, I´ve the map available
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
-		//maps->push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
 
 	curr_enemies = new_map->get_all_enemies();
@@ -823,14 +820,17 @@ void Scene::control_enemy_actions()
 	while (al_get_next_event(enemy_actions_queue, allegroEvent)) 
 		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
 			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
-			if (wanted_enemy != NULL) 
-				wanted_enemy->act();			//aca en realidad deberia agregar un paquete!!
+			if (wanted_enemy != NULL) {
+				enemy_action_info = wanted_enemy->act();
+				if (enemy_action_info.action == Action_type::Attack)
+					maps[actual_map].place_on_map(wanted_enemy->pos_x, wanted_enemy->pos_y, Item_type::FIREBALL, wanted_enemy->get_sense());
+				else {
+					new_enemy_action = true;
+					notify_obs();
+					new_enemy_action = false;
+				}
+			}
 		}
-
-	//new_enemy_action = true;
-	//notify_obs();			//meto en la cola de eventos 
-	//new_enemy_action = false;
-	//falta notificarle al wachin que actuaste.
 }
 
 void Scene::control_proyectile_actions() {
@@ -841,6 +841,11 @@ void Scene::control_proyectile_actions() {
 			//if (wanted_proyectile != NULL)
 				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
 		}
+}
+
+EA_info Scene::get_ea_info()
+{
+	return enemy_action_info;
 }
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)

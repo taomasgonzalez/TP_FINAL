@@ -294,7 +294,9 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
 	map_filler.register_enemies_event_queue(enemies_ev_queue);
 }
-
+void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
+	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
+}
 Enemy::EA_info Map::get_initial_enemy_actions() {
 	static int loading_EA_number = 0;
 	Enemy::EA_info returnable_EA;

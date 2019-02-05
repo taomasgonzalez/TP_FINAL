@@ -350,6 +350,13 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_Mo
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
 }
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(EA_info ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info.is_local) {
+	action = ea_info.action;
+	destination_row = ea_info.final_pos_x;
+	destination_column = ea_info.final_pos_y;
+	MonsterID = ea_info.id;
+}
+
 uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
 	return this->MonsterID;
 }

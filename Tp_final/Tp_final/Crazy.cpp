@@ -12,13 +12,13 @@ Crazy::~Crazy()
 {
 }
 
-Enemy::EA_info Crazy::act() {
+EA_info Crazy::act() {
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 
 	EA_info returnable_EA;
-
+	returnable_EA.is_local = true;
 	if (sample <= 0.75) {
 		move_in_same_direction(&returnable_EA);
 		//timer_speed = ;

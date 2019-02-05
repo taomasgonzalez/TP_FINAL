@@ -22,10 +22,10 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 	MapThing* new_born = nullptr;
 	switch (identifyer) {
 	case Item_type::NADA:
-			new_born = new MapThing(get_nothing_id(), true);
+			new_born = new MapThing(get_nothing_id(), true, Sense_type::None);
 			break;
 		case Item_type::FLOOR:
-			new_born = new MapThing(get_wall_id(), false);
+			new_born = new MapThing(get_wall_id(), false, Sense_type::None);
 			break;
 		case Item_type::CRAZY:
 			new_born = new Crazy(get_enemy_id());
@@ -37,18 +37,16 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			new_born = new PurpleGuy(get_enemy_id());
 			break;
 		case Item_type::TOM:
-			new_born = new Player(get_player_id());
-			new_born->set_printable(Item_type::TOM);
+			new_born = new Player(get_player_id(), false);
 			break;
 		case Item_type::NICK:
-			new_born = new Player(get_player_id());
-			new_born->set_printable(Item_type::NICK);
+			new_born = new Player(get_player_id(), true);
 			break;
 		case Item_type::FIREBALL:
-			new_born = new Fireball(get_proyectile_id());
+			new_born = new Fireball(get_proyectile_id(), direction);
 			break;
 		case Item_type::SNOWBALL:
-			new_born = new Snowball(get_proyectile_id());
+			new_born = new Snowball(get_proyectile_id(), direction);
 
 			break;
 	}

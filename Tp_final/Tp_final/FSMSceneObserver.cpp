@@ -2,7 +2,7 @@
 
 
 
-FSMSceneObserver::FSMSceneObserver(FSM* fsm, Scene* scenario,EventGenerator *event_gen, Userdata * userdata)
+FSMSceneObserver::FSMSceneObserver(LogicFSM* fsm, Scene* scenario,EventGenerator *event_gen, Userdata * userdata)
 {
 	this->my_fsm = fsm;
 	this->my_scenario = scenario;
@@ -129,3 +129,4 @@ void FSMSceneObserver::update() {
 		this->my_scenario->load_new_map(this->my_user_data->my_network_data.is_client()); 
 	}
 }
+
