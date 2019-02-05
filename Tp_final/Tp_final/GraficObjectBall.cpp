@@ -116,7 +116,7 @@ void Obj_Graf_Ball::draw()
 			else
 			{
 				al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
-				this->pos.set_x_coord(this->pos.get_x_coord() - VEL_PUSHED);
+				this->pos.set_x_coord(this->pos.get_x_coord() + VEL_PUSHED);
 				(this->actualImage < PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
 			break;
