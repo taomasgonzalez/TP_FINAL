@@ -91,6 +91,7 @@ void Obj_Graf_Enemy::draw()
 				case enemy_IDLE:
 //					this->fallTicks = 0;
 					this->jumpTicks = 0;
+					this->actualImage = 0;
 					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 					break;
@@ -145,6 +146,7 @@ void Obj_Graf_Enemy::draw()
 					break;
 				case enemy_IDLE:
 //					this->fallTicks = 0;
+					this->actualImage = 0;
 					this->jumpTicks = 0;
 					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
@@ -222,6 +224,7 @@ void Obj_Graf_Enemy::draw()
 					this->actualImage++;
 				case enemy_IDLE:
 //					this->fallTicks = 0;
+					this->actualImage = 0;
 					this->jumpTicks = 0;
 					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
@@ -286,6 +289,7 @@ void Obj_Graf_Enemy::draw()
 					break;
 				case enemy_IDLE:
 //					this->fallTicks = 0;
+					this->actualImage = 0;
 					this->jumpTicks = 0;
 					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
@@ -350,6 +354,7 @@ void Obj_Graf_Enemy::draw()
 				case enemy_IDLE:
 //					this->fallTicks = 0;
 					this->jumpTicks = 0;
+					this->actualImage = 0;
 					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 					break;
@@ -405,6 +410,7 @@ void Obj_Graf_Enemy::draw()
 				}
 			case enemy_IDLE:
 //				this->fallTicks = 0;
+				this->actualImage = 0;
 				this->jumpTicks = 0;
 				this->active = false;
 				al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
