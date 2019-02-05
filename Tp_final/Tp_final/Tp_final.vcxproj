@@ -149,6 +149,7 @@
     <ClCompile Include="LogicClientFSM.cpp" />
     <ClCompile Include="LogicEventGenerator.cpp" />
     <ClCompile Include="LogicFSM.cpp" />
+    <ClCompile Include="LogicFSMRoutines.cpp" />
     <ClCompile Include="LogicServerFSM.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />
+    <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="Resources.h" />

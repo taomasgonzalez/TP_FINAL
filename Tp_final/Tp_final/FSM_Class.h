@@ -26,7 +26,6 @@ class FSM : public  Observable{
 public:
 	 FSM(Userdata * data);
 	 void run_fsm(EventPackage * ev_pack);
-	 void init_fsm();
 		
 	 EventPackage* get_fsm_ev_pack();
 	 edge_t * give_me_the_actual_state();

@@ -1,4 +1,5 @@
 #include "LogicClientFSM.h"
+#include "LogicFSMRoutines.h"
 
 LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 

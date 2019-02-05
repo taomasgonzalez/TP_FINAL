@@ -7,7 +7,8 @@ using namespace std;
 int main(void) {
 	Userdata data;
 	LogicServerFSM fsm_logica(&data);
-	LOCAL_QUIT_EventPackage my_pack = LOCAL_QUIT_EventPackage();
+	END_OF_TABLE_EventPackage my_pack = END_OF_TABLE_EventPackage();
+	//LOCAL_QUIT_EventPackage my_pack = LOCAL_QUIT_EventPackage();
 	fsm_logica.run_fsm(&my_pack);
 
 	getchar();

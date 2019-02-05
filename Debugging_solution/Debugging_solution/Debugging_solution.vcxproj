@@ -25,6 +25,7 @@
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="LogicFSM.cpp" />
+    <ClCompile Include="LogicFSMRoutines.cpp" />
     <ClCompile Include="LogicServerFSM.cpp" />
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Observer.cpp" />
@@ -35,6 +36,7 @@
     <ClInclude Include="EventPackage.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="LogicFSM.h" />
+    <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="Observable.h" />
     <ClInclude Include="Observer.h" />

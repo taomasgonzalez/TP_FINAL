@@ -51,7 +51,6 @@ void FSM::check_for_incorrect_event(Event_type event) {
 	//}
 }
 
- 
 
 void FSM::copy_event(edge_t* to_copy, edge_t* to_be_copied, int length) {
 	for (int i = 0; i < length; i++)
