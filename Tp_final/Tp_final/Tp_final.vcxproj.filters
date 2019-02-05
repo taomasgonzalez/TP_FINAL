@@ -70,6 +70,12 @@
     <Filter Include="Source Files\Event_related\Generic">
       <UniqueIdentifier>{53045bad-ee61-43dc-ace0-2e6eca965587}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Observers\Logic">
+      <UniqueIdentifier>{facd148a-6bc8-43ec-a5a5-d2305e8b2106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers\Graphic">
+      <UniqueIdentifier>{e2b51ba8-198e-4584-97c9-49c252f00a53}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp">
@@ -111,9 +117,6 @@
     <ClCompile Include="Proyectile.cpp">
       <Filter>Source Files\PJ_related</Filter>
     </ClCompile>
-    <ClCompile Include="ScenarioEventsObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Snowball.cpp">
       <Filter>Source Files\PJ_related</Filter>
     </ClCompile>
@@ -129,18 +132,6 @@
     <ClCompile Include="Observer.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="FSMSceneObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMEventsObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMCommunicationObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
-    <ClCompile Include="EventsCommunicationObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
@@ -152,9 +143,6 @@
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ScenarioDrawingObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
     </ClCompile>
     <ClCompile Include="Drawer.cpp">
       <Filter>Source Files</Filter>
@@ -207,11 +195,32 @@
     <ClCompile Include="FSM_Class.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="ProyectileFSMDrawerObserver.cpp">
-      <Filter>Source Files\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicEventPackage.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectileFSMDrawerObserver.cpp">
+      <Filter>Source Files\Observers\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioDrawingObserver.cpp">
+      <Filter>Source Files\Observers\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="EventsCommunicationObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMCommunicationObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMEventsObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMSceneObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioEventsObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterFSMDrawerObserver.cpp">
+      <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +358,9 @@
     </ClInclude>
     <ClInclude Include="ProyectileFSMDrawerObserver.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterFSMDrawerObserver.h">
+      <Filter>Header Files\Observers\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

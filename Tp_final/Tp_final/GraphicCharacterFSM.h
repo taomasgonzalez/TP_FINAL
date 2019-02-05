@@ -6,6 +6,10 @@ public:
 	GraphicCharacterFSM(Userdata*data);
 	~GraphicCharacterFSM();
 
+	bool should_move = false;
+	bool should_attack = false;
+	bool should_disappear = false;
+
 private:
 	/**********************
 		states

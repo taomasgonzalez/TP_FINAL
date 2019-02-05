@@ -130,6 +130,7 @@
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterFSMDrawerObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="Drawer.cpp" />
@@ -179,6 +180,7 @@
   <ItemGroup>
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterFSMDrawerObserver.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="Drawer.h" />
