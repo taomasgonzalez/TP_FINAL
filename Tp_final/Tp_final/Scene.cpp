@@ -234,21 +234,21 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	return prueba;
 }
 
-EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
+EA_info Scene::give_me_my_enemy_action(bool is_initializing){
+	if(is_initializing){
+		enemy_action_info = maps[actual_map]->get_initial_enemy_actions();
 
-	EventPackage* my_enemy_action_event = NULL;
-
-	my_enemy_action_event=maps.at(this->actual_map)->give_me_my_enemy_action(is_initializing);
-
-	if (my_enemy_action_event == NULL) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
-	{
-		bool enemys_ready=true;
-		notify_obs();
-		bool enemys_ready = false;
+		if (enemy_action_info.finished_loading) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
+		{
+			bool enemys_ready=true;
+			notify_obs();
+			bool enemys_ready = false;
+		}
 	}
+	//si no esta inicializado directamente ya esta cargado cuando llega su turno de ser pedido, 
+	//unicamente lo van a llamar los observer con is_initializing= false
+	return enemy_action_info;
 
-
-	return my_enemy_action_event;
 }
 
 

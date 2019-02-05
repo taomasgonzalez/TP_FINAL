@@ -41,10 +41,8 @@ public:
 	Item_type give_me_my_player();
 	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
-	EventPackage* give_me_my_enemy_action(bool is_initializing);
 	Player * get_player(Item_type player_to_be_found);
-
-
+	EA_info give_me_my_enemy_action(bool is_initializing);
 
 	//Control Flags getters
 	bool game_is_finished();
@@ -85,7 +83,6 @@ public:
 	*/
 	void control_enemy_actions();
 	void control_proyectile_actions();
-	EA_info get_ea_info();
 
 private:
 	//checkes
