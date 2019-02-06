@@ -1,5 +1,13 @@
 #include "Scene.h"
 #include "general.h"
+#include <fstream>
+#include <string>
+
+#define TABLE_FILE "levels/tabla/tabla.csv"
+#define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
+
+const unsigned char *getTable();		// funciÃ³n para obtener la tabla para checksum
+
  
 Scene::Scene():Observable()
 {
@@ -63,7 +71,7 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 		break;
 
 	default:
-		std::cout << "Error, Acción no ejecutable" << std::endl;
+		std::cout << "Error, AcciÃ³n no ejecutable" << std::endl;
 		break;
 
 	}
@@ -191,7 +199,7 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 		this->actual_map++;
 	}
 	else
-	{	//I´m server, I´ve the map available
+	{	//IÂ´m server, IÂ´ve the map available
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
@@ -204,13 +212,20 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 }
 
-//hace checksum , función guido
+//hace checksum , funciÃ³n guido
 unsigned char Scene::make_checksum(const char * CSV_map_location) {
 
-	unsigned char local_checksum = 'd';
+	unsigned char local_checksum = 0; 
+	const unsigned char* table = getTable();
+
+	for (int i = 0; i < FILE_LENGHT; i++)
+	{
+		local_checksum = table[local_checksum^CSV_map[i]];
+//		cout << (unsigned int)index << ' ';
+	}
 
 	return local_checksum;
-}//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos(hecho)
+}//despuÃ©s usar esta funciÃ³n que haga guido para el checksum de mapas que llegan para validarlos(hecho)
 
 
 bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
@@ -227,11 +242,64 @@ bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
 	return map_validation;
 }
 
-//función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
+//funciÃ³n que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
 const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 
-	const char * prueba=NULL;
-	return prueba;
+	ifstream myFile;
+	string mapFile = "levels/level " + to_string(actual_map) + ".csv";
+	myFile.open(mapFile.c_str());
+	char *map = new char;
+	int i = 0;
+	bool comaDelim = false;					// asumimos que el csv esta separado por ';'
+
+	while (myFile.good() && !comaDelim)
+	{
+		string line;
+		getline(myFile, line, ';');
+		if (line.length() > 5)
+			comaDelim = true;			// si la linea es muy larga el csv esta separado por ','
+		else
+		{
+			map[i] = line.c_str()[0];
+			i++;
+		}
+		for (int j = 1; j < 15; j++)
+		{
+			string line;
+			getline(myFile, line, ';');
+			map[i] = line.c_str()[0];
+			i++;
+		}
+		getline(myFile, line, '\n');
+		map[i] = line.c_str()[0];
+		i++;
+	}
+
+	myFile.close();
+
+	if (comaDelim)														// el delimitador so, ',' no ';'
+	{
+		myFile.open(mapFile.c_str());
+		int i = 0;
+		while (myFile.good())
+		{
+			for (int j = 0; j < 15; j++)
+			{
+				string line;
+				getline(myFile, line, ',');
+				map[i] = line.c_str()[0];
+				i++;
+			}
+			string line;
+			getline(myFile, line, '\n');
+			map[i] = line.c_str()[0];
+			i++;
+		}
+
+		myFile.close();
+	}
+	
+	return map;
 }
 
 EA_info Scene::give_me_my_enemy_action(bool is_initializing){
@@ -351,7 +419,7 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 		break;
 
 	default:
-		std::cout << "Acción no analizable" << std::endl;
+		std::cout << "AcciÃ³n no analizable" << std::endl;
 		break;
 
 	}
@@ -404,7 +472,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
-		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
+		std::cout << " Error , el jugador que deberÃ­a moverse estÃ¡ muerto" << std::endl;
 
 	}
 	else
@@ -455,7 +523,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			}
 			break;
 
-		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningÃºn caso donde no pueda saltar para arriba. como mucho vuelvo a caer
 			break;
 
 		case Direction_type::Jump_Left:
@@ -477,7 +545,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
 				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
+					is_the_move_possible = false; //canÂ´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -503,7 +571,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
 				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
+					is_the_move_possible = false; //canÂ´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -511,7 +579,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			break;
 
 		default:
-			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+			std::cout << " Error , no se recibiÃ³ un MOVE para analizar" << std::endl;
 			break;
 		}
 	}
@@ -560,7 +628,7 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 	if (the_one_that_attack->is_dead())
 	{
 		is_the_attack_possible = false;
-		std::cout << " Error , el jugador que debería atacar está muerto" << std::endl;
+		std::cout << " Error , el jugador que deberÃ­a atacar estÃ¡ muerto" << std::endl;
 	}
 	else
 	{
@@ -637,7 +705,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 	if (package_to_be_analyze->is_this_a_local_action())
 	{
 		is_local = true;
-		std::cout << "Error, Un EA local no debería chequearse nunca" << std::endl;
+		std::cout << "Error, Un EA local no deberÃ­a chequearse nunca" << std::endl;
 		std::cout << "NO SE CHEQUEO NADA, ERROR" << std::endl;
 		is_the_enemy_action_possible = false;
 
@@ -653,7 +721,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 		if (the_enemy_that_acts->is_dead())
 		{
-			std::cout << " Error , el mounstro que debería actuar está muerto" << std::endl;
+			std::cout << " Error , el mounstro que deberÃ­a actuar estÃ¡ muerto" << std::endl;
 			is_the_enemy_action_possible = false;
 		}
 		else
@@ -691,14 +759,14 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 							is_the_enemy_action_possible = true;				
 					break;
 
-				case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+				case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningÃºn caso donde no pueda saltar para arriba. como mucho vuelvo a caer
 					break;
 
 				case Direction_type::Jump_Left:
 
 						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
 						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
+							is_the_enemy_action_possible = false; //canÂ´t be fixed, extern move received must be valid
 						}
 						else
 							is_the_enemy_action_possible = true;				
@@ -708,7 +776,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
 						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
+							is_the_enemy_action_possible = false; //canÂ´t be fixed, extern move received must be valid
 						}
 						else
 							is_the_enemy_action_possible = true;
@@ -716,7 +784,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 					break;
 
 				default:
-					std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+					std::cout << " Error , no se recibiÃ³ un MOVE para analizar" << std::endl;
 					break;
 				}
 
@@ -748,7 +816,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 				break;
 			default:
-				std::cout << "Error, Un EA con acción desconocida" << std::endl;
+				std::cout << "Error, Un EA con acciÃ³n desconocida" << std::endl;
 				break;
 			}
 		}
@@ -858,4 +926,25 @@ Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
 			return (*it);
 
 	return NULL;
+}
+
+const unsigned char *getTable()
+{
+	std::ifstream myFile;
+	myFile.open(TABLE_FILE);
+	unsigned char *table = new unsigned char;
+	int i = 0;
+
+	while (myFile.good())
+	{
+		std::string line;
+		std::getline(myFile, line, ',');
+		table[i] = atoi(line.c_str());
+//		cout << (int)table[i] << ' ';
+		i++;
+	}
+
+	myFile.close();
+
+	return table;
 }
