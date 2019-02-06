@@ -31,6 +31,7 @@ struct EA_info {
 	int final_pos_x;
 	int final_pos_y;
 	Action_type action;
+	bool valid = false;
 };
 class NetworkData {
 

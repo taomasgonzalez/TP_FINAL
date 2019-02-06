@@ -1,11 +1,12 @@
 #pragma once
 #include "Character.h"
 #include "AllegroClass.h"
+#include "Observable.h"
 #include <iostream>
 #include <chrono>
 #include <random>
 
-class Enemy: public Character
+class Enemy: public Character, public Observable
 {
 public:
 	Enemy(unsigned int id);
@@ -21,6 +22,14 @@ public:
 
 	ALLEGRO_TIMER * get_acting_timer();
 	
+	struct obs_info {
+		bool can_make_movement = false;
+		bool can_move_in_same_direction = false;
+		bool can_move_in_opposite_direction = false;
+		bool can_jump = false;
+	};
+	obs_info questions_4_observer;
+	obs_info answers_4_observable;
 
 protected:
 	//frozen_timer;
@@ -31,10 +40,18 @@ protected:
 	static std::uniform_real_distribution<double> acting_probabilities;
 	static unsigned seed;
 	static std::default_random_engine generator;
-	
+
+	void EA_info_common_filling(EA_info * next_enemy_action);
+
+	bool can_move_in_same_direction();
 	void move_in_same_direction(EA_info* next_enemy_action);
+
+	bool can_move_in_opposite_direction();
 	void move_in_opposite_direction(EA_info* next_enemy_action);
+
 	void stay_still(EA_info * next_enemy_action);
+
+	bool can_jump();
 	void jump(EA_info * next_enemy_action);
 
 };
