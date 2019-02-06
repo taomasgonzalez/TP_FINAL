@@ -55,7 +55,9 @@ void MapDijkstraMachine::run_algorithm(int source_x, int source_y, int destinati
 	class prioritize { public: bool operator ()(pair<int, int>&p1, pair<int, int>&p2) { return p1.second>p2.second; } };
 	priority_queue<pair<int, int>, vector<pair<int, int> >, prioritize> pq; //Priority queue to store vertex,weight pairs
 	pq.push(make_pair(source, dis[source] = 0)); //Pushing the source with distance from itself as 0
-	while (!pq.empty())
+
+	bool reached_destination = false;
+	while ((!pq.empty()) && (!reached_destination))
 	{
 		pair<int, int> curr = pq.top(); //Current vertex. The shortest distance for this has been found
 		pq.pop();
@@ -63,11 +65,13 @@ void MapDijkstraMachine::run_algorithm(int source_x, int source_y, int destinati
 		if (vis[cv]) //If the vertex is already visited, no point in exploring adjacent vertices
 			continue;
 		vis[cv] = true;
-		for (int i = 0; i<a[cv].size(); i++) //Iterating through all adjacent vertices
-			if (!vis[a[cv][i].first] && a[cv][i].second + cw<dis[a[cv][i].first]) //If this node is not visited and the current parent node distance+distance from there to this node is shorted than the initial distace set to this node, update it
+		for (int i = 0; i < a[cv].size(); i++) //Iterating through all adjacent vertices
+			if (!vis[a[cv][i].first] && a[cv][i].second + cw < dis[a[cv][i].first]) { //If this node is not visited and the current parent node distance+distance from there to this node is shorted than the initial distace set to this node, update it
 				pq.push(make_pair(a[cv][i].first, (dis[a[cv][i].first] = a[cv][i].second + cw))); //Set the new distance and add to priority queue
+				reached_destination = true;
+				break;
+			}
 	}
-
 
 }
 
