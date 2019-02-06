@@ -1,4 +1,5 @@
 #pragma once
+
 #include "MapCell.h"
 #include "Enemy.h"
 #include "Player.h"
@@ -62,6 +63,11 @@ public:
 	void print_cell(int coord_x, int coord_y);
 
 	const char* get_last_loaded_distribution();
+
+	Position find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y);
+
+	int get_number_of_rows();
+	int get_number_of_columns();
 
 private:
 	MapCell get_cell(int coord_x, int coord_y);

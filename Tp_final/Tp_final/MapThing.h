@@ -1,7 +1,6 @@
 #pragma once
 #include "Userdata.h"
-
-
+#include "general.h"
 
 enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 

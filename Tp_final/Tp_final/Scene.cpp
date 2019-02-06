@@ -1,6 +1,10 @@
 #include "Scene.h"
 #include "general.h"
- 
+
+#include <iostream>
+#include <climits>
+using namespace std;
+#define INF INT_MAX //Infinity
 Scene::Scene():Observable()
 {
 	//flags
@@ -29,8 +33,6 @@ Scene::~Scene()
 void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action) {
 	
 }
-
-
 
 void Scene::execute_action(EventPackage * action_to_be_executed)
 {
@@ -250,8 +252,6 @@ EA_info Scene::give_me_my_enemy_action(bool is_initializing){
 	return enemy_action_info;
 
 }
-
-
 
 
 void Scene::gameInit() {	
@@ -771,8 +771,6 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 	return player_found;
 }
 
-
-
 bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 {
 	bool we_won;
@@ -802,8 +800,6 @@ bool Scene::did_we_lose(EventPackage * package_to_be_analyze)
 	return we_lost;
 }
 
-
-
 bool Scene::do_you_have_to_draw() {
 
 	return this->has_to_draw;
@@ -822,13 +818,9 @@ void Scene::control_enemy_actions()
 			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
 			if (wanted_enemy != NULL) {
 				enemy_action_info = wanted_enemy->act();
-				if (enemy_action_info.action == Action_type::Attack)
-					maps[actual_map].place_on_map(wanted_enemy->pos_x, wanted_enemy->pos_y, Item_type::FIREBALL, wanted_enemy->get_sense());
-				else {
-					new_enemy_action = true;
-					notify_obs();
-					new_enemy_action = false;
-				}
+				new_enemy_action = true;
+				notify_obs();
+				new_enemy_action = false;
 			}
 		}
 }
@@ -858,4 +850,32 @@ Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
 			return (*it);
 
 	return NULL;
+}
+
+Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
+	Player* nearest_player = find_nearest_player(purple_guy->pos_x, purple_guy->pos_y);
+	Position next_movement;
+	next_movement = maps[actual_map]->find_next_movement_4_shortest_path(purple_guy->pos_x, purple_guy->pos_y, nearest_player->pos_x, nearest_player->pos_y);
+	return next_movement;
+}
+
+Player* Scene::find_nearest_player(int pos_x, int pos_y) {
+	unsigned int shortest_distance = INF;
+	Player* nearest_player = NULL;
+
+	for (int i = 0; i < curr_players->size(); i++) {
+
+		Player* curr_player = curr_players->at(i);
+		unsigned int taxi_distance = abs(curr_player->pos_x - pos_x) + abs(curr_player->pos_y - pos_y);
+
+		if(shortest_distance > taxi_distance){
+			shortest_distance =  taxi_distance;
+			nearest_player = curr_player;
+		}
+	}
+	return nearest_player;
+}
+
+unsigned int abs(int a) {
+	return (a >= 0) ? a : ((-1)*a);
 }

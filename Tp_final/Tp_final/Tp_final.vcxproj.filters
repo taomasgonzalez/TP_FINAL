@@ -76,6 +76,24 @@
     <Filter Include="Source Files\Observers\Graphic">
       <UniqueIdentifier>{e2b51ba8-198e-4584-97c9-49c252f00a53}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\PJ_related\Proyectiles">
+      <UniqueIdentifier>{5b5420d6-5c92-494e-aafc-97b67d969b65}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters">
+      <UniqueIdentifier>{5db5adcc-f519-4138-8e48-8c3633ed2284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies">
+      <UniqueIdentifier>{bd25f279-31d7-43cc-91bc-caf150609e44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters">
+      <UniqueIdentifier>{25cb502e-7401-490e-93c0-4b11d0386ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Proyectiles">
+      <UniqueIdentifier>{aae6088b-c78a-4b58-9301-189f66867d4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies">
+      <UniqueIdentifier>{0429536d-a586-42f6-b704-a5d1055a5f89}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp">
@@ -92,33 +110,6 @@
     </ClCompile>
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Crazy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Character.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Fireball.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="GreenFatty.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="PurpleGuy.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Player.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Proyectile.cpp">
-      <Filter>Source Files\PJ_related</Filter>
-    </ClCompile>
-    <ClCompile Include="Snowball.cpp">
-      <Filter>Source Files\PJ_related</Filter>
     </ClCompile>
     <ClCompile Include="MapThing.cpp">
       <Filter>Source Files\Map_related</Filter>
@@ -222,6 +213,42 @@
     <ClCompile Include="CharacterFSMDrawerObserver.cpp">
       <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Proyectile.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowball.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenFatty.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Crazy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyScenarioObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuyScenarioObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DijkstraMachine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -233,38 +260,11 @@
     <ClInclude Include="Communication.h">
       <Filter>Header Files\Net_related</Filter>
     </ClInclude>
-    <ClInclude Include="Character.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Crazy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Fireball.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="GreenFatty.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Player.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="Proyectile.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
-    <ClInclude Include="PurpleGuy.h">
-      <Filter>Header Files\PJ_related</Filter>
-    </ClInclude>
     <ClInclude Include="Observable.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="Snowball.h">
-      <Filter>Header Files\PJ_related</Filter>
     </ClInclude>
     <ClInclude Include="MapThing.h">
       <Filter>Header Files\Map_related</Filter>
@@ -353,14 +353,50 @@
     <ClInclude Include="GraphicProyectileFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicEventPackage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProyectileFSMDrawerObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterFSMDrawerObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicEventPackage.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectileFSMDrawerObserver.h">
+      <Filter>Header Files\Observers\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Crazy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenFatty.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Proyectile.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Snowball.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuyScenarioObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyScenarioObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="DijkstraMachine.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

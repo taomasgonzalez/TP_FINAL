@@ -53,7 +53,6 @@ public:
 	bool is_the_map_okay(EventPackage * map_to_be_checked);
 	unsigned char make_checksum(const char * CSV_map_location);
 
-
 	void set_new_allegro_event(EventPackage * new_event);
 
 
@@ -67,9 +66,6 @@ public:
 	bool enemys_ready;
 	bool we_lost;
 	bool we_won;
-	//para chequear un evento INTERNO de allegro por ejemplo, se usa en ScenarioEventsObserver::update()
-	//hay que prenderlo y hacer notify_obs de scene cuando se levante un evento de allegro, tiene que estar cargado ese
-	//evento de allegro convertido en eventpackage en Scene::Package* action_from_allegro;
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
@@ -83,6 +79,8 @@ public:
 	*/
 	void control_enemy_actions();
 	void control_proyectile_actions();
+
+	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
 private:
 	//checkes
@@ -112,5 +110,7 @@ private:
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
 	EA_info enemy_action_info;
+
+	Player* find_nearest_player(int pos_x, int pos_y);
 };
 

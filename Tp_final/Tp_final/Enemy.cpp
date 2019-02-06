@@ -24,7 +24,7 @@ ALLEGRO_TIMER * Enemy::get_acting_timer() {
 	return this->acting_timer;
 }
 
-void Enemy::move_in_same_direction(EA_info * next_enemy_action)
+bool Enemy::move_in_same_direction(EA_info * next_enemy_action)
 {
 	if (next_enemy_action->valid = can_move_in_same_direction()) {
 		EA_info_common_filling(next_enemy_action);
@@ -34,9 +34,10 @@ void Enemy::move_in_same_direction(EA_info * next_enemy_action)
 		else if (this->get_sense == Sense_type::Right)
 			next_enemy_action->final_pos_x = pos_x + 1;
 	}
+	return next_enemy_action->valid;
 }
 
-void Enemy::move_in_opposite_direction(EA_info * next_enemy_action)
+bool Enemy::move_in_opposite_direction(EA_info * next_enemy_action)
 {
 	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
 		EA_info_common_filling(next_enemy_action);
@@ -46,6 +47,7 @@ void Enemy::move_in_opposite_direction(EA_info * next_enemy_action)
 		else if (this->my_sense == Sense_type::Right)
 			next_enemy_action->final_pos_x = pos_x - 1;
 	}
+	return next_enemy_action->valid;
 }
 
 void Enemy::stay_still(EA_info * next_enemy_action)
@@ -57,12 +59,13 @@ void Enemy::stay_still(EA_info * next_enemy_action)
 	next_enemy_action->final_pos_y = pos_y;
 }
 
-void Enemy::jump(EA_info * next_enemy_action) {
+bool Enemy::jump(EA_info * next_enemy_action) {
 	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
 		EA_info_common_filling(next_enemy_action);
 		next_enemy_action->action = Action_type::Move;
 		next_enemy_action->final_pos_y = pos_y + 1;
 	}
+	return next_enemy_action->valid;
 }
 
 void Enemy::EA_info_common_filling(EA_info * next_enemy_action) {

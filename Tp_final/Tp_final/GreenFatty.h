@@ -8,6 +8,6 @@ public:
 	EA_info act();
 private:
 	static double moving_speed;	//in miliseconds		
-	void shoot_fireball();
+	void shoot_fireball(EA_info * next_enemy_action);
 };
 

@@ -133,8 +133,10 @@
     <ClCompile Include="CharacterFSMDrawerObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
+    <ClCompile Include="DijkstraMachine.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventsCommunicationObserver.cpp" />
@@ -169,6 +171,7 @@
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectileFSMDrawerObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
+    <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ScenarioDrawingObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
@@ -183,8 +186,10 @@
     <ClInclude Include="CharacterFSMDrawerObserver.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
+    <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="EventsCommunicationObserver.h" />
@@ -206,6 +211,7 @@
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="ProyectileFSMDrawerObserver.h" />
+    <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
     <ClInclude Include="Map.h" />

@@ -1,5 +1,6 @@
 #include "Map.h"
 
+#include<iostream>
 
 Map::Map(int number_of_rows, int number_of_columns)
 {
@@ -76,7 +77,6 @@ void Map::clear()
 		for (int j = 0; j < number_of_columns; j++)
 			get_cell(i, j).clear();
 }
-
 
 std::vector<Enemy*> Map::get_cell_enemies(int coord_x, int coord_y) {
 	return get_cell(coord_x, coord_y).get_enemies();
@@ -171,6 +171,22 @@ const char * Map::get_last_loaded_distribution()
 {
 	return original_distribution;
 }
+
+Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y)
+{
+	Position returnable_pos;
+
+	return returnable_pos;
+}
+
+ int Map::get_number_of_rows()
+{
+	return number_of_rows;
+}
+ int Map::get_number_of_columns()
+ {
+	 return number_of_columns;
+ }
 
 bool Map::move_id(unsigned int id, int final_x, int final_y) {
 	bool moved = false;
@@ -304,5 +320,4 @@ EA_info Map::get_initial_enemy_actions() {
 	}
 	return returnable_EA;
 }
-
 
