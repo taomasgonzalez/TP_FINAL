@@ -19,7 +19,7 @@ string request_user_name(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W
 
 string request_user_IP(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W, const float SCREEN_H);
 
-menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *FPS, const float SCREEN_W, const float SCREEN_H);		// puede que necesite mas argumentos
+menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *FPS, const float SCREEN_W, const float SCREEN_H);
 
 bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W, const float SCREEN_H);
 
