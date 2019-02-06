@@ -49,6 +49,7 @@ void MapDijkstraMachine::run_algorithm(int source_x, int source_y, int destinati
 	}
 		
 	int source = source_x * cols + source_y;
+	int destination = destination_x * cols + destination_y;
 
 	//Custom Comparator for Determining priority for priority queue (shortest edge comes first)
 	class prioritize { public: bool operator ()(pair<int, int>&p1, pair<int, int>&p2) { return p1.second>p2.second; } };
@@ -67,12 +68,7 @@ void MapDijkstraMachine::run_algorithm(int source_x, int source_y, int destinati
 				pq.push(make_pair(a[cv][i].first, (dis[a[cv][i].first] = a[cv][i].second + cw))); //Set the new distance and add to priority queue
 	}
 
-	cout << "Source is: " << source << ". The shortest distance to every other vertex from here is: \n";
-	for (int i = 1; i <= n; i++)//Printing final shortest distances from source
-	{
-		cout << "Vertex: " << i << " , Distance: ";
-		dis[i] != INF ? cout << dis[i] << "\n" : cout << "-1\n";
-	}
+
 }
 
 
