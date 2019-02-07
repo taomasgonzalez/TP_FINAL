@@ -15,7 +15,7 @@ public:
 	unsigned int amount_of_hits_taken;
 
 	bool is_enemy();
-	virtual EA_info* act() = 0;
+	virtual Action_info* act() = 0;
 	virtual void unfreeze();
 	virtual void be_hit();
 

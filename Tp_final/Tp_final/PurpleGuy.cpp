@@ -24,9 +24,9 @@ PurpleGuy::~PurpleGuy()
 *		EA_info containing all the information of the Enemy's next action. This action will always be local as the
 *		information is generated locally.
 */
-EA_info PurpleGuy::act(){
+Action_info* PurpleGuy::act(){
 
-	EA_info* returnable_EA = new EA_info();
+	Action_info* returnable_EA = new Action_info();
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
@@ -71,7 +71,7 @@ EA_info PurpleGuy::act(){
 *	OUTPUT:
 *		void.
 */
-void PurpleGuy::move_to_nearest_player(EA_info * next_enemy_action) {
+void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 
 	calculate_shortest_distance = true;

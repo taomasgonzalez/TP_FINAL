@@ -686,9 +686,9 @@ void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_
 *		initial action information yet. When every single Enemy has given its initial actiion information, the field "finished_loading"
 *		will be left in a true value.
 */
-EA_info Map::get_initial_enemy_actions() {
+Action_info * Map::get_initial_enemy_actions() {
 	static int loading_EA_number = 0;
-	EA_info * returnable_EA = new  EA_info();
+	Action_info * returnable_EA = new  Action_info();
 
 	if (returnable_EA->finished_loading = (loading_EA_number >= all_enemies->size()) ) 
 		loading_EA_number = 0;

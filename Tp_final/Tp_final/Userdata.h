@@ -24,13 +24,13 @@ enum class Item_type {
 	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
 };
 
-class EA_info {
+class Action_info {
 
 public:
-	EA_info(ENEMY_ACTION_EventPackage* trasnlate_please);
-	EA_info();
+	Action_info(ENEMY_ACTION_EventPackage* trasnlate_please);
+	Action_info();
 	bool is_local;
-	bool finished_loading;
+	bool finished_loading; //For ENEMYS_LOADED_EventPackage
 	unsigned int id;
 	int final_pos_x;
 	int final_pos_y;

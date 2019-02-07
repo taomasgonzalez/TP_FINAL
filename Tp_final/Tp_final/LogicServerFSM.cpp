@@ -82,9 +82,8 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 
 	edge_t Waiting_for_ACK_map_state[5] =
 	{
-		//IMPORTANTE!!!!!!!
-		//tiene que cargar el EA en la fsm, no mandar directamente cargandolo en la fSM agregar nueva fila
-		{ Event_type::ACK, this->Waiting_for_ACK_map_state,  traduciiondeloquescenealEVPaca((save_enemy_action) / ver caso ENEMYS_LOADED },
+
+		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state,  traduciiondeloquescenealEVPaca((save_enemy_action) / ver caso ENEMYS_LOADED },
 
 		{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 		{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
@@ -96,11 +95,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 	edge_t Waiting_for_ACK_enemy_actions_state[6] =
 	{
 		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state,  traduciiondeloquescenealEVPaca((save_enemy_action) },
-
-		//IMPORTANTE!!!!!!!
-		//tiene que cargar el EA en la fsm, no mandar directamente cargandolo en la fSM agregar nueva fila
-		{ Event_type::GENERATED_EA, this->Waiting_for_ACK_enemy_actions_state,  send_enemy_action },
-
+		{ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_enemy_actions_state,  send_enemy_action },
 		{ Event_type::ENEMYS_LOADED, this->Waiting_for_ACK_game_start_state, send_game_start },
 		{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 		{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
@@ -123,7 +118,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 
 	edge_t Playing_state[11] =
 	{
-		{ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_playing_state, execute_and_send_enemy_action }, //local ENEMY_ACTION evento software already loaded, only has to be sent
+	{ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_playing_state, execute_and_send_enemy_action }, //local ENEMY_ACTION evento software already loaded, only has to be sent
 	{ Event_type::MOVE, this->Waiting_for_ACK_playing_state, execute_action_send_it_and_set_ack_time_out }, //MOVE local generado desde allegro, has to be send to the client if valid
 	{ Event_type::ATTACK, this->Waiting_for_ACK_playing_state, execute_action_send_it_and_set_ack_time_out }, //ATTACK local generado desde allegro, has to be send to the client if valir
 	{ Event_type::ACTION_REQUEST, this->Waiting_for_ACK_playing_state, load_action_and_send_it_back },   //AR del cliente

@@ -8,6 +8,8 @@ void execute_action_send_it_and_set_ack_time_out(void * data) {
 	execute_local_action(data);
 	send_action(data);
 	set_ack_time_out(data);
+	check_game_state(data);
+
 
 }
 
@@ -59,6 +61,13 @@ void check_action(void* data) {
 	fsm->check_action = true;
 	fsm->notify_obs();
 	fsm->check_action = false;
+}
+
+void check_game_state(void* data) {
+	LogicFSM* fsm = (LogicFSM*)data;
+	fsm->check_game_state = true;
+	fsm->notify_obs();
+	fsm->check_game_state = false;
 }
 
 void send_action_and_set_ack_time_out(void* data) {
@@ -309,6 +318,7 @@ void execute_and_send_enemy_action(void* data) {
 	fsm->ex_action = false;
 	send_enemy_action(data);
 	set_ack_time_out(data);
+	check_game_state(data);
 }
 
 void save_enemy_action_and_send_it(void* data) {
@@ -449,6 +459,7 @@ void load_action_and_send_it_back(void * data) {
 	fsm->s_action_from_action_request = false;
 
 	set_ack_time_out(data);
+	check_game_state(data);
 }
 
 void start_game_and_send_ack(void*data) {

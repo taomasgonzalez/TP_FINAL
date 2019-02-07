@@ -8,7 +8,7 @@ ALLEGRO_BITMAP *AllegroData::WindowsBackground;
 
 /// EA_info METHODS
 
-EA_info::EA_info(ENEMY_ACTION_EventPackage* trasnlate_please) {
+Action_info::Action_info(ENEMY_ACTION_EventPackage* trasnlate_please) {
 
 	this->action = trasnlate_please->give_me_the_action();
 	this->final_pos_x = trasnlate_please->give_me_the_destination_row();
@@ -16,7 +16,7 @@ EA_info::EA_info(ENEMY_ACTION_EventPackage* trasnlate_please) {
 	this->id = trasnlate_please->give_me_the_monsterID();
 }
 
-EA_info::EA_info() {
+Action_info::Action_info() {
 
 }
 

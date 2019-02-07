@@ -25,9 +25,9 @@ GreenFatty::~GreenFatty()
 *		EA_info containing all the information of the Enemy's next action. This action will always be local as the
 *		information is generated locally.
 */
-EA_info GreenFatty::act() {
+Action_info * GreenFatty::act() {
 
-	EA_info * returnable_EA = new EA_info();
+	Action_info * returnable_EA = new Action_info();
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
@@ -67,7 +67,7 @@ EA_info GreenFatty::act() {
 }
 
 
-void GreenFatty::shoot_fireball(EA_info * next_enemy_action) {
+void GreenFatty::shoot_fireball(Action_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 	next_enemy_action->action = Action_type::Attack;
 	next_enemy_action->final_pos_x = pos_x;

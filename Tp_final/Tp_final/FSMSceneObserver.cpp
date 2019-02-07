@@ -25,17 +25,18 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->ld_enemy_action) { //I´m the client, an EA arrived during initialization by networking, I must save it to run it later
-		my_scenario->append_new_auxilar_event(new EA_info((ENEMY_ACTION_EventPackage *)my_fsm->get_fsm_ev_pack())); 
+		my_scenario->append_new_auxilar_event(new Action_info((ENEMY_ACTION_EventPackage *)my_fsm->get_fsm_ev_pack()));
 	}
 
 	if (my_fsm->sv_enemy_action) { //I´m the server, EA generated before send it during initialization
-		EA_info * my_enemy_action_struct = my_scenario->give_me_my_enemy_action(true); //me devuelve * EA_info
+		Action_info * my_enemy_action_struct = my_scenario->give_me_my_enemy_action(true); //me devuelve * EA_info
 
 		if (!my_enemy_action_struct->finished_loading)
 		{
 			my_scenario->append_new_auxilar_event(my_enemy_action_struct);  //cola de la struct y no EVPs
 			my_event_gen->append_new_event(new ENEMY_ACTION_EventPackage(my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //has to be send to the client
 		}
+
 	}
 
 	if (my_fsm->ex_saved_enemy_actions) //for both client and server
@@ -50,16 +51,17 @@ void FSMSceneObserver::update() {
 	
 	if (my_fsm->check_map) //I´m client and i receive a map from the server
 	{
-		EventPackage* map_to_be_checked = this->my_fsm->get_fsm_ev_pack();
+		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
+		MAP_IS_EventPackage*map_to_be_checked = (MAP_IS_EventPackage*)event_to_be_checked;
 
-		if (!this->my_scenario->is_the_map_okay(map_to_be_checked))//I must check it first
+		if (!this->my_scenario->is_the_map_okay(map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()))//I must check it first
 		{
 				this->my_event_gen->empty_all_queues();
 				this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR if the map was corrupted in the trasmition
 		}
 		else
 		{
-			this->my_scenario->load_new_map(this->my_user_data->my_network_data.is_client(), map_to_be_checked); //If the map is okay, the program proceeds to load it
+			this->my_scenario->load_new_map(this->my_user_data->my_network_data.is_client(), map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()); //If the map is okay, the program proceeds to load it
 			this->my_fsm->error_ocurred = false;
 		}
 	}
@@ -98,7 +100,7 @@ void FSMSceneObserver::update() {
 
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
 
-		if (!this->my_scenario->did_we_win(event_to_be_checked))
+		if (!this->my_scenario->did_we_win())
 		{
 			this->my_event_gen->empty_all_queues();
 			this->my_fsm->error_ocurred = true; //so the program don´t ask the user if wants to play again
@@ -106,20 +108,25 @@ void FSMSceneObserver::update() {
 
 		}
 
-		
-
+	
 	}
 
 	if (my_fsm->we_lost) {
 
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
 
-		if (!this->my_scenario->did_we_lose(event_to_be_checked)) //mando a analizar el EventPackage sea local 
+		if (!this->my_scenario->did_we_lose()) //mando a analizar el EventPackage sea local 
 		{
 			this->my_event_gen->empty_all_queues();
 			this->my_fsm->error_ocurred = true; //so the program don´t ask the user if wants to play again
 			this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
 		}
+
+	}
+
+	if (my_fsm->check_game_state) {
+
+		this->my_scenario->check_current_game_situation();
 
 	}
 

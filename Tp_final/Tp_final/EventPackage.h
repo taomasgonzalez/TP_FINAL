@@ -286,7 +286,7 @@ class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-	ENEMY_ACTION_EventPackage(EA_info * ea_info);
+	ENEMY_ACTION_EventPackage(Action_info * ea_info);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
