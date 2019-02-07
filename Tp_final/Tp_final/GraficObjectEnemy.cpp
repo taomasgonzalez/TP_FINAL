@@ -12,6 +12,8 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type) : Obj_Graf(ID)
 	this->actualImage = 0;
 	loadBitmap(type);
 	this->type = type;
+	this->attackActualImage = 0;
+	this->dieActualImage = 0;
 
 	switch (type)
 	{
@@ -107,9 +109,21 @@ void Obj_Graf_Enemy::draw()
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImage++;
 					break;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_PURPLE)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
-					this->active = false;
+//					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 					break;
 				}
@@ -184,9 +198,21 @@ void Obj_Graf_Enemy::draw()
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
 					break;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_PURPLE)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
-					this->active = false;
+//					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
 					break;
 				}
@@ -258,34 +284,42 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
 					break;
 				case enemy_FALLING:
-					/*this->fallTicks++;
-					this->jumpTicks = 0;
-					this->pos.set_y_coord(this->InitalPos.get_y_coord() + (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(fallTicks, 2));
-					al_draw_bitmap(this->fallImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-					break;*/
 					al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 					(this->actualImage < FALLING_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
 					break;
 				case enemy_ATTACKING:
-					if (this->actualImage < ATTACKING_PICS_FATTY)
+					if (this->attackActualImage < ATTACKING_PICS_FATTY)
 					{
-						al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
-						this->actualImage++;																									// termino la secuencia de disparo
+						al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+						this->attackActualImage++;																									// termino la secuencia de disparo
 					}
 					else
 					{
+						this->attackActualImage = 0;
 						this->state = enemy_IDLE;
-						this->active = false;
+//						this->active = false;
 					}
 					break;
 				case enemy_TRAPPED:
 					(this->actualImage < TRAPPED_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImage++;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_FATTY)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
-					this->active = false;
+//					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 					break;
 				}
@@ -355,15 +389,16 @@ void Obj_Graf_Enemy::draw()
 					(this->actualImage < FALLING_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
 					break;
 				case enemy_ATTACKING:
-					if (this->actualImage < ATTACKING_PICS_FATTY)
+					if (this->attackActualImage < ATTACKING_PICS_FATTY)
 					{
-						al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
-						this->actualImage++;																							// termino la secuencia de disparo
+						al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
+						this->attackActualImage++;																							// termino la secuencia de disparo
 					}
 					else
 					{
+						this->attackActualImage = 0;
 						this->state = enemy_IDLE;
-						this->active = false;
+//						this->active = false;
 					}
 					break;
 				case enemy_TRAPPED:
@@ -371,9 +406,21 @@ void Obj_Graf_Enemy::draw()
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
 					break;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_FATTY)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
-					this->active = false;
+//					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
 					break;
 				}
@@ -445,11 +492,6 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
 					break;
 				case enemy_FALLING:
-					/*this->fallTicks++;
-					this->jumpTicks = 0;
-					this->pos.set_y_coord(this->InitalPos.get_y_coord() + (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(fallTicks, 2));
-					al_draw_bitmap(this->fallImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-					break;*/
 					al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 					(this->actualImage < FALLING_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
@@ -458,9 +500,21 @@ void Obj_Graf_Enemy::draw()
 					(this->actualImage < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImage++;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_CRAZY)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
-					this->active = false;
+//					this->active = false;
 					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 					break;
 				}
@@ -533,12 +587,24 @@ void Obj_Graf_Enemy::draw()
 					(this->actualImage < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
+				case enemy_DYING:
+					if (this->dieActualImage < DYING_PICS_CRAZY)
+					{
+						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+						this->dieImages++;
+					}
+					else
+					{
+						this->dieImages = 0;
+						//				this->active = false;			// aca si se podria desactivar el objeto
+					}
+					break;
+				case enemy_IDLE:
+					this->actualImage = 0;
+					//					this->active = false;
+					al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
+					break;
 				}
-			case enemy_IDLE:
-				this->actualImage = 0;
-				this->active = false;
-				al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
-				break;
 			}
 		}
 		break;
@@ -564,6 +630,7 @@ void Obj_Graf_Enemy::destroy()
 	delete[] attackImages;
 	delete[] fallImages;
 	delete[] trapImages;
+	delete[] dieImages;
 }
 
 void Obj_Graf_Enemy::loadBitmap(ENEMY_TYPE type)
@@ -627,6 +694,14 @@ void Obj_Graf_Enemy::loadBitmap(ENEMY_TYPE type)
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->trapImages[i] = al_load_bitmap(imageDir.c_str());
 		}
+		carpeta3 = FOLDER_DYING;
+		file = FILE_PURPLE_DYING;
+		this->fallImages = new ALLEGRO_BITMAP *[DYING_PICS_PURPLE];
+		for (int i = 0; i < DYING_PICS_PURPLE; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->dieImages[i] = al_load_bitmap(imageDir.c_str());
+		}
 		break;
 
 	case FATTY:
@@ -680,6 +755,14 @@ void Obj_Graf_Enemy::loadBitmap(ENEMY_TYPE type)
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->trapImages[i] = al_load_bitmap(imageDir.c_str());
 		}
+		carpeta3 = FOLDER_DYING;
+		file = FILE_FATTY_DYING;
+		this->fallImages = new ALLEGRO_BITMAP *[DYING_PICS_FATTY];
+		for (int i = 0; i < DYING_PICS_FATTY; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->dieImages[i] = al_load_bitmap(imageDir.c_str());
+		}
 		break;
 
 	case CRAZY:
@@ -732,6 +815,14 @@ void Obj_Graf_Enemy::loadBitmap(ENEMY_TYPE type)
 		{
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->trapImages[i] = al_load_bitmap(imageDir.c_str());
+		}
+		carpeta3 = FOLDER_DYING;
+		file = FILE_CRAZY_DYING;
+		this->fallImages = new ALLEGRO_BITMAP *[DYING_PICS_CRAZY];
+		for (int i = 0; i < DYING_PICS_CRAZY; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->dieImages[i] = al_load_bitmap(imageDir.c_str());
 		}
 		break;
 	}
