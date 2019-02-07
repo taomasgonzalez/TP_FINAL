@@ -13,3 +13,6 @@ Fireball::Fireball(unsigned int id, Sense_type proyectile_sense): Proyectile(id,
 Fireball::~Fireball()
 {
 }
+bool Fireball::is_fireball() {
+	return true;
+}
