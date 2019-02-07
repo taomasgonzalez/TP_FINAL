@@ -1,8 +1,7 @@
 #pragma once
 #include "GraficObject.h"
-#include "ProjectileDefine.h"
 
-enum PROYECTILE_TYPE {SNOW, FIRE};		// ¿la bola es un proyectil?
+enum PROYECTILE_TYPE {SNOW, FIRE};
 
 enum PROYECTILE_STATE {proy_MOVING, proy_DECAYING, proy_IMPACT};		// el proyectil decae cuando se detiene a los 3 casilleros y se cae
 
