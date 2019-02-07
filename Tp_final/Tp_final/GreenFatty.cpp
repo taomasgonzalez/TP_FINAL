@@ -12,7 +12,20 @@ GreenFatty::~GreenFatty()
 {
 }
 
-EA_info* GreenFatty::act() {
+
+/******************************************
+**************act**************************
+*******************************************
+*act returns the Enemy Action information of the enemies next action. This method doesn't
+*execute the action, it just gives the information of the Enemy's next action so that it will be executed by correct Class (Scene).
+*Only valid actions will be returned.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		EA_info containing all the information of the Enemy's next action. This action will always be local as the
+*		information is generated locally.
+*/
+EA_info GreenFatty::act() {
 
 	EA_info * returnable_EA = new EA_info();
 	al_stop_timer(acting_timer);

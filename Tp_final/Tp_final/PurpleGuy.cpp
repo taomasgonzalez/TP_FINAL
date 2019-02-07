@@ -12,7 +12,19 @@ PurpleGuy::~PurpleGuy()
 {
 }
 
-EA_info* PurpleGuy::act(){
+/******************************************
+**************act**************************
+*******************************************
+*act returns the Enemy Action information of the enemies next action. This method doesn't
+*execute the action, it just gives the information of the Enemy's next action so that it will be executed by correct Class (Scene).
+*Only valid actions will be returned.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		EA_info containing all the information of the Enemy's next action. This action will always be local as the
+*		information is generated locally.
+*/
+EA_info PurpleGuy::act(){
 
 	EA_info* returnable_EA = new EA_info();
 	al_stop_timer(acting_timer);
@@ -49,6 +61,16 @@ EA_info* PurpleGuy::act(){
 	return returnable_EA;
 }
 
+/******************************************
+**************move_to_nearest_player*******
+*******************************************
+*move_to_nearest_player returns modifies an EA_info structure so that the Enemy Action will make the PurpleGuy move
+*to the nearest player, taking the shortest route towards it.
+*	INPUT:
+*		1) next_enemy_action : EA_info to be modified.
+*	OUTPUT:
+*		void.
+*/
 void PurpleGuy::move_to_nearest_player(EA_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 
@@ -62,6 +84,17 @@ void PurpleGuy::move_to_nearest_player(EA_info * next_enemy_action) {
 	next_enemy_action->valid = true;
 }
 
+
+/******************************************
+**************set_next_movement_2_nearest_player*******
+*******************************************
+*set_next_movement_2_nearest_player sets the final position in which the PurpleGuy should move as a result of calling
+*move_to_nearest_player method. This method is designed to be called by an Observer.
+*	INPUT:
+*		1) final_pos : position the PurpleGuy guy should move to after calling move_to_nearest_player();
+*	OUTPUT:
+*		void.
+*/
 void PurpleGuy::set_next_movement_2_nearest_player(Position final_pos) {
 	this->next_movement_2_nearest_player = final_pos;
 }

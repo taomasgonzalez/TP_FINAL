@@ -14,6 +14,15 @@ EventHandler::~EventHandler()
 {
 }
 
+/******************************************
+****************handle_event***************
+*******************************************
+*handle_event executes fetches one event from its event_queue and dispatches it through its FSM.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		void.
+*/
 void EventHandler::handle_event() {
 
 	EventPackage * ev_pack = ev_gen->fetch_event();

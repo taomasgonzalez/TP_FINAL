@@ -182,6 +182,10 @@ void Map::clear()
 	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++)
 			get_cell(i, j).clear();
+
+	all_enemies->clear();
+	all_proyectiles->clear();
+	all_players->clear();
 }
 /******************************************
 ***************get_cell_enemies************
@@ -329,37 +333,34 @@ MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
 	return get_cell(coord_x, coord_y).get_floor(coord_z);
 }
 /******************************************
-****************************
-******************************************
-*
-
+**************delete_from_map**************
+*******************************************
+*delete_from_map removes from the map a MapThing corresponding to the given id.
+*delete_from_map informs the user whether the MapThing was successfully deleted or not.
 *	INPUT:
-1)
+		1) id : id of the MapThing to be removed.
 *	OUTPUT:
-*
+*		boolean that is true if the MapThing was successfully deleted.
 */
 bool Map::delete_from_map(unsigned int id) {
-	bool successfully_deleted = false;
 
 	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++){
 			MapThing* thing = get_cell(i, j).get_id(id);
-			if(thing != NULL){
-				delete_from_map(thing);
-				break;
-			}
+			if(thing != NULL)
+				return delete_from_map(thing);
 		}
-	return successfully_deleted;
+	return false;
 }
 /******************************************
-****************************
-******************************************
-*
-
+**************delete_from_map**************
+*******************************************
+*delete_from_map removes from the map a given MapThing
+*delete_from_map informs the user whether the MapThing was successfully deleted or not.
 *	INPUT:
-1)
+*		1)thing: pointer to the MapThing to be deleted from map.
 *	OUTPUT:
-*
+*		boolean that is true if the MapThing was successfully deleted.
 */
 bool Map::delete_from_map(MapThing * thing) {
 
@@ -374,24 +375,23 @@ bool Map::delete_from_map(MapThing * thing) {
 	return successfully_deleted;
 }
 /******************************************
-****************************
+**************print_cell******************
 ******************************************
-*
-
+*print_cell prints on console the value of a given cell.
 *	INPUT:
-1)
+		1)coord_x : row of the cell to be printed.
+		2)coord_y : column of the cell to be printed.
 *	OUTPUT:
-*
+*		void.
 */
 void Map::print_cell(int coord_x, int coord_y)
 {
 	get_cell(coord_x, coord_y).print();
 }
 /******************************************
-****************************
-******************************************
+************get_last_loaded_distribution***
+*******************************************
 *
-
 *	INPUT:
 1)
 *	OUTPUT:
@@ -401,57 +401,65 @@ const char * Map::get_last_loaded_distribution()
 {
 	return original_distribution;
 }
-/******************************************
-****************************
-******************************************
-*
-
+/*********************************************
+*******find_next_movement_4_shortest_path*****
+**********************************************
+*find_next_movement_4_shortest_path returns the position on the map to which the 
+*Character placed on from_x and from_y coordinates should move to to take the 
+*shortest route towards to_x and to_y coordinates.
 *	INPUT:
-1)
+*		1)from_x : row of the cell in which the moving Character is originally placed.
+*		2)from_y : column of the cell in which the moving Character is originally placed.
+*		3)to_x : row of the cell towards which the moving Character should take the shortest route to go to.
+*		4)to_y : column of the cell towards which the moving Character should take the shortest route to go to.
 *	OUTPUT:
-*
+*		Position structure that contains the information of the map cell the character should move to 
+*		in order for it to take the shortest route towards to_x and to_y cell
 */
 Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y)
 {
 	return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
 }
 /******************************************
-****************************
-******************************************
-*
+***********get_number_of_rows**************
+*******************************************
+*get_number_of_rows returns the total number of rows the Map contains.
 
 *	INPUT:
-1)
+		1) void.	
 *	OUTPUT:
-*
+*		int that represents the total number of rows the Map contains.
 */
  int Map::get_number_of_rows()
 {
 	return number_of_rows;
 }
  /******************************************
- ****************************
- ******************************************
- *
+ *************get_number_of_columns*********
+ *******************************************
+ *get_number_of_columns returns the total number of columns the Map contains.
 
  *	INPUT:
- 1)
+		1) void.
  *	OUTPUT:
- *
+ *		int that represents the total number of columns the Map contains.
  */
  int Map::get_number_of_columns()
  {
 	 return number_of_columns;
  }
  /******************************************
- ****************************
- ******************************************
- *
-
+ ********************move_id****************
+ *******************************************
+ *move_id moves a MapThing with a given id from its original place on the map to the its final cell.
+ *this movement is performed by removing the MapThing from its original position on the map
+ *and immediately placing it on its final destination, with no absolutely regard to other positions. 
  *	INPUT:
- 1)
+ *		1)id : id of the MapThing to be moved. 
+ *		2)final_x : row of the cell the MapThing will be placed in after the movement.
+ *		3)final_y : column of the cell the MapThing will be placed in after the movement.
  *	OUTPUT:
- *
+ *		boolean that informs the user whether the MapThing was successfully moved.
  */
 bool Map::move_id(unsigned int id, int final_x, int final_y) {
 	bool moved = false;
@@ -464,28 +472,32 @@ bool Map::move_id(unsigned int id, int final_x, int final_y) {
 	return moved;
 }
 /******************************************
-****************************
-******************************************
-*
-
+************move_map_thing*****************
+*******************************************
+*move_map_thing move moves a MapThing from its original place on the map to the its final cell.
+ *this movement is performed by removing the MapThing from its original position on the map
+ *and immediately placing it on its final destination, with no absolutely regard to other positions. 
 *	INPUT:
-1)
+*		1)thing : pointer to the MapThing to be moved.
+*		2)final_x : row of the cell the MapThing will be moved to.
+*		3)final_y : column of the cell the MapThing will be moved to.
 *	OUTPUT:
-*
+*		a boolean that indicates whether the MapThing was successfully moved or not.
 */
 bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
 {
 	return move_id(thing->id, final_x, final_y);
 }
 /******************************************
-****************************
-******************************************
-*
-
+**************place_on_map*****************
+*******************************************
+*place_on_map places a MapThing on the specified cell of the map.
 *	INPUT:
-1)
+*		1)coord_x : row of the cell the MapThing will be placed in.
+*		2)coord_y : column of the cell the MapThing will be placed in.
+*		3)thing : MapThing to be placed on the map.
 *	OUTPUT:
-*
+*		void.
 */
 void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 	MapCell cell = get_cell(coord_x, coord_y);
@@ -496,14 +508,17 @@ void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 	
 }
 /******************************************
-****************************
-******************************************
-*
-
+*************place_on_map******************
+*******************************************
+*place_on_map creates a new MapThing of the indicated type and with the specified sense/direction
+*and places it on the indicated cell of the map.
 *	INPUT:
-1)
+*		1)coord_x :	row of the cell of the map the new MapThing will be placed in.
+*		2)coord_y : column of the cell of the map the new MapThing will be placed in.
+*		3)identifyer : Item_type that indicates the type of MapThing to be created/placed.
+*		4)direction : sense/direction the new MapThing will be facing when created and placed on map.
 *	OUTPUT:
-*
+*		void.
 */
 void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction)
 {
@@ -527,7 +542,17 @@ void Map::print_map() {
 	}
 
 }
-
+/******************************************
+*************get_max_number_of_floors******
+*******************************************
+*get_max_number_of_floors returns the maximum amount of MapThing any cell on the map is currently containing.
+*This number does not neccessarily coincide with the amount of MapThing every cell contains, but it guarantees
+*that at least one of the cells contains that number of elements/MapThingss. 
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		an int that indicates the maximum amount of MapThing any cell on the map is currently containing.
+*/
 int Map::get_max_number_of_floors() {
 
 	int max_number_of_floors = 0;
@@ -542,7 +567,15 @@ int Map::get_max_number_of_floors() {
 	return max_number_of_floors;
 
 }
-
+/******************************************
+*************load_on_map******************
+*******************************************
+*load_on_map places on map several MapThings at once. This 
+*	INPUT:
+*		1)map_string : map distribution given by a string of characters as in the communication protocol.
+*	OUTPUT:
+*		void.
+*/
 void Map::load_on_map(const char* map_string) {
 	original_distribution = map_string;
 
@@ -559,32 +592,51 @@ void Map::load_checksum(unsigned char checksum) {
 
 	this->my_checksum = checksum;
 }
-
+/******************************************
+*************reset_map*********************
+*******************************************
+*reset_map clears the map and loads the original distribution with which it had been initialized.
+*	INPUT:
+*		void.
+*	OUTPUT:
+*		void.
+*/
 void Map::reset_map()
 {
 	clear();
 	load_on_map(original_distribution);
 }
-
+/*************************************************
+*************delete_from_map_thing_vectors********
+**************************************************
+*delete_from_map_thing_vectors is an internal map method that deletes a specific MapThing from the auxiliary vector containing
+*the MapThing by type (see all_players, all_proyectiles, all_enemies variables
+*place_on_map_thing_vectors and place_on_map methods and delete_from_map for more info).
+*	INPUT:
+*		1)thing : thing to be removed from the map thing vector.
+*	OUTPUT:
+*		void.
+*/
 void Map::delete_from_map_thing_vectors(MapThing* thing) {
 
-	if (thing->is_proyectile())
-		for (std::vector<Proyectile*>::iterator it = all_proyectiles->begin(); it != all_proyectiles->end(); ++it) {
-			all_proyectiles->erase(it);
-			break;
-		}
+	if (thing->is_proyectile()) 
+		all_proyectiles->erase(std::find(all_proyectiles->begin(), all_proyectiles->end(), thing));
 	else if (thing->is_enemy())
-		for (std::vector<Enemy*>::iterator it = all_enemies->begin(); it != all_enemies->end(); ++it) {
-			all_enemies->erase(it);
-			break;
-		}
+		all_enemies->erase(std::find(all_enemies->begin(), all_enemies->end(), thing));
 	else if (thing->is_player())
-		for (std::vector<Player*>::iterator it = all_players->begin(); it != all_players->end(); ++it) {
-			all_players->erase(it);
-			break;
-		}
+		all_players->erase(std::find(all_players->begin(), all_players->end(), thing));
 }
-
+/*************************************************
+*************place_on_map_thing_vectors***********
+**************************************************
+*place_on_map_thing_vectors is an internal map method that adds a specific MapThing to the auxiliary vector containing
+*the MapThing by type (see all_players, all_proyectiles, all_enemies variables
+*delete_from_map_thing_vectors and place_on_map methods and delete_from_map for more info).
+*	INPUT:
+*		1)thing : thing to be place on the map thing vector.
+*	OUTPUT:
+*		void.
+*/
 void Map::place_on_map_thing_vectors(MapThing* thing) {
 	if (thing->is_proyectile())
 		all_proyectiles->push_back(thing);
@@ -593,14 +645,48 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 	else if (thing->is_player())
 		all_players->push_back(thing);
 }
-
+/*************************************************
+*************register_proyectiles_event_queue*****
+**************************************************
+*register_enemies_event_queue registers a event_queue to the map in which all the timer events corresponding to 
+*Enemy movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
+*every new Enemy that is created on the map will already be linked to that event_queue when created.
+*	INPUT:
+*		1)enemies_ev_queue : event queue for moving/acting Enemies.
+*	OUTPUT:
+*		void.
+*/
 void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
 	map_filler.register_enemies_event_queue(enemies_ev_queue);
 }
+/*************************************************
+*************register_proyectiles_event_queue*****
+**************************************************
+*register_proyectiles_event_queue registers a event_queue to the map in which all the timer events corresponding to 
+*proyectile movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
+*every new Proyectile that is created on the map will already be linked to that event_queue when created.
+*	INPUT:
+*		1)proyectiles_ev_queue : event queue for moving/acting proyectiles.
+*	OUTPUT:
+*		void.
+*/
 void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
 	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
 }
-EA_info * Map::get_initial_enemy_actions() {
+
+/*************************************************
+*************get_initial_enemy_actions************
+**************************************************
+*get_initial_enemy_actions gets the initial Enemy Action information of a single Enemy that both Server and Client need before starting the game.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		EA_info structure that contains the initial Enemy Action information of a single Enemy.
+*		the field "finished_loading" of this structure will be false when there are Enemies left that have not given their 
+*		initial action information yet. When every single Enemy has given its initial actiion information, the field "finished_loading"
+*		will be left in a true value.
+*/
+EA_info Map::get_initial_enemy_actions() {
 	static int loading_EA_number = 0;
 	EA_info * returnable_EA = new  EA_info();
 
