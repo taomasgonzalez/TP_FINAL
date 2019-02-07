@@ -1,6 +1,5 @@
 #pragma once
 #include "GraficObject.h"
-#include "PlayerDefines.h"
 
 
 enum PLAYER_TYPE { TOM, NICK };
