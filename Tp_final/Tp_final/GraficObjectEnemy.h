@@ -3,7 +3,7 @@
 
 enum ENEMY_TYPE {PURPLE, FATTY, CRAZY};
 
-enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_IDLE, enemy_TRAPPED, enemy_ATTACKING, enemy_FALLING };				// algunos montruos no atacan
+enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_JUMPING_FOWARD, enemy_IDLE, enemy_TRAPPED, enemy_ATTACKING, enemy_FALLING, enemy_DYING};				// algunos montruos no atacan
 
 class Obj_Graf_Enemy :
 	public Obj_Graf
@@ -20,6 +20,8 @@ public:
 private:
 	ENEMY_TYPE type;
 	ENEMY_STATE state;
+	unsigned int attackActualImage;
+	unsigned int dieActualImage;
 	void loadBitmap(ENEMY_TYPE type);										// dependiendo del enemigo se le cargan determinadas imagenes
 	ALLEGRO_BITMAP ** walkImages = NULL;
 	ALLEGRO_BITMAP ** jumpImages = NULL;
@@ -27,5 +29,5 @@ private:
 	ALLEGRO_BITMAP ** attackImages = NULL;
 	ALLEGRO_BITMAP ** fallImages = NULL;
 	ALLEGRO_BITMAP ** trapImages = NULL;
+	ALLEGRO_BITMAP ** dieImages = NULL;
 };
-
