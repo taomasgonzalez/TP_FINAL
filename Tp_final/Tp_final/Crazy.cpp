@@ -24,7 +24,7 @@ Crazy::~Crazy()
 *		EA_info containing all the information of the Enemy's next action. This action will always be local as the 
 *		information is generated locally.
 */
-EA_info Crazy::act() {
+Action_info Crazy::act() {
 
 	EA_info returnable_EA = EA_info();
 	al_stop_timer(acting_timer);

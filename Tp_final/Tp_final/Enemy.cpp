@@ -52,7 +52,7 @@ ALLEGRO_TIMER * Enemy::get_acting_timer() {
 *	OUTPUT:
 *		a boolean that is true if the movement can be performed.
 */
-bool Enemy::move_in_same_direction(EA_info * next_enemy_action)
+bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 {
 	if (next_enemy_action->valid = can_move_in_same_direction()) {
 		EA_info_common_filling(next_enemy_action);
@@ -74,7 +74,7 @@ bool Enemy::move_in_same_direction(EA_info * next_enemy_action)
 *	OUTPUT:
 *		a boolean that is true if the movement can be performed.
 */
-bool Enemy::move_in_opposite_direction(EA_info * next_enemy_action)
+bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 {
 	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
 		EA_info_common_filling(next_enemy_action);
@@ -96,7 +96,7 @@ bool Enemy::move_in_opposite_direction(EA_info * next_enemy_action)
 *	OUTPUT:
 *		void.
 */
-void Enemy::stay_still(EA_info * next_enemy_action)
+void Enemy::stay_still(Action_info * next_enemy_action)
 {
 	next_enemy_action->valid = true;
 	EA_info_common_filling(next_enemy_action);
@@ -113,7 +113,7 @@ void Enemy::stay_still(EA_info * next_enemy_action)
 *	OUTPUT:
 *		a boolean that is true if the movement can be performed.
 */
-bool Enemy::jump(EA_info * next_enemy_action) {
+bool Enemy::jump(Action_info * next_enemy_action) {
 	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
 		EA_info_common_filling(next_enemy_action);
 		next_enemy_action->action = Action_type::Move;
@@ -131,7 +131,7 @@ bool Enemy::jump(EA_info * next_enemy_action) {
 *	OUTPUT:
 *		void.
 */
-void Enemy::EA_info_common_filling(EA_info * next_enemy_action) {
+void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 	next_enemy_action->id = id;
 	next_enemy_action->is_local = true;
 }

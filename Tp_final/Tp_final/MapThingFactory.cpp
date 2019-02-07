@@ -1,4 +1,6 @@
 #include "MapThingFactory.h"
+#include "PurpleGuyScenarioObserver.h"
+#include "Scene.h"
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -17,8 +19,9 @@ MapThingFactory::~MapThingFactory()
 {
 }
 
-MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type direction)
+MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type direction, void * obs_info)
 {
+	Scene* scene = (Scene*)obs_info;
 	MapThing* new_born = nullptr;
 	switch (identifyer) {
 	case Item_type::NADA:
@@ -29,12 +32,15 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 		case Item_type::CRAZY:
 			new_born = new Crazy(get_enemy_id());
+			((Crazy*)new_born)->add_observer(new EnemyScenarioObserver((Crazy*)new_born, scene));
 			break;
 		case Item_type::GREEN_FATTIE:
 			new_born = new GreenFatty(get_enemy_id());
+			((GreenFatty*) new_born)->add_observer(new EnemyScenarioObserver((GreenFatty*)new_born, scene));
 			break;
 		case Item_type::PURPLE_GUY:
 			new_born = new PurpleGuy(get_enemy_id());
+			((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
 			break;
 		case Item_type::TOM:
 			new_born = new Player(get_player_id(), false);
@@ -58,6 +64,8 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 
 	return new_born;
 }
+
+
 
 void MapThingFactory::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue)
 {

@@ -1,8 +1,9 @@
 #pragma once
+#include "Observer.h"
 #include "Scene.h"
 #include "Enemy.h"
 
-class EnemyScenarioObserver
+class EnemyScenarioObserver : public Observer
 {
 public:
 	EnemyScenarioObserver(Enemy* enemy, Scene* scene);
