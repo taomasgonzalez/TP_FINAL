@@ -53,7 +53,6 @@ public:
 	//map functions
 	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
 	bool is_the_map_okay(EventPackage * map_to_be_checked);
-	unsigned char make_checksum(const char * CSV_map_location);
 
 
 	void set_new_allegro_event(EventPackage * new_event);
@@ -85,6 +84,8 @@ public:
 	*/
 	void control_enemy_actions();
 private:
+
+	unsigned char make_checksum(const char * CSV_map_location);
 	//checkes
 	bool check_move(EventPackage * package_to_be_analyze);
 	bool check_attack(EventPackage * package_to_be_analyze);
