@@ -8,28 +8,18 @@ void disappear(void* data);
 GraphicProyectileFSM::GraphicProyectileFSM(Userdata* data): FSM(data)
 {
 
-	edge_t *moving_state_aux = new edge_t[4];
-	this->moving_state = moving_state_aux;
+	moving_state = new std::vector<edge_t>();
+	impacting_state = new std::vector<edge_t>();
 
-	edge_t moving_state[5] =
-	{
-		{Event_type::MOVE_TICKED, this->impacting_state, move},
-		{ Event_type::GOT_HIT, this->moving_state, impact },
-	{ Event_type::DISAPPEARED, this->impacting_state, disappear },
-	{ Event_type::END_OF_TABLE, this->moving_state, do_nothing }
-	};
-	copy_event(moving_state_aux, moving_state, 4);
+	moving_state->push_back({ Event_type::MOVE_TICKED, this->impacting_state, move });
+	moving_state->push_back({ Event_type::GOT_HIT, this->moving_state, impact });
+	moving_state->push_back({ Event_type::DISAPPEARED, this->impacting_state, disappear });
+	moving_state->push_back({ Event_type::END_OF_TABLE, this->moving_state, do_nothing });
 
-	edge_t* impacting_state_aux = new edge_t[3];
-	this->impacting_state = impacting_state_aux;
 
-	edge_t impacting_state[3] =
-	{
-		{ Event_type::IMPACT_TICKED, this->impacting_state, impact },
-	{Event_type::DISAPPEARED, this->impacting_state, disappear},
-	{ Event_type::END_OF_TABLE, this->moving_state, do_nothing }
-	};
-	copy_event(impacting_state_aux, impacting_state, 3);
+	impacting_state->push_back({ Event_type::MOVE_TICKED, this->impacting_state, move });
+	impacting_state->push_back({ Event_type::DISAPPEARED, this->impacting_state, disappear });
+	impacting_state->push_back({ Event_type::END_OF_TABLE, this->moving_state, do_nothing });
 
 }
 
@@ -37,6 +27,8 @@ GraphicProyectileFSM::GraphicProyectileFSM(Userdata* data): FSM(data)
 
 GraphicProyectileFSM::~GraphicProyectileFSM()
 {
+	delete moving_state;
+	delete impacting_state;
 }
 
 /***********************************

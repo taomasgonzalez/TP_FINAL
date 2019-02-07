@@ -13,7 +13,7 @@ protected:
 	/**********************
 			states
 	***********************/
-	edge_t* attacking_state = NULL;
+	std::vector<edge_t>* attacking_state = NULL;
 
 };
 

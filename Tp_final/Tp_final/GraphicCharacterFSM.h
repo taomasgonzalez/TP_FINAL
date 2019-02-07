@@ -15,7 +15,7 @@ protected:
 	/**********************
 		states
 	***********************/
-	edge_t* moving_state = NULL;
-	edge_t* iddle_state = NULL;
+	std::vector<edge_t>* moving_state = NULL;
+	std::vector<edge_t>* iddle_state = NULL;
 };
 

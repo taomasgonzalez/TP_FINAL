@@ -147,12 +147,6 @@
     <ClCompile Include="LogicEventGenerator.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="FireballGraphicFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowballGraphicFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="LogicFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>

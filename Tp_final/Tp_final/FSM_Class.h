@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include "Observable.h"
 #include "EventPackage.h"
+#include <vector>
 
 /*****************************************************
 *          DEFINITION OF EDGE
@@ -13,9 +14,9 @@
 typedef struct edge edge_t;
 struct edge
 {
-		Event_type event;
-		edge_t* nextstate;
-		void(*fun_trans)(void*);
+	Event_type event;
+	std::vector<edge_t>* nextstate;
+	void(*fun_trans)(void*);
 };
 
 
@@ -29,14 +30,13 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void set_fsm_ev_pack(EventPackage* new_ev_pack);
-	 edge_t * give_me_the_actual_state();
+	 std::vector<edge_t>* give_me_the_actual_state();
 
 protected:
-	static void copy_event(edge_t* to_copy, edge_t* to_be_copied, int length);
-	edge_t * actual_state = NULL;
+	std::vector<edge_t>* actual_state;
 	void check_for_incorrect_event(Event_type event);
 	Userdata * user_data;
-	
+	void expand_state(std::vector<edge_t>* to_be_expanded, edge_t expansion);		//for inheritance
 
 private:
 	EventPackage * my_ev_pack;

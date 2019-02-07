@@ -26,12 +26,16 @@ void send_error_and_finish_game(void* data) {
 
 void analayze_error(void*data)
 {
+	/*
 	LogicFSM * fsm = (LogicFSM*)data;
 
 	if (((ERROR_EventPackage *)fsm->get_fsm_ev_pack())->is_this_a_local_error())
 		send_error_and_finish_game(data);
 	else
 		finish_game(data);
+	*/
+	printf("error");
+	
 }
 
 void send_ack(void * data) {
@@ -43,6 +47,7 @@ void send_ack(void * data) {
 
 //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 void send_quit(void* data) {
+	
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_quit = true;
 	fsm->notify_obs();

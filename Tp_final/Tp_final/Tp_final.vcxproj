@@ -141,7 +141,6 @@
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventsCommunicationObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
-    <ClCompile Include="FireballGraphicFSM.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="FSMEventsObserver.cpp" />
     <ClCompile Include="FSMFactory.cpp" />
@@ -179,7 +178,6 @@
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
-    <ClCompile Include="SnowballGraphicFSM.cpp" />
     <ClCompile Include="GraphicCharacterFSMRoutines.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
