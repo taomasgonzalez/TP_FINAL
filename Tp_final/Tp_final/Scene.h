@@ -68,7 +68,7 @@ public:
 	bool has_to_draw;
 
 	bool new_enemy_action;
-	void append_new_auxilar_event(EA_info* new_ev_pack_info);
+	void append_new_auxilar_event(EA_info new_ev_pack_info);
 	
 	std::queue<EA_info*>* assistant_queue;
 
@@ -110,7 +110,7 @@ private:
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
-	EA_info* enemy_action_info;
+	EA_info enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
 };
