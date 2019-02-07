@@ -12,10 +12,7 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type) : Obj_Graf(ID)
 {
 	this->velX = VELOCITY_X;					// se setea la velocidad de desplazamiento de los jugadores
 	this->type = type;
-	this->initialVelY = (2 * BLOCK_SIZE + (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(JUMP_TIME*FPS, 2)) / (JUMP_TIME * FPS);		// segun los calculos la velocidad inicial en px/frames es esa
 	this->actualImage = 0;
-	this->jumpTicks = 0;
-//	this->fallTicks = 0;
 	loadBitmap(type);					// se cargan las imagenes de los personajes que corresponden
 }
 
@@ -146,8 +143,6 @@ void Obj_Graf_Player::draw()
 		switch (this->state)
 		{
 		case player_WALKING:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			if (this->pos.get_x_coord() <= (this->InitalPos.get_x_coord() - BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 			{
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
@@ -165,16 +160,21 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_JUMPING:
-//			this->fallTicks = 0;
-			this->jumpTicks++;
-			this->pos.set_y_coord(this->InitalPos.get_y_coord() - (this->initialVelY*this->jumpTicks - (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(jumpTicks, 2)));
-			al_draw_bitmap(this->jumpImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-			if (this->jumpTicks > JUMP_TIME*FPS)																						// si ya se completo la secuencia de salto se cambia el estado
+			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2*BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+			{
+				this->pos.set_x_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+				//				this->active = false;															// se pasiva el objeto
+				this->actualImage = 0;
 				this->state = player_IDLE;
+			}
+			else
+			{
+				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+				(this->actualImage < (JUMPING_PICS - 1))? this->actualImage++ : NULL;																									// ubico el siguiente frame
+				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
+			}
 			break;
 		case player_ATTACKING:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			if (this->actualImage < ATTACKING_PICS)
 			{
 				al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
@@ -188,34 +188,33 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_FALLING:
-			//this->fallTicks++;
-			//this->jumpTicks = 0;
-			//this->pos.set_y_coord(this->InitalPos.get_y_coord() + (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(fallTicks, 2));				// multiplico por (1/FPS)^2 para cambiar las unidades de la gravedad de 1/s^2 a 1/frames^2
-			//al_draw_bitmap(this->fallImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);								// hago que la caida solo tenga una imagen		
-			//break;
 			al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 			this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 			(this->actualImage < FALLING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			break;
 		case player_IDLE:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			this->actualImage = 0;
 //			this->active = false;																										// por la dudas lo vuelvo a pasivar porque en la secuencia de caida no se desactiva por si solo
 			al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
 			break;
 		case player_JUMPING_FOWARD:
-			this->jumpTicks++;
-			this->pos.set_y_coord(this->InitalPos.get_y_coord() - (this->initialVelY*this->jumpTicks - (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(jumpTicks, 2)));
-			al_draw_bitmap(this->jumpImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-			if (this->jumpTicks > JUMP_TIME*FPS)																						// si ya se completo la secuencia de salto se cambia el estado
+			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+			{
+				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+				//				this->active = false;															// se pasiva el objeto
+				this->actualImage = 0;
 				this->state = player_IDLE;
+			}
+			else
+			{
+				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+				(this->actualImage < (JUMPING_PICS - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
+				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
+			}
 
 			if (this->pos.get_x_coord() <= (this->InitalPos.get_x_coord() - BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 			{
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
-//				this->active = false;															// se pasiva el objeto
-				this->state = player_IDLE;
 			}
 			else
 				this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX)/2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
@@ -236,13 +235,13 @@ void Obj_Graf_Player::draw()
 			break;
 		}
 	}
+	break;
+
 	case Direction::Right:
 	{
 		switch (this->state)
 		{
 		case player_WALKING:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			if (this->pos.get_x_coord() >= (this->InitalPos.get_x_coord() + BLOCK_SIZE))		// se desplaza a la derecha, veo si ya llego a la pos final 
 			{
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
@@ -261,16 +260,22 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_JUMPING:
-//			this->fallTicks = 0;
-			this->jumpTicks++;
-			this->pos.set_y_coord(this->InitalPos.get_y_coord() - (this->initialVelY*this->jumpTicks - (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(jumpTicks, 2)));
-			al_draw_bitmap(this->jumpImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
-			if (this->jumpTicks > JUMP_TIME*FPS)																						// si ya se completo la secuencia de salto se cambia el estado
+
+			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+			{
+				this->pos.set_x_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+				//				this->active = false;															// se pasiva el objeto
+				this->actualImage = 0;
 				this->state = player_IDLE;
+			}
+			else
+			{
+				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
+				(this->actualImage < (JUMPING_PICS - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
+				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
+			}
 			break;
 		case player_ATTACKING:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			if (this->actualImage < ATTACKING_PICS)
 			{
 				al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
@@ -284,29 +289,29 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_FALLING:
-			/*this->jumpTicks = 0;
-			this->fallTicks++;
-			this->pos.set_y_coord(this->InitalPos.get_y_coord() + (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(fallTicks, 2));
-			al_draw_bitmap(this->fallImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);*/
 			al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 			this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 			(this->actualImage < FALLING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			break;
 		case player_IDLE:
-//			this->fallTicks = 0;
-			this->jumpTicks = 0;
 			this->actualImage = 0;
 //			this->active = false;
 			al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja el personaje parado
 			break;
 		case player_JUMPING_FOWARD:
-			this->jumpTicks++;
-			this->pos.set_y_coord(this->InitalPos.get_y_coord() - (this->initialVelY*this->jumpTicks - (0.5)*GRAVITY*(pow((1 / FPS), 2)) * pow(jumpTicks, 2)));
-			//al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), al_get_bitmap_height(this->walkImages[this->actualImage]) / 6, al_get_bitmap_width(this->walkImages[this->actualImage]) / 6, ALLEGRO_FLIP_HORIZONTAL);
-			//al_draw_bitmap(this->jumpImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-			if (this->jumpTicks > JUMP_TIME*FPS)																						// si ya se completo la secuencia de salto se cambia el estado
+			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+			{
+				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+				//				this->active = false;															// se pasiva el objeto
+				this->actualImage = 0;
 				this->state = player_IDLE;
-			((this->actualImage + 1) >= JUMPING_PICS) ? NULL : this->actualImage++;
+			}
+			else
+			{
+				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+				(this->actualImage < (JUMPING_PICS - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
+				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
+			}
 
 			if (this->pos.get_x_coord() >= (this->InitalPos.get_x_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 			{
