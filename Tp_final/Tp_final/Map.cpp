@@ -17,7 +17,6 @@ Map::Map(int number_of_rows, int number_of_columns)
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
-
 }
 
 Map::~Map()
@@ -29,6 +28,7 @@ Map::~Map()
 	delete all_players;
 	delete all_enemies;
 	delete all_proyectiles;
+	delete dijkstra_manager;
 }
 
 std::vector<Enemy*>* Map::get_all_enemies()
@@ -174,9 +174,7 @@ const char * Map::get_last_loaded_distribution()
 
 Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y)
 {
-	Position returnable_pos;
-
-	return returnable_pos;
+	return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
 }
 
  int Map::get_number_of_rows()
@@ -254,13 +252,13 @@ int Map::get_max_number_of_floors() {
 void Map::load_on_map(const char* map_string) {
 	original_distribution = map_string;
 
-	map_filler.register_enemies_event_queue()
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;
-		MapThing * new_thing = map_filler.create_map_thing(map_string[i]);
+		MapThing * new_thing = map_filler.create_map_thing((unsigned char)map_string[i]);
 		place_on_map(fil, col, new_thing);
 	}
+	dijkstra_manager = new MapDijkstraMachine(this);
 }
 
 void Map::load_checksum(unsigned char checksum) {

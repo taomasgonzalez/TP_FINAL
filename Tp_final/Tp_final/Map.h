@@ -6,8 +6,8 @@
 #include "Fireball.h"
 #include "EventPackage.h"
 #include "MapThingFactory.h"
+#include "DijkstraMachine.h"
 #include <vector>
-
 class Map
 {
 public:
@@ -94,5 +94,5 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
-
+	MapDijkstraMachine *dijkstra_manager;
 };

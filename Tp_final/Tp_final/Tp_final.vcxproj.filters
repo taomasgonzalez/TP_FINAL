@@ -240,14 +240,14 @@
     <ClCompile Include="Crazy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="DijkstraMachine.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
     <ClCompile Include="EnemyScenarioObserver.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
     <ClCompile Include="PurpleGuyScenarioObserver.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DijkstraMachine.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -396,7 +396,7 @@
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="DijkstraMachine.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Map_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

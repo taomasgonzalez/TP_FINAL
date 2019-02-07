@@ -189,6 +189,7 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 
+	
 	if (is_client) //The map came by networking, already checked
 	{	
 		new_map->load_on_map((const char*)(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map()));
