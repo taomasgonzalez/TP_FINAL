@@ -41,10 +41,8 @@ public:
 	Item_type give_me_my_player();
 	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
-	EventPackage* give_me_my_enemy_action(bool is_initializing);
 	Player * get_player(Item_type player_to_be_found);
-
-
+	EA_info give_me_my_enemy_action(bool is_initializing);
 
 	//Control Flags getters
 	bool game_is_finished();
@@ -53,7 +51,6 @@ public:
 	//map functions
 	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
 	bool is_the_map_okay(EventPackage * map_to_be_checked);
-
 
 	void set_new_allegro_event(EventPackage * new_event);
 
@@ -68,13 +65,10 @@ public:
 	bool enemys_ready;
 	bool we_lost;
 	bool we_won;
-	//para chequear un evento INTERNO de allegro por ejemplo, se usa en ScenarioEventsObserver::update()
-	//hay que prenderlo y hacer notify_obs de scene cuando se levante un evento de allegro, tiene que estar cargado ese
-	//evento de allegro convertido en eventpackage en Scene::Package* action_from_allegro;
 	bool check_local_action;		//see where this flag is turn on or off
 	bool has_to_draw;
 
-
+	bool new_enemy_action;
 	void append_new_auxilar_event(EventPackage* new_ev_pack);
 	
 	std::queue<EventPackage*>* assistant_queue;
@@ -83,6 +77,10 @@ public:
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
 	*/
 	void control_enemy_actions();
+	void control_proyectile_actions();
+
+	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
+
 private:
 
 	unsigned char make_checksum(const char * CSV_map_location);
@@ -108,9 +106,12 @@ private:
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
 	*/
 	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = al_create_event_queue();
+	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = al_create_event_queue();
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
-	
-	
+	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
+	EA_info enemy_action_info;
+
+	Player* find_nearest_player(int pos_x, int pos_y);
 };
 

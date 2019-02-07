@@ -12,32 +12,35 @@ Crazy::~Crazy()
 {
 }
 
-void Crazy::act() {
+EA_info Crazy::act() {
+
+	EA_info returnable_EA;
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 
-	if (sample <= 0.75) {
-		//moverse en misma direccion
-		//timer_speed = ;
-	}
-	else {
-		sample = acting_probabilities(generator);
-		if ((sample >= 0) && (sample <= 1/3)) {
-			//moverse en direccion contraria
-			//timer_speed = ;
-		}
-		else if ( (sample >= 1/3) && (sample <= 2/3) ) {
-			//quedarse quieto.
-			//timer_speed = ;
-		}
-		else {
-			//saltar
-			//timer_speed = ;
-		}
-	}
-	//al_set_timer_speed(acting_timer);
+	while (!returnable_EA.valid) 
+		if (sample <= 0.75) 
+			move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.8;
 
+		else {
+			sample = acting_probabilities(generator);
+
+			while (!returnable_EA.valid) {
+				if ((sample >= 0.0) && (sample <= 1.0 / 3.0)) 
+					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
+
+				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {
+					stay_still(&returnable_EA);
+					timer_speed = 0;
+				}
+				else 
+					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.1;
+
+			}
+		}
+
+	al_set_timer_speed(acting_timer, timer_speed);
 }
 
 

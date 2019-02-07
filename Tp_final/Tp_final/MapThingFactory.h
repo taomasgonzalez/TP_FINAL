@@ -13,6 +13,7 @@ public:
 	~MapThingFactory();
 	MapThing* create_map_thing(Item_type identifyer, Sense_type direction);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
+	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 
 private:
 	unsigned int get_enemy_id();
@@ -26,7 +27,7 @@ private:
 	static unsigned int next_proyectile_id;
 
 	ALLEGRO_EVENT_QUEUE * enemies_ev_queue;
-
+	ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue;
 };
 
 

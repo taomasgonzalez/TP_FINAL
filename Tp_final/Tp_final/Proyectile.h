@@ -11,6 +11,10 @@ public:
 
 	virtual bool is_snowball();
 	virtual bool is_fireball();
+	ALLEGRO_TIMER * get_moving_timer();
 
+protected:
+	ALLEGRO_TIMER * moving_timer;
+	
 };
 

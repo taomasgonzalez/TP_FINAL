@@ -3,10 +3,14 @@
 
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator(al, data)
 {
-	al_queue = al->get_al_queue();
+	al_key_queue = al->get_al_queue();
 	time_out_timer = al->get_front_time_out_timer();
 	time_out_count = 0;
 	
+	coordinate_scene_events_queue = al_create_event_queue();
+	coordinate_scene_events_timer = al_create_timer(50.0 / 1000.0);
+	al_register_event_source(coordinate_scene_events_queue, al_get_timer_event_source(coordinate_scene_events_timer));
+	al_start_timer(coordinate_scene_events_timer);
 	append_all_queues( (int) LogicQueues::TOTAL_QUEUES);
 }
 
@@ -22,11 +26,15 @@ EventPackage * LogicEventGenerator::fetch_event()
 }
 
 void LogicEventGenerator::update_from_allegro_events() {
+	update_from_allegro_keyboard_events();
+	update_from_allegro_timer_events();
+}
+void LogicEventGenerator::update_from_allegro_keyboard_events() {
 
 	ALLEGRO_EVENT * allegroEvent = NULL;
 	EventPackage * ev_pack = NULL;
 
-	if (al_get_next_event(al_queue, allegroEvent)) {			//tomo de la cola en caso de que no este vacia
+	if (al_get_next_event(al_key_queue, allegroEvent)) {			//tomo de la cola en caso de que no este vacia
 
 		if (allegroEvent->type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo quittear porque mandaron a cerrar la pantalla				
 			ev_pack = new LOCAL_QUIT_EventPackage();
@@ -89,8 +97,26 @@ void LogicEventGenerator::update_from_allegro_events() {
 	append_new_event(ev_pack,(int) LogicQueues::allegro);
 
 }
+
+void LogicEventGenerator::update_from_allegro_timer_events() {
+	ALLEGRO_EVENT * allegroEvent = NULL;
+	EventPackage * ev_pack = NULL;
+
+	if (al_get_next_event(coordinate_scene_events_queue, allegroEvent)) {
+		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
+			if (allegroEvent->timer.source == coordinate_scene_events_timer) {
+
+			}
+			else if (allegroEvent->timer.source == time_out_timer) {
+
+			}
+		}
+	}
+
+}
+
 void LogicEventGenerator::empty_all_queues() {
 	EventGenerator::empty_all_queues();
-	al_flush_event_queue(al_queue);
-	
+	al_flush_event_queue(al_key_queue);
+	al_flush_event_queue(coordinate_scene_events_queue);
 }

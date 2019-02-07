@@ -1,12 +1,13 @@
 #pragma once
+
 #include "MapCell.h"
 #include "Enemy.h"
 #include "Player.h"
 #include "Fireball.h"
 #include "EventPackage.h"
 #include "MapThingFactory.h"
+#include "DijkstraMachine.h"
 #include <vector>
-
 class Map
 {
 public:
@@ -46,6 +47,8 @@ public:
 	//llamar despues de construir al mapa para cargar las cosas!!
 	void load_on_map(const char* map_string);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue);
+	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue);
+
 	void load_checksum(unsigned char checksum);
 
 	void reset_map();
@@ -54,12 +57,17 @@ public:
 	bool delete_from_map(MapThing* thing);
 	const char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
-	EventPackage* give_me_my_enemy_action(bool is_initializing);
 
+	EA_info get_initial_enemy_actions();
 
 	void print_cell(int coord_x, int coord_y);
 
 	const char* get_last_loaded_distribution();
+
+	Position find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y);
+
+	int get_number_of_rows();
+	int get_number_of_columns();
 
 private:
 	MapCell get_cell(int coord_x, int coord_y);
@@ -86,4 +94,5 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
+	MapDijkstraMachine *dijkstra_manager;
 };

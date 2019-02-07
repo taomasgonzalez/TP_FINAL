@@ -1,19 +1,15 @@
+#include "LogicServerFSM.h"
+#include "EventPackage.h"
 #include <vector>
+
 using namespace std;
 
 int main(void) {
-
-
-	vector<vector<int *>*> vector_de_vector_de_ints = vector<vector<int *>*>();
-	vector_de_vector_de_ints.reserve(4);
-	vector<vector<int *>*>::iterator it = vector_de_vector_de_ints.begin();
-	vector<int *> al = vector<int*>();
-	printf("%d\n", *(new int(1)));
-	al.push_back(new int(1));
-	al.push_back(new int(2));
-	vector_de_vector_de_ints.insert(it, &al);
-
-	printf("%d", *((vector_de_vector_de_ints[0])->at(0)));
+	Userdata data;
+	LogicServerFSM fsm_logica(&data);
+	END_OF_TABLE_EventPackage my_pack = END_OF_TABLE_EventPackage();
+	//LOCAL_QUIT_EventPackage my_pack = LOCAL_QUIT_EventPackage();
+	fsm_logica.run_fsm(&my_pack);
 
 	getchar();
 	return 0;

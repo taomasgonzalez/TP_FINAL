@@ -1,7 +1,15 @@
 #include "Scene.h"
 #include "general.h"
+#include <fstream>
+#include <string>
+
+#define TABLE_FILE "levels/tabla/tabla.csv"
+#define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
+
+const unsigned char *getTable();		// funciÃ³n para obtener la tabla para checksum
+
  
-Scene::Scene():Observable(Observable_type::SCENARIO)
+Scene::Scene():Observable()
 {
 	//flags
 	this->game_finished = false;
@@ -11,11 +19,11 @@ Scene::Scene():Observable(Observable_type::SCENARIO)
 	this->enemys_ready = false;
 	this->we_won = false;
 	this->we_lost = false;
+	new_enemy_action = false;
 
 	this->assistant_queue = new std::queue<EventPackage*>;
 	this->action_from_allegro = NULL;
 	this->actual_map = 0;
-
 }
 
 
@@ -29,8 +37,6 @@ Scene::~Scene()
 void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action) {
 	
 }
-
-
 
 void Scene::execute_action(EventPackage * action_to_be_executed)
 {
@@ -63,7 +69,7 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 		break;
 
 	default:
-		std::cout << "Error, Acción no ejecutable" << std::endl;
+		std::cout << "Error, AcciÃ³n no ejecutable" << std::endl;
 		break;
 
 	}
@@ -177,24 +183,24 @@ void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
 void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 	al_flush_event_queue(enemy_actions_queue);
+	al_flush_event_queue(proyectile_actions_queue);
+
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
+	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 
+	
 	if (is_client) //The map came by networking, already checked
 	{	
-		//esto es lo que tenias antes, que por ahora no se condice con lo que programe de Map. despues coordinar conmigo para que esto funke.
-		//Map * new_map = new Map(12, 16, ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map(), ((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
-		//por que no meter todo esto en el constructor?
 		new_map->load_on_map((const char*)(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map()));
 		new_map->load_checksum(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
 		
 		this->actual_map++;
 	}
 	else
-	{	//I´m server, I´ve the map available
+	{	//IÂ´m server, IÂ´ve the map available
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
-		//maps->push_back(new Map(12, 16, give_me_the_CSV(actual_map),this->make_checksum(give_me_the_CSV(actual_map))));
 	}
 
 	curr_enemies = new_map->get_all_enemies();
@@ -205,13 +211,20 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 
 }
 
-//hace checksum , función guido
+//hace checksum , funciÃ³n guido
 unsigned char Scene::make_checksum(const char * CSV_map_location) {
 
-	unsigned char local_checksum = 'd';
+	unsigned char local_checksum = 0; 
+	const unsigned char* table = getTable();
+
+	for (int i = 0; i < FILE_LENGHT; i++)
+	{
+		local_checksum = table[local_checksum^CSV_map[i]];
+//		cout << (unsigned int)index << ' ';
+	}
 
 	return local_checksum;
-}//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos(hecho)
+}//despuÃ©s usar esta funciÃ³n que haga guido para el checksum de mapas que llegan para validarlos(hecho)
 
 
 bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
@@ -228,31 +241,82 @@ bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
 	return map_validation;
 }
 
-//función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
+//funciÃ³n que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
 const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 
-	const char * prueba=NULL;
-	return prueba;
-}
+	ifstream myFile;
+	string mapFile = "levels/level " + to_string(actual_map) + ".csv";
+	myFile.open(mapFile.c_str());
+	char *map = new char;
+	int i = 0;
+	bool comaDelim = false;					// asumimos que el csv esta separado por ';'
 
-EventPackage* Scene::give_me_my_enemy_action(bool is_initializing){
-
-	EventPackage* my_enemy_action_event = NULL;
-
-	my_enemy_action_event=maps.at(this->actual_map)->give_me_my_enemy_action(is_initializing);
-
-	if (my_enemy_action_event == NULL) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
+	while (myFile.good() && !comaDelim)
 	{
-		bool enemys_ready=true;
-		notify_obs();
-		bool enemys_ready = false;
+		string line;
+		getline(myFile, line, ';');
+		if (line.length() > 5)
+			comaDelim = true;			// si la linea es muy larga el csv esta separado por ','
+		else
+		{
+			map[i] = line.c_str()[0];
+			i++;
+		}
+		for (int j = 1; j < 15; j++)
+		{
+			string line;
+			getline(myFile, line, ';');
+			map[i] = line.c_str()[0];
+			i++;
+		}
+		getline(myFile, line, '\n');
+		map[i] = line.c_str()[0];
+		i++;
 	}
 
+	myFile.close();
 
-	return my_enemy_action_event;
+	if (comaDelim)														// el delimitador so, ',' no ';'
+	{
+		myFile.open(mapFile.c_str());
+		int i = 0;
+		while (myFile.good())
+		{
+			for (int j = 0; j < 15; j++)
+			{
+				string line;
+				getline(myFile, line, ',');
+				map[i] = line.c_str()[0];
+				i++;
+			}
+			string line;
+			getline(myFile, line, '\n');
+			map[i] = line.c_str()[0];
+			i++;
+		}
+
+		myFile.close();
+	}
+	
+	return map;
 }
 
+EA_info Scene::give_me_my_enemy_action(bool is_initializing){
+	if(is_initializing){
+		enemy_action_info = maps[actual_map]->get_initial_enemy_actions();
 
+		if (enemy_action_info.finished_loading) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
+		{
+			bool enemys_ready=true;
+			notify_obs();
+			bool enemys_ready = false;
+		}
+	}
+	//si no esta inicializado directamente ya esta cargado cuando llega su turno de ser pedido, 
+	//unicamente lo van a llamar los observer con is_initializing= false
+	return enemy_action_info;
+
+}
 
 
 void Scene::gameInit() {	
@@ -352,7 +416,7 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 		break;
 
 	default:
-		std::cout << "Acción no analizable" << std::endl;
+		std::cout << "AcciÃ³n no analizable" << std::endl;
 		break;
 
 	}
@@ -405,7 +469,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
-		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
+		std::cout << " Error , el jugador que deberÃ­a moverse estÃ¡ muerto" << std::endl;
 
 	}
 	else
@@ -456,7 +520,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			}
 			break;
 
-		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningÃºn caso donde no pueda saltar para arriba. como mucho vuelvo a caer
 			break;
 
 		case Direction_type::Jump_Left:
@@ -478,7 +542,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
 				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
+					is_the_move_possible = false; //canÂ´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -504,7 +568,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			{
 				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
 				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
+					is_the_move_possible = false; //canÂ´t be fixed, extern move received must be valid
 				}
 				else
 					is_the_move_possible = true;
@@ -512,7 +576,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 			break;
 
 		default:
-			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+			std::cout << " Error , no se recibiÃ³ un MOVE para analizar" << std::endl;
 			break;
 		}
 	}
@@ -561,7 +625,7 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 	if (the_one_that_attack->is_dead())
 	{
 		is_the_attack_possible = false;
-		std::cout << " Error , el jugador que debería atacar está muerto" << std::endl;
+		std::cout << " Error , el jugador que deberÃ­a atacar estÃ¡ muerto" << std::endl;
 	}
 	else
 	{
@@ -638,7 +702,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 	if (package_to_be_analyze->is_this_a_local_action())
 	{
 		is_local = true;
-		std::cout << "Error, Un EA local no debería chequearse nunca" << std::endl;
+		std::cout << "Error, Un EA local no deberÃ­a chequearse nunca" << std::endl;
 		std::cout << "NO SE CHEQUEO NADA, ERROR" << std::endl;
 		is_the_enemy_action_possible = false;
 
@@ -654,7 +718,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 		if (the_enemy_that_acts->is_dead())
 		{
-			std::cout << " Error , el mounstro que debería actuar está muerto" << std::endl;
+			std::cout << " Error , el mounstro que deberÃ­a actuar estÃ¡ muerto" << std::endl;
 			is_the_enemy_action_possible = false;
 		}
 		else
@@ -692,14 +756,14 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 							is_the_enemy_action_possible = true;				
 					break;
 
-				case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+				case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningÃºn caso donde no pueda saltar para arriba. como mucho vuelvo a caer
 					break;
 
 				case Direction_type::Jump_Left:
 
 						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
 						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
+							is_the_enemy_action_possible = false; //canÂ´t be fixed, extern move received must be valid
 						}
 						else
 							is_the_enemy_action_possible = true;				
@@ -709,7 +773,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
 						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
+							is_the_enemy_action_possible = false; //canÂ´t be fixed, extern move received must be valid
 						}
 						else
 							is_the_enemy_action_possible = true;
@@ -717,7 +781,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 					break;
 
 				default:
-					std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+					std::cout << " Error , no se recibiÃ³ un MOVE para analizar" << std::endl;
 					break;
 				}
 
@@ -749,7 +813,7 @@ bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
 
 				break;
 			default:
-				std::cout << "Error, Un EA con acción desconocida" << std::endl;
+				std::cout << "Error, Un EA con acciÃ³n desconocida" << std::endl;
 				break;
 			}
 		}
@@ -771,8 +835,6 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 
 	return player_found;
 }
-
-
 
 bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 {
@@ -803,8 +865,6 @@ bool Scene::did_we_lose(EventPackage * package_to_be_analyze)
 	return we_lost;
 }
 
-
-
 bool Scene::do_you_have_to_draw() {
 
 	return this->has_to_draw;
@@ -821,22 +881,87 @@ void Scene::control_enemy_actions()
 	while (al_get_next_event(enemy_actions_queue, allegroEvent)) 
 		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
 			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
-			if (wanted_enemy != NULL) 
-				wanted_enemy->act();			//aca en realidad deberia agregar un paquete!!
+			if (wanted_enemy != NULL) {
+				enemy_action_info = wanted_enemy->act();
+				new_enemy_action = true;
+				notify_obs();
+				new_enemy_action = false;
+			}
 		}
+}
 
-	//new_enemy_action = true;
-	//notify_obs();			//meto en la cola de eventos 
-	//new_enemy_action = false;
-	//falta notificarle al wachin que actuaste.
+void Scene::control_proyectile_actions() {
+	ALLEGRO_EVENT * allegroEvent = NULL;
+	while (al_get_next_event(proyectile_actions_queue, allegroEvent))
+		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
+			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent->timer.source);
+			//if (wanted_proyectile != NULL)
+				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
+		}
 }
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
 {
-	std::vector<Enemy*>* enemies = maps[actual_map].get_all_enemies();
-	for (std::vector<Enemy*>::iterator it = enemies->begin(); it != enemies->end(); ++it) 
+	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		if ((*it)->get_acting_timer() == timer)
 			return (*it);
 
 	return NULL;
+}
+
+Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
+	for (std::vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
+		if ((*it)->get_moving_timer() == timer)
+			return (*it);
+
+	return NULL;
+}
+
+Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
+	Player* nearest_player = find_nearest_player(purple_guy->pos_x, purple_guy->pos_y);
+	Position next_movement;
+	next_movement = maps[actual_map]->find_next_movement_4_shortest_path(purple_guy->pos_x, purple_guy->pos_y, nearest_player->pos_x, nearest_player->pos_y);
+	return next_movement;
+}
+
+Player* Scene::find_nearest_player(int pos_x, int pos_y) {
+	unsigned int shortest_distance = INF;
+	Player* nearest_player = NULL;
+
+	for (int i = 0; i < curr_players->size(); i++) {
+
+		Player* curr_player = curr_players->at(i);
+		unsigned int taxi_distance = abs(curr_player->pos_x - pos_x) + abs(curr_player->pos_y - pos_y);
+
+		if(shortest_distance > taxi_distance){
+			shortest_distance =  taxi_distance;
+			nearest_player = curr_player;
+		}
+	}
+	return nearest_player;
+}
+
+unsigned int abs(int a) {
+	return (a >= 0) ? a : ((-1)*a);
+}
+
+const unsigned char *getTable()
+{
+	std::ifstream myFile;
+	myFile.open(TABLE_FILE);
+	unsigned char *table = new unsigned char;
+	int i = 0;
+
+	while (myFile.good())
+	{
+		std::string line;
+		std::getline(myFile, line, ',');
+		table[i] = atoi(line.c_str());
+//		cout << (int)table[i] << ' ';
+		i++;
+	}
+
+	myFile.close();
+
+	return table;
 }

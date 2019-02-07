@@ -2,7 +2,7 @@
 
 
 
-FSMEventsObserver::FSMEventsObserver(LogicEventGenerator * event_gen, FSM * fsm, Allegro* allegro_container, Scene* scenario)
+FSMEventsObserver::FSMEventsObserver(LogicEventGenerator * event_gen, LogicFSM * fsm, Allegro* allegro_container, Scene* scenario)
 {
 	this->event_gen = event_gen;
 	this->fsm = fsm;

@@ -23,6 +23,16 @@ enum class Item_type {
 	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
 };
 
+struct EA_info {
+
+	bool is_local;
+	bool finished_loading;
+	unsigned int id;
+	int final_pos_x;
+	int final_pos_y;
+	Action_type action;
+	bool valid = false;
+};
 class NetworkData {
 
 public:
