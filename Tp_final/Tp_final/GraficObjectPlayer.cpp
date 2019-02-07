@@ -1,4 +1,5 @@
 #include "GraficObjectPlayer.h"
+#include "PlayerDefines.h"
 #include <iostream>
 
 using namespace std;
