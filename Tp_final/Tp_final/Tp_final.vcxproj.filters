@@ -55,9 +55,6 @@
     <Filter Include="Header Files\Event_related\Generic">
       <UniqueIdentifier>{c9a51ce1-1979-4bda-b532-f662b0a1583d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Event_related\Graphic">
-      <UniqueIdentifier>{e1e47c3a-1f01-42c0-8663-0ddffeddf385}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Event_related\Logic">
       <UniqueIdentifier>{867b34ed-6754-481e-8233-b5a42d60eb89}</UniqueIdentifier>
     </Filter>
@@ -93,6 +90,9 @@
     </Filter>
     <Filter Include="Header Files\PJ_related\Characters\Enemies">
       <UniqueIdentifier>{0429536d-a586-42f6-b704-a5d1055a5f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related\Graphic">
+      <UniqueIdentifier>{e1e47c3a-1f01-42c0-8663-0ddffeddf385}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
