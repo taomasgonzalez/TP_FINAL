@@ -872,7 +872,7 @@ bool Scene::do_you_have_to_draw() {
 	return this->has_to_draw;
 }
 
-void Scene::append_new_auxilar_event(EA_info * new_ev_pack) {
+void Scene::append_new_auxilar_event(EA_info  new_ev_pack) {
 	assistant_queue->push(new_ev_pack);
 }
 
