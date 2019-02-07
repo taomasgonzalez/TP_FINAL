@@ -19,16 +19,39 @@ LogicEventGenerator::~LogicEventGenerator()
 {
 }
 
+/******************************************
+***************fetch_event*****************
+*******************************************
+*fetch_event returns the new Logic Event to be exectuted by a Logic FSM.
+*fetch_event returns one and only one EventPackage coming from one of the multiple event queues the LogicEventGenerator may have.
+*fetch_event is designed in such a way that the queues take turns as to which of them will return the EventPackage.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		the next EventPackage to be executed by an FSM.
+*/
 EventPackage * LogicEventGenerator::fetch_event()
 {
 	update_from_allegro_events();
 	return EventGenerator::fetch_event();
 }
 
+/******************************************
+********update_from_allegro_events*********
+*******************************************
+*update_from_allegro_events is an internal method that converts events inside an allegro event queue to 
+*EventPackages that represent the Logic function of that allegro Event.
+*update_from_allegro_events does this by removign the allegro event from the allegro event queue.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		void.
+*/
 void LogicEventGenerator::update_from_allegro_events() {
 	update_from_allegro_keyboard_events();
 	update_from_allegro_timer_events();
 }
+
 void LogicEventGenerator::update_from_allegro_keyboard_events() {
 
 	ALLEGRO_EVENT * allegroEvent = NULL;
@@ -114,7 +137,16 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 	}
 
 }
-
+/******************************************
+***************empty_all_queues************
+*******************************************
+*empty_all_queues empties all the event_queues the LogicEventGenerator has so that no new events will come unless
+*they are placed on any queue after the call to this function.
+*	INPUT:
+*		1) void.
+*	OUTPUT:
+*		void.
+*/
 void LogicEventGenerator::empty_all_queues() {
 	EventGenerator::empty_all_queues();
 	al_flush_event_queue(al_key_queue);
