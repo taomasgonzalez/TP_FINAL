@@ -25,6 +25,10 @@
 #define FALLING_PICS_PURPLE	NULL
 #define FALLING_PICS_FATTY	NULL
 #define FALLING_PICS_CRAZY	NULL
+#define DYING_PICS_PURPLE	NULL
+#define DYING_PICS_FATTY	NULL
+#define DYING_PICS_CRAZY	NULL
+
 
 #define FOLDER_ENEMY	("enemies")
 #define FOLDER_PURPLE	("PURPLE")
@@ -37,6 +41,7 @@
 #define FOLDER_TRAPPED	("TRAPPED")
 #define FOLDER_ATTACKING	("ATTACKING")
 #define FOLDER_FALLING		("FALLING")
+#define FOLDER_DYING		("DYING")
 
 #define FILE_PURPLE_WALKING	("Sonic Running-F")
 #define FILE_PURPLE_JUMPING	("Super Mario Running-F")
@@ -44,6 +49,7 @@
 #define FILE_PURPLE_TRAPPED	("Explosion 1-F")
 #define FILE_PURPLE_IDLE	("tomIdle-F")
 #define FILE_PURPLE_FALLING	("homerdance-F")
+#define FILE_PURPLE_DYING	("")
 
 #define FILE_FATTY_WALKING	("fattyWalk")
 #define FILE_FATTY_JUMPING	("fattyJump")
@@ -51,6 +57,7 @@
 #define FILE_FATTY_TRAPPED	("fattyTrapped")
 #define FILE_FATTY_IDLE		("fattyIdle")
 #define FILE_FATTY_FALLING	("fattyFall")
+#define FILE_FATTY_DYING	("fattyDie")
 
 #define FILE_CRAZY_WALKING	("crazyWalk")
 #define FILE_CRAZY_JUMPING	("carzyJump")
@@ -58,3 +65,4 @@
 #define FILE_CRAZY_TRAPPED	("crazyTrap")
 #define FILE_CRAZY_IDLE		("crazyIdle")
 #define FILE_CRAZY_FALLING	("crazyFall")
+#define FILE_CRAZY_DYING	("crazyDie")
