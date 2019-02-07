@@ -147,12 +147,6 @@
     <ClCompile Include="LogicEventGenerator.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="FireballGraphicFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="SnowballGraphicFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="LogicFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
@@ -248,6 +242,15 @@
     </ClCompile>
     <ClCompile Include="PurpleGuyScenarioObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicAttackCharacterFSMRoutines.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicCharacterFSMRoutines.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicAttackCharacterFSM.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -397,6 +400,15 @@
     </ClInclude>
     <ClInclude Include="DijkstraMachine.h">
       <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicAttackCharacterFSM.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicAttackCharacterFSMRoutines.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicCharacterFSMRoutines.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

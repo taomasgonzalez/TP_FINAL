@@ -7,15 +7,15 @@ public:
 	~GraphicCharacterFSM();
 
 	bool should_move = false;
-	bool should_attack = false;
 	bool should_disappear = false;
+	bool should_die = false;
+	bool should_revive = false;
 
-private:
+protected:
 	/**********************
 		states
 	***********************/
-	edge_t* moving_state = NULL;
-	edge_t* attacking_state = NULL;
-
+	std::vector<edge_t>* moving_state = NULL;
+	std::vector<edge_t>* iddle_state = NULL;
 };
 
