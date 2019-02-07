@@ -33,7 +33,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Initial_state[5] =
 	{
-		{ Event_type::NAME, this->Naming_me_state,  send_name_is },
+	{ Event_type::NAME, this->Naming_me_state,  send_name_is },
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 	{ Event_type::ERROR1, NULL, analayze_error },
@@ -64,7 +64,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t  Waiting_for_map_state[5] =
 	{
-		{ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack },
+	{ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack },
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 	{ Event_type::ERROR1, NULL, analayze_error },

@@ -29,6 +29,8 @@ class Action_info {
 public:
 	Action_info(ENEMY_ACTION_EventPackage* trasnlate_please);
 	Action_info();
+	Action_info(Event_type info_to_be_saved);
+
 	bool is_local;
 	bool finished_loading; //For ENEMYS_LOADED_EventPackage
 	unsigned int id;
