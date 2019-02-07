@@ -27,7 +27,7 @@ GreenFatty::~GreenFatty()
 */
 Action_info GreenFatty::act() {
 
-	EA_info returnable_EA = EA_info();
+	Action_info returnable_EA = Action_info();
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
