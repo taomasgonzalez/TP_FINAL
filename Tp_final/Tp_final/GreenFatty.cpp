@@ -62,7 +62,6 @@ Action_info * GreenFatty::act() {
 	al_set_timer_speed(acting_timer, timer_speed);
 	al_start_timer(acting_timer);
 
-
 	return returnable_EA;
 }
 
