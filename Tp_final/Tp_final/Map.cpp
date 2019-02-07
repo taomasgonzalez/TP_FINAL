@@ -600,11 +600,11 @@ void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
 void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
 	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
 }
-EA_info Map::get_initial_enemy_actions() {
+EA_info * Map::get_initial_enemy_actions() {
 	static int loading_EA_number = 0;
-	EA_info returnable_EA;
+	EA_info * returnable_EA = new  EA_info();
 
-	if (returnable_EA.finished_loading = (loading_EA_number >= all_enemies->size()) ) 
+	if (returnable_EA->finished_loading = (loading_EA_number >= all_enemies->size()) ) 
 		loading_EA_number = 0;
 	else {
 		returnable_EA = (all_enemies->at(loading_EA_number))->act();

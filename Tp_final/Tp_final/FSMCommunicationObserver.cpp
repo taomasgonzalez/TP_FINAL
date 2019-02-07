@@ -93,10 +93,10 @@ void FSMCommunicationObserver::update() {
 		EventPackage * my_movement = fsm->get_fsm_ev_pack();   //AR externo que es como llega a la fsm
 		if (((ACTION_REQUEST_EventPackage *)my_movement)->give_me_the_action() == Action_type::Move)
 
-			info_to_be_send = new MOVE_EventPackage( (Character_type)this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
+			info_to_be_send = new MOVE_EventPackage( this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
 
 		else
-			info_to_be_send = new ATTACK_EventPackage((Character_type)this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
+			info_to_be_send = new ATTACK_EventPackage(this->scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column());
 
 
 

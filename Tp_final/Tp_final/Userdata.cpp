@@ -6,6 +6,20 @@ std::array<ALLEGRO_BITMAP*, 10>AllegroData::WormJump;
 ALLEGRO_BITMAP *AllegroData::Background;
 ALLEGRO_BITMAP *AllegroData::WindowsBackground;
 
+/// EA_info METHODS
+
+EA_info::EA_info(ENEMY_ACTION_EventPackage* trasnlate_please) {
+
+	this->action = trasnlate_please->give_me_the_action();
+	this->final_pos_x = trasnlate_please->give_me_the_destination_row();
+	this->final_pos_y = trasnlate_please->give_me_the_destination_column();
+	this->id = trasnlate_please->give_me_the_monsterID();
+}
+
+EA_info::EA_info() {
+
+}
+
 /// NETWORKDATA METHODS
 bool NetworkData::has_new_info() {
 	return this->new_info;

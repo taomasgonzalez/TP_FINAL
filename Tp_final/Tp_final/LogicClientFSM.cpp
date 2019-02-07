@@ -75,7 +75,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Waiting_for_enemy_actions_state[6] =
 	{
-		{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_enemy_action_and_send_ack },
+	{ Event_type::ENEMY_ACTION, this->Waiting_for_enemy_actions_state, load_enemy_action_and_send_ack },
 	{ Event_type::GAME_START, this->Playing_state, start_game_and_send_ack }, //the game begins for the client
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
@@ -88,9 +88,8 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Playing_state[9] =
 	{
-		{ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_action_and_send_ack },
+	{ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_action_and_send_ack },
 	{ Event_type::ACTION_REQUEST, this->Waiting_for_servers_response_state, check_and_send_action_request },  //Action request generate by allegro, has to be send to the server
-	{ Event_type::MAP_IS, this->Waiting_for_ACK_map_state, check_map_and_save_send_ack }, //next level
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 	{ Event_type::WE_WON, this->Waiting_if_the_server_wants_to_play_again, analyze_we_won }, // WE_WON from the server, must be analyzed
@@ -104,7 +103,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Waiting_for_servers_response_state[6] =
 	{
-		{ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack },  //extern MOVE that arrives through networking , has to be checked
+	{ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack },  //extern MOVE that arrives through networking , has to be checked
 	{ Event_type::ATTACK, this->Playing_state, execute_receive_action_and_send_ack },  //extern ATTACK that arrives through networking , has to be checked
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
@@ -116,7 +115,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Waiting_if_the_server_wants_to_play_again[7] =
 	{
-		{ Event_type::ACK, NULL, finish_game },  //ack of my game over from the server
+	{ Event_type::ACK, NULL, finish_game },  //ack of my game over from the server
 	{ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack }, ////Client wants to play again, server too
 	{ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game },  //Client wants to play again, server doesn´t 
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
@@ -129,7 +128,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 
 	edge_t Waiting_for_ACK_quit_state[5] =
 	{
-		{ Event_type::ACK, NULL, finish_game },
+	{ Event_type::ACK, NULL, finish_game },
 	{ Event_type::ERROR1, NULL, analayze_error },
 	{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 	{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,

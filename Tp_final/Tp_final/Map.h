@@ -58,7 +58,7 @@ public:
 	const char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
 
-	EA_info get_initial_enemy_actions();
+	EA_info * get_initial_enemy_actions();
 
 	void print_cell(int coord_x, int coord_y);
 

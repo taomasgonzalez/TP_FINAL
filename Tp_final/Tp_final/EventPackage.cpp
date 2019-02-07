@@ -224,7 +224,20 @@ ATTACK_EventPackage::ATTACK_EventPackage(Item_type my_character, unsigned char f
 	this->character = my_character;
 
 }
+/**************************************************************
+give_me_the_character
+**************************************************************/
+Item_type ATTACK_EventPackage::give_me_the_character() {
 
+	return this->character;
+}
+/**************************************************************
+set_character (LOCAL)
+**************************************************************/
+void ATTACK_EventPackage::set_character(Item_type the_one_that_moves) {
+	this->character = the_one_that_moves;
+
+}
 
 
 /******************************************************************************
@@ -313,6 +326,21 @@ NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local, uchar namelenght, cons
 
 }
 
+/**************************************************************
+					GET_NAME_LENGHT
+**************************************************************/
+uchar NAME_IS_EventPackage::get_name_lenght() {
+
+	return this->count;
+}
+
+/**************************************************************
+					GIVE_ME_YOUR_NAME
+**************************************************************/
+char * NAME_IS_EventPackage::give_me_your_name() {
+
+	return this->Name;
+}
 
 /******************************************************************************
 *******************************************************************************
@@ -326,6 +354,19 @@ MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, cha
 
 
 }
+/**************************************************************
+					GIVE_ME_THE_MAP
+**************************************************************/
+char * MAP_IS_EventPackage::give_me_the_map() {
+	return this->map;
+}
+/**************************************************************
+					GIVE_ME_THE_CHECKSUM
+**************************************************************/
+char MAP_IS_EventPackage::give_me_the_checksum() {
+	return this->Checksum;
+}
+
 
 /******************************************************************************
 *******************************************************************************
@@ -343,11 +384,13 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_Mo
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
 }
-ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(EA_info ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info.is_local) {
-	action = ea_info.action;
-	destination_row = ea_info.final_pos_x;
-	destination_column = ea_info.final_pos_y;
-	MonsterID = ea_info.id;
+
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(EA_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
+
+	this->action = ea_info->action;
+	this->destination_row = ea_info->final_pos_x;
+	this->destination_column = ea_info->final_pos_y;
+	this->MonsterID = ea_info->id;
 }
 
 uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {

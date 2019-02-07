@@ -178,6 +178,9 @@ public:
 	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
 	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
 
+	Item_type give_me_the_character();
+	void set_character(Item_type the_one_that_moves);
+
 private:
 	Item_type character;
 
@@ -236,7 +239,7 @@ public:
 
 /******************************************************************************
 *******************************************************************************
-NAME_IS_EventPackage CLASS
+				NAME_IS_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
 
@@ -244,8 +247,12 @@ class NAME_IS_EventPackage : public EventPackage
 {
 public:
 	NAME_IS_EventPackage(bool is_local, uchar namelenght, const char * newname);
+	uchar get_name_lenght();
+	char * give_me_your_name();
 
-
+private:
+	uchar count;
+	char * Name; // without terminator
 };
 
 
@@ -253,7 +260,7 @@ public:
 
 /******************************************************************************
 *******************************************************************************
-MAP_IS_EventPackage CLASS
+			MAP_IS_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
 
@@ -261,12 +268,17 @@ class MAP_IS_EventPackage : public EventPackage
 {
 public:
 	MAP_IS_EventPackage(bool is_local, const char * themap, char checksum);
+	char * give_me_the_map();
+	char give_me_the_checksum();
 
+private:
+	char * map;
+	char Checksum;
 };
 
 /******************************************************************************
 *******************************************************************************
-ENEMY_ACTION_EventPackage CLASS
+			ENEMY_ACTION_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
 
@@ -274,7 +286,7 @@ class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
-	ENEMY_ACTION_EventPackage(EA_info ea_info);
+	ENEMY_ACTION_EventPackage(EA_info * ea_info);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();

@@ -3,6 +3,7 @@
 #include "allegro5\allegro_image.h"
 #include <string>
 #include <array>
+#include "EventPackage.h"
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
@@ -23,8 +24,11 @@ enum class Item_type {
 	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
 };
 
-struct EA_info {
+class EA_info {
 
+public:
+	EA_info(ENEMY_ACTION_EventPackage* trasnlate_please);
+	EA_info();
 	bool is_local;
 	bool finished_loading;
 	unsigned int id;
@@ -33,6 +37,7 @@ struct EA_info {
 	Action_type action;
 	bool valid = false;
 };
+
 class NetworkData {
 
 public:

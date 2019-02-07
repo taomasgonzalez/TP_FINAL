@@ -33,11 +33,11 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::MOVE:
-			pac = new MOVE_package(((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
+			pac = new MOVE_package((Character_type)((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
 		break;
 
 	case Event_type::ATTACK:
-		pac = new ATTACK_package(((ATTACK_package *)info_received)->give_me_the_character(), ((ATTACK_package *)info_received)->give_me_the_destination_row(), ((ATTACK_package *)info_received)->give_me_the_destination_column());
+		pac = new ATTACK_package(((ATTACK_EventPackage *)info_received)->give_me_the_character(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_row(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_column());
 
 		break;
 
@@ -46,9 +46,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::ENEMY_ACTION:
-
 		pac = new ENEMY_ACTION_package(((ENEMY_ACTION_EventPackage*)info_received)->give_me_the_monsterID(),((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_action(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_row(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_column());
-
 		break;
 
 

@@ -12,34 +12,34 @@ GreenFatty::~GreenFatty()
 {
 }
 
-EA_info GreenFatty::act() {
+EA_info* GreenFatty::act() {
 
-	EA_info returnable_EA;
+	EA_info * returnable_EA = new EA_info();
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 
-	while (! returnable_EA.valid) {
+	while (! returnable_EA->valid) {
 		if ((sample >= 0) && (sample <= 0.3)) {			//0.3 probability
-			shoot_fireball(&returnable_EA);
+			shoot_fireball(returnable_EA);
 			timer_speed = 0;
 		}
 
 		else if ((sample >= 0.3) && (sample <= 0.9)) 		//0.6 probability
-			move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.95;
+			move_in_same_direction(returnable_EA) ? timer_speed = 0 : sample = 0.95;
 
 		else {												//0.1 probability
 			sample = acting_probabilities(generator);
 
-			while(!returnable_EA.valid)
+			while(!returnable_EA->valid)
 				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 	//1/3 probability		
-					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
+					jump(returnable_EA) ? timer_speed = 0 : sample = 0.5;
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0) )	//1/3 probability
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.9;
+					move_in_opposite_direction(returnable_EA) ? timer_speed = 0 : sample = 0.9;
 
 				else {										//1/3 probability
-					stay_still(&returnable_EA);
+					stay_still(returnable_EA);
 					timer_speed = 1.0 / 2;
 				}
 			
@@ -47,6 +47,10 @@ EA_info GreenFatty::act() {
 	}
 
 	al_set_timer_speed(acting_timer, timer_speed);
+	al_start_timer(acting_timer);
+
+
+	return returnable_EA;
 }
 
 

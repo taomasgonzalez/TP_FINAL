@@ -2,6 +2,7 @@
 #include "EventGenerator.h"
 #include "Package.h"
 #include "EventPackage.h"
+#include <iostream>
 
 class PackageFactory
 {

@@ -21,8 +21,8 @@ Scene::Scene():Observable()
 	this->we_lost = false;
 	new_enemy_action = false;
 
-	this->assistant_queue = new std::queue<EventPackage*>;
-	this->action_from_allegro = NULL;
+	this->assistant_queue = new std::queue<EA_info*>;
+	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
 }
 
@@ -301,11 +301,12 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	return map;
 }
 
-EA_info Scene::give_me_my_enemy_action(bool is_initializing){
+EA_info*  Scene::give_me_my_enemy_action(bool is_initializing){
+	
 	if(is_initializing){
 		enemy_action_info = maps[actual_map]->get_initial_enemy_actions();
 
-		if (enemy_action_info.finished_loading) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
+		if (enemy_action_info->finished_loading) //ENEMYS_LOADED VA DEVOLVER UN BOOALEANO, CHEQUEAR ESO!!!!!!!!
 		{
 			bool enemys_ready=true;
 			notify_obs();
@@ -328,22 +329,23 @@ void Scene::gameInit() {
 }
 
 
-EventPackage * Scene::give_me_my_allegro_event() {
-	return this->action_from_allegro;
-}
+//EventPackage * Scene::give_me_my_allegro_event() {
+//	return this->action_from_allegro;
+//}
 
 Item_type Scene::give_me_my_player() {
 
 	return this-> my_player;
 }
+
 Item_type Scene::give_the_other_player() {
 
 	return this->other_player;
 }
 
-void Scene::set_new_allegro_event(EventPackage * new_event) {
-	 this->action_from_allegro= new_event;
-}
+//void Scene::set_new_allegro_event(EventPackage * new_event) {
+//	 this->action_from_allegro= new_event;
+//}
 
 bool Scene::both_players_dead()
 {
@@ -836,7 +838,7 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 	return player_found;
 }
 
-bool Scene::did_we_win(EventPackage * package_to_be_analyze)
+bool Scene::did_we_win(EA_info * package_to_be_analyze)
 {
 	bool we_won;
 
@@ -851,7 +853,7 @@ bool Scene::did_we_win(EventPackage * package_to_be_analyze)
 	return we_won;
 }
 
-bool Scene::did_we_lose(EventPackage * package_to_be_analyze)
+bool Scene::did_we_lose(EA_info * package_to_be_analyze)
 {
 	bool we_lost;
 
@@ -870,7 +872,7 @@ bool Scene::do_you_have_to_draw() {
 	return this->has_to_draw;
 }
 
-void Scene::append_new_auxilar_event(EventPackage* new_ev_pack) {
+void Scene::append_new_auxilar_event(EA_info * new_ev_pack) {
 	assistant_queue->push(new_ev_pack);
 }
 
