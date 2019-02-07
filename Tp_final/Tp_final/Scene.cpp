@@ -21,7 +21,7 @@ Scene::Scene():Observable()
 	this->we_lost = false;
 	new_enemy_action = false;
 
-	this->assistant_queue = new std::queue<EA_info*>;
+	this->assistant_queue = new std::queue<Action_info*>;
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
 }
@@ -74,19 +74,6 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 
 	}
 
-//Lastly, we analyze the current game_situation
-	if (this->both_players_dead())
-	{
-		we_lost = true;
-		notify_obs();
-		we_lost = false;
-	}
-	if ((!both_players_dead())&&(!any_monsters_left())&&(actual_map==10))
-	{
-		we_won = true;
-		notify_obs();
-		we_won = false;
-	}
 }
 
 void Scene::execute_move(EventPackage * move_to_be_executed) {
@@ -180,7 +167,7 @@ void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
 }
 
 
-void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
+void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
 
 	al_flush_event_queue(enemy_actions_queue);
 	al_flush_event_queue(proyectile_actions_queue);
@@ -192,8 +179,8 @@ void Scene::load_new_map(bool is_client, EventPackage* map_to_be_checked=NULL) {
 	
 	if (is_client) //The map came by networking, already checked
 	{	
-		new_map->load_on_map((const char*)(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_map()));
-		new_map->load_checksum(((MAP_IS_EventPackage*)map_to_be_checked)->give_me_the_checksum());
+		new_map->load_on_map(the_map);
+		new_map->load_checksum(the_checksum);
 		
 		this->actual_map++;
 	}
@@ -227,11 +214,11 @@ unsigned char Scene::make_checksum(const char * CSV_map_location) {
 }//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos(hecho)
 
 
-bool Scene::is_the_map_okay(EventPackage * map_to_be_checked)
+bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
 {
 	bool map_validation;
-	unsigned char extern_checksum = ((MAP_IS_EventPackage *)map_to_be_checked)->give_me_the_checksum();
-	unsigned char local_checksum = this->make_checksum(((MAP_IS_EventPackage *)map_to_be_checked)->give_me_the_map());
+	unsigned char extern_checksum = the_checksum;
+	unsigned char local_checksum = this->make_checksum(the_map);
 
 	if (local_checksum == extern_checksum)
 		map_validation = true;
@@ -301,7 +288,7 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	return map;
 }
 
-EA_info*  Scene::give_me_my_enemy_action(bool is_initializing){
+Action_info*  Scene::give_me_my_enemy_action(bool is_initializing){
 	
 	if(is_initializing){
 		enemy_action_info = maps[actual_map]->get_initial_enemy_actions();
@@ -838,7 +825,7 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 	return player_found;
 }
 
-bool Scene::did_we_win(EA_info * package_to_be_analyze)
+bool Scene::did_we_win()
 {
 	bool we_won;
 
@@ -853,7 +840,7 @@ bool Scene::did_we_win(EA_info * package_to_be_analyze)
 	return we_won;
 }
 
-bool Scene::did_we_lose(EA_info * package_to_be_analyze)
+bool Scene::did_we_lose()
 {
 	bool we_lost;
 
@@ -867,12 +854,31 @@ bool Scene::did_we_lose(EA_info * package_to_be_analyze)
 	return we_lost;
 }
 
+//For server´s 
+bool Scene::check_current_game_situation() {
+
+	if (this->both_players_dead())
+	{
+		we_lost = true;
+		notify_obs();
+		we_lost = false;
+	}
+	if ((!both_players_dead()) && (!any_monsters_left()) && (actual_map == 10))
+	{
+		we_won = true;
+		notify_obs();
+		we_won = false;
+	}
+
+}
+
+
 bool Scene::do_you_have_to_draw() {
 
 	return this->has_to_draw;
 }
 
-void Scene::append_new_auxilar_event(EA_info  new_ev_pack) {
+void Scene::append_new_auxilar_event(Action_info * new_ev_pack) {
 	assistant_queue->push(new_ev_pack);
 }
 

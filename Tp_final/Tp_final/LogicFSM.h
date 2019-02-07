@@ -63,6 +63,7 @@ public:
 	bool valid_local_action = false;
 	bool valid_extern_action = false;
 	bool error_ocurred = false;
+	bool check_game_state = false;
 
 	//loading
 	bool ld_enemy_action = false; //for client

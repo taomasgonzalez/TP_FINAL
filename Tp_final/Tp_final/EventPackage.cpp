@@ -385,7 +385,7 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_Mo
 	this->destination_column = col_de;
 }
 
-ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(EA_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
 
 	this->action = ea_info->action;
 	this->destination_row = ea_info->final_pos_x;

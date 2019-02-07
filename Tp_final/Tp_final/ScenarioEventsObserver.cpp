@@ -33,7 +33,8 @@ void ScenarioEventsObserver::update() {
 			ev_gen->append_new_event(new GAME_OVER_EventPackage(), (int)EventGenerator::LogicQueues::soft);
 	}
 	if (scenario->new_enemy_action) {
-		EA_info new_enemy_action = scenario->give_me_my_enemy_action(false);
+		Action_info* new_enemy_action = scenario->give_me_my_enemy_action(false);
 		ev_gen->append_new_event(new ENEMY_ACTION_EventPackage(new_enemy_action), (int)EventGenerator::LogicQueues::soft);
 	}
+	
 }

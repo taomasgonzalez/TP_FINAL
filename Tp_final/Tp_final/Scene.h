@@ -26,8 +26,9 @@ public:
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
 	bool any_monsters_left();
-	bool did_we_win(EA_info * package_to_be_analyze);  //I´m client, analyze if the game was won by the players
-	bool did_we_lose(EA_info * package_to_be_analyze); //I´m client, analyze if the game was lost by the players
+	bool did_we_win();  //I´m client, analyze if the game was won by the players
+	bool did_we_lose(); //I´m client, analyze if the game was lost by the players
+	bool check_current_game_situation();
 
 
 	//Executing functions
@@ -36,20 +37,20 @@ public:
 	void finish_game();
 
 	//Getters
-	EventPackage * give_me_my_allegro_event();
+	//EventPackage * give_me_my_allegro_event();
 	Item_type give_me_my_player();
 	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
 	Player * get_player(Item_type player_to_be_found);
-	EA_info * give_me_my_enemy_action(bool is_initializing);
+	Action_info * give_me_my_enemy_action(bool is_initializing);
 
 	//Control Flags getters
 	bool game_is_finished();
 	bool do_you_have_to_draw();
 
 	//map functions
-	void load_new_map(bool is_client, EventPackage* map_to_be_checked = NULL);
-	bool is_the_map_okay(EventPackage * map_to_be_checked);
+	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
+	bool is_the_map_okay(const char * the_map , char the_checksum );
 
 	void set_new_allegro_event(EventPackage * new_event);
 
@@ -58,6 +59,8 @@ public:
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
 
+
+	//flags
 	bool game_started;
 	bool game_finished;
 	bool initializing;
@@ -68,9 +71,9 @@ public:
 	bool has_to_draw;
 
 	bool new_enemy_action;
-	void append_new_auxilar_event(EA_info new_ev_pack_info);
+	void append_new_auxilar_event(Action_info* new_ev_pack_info);
 	
-	std::queue<EA_info*>* assistant_queue;
+	std::queue<Action_info*>* assistant_queue;
 
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
@@ -110,7 +113,7 @@ private:
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
-	EA_info enemy_action_info;
+	Action_info* enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
 };

@@ -3,12 +3,12 @@
 
 void do_nothing(void * data);//Dummy for the debugging of the protocol structure
 
-							 //analyze
+//analyze
 void analayze_error(void*data);
 void analyze_we_won(void*data); //to do
 void analyze_we_lost(void*data); //to do
 void check_action(void* data);
-
+void check_game_state(void* data);
 
 //send
 void send_map_is(void * data);
