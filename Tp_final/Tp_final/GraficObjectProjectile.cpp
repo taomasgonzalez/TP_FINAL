@@ -1,4 +1,5 @@
 #include "GraficObjectProjectile.h"
+#include "ProjectileDefine.h"
 
 using namespace std;
 
@@ -30,7 +31,6 @@ Obj_Graf_Projectile::~Obj_Graf_Projectile()
 
 void Obj_Graf_Projectile::draw()
 {
-	cout << velX << endl;
 	switch (this->type)
 	{
 	case SNOW:
