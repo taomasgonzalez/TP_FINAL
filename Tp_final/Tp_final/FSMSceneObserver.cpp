@@ -44,7 +44,7 @@ void FSMSceneObserver::update() {
 
 		while (my_scenario->assistant_queue->size() >= 1) //Execute all the pending Enemy actions beacuse the game starts
 		{			
-			this->my_scenario->execute_action(new ENEMY_ACTION_EventPackage((my_scenario->assistant_queue)->front()));
+			this->my_scenario->execute_action((my_scenario->assistant_queue)->front());
 			my_scenario->assistant_queue->pop();
 		}
 	}
@@ -67,7 +67,7 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->check_action) {
-	
+
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
 		Action_info* acting_information = new Action_info(event_to_be_checked);
 
@@ -76,7 +76,8 @@ void FSMSceneObserver::update() {
 			my_fsm->error_ocurred = true;
 		}
 		else
-			this->my_fsm->set_fsm_ev_pack(new EventPackage(acting_information));
+			this->my_fsm->set_fsm_ev_pack(PackageFactory::refresh_event_package(acting_information));
+	}
 
 	if (my_fsm->ex_action)
 	{
@@ -92,7 +93,7 @@ void FSMSceneObserver::update() {
 			my_fsm->error_ocurred = false;
 		}
 		else //if it´s valid, it should be execute
-			this->my_scenario->execute_action(this->my_fsm->get_fsm_ev_pack()); 
+			this->my_scenario->execute_action(new Action_info(this->my_fsm->get_fsm_ev_pack()));
 	}
 
 
@@ -106,10 +107,7 @@ void FSMSceneObserver::update() {
 			this->my_event_gen->empty_all_queues();
 			this->my_fsm->error_ocurred = true; //so the program don´t ask the user if wants to play again
 			this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
-
-		}
-
-	
+		}	
 	}
 
 	if (my_fsm->we_lost) {

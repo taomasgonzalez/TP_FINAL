@@ -10,7 +10,7 @@
 
 enum class Direction_type
 {
-	Left, Right, Jump_Straight, Jump_Left, Jump_Right , None
+	 Right,Left, Jump_Straight, Jump_Left, Jump_Right , None
 };
 
 enum class Action_type { 
@@ -27,16 +27,18 @@ enum class Item_type {
 class Action_info {
 
 public:
-	Action_info(ENEMY_ACTION_EventPackage* trasnlate_please);
+	Action_info(EventPackage* trasnlation_procedure);
 	Action_info();
-	Action_info(Event_type info_to_be_saved);
 
+	Event_type my_info_header;
 	bool is_local;
 	bool finished_loading; //For ENEMYS_LOADED_EventPackage
 	unsigned int id;
 	int final_pos_x;
 	int final_pos_y;
 	Action_type action;
+	Direction_type my_direction;
+	Item_type my_character;
 	bool valid = false;
 };
 

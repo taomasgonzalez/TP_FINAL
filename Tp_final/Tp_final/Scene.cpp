@@ -38,10 +38,9 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 	
 }
 
-void Scene::execute_action(EventPackage * action_to_be_executed)
+void Scene::execute_action(Action_info * action_to_be_executed)
 {
-	Event_type event_to_be_execute = action_to_be_executed->give_me_your_event_type();
-
+	Event_type event_to_be_execute = action_to_be_executed->my_info_header;
 
 	switch (event_to_be_execute)
 	{
@@ -76,40 +75,60 @@ void Scene::execute_action(EventPackage * action_to_be_executed)
 
 }
 
-void Scene::execute_move(EventPackage * move_to_be_executed) {
+void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed) {
+	
+	Proyectile * my_projectile = (Proyectile *)maps[actual_map]->get_from_map(proyectile_to_be_executed->id);
+
+	if (proyectile_to_be_executed->is_fireball())
+	{
+		if (maps[actual_map]->cell_has_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y))
+		{
+			std::vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
+			for (int i = 0; i < my_vector_of_players.size(); i++)
+			{
+				(my_vector_of_players)[i]->die();
+
+			}
+		}
+	}
+	else if (proyectile_to_be_executed->is_snowball())
+	{
+		if (maps[actual_map]->cell_has_enemies(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y))
+		{
+			std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
+			for (int i = 0; i < my_vector_of_enemys.size(); i++)
+			{
+				(my_vector_of_enemys)[i]->be_hit();
+
+			}
+		}
+
+	}
+
+}
+
+
+void Scene::execute_move(Action_info * move_to_be_executed) {
 
 	bool move_succesful;
 	bool enemy_can_be_moved;
-	MOVE_EventPackage* move_movement = ((MOVE_EventPackage *)move_to_be_executed);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
 	Direction_type my_direction;
 
-	extern_destination.fil = move_movement->give_me_your_destination_row();
-	extern_destination.col = move_movement->give_me_your_destination_column();
-	my_direction = move_movement->give_me_your_direction();
-
-	if (move_to_be_executed->is_this_a_local_action())
-	{
-		the_one_that_moves = get_player(my_player);
-	}
-	else
-	{
-		the_one_that_moves = get_player(other_player);
-	}
+	extern_destination.fil = move_to_be_executed->final_pos_x;
+	extern_destination.col = move_to_be_executed->final_pos_y;
+	my_direction = move_to_be_executed->my_direction;
+	the_one_that_moves = get_player(move_to_be_executed->my_character);
 
 
-
-
-	//FALTA LOGICA DE LA BOLA DE NIEVE
-	//VER BIEN PROTOCOLO DE IDS
-	if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
+	 if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
 	{
 		std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
 		for (int i = 0; i < my_vector_of_enemys.size(); i++)
 		{
-			if ((my_vector_of_enemys)[i]->current_state != States::Frozen) esta mal, faltan estados
+			if (((my_vector_of_enemys)[i]->current_state == States::Moving)&&((my_vector_of_enemys)[i]->current_state == States::Iddle))
 			{
 					the_one_that_moves->die();
 
@@ -121,49 +140,67 @@ void Scene::execute_move(EventPackage * move_to_be_executed) {
 		for (int i = 0; i < my_vector_of_enemys.size(); i++)
 		{
 			if ((my_vector_of_enemys)[i]->amount_of_hits_taken>=3) //The enemy is snowballed
-				maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col); //The snowballed enemy moves along with the player
+				if(my_direction==Direction_type::Right)
+					maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col+1); //The snowballed enemy moves along with the player
+				else
+					maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col - 1); //The snowballed enemy moves along with the player
+
 
 		}
+
 
 	}
 	else
 		move_succesful = true;
 
-	if (maps[actual_map]->cell_has_enemy_proyectiles(extern_destination.fil, extern_destination.col))
-	{
-		the_one_that_moves->die();
-		move_succesful = false;
-	}
 
 	if(move_succesful)
-		maps[actual_map]->move_id(get_player(my_player)->id , extern_destination.fil, extern_destination.col); //cual es ID de TOM /NICK   ?!?!
+		maps[actual_map]->move_id(get_player(my_player)->id , extern_destination.fil, extern_destination.col); //
 
 }
 
-void Scene::execute_attack(EventPackage * attack_to_be_executed) {
+void Scene::execute_attack(Action_info * attack_to_be_executed) {
 
-	bool is_local;
-	ATTACK_EventPackage* attack_movement = ((ATTACK_EventPackage *)attack_to_be_executed);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
 	Sense_type my_direction;
 
-	extern_destination.fil = attack_movement->give_me_your_destination_row();
-	extern_destination.col = attack_movement->give_me_your_destination_column();
-	if (attack_movement->give_me_your_direction() == Direction_type::Left)
-		my_direction = Sense_type::Left;
-	else
-		my_direction = Sense_type::Right;
-
+	extern_destination.fil = attack_to_be_executed->final_pos_x;
+	extern_destination.col = attack_to_be_executed->final_pos_y;
+	my_direction = (Sense_type)attack_to_be_executed->my_direction;
+	the_one_that_moves = get_player(attack_to_be_executed->my_character);
 
 	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction, this);
 
 }
 
-void Scene::execute_enemy_action(EventPackage * enemy_action_to_be_executed) {
+void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed) {
 
+		Position extern_destination;
+		Position local_destination;
+		Enemy * the_enemy_that_acts = NULL;
+		Sense_type my_direction;
+		the_enemy_that_acts = (Enemy *)maps[actual_map]->get_from_map(enemy_action_to_be_executed->id);
 
+		my_direction = (Sense_type)enemy_action_to_be_executed->my_direction;
+		extern_destination.fil = enemy_action_to_be_executed->final_pos_x;
+		extern_destination.col = enemy_action_to_be_executed->final_pos_y;
+
+	if (enemy_action_to_be_executed->action == Action_type::Move)
+	{
+		if (maps[actual_map]->cell_has_players(extern_destination.fil, extern_destination.col))
+		{
+			std::vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(extern_destination.fil, extern_destination.col);
+			for (int i = 0; i < my_vector_of_players.size(); i++)
+			{
+				my_vector_of_players[i]->die();
+			}
+		}
+		maps[actual_map]->move_id(enemy_action_to_be_executed->id, extern_destination.fil, extern_destination.col); //
+	}
+	else if(enemy_action_to_be_executed->action == Action_type::Attack)
+		maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::FIREBALL, my_direction, this);
 }
 
 
@@ -373,12 +410,12 @@ void Scene::finish_game() {
 
 
 //analizo jugadas externas e internas relacionadas a scene
-bool Scene::is_the_action_possible(Event_type event_to_be_checked, Action_info * package_to_be_analyze) {
+bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 
 	bool is_the_action_possible;
 
 
-	switch (event_to_be_checked)
+	switch (package_to_be_analyze->my_info_header)
 	{
 	case Event_type::MOVE:
 
@@ -413,30 +450,31 @@ bool Scene::is_the_action_possible(Event_type event_to_be_checked, Action_info *
 	return is_the_action_possible;
 }
 
-bool Scene::check_move(Action_info * package_to_be_analyze ) {
+bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 	bool is_the_move_possible;
 	bool is_local;
-	MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
+	//MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
 	Direction_type my_direction;
 
-	if (package_to_be_analyze->is_this_a_local_action())
+	if (Action_info_to_be_checked->is_local)
 	{
 		is_local = true;
-		my_event_package->set_character(my_player);
+		Action_info_to_be_checked->my_character = my_player;
 		the_one_that_moves = get_player(my_player);
-		my_direction = my_event_package->give_me_your_direction();
+		my_direction = Action_info_to_be_checked->my_direction;
+
 	}
 	else
 	{
 		is_local = false;
-		my_event_package->set_character(other_player);
+		Action_info_to_be_checked->my_character = other_player;
 		the_one_that_moves = get_player(other_player);
-		extern_destination.fil = my_event_package->give_me_your_destination_row();
-		extern_destination.col = my_event_package->give_me_your_destination_column();
+		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
+		extern_destination.col = Action_info_to_be_checked->final_pos_y;
 
 		if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Left
 			my_direction = Direction_type::Left;
@@ -449,7 +487,7 @@ bool Scene::check_move(Action_info * package_to_be_analyze ) {
 		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Jump_Right
 			my_direction = Direction_type::Jump_Right;
 
-		my_event_package->set_direction(my_direction);
+		Action_info_to_be_checked->my_direction = my_direction;
 	}
 
 
@@ -472,9 +510,9 @@ bool Scene::check_move(Action_info * package_to_be_analyze ) {
 					is_the_move_possible = false;
 				else
 				{
-					is_the_move_possible = true;
 					local_destination.fil = the_one_that_moves->pos_x;
 					local_destination.col = the_one_that_moves->pos_y - 1;
+					is_the_move_possible = true;
 				}
 			}
 			else
@@ -516,8 +554,10 @@ bool Scene::check_move(Action_info * package_to_be_analyze ) {
 			{
 				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y - 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y - 1))
 				{
-					my_event_package->set_direction(Direction_type::Jump_Straight);
+					Action_info_to_be_checked->my_direction=Direction_type::Jump_Straight;
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x - 2;
+					local_destination.col = the_one_that_moves->pos_y ;
 				}
 				else
 				{
@@ -542,8 +582,10 @@ bool Scene::check_move(Action_info * package_to_be_analyze ) {
 			{
 				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y + 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y + 1))
 				{
-					my_event_package->set_direction(Direction_type::Jump_Straight);
+					Action_info_to_be_checked->my_direction = Direction_type::Jump_Straight;
 					is_the_move_possible = true;
+					local_destination.fil = the_one_that_moves->pos_x - 2;
+					local_destination.col = the_one_that_moves->pos_y;
 				}
 				else
 				{
@@ -571,42 +613,49 @@ bool Scene::check_move(Action_info * package_to_be_analyze ) {
 
 	if (is_the_move_possible && is_local) //load the destination column and row in the eventpackage
 	{
-		my_event_package->set_destination_row(local_destination.fil);
-		my_event_package->set_destination_column(local_destination.col);
-
+		Action_info_to_be_checked->final_pos_x=local_destination.fil;
+		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
 
 	return is_the_move_possible;
 }
-bool Scene::check_attack(Action_info * package_to_be_analyze) {
+bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 
 	bool is_the_attack_possible;
 	bool is_local;
-	ATTACK_EventPackage* my_event_package = ((ATTACK_EventPackage *)package_to_be_analyze);
 	Player * the_one_that_attack = NULL;
-	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;
 	Position local_destination;
+	Sense_type in_witch_direction_is_he_looking;
 
 
 
-	if (package_to_be_analyze->is_this_a_local_action())
+	if (Action_info_to_be_checked->is_local)
 	{
 		is_local = true;
+		Action_info_to_be_checked->my_character = my_player;
 		the_one_that_attack = get_player(my_player);
 		in_witch_direction_is_he_looking = the_one_that_attack->get_sense();
 	}
 	else
 	{
 		is_local = false;
+		Action_info_to_be_checked->my_character = other_player;
 		the_one_that_attack = get_player(other_player);
-		extern_destination.fil = my_event_package->give_me_your_destination_row();
-		extern_destination.col = my_event_package->give_me_your_destination_column();
+		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
+		extern_destination.col = Action_info_to_be_checked->final_pos_y;
 
 		if ((extern_destination.fil == the_one_that_attack->pos_x) && (extern_destination.col < the_one_that_attack->pos_y)) //Left
+		{
 			in_witch_direction_is_he_looking = Sense_type::Left;
+			Action_info_to_be_checked->my_direction = Direction_type::Left;
+		}
 		else  //Right
+		{
 			in_witch_direction_is_he_looking = Sense_type::Right;
+			Action_info_to_be_checked->my_direction = Direction_type::Right;
+		}
+
 	}
 
 
@@ -663,13 +712,13 @@ bool Scene::check_attack(Action_info * package_to_be_analyze) {
 	}
 	if (is_the_attack_possible && is_local) //load the destination column and row in the eventpackage
 	{
-		my_event_package->set_destination_row(local_destination.fil);
-		my_event_package->set_destination_column(local_destination.col);
+		Action_info_to_be_checked->final_pos_x = local_destination.fil;
+		Action_info_to_be_checked->final_pos_y = local_destination.col;
 
-		if(in_witch_direction_is_he_looking==Sense_type::Left)
-			my_event_package->set_direction(Direction_type::Left);
+		if (in_witch_direction_is_he_looking == Sense_type::Left)
+			Action_info_to_be_checked->my_direction = Direction_type::Left;
 		else
-			my_event_package->set_direction(Direction_type::Right);
+			Action_info_to_be_checked->my_direction = Direction_type::Right;
 
 	}
 	return is_the_attack_possible;
@@ -680,28 +729,17 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible;
 	bool is_local;
-	ENEMY_ACTION_EventPackage* my_event_package = ((ENEMY_ACTION_EventPackage *)package_to_be_analyze);
 	Enemy * the_enemy_that_acts = NULL;
 	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
 
-	if (package_to_be_analyze->is_this_a_local_action())
-	{
-		is_local = true;
-		std::cout << "Error, Un EA local no debería chequearse nunca" << std::endl;
-		std::cout << "NO SE CHEQUEO NADA, ERROR" << std::endl;
-		is_the_enemy_action_possible = false;
 
-	}
-	else
-	{
-		is_local = false;
-		the_enemy_that_acts = maps[actual_map]->get_from_map(my_event_package->give_me_the_monsterID);
-		extern_destination.fil = my_event_package->give_me_the_destination_row();
-		extern_destination.col = my_event_package->give_me_the_destination_column();
-		action_to_be_checked = my_event_package->give_me_the_action();
+		the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
+		extern_destination.fil = package_to_be_analyze->final_pos_x;
+		extern_destination.col = package_to_be_analyze->final_pos_y;
+		action_to_be_checked = package_to_be_analyze->action;
 
 
 		if (the_enemy_that_acts->is_dead())
@@ -804,7 +842,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 				std::cout << "Error, Un EA con acción desconocida" << std::endl;
 				break;
 			}
-		}
+		
 	}
 
 	return is_the_enemy_action_possible;

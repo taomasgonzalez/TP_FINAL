@@ -73,7 +73,8 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	MOVE_TICKED,
 
 	IMPACT_TICKED,
-	DISAPPEARED
+
+	DISAPPEARED, 
 };
 
 
@@ -158,6 +159,7 @@ public:
 	MOVE_EventPackage(Direction_type direction_type); //local MOVE
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
 	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
+	MOVE_EventPackage(Action_info * my_info);
 
 	Item_type give_me_the_character();
 	void set_character(Item_type the_one_that_moves);
@@ -177,6 +179,7 @@ public:
 	ATTACK_EventPackage(); // local ATTACK
 	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
 	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
+	ATTACK_EventPackage(Action_info * mmy_info);
 
 	Item_type give_me_the_character();
 	void set_character(Item_type the_one_that_moves);
@@ -198,6 +201,8 @@ class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPack
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
 	ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_info * my_info);
+
 	Action_type give_me_the_action();
 
 
@@ -287,6 +292,7 @@ class ENEMY_ACTION_EventPackage : public EventPackage
 public:
 	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
 	ENEMY_ACTION_EventPackage(Action_info * ea_info);
+
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();

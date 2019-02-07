@@ -32,7 +32,8 @@ void Player::die()
 }
 void Player::lose_life()
 {
-	if(lives > 0)
+	if (lives > 0)
 		lives--;
+	
 }
 

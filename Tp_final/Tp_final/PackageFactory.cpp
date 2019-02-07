@@ -151,4 +151,36 @@ PackageFactory::PackageFactory()
 	 return my_event_package;
  }
 
+
+ EventPackage * PackageFactory::refresh_event_package(Action_info * info_checked) {
+
+	 Event_type info_header = info_checked->my_info_header;
+	 EventPackage* my_checked_event;
+	 switch (info_header)
+	 {
+
+	 case Event_type::MOVE:
+		 my_checked_event = new MOVE_EventPackage(info_checked);
+
+		break;
+	 case Event_type::ATTACK:
+		 my_checked_event = new ATTACK_EventPackage(info_checked);
+
+		 break;
+	 case Event_type::ACTION_REQUEST:
+		 my_checked_event = new ACTION_REQUEST_EventPackage(info_checked);
+
+		 break;
+
+	 case Event_type::ENEMY_ACTION:
+		 my_checked_event = new ENEMY_ACTION_EventPackage(info_checked);
+
+		 break;
+
+	 }
+
+	 return my_checked_event;
+
+ }
+
 	 
