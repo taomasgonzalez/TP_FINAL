@@ -23,6 +23,8 @@ void Player::revive() {
 	if(lives > 0)
 		dead = false;
 }
+
+
 void Player::die()
 {
 	lose_life();
