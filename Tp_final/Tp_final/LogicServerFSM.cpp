@@ -22,7 +22,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 	edge_t* Waiting_for_ACK_map_state_aux = new edge_t[5];
 	this->Waiting_for_ACK_map_state = Waiting_for_ACK_map_state_aux;
 
-	edge_t* Waiting_for_ACK_enemy_actions_state_aux = new edge_t[6];
+	edge_t* Waiting_for_ACK_enemy_actions_state_aux = new edge_t[7];
 	this->Waiting_for_ACK_enemy_actions_state = Waiting_for_ACK_enemy_actions_state_aux;
 
 	edge_t* Waiting_for_ACK_playing_state_aux = new edge_t[5];
@@ -83,8 +83,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 	edge_t Waiting_for_ACK_map_state[5] =
 	{
 
-		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state,  traduciiondeloquescenealEVPaca((save_enemy_action) / ver caso ENEMYS_LOADED },
-
+		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state,  save_enemy_action },
 		{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
 		{ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }, //se recibe un quit por networking,
 		{ Event_type::ERROR1, NULL, analayze_error },
@@ -92,9 +91,9 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 	};
 	copy_event(Waiting_for_ACK_map_state_aux, Waiting_for_ACK_map_state, 5);
 
-	edge_t Waiting_for_ACK_enemy_actions_state[6] =
+	edge_t Waiting_for_ACK_enemy_actions_state[7] =
 	{
-		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state,  traduciiondeloquescenealEVPaca((save_enemy_action) },
+		{ Event_type::ACK, this->Waiting_for_ACK_enemy_actions_state, save_enemy_action },
 		{ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_enemy_actions_state,  send_enemy_action },
 		{ Event_type::ENEMYS_LOADED, this->Waiting_for_ACK_game_start_state, send_game_start },
 		{ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }, //se recibe un envio un quit local, paso a esperar el ACK
@@ -103,7 +102,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
 		{ Event_type::END_OF_TABLE, this->Waiting_for_ACK_enemy_actions_state, do_nothing }
 	};
 
-	copy_event(Waiting_for_ACK_enemy_actions_state_aux, Waiting_for_ACK_enemy_actions_state, 6);
+	copy_event(Waiting_for_ACK_enemy_actions_state_aux, Waiting_for_ACK_enemy_actions_state, 7);
 
 	edge_t Waiting_for_ACK_game_start_state[5] =
 	{

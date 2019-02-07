@@ -373,13 +373,12 @@ void Scene::finish_game() {
 
 
 //analizo jugadas externas e internas relacionadas a scene
-bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) { 
+bool Scene::is_the_action_possible(Event_type event_to_be_checked, Action_info * package_to_be_analyze) {
 
 	bool is_the_action_possible;
-	Event_type event_to_be_analyze = package_to_be_analyze->give_me_your_event_type();
 
 
-	switch (event_to_be_analyze)
+	switch (event_to_be_checked)
 	{
 	case Event_type::MOVE:
 
@@ -414,7 +413,7 @@ bool Scene::is_the_action_possible(EventPackage * package_to_be_analyze) {
 	return is_the_action_possible;
 }
 
-bool Scene::check_move(EventPackage * package_to_be_analyze ) {
+bool Scene::check_move(Action_info * package_to_be_analyze ) {
 
 	bool is_the_move_possible;
 	bool is_local;
@@ -579,7 +578,7 @@ bool Scene::check_move(EventPackage * package_to_be_analyze ) {
 
 	return is_the_move_possible;
 }
-bool Scene::check_attack(EventPackage * package_to_be_analyze) {
+bool Scene::check_attack(Action_info * package_to_be_analyze) {
 
 	bool is_the_attack_possible;
 	bool is_local;
@@ -677,7 +676,7 @@ bool Scene::check_attack(EventPackage * package_to_be_analyze) {
 }
 
 
-bool Scene::check_enemy_action(EventPackage * package_to_be_analyze) {
+bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible;
 	bool is_local;

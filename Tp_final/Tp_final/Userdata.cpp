@@ -20,6 +20,12 @@ Action_info::Action_info() {
 
 }
 
+Action_info::Action_info(Event_type info_to_be_saved) {
+
+
+}
+
+
 /// NETWORKDATA METHODS
 bool NetworkData::has_new_info() {
 	return this->new_info;

@@ -21,7 +21,7 @@ public:
 	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
 
 	//Analyze of gaming situations
-	bool is_the_action_possible(EventPackage* package_to_be_analyze); //wrap for a clearer implementation of check_Action
+	bool is_the_action_possible(Event_type event_to_be_checked, Action_info * package_to_be_analyze); //wrap for a clearer implementation of check_Action
 
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
