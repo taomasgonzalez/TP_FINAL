@@ -147,6 +147,8 @@
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="FSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="GraphicAttackCharacterFSMRoutines.cpp" />
+    <ClCompile Include="GraphicAttackCharacterFSM.cpp" />
     <ClCompile Include="GraphicCharacterFSM.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
     <ClCompile Include="GraphicEventPackage.cpp" />
@@ -178,6 +180,7 @@
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
     <ClCompile Include="SnowballGraphicFSM.cpp" />
+    <ClCompile Include="GraphicCharacterFSMRoutines.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -200,7 +203,10 @@
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="GraphicAttackCharacterFSMRoutines.h" />
+    <ClInclude Include="GraphicAttackCharacterFSM.h" />
     <ClInclude Include="GraphicCharacterFSM.h" />
+    <ClInclude Include="GraphicCharacterFSMRoutines.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicEventPackage.h" />
     <ClInclude Include="GraphicProyectileFSM.h" />

@@ -28,7 +28,7 @@ FSM::FSM(Userdata * data) : Observable(){
 void FSM:: run_fsm(EventPackage * ev_pack)
 {
 	Event_type event1 = ev_pack->give_me_your_event_type();
-	this->my_ev_pack = ev_pack;
+	set_fsm_ev_pack(ev_pack);
 
 	while ((this->actual_state->event != event1) && (this->actual_state->event != Event_type::END_OF_TABLE))
 	{	

@@ -36,10 +36,10 @@ protected:
 	edge_t * actual_state = NULL;
 	void check_for_incorrect_event(Event_type event);
 	Userdata * user_data;
-	EventPackage * my_ev_pack;
+	
 
 private:
-
+	EventPackage * my_ev_pack;
 };
 
 
