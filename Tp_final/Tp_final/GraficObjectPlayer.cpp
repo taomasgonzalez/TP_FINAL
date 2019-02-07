@@ -14,6 +14,8 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type) : Obj_Graf(ID)
 	this->velX = VELOCITY_X;					// se setea la velocidad de desplazamiento de los jugadores
 	this->type = type;
 	this->actualImage = 0;
+	this->attackActualImage = 0;
+	this->dieActualImage = 0;
 	loadBitmap(type);					// se cargan las imagenes de los personajes que corresponden
 }
 
@@ -77,11 +79,18 @@ void Obj_Graf_Player::loadBitmap(PLAYER_TYPE type)
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
 		}
-		break;
 		carpeta3 = FOLDER_PUSHING;
 		file = FILE_TOM_PUSHING;
 		this->fallImages = new ALLEGRO_BITMAP *[PUSHING_PICS];
 		for (int i = 0; i < PUSHING_PICS; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
+		}
+		carpeta3 = FOLDER_DYING;
+		file = FILE_TOM_DYING;
+		this->fallImages = new ALLEGRO_BITMAP *[DYING_PICS];
+		for (int i = 0; i < DYING_PICS; i++)
 		{
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
@@ -131,6 +140,22 @@ void Obj_Graf_Player::loadBitmap(PLAYER_TYPE type)
 			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
 			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
 		}
+		carpeta3 = FOLDER_PUSHING;
+		file = FILE_NICK_PUSHING;
+		this->fallImages = new ALLEGRO_BITMAP *[PUSHING_PICS];
+		for (int i = 0; i < PUSHING_PICS; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
+		}
+		carpeta3 = FOLDER_DYING;
+		file = FILE_NICK_DYING;
+		this->fallImages = new ALLEGRO_BITMAP *[DYING_PICS];
+		for (int i = 0; i < DYING_PICS; i++)
+		{
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
+		}
 		break;
 	}
 }
@@ -176,14 +201,14 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_ATTACKING:
-			if (this->actualImage < ATTACKING_PICS)
+			if (this->attackActualImage < ATTACKING_PICS)
 			{
-				al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
-				this->actualImage++;																									// termino la secuencia de disparo
+				al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+				this->attackActualImage++;																									// termino la secuencia de disparo
 			}
 			else
 			{
-				this->actualImage = 0;
+				this->attackActualImage = 0;
 				this->state = player_IDLE;
 //				this->active = false;
 			}
@@ -234,12 +259,23 @@ void Obj_Graf_Player::draw()
 				(this->actualImage < PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
 			break;
+		case player_DYING:
+			if (this->dieActualImage < DYING_PICS)
+			{
+				al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->dieImages++;
+			}
+			else
+			{
+				this->dieImages = 0;
+//				this->active = false;			// aca si se podria desactivar el objeto
+			}
+			break;
 		}
 	}
 	break;
 
 	case Direction::Right:
-	{
 		switch (this->state)
 		{
 		case player_WALKING:
@@ -277,20 +313,20 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_ATTACKING:
-			if (this->actualImage < ATTACKING_PICS)
+			if (this->attackActualImage < ATTACKING_PICS)
 			{
-				al_draw_bitmap(this->attackImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
-				this->actualImage++;																							// termino la secuencia de disparo
+				al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
+				this->attackActualImage++;																							// termino la secuencia de disparo
 			}
 			else
 			{
-				this->actualImage = 0;
+				this->attackActualImage = 0;
 				this->state = player_IDLE;
 //				this->Active = false;
 			}
 			break;
 		case player_FALLING:
-			al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+			al_draw_bitmap(this->fallImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 			this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 			(this->actualImage < FALLING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			break;
@@ -309,7 +345,7 @@ void Obj_Graf_Player::draw()
 			}
 			else
 			{
-				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
+				al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 				(this->actualImage < (JUMPING_PICS - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 			}
@@ -327,17 +363,28 @@ void Obj_Graf_Player::draw()
 			{
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 				//this->active = false;
-				al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 			}
 			else
 			{
-				al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				this->pos.set_x_coord(this->pos.get_x_coord() + VEL_PUSHED);
 				(this->actualImage < PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
 			break;
+		case player_DYING:
+			if (this->dieActualImage < DYING_PICS)
+			{
+				al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+				this->dieImages++;
+			}
+			else
+			{
+				this->dieImages = 0;
+//				this->active = false;			// aca si se podria desactivar el objeto
+			}
+			break;
 		}
-	}
 	}
 }
 
@@ -359,4 +406,5 @@ void Obj_Graf_Player::destroy()
 	delete[] attackImages;
 	delete[] fallImages;
 	delete[] pushImages;
+	delete[] dieImages;
 }
