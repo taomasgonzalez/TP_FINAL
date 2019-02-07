@@ -67,14 +67,11 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->check_action) {
-
+	
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
-
+		
 		if (!this->my_scenario->is_the_action_possible(event_to_be_checked)) //mando a analizar el EventPackage 
-		{
 			my_fsm->error_ocurred = true;
-		}
-
 	}
 
 	if (my_fsm->ex_action)
