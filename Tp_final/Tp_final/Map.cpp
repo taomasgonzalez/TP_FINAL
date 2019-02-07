@@ -512,17 +512,19 @@ void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 *******************************************
 *place_on_map creates a new MapThing of the indicated type and with the specified sense/direction
 *and places it on the indicated cell of the map.
+*The new MapThing will already have the according Observers attached to it.
 *	INPUT:
 *		1)coord_x :	row of the cell of the map the new MapThing will be placed in.
 *		2)coord_y : column of the cell of the map the new MapThing will be placed in.
 *		3)identifyer : Item_type that indicates the type of MapThing to be created/placed.
 *		4)direction : sense/direction the new MapThing will be facing when created and placed on map.
+*		5)obs_info : information for observers.
 *	OUTPUT:
 *		void.
 */
-void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction)
+void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction, void * scenario)
 {
-	place_on_map(coord_x, coord_y, map_filler.create_map_thing(identifyer, direction));
+	place_on_map(coord_x, coord_y, map_filler.create_map_thing(identifyer, direction, scenario));
 }
 
 void Map::print_map() {

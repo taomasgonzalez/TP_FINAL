@@ -24,30 +24,30 @@ Crazy::~Crazy()
 *		EA_info containing all the information of the Enemy's next action. This action will always be local as the 
 *		information is generated locally.
 */
-Action_info * Crazy::act() {
+Action_info Crazy::act() {
 
-	Action_info* returnable_EA = new Action_info();
+	Action_info returnable_EA = Action_info();
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 
-	while (!returnable_EA->valid) 
+	while (!returnable_EA.valid) 
 		if (sample <= 0.75) 
-			move_in_same_direction(returnable_EA) ? timer_speed = 0 : sample = 0.8;
+			move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.8;
 
 		else {
 			sample = acting_probabilities(generator);
 
-			while (!returnable_EA->valid) {
+			while (!returnable_EA.valid) {
 				if ((sample >= 0.0) && (sample <= 1.0 / 3.0)) 
-					move_in_opposite_direction(returnable_EA) ? timer_speed = 0 : sample = 0.5;
+					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {
-					stay_still(returnable_EA);
+					stay_still(&returnable_EA);
 					timer_speed = 0;
 				}
 				else 
-					jump(returnable_EA) ? timer_speed = 0 : sample = 0.1;
+					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.1;
 
 			}
 		}

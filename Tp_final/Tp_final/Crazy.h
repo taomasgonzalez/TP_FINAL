@@ -7,7 +7,7 @@ public:
 	Crazy(unsigned int id);
 	~Crazy();
 
-	Action_info * act();
+	Action_info act();
 private:
 	static double moving_speed;	//in miliseconds	
 

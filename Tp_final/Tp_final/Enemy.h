@@ -15,7 +15,7 @@ public:
 	unsigned int amount_of_hits_taken;
 
 	bool is_enemy();
-	virtual Action_info* act() = 0;
+	virtual Action_info act() = 0;
 	virtual void unfreeze();
 	virtual void be_hit();
 
@@ -41,18 +41,18 @@ protected:
 	static unsigned seed;
 	static std::default_random_engine generator;
 
-	void EA_info_common_filling(EA_info * next_enemy_action);
+	void EA_info_common_filling(Action_info * next_enemy_action);
 
 	bool can_move_in_same_direction();
-	bool move_in_same_direction(EA_info* next_enemy_action);
+	bool move_in_same_direction(Action_info* next_enemy_action);
 
 	bool can_move_in_opposite_direction();
-	bool move_in_opposite_direction(EA_info* next_enemy_action);
+	bool move_in_opposite_direction(Action_info* next_enemy_action);
 
-	void stay_still(EA_info * next_enemy_action);
+	void stay_still(Action_info * next_enemy_action);
 
 	bool can_jump();
-	bool jump(EA_info * next_enemy_action);
+	bool jump(Action_info * next_enemy_action);
 
 };
 

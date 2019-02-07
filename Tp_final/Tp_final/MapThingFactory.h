@@ -11,7 +11,7 @@ class MapThingFactory
 public:
 	MapThingFactory();
 	~MapThingFactory();
-	MapThing* create_map_thing(Item_type identifyer, Sense_type direction);
+	MapThing* create_map_thing(Item_type identifyer, Sense_type direction, void * scenario);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 

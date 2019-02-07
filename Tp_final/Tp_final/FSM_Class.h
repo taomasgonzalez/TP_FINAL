@@ -28,6 +28,7 @@ public:
 	 void run_fsm(EventPackage * ev_pack);
 		
 	 EventPackage* get_fsm_ev_pack();
+	 void set_fsm_ev_pack(EventPackage* new_ev_pack);
 	 edge_t * give_me_the_actual_state();
 
 protected:

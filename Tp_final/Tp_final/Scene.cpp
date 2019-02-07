@@ -157,7 +157,7 @@ void Scene::execute_attack(EventPackage * attack_to_be_executed) {
 		my_direction = Sense_type::Right;
 
 
-	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction );
+	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction, this);
 
 }
 

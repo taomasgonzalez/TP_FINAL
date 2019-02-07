@@ -67,7 +67,7 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->check_action) {
-
+	
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
 		Action_info* acting_information = new Action_info(event_to_be_checked);
 
@@ -77,8 +77,6 @@ void FSMSceneObserver::update() {
 		}
 		else
 			this->my_fsm->set_fsm_ev_pack(new EventPackage(acting_information));
-
-	}
 
 	if (my_fsm->ex_action)
 	{

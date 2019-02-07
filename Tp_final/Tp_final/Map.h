@@ -39,7 +39,7 @@ public:
 	bool move_map_thing(MapThing* thing, int final_x, int final_y);
 
 	//creates a new MapThing object and places it on the map.
-	void place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction);
+	void place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction, void * obs_info);
 
 	void print_map();
 	int get_max_number_of_floors();

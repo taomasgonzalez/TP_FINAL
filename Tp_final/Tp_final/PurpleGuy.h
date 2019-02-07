@@ -7,7 +7,7 @@ public:
 	PurpleGuy(unsigned int id);
 	~PurpleGuy();
 
-	Action_info* act();
+	Action_info act();
 
 	bool calculate_shortest_distance = false;
 	void set_next_movement_2_nearest_player(Position final_pos);
