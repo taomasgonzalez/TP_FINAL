@@ -19,28 +19,31 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BallDefines.h" />
+    <ClInclude Include="DRAW.h" />
+    <ClInclude Include="EnemyDefines.h" />
+    <ClInclude Include="GraficInterface.h" />
+    <ClInclude Include="GraficObject.h" />
+    <ClInclude Include="GraficObjectBall.h" />
+    <ClInclude Include="GraficObjectEnemy.h" />
+    <ClInclude Include="GraficObjectPlayer.h" />
+    <ClInclude Include="GraficObjectProjectile.h" />
+    <ClInclude Include="PlayerDefines.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="ProjectileDefine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DRAW.cpp" />
+    <ClCompile Include="GraficInterface.cpp" />
+    <ClCompile Include="GraficObject.cpp" />
+    <ClCompile Include="GraficObjectBall.cpp" />
+    <ClCompile Include="GraficObjectEnemy.cpp" />
+    <ClCompile Include="GraficObjectPlayer.cpp" />
+    <ClCompile Include="GraficObjectProjectile.cpp" />
+    <ClCompile Include="point.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="EventPackage.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
-    <ClCompile Include="LogicFSM.cpp" />
-    <ClCompile Include="LogicFSMRoutines.cpp" />
-    <ClCompile Include="LogicServerFSM.cpp" />
-    <ClCompile Include="Observable.cpp" />
-    <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Source.cpp" />
-    <ClCompile Include="Userdata.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="EventPackage.h" />
-    <ClInclude Include="FSM_Class.h" />
-    <ClInclude Include="LogicFSM.h" />
-    <ClInclude Include="LogicFSMRoutines.h" />
-    <ClInclude Include="LogicServerFSM.h" />
-    <ClInclude Include="Observable.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Userdata.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
