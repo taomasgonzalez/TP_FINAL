@@ -21,7 +21,7 @@ public:
 	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
 
 	//Analyze of gaming situations
-	bool is_the_action_possible(Event_type event_to_be_checked, Action_info * package_to_be_analyze); //wrap for a clearer implementation of check_Action
+	bool is_the_action_possible(Action_info * package_to_be_analyze); //wrap for a clearer implementation of check_Action
 
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
@@ -32,7 +32,8 @@ public:
 
 
 	//Executing functions
-	void execute_action(EventPackage * action_to_be_executed);
+	void execute_action(Action_info * action_to_be_executed);
+	void execute_proyectile(Proyectile* proyectile_to_be_executed);
 
 	void finish_game();
 
@@ -87,13 +88,13 @@ private:
 
 	unsigned char make_checksum(const char * CSV_map_location);
 	//checkes
-	bool check_move(EventPackage * package_to_be_analyze);
-	bool check_attack(EventPackage * package_to_be_analyze);
-	bool check_enemy_action(EventPackage * package_to_be_analyze);
+	bool check_move(Action_info * package_to_be_analyze);
+	bool check_attack(Action_info * package_to_be_analyze);
+	bool check_enemy_action(Action_info * package_to_be_analyze);
 	//executers
-	void execute_move(EventPackage * move_to_be_executed);
-	void execute_attack(EventPackage * attack_to_be_executed);
-	void execute_enemy_action(EventPackage * enemy_action_to_be_executed);
+	void execute_move(Action_info * move_to_be_executed);
+	void execute_attack(Action_info * attack_to_be_executed);
+	void execute_enemy_action(Action_info * enemy_action_to_be_executed);
 
 	//EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	

@@ -178,6 +178,15 @@ MOVE_EventPackage::MOVE_EventPackage(Item_type my_character, unsigned char fil_d
 	this->character = my_character;
 
 }
+/**************************************************************
+MOVE_EventPackage CONSTRUCTOR (MADE FROM AN Action_type)
+**************************************************************/
+MOVE_EventPackage::MOVE_EventPackage(Action_info * my_info) :EventPackage(Event_type::MOVE, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+
+	this->character = my_info->my_character;
+	this->set_direction(my_info->my_direction);
+
+}
 
 
 
@@ -225,6 +234,18 @@ ATTACK_EventPackage::ATTACK_EventPackage(Item_type my_character, unsigned char f
 
 }
 /**************************************************************
+ATTACK_EventPackage CONSTRUCTOR 
+**************************************************************/
+ATTACK_EventPackage::ATTACK_EventPackage(Action_info * my_info) :EventPackage(Event_type::ATTACK, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+
+	this->character = my_info->my_character;
+	this->set_direction(my_info->my_direction);
+
+
+}
+
+
+/**************************************************************
 give_me_the_character
 **************************************************************/
 Item_type ATTACK_EventPackage::give_me_the_character() {
@@ -258,6 +279,16 @@ ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
 ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de) { //extern ACTION_REQUEST
 
 	this->action = the_action;
+
+}
+
+/**************************************************************
+ACTION_REQUEST_EventPackage CONSTRUCTOR 
+**************************************************************/
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info * my_info) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+	
+	this->action = my_info->action;
+	this->set_direction(my_info->my_direction);
 
 }
 

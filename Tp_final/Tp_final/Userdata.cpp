@@ -8,22 +8,69 @@ ALLEGRO_BITMAP *AllegroData::WindowsBackground;
 
 /// EA_info METHODS
 
-Action_info::Action_info(ENEMY_ACTION_EventPackage* trasnlate_please) {
+Action_info::Action_info(EventPackage* trasnlation_procedure) {
 
-	this->action = trasnlate_please->give_me_the_action();
-	this->final_pos_x = trasnlate_please->give_me_the_destination_row();
-	this->final_pos_y = trasnlate_please->give_me_the_destination_column();
-	this->id = trasnlate_please->give_me_the_monsterID();
+	this->my_info_header = trasnlation_procedure->give_me_your_event_type();
+	this->is_local = trasnlation_procedure->is_this_a_local_action();
+
+	switch (my_info_header)
+	{
+
+	case Event_type::MOVE:
+		if (is_local)
+		{
+			this->my_direction = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_direction();
+		}
+		else
+		{
+			this->my_character = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_the_character();
+			this->final_pos_x = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_destination_row();
+			this->final_pos_y = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_destination_column();
+		}
+		break;
+	case Event_type::ATTACK:
+		if (is_local)
+		{
+			this->my_direction = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_direction(); //none
+		}
+		else
+		{
+			this->my_character = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_the_character();
+			this->final_pos_x = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_destination_row();
+			this->final_pos_y = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_destination_column();
+		}
+		break;
+	case Event_type::ACTION_REQUEST:
+		if (is_local)
+		{
+			this->my_direction = ((MOVE_EventPackage*)trasnlation_procedure)->give_me_your_direction(); //none
+		}
+		else
+		{
+			this->action = ((ACTION_REQUEST_EventPackage*)trasnlation_procedure)->give_me_the_action();
+			this->final_pos_x = ((ACTION_REQUEST_EventPackage*)trasnlation_procedure)->give_me_your_destination_row();
+			this->final_pos_y = ((ACTION_REQUEST_EventPackage*)trasnlation_procedure)->give_me_your_destination_column();
+		}
+		break;
+
+	case Event_type::ENEMY_ACTION:
+
+		this->action = ((ENEMY_ACTION_EventPackage*)trasnlation_procedure)->give_me_the_action();
+		this->final_pos_x = ((ENEMY_ACTION_EventPackage*)trasnlation_procedure)->give_me_the_destination_row();
+		this->final_pos_y = ((ENEMY_ACTION_EventPackage*)trasnlation_procedure)->give_me_the_destination_column();
+		this->id = ((ENEMY_ACTION_EventPackage*)trasnlation_procedure)->give_me_the_monsterID();
+
+		break;
+
+	}
+
+	delete trasnlation_procedure;
 }
 
 Action_info::Action_info() {
 
 }
 
-Action_info::Action_info(Event_type info_to_be_saved) {
-
-
-}
 
 
 /// NETWORKDATA METHODS
