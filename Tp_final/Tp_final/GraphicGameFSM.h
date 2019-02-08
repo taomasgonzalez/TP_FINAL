@@ -10,7 +10,6 @@ public:
 private:
 	std::vector<edge_t>* menu_state = NULL;
 	std::vector<edge_t>* playing_state = NULL;
-	std::vector<edge_t>*closed_state = NULL;
 
 	DRAW* drawer;
 };
