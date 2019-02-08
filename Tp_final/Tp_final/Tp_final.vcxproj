@@ -134,6 +134,7 @@
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
+    <ClCompile Include="DRAW.cpp" />
     <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyScenarioObserver.cpp" />
@@ -146,6 +147,12 @@
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="FSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="GraficInterface.cpp" />
+    <ClCompile Include="GraficObject.cpp" />
+    <ClCompile Include="GraficObjectBall.cpp" />
+    <ClCompile Include="GraficObjectEnemy.cpp" />
+    <ClCompile Include="GraficObjectPlayer.cpp" />
+    <ClCompile Include="GraficObjectProjectile.cpp" />
     <ClCompile Include="GraphicAttackCharacterFSMRoutines.cpp" />
     <ClCompile Include="GraphicAttackCharacterFSM.cpp" />
     <ClCompile Include="GraphicCharacterFSM.cpp" />
@@ -169,6 +176,7 @@
     <ClCompile Include="PackageFactory.cpp" />
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectileFSMDrawerObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
@@ -183,13 +191,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h" />
+    <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterFSMDrawerObserver.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="DijkstraMachine.h" />
+    <ClInclude Include="DRAW.h" />
     <ClInclude Include="Drawer.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyDefines.h" />
     <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
@@ -201,6 +212,12 @@
     <ClInclude Include="FSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
+    <ClInclude Include="GraficInterface.h" />
+    <ClInclude Include="GraficObject.h" />
+    <ClInclude Include="GraficObjectBall.h" />
+    <ClInclude Include="GraficObjectEnemy.h" />
+    <ClInclude Include="GraficObjectPlayer.h" />
+    <ClInclude Include="GraficObjectProjectile.h" />
     <ClInclude Include="GraphicAttackCharacterFSMRoutines.h" />
     <ClInclude Include="GraphicAttackCharacterFSM.h" />
     <ClInclude Include="GraphicCharacterFSM.h" />
@@ -214,6 +231,9 @@
     <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
+    <ClInclude Include="PlayerDefines.h" />
+    <ClInclude Include="point.h" />
+    <ClInclude Include="ProjectileDefine.h" />
     <ClInclude Include="ProyectileFSMDrawerObserver.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />

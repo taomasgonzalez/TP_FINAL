@@ -9,16 +9,10 @@
 #include <allegro5/allegro_font.h>
 #include <allegro5/allegro_ttf.h>
 
-//#include "AllegroClass.h"
-
 #include <iostream>
 #include <string>
 
 using namespace std;
-
-using namespace std;
-
-
 
 enum menu_options {PLAY, OPTIONS};													// lo que puede seleccionar el user en el menu
 

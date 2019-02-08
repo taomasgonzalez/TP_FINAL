@@ -94,6 +94,12 @@
     <Filter Include="Source Files\Event_related\Graphic">
       <UniqueIdentifier>{e1e47c3a-1f01-42c0-8663-0ddffeddf385}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Guido_related">
+      <UniqueIdentifier>{e96b9b93-d354-49ba-b5a3-50576365d5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Guido_related">
+      <UniqueIdentifier>{bf378e29-f9b3-49db-b60d-ee0890b5676e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp">
@@ -252,6 +258,30 @@
     <ClCompile Include="GraphicAttackCharacterFSM.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="DRAW.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficInterface.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObject.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectBall.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectEnemy.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectPlayer.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectProjectile.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Source Files\Guido_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -409,6 +439,42 @@
     </ClInclude>
     <ClInclude Include="GraphicCharacterFSMRoutines.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDefines.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficInterface.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObject.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectBall.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectEnemy.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectPlayer.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectProjectile.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefines.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="DRAW.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="BallDefines.h">
+      <Filter>Guido_related</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileDefine.h">
+      <Filter>Guido_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
