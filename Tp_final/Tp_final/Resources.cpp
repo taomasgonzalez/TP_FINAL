@@ -4,19 +4,19 @@
 Resources::Resources() {
 
 	this->my_scenario = new Scene;
-	this->my_drawing_manager = new Drawer;
 	this->my_allegro_container = new Allegro;
 	this->my_user_data = new Userdata;
+	this->my_drawer = new DRAW();
 };
 
 Resources::~Resources() {  //Delete all the resources loaded
 
-	delete this->my_scenario;
-	delete this->my_drawing_manager;
-	delete this->my_allegro_container;
-	delete this->my_user_data;
-	delete this->my_communication;
-
+	delete my_scenario;
+	delete my_allegro_container;
+	delete my_user_data;
+	delete my_communication;
+	delete my_logic_event_handler;
+	delete my_graphic_event_handler;
 };
 
 
@@ -24,32 +24,31 @@ bool Resources::Intialize_all_the_resources() {
 
 	bool healthy_initialization = true;
 
-	healthy_initialization = this->my_allegro_container->Init(*this->my_user_data);  //se puede ver de pedirla por allegro, el tema es que no estaría iniciado todavía
+	healthy_initialization = my_allegro_container->Init(*my_user_data);  //se puede ver de pedirla por allegro, el tema es que no estaría iniciado todavía
 
 	if (healthy_initialization)
 	{
-		this->my_communication = new Communication(this->my_user_data);  //Initialize the communication
+		my_communication = new Communication(my_user_data);  //Initialize the communication
 		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful
 	}
 
-	this->my_fsm = new FSM(this->my_user_data);
-	this-> my_event_handler = new EventHandler(this->my_allegro_container,this->my_user_data);
+	if (my_user_data->my_network_data.is_client()) {
+		my_logic_fsm =(LogicFSM*) new LogicClientFSM(my_user_data);
+		my_logic_event_handler = new EventHandler(my_logic_fsm, new LogicEventGenerator(my_allegro_container, my_user_data), my_allegro_container, my_user_data);
+	}
+	else {
+		my_logic_fsm = (LogicFSM*) new LogicServerFSM(my_user_data);
+		my_logic_event_handler = new EventHandler(my_logic_fsm, new LogicEventGenerator(my_allegro_container, my_user_data), my_allegro_container, my_user_data);
+	}
 
-	this->add_all_observers();
+	my_graphic_fsm = new GraphicGameFSM(my_user_data, my_drawer);
+	my_graphic_event_handler = new EventHandler(my_graphic_fsm, new GraphicEventGenerator(my_allegro_container, my_user_data), my_allegro_container, my_user_data);
+
+	add_all_observers();
 
 	return healthy_initialization;
 };
 
 void Resources::add_all_observers() {
-
-	this->my_scenario->add_observer(new ScenarioDrawingObserver(this->my_scenario, this->my_drawing_manager));
-	this->my_scenario->add_observer(new ScenarioEventsObserver(this->my_event_handler, this->my_scenario, this->my_fsm,this->my_user_data));
-
-
-	this->my_fsm->add_observer(new FSMEventsObserver(this->my_event_handler, this->my_fsm, this->my_allegro_container,this->my_scenario));
-	this->my_fsm->add_observer(new FSMCommunicationObserver(this->my_fsm, this->my_communication, this->my_scenario,this->my_user_data));
-	this->my_fsm->add_observer(new FSMSceneObserver(this->my_fsm, this->my_scenario, this->my_event_handler, this->my_user_data));
-	this->my_fsm->add_observer(new EventsCommunicationObserver(this->my_event_handler, this->my_communication, this->my_user_data,this->my_scenario));
-
 
 }
