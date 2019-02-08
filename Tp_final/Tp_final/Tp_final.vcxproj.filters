@@ -165,12 +165,6 @@
     <ClCompile Include="LogicFSMRoutines.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicProyectileFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicCharacterFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
@@ -268,10 +262,13 @@
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="GraphicObjectFSM.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="GraphicObjectFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicObjectEventGenerator.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -450,6 +447,9 @@
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="GraphicObjectFSM.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicObjectEventGenerator.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
   </ItemGroup>

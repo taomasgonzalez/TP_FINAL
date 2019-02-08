@@ -31,10 +31,10 @@ Obj_Graf * GraphicObjectFactory::create_graphic_object(Item_type identifyer, uns
 			new_born = new Obj_Graf_Enemy(id, PURPLE);
 			break;
 		case Item_type::TOM:
-			//new_born = new Obj_Graf_Player(id, );
+			new_born = new Obj_Graf_Player(id, TOM);
 			break;
 		case Item_type::NICK:
-			//new_born = new Obj_Graf_Player(id, );
+			new_born = new Obj_Graf_Player(id, NICK);
 			break;
 		case Item_type::FIREBALL:
 			new_born = new Obj_Graf_Projectile(id, FIRE);
