@@ -2,7 +2,7 @@
 
 
 
-ProyectileFSMDrawerObserver::ProyectileFSMDrawerObserver(GraphicProyectileFSM* fsm, Drawer* drawer)
+ProyectileFSMDrawerObserver::ProyectileFSMDrawerObserver(GraphicProyectileFSM* fsm, DRAW* drawer)
 {
 	this->fsm = fsm;
 	this->drawer = drawer;

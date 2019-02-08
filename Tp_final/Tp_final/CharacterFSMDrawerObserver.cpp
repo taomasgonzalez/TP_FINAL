@@ -2,7 +2,7 @@
 
 
 
-CharacterFSMDrawerObserver::CharacterFSMDrawerObserver(GraphicCharacterFSM* fsm, Drawer* drawer)
+CharacterFSMDrawerObserver::CharacterFSMDrawerObserver(GraphicCharacterFSM* fsm, DRAW* drawer)
 {
 	this->fsm = fsm;
 	this->drawer = drawer;

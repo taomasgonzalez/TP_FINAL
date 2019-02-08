@@ -1,22 +1,14 @@
 #include "GraphicCharacterFSM.h"
-#include "GraphicCharacterFSMRoutines.h"
 
+void attack(void* data);
+void move(void* data);
 
-GraphicCharacterFSM::GraphicCharacterFSM(Userdata* data) : FSM(data)
+GraphicCharacterFSM::GraphicCharacterFSM(Userdata* data, DRAW* drawer, unsigned int id) : GraphicObjectFSM(data, drawer, id)
 {
-	moving_state = new std::vector<edge_t>();
-	iddle_state = new std::vector<edge_t>();
-
-	//moving_state
-	moving_state->push_back({ Event_type::MOVE_TICKED, this->moving_state, move });
-	moving_state->push_back({ Event_type::DIED, this->moving_state, die });
-	moving_state->push_back({ Event_type::DISAPPEARED, this->iddle_state, disappear });
-	moving_state->push_back({ Event_type::END_OF_TABLE, this->moving_state, do_nothing });
-
-	//iddle_state
-	iddle_state->push_back({ Event_type::REVIVED, this->moving_state,  revive });
-	iddle_state->push_back({ Event_type::END_OF_TABLE, this->iddle_state, do_nothing });
-
+	
+	expand_state(waiting_to_draw_state, {Event_type::ATTACK, this->drawing_state, attack});
+	//tiene que detectar la clase de movimiento que es y luego ejecutarlo!
+	expand_state(waiting_to_draw_state, {Event_type::MOVE, this->drawing_state, move});
 }
 
 
@@ -24,8 +16,7 @@ GraphicCharacterFSM::GraphicCharacterFSM(Userdata* data) : FSM(data)
 
 GraphicCharacterFSM::~GraphicCharacterFSM()
 {
-	delete moving_state;
-	delete iddle_state;
+
 }
 
 

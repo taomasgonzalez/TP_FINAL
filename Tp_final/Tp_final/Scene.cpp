@@ -15,7 +15,6 @@ Scene::Scene():Observable()
 	this->game_finished = false;
 	this->game_started = false;
 	this->check_local_action = false;		
-	this->has_to_draw = false;
 	this->enemys_ready = false;
 	this->we_won = false;
 	this->we_lost = false;
@@ -907,12 +906,6 @@ bool Scene::check_current_game_situation() {
 		we_won = false;
 	}
 
-}
-
-
-bool Scene::do_you_have_to_draw() {
-
-	return this->has_to_draw;
 }
 
 void Scene::append_new_auxilar_event(Action_info * new_ev_pack) {

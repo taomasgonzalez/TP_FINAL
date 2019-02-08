@@ -70,13 +70,17 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 
 	//graphic events
 	GOT_HIT,
-	MOVE_TICKED,
+	STARTED_MOVING,
 	IMPACT_TICKED,
-	DISAPPEARED,
 	DIED,
 	ATTACKED,
 	FINISHED_ATTACK,
-	REVIVED
+	REVIVED,
+
+	FPS_TICKED,
+	APPEARED,
+	DISAPPEARED,
+	FINISHED_DRAWING,
 };
 
 

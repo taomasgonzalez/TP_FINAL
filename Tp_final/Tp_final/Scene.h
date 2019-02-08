@@ -47,7 +47,6 @@ public:
 
 	//Control Flags getters
 	bool game_is_finished();
-	bool do_you_have_to_draw();
 
 	//map functions
 	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
@@ -69,7 +68,6 @@ public:
 	bool we_lost;
 	bool we_won;
 	bool check_local_action;		//see where this flag is turn on or off
-	bool has_to_draw;
 
 	bool new_enemy_action;
 	void append_new_auxilar_event(Action_info* new_ev_pack_info);

@@ -1,17 +1,17 @@
 #pragma once
 #include "Observer.h"
 #include "GraphicCharacterFSM.h"
-#include "Drawer.h"
+#include "DRAW.h"
 
 class CharacterFSMDrawerObserver : public Observer
 {
 public:
-	CharacterFSMDrawerObserver(GraphicCharacterFSM* fsm, Drawer* drawer);
+	CharacterFSMDrawerObserver(GraphicCharacterFSM* fsm, DRAW* drawer);
 	~CharacterFSMDrawerObserver();
 
 	void update();
 private:
 	GraphicCharacterFSM * fsm;
-	Drawer* drawer;
+	DRAW* drawer;
 };
 

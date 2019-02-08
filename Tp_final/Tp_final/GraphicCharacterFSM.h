@@ -1,21 +1,15 @@
 #pragma once
-#include "FSM_Class.h"
-class GraphicCharacterFSM: public FSM
+#include "GraphicObjectFSM.h"
+class GraphicCharacterFSM: public GraphicObjectFSM
 {
 public:
-	GraphicCharacterFSM(Userdata*data);
-	~GraphicCharacterFSM();
 
-	bool should_move = false;
-	bool should_disappear = false;
-	bool should_die = false;
-	bool should_revive = false;
+	//deberia tener constructores sobrecargados segun el tipo de jugador y de enemigo!
+	GraphicCharacterFSM(Userdata*data, DRAW * drawer, unsigned int id);
+	~GraphicCharacterFSM();
+	
 
 protected:
-	/**********************
-		states
-	***********************/
-	std::vector<edge_t>* moving_state = NULL;
-	std::vector<edge_t>* iddle_state = NULL;
+
 };
 

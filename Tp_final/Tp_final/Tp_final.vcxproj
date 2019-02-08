@@ -135,7 +135,6 @@
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
     <ClCompile Include="DRAW.cpp" />
-    <ClCompile Include="Drawer.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
@@ -153,11 +152,10 @@
     <ClCompile Include="GraficObjectEnemy.cpp" />
     <ClCompile Include="GraficObjectPlayer.cpp" />
     <ClCompile Include="GraficObjectProjectile.cpp" />
-    <ClCompile Include="GraphicAttackCharacterFSMRoutines.cpp" />
-    <ClCompile Include="GraphicAttackCharacterFSM.cpp" />
     <ClCompile Include="GraphicCharacterFSM.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
-    <ClCompile Include="GraphicEventPackage.cpp" />
+    <ClCompile Include="GraphicGameFSM.cpp" />
+    <ClCompile Include="GraphicObjectFSM.cpp" />
     <ClCompile Include="GraphicProyectileFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="LogicClientFSM.cpp" />
@@ -182,11 +180,9 @@
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
-    <ClCompile Include="ScenarioDrawingObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
-    <ClCompile Include="GraphicCharacterFSMRoutines.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -198,7 +194,6 @@
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="DRAW.h" />
-    <ClInclude Include="Drawer.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="EnemyDefines.h" />
     <ClInclude Include="EnemyScenarioObserver.h" />
@@ -218,12 +213,10 @@
     <ClInclude Include="GraficObjectEnemy.h" />
     <ClInclude Include="GraficObjectPlayer.h" />
     <ClInclude Include="GraficObjectProjectile.h" />
-    <ClInclude Include="GraphicAttackCharacterFSMRoutines.h" />
-    <ClInclude Include="GraphicAttackCharacterFSM.h" />
     <ClInclude Include="GraphicCharacterFSM.h" />
-    <ClInclude Include="GraphicCharacterFSMRoutines.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
-    <ClInclude Include="GraphicEventPackage.h" />
+    <ClInclude Include="GraphicGameFSM.h" />
+    <ClInclude Include="GraphicObjectFSM.h" />
     <ClInclude Include="GraphicProyectileFSM.h" />
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
@@ -249,7 +242,6 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="PurpleGuy.h" />
-    <ClInclude Include="ScenarioDrawingObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Snowball.h" />
