@@ -6,6 +6,7 @@ void check_if_finished_moving_and_change(void* data);
 void dissappear(void *data);
 void die(void* data);
 
+
 GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id): FSM(data)
 {
 	this->drawer = drawer;
@@ -16,11 +17,10 @@ GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id
 	inactive_state->push_back({Event_type::APPEARED, this->waiting_to_draw_state, appear });
 	inactive_state->push_back({Event_type::END_OF_TABLE, this->inactive_state, do_nothing});
 
-	waiting_to_draw_state->push_back({ Event_type::DIED, this->drawing_state, die });
 	waiting_to_draw_state->push_back({ Event_type::DISAPPEARED, this->inactive_state, dissappear });	
 	waiting_to_draw_state->push_back({Event_type::END_OF_TABLE, this->waiting_to_draw_state, do_nothing});
 
-	waiting_to_draw_state->push_back({ Event_type::DIED, this->drawing_state, die });
+	
 	drawing_state->push_back({Event_type::DISAPPEARED, this->inactive_state, dissappear});
 	drawing_state->push_back({Event_type::FPS_TICKED, this->drawing_state, check_if_finished_moving_and_change});
 	drawing_state->push_back({ Event_type::FINISHED_DRAWING, this->waiting_to_draw_state, do_nothing });
@@ -37,6 +37,20 @@ GraphicObjectFSM::~GraphicObjectFSM()
 	delete inactive_state;
 }
 
+void GraphicObjectFSM::is_able_to_die()
+{
+	waiting_to_draw_state->push_back({ Event_type::DIED, this->drawing_state, die });
+
+	drawing_state->push_back({ Event_type::DIED, this->drawing_state, die });
+}
+
+void GraphicObjectFSM::is_able_to_attack()
+{
+	waiting_to_draw_state->push_back({ Event_type::ATTACK, this->drawing_state, attack });
+}
+void GraphicObjectFSM::is_able_to_move() {
+	waiting_to_draw_state->push_back({ Event_type::MOVE, this->drawing_state, move });
+}
 void do_nothing(void* data) {
 
 }

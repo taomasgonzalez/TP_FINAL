@@ -270,6 +270,9 @@
     <ClCompile Include="GraphicObjectFSM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicObjectFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -362,12 +365,6 @@
     <ClInclude Include="ScenarioEventsObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicCharacterFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicProyectileFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterFSMDrawerObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
     </ClInclude>
@@ -449,8 +446,11 @@
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicObjectFactory.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
     <ClInclude Include="GraphicObjectFSM.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

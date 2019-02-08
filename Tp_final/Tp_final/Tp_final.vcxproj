@@ -155,6 +155,7 @@
     <ClCompile Include="GraphicCharacterFSM.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp" />
+    <ClCompile Include="GraphicObjectFactory.cpp" />
     <ClCompile Include="GraphicObjectFSM.cpp" />
     <ClCompile Include="GraphicProyectileFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
@@ -213,11 +214,10 @@
     <ClInclude Include="GraficObjectEnemy.h" />
     <ClInclude Include="GraficObjectPlayer.h" />
     <ClInclude Include="GraficObjectProjectile.h" />
-    <ClInclude Include="GraphicCharacterFSM.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicGameFSM.h" />
+    <ClInclude Include="GraphicObjectFactory.h" />
     <ClInclude Include="GraphicObjectFSM.h" />
-    <ClInclude Include="GraphicProyectileFSM.h" />
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />

@@ -5,6 +5,7 @@
 #include "Snowball.h"
 #include "Fireball.h"
 #include "Player.h"
+#include "GraphicObjectFactory.h"
 
 class MapThingFactory
 {
@@ -28,6 +29,8 @@ private:
 
 	ALLEGRO_EVENT_QUEUE * enemies_ev_queue;
 	ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue;
+
+	GraphicObjectFactory graph_factory;
 };
 
 

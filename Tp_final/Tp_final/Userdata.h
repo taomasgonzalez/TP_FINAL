@@ -7,6 +7,8 @@
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
+enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
+enum class Sense_type {Right, Left, None};
 
 enum class Direction_type
 {

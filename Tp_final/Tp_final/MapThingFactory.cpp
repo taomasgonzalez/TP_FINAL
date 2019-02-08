@@ -57,6 +57,8 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 	}
 
+	new_born->append_graphical_object(graph_factory.create_graphic_object(identifyer, new_born->id));
+
 	if (new_born->is_enemy())
 		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(((Enemy*)new_born)->get_acting_timer()));
 	else if (new_born->is_proyectile())

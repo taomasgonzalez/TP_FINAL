@@ -59,3 +59,8 @@ Sense_type MapThing::get_sense() {
 	return this->my_sense;
 }
 
+void MapThing::append_graphical_object(Obj_Graf * graphic_object)
+{
+	this->graphic_object = graphic_object;
+}
+

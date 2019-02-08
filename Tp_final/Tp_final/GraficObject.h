@@ -56,4 +56,5 @@ protected:
 	POINT InitalPos;					// posición inicial para saber cuando detener la animación, y pasivar el objeto
 //	int fallTicks;						// medida de tiempo de caida
 	int jumpTicks;						// medida de tiempo de salto (reciclar variables -> mala practica)
+
 };
