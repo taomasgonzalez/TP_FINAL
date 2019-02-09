@@ -4,15 +4,10 @@
 #include <vector>
 #include "DRAW.h"
 
-#include "EventsCommunicationObserver.h"
-#include "FSMEventsObserver.h"
-#include "FSMCommunicationObserver.h"
-#include "FSMSceneObserver.h"
-#include "ScenarioEventsObserver.h"
-#include "EventsCommunicationObserver.h"
 #include "GraphicEventGenerator.h"
 #include "EventHandler.h"
 
+#include "Communication.h"
 #include "LogicClientFSM.h"
 #include "LogicServerFSM.h"
 #include "GraphicGameFSM.h"
@@ -30,26 +25,22 @@ public:
 
 	//My Models
 	Userdata* my_user_data;			//Pointer to manage the user data
-	LogicFSM* my_logic_fsm;					//Pointer to manage the FSM
-	GraphicGameFSM* my_graphic_fsm;
+
 	Allegro * my_allegro_container;	//Pointer to manage allegro
 	Scene* my_scenario;				//Pointer to manage the scenario
-
 
 	//My Controllers
 	EventHandler * my_logic_event_handler;
 	EventHandler * my_graphic_event_handler;
-	Communication * my_communication;  //Pointer to manage the communication
+	bool Initialize_all_the_resources();
 
+private:	
+	LogicFSM * my_logic_fsm;					//Pointer to manage the FSM
+	GraphicGameFSM* my_graphic_fsm;
 	DRAW* my_drawer;
 	//Methods
-	bool Intialize_all_the_resources();
-	void add_all_observers( );
-
-
-private:
-
-
+	void add_all_observers();
+	Communication * my_communication;  //Pointer to manage the communication
 };					
 
 

@@ -5,30 +5,6 @@
 #include "Resources.h"
 
 /*
-TO DO:
--CHEQUEO GENERAL DEL FLUJO DEL PROGRAMA
--BUSCAR DONDE LIBERAR MEMORIA DE LOS PAQUETES Y TODO ESO
--FALTAN HACER ALGUNAS RUTINAS DE ACCIÓN
--HACER LISTA DE IMPLEMENTACIONES QUE FALTAN
--COMPLETAR ELEMENtOS DE ESCENA LOGICOS Y UNIRLO CON LA PARTE GRÁFICA
--HACER MENUES
--VER DE IMPLEMENTAR WRAP DE ALLEGRO
--Chequeo de movimiento posible dentro de model allegro, cuando se genera el allegro event (ver implementaciones en otros tps)
--Mover toda la info que no sea del juego a los controllers(Ver con cuidado)
-
-GERMAN:
--Ver de como meter lo que hizo guido en el resto del programa manteniendolo modular.
-Ver como aplicar Drawer, sería un controller que seria llamadao por un observer de la clase allegro y que tenga un ptr a scene, allegro y a userdata. allegrodata
-(donde estarían cargados los recursos)
--Diferenciar bien backend de frontend en cuanto a la parte de allegro, yo lo veo más que scene es como la parte logica con las reglas del juego (BE) y la clase
-allegro el FE con sus recursos
-
-TOMMY:
--Terminar ultimas rutinas de acción fsm
--Chequeo final fsm
--Terminar Scene con todos sus componentes y hacer parte lógica
--Scene::is_the_action_possible(PAcakge *) analiza el paquete que llega por netwoking a ver si es válido
-
 GUIDO:
 - Hacer 10 mapas con el formato pedido(Ver anexo mapas en la consigna)
 Fijate que hay un par(carpeta maapas, en este mismo repo) que yo hice pero en otro formato, capaz que te sirven. Que incremente la dificultad a medida que aumentan 
@@ -59,7 +35,8 @@ int main(void) {
 		myResources->my_scenario->gameInit();
 
 		while (!myResources->my_scenario->game_is_finished()) {
-			myResources->my_event_handler->handle_event();
+			myResources->my_logic_event_handler->handle_event();
+			myResources->my_graphic_event_handler->handle_event();
 		}
 	}
 	else {

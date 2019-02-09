@@ -20,7 +20,7 @@ Resources::~Resources() {  //Delete all the resources loaded
 };
 
 
-bool Resources::Intialize_all_the_resources() {
+bool Resources::Initialize_all_the_resources() {
 
 	bool healthy_initialization = true;
 
