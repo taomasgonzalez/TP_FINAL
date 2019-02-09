@@ -1,4 +1,6 @@
 #pragma once
+
+#define _WIN32_WINNT 0x0501
 #include <boost/asio.hpp>
 #include <boost/function.hpp>
 #include <boost/bind.hpp>
@@ -35,6 +37,7 @@ extern "C" {
 #define ANIMATION_ID 0					//posicion en el mensaje YOU_GO donde ira a parar la animacion.
 #define COUNT_ID 1						//posicion en el mensaje YOU_GO donde ira a parar el COUNT
 #define MACHINES_ID (COUNT_ID+1)	    //posicion en el mensaje YOU_GO de la maquina 1 (de la primera maquina). Es la prox a COUNT_ID
+
 
 class Communication : public Observable
 {

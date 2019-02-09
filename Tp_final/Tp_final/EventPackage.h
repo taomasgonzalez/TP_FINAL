@@ -1,5 +1,8 @@
 #pragma once
+
 #include "Userdata.h"
+#include "Action_Info.h"
+
 #include <stdint.h> 
 #include <cstring>
 
@@ -90,7 +93,7 @@ public:
 	EventPackage(Event_type event, bool is_local = NULL);
 	Event_type give_me_your_event_type();
 	bool is_this_a_local_action();
-
+	Action_info to_Action_info();
 
 protected:
 	Event_type my_internal_event;
@@ -170,6 +173,9 @@ public:
 	Item_type give_me_the_character();
 	void set_character(Item_type the_one_that_moves);
 
+	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+	Action_info to_Action_info();
+
 private:
 	Item_type character;
 };
@@ -190,6 +196,9 @@ public:
 	Item_type give_me_the_character();
 	void set_character(Item_type the_one_that_moves);
 
+	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+	Action_info to_Action_info();
+
 private:
 	Item_type character;
 
@@ -207,10 +216,12 @@ class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPack
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
 	ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
-	ACTION_REQUEST_EventPackage(Action_info * my_info);
+	ACTION_REQUEST_EventPackage(Action_info* my_info);
 
 	Action_type give_me_the_action();
 
+	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+	Action_info to_Action_info();
 
 private:
 	Action_type action;
@@ -303,6 +314,10 @@ public:
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
+
+	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+	Action_info to_Action_info();
+
 private:
 	uchar MonsterID;
 	Action_type action;

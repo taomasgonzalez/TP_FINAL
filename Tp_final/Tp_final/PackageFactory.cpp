@@ -37,7 +37,7 @@ PackageFactory::PackageFactory()
 		break;
 
 	case Event_type::ATTACK:
-		pac = new ATTACK_package(((ATTACK_EventPackage *)info_received)->give_me_the_character(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_row(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_column());
+		pac = new ATTACK_package((Character_type)((ATTACK_EventPackage *)info_received)->give_me_the_character(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_row(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_column());
 
 		break;
 
@@ -155,7 +155,7 @@ PackageFactory::PackageFactory()
  EventPackage * PackageFactory::refresh_event_package(Action_info * info_checked) {
 
 	 Event_type info_header = info_checked->my_info_header;
-	 EventPackage* my_checked_event;
+	 EventPackage* my_checked_event = NULL;
 	 switch (info_header)
 	 {
 

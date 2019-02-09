@@ -205,6 +205,20 @@ void MOVE_EventPackage::set_character(Item_type the_one_that_moves) {
 
 }
 
+Action_info MOVE_EventPackage::to_Action_info()
+{
+	Action_info returnable_info = EventPackage::to_Action_info();
+
+	if (returnable_info.is_local)
+		returnable_info.my_direction = give_me_your_direction();
+	else{
+		returnable_info.my_character = give_me_the_character();
+		returnable_info.final_pos_x = give_me_your_destination_row();
+		returnable_info.final_pos_y = give_me_your_destination_column();
+	}
+	return returnable_info;
+}
+
 
 /******************************************************************************
 *******************************************************************************
@@ -260,6 +274,21 @@ void ATTACK_EventPackage::set_character(Item_type the_one_that_moves) {
 
 }
 
+//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+Action_info ATTACK_EventPackage::to_Action_info()
+{
+	Action_info returnable_info = EventPackage::to_Action_info();
+
+	if (returnable_info.is_local)
+		returnable_info.my_direction = give_me_your_direction(); //none
+	else{
+		returnable_info.my_character = give_me_the_character();
+		returnable_info.final_pos_x = give_me_your_destination_row();
+		returnable_info.final_pos_y = give_me_your_destination_column();
+	}
+	return returnable_info;
+}
+
 
 /******************************************************************************
 *******************************************************************************
@@ -285,7 +314,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action,
 /**************************************************************
 ACTION_REQUEST_EventPackage CONSTRUCTOR 
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info * my_info) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
 	
 	this->action = my_info->action;
 	this->set_direction(my_info->my_direction);
@@ -297,6 +326,23 @@ give_me_the_action
 **************************************************************/
 Action_type ACTION_REQUEST_EventPackage::give_me_the_action() {
 	return this->action;
+}
+
+//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+Action_info ACTION_REQUEST_EventPackage::to_Action_info()
+{
+	Action_info returnable_info = EventPackage::to_Action_info();
+
+	if (returnable_info.is_local)
+		returnable_info.my_direction = give_me_your_direction(); //none
+	else
+	{
+		returnable_info.action = give_me_the_action();
+		returnable_info.final_pos_x = give_me_your_destination_row();
+		returnable_info.final_pos_y = give_me_your_destination_column();
+	}
+
+	return returnable_info;
 }
 
 
@@ -440,6 +486,19 @@ char ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
 	return this->destination_column;
 
 }
+
+//cualquier queja (que no sea de logica interna) quejarse a Tommy.
+Action_info ENEMY_ACTION_EventPackage::to_Action_info()
+{
+	Action_info returnable_info = EventPackage::to_Action_info();
+
+	returnable_info.action = give_me_the_action();
+	returnable_info.final_pos_x = give_me_the_destination_row();
+	returnable_info.final_pos_y = give_me_the_destination_column();
+	returnable_info.id = give_me_the_monsterID();
+
+	return returnable_info;
+}
 /******************************************************************************
 *******************************************************************************
 ENEMYS_LOADED_EventPackage METHODS DEFINITIONS
@@ -514,5 +573,15 @@ END_OF_TABLE_EventPackage CONSTRUCTOR
 END_OF_TABLE_EventPackage::END_OF_TABLE_EventPackage() :EventPackage(Event_type::END_OF_TABLE) {
 
 
+}
+
+Action_info EventPackage::to_Action_info() {
+
+	Action_info returnable_info;
+
+	returnable_info.my_info_header = give_me_your_event_type();
+	returnable_info.is_local = is_this_a_local_action();
+
+	return returnable_info;
 }
 

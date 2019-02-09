@@ -3,14 +3,14 @@
 #include "allegro5\allegro_image.h"
 #include <string>
 #include <array>
-#include "EventPackage.h"
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
 
 enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
+
 enum class Sense_type {Right, Left, None};
 
-enum class Direction_type{Right,Left, Jump_Straight, Jump_Left, Jump_Right , None};
+enum class Direction_type{Right, Left, Jump_Straight, Jump_Left, Jump_Right , None};
 
 enum class Action_type { 
 	Move = 'M', Attack = 'A' };
@@ -21,24 +21,6 @@ enum class Character_id {
 
 enum class Item_type {
 	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
-};
-
-class Action_info {
-
-public:
-	Action_info(EventPackage* trasnlation_procedure);
-	Action_info();
-
-	Event_type my_info_header;
-	bool is_local;
-	bool finished_loading; //For ENEMYS_LOADED_EventPackage
-	unsigned int id;
-	int final_pos_x;
-	int final_pos_y;
-	Action_type action;
-	Direction_type my_direction;
-	Item_type my_character;
-	bool valid = false;
 };
 
 class NetworkData {
