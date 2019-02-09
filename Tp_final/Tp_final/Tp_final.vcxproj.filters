@@ -452,6 +452,9 @@
     <ClInclude Include="GraphicObjectEventGenerator.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
+    <ClInclude Include="Action_Info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

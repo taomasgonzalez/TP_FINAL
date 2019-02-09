@@ -186,6 +186,7 @@
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Action_Info.h" />
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />

@@ -1,9 +1,10 @@
 #include "Userdata.h"
 
-enum class Event_type;
+enum class Action_info_id{ MOVE, ATTACK, ACTION_REQUEST, ENEMY_ACTION};
+
 struct Action_info {
 
-	Event_type my_info_header;
+	Action_info_id my_info_header;
 	bool is_local;
 	bool finished_loading; //For ENEMYS_LOADED_EventPackage
 	unsigned int id;
