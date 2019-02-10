@@ -448,7 +448,7 @@ void Obj_Graf_Projectile::loadBitmap(PROYECTILE_TYPE type)
 		this->moveImages = new ALLEGRO_BITMAP *[MOVING_PICS_FIRE];
 		for (int i = 0; i < MOVING_PICS_FIRE; i++)
 		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 6) + ".png";
 			this->moveImages[i] = al_load_bitmap(imageDir.c_str());
 		}
 		carpeta3 = FOLDER_DECAYING;
