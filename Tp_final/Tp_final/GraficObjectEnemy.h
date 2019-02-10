@@ -14,14 +14,17 @@ public:
 	~Obj_Graf_Enemy();
 
 	void draw();
-	void startDraw(Direction dir, void *estado, POINT& pos);
+	void startDraw(Direction dir, void *estado, POINT_& pos);
 	void destroy();
+	void reset();
+	bool secuenceOver();
 
 private:
 	ENEMY_TYPE type;
 	ENEMY_STATE state;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
+	unsigned int idleActualImage;
 	void loadBitmap(ENEMY_TYPE type);										// dependiendo del enemigo se le cargan determinadas imagenes
 	ALLEGRO_BITMAP ** walkImages = NULL;
 	ALLEGRO_BITMAP ** jumpImages = NULL;
@@ -31,3 +34,4 @@ private:
 	ALLEGRO_BITMAP ** trapImages = NULL;
 	ALLEGRO_BITMAP ** dieImages = NULL;
 };
+
