@@ -10,7 +10,8 @@ const unsigned char *getTable();		// función para obtener la tabla para checksu
  
 Scene::Scene():Observable()
 {
-
+	enemy_actions_queue = al_create_event_queue();
+	proyectile_actions_queue = al_create_event_queue();
 	this->assistant_queue = new std::queue<Action_info>();
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;

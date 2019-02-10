@@ -1,8 +1,8 @@
-#include "FSMSceneObserver.h"
+#include "LogicFSMSceneObserver.h"
 
 #include "EventPackageFactory.h"
 
-FSMSceneObserver::FSMSceneObserver(LogicFSM* fsm, Scene* scenario, LogicEventGenerator *event_gen, Userdata * userdata)
+LogicFSMSceneObserver::LogicFSMSceneObserver(LogicFSM* fsm, Scene* scenario, LogicEventGenerator *event_gen, Userdata * userdata)
 {
 	this->my_fsm = fsm;
 	this->my_scenario = scenario;
@@ -10,11 +10,11 @@ FSMSceneObserver::FSMSceneObserver(LogicFSM* fsm, Scene* scenario, LogicEventGen
 	this->my_user_data = userdata;
 }
 
-FSMSceneObserver::~FSMSceneObserver()
+LogicFSMSceneObserver::~LogicFSMSceneObserver()
 {
 }
 
-void FSMSceneObserver::update() {
+void LogicFSMSceneObserver::update() {
 
 	if (my_fsm->end_game) {
 		my_scenario->finish_game();

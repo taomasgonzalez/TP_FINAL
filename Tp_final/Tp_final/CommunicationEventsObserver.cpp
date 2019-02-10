@@ -1,30 +1,28 @@
-#include "EventsCommunicationObserver.h"
+#include "CommunicationEventsObserver.h"
 /*
 Observer encargado de:
 recibir los paquetes por networking
 analizarlos a través de scenario
 enviar los EVpackages a la cola de net_event
 
-
 */
 
 
-EventsCommunicationObserver::EventsCommunicationObserver(LogicEventGenerator * event_gen, Communication * com, Userdata * data, Scene * scenario)
+CommunicationEventsObserver::CommunicationEventsObserver(LogicEventGenerator * event_gen, Communication * com, Userdata* data)
 {
 	this->event_gen = event_gen;
 	this->com = com;
 	this->my_user_data = data;
-	this->my_scenario = scenario;
 
 }
 
 
-EventsCommunicationObserver::~EventsCommunicationObserver()
+CommunicationEventsObserver::~CommunicationEventsObserver()
 {
 }
 
 //Se encarga de recibir los paquetes de networking, chequearlos y mandarlos a la cola
-void EventsCommunicationObserver::update() {
+void CommunicationEventsObserver::update() {
 	if (my_user_data->my_network_data.get_should_check_for_new_messages())
 	{
 		Package * new_pack = com->receiveMessage();

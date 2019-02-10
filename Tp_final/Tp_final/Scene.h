@@ -104,8 +104,8 @@ private:
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
 	*/
-	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = al_create_event_queue();
-	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = al_create_event_queue();
+	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = NULL;
+	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = NULL;
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);

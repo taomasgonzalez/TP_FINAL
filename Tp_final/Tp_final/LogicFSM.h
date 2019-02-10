@@ -18,6 +18,8 @@ public:
 	LogicFSM(Userdata * data);
 	~LogicFSM();
 
+	virtual void run_fsm(EventPackage * ev_pack);
+
 	/*****************************
 		observer related	
 	******************************/

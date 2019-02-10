@@ -46,7 +46,7 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_name_is) {
 		//tengo qeu mandar paquete NAME_IS
-		info_to_be_send = new NAME_IS_EventPackage(true, (uchar)((this->my_user_data->my_network_data.give_me_my_name()).size()),this->my_user_data->my_network_data.give_me_my_name().c_str());
+		info_to_be_send = new NAME_IS_EventPackage(true, (uchar)((my_user_data->my_network_data.give_me_my_name()).size()), my_user_data->my_network_data.give_me_my_name().c_str());
 
 	}
 
@@ -58,7 +58,7 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_map_is) {
 		//tengo qeu mandar paquete MAP_IS! //investigar vectores y ponerlo lindo, solo pasará si soy server
-		info_to_be_send = new MAP_IS_EventPackage(true,this->scenario->maps.at(this->scenario->actual_map)->give_me_the_original_map(), this->scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum() );
+		info_to_be_send = new MAP_IS_EventPackage(true,scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum() );
 		this->scenario->actual_map++;
 
 	}
@@ -102,12 +102,12 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_enemy_action) {
 		//If Scene::give_me_my_enemy_action() returns NULL, it means that all the local EA with the initial distributions where already sent to the client
-		info_to_be_send = this->fsm->get_fsm_ev_pack(); //EA when playing
+		info_to_be_send = fsm->get_fsm_ev_pack(); //EA when playing
 	}
 
 	if (fsm->s_action_request) {
 		//soy cliente, allegro lo detecta y me genera directamente un action request qeu ingresa a la FSM, por tanto queda guardado en la misma 
-		info_to_be_send = this->fsm->get_fsm_ev_pack(); //EA when playing
+		info_to_be_send = fsm->get_fsm_ev_pack(); //EA when playing
 
 	}
 

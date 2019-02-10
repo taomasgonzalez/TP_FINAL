@@ -7,11 +7,11 @@
 #include "Scene.h"
 
 
-class EventsCommunicationObserver : public Observer
+class CommunicationEventsObserver : public Observer
 {
 public:
-	EventsCommunicationObserver(LogicEventGenerator * event_gen, Communication * com, Userdata* data, Scene * scenario);
-	~EventsCommunicationObserver();
+	CommunicationEventsObserver(LogicEventGenerator * event_gen, Communication * com, Userdata* data);
+	~CommunicationEventsObserver();
 
 	virtual void update();
 
@@ -19,7 +19,6 @@ private:
 	LogicEventGenerator * event_gen;
 	Communication * com;
 	Userdata * my_user_data;
-	Scene * my_scenario;
 
 };
 

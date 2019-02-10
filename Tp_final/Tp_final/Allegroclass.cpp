@@ -87,32 +87,6 @@ bool Allegro::Init(Userdata& Userdata) {
 	}
 	else
 		ret = false;
-	/*	
-	for (int i = 0; i < 15; i++) {
-		if (Userdata.WormWalk[i] = al_create_bitmap(60, 60)) {}
-		else ret = false;
-	}
-
-	for (int i = 0; i < 10; i++) {
-		if (Userdata.WormJump[i] = al_create_bitmap(60, 60)) {}
-		else ret = false;
-	}
-
-	if (ret) {
-		al_register_event_source(this->al_queue, al_get_display_event_source(this->Display));
-		al_register_event_source(this->al_queue, al_get_keyboard_event_source());
-		al_register_event_source(this->soft_queue, al_get_timer_event_source(time_out_timer));
-	}
-	else {
-		for (int i = 0; i < 15; i++) {
-			al_destroy_bitmap(Userdata.WormWalk[i]);
-		}
-		for (int i = 0; i < 10; i++) {
-			al_destroy_bitmap(Userdata.WormJump[i]);
-		}
-	}
-	*/
-	//loadPlayMusic();
 
 	return ret;
 }

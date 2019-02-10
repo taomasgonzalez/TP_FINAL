@@ -1,20 +1,20 @@
-#include "FSMEventsObserver.h"
+#include "LogicFSMEventsObserver.h"
 
 
-
-FSMEventsObserver::FSMEventsObserver(LogicEventGenerator * event_gen, LogicFSM * fsm, Allegro* allegro_container, Scene* scenario)
+LogicFSMEventsObserver::LogicFSMEventsObserver(LogicEventGenerator * event_gen, LogicFSM * fsm, Allegro* allegro_container, Userdata* data, Scene* scene)
 {
 	this->event_gen = event_gen;
 	this->fsm = fsm;
 	this->allegro_container = allegro_container;
-
+	this->scenario = scene;
+	this->my_user_data = data;
 }
 
-FSMEventsObserver::~FSMEventsObserver()
+LogicFSMEventsObserver::~LogicFSMEventsObserver()
 {
 }
 
-void FSMEventsObserver::update() {
+void LogicFSMEventsObserver::update() {
 	//me fijo si tengo que inicializar un time out timer porque acabo de mandar un paquete siendo server.
 	if (fsm->new_ack_time_out) {
 		if (!(fsm->waiting_for_ack)){
@@ -53,7 +53,7 @@ void FSMEventsObserver::update() {
 		unsigned char his_namelenght = ((NAME_IS_EventPackage *)his_new_name_package)->get_name_lenght();
 		char * his_name = ((NAME_IS_EventPackage *)his_new_name_package)->give_me_your_name();
 
-		this->event_gen->my_user_data->my_network_data.tell_me_his_name(his_name, his_namelenght);
+		my_user_data->my_network_data.tell_me_his_name(his_name, his_namelenght);
 
 	}
 	

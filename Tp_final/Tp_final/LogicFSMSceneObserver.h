@@ -8,11 +8,11 @@
 #include "Userdata.h"
 
 
-class FSMSceneObserver: public Observer
+class LogicFSMSceneObserver: public Observer
 {
 public:
-	FSMSceneObserver(LogicFSM* fsm, Scene *scenario, LogicEventGenerator *event_gen,Userdata * data);
-	~FSMSceneObserver();
+	LogicFSMSceneObserver(LogicFSM* fsm, Scene *scenario, LogicEventGenerator *event_gen,Userdata * data);
+	~LogicFSMSceneObserver();
 
 	virtual void update();
 

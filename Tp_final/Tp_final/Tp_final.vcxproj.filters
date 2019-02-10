@@ -37,9 +37,6 @@
     <Filter Include="Source Files\Map_related">
       <UniqueIdentifier>{c86cd00a-ab6f-400e-8ef6-d49d35ec150c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\PJ_related">
-      <UniqueIdentifier>{efb731d0-0200-4f26-8204-3411d0410ac3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Map_related">
       <UniqueIdentifier>{29098223-8905-45dc-a53f-eb0d8dd7801c}</UniqueIdentifier>
     </Filter>
@@ -82,15 +79,6 @@
     <Filter Include="Source Files\PJ_related\Characters\Enemies">
       <UniqueIdentifier>{bd25f279-31d7-43cc-91bc-caf150609e44}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\PJ_related\Characters">
-      <UniqueIdentifier>{25cb502e-7401-490e-93c0-4b11d0386ea2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\PJ_related\Proyectiles">
-      <UniqueIdentifier>{aae6088b-c78a-4b58-9301-189f66867d4b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\PJ_related\Characters\Enemies">
-      <UniqueIdentifier>{0429536d-a586-42f6-b704-a5d1055a5f89}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\Event_related\Graphic">
       <UniqueIdentifier>{e1e47c3a-1f01-42c0-8663-0ddffeddf385}</UniqueIdentifier>
     </Filter>
@@ -99,6 +87,18 @@
     </Filter>
     <Filter Include="Header Files\Graphics_related">
       <UniqueIdentifier>{e96b9b93-d354-49ba-b5a3-50576365d5d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related">
+      <UniqueIdentifier>{efb731d0-0200-4f26-8204-3411d0410ac3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters">
+      <UniqueIdentifier>{25cb502e-7401-490e-93c0-4b11d0386ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies">
+      <UniqueIdentifier>{0429536d-a586-42f6-b704-a5d1055a5f89}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Proyectiles">
+      <UniqueIdentifier>{aae6088b-c78a-4b58-9301-189f66867d4b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -174,16 +174,7 @@
     <ClCompile Include="FSM_Class.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="EventsCommunicationObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="FSMCommunicationObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMEventsObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
     <ClCompile Include="ScenarioEventsObserver.cpp">
@@ -267,6 +258,15 @@
     <ClCompile Include="EventPackageFactory.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
+    <ClCompile Include="CommunicationEventsObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMEventsObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMSceneObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -345,15 +345,6 @@
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
     <ClInclude Include="FSMCommunicationObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="FSMEventsObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="FSMSceneObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="EventsCommunicationObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="ScenarioEventsObserver.h">
@@ -448,6 +439,15 @@
     </ClInclude>
     <ClInclude Include="EventPackageFactory.h">
       <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicationEventsObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMEventsObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMSceneObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

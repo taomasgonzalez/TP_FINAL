@@ -5,7 +5,7 @@
 class EventHandler
 {
 public:
-	EventHandler(FSM * fsm, EventGenerator* ev_gen, Allegro* al, Userdata * data);
+	EventHandler(FSM * fsm, EventGenerator* ev_gen);
 	~EventHandler();
 
 	void handle_event();
@@ -13,7 +13,5 @@ public:
 private:
 	FSM * fsm;
 	EventGenerator* ev_gen;
-	Userdata * my_user_data;
-	Allegro * al;
 };
 

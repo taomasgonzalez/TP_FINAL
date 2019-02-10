@@ -4,15 +4,13 @@
 #include "LogicEventGenerator.h"
 #include "Scene.h"
 #include "EventPackage.h"
-#include "Scene.h"
 
 
-
-class FSMEventsObserver: public Observer
+class LogicFSMEventsObserver : public Observer
 {
 public:
-	FSMEventsObserver(LogicEventGenerator * event_gen, LogicFSM * fsm, Allegro* allegro_container, Scene * scenario);
-	~FSMEventsObserver();
+	LogicFSMEventsObserver(LogicEventGenerator * event_gen, LogicFSM * fsm, Allegro* allegro_container, Userdata* data, Scene* scene);
+	~LogicFSMEventsObserver();
 
 	virtual void update();
 
@@ -20,6 +18,7 @@ private:
 	LogicEventGenerator * event_gen;
 	LogicFSM * fsm;
 	Allegro * allegro_container;
-	Scene * scenario;
+	Scene* scenario;
+	Userdata* my_user_data;
 };
 

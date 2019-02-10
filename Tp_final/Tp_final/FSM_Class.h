@@ -26,7 +26,7 @@ struct edge
 class FSM : public  Observable{
 public:
 	 FSM(Userdata * data);
-	 void run_fsm(EventPackage * ev_pack);
+	 virtual void run_fsm(EventPackage * ev_pack);
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void set_fsm_ev_pack(EventPackage* new_ev_pack);
