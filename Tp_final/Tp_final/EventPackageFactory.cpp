@@ -11,7 +11,7 @@ EventPackageFactory::~EventPackageFactory()
 {
 }
 
-EventPackage* create_event_package(Action_info * create_from) {
+EventPackage* EventPackageFactory::create_event_package(Action_info * create_from) {
 
 	EventPackage* my_checked_event = NULL;
 	switch (create_from->my_info_header)
@@ -32,9 +32,7 @@ EventPackage* create_event_package(Action_info * create_from) {
 
 	case Action_info_id::ENEMY_ACTION:
 		my_checked_event = new ENEMY_ACTION_EventPackage(create_from);
-
 		break;
-
 	}
 	return my_checked_event;
 }

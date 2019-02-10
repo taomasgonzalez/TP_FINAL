@@ -33,11 +33,12 @@ bool MapThing::is_player() {
 
 Thing_Type MapThing::get_map_thing_type()
 {
+
 	if(is_enemy()) return Thing_Type::ENEMY;
 	else if(is_player()) return Thing_Type::PLAYER;
 	else if(is_proyectile()) return Thing_Type::PROYECTILE;
 	else if (is_floor()) return Thing_Type::FLOOR;
-
+	else return Thing_Type::FLOOR;					//este esta de mas, pero es necesario para que siempre se devuelva algo
 }
 
 void MapThing::set_printable(Item_type printable)

@@ -14,7 +14,6 @@
 #include <queue>
 #define BACKGROUND_MUSIC "Soundtracks/Super Mario Bros Soundtrack.wav"
 #define JUMP_MUSIC "Soundtracks/Super Mario Bros - Jump Sound Effect.wav"
-#define FPS 50.0
 #define SCREEN_W 1920
 #define SCREEN_H 696
 

@@ -265,7 +265,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="EventPackageFactory.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -447,7 +447,7 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="EventPackageFactory.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

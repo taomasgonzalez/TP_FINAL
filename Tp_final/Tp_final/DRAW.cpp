@@ -1,5 +1,4 @@
 #include "DRAW.h"
-#include "csvReader.h"
 #include <vector>
 
 #define FOLDER_SCENARIO	("scenario")
@@ -21,7 +20,7 @@ DRAW::DRAW()
 	if (!floor || !empty)
 		cout << "ERROR: could not load scenario !" << endl;
 
-
+	//ACA LLAMAR A GIVE_ME_THE_CSV PARA INICIALIZAR TODAS LAS STRINGS!!!
 	string level_1 = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 	levels.push_back(level_1);
 	string level_2 = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFGEEEEEEEEEEEEGFFFFEEEEEEEEEEFFFFEEEEEEPEEEEEEEFFEFFFFFFFFFFFFEFFEEPEEEEEEEEPEEFFFFFFFEEEEFFFFFFFEEEEEEEEEEEEEEFFEEEEFFFFFFEEEEFFEETEEEEEEEENEEFFFFFFFFFFFFFFFFF";
@@ -115,27 +114,26 @@ bool DRAW::secuenceOver(double ID)
 
 void DRAW::drawLevel()
 {
-	const char* map;
-
-	//map = give_me_the_CSV(level);
-
-	char block_type;
 
 	for (int i = 0; i < 12; i++)
-	{
 		for (int j = 0; j < 16; j++)
 		{
-			block_type = levels[level - 1].c_str()[i * 16 + j];
-			switch (block_type)
-			{
-			case 'F':
-				al_draw_scaled_bitmap(floor, 0, 0, al_get_bitmap_width(floor), al_get_bitmap_height(floor), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
-				break;
-			default:
-				al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
-				break;
+			char block_type = levels[level - 1].c_str()[i * 16 + j];
+
+			switch (block_type){
+				case 'F':
+					al_draw_scaled_bitmap(floor, 0, 0, al_get_bitmap_width(floor), al_get_bitmap_height(floor), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					break;
+				default:
+					al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					break;
 			}
 		}
-	}
 }
+
+
+
+
+
+
 

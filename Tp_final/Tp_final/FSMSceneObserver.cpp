@@ -1,6 +1,6 @@
 #include "FSMSceneObserver.h"
 
-
+#include "EventPackageFactory.h"
 
 FSMSceneObserver::FSMSceneObserver(LogicFSM* fsm, Scene* scenario, LogicEventGenerator *event_gen, Userdata * userdata)
 {
@@ -72,11 +72,10 @@ void FSMSceneObserver::update() {
 		Action_info acting_information = event_to_be_checked->to_Action_info();
 
 		if (!this->my_scenario->is_the_action_possible(&acting_information)) //mando a analizar el EventPackage 
-		{
 			my_fsm->error_ocurred = true;
-		}
-		else
+		else 
 			this->my_fsm->set_fsm_ev_pack(EventPackageFactory().create_event_package(&acting_information));
+
 	}
 
 	if (my_fsm->ex_action)
