@@ -7,27 +7,27 @@
 #define MOVE_RATIO_CRAZY (0.2)
 #define VEL_CRAZY (BLOCK_SIZE/(FPS*MOVE_RATIO_CRAZY))
 
-#define WALKING_PICS_PURPLE 10
-#define WALKING_PICS_FATTY 20
-#define WALKING_PICS_CRAZY 20
-#define JUMPING_PICS_PURPLE 20
-#define JUMPING_PICS_FATTY 20
-#define JUMPING_PICS_CRAZY 20
-#define ATTACKING_PICS_PURPLE NULL
-#define ATTACKING_PICS_FATTY 20
-#define ATTACKING_PICS_CRAZY NULL
-#define TRAPPED_PICS_PURPLE NULL
-#define TRAPPED_PICS_FATTY	NULL
-#define TRAPPED_PICS_CRAZY	NULL
-#define IDLE_PICS_PURPLE	NULL
-#define IDLE_PICS_FATTY		NULL
-#define IDLE_PICS_CRAZY		NULL
-#define FALLING_PICS_PURPLE	NULL
-#define FALLING_PICS_FATTY	NULL
-#define FALLING_PICS_CRAZY	NULL
-#define DYING_PICS_PURPLE	NULL
-#define DYING_PICS_FATTY	NULL
-#define DYING_PICS_CRAZY	NULL
+#define WALKING_PICS_PURPLE 8
+#define WALKING_PICS_FATTY 8
+#define WALKING_PICS_CRAZY 8
+#define JUMPING_PICS_PURPLE 8
+#define JUMPING_PICS_FATTY 2
+#define JUMPING_PICS_CRAZY 2
+#define ATTACKING_PICS_PURPLE 8
+#define ATTACKING_PICS_FATTY 8
+#define ATTACKING_PICS_CRAZY 8
+#define TRAPPED_PICS_PURPLE 8
+#define TRAPPED_PICS_FATTY	8
+#define TRAPPED_PICS_CRAZY	8
+#define IDLE_PICS_PURPLE	12
+#define IDLE_PICS_FATTY		8
+#define IDLE_PICS_CRAZY		8
+#define FALLING_PICS_PURPLE	8
+#define FALLING_PICS_FATTY	2
+#define FALLING_PICS_CRAZY	2
+#define DYING_PICS_PURPLE	8
+#define DYING_PICS_FATTY	8
+#define DYING_PICS_CRAZY	8
 
 
 #define FOLDER_ENEMY	("enemies")
@@ -43,26 +43,26 @@
 #define FOLDER_FALLING		("FALLING")
 #define FOLDER_DYING		("DYING")
 
-#define FILE_PURPLE_WALKING	("Sonic Running-F")
-#define FILE_PURPLE_JUMPING	("Super Mario Running-F")
-#define FILE_PURPLE_ATTACKING	("Explosion 2-F")
-#define FILE_PURPLE_TRAPPED	("Explosion 1-F")
-#define FILE_PURPLE_IDLE	("tomIdle-F")
-#define FILE_PURPLE_FALLING	("homerdance-F")
-#define FILE_PURPLE_DYING	("")
+#define FILE_PURPLE_WALKING	("__Bandit02_Walk_00")
+#define FILE_PURPLE_JUMPING	("__Bandit02_JumpUP_00")
+#define FILE_PURPLE_ATTACKING	("__Bandit02_Attack_00")
+#define FILE_PURPLE_TRAPPED	("__Bandit02_Hurt_00")
+#define FILE_PURPLE_IDLE	("__Bandit02_Idle_00")
+#define FILE_PURPLE_FALLING	("__Bandit02_FallDown_00")
+#define FILE_PURPLE_DYING	("__Bandit02_Die_00")
 
-#define FILE_FATTY_WALKING	("fattyWalk")
-#define FILE_FATTY_JUMPING	("fattyJump")
-#define FILE_FATTY_ATTACKING	("fattyAttack")
-#define FILE_FATTY_TRAPPED	("fattyTrapped")
-#define FILE_FATTY_IDLE		("fattyIdle")
-#define FILE_FATTY_FALLING	("fattyFall")
-#define FILE_FATTY_DYING	("fattyDie")
+#define FILE_FATTY_WALKING	("2D_GOBLIN__Run_00")
+#define FILE_FATTY_JUMPING	("2D_GOBLIN__Fall_Down_00")
+#define FILE_FATTY_ATTACKING	("2D_GOBLIN__Attack_00")
+#define FILE_FATTY_TRAPPED	("2D_GOBLIN__Hurt_00")
+#define FILE_FATTY_IDLE		("2D_GOBLIN__Idle_Blinking_00")
+#define FILE_FATTY_FALLING	("2D_GOBLIN__Fall_Down_00")
+#define FILE_FATTY_DYING	("2D_GOBLIN__Die_00")
 
-#define FILE_CRAZY_WALKING	("crazyWalk")
-#define FILE_CRAZY_JUMPING	("carzyJump")
-#define FILE_CRAZY_ATTACKING	("crazyAttack")
-#define FILE_CRAZY_TRAPPED	("crazyTrap")
-#define FILE_CRAZY_IDLE		("crazyIdle")
-#define FILE_CRAZY_FALLING	("crazyFall")
-#define FILE_CRAZY_DYING	("crazyDie")
+#define FILE_CRAZY_WALKING	("2D_SM02_Run_00")
+#define FILE_CRAZY_JUMPING	("2D_SM02_FallDown_00")
+#define FILE_CRAZY_ATTACKING	("2D_SM02_Attack_00")
+#define FILE_CRAZY_TRAPPED	("2D_SM02_Hurt_00")
+#define FILE_CRAZY_IDLE		("2D_SM02_Idle_00")
+#define FILE_CRAZY_FALLING	("2D_SM02_FallDown_00")
+#define FILE_CRAZY_DYING	("2D_SM02_Die_00")
