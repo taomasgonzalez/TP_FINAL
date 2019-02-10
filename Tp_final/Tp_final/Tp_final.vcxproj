@@ -83,6 +83,19 @@
     <Allegro_AddonVideo>true</Allegro_AddonVideo>
     <Allegro_LibraryType>DynamicDebug</Allegro_LibraryType>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Allegro_AddonImage>true</Allegro_AddonImage>
+    <Allegro_AddonTTF>true</Allegro_AddonTTF>
+    <Allegro_AddonPrimitives>true</Allegro_AddonPrimitives>
+    <Allegro_AddonAudio>true</Allegro_AddonAudio>
+    <Allegro_AddonAcodec>true</Allegro_AddonAcodec>
+    <Allegro_AddonPhysfs>true</Allegro_AddonPhysfs>
+    <Allegro_AddonDialog>true</Allegro_AddonDialog>
+    <Allegro_AddonMemfile>true</Allegro_AddonMemfile>
+    <Allegro_AddonFont>true</Allegro_AddonFont>
+    <Allegro_AddonColor>true</Allegro_AddonColor>
+    <Allegro_AddonVideo>true</Allegro_AddonVideo>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -130,7 +143,6 @@
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterFSMDrawerObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
@@ -176,7 +188,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
-    <ClCompile Include="ProyectileFSMDrawerObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -190,7 +201,6 @@
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterFSMDrawerObserver.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="DijkstraMachine.h" />
@@ -228,7 +238,6 @@
     <ClInclude Include="PlayerDefines.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
-    <ClInclude Include="ProyectileFSMDrawerObserver.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />

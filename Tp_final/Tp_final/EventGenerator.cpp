@@ -60,7 +60,7 @@ void EventGenerator::append_all_queues(int total_number_of_queues)
 */
 EventPackage * EventGenerator::fetch_event()
 {
-	static int actual_queue = 0;
+	static unsigned int actual_queue = 0;
 	EventPackage * returned_package = NULL;
 
 	if (event_queues.size() > 0) {

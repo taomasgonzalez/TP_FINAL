@@ -15,7 +15,7 @@ void PurpleGuyScenarioObserver::update()
 {
 	EnemyScenarioObserver::update();
 
-	if (purple_guy->calculate_shortest_distance) 
+	if (purple_guy->purple_questions_4_observer.calculate_shortest_distance) 
 		purple_guy->set_next_movement_2_nearest_player(scene->shortest_movement_2_nearest_player(purple_guy));
 	
 }

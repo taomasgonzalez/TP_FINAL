@@ -17,6 +17,7 @@ Scene::Scene():Observable()
 	this->assistant_queue = new std::queue<Action_info*>;
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
+	enemy_action_info;
 }
 
 
@@ -696,7 +697,7 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 
 bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
-	bool is_the_enemy_action_possible;
+	bool is_the_enemy_action_possible = false;
 	Enemy * the_enemy_that_acts = NULL;
 	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;

@@ -74,9 +74,9 @@ Action_info PurpleGuy::act(){
 void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 
-	calculate_shortest_distance = true;
+	purple_questions_4_obs.calculate_shortest_distance = true;
 	notify_obs();
-	calculate_shortest_distance = false;
+	purple_questions_4_obs.calculate_shortest_distance = false;
 
 	next_enemy_action->final_pos_x = next_movement_2_nearest_player.fil;
 	next_enemy_action->final_pos_y = next_movement_2_nearest_player.col;

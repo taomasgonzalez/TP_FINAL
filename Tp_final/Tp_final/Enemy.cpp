@@ -62,15 +62,20 @@ ALLEGRO_TIMER * Enemy::get_acting_timer() {
 */
 bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 {
-	if (next_enemy_action->valid = can_move_in_same_direction()) {
-		EA_info_common_filling(next_enemy_action);
-		next_enemy_action->action = Action_type::Move;
-		if (my_sense == Sense_type::Left)
-			next_enemy_action->final_pos_x = pos_x - 1;
-		else if (my_sense == Sense_type::Right)
-			next_enemy_action->final_pos_x = pos_x + 1;
+	EA_info_common_filling(next_enemy_action);
+
+	next_enemy_action->action = Action_type::Move;
+
+	if (my_sense == Sense_type::Left){
+		next_enemy_action->final_pos_x = pos_x - 1;
+		next_enemy_action->my_direction = Direction_type::Right;
 	}
-	return next_enemy_action->valid;
+	else if (my_sense == Sense_type::Right){
+		next_enemy_action->final_pos_x = pos_x + 1;
+		next_enemy_action->my_direction = Direction_type::Left;
+	}
+
+	return (next_enemy_action->valid = can_make_movement());
 }
 /******************************************
 ***********move_in_opposite_direction******
@@ -84,15 +89,20 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 */
 bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 {
-	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
-		EA_info_common_filling(next_enemy_action);
-		next_enemy_action->action = Action_type::Move;
-		if (this->my_sense == Sense_type::Left)
-			next_enemy_action->final_pos_x = pos_x + 1;
-		else if (this->my_sense == Sense_type::Right)
-			next_enemy_action->final_pos_x = pos_x - 1;
+	EA_info_common_filling(next_enemy_action);
+	next_enemy_action->action = Action_type::Move;
+
+	if (my_sense == Sense_type::Left){
+		next_enemy_action->final_pos_x = pos_x + 1;
+		next_enemy_action->my_direction = Direction_type::Right;
 	}
-	return next_enemy_action->valid;
+	else if (my_sense == Sense_type::Right){
+		next_enemy_action->final_pos_x = pos_x - 1;
+		next_enemy_action->my_direction = Direction_type::Left;
+	}
+
+	return (next_enemy_action->valid = can_make_movement());
+
 }
 /******************************************
 ***********stay_still******
@@ -106,11 +116,20 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 */
 void Enemy::stay_still(Action_info * next_enemy_action)
 {
-	next_enemy_action->valid = true;
 	EA_info_common_filling(next_enemy_action);
 	next_enemy_action->action = Action_type::Move;
 	next_enemy_action->final_pos_x = pos_x;
 	next_enemy_action->final_pos_y = pos_y;
+	next_enemy_action->valid = true;
+
+}
+bool Enemy::can_make_movement()
+{
+	enemy_questions_4_observer.can_make_movement = true;
+	notify_obs();
+	enemy_questions_4_observer.can_make_movement = false;
+
+	return enemy_answers_4_observable.can_make_movement;
 }
 /******************************************
 ********************jump*******************
@@ -122,12 +141,19 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 *		a boolean that is true if the movement can be performed.
 */
 bool Enemy::jump(Action_info * next_enemy_action) {
-	if (next_enemy_action->valid = can_move_in_opposite_direction()) {
-		EA_info_common_filling(next_enemy_action);
-		next_enemy_action->action = Action_type::Move;
-		next_enemy_action->final_pos_y = pos_y + 1;
-	}
-	return next_enemy_action->valid;
+
+	EA_info_common_filling(next_enemy_action);
+
+	next_enemy_action->action = Action_type::Move;
+	next_enemy_action->final_pos_y = pos_y + 1;
+	next_enemy_action->my_direction = Direction_type::Jump_Straight;
+
+	return (next_enemy_action->valid = can_make_movement());
+}
+
+Action_info Enemy::get_action_4_obs()
+{
+	return action_4_obs;
 }
 
 void Enemy::freeze()
@@ -147,49 +173,4 @@ void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 	next_enemy_action->my_info_header = Action_info_id::ENEMY_ACTION;
 	next_enemy_action->id = id;
 	next_enemy_action->is_local = true;
-}
-/******************************************
-***********can_move_in_opposite_direction**********
-*******************************************
-*can_move_in_opposite_direction indicates whether it is possible for the Enemy to move_in_opposite_direction given the map conditions. 
-*	INPUT:
-*		1) void.
-*	OUTPUT:
-*		a boolean that is true if the movement could be performed.
-*/
-bool Enemy::can_move_in_opposite_direction() {
-	questions_4_observer.can_move_in_opposite_direction = true;
-	notify_obs();
-	questions_4_observer.can_move_in_opposite_direction = false;
-	return answers_4_observable.can_move_in_opposite_direction;
-}
-/******************************************
-***********can_move_in_same_direction**********
-*******************************************
-*can_move_in_same_direction indicates whether it is possible for the Enemy to can_move_in_same_direction given the map conditions.
-*	INPUT:
-*		1) void.
-*	OUTPUT:
-*		a boolean that is true if the movement could be performed.
-*/
-bool Enemy::can_move_in_same_direction() {
-	questions_4_observer.can_move_in_same_direction = true;
-	notify_obs();
-	questions_4_observer.can_move_in_same_direction = false;
-	return answers_4_observable.can_move_in_same_direction;
-}
-/******************************************
-***********can_jump**********
-*******************************************
-*can_jump indicates whether it is possible for the Enemy to jump given the map conditions.
-*	INPUT:
-*		1) void.
-*	OUTPUT:
-*		a boolean that is true if the movement could be performed.
-*/
-bool Enemy::can_jump() {
-	questions_4_observer.can_jump = true;
-	notify_obs();
-	questions_4_observer.can_jump = false;
-	return answers_4_observable.can_jump;
 }

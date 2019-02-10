@@ -26,7 +26,7 @@ Crazy::~Crazy()
 */
 Action_info Crazy::act() {
 
-	Action_info returnable_EA = Action_info();
+	Action_info returnable_EA;
 	al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;

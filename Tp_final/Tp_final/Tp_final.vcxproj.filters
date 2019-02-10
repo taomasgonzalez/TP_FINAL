@@ -174,9 +174,6 @@
     <ClCompile Include="FSM_Class.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="ProyectileFSMDrawerObserver.cpp">
-      <Filter>Source Files\Observers\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="EventsCommunicationObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
@@ -191,9 +188,6 @@
     </ClCompile>
     <ClCompile Include="ScenarioEventsObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterFSMDrawerObserver.cpp">
-      <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
@@ -361,12 +355,6 @@
     </ClInclude>
     <ClInclude Include="ScenarioEventsObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterFSMDrawerObserver.h">
-      <Filter>Header Files\Observers\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="ProyectileFSMDrawerObserver.h">
-      <Filter>Header Files\Observers\Graphic</Filter>
     </ClInclude>
     <ClInclude Include="Fireball.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>

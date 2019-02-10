@@ -9,8 +9,13 @@ public:
 
 	Action_info act();
 
-	bool calculate_shortest_distance = false;
 	void set_next_movement_2_nearest_player(Position final_pos);
+
+	struct purple_obs_info{
+		bool calculate_shortest_distance = false;
+	};
+	purple_obs_info purple_questions_4_observer;
+	purple_obs_info purple_answers_4_observable;
 
 private:
 	static double moving_speed;	//in miliseconds	

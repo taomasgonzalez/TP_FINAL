@@ -27,13 +27,15 @@ public:
 	ALLEGRO_TIMER * get_acting_timer();
 	
 	struct obs_info {
-		bool can_move_in_same_direction = false;
-		bool can_move_in_opposite_direction = false;
-		bool can_jump = false;
+		bool can_make_movement = false;
 	};
-	obs_info questions_4_observer;
+
+	obs_info enemy_questions_4_observer;
+
 	//answers should only be checked immediately after asking the according question!
-	obs_info answers_4_observable;
+	obs_info enemy_answers_4_observable;
+
+	Action_info get_action_4_obs();
 
 protected:
 	//frozen_timer;
@@ -48,16 +50,15 @@ protected:
 
 	void EA_info_common_filling(Action_info * next_enemy_action);
 
-	bool can_move_in_same_direction();
 	bool move_in_same_direction(Action_info* next_enemy_action);
-
-	bool can_move_in_opposite_direction();
 	bool move_in_opposite_direction(Action_info* next_enemy_action);
-
 	void stay_still(Action_info * next_enemy_action);
 
-	bool can_jump();
+	bool can_make_movement();
+
 	bool jump(Action_info * next_enemy_action);
+
+	Action_info action_4_obs;
 
 };
 
