@@ -1,41 +1,41 @@
 #include "point.h"
 
-POINT::POINT(float x, float y)
+POINT_::POINT_(float x, float y)
 {
 	this->x = x;
 	this->y = y;
 }
 
-POINT::POINT()
+POINT_::POINT_()
 {
 	this->x = 0;
 	this->y = 0;
 }
 
-POINT::~POINT()
+POINT_::~POINT_()
 {
 }
 
 float
-POINT::get_x_coord()
+POINT_::get_x_coord()
 {
 	return x;
 }
 
 float
-POINT::get_y_coord()
+POINT_::get_y_coord()
 {
 	return y;
 }
 
 void
-POINT::set_x_coord(float x)
+POINT_::set_x_coord(float x)
 {
 	this->x = x;
 }
 
 void
-POINT::set_y_coord(float y)
+POINT_::set_y_coord(float y)
 {
 	this->y = y;
 }
