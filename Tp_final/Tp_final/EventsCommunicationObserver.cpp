@@ -32,7 +32,7 @@ void EventsCommunicationObserver::update() {
 		if (new_pack != NULL) //me llego un mensaje
 		{
 			EventPackage * new_event_package = PackageFactory::package_2_event_package(new_pack); //convierto el paquete a EventPackage
-			event_gen->append_new_event(new_event_package, (int) LogicEventGenerator::Queues::net); //lo meto en la cola
+			event_gen->append_new_event(new_event_package, (int) (LogicEventGenerator::LogicQueues::net)); //lo meto en la cola
 		}
 		else
 		{

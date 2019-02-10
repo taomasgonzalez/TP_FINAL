@@ -151,6 +151,7 @@
     <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
+    <ClCompile Include="EventPackageFactory.cpp" />
     <ClCompile Include="EventsCommunicationObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
@@ -210,6 +211,7 @@
     <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
+    <ClInclude Include="EventPackageFactory.h" />
     <ClInclude Include="EventsCommunicationObserver.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />

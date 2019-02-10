@@ -13,7 +13,7 @@ GraphicObjectFactory::~GraphicObjectFactory()
 
 Obj_Graf * GraphicObjectFactory::create_graphic_object(Item_type identifyer, unsigned int id)
 {
-	Obj_Graf * new_born;
+	Obj_Graf * new_born = NULL;
 	switch (identifyer) {
 		case Item_type::NADA:
 			//new_born = new Obj_Graf();

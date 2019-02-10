@@ -10,11 +10,8 @@ const unsigned char *getTable();		// función para obtener la tabla para checksu
  
 Scene::Scene():Observable()
 {
-	//flags
-	
-	new_enemy_action = false;
 
-	this->assistant_queue = new std::queue<Action_info*>;
+	this->assistant_queue = new std::queue<Action_info>();
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
 	enemy_action_info;
@@ -23,7 +20,7 @@ Scene::Scene():Observable()
 
 Scene::~Scene()
 {
-
+	delete assistant_queue;
 }
 
 
@@ -876,8 +873,8 @@ void Scene::check_current_game_situation() {
 
 }
 
-void Scene::append_new_auxilar_event(Action_info * new_ev_pack) {
-	assistant_queue->push(new_ev_pack);
+void Scene::append_new_auxilar_event(Action_info new_action_info) {
+	assistant_queue->push(new_action_info);
 }
 
 //esta funcion solo tiene que ser llamada por el server!!!!

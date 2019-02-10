@@ -6,8 +6,7 @@
 #include "EventHandler.h"
 #include "EventPackage.h"
 #include "Userdata.h"
-#include "PackageFactory.h"
-
+#include "EventPackageFactory.h"
 
 
 class FSMSceneObserver: public Observer

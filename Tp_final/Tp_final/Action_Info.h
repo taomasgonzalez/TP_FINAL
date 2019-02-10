@@ -1,7 +1,7 @@
+#pragma once
 #include "Userdata.h"
 
-enum class Action_info_id{ MOVE, ATTACK, ACTION_REQUEST, ENEMY_ACTION};
-
+enum class Action_info_id{ MOVE, ATTACK, ACTION_REQUEST, ENEMY_ACTION, None};
 struct Action_info {
 
 	Action_info_id my_info_header;

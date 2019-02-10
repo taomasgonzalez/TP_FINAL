@@ -7,6 +7,8 @@
 #include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_font.h>
+#include <allegro5/allegro_ttf.h>
 
 #include "Userdata.h"
 #include <queue>
@@ -24,9 +26,9 @@ public:
 	ALLEGRO_DISPLAY* Display;
 	ALLEGRO_SAMPLE * music;
 
-	const float FPS = 50.0;
-	const float SCREEN_W = 1920;
-	const float SCREEN_H = 696;
+	static const float FPS;
+	static const float SCREEN_W;
+	static const float SCREEN_H;
 
 	void loadPlayMusic();
 	void stopMusic();

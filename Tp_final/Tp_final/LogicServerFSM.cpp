@@ -2,7 +2,7 @@
 #include "LogicFSMRoutines.h"
 
 
-LogicServerFSM::LogicServerFSM(Userdata * data) : FSM(data)
+LogicServerFSM::LogicServerFSM(Userdata * data) : LogicFSM(data)
 {
 	this->Initial_state = new std::vector<edge_t>();
 	this->Naming_him_state = new std::vector<edge_t>();

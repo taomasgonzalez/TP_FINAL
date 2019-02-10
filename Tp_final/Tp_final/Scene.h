@@ -6,7 +6,6 @@
 #include "Map.h"
 #include <iostream>
 
-
 /*******************************************************************************
 							ENUM CLASS STATE_TYPE
 ******************************************************************************/
@@ -68,9 +67,9 @@ public:
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
 
-	void append_new_auxilar_event(Action_info* new_ev_pack_info);
+	void append_new_auxilar_event(Action_info new_action_info);
 	
-	std::queue<Action_info*>* assistant_queue;
+	std::queue<Action_info>* assistant_queue;
 
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
 	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.

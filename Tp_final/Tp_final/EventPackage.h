@@ -1,10 +1,10 @@
 #pragma once
 
 #include "Userdata.h"
-#include "Action_Info.h"
 
 #include <stdint.h> 
 #include <cstring>
+#include "Action_Info.h"
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
@@ -91,6 +91,7 @@ class EventPackage
 {
 public:
 	EventPackage(Event_type event, bool is_local = NULL);
+	EventPackage(Action_info * info_checked);
 	Event_type give_me_your_event_type();
 	bool is_this_a_local_action();
 	Action_info to_Action_info();

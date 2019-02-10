@@ -1,7 +1,7 @@
 #include "LogicClientFSM.h"
 #include "LogicFSMRoutines.h"
 
-LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
+LogicClientFSM::LogicClientFSM(Userdata* data): LogicFSM(data){
 
 	Initial_state = new std::vector<edge_t>();
 	Naming_me_state = new std::vector<edge_t>();
@@ -75,7 +75,6 @@ LogicClientFSM::LogicClientFSM(Userdata* data): FSM(data){
 	Waiting_for_ACK_quit_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit });	//se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_quit_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit });				//se recibe un quit por networking,
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing });
-	Waiting_for_ACK_quit_state->push_back();
 
 	this->actual_state = this->Initial_state;
 

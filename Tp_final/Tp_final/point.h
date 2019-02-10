@@ -1,3 +1,4 @@
+#pragma once
 #ifndef point_h
 #define point_h
 

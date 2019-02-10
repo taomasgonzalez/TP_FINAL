@@ -5,8 +5,8 @@ void appear(void* data);
 void check_if_finished_moving_and_change(void* data);
 void dissappear(void *data);
 void die(void* data);
-
-
+void attack(void* data);
+void move(void* data);
 GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id): FSM(data)
 {
 	this->drawer = drawer;
@@ -68,4 +68,11 @@ void appear(void* data) {
 
 void die(void * data) {
 	//start destroying routine
+}
+
+void attack(void* data) {
+
+}
+void move(void* data) {
+
 }

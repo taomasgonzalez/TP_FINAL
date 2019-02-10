@@ -1,7 +1,7 @@
 #pragma once
-#include "FSM_Class.h"
+#include "LogicFSM.h"
 
-class LogicClientFSM: public FSM
+class LogicClientFSM: public LogicFSM
 {
 public:
 	LogicClientFSM(Userdata* data);

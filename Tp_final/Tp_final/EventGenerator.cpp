@@ -43,7 +43,7 @@ void EventGenerator::empty_all_queues() {
 void EventGenerator::append_all_queues(int total_number_of_queues)
 {
 	for(int i =0; i < total_number_of_queues; i++)
-		event_queues.push_back(std::vector<std::queue<EventPackage*>>());
+		event_queues.push_back(std::queue<EventPackage*>());
 }
 
 

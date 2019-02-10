@@ -39,11 +39,11 @@ void FSMEventsObserver::update() {
 	}
 
 	if (fsm->ld_game_over) {
-		this->event_gen->append_new_event(new GAME_OVER_EventPackage(), (int) LogicEventGenerator::Queues::soft);
+		this->event_gen->append_new_event(new GAME_OVER_EventPackage(), (int) LogicEventGenerator::LogicQueues::soft);
 	}
 
 	if (fsm->ld_play_again) {
-		this->event_gen->append_new_event(new PLAY_AGAIN_EventPackage(), (int)LogicEventGenerator::Queues::soft);
+		this->event_gen->append_new_event(new PLAY_AGAIN_EventPackage(), (int)LogicEventGenerator::LogicQueues::soft);
 	}
 
 

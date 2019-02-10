@@ -25,16 +25,16 @@ void FSMSceneObserver::update() {
 	}
 
 	if (my_fsm->ld_enemy_action) { //I´m the client, an EA arrived during initialization by networking, I must save it to run it later
-		my_scenario->append_new_auxilar_event(new Action_info((ENEMY_ACTION_EventPackage *)my_fsm->get_fsm_ev_pack()));
+		my_scenario->append_new_auxilar_event(my_fsm->get_fsm_ev_pack()->to_Action_info());
 	}
 
 	if (my_fsm->sv_enemy_action) { //I´m the server, EA generated before send it during initialization
-		Action_info * my_enemy_action_struct = my_scenario->give_me_my_enemy_action(true); //me devuelve * EA_info
+		Action_info my_enemy_action_struct = my_scenario->give_me_my_enemy_action(true); //me devuelve * EA_info
 
-		if (!my_enemy_action_struct->finished_loading)
+		if (!my_enemy_action_struct.finished_loading)
 		{
 			my_scenario->append_new_auxilar_event(my_enemy_action_struct);  //cola de la struct y no EVPs
-			my_event_gen->append_new_event(new ENEMY_ACTION_EventPackage(my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //has to be send to the client
+			my_event_gen->append_new_event(new ENEMY_ACTION_EventPackage(&my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //has to be send to the client
 		}
 
 	}
@@ -44,7 +44,7 @@ void FSMSceneObserver::update() {
 
 		while (my_scenario->assistant_queue->size() >= 1) //Execute all the pending Enemy actions beacuse the game starts
 		{			
-			this->my_scenario->execute_action((my_scenario->assistant_queue)->front());
+			this->my_scenario->execute_action(&(my_scenario->assistant_queue)->front());
 			my_scenario->assistant_queue->pop();
 		}
 	}
@@ -69,14 +69,14 @@ void FSMSceneObserver::update() {
 	if (my_fsm->check_action) {
 
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
-		Action_info* acting_information = new Action_info(event_to_be_checked);
+		Action_info acting_information = event_to_be_checked->to_Action_info();
 
-		if (!this->my_scenario->is_the_action_possible(acting_information)) //mando a analizar el EventPackage 
+		if (!this->my_scenario->is_the_action_possible(&acting_information)) //mando a analizar el EventPackage 
 		{
 			my_fsm->error_ocurred = true;
 		}
 		else
-			this->my_fsm->set_fsm_ev_pack(PackageFactory::refresh_event_package(acting_information));
+			this->my_fsm->set_fsm_ev_pack(EventPackageFactory().create_event_package(&acting_information));
 	}
 
 	if (my_fsm->ex_action)
@@ -93,7 +93,7 @@ void FSMSceneObserver::update() {
 			my_fsm->error_ocurred = false;
 		}
 		else //if it´s valid, it should be execute
-			this->my_scenario->execute_action(new Action_info(this->my_fsm->get_fsm_ev_pack()));
+			this->my_scenario->execute_action(&my_fsm->get_fsm_ev_pack()->to_Action_info());
 	}
 
 

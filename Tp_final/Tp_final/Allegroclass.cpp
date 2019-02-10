@@ -167,3 +167,6 @@ bool Allegro::no_time_outs() {
 	return (time_out_timers_queue->size() == 0);
 }
 
+const float FPS = 50.0;
+const float SCREEN_W = 1920;
+const float SCREEN_H = 696;

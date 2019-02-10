@@ -1,6 +1,7 @@
 #include "EventPackage.h"
 
 Action_info_id Event_type_2_Action_info_id(Event_type event_t);
+Event_type Action_info_id_2_Event_type(Action_info_id event_t);
 /******************************************************************************
 *******************************************************************************
 EventPackage METHODS DEFINITIONS
@@ -25,6 +26,8 @@ EventPackage::EventPackage(Event_type event, bool is_local)
 	this->local_action = is_local;
 
 }
+
+
 
 
 /**************************************************************
@@ -602,4 +605,21 @@ Action_info_id Event_type_2_Action_info_id(Event_type event_t) {
 		returnable_ai_id = Action_info_id::ENEMY_ACTION;
 
 	return returnable_ai_id;
+}
+Event_type Action_info_id_2_Event_type(Action_info_id ai_id) {
+	Event_type returnable_ev_t = Event_type::END_OF_TABLE;
+
+	if (ai_id == Action_info_id::MOVE)
+		returnable_ev_t = Event_type::MOVE;
+
+	else if (ai_id == Action_info_id::ATTACK)
+		returnable_ev_t = Event_type::ATTACK;
+
+	else if (ai_id == Action_info_id::ACTION_REQUEST)
+		returnable_ev_t = Event_type::ACTION_REQUEST;
+
+	else if (ai_id == Action_info_id::ENEMY_ACTION)
+		returnable_ev_t = Event_type::ENEMY_ACTION;
+
+	return returnable_ev_t;
 }

@@ -5,6 +5,7 @@
 #include "DRAW.h"
 
 #include "GraphicEventGenerator.h"
+#include "LogicEventGenerator.h"
 #include "EventHandler.h"
 
 #include "Communication.h"
