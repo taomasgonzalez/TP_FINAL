@@ -9,6 +9,7 @@ Obj_Graf::Obj_Graf(double ID)
 {
 	this->ID = ID;
 	this->velFall = VEL_FALL;
+	this->secuenceOver_ = false;
 //	this->InitalPos = InitialPos;
 }
 
@@ -20,18 +21,18 @@ void Obj_Graf::setID(double ID)
 	this->ID = ID;
 }
 
-void Obj_Graf::setPos(POINT p)
+void Obj_Graf::setPos(POINT_ p)
 {
 	this->pos = p;
 }
 
 void Obj_Graf::setPos(double x, double y)
 {
-	POINT p(x, y);
+	POINT_ p(x, y);
 	this->pos = p;
 }
 
-void Obj_Graf::setInitalPos(POINT pos)
+void Obj_Graf::setInitalPos(POINT_ pos)
 {
 	this->InitalPos = pos;
 }
