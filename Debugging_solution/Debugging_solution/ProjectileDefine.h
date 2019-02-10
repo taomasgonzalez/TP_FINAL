@@ -6,7 +6,7 @@
 #define VEL_SNOW	(BLOCK_SIZE/(FPS*MOVE_RATIO_SNOW))
 
 #define MOVING_PICS_SNOW	1											// cantidad de imagenes de cada una para saber repetir el ciclo
-#define MOVING_PICS_FIRE	34
+#define MOVING_PICS_FIRE	28
 #define DECAYING_PICS_SNOW	1
 #define DECAYING_PICS_FIRE	16
 #define IMPACT_PICS_SNOW	48
