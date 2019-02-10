@@ -57,13 +57,13 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_PURPLE)																					// se reinicia la secuancia de dibujo
 							this->actualImage = 0;
 						this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);																// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_JUMPING:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -76,11 +76,11 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_PURPLE - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -93,7 +93,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_PURPLE - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
@@ -106,6 +105,7 @@ void Obj_Graf_Enemy::draw()
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
 					break;
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 					{
@@ -117,14 +117,14 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_PURPLE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
+					((this->actualImage + 1) < TRAPPED_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
 					al_draw_scaled_bitmap(this->trapImages[this->actualImage], 0, 0, al_get_bitmap_height(this->trapImages[this->actualImage]), al_get_bitmap_width(this->trapImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImage++;
@@ -132,16 +132,15 @@ void Obj_Graf_Enemy::draw()
 				case enemy_DYING:
 					if ((this->dieActualImage + 1) < DYING_PICS_PURPLE)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
@@ -168,30 +167,30 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);		// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_PURPLE)																					// se reinicia la secuancia de dibujo
 							this->actualImage = 0;
 						this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);																// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_JUMPING:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 					{
 						this->secuenceOver_ = true;
-						this->pos.set_x_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
 						this->state = enemy_IDLE;
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_PURPLE - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -204,7 +203,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						(this->actualImage < (JUMPING_PICS_PURPLE - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
@@ -215,6 +213,7 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() + (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -227,29 +226,28 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_PURPLE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
+					((this->actualImage + 1) < TRAPPED_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
 					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
 					break;
 				case enemy_DYING:
 					if ((this->dieActualImage + 1) < DYING_PICS_PURPLE)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
@@ -279,18 +277,17 @@ void Obj_Graf_Enemy::draw()
 						this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
 						this->state = enemy_IDLE;
-						al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_FATTY)																					// se reinicia la secuancia de dibujo
 							this->actualImage = 0;
 						this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);																// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_JUMPING:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -303,11 +300,11 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_FATTY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -320,7 +317,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_FATTY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
@@ -332,6 +328,7 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -344,16 +341,15 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_FATTY - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_ATTACKING:
 					if ((this->attackActualImage + 1) < ATTACKING_PICS_FATTY)
 					{
-						al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						this->attackActualImage++;																									// termino la secuencia de disparo
 					}
@@ -364,24 +360,24 @@ void Obj_Graf_Enemy::draw()
 						this->state = enemy_IDLE;
 //						this->active = false;
 					}
+					al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					((this->actualImage + 1) < TRAPPED_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
+					al_draw_scaled_bitmap(this->trapImages[this->actualImage], 0, 0, al_get_bitmap_height(this->trapImages[this->actualImage]), al_get_bitmap_width(this->trapImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
 				case enemy_DYING:
 					if ((this->dieActualImage + 1) < DYING_PICS_FATTY)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
@@ -408,7 +404,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 //						al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);		// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_FATTY)																					// se reinicia la secuancia de dibujo
@@ -420,18 +415,18 @@ void Obj_Graf_Enemy::draw()
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 					{
 						this->secuenceOver_ = true;
-						this->pos.set_x_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
 						this->state = enemy_IDLE;
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_FATTY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -444,7 +439,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 //						al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_FATTY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
@@ -456,6 +450,7 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() + (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -468,16 +463,15 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_FATTY - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_ATTACKING:
 					if ((this->attackActualImage + 1) < ATTACKING_PICS_FATTY)
 					{
-						al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						this->attackActualImage++;																							// termino la secuencia de disparo
 					}
@@ -487,25 +481,25 @@ void Obj_Graf_Enemy::draw()
 						this->state = enemy_IDLE;
 //						this->active = false;
 					}
+					al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					((this->actualImage + 1) < TRAPPED_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
+					al_draw_scaled_bitmap(this->trapImages[this->actualImage], 0, 0, al_get_bitmap_height(this->trapImages[this->actualImage]), al_get_bitmap_width(this->trapImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImage++;
 					break;
 				case enemy_DYING:
 					if ((this->dieActualImage + 1) < DYING_PICS_FATTY)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
@@ -538,12 +532,12 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_CRAZY)																					// se reinicia la secuancia de dibujo
 							this->actualImage = 0;
 						this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);																// muevo la posicion del dibujo
 					}
+					al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					break;
 				case enemy_JUMPING:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -556,11 +550,11 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_CRAZY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -573,7 +567,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_FATTY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
@@ -585,6 +578,7 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() - (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -597,29 +591,28 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_CRAZY - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					((this->actualImage + 1) < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
+					al_draw_scaled_bitmap(this->trapImages[this->actualImage], 0, 0, al_get_bitmap_height(this->trapImages[this->actualImage]), al_get_bitmap_width(this->trapImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					this->actualImage++;
 				case enemy_DYING:
 					if ((this->dieActualImage + 1) < DYING_PICS_CRAZY)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
@@ -646,29 +639,29 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);		// se dibuja
 						this->actualImage++;																									// ubico el siguiente frame
 						if (this->actualImage >= WALKING_PICS_CRAZY)																					// se reinicia la secuancia de dibujo
 							this->actualImage = 0;
 						this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);																// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->walkImages[this->actualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->actualImage]), al_get_bitmap_width(this->walkImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_JUMPING:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 					{
 						this->secuenceOver_ = true;
-						this->pos.set_x_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
 						this->state = enemy_IDLE;
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_CRAZY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_JUMPING_FOWARD:
 					if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -681,7 +674,6 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 //						al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 						(this->actualImage < (JUMPING_PICS_CRAZY - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
@@ -693,6 +685,7 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 						this->pos.set_x_coord(this->pos.get_x_coord() + (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+					al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_FALLING:
 					if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -705,29 +698,28 @@ void Obj_Graf_Enemy::draw()
 					}
 					else
 					{
-						al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 						//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 						(this->actualImage < (FALLING_PICS_CRAZY - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 						this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 					}
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_TRAPPED:
-					(this->actualImage < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-					al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					((this->actualImage + 1) < TRAPPED_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
+					al_draw_scaled_bitmap(this->trapImages[this->actualImage], 0, 0, al_get_bitmap_height(this->trapImages[this->actualImage]), al_get_bitmap_width(this->trapImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					this->actualImage++;
 				case enemy_DYING:
-					if (this->dieActualImage < DYING_PICS_CRAZY)
+					if ((this->dieActualImage + 1) < DYING_PICS_CRAZY)
 					{
-						al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 //						al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 						this->dieActualImage++;
 					}
 					else
 					{
 						this->secuenceOver_ = true;
-						this->dieActualImage = 0;
 						//				this->active = false;			// aca si se podria desactivar el objeto
 					}
+					al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_height(this->dieImages[this->dieActualImage]), al_get_bitmap_width(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					break;
 				case enemy_IDLE:
 					this->actualImage = 0;
