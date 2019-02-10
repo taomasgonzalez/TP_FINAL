@@ -15,12 +15,12 @@ enum messaje {WE_WON, GAME_OVER, OTHER_PLAYER_YES, OTHER_PLAYER_NO, INTRO, CONNE
 
 
 
-string request_user_name(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W, const float SCREEN_H);
+string request_user_name(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h);
 
-string request_user_IP(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W, const float SCREEN_H);
+string request_user_IP(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h);
 
-menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *FPS, const float SCREEN_W, const float SCREEN_H);
+menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, const float screen_w, const float screen_h);
 
-bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue, const float SCREEN_W, const float SCREEN_H);
+bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h);
 
-void print_messaje(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *FPS, messaje, const float SCREEN_W, const float SCREEN_H);
+void print_messaje(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, messaje, const float screen_w, const float screen_h);

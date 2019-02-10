@@ -14,6 +14,9 @@
 #include <queue>
 #define BACKGROUND_MUSIC "Soundtracks/Super Mario Bros Soundtrack.wav"
 #define JUMP_MUSIC "Soundtracks/Super Mario Bros - Jump Sound Effect.wav"
+#define FPS 50.0
+#define SCREEN_W 1920
+#define SCREEN_H 696
 
 class Allegro
 {
@@ -26,9 +29,9 @@ public:
 	ALLEGRO_DISPLAY* Display;
 	ALLEGRO_SAMPLE * music;
 
-	static const float FPS;
-	static const float SCREEN_W;
-	static const float SCREEN_H;
+	//static const float FPS;
+	//static const float SCREEN_W;
+	//static const float SCREEN_H;
 
 	void loadPlayMusic();
 	void stopMusic();
