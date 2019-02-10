@@ -16,15 +16,19 @@ public:
 	~Obj_Graf_Player();
 
 	void draw();
-	void startDraw(Direction dir, void *estado, POINT& pos);
+	void startDraw(Direction dir, void *estado, POINT_& pos);
 	void destroy();
+	void reset();
+	bool secuenceOver();
 
 private:
 	PLAYER_STATE state;
 	PLAYER_TYPE type;
 	void loadBitmap(PLAYER_TYPE type);						// se pasa el tipo para saber que imagenes cargar
+	unsigned int idleActualImage;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
+	unsigned int walkActualImage;
 	ALLEGRO_BITMAP ** walkImages = NULL;
 	ALLEGRO_BITMAP ** jumpImages = NULL;
 	ALLEGRO_BITMAP ** idleImages = NULL;
