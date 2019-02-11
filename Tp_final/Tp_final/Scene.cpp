@@ -200,7 +200,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	Map * new_map = new Map(12, 16);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
-
+	new_map->append_graphic_facility(graphics);
 	
 	if (is_client) //The map came by networking, already checked
 	{	
@@ -928,6 +928,12 @@ Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
 	return next_movement;
 }
 
+void Scene::append_graphic_facility(void * drawer)
+{
+	this->graphics = drawer;
+}
+
+
 Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 	int shortest_distance = INT_MAX;
 	Player* nearest_player = NULL;
@@ -966,3 +972,5 @@ const unsigned char *getTable()
 
 	return table;
 }
+
+

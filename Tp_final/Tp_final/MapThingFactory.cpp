@@ -1,6 +1,8 @@
 #include "MapThingFactory.h"
 #include "PurpleGuyScenarioObserver.h"
 #include "Scene.h"
+#include "GraphicObjectFSMFactory.h"
+#include "DRAW.h"
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2

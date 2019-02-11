@@ -79,7 +79,10 @@ public:
 
 	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
+	void append_graphic_facility(void* drawer);
+
 private:
+	void * graphics = NULL;
 
 	unsigned char make_checksum(const char * CSV_map_location);
 	//checkes

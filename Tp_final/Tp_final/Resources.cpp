@@ -31,8 +31,9 @@ bool Resources::initialize_all_the_resources() {
 
 	if (healthy_initialization)
 	{
-		this->my_scenario = new Scene();			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
-		this->my_drawer = new DRAW();
+		my_drawer = new DRAW();
+		my_scenario = new Scene();			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
+		my_scenario->append_graphic_facility(my_drawer);
 
 		my_communication = new Communication(my_user_data);  //Initialize the communication
 		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful

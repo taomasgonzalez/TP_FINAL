@@ -4,7 +4,7 @@
 
 Sense_type get_random_sense(void);
 
-Map::Map(int number_of_rows, int number_of_columns)
+Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 {
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
@@ -19,6 +19,7 @@ Map::Map(int number_of_rows, int number_of_columns)
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
+	graph_fsm_factory = GraphicObjectFSMFactory(data);
 }
 
 Map::~Map()
@@ -526,7 +527,9 @@ void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 */
 void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction, void * scenario)
 {
-	place_on_map(coord_x, coord_y, map_filler.create_map_thing(identifyer, direction, scenario));
+	MapThing* new_map_thing = map_filler.create_map_thing(identifyer, direction, scenario);
+	place_on_map(coord_x, coord_y, new_map_thing);
+	graph_fsm_factory.create_graphic_object(identifyer, new_map_thing->id);
 }
 
 void Map::print_map() {
@@ -702,7 +705,12 @@ Action_info Map::get_initial_enemy_actions() {
 	}
 	return returnable_EA;
 }
+void Map::append_graphic_facility(void* drawer) {
+	map_filler.append_graphic_facility(drawer);
+}
 
 Sense_type get_random_sense(void) {
 	return ((true) ? Sense_type::Left : Sense_type::Right);
 }
+
+

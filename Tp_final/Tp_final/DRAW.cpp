@@ -48,28 +48,32 @@ DRAW::~DRAW()
 {
 }
 
-void DRAW::createObjGraf(double ID, PLAYER_TYPE type)
+Obj_Graf_Player* DRAW::createObjGraf(double ID, PLAYER_TYPE type)
 {
 	Obj_Graf_Player *obj = new Obj_Graf_Player(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, ENEMY_TYPE type)
+Obj_Graf_Enemy* DRAW::createObjGraf(double ID, ENEMY_TYPE type)
 {
 	Obj_Graf_Enemy *obj = new Obj_Graf_Enemy(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, PROYECTILE_TYPE type)
+Obj_Graf_Projectile* DRAW::createObjGraf(double ID, PROYECTILE_TYPE type)
 {
 	Obj_Graf_Projectile *obj = new Obj_Graf_Projectile(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, BALL_TYPE type)
+Obj_Graf_Ball* DRAW::createObjGraf(double ID, BALL_TYPE type)
 {
 	Obj_Graf_Ball *obj = new Obj_Graf_Ball(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
 void DRAW::draw()		

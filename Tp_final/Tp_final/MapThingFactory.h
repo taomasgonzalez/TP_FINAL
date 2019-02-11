@@ -5,6 +5,7 @@
 #include "Snowball.h"
 #include "Fireball.h"
 #include "Player.h"
+#include "DRAW.h"
 
 class MapThingFactory
 {
@@ -14,6 +15,7 @@ public:
 	MapThing* create_map_thing(Item_type identifyer, Sense_type direction, void * scenario);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
+
 
 private:
 	unsigned int get_enemy_id();

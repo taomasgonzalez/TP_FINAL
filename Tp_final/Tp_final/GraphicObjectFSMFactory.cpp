@@ -1,5 +1,6 @@
 #include "GraphicObjectFSMFactory.h"
 
+#include "GraphicObjectFSMDRAWObserver.h"
 #include "GraficObjectProjectile.h"
 #include "GraficObjectEnemy.h"
 #include "GraficObjectPlayer.h"
@@ -7,7 +8,6 @@
 
 GraphicObjectFSMFactory::GraphicObjectFSMFactory(Userdata* data)
 {
-	drawer = new DRAW();
 	this->data = data;
 
 }
@@ -15,7 +15,6 @@ GraphicObjectFSMFactory::GraphicObjectFSMFactory(Userdata* data)
 
 GraphicObjectFSMFactory::~GraphicObjectFSMFactory()
 {
-	delete drawer;
 }
 
 GraphicObjectFSM * GraphicObjectFSMFactory::create_graphic_object(Item_type identifyer, unsigned int id)
@@ -29,26 +28,35 @@ GraphicObjectFSM * GraphicObjectFSMFactory::create_graphic_object(Item_type iden
 			//new_born = new Obj_Graf();
 			break;
 		case Item_type::CRAZY:
-			new_born = new GraphicObjectFSM(data , drawer, id, new Obj_Graf_Enemy(id, CRAZY));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id,CRAZY), drawer);
 			break;
 		case Item_type::GREEN_FATTIE:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Enemy(id, FATTY));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, FATTY), drawer);
 			break;
 		case Item_type::PURPLE_GUY:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Enemy(id, PURPLE));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, PURPLE), drawer);
 			break;
 		case Item_type::TOM:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Player(id, TOM));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, TOM), drawer);
 			break;
 		case Item_type::NICK:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Player(id, NICK));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, NICK), drawer);
 			break;
 		case Item_type::FIREBALL:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Projectile(id, FIRE));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, FIRE), drawer);
 			break;
 		case Item_type::SNOWBALL:
-			new_born = new_born = new GraphicObjectFSM(data, drawer, id, new Obj_Graf_Projectile(id, SNOW));
+			new_born = new GraphicObjectFSM(data, id, identifyer, drawer->createObjGraf(id, SNOW), drawer);
 			break;
 	}
+
+	new_born->add_observer(new GraphicObjectFSMDRAWObserver(new_born, drawer));
 	return new_born;
+}
+
+
+
+void GraphicObjectFSMFactory::append_graphic_facility(void * drawer)
+{
+	this->drawer = (DRAW*) drawer;
 }

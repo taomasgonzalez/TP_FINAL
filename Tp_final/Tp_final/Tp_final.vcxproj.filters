@@ -267,6 +267,9 @@
     <ClCompile Include="GraphicObjectFSMFactory.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicObjectFSMDRAWObserver.cpp">
+      <Filter>Source Files\Observers\Graphic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -448,6 +451,9 @@
     </ClInclude>
     <ClInclude Include="GraphicObjectFSMFactory.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicObjectFSMDRAWObserver.h">
+      <Filter>Header Files\Observers\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

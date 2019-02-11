@@ -155,6 +155,7 @@
     <ClCompile Include="CommunicationEventsObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
+    <ClCompile Include="GraphicObjectFSMDRAWObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
@@ -215,6 +216,7 @@
     <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
+    <ClInclude Include="GraphicObjectFSMDRAWObserver.h" />
     <ClInclude Include="LogicFSMEventsObserver.h" />
     <ClInclude Include="FSMFactory.h" />
     <ClInclude Include="LogicFSMSceneObserver.h" />
