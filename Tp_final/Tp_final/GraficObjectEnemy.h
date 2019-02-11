@@ -25,6 +25,7 @@ private:
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
 	unsigned int idleActualImage;
+	unsigned int walkActualImage;
 	void loadBitmap(ENEMY_TYPE type);										// dependiendo del enemigo se le cargan determinadas imagenes
 	ALLEGRO_BITMAP ** walkImages = NULL;
 	ALLEGRO_BITMAP ** jumpImages = NULL;

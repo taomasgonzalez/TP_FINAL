@@ -6,10 +6,10 @@
 #define VEL_PUSHED	(BLOCK_SIZE/(FPS*MOVE_RATIO_PUSHED))
 
 #define IDLE_PICS		1
-#define MOVING_PICS		1											// cantidad de imagenes de cada una para saber repetir el ciclo
-#define PUSHING_PICS	1
-#define FALLING_PICS	1
-#define DESTRUCTION_PICS	48
+#define MOVING_PICS		16											// cantidad de imagenes de cada una para saber repetir el ciclo
+#define PUSHING_PICS	16
+#define FALLING_PICS	16
+#define DESTRUCTION_PICS	18
 
 #define FOLDER_BALL	("ball")
 
@@ -19,8 +19,8 @@
 #define FOLDER_FALLING		("FALLING")
 #define FOLDER_DESTRUCTION		("DESTRUCTION")
 
-#define FILE_IDLE			("RainbowBall")
-#define FILE_MOVING			("RainbowBall")
-#define FILE_PUSHING		("RainbowBall")
-#define FILE_FALLING		("RainbowBall")
-#define FILE_DESTRUCTION	("Explosion 2-F")
+#define FILE_IDLE			("tile00")
+#define FILE_MOVING			("tile00")
+#define FILE_PUSHING		("tile00")
+#define FILE_FALLING		("tile00")
+#define FILE_DESTRUCTION	("Blue Ring Explosion")

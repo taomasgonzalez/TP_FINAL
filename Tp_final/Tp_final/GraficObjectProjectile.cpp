@@ -465,7 +465,7 @@ void Obj_Graf_Projectile::loadBitmap(PROYECTILE_TYPE type)
 		this->impactImages = new ALLEGRO_BITMAP *[IMPACT_PICS_FIRE];
 		for (int i = 0; i < IMPACT_PICS_FIRE; i++)
 		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
 			this->impactImages[i] = al_load_bitmap(imageDir.c_str());
 		}
 		carpeta3 = FOLDER_FALLING;

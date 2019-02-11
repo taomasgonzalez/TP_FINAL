@@ -6,7 +6,9 @@
 #include <iostream>
 #include <map>
 #include <vector>
-//prueba
+
+#include "AllegroClass.h"
+
 using namespace std;
 
 class DRAW
@@ -15,7 +17,7 @@ public:
 	DRAW();
 	~DRAW();
 //	bool init();
-	Obj_Graf_Player* createObjGraf(double ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo añade al mapa de objetos
+	Obj_Graf_Player* createObjGraf(double ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo aÃ±ade al mapa de objetos
 	Obj_Graf_Enemy* createObjGraf(double ID, ENEMY_TYPE type);
 	Obj_Graf_Projectile* createObjGraf(double ID, PROYECTILE_TYPE type);
 	Obj_Graf_Ball* createObjGraf(double ID, BALL_TYPE type);
@@ -30,6 +32,7 @@ private:
 	map<double, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
 	ALLEGRO_BITMAP * floor = NULL;
 	ALLEGRO_BITMAP * empty = NULL;
+	ALLEGRO_BITMAP ** backgrounds = NULL;
 	vector<string> levels;
 	unsigned int level;
 	void drawLevel();
