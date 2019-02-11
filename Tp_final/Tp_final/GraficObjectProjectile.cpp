@@ -270,11 +270,11 @@ void Obj_Graf_Projectile::draw()
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					(this->actualImage < (FALLING_PICS_FIRE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 				}
+				al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(this->fallImages[this->actualImage]), al_get_bitmap_height(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				break;
 			}
 			break;
@@ -350,7 +350,7 @@ void Obj_Graf_Projectile::draw()
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(this->fallImages[this->actualImage]), al_get_bitmap_height(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					(this->actualImage < (FALLING_PICS_FIRE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
@@ -473,7 +473,7 @@ void Obj_Graf_Projectile::loadBitmap(PROYECTILE_TYPE type)
 		this->fallImages = new ALLEGRO_BITMAP *[FALLING_PICS_FIRE];
 		for (int i = 0; i < FALLING_PICS_FIRE; i++)
 		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 6) + ".png";
 			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
 		}
 		break;
