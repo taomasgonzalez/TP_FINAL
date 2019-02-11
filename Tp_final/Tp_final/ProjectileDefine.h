@@ -9,8 +9,8 @@
 #define MOVING_PICS_FIRE	28
 #define DECAYING_PICS_SNOW	1
 #define DECAYING_PICS_FIRE	16
-#define IMPACT_PICS_SNOW	48
-#define IMPACT_PICS_FIRE	48
+#define IMPACT_PICS_SNOW	18
+#define IMPACT_PICS_FIRE	9
 #define FALLING_PICS_SNOW	1
 #define FALLING_PICS_FIRE	1
 
@@ -25,9 +25,9 @@
 
 #define FILE_SNOW_MOVING	("slash")
 #define FILE_SNOW_DECAYING	("slash")
-#define FILE_SNOW_IMPACT	("Explosion 2-F")
+#define FILE_SNOW_IMPACT	("Blue Ring Explosion")
 #define FILE_SNOW_FALLING	("slash")
 #define FILE_FIRE_MOVING	("efecto_fuego_000")
 #define FILE_FIRE_DECAYING	("efecto_fuego_00")
-#define FILE_FIRE_IMPACT	("Explosion 2-F")
+#define FILE_FIRE_IMPACT	("E000")
 #define FILE_FIRE_FALLING	("efecto_fuego_00")

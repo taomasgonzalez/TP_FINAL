@@ -14,7 +14,7 @@
 #define VEL_PUSHED	(BLOCK_SIZE/(FPS*MOVE_RATIO_PUSHED))
 
 #define FOLDER_CHARA	("characters")				// carpeta donde estan contenidas todas las imagenes de los personajes
-#define FOLDER_TOM		("TOM (2)")						// carpeta para cada personaje en particular
+#define FOLDER_TOM		("TOM")						// carpeta para cada personaje en particular
 #define FOLDER_NICK		("NICK")
 
 #define FOLDER_WALKING	("WALKING")					// carpetas que vas a contener imagenes de una categoria
