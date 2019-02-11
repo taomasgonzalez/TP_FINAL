@@ -9,7 +9,7 @@ public:
 	GraphicObjectFSMFactory(Userdata* data);
 	~GraphicObjectFSMFactory();
 
-	GraphicObjectFSM * create_graphic_object(Item_type identifyer, unsigned int id);
+	GraphicObjectFSM * create_graphic_fsm(Item_type identifyer, unsigned int id);
 	void append_graphic_facility(void *drawer);
 
 private:

@@ -529,7 +529,8 @@ void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_typ
 {
 	MapThing* new_map_thing = map_filler.create_map_thing(identifyer, direction, scenario);
 	place_on_map(coord_x, coord_y, new_map_thing);
-	graph_fsm_factory.create_graphic_object(identifyer, new_map_thing->id);
+	graph_fsm_factory.create_graphic_fsm(identifyer, new_map_thing->id);
+	
 }
 
 void Map::print_map() {

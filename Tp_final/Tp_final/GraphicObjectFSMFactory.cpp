@@ -17,7 +17,7 @@ GraphicObjectFSMFactory::~GraphicObjectFSMFactory()
 {
 }
 
-GraphicObjectFSM * GraphicObjectFSMFactory::create_graphic_object(Item_type identifyer, unsigned int id)
+GraphicObjectFSM * GraphicObjectFSMFactory::create_graphic_fsm(Item_type identifyer, unsigned int id)
 {
 	GraphicObjectFSM * new_born = NULL;
 	switch (identifyer) {
