@@ -1,4 +1,6 @@
 #include "MapThing.h"
+#include "GraphicObjectFSM.h"
+#include "GraphicEventGenerator.h"
 
 MapThing::MapThing(unsigned int id, bool is_nothing, Sense_type sense)
 {
@@ -11,7 +13,7 @@ MapThing::MapThing(unsigned int id, bool is_nothing, Sense_type sense)
 		this->printable = Item_type::FLOOR;		//es pared
 		this->my_sense = Sense_type::None;
 	}
-
+	
 }
 
 MapThing::~MapThing()
@@ -60,10 +62,6 @@ Sense_type MapThing::get_sense() {
 	return this->my_sense;
 }
 
-/*
-void MapThing::append_graphical_object(Obj_Graf * graphic_object)
-{
-	this->graphic_object = graphic_object;
-}
-*/
+
+
 

@@ -1,6 +1,6 @@
 #include "MapThingFactory.h"
-//#include "PurpleGuyScenarioObserver.h"
-//#include "Scene.h"
+#include "PurpleGuyScenarioObserver.h"
+#include "Scene.h"
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -12,6 +12,7 @@ MapThingFactory::MapThingFactory()
 	next_enemy_id = 0;
 	next_player_id = next_enemy_id + MAX_NUMBER_OF_MONSTERS;
 	next_proyectile_id = next_player_id + MAX_NUMBER_OF_PLAYERS;
+
 }
 
 
@@ -21,7 +22,7 @@ MapThingFactory::~MapThingFactory()
 
 MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type direction, void * obs_info)
 {
-	//Scene* scene = (Scene*)obs_info;
+	Scene* scene = (Scene*)obs_info;
 	MapThing* new_born = nullptr;
 	switch (identifyer) {
 	case Item_type::NADA:
@@ -32,15 +33,15 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 		case Item_type::CRAZY:
 			new_born = new Crazy(get_enemy_id(), direction);
-			//((Crazy*)new_born)->add_observer(new EnemyScenarioObserver((Crazy*)new_born, scene));
+			((Crazy*)new_born)->add_observer(new EnemyScenarioObserver((Crazy*)new_born, scene));
 			break;
 		case Item_type::GREEN_FATTIE:
 			new_born = new GreenFatty(get_enemy_id(), direction);
-			//((GreenFatty*) new_born)->add_observer(new EnemyScenarioObserver((GreenFatty*)new_born, scene));
+			((GreenFatty*) new_born)->add_observer(new EnemyScenarioObserver((GreenFatty*)new_born, scene));
 			break;
 		case Item_type::PURPLE_GUY:
 			new_born = new PurpleGuy(get_enemy_id(), direction);
-			//((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
+			((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
 			break;
 		case Item_type::TOM:
 			new_born = new Player(get_player_id(), false, direction);
@@ -57,7 +58,6 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 	}
 
-	//new_born->append_graphical_object(graph_factory.create_graphic_object(identifyer, new_born->id));
 
 	if (new_born->is_enemy())
 		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(((Enemy*)new_born)->get_acting_timer()));

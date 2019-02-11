@@ -6,7 +6,7 @@ class GraphicObjectFSM: public FSM
 {
 public:
 	
-	GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id);
+	GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id, Obj_Graf* graphical_obj);
 	~GraphicObjectFSM();
 
 protected:
@@ -26,5 +26,7 @@ private:
 	//tiene que detectar la clase de movimiento que es y luego ejecutarlo!
 	expand_state(waiting_to_draw_state, {Event_type::MOVE, this->drawing_state, move});s
 	*/
+
+	Obj_Graf * graphical_obj = NULL;
 };
 

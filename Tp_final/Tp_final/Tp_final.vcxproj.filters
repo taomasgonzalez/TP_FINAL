@@ -246,9 +246,6 @@
     <ClCompile Include="GraphicObjectFSM.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicObjectFactory.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClCompile>
     <ClCompile Include="GraphicObjectEventGenerator.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
@@ -266,6 +263,9 @@
     </ClCompile>
     <ClCompile Include="LogicFSMSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicObjectFSMFactory.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -425,9 +425,6 @@
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicObjectFactory.h">
-      <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicObjectFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
@@ -448,6 +445,9 @@
     </ClInclude>
     <ClInclude Include="LogicFSMSceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicObjectFSMFactory.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

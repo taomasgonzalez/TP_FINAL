@@ -8,7 +8,7 @@ void die(void* data);
 void attack(void* data);
 void move(void* data);
 
-GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id): FSM(data)
+GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id, Obj_Graf* graphical_obj): FSM(data)
 {
 	this->drawer = drawer;
 	inactive_state = new std::vector<edge_t>();
@@ -28,6 +28,8 @@ GraphicObjectFSM::GraphicObjectFSM(Userdata* data, DRAW* drawer, unsigned int id
 	drawing_state->push_back({Event_type::END_OF_TABLE, this->drawing_state, do_nothing_graph });
 
 	this->actual_state = inactive_state;
+
+	this->graphical_obj = graphical_obj;
 }
 
 
@@ -36,6 +38,7 @@ GraphicObjectFSM::~GraphicObjectFSM()
 	delete drawing_state;
 	delete waiting_to_draw_state;
 	delete inactive_state;
+	delete graphical_obj;
 }
 
 void GraphicObjectFSM::is_able_to_die()

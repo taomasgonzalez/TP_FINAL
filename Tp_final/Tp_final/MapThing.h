@@ -1,8 +1,6 @@
 #pragma once
 #include "Userdata.h"
 #include "general.h"
-//#include "GraficObject.h"
-
 
 class MapThing
 {
@@ -30,13 +28,11 @@ public:
 	int pos_x;
 	int pos_y;
 
-	//void append_graphical_object(Obj_Graf * graphic_object);
 
 protected:
 	Item_type printable;
 	Sense_type my_sense;
 
 private:
-	//Obj_Graf * graphic_object;
 };
 
