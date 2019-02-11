@@ -7,8 +7,7 @@
 #include <map>
 #include <vector>
 
-#define SCREEN_W (16*BLOCK_SIZE)
-#define SCREEN_H (12*BLOCK_SIZE)
+#include "AllegroClass.h"
 
 using namespace std;
 
@@ -18,7 +17,7 @@ public:
 	DRAW();
 	~DRAW();
 //	bool init();
-	void createObjGraf(double ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo añade al mapa de objetos
+	void createObjGraf(double ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo aÃ±ade al mapa de objetos
 	void createObjGraf(double ID, ENEMY_TYPE type);
 	void createObjGraf(double ID, PROYECTILE_TYPE type);
 	void createObjGraf(double ID, BALL_TYPE type);
