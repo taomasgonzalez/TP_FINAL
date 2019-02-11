@@ -125,6 +125,11 @@ bool DRAW::secuenceOver(double ID)
 	return mapObjGraf[ID]->secuenceOver();
 }
 
+void DRAW::reset(unsigned int ID)
+{
+	this->mapObjGraf[ID]->reset();
+}
+
 void DRAW::drawLevel()
 {
 	const char* map;
