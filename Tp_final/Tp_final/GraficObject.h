@@ -10,10 +10,11 @@
 #include <string>
 #include <math.h>				/* pow */
 #include <iostream>
-#include "general.h"
 
 #define COLS (16)
 #define ROWS (12)
+
+#define FPS (50.0)
 
 #define BLOCK_SIZE (50)		// pixeles en X e Y que tiene un bloque de pantalla
 

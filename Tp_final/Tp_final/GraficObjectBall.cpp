@@ -27,7 +27,7 @@ void Obj_Graf_Ball::startDraw(Direction dir, void * state, POINT_ & pos)
 	this->pos = pos;
 	this->InitalPos = pos;
 	this->state = *(BALL_STATE *)state;
-	this->actualImage = 0;
+	this->secuenceOver_ = false;
 }
 
 void Obj_Graf_Ball::draw()
@@ -38,7 +38,7 @@ void Obj_Graf_Ball::draw()
 		switch (this->state)
 		{
 		case ball_IDLE:
-			al_draw_scaled_bitmap(this->idleImages[this->actualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->actualImage]), al_get_bitmap_width(this->idleImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+			al_draw_scaled_bitmap(this->idleImages[this->actualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->actualImage]), al_get_bitmap_width(this->idleImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			//al_draw_bitmap(this->idleImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 			((this->actualImage + 1) < MOVING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			break;
@@ -48,16 +48,15 @@ void Obj_Graf_Ball::draw()
 				this->secuenceOver_ = true;
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 				//this->active = false;
-				al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);
 				((this->actualImage + 1) < MOVING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
+			al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case ball_PUSHING:
 			if (this->pos.get_x_coord() < (this->InitalPos.get_x_coord() - BLOCK_SIZE))
@@ -65,16 +64,15 @@ void Obj_Graf_Ball::draw()
 				this->secuenceOver_ = true;
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 				//this->active = false;
-				al_draw_scaled_bitmap(this->pushImages[this->actualImage], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage]), al_get_bitmap_width(this->pushImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->pushImages[this->actualImage], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage]), al_get_bitmap_width(this->pushImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				this->pos.set_x_coord(this->pos.get_x_coord() - VEL_PUSHED);
-				((this->actualImage + 1) < PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
+				((this->actualImage + 1) < 2*PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
+			al_draw_scaled_bitmap(this->pushImages[this->actualImage/2], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage / 2]), al_get_bitmap_width(this->pushImages[this->actualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case ball_FALLING:
 			if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -87,16 +85,16 @@ void Obj_Graf_Ball::draw()
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 				(this->actualImage < (FALLING_PICS - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 				this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 			}
+			al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case ball_DESTRUCTION:
 			if (this->actualDestructionImage < DESTRUCTION_PICS)															// si todavia no termino la secuancia que siga
 			{
-				al_draw_scaled_bitmap(this->destructiontImages[this->actualDestructionImage], 0, 0, al_get_bitmap_height(this->destructiontImages[this->actualDestructionImage]), al_get_bitmap_width(this->destructiontImages[this->actualDestructionImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				al_draw_scaled_bitmap(this->destructiontImages[this->actualDestructionImage], 0, 0, al_get_bitmap_height(this->destructiontImages[this->actualDestructionImage]), al_get_bitmap_width(this->destructiontImages[this->actualDestructionImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->destructiontImages[this->actualDestructionImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				this->actualDestructionImage++;
 			}
@@ -113,7 +111,7 @@ void Obj_Graf_Ball::draw()
 		switch (this->state)
 		{
 		case ball_IDLE:
-			al_draw_scaled_bitmap(this->idleImages[this->actualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->actualImage]), al_get_bitmap_width(this->idleImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+			al_draw_scaled_bitmap(this->idleImages[this->actualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->actualImage]), al_get_bitmap_width(this->idleImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			//al_draw_bitmap(this->idleImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 			((this->actualImage + 1) < IDLE_PICS) ? this->actualImage++ : this->actualImage = 0;
 			break;
@@ -123,16 +121,15 @@ void Obj_Graf_Ball::draw()
 				this->secuenceOver_ = true;
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 				//this->active = false;
-				al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);
 				((this->actualImage + 1) < MOVING_PICS) ? this->actualImage++ : this->actualImage = 0;
 			}
+			al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_height(this->moveImages[this->actualImage]), al_get_bitmap_width(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			break;
 		case ball_PUSHING:
 			if (this->pos.get_x_coord() > (this->InitalPos.get_x_coord() + BLOCK_SIZE))						// BLOCK_SIZE / 2 para que no atraviese el piso
@@ -140,16 +137,15 @@ void Obj_Graf_Ball::draw()
 				this->secuenceOver_ = true;
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 				//this->active = false;
-				al_draw_scaled_bitmap(this->pushImages[this->actualImage], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage]), al_get_bitmap_width(this->pushImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->pushImages[this->actualImage], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage]), al_get_bitmap_width(this->pushImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				this->pos.set_x_coord(this->pos.get_x_coord() + VEL_PUSHED);
-				((this->actualImage + 1) < PUSHING_PICS) ? this->actualImage++ : this->actualImage = 0;
+				((this->actualImage + 1) < PUSHING_PICS*2) ? this->actualImage++ : this->actualImage = 0;
 			}
+			al_draw_scaled_bitmap(this->pushImages[this->actualImage/2], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage / 2]), al_get_bitmap_width(this->pushImages[this->actualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			break;
 		case ball_FALLING:
 			if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -162,16 +158,16 @@ void Obj_Graf_Ball::draw()
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 				(this->actualImage < (FALLING_PICS - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 				this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 			}
+			al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			break;
 		case ball_DESTRUCTION:
 			if (this->actualDestructionImage < DESTRUCTION_PICS)															// si todavia no termino la secuancia que siga
 			{
-				al_draw_scaled_bitmap(this->destructiontImages[this->actualDestructionImage], 0, 0, al_get_bitmap_height(this->destructiontImages[this->actualDestructionImage]), al_get_bitmap_width(this->destructiontImages[this->actualDestructionImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				al_draw_scaled_bitmap(this->destructiontImages[this->actualDestructionImage], 0, 0, al_get_bitmap_height(this->destructiontImages[this->actualDestructionImage]), al_get_bitmap_width(this->destructiontImages[this->actualDestructionImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->destructiontImages[this->actualDestructionImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				this->actualDestructionImage++;
 			}

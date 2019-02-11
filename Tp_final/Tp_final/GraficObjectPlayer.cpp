@@ -184,8 +184,8 @@ void Obj_Graf_Player::draw()
 				//al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 				this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);															// muevo la posicion del dibujo
 			}
-			al_draw_scaled_bitmap(this->walkImages[this->walkActualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->walkActualImage]), al_get_bitmap_width(this->walkImages[this->walkActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-			((this->walkActualImage + 1) < WALKING_PICS) ? this->walkActualImage++ : this->walkActualImage = 0;									// me ubico en el siguiente frame o se reinicia la secuancia
+			al_draw_scaled_bitmap(this->walkImages[this->walkActualImage/2], 0, 0, al_get_bitmap_height(this->walkImages[this->walkActualImage / 2]), al_get_bitmap_width(this->walkImages[this->walkActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+			((this->walkActualImage + 1) < 2*WALKING_PICS) ? this->walkActualImage++ : this->walkActualImage = 0;									// me ubico en el siguiente frame o se reinicia la secuancia
 			break;
 		case player_JUMPING:
 			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2*BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -205,7 +205,7 @@ void Obj_Graf_Player::draw()
 			al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			break;
 		case player_ATTACKING:
-			if ((this->attackActualImage + 1) < ATTACKING_PICS)
+			if ((this->attackActualImage + 1) < 2*ATTACKING_PICS)
 			{
 				//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 				this->attackActualImage++;																									// termino la secuencia de disparo
@@ -217,7 +217,7 @@ void Obj_Graf_Player::draw()
 				this->state = player_IDLE;
 //				this->active = false;
 			}
-			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			break;
 		case player_FALLING:
 			if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -239,9 +239,9 @@ void Obj_Graf_Player::draw()
 		case player_IDLE:
 			this->actualImage = 0;
 //			this->active = false;																										// por la dudas lo vuelvo a pasivar porque en la secuencia de caida no se desactiva por si solo
-			al_draw_scaled_bitmap(this->idleImages[this->idleActualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->idleActualImage]), al_get_bitmap_width(this->idleImages[this->idleActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+			al_draw_scaled_bitmap(this->idleImages[this->idleActualImage / 2], 0, 0, al_get_bitmap_height(this->idleImages[this->idleActualImage / 2]), al_get_bitmap_width(this->idleImages[this->idleActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 			//al_draw_bitmap(this->idleImages[idleActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
-			((this->idleActualImage + 1) < IDLE_PICS) ? this->idleActualImage++ : this->idleActualImage = 0;
+			((this->idleActualImage + 1) < 2*IDLE_PICS) ? this->idleActualImage++ : this->idleActualImage = 0;
 			break;
 		case player_JUMPING_FOWARD:
 			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -285,9 +285,9 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_DYING:
-			if (this->dieActualImage < DYING_PICS)
+			if (this->dieActualImage < 2*DYING_PICS)
 			{
-				al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_width(this->dieImages[this->dieActualImage]), al_get_bitmap_height(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				al_draw_scaled_bitmap(this->dieImages[this->dieActualImage/2], 0, 0, al_get_bitmap_width(this->dieImages[this->dieActualImage / 2]), al_get_bitmap_height(this->dieImages[this->dieActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				this->dieActualImage++;
 			}
@@ -319,8 +319,8 @@ void Obj_Graf_Player::draw()
 				//al_draw_bitmap(this->walkImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 				this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);															// muevo la posicion del dibujo
 			}
-			al_draw_scaled_bitmap(this->walkImages[this->walkActualImage], 0, 0, al_get_bitmap_height(this->walkImages[this->walkActualImage]), al_get_bitmap_width(this->walkImages[this->walkActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-			((this->walkActualImage + 1) < WALKING_PICS) ? this->walkActualImage++ : this->walkActualImage = 0;
+			al_draw_scaled_bitmap(this->walkImages[this->walkActualImage / 2], 0, 0, al_get_bitmap_height(this->walkImages[this->walkActualImage / 2]), al_get_bitmap_width(this->walkImages[this->walkActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+			((this->walkActualImage + 1) < 2*WALKING_PICS) ? this->walkActualImage++ : this->walkActualImage = 0;
 			break;
 		case player_JUMPING:
 			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -340,7 +340,7 @@ void Obj_Graf_Player::draw()
 			}
 			break;
 		case player_ATTACKING:
-			if (this->attackActualImage < ATTACKING_PICS)
+			if ((this->attackActualImage + 1) < 2*ATTACKING_PICS)
 			{
 				//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 				this->attackActualImage++;																							// termino la secuencia de disparo
@@ -352,7 +352,7 @@ void Obj_Graf_Player::draw()
 				this->state = player_IDLE;
 //				this->Active = false;
 			}
-			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage]), al_get_bitmap_width(this->attackImages[this->attackActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case player_FALLING:
 			if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -374,9 +374,9 @@ void Obj_Graf_Player::draw()
 		case player_IDLE:
 			this->actualImage = 0;
 //			this->active = false;
-			al_draw_scaled_bitmap(this->idleImages[this->idleActualImage], 0, 0, al_get_bitmap_height(this->idleImages[this->idleActualImage]), al_get_bitmap_width(this->idleImages[this->idleActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+			al_draw_scaled_bitmap(this->idleImages[this->idleActualImage/2], 0, 0, al_get_bitmap_height(this->idleImages[this->idleActualImage / 2]), al_get_bitmap_width(this->idleImages[this->idleActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			//al_draw_bitmap(this->idleImages[0], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja el personaje parado
-			((this->idleActualImage + 1) < IDLE_PICS) ? this->idleActualImage++ : this->idleActualImage = 0;
+			((this->idleActualImage + 1) < 2*IDLE_PICS) ? this->idleActualImage++ : this->idleActualImage = 0;
 			break;
 		case player_JUMPING_FOWARD:
 			if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -419,9 +419,9 @@ void Obj_Graf_Player::draw()
 			al_draw_scaled_bitmap(this->pushImages[this->actualImage], 0, 0, al_get_bitmap_height(this->pushImages[this->actualImage]), al_get_bitmap_width(this->pushImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case player_DYING:
-			if (this->dieActualImage < DYING_PICS)
+			if (this->dieActualImage < 2*DYING_PICS)
 			{
-				al_draw_scaled_bitmap(this->dieImages[this->dieActualImage], 0, 0, al_get_bitmap_width(this->dieImages[this->dieActualImage]), al_get_bitmap_height(this->dieImages[this->dieActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				al_draw_scaled_bitmap(this->dieImages[this->dieActualImage/2], 0, 0, al_get_bitmap_width(this->dieImages[this->dieActualImage / 2]), al_get_bitmap_height(this->dieImages[this->dieActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->dieImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				this->dieActualImage++;
 			}
@@ -443,7 +443,7 @@ void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 	this->pos = pos;
 	this->InitalPos = pos;
 	this->state = * (PLAYER_STATE *)state;
-	this->actualImage = 0;			// comienza con la primera imagen
+	this->actualImage = 0;								// comienza con la primera imagen
 	this->secuenceOver_ = false;
 }
 
