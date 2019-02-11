@@ -6,7 +6,10 @@
 #include <iostream>
 #include <map>
 #include <vector>
-//prueba
+
+#define SCREEN_W (16*BLOCK_SIZE)
+#define SCREEN_H (12*BLOCK_SIZE)
+
 using namespace std;
 
 class DRAW
@@ -30,6 +33,7 @@ private:
 	map<double, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
 	ALLEGRO_BITMAP * floor = NULL;
 	ALLEGRO_BITMAP * empty = NULL;
+	ALLEGRO_BITMAP ** backgrounds = NULL;
 	vector<string> levels;
 	unsigned int level;
 	void drawLevel();
