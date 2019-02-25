@@ -7,12 +7,12 @@
 
 #define MOVING_PICS_SNOW	1											// cantidad de imagenes de cada una para saber repetir el ciclo
 #define MOVING_PICS_FIRE	28
-#define DECAYING_PICS_SNOW	1
+#define DECAYING_PICS_SNOW	6
 #define DECAYING_PICS_FIRE	16
 #define IMPACT_PICS_SNOW	18
 #define IMPACT_PICS_FIRE	9
 #define FALLING_PICS_SNOW	1
-#define FALLING_PICS_FIRE	1
+#define FALLING_PICS_FIRE	28
 
 #define FOLDER_PROYECTILES	("proyectiles")
 #define FOLDER_SNOW			("SNOW")
@@ -30,4 +30,4 @@
 #define FILE_FIRE_MOVING	("efecto_fuego_000")
 #define FILE_FIRE_DECAYING	("efecto_fuego_00")
 #define FILE_FIRE_IMPACT	("E000")
-#define FILE_FIRE_FALLING	("efecto_fuego_00")
+#define FILE_FIRE_FALLING	("efecto_fuego_000")
