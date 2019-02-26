@@ -148,6 +148,7 @@
     <ClCompile Include="DijkstraMachine.cpp" />
     <ClCompile Include="DRAW.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
@@ -188,8 +189,10 @@
     <ClCompile Include="PackageFactory.cpp" />
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerActionsFSM.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
+    <ClCompile Include="ProyectilesActionsFSM.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -208,6 +211,7 @@
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="DRAW.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyActionsFSM.h" />
     <ClInclude Include="EnemyDefines.h" />
     <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
@@ -239,9 +243,11 @@
     <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
+    <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerDefines.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
+    <ClInclude Include="ProyectilesActionsFSM.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />

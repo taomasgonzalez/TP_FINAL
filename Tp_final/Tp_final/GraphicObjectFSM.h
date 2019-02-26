@@ -12,9 +12,9 @@ public:
 
 	Obj_Graf* get_fsm_obj_graf();
 protected:
-	std::vector<edge_t>* drawing_state;
-	std::vector<edge_t>* waiting_to_draw_state;
-	std::vector<edge_t> * inactive_state;
+	std::vector<edge_t>* drawing_state = NULL;
+	std::vector<edge_t>* waiting_to_draw_state = NULL;
+	std::vector<edge_t>* inactive_state = NULL;
 
 	unsigned int id;
 

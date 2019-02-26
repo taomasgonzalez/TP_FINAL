@@ -270,6 +270,15 @@
     <ClCompile Include="GraphicObjectFSMDRAWObserver.cpp">
       <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectilesActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -454,6 +463,15 @@
     </ClInclude>
     <ClInclude Include="GraphicObjectFSMDRAWObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectilesActionsFSM.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

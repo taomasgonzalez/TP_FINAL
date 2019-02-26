@@ -84,6 +84,12 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	APPEARED,
 	DISAPPEARED,
 	FINISHED_DRAWING,
+
+	//character events
+	JUMPED,
+	JUMPED_FORWARD,
+	WALKED
+
 };
 
 
