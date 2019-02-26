@@ -32,7 +32,7 @@ bool Resources::initialize_all_the_resources() {
 	if (healthy_initialization)
 	{
 		my_drawer = new DRAW();
-		my_scenario = new Scene();			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
+		my_scenario = new Scene(my_user_data);			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
 		my_scenario->append_graphic_facility(my_drawer);
 
 		my_communication = new Communication(my_user_data);  //Initialize the communication

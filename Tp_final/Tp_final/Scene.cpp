@@ -8,7 +8,7 @@
 
 const unsigned char *getTable();		// función para obtener la tabla para checksum
  
-Scene::Scene():Observable()
+Scene::Scene(Userdata* data):Observable()
 {
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
@@ -16,6 +16,8 @@ Scene::Scene():Observable()
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
 	enemy_action_info;
+	this->data = data;
+
 }
 
 
@@ -197,7 +199,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	al_flush_event_queue(enemy_actions_queue);
 	al_flush_event_queue(proyectile_actions_queue);
 
-	Map * new_map = new Map(12, 16);
+	Map * new_map = new Map(12, 16, data);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 	new_map->append_graphic_facility(graphics);

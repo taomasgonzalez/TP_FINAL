@@ -12,7 +12,7 @@
 class Scene : public Observable
 {
 public:
-	Scene();
+	Scene(Userdata* data);
 	~Scene();
 	void gameInit();
 
@@ -115,5 +115,7 @@ private:
 	Action_info enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
+
+	Userdata* data;
 };
 

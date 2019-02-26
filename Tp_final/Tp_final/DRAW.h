@@ -28,6 +28,7 @@ public:
 	Obj_Graf_Enemy* createObjGraf(double ID, ENEMY_TYPE type);
 	Obj_Graf_Projectile* createObjGraf(double ID, PROYECTILE_TYPE type);
 	Obj_Graf_Ball* createObjGraf(double ID, BALL_TYPE type);
+
 	template <typename T> void startDraw(T state, double ID, Direction dir, int pos_x, int pos_y);		// inicia la secuencia de dibujo de un objeto grafico
 	void draw();															// esta funcion refresca los objetos graficos activos
 	void destroyObj(double ID);

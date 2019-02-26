@@ -96,7 +96,7 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
-	GraphicObjectFSMFactory graph_fsm_factory;
+	GraphicObjectFSMFactory* graph_fsm_factory;
 	MapDijkstraMachine *dijkstra_manager = NULL;
 
 };

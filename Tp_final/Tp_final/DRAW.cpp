@@ -135,11 +135,6 @@ void DRAW::reset(unsigned int ID)
 
 void DRAW::drawLevel()
 {
-	const char* map;
-
-	//map = give_me_the_CSV(level);
-
-	char block_type;
 
 	al_draw_scaled_bitmap(backgrounds[level - 1], 0, 0, al_get_bitmap_width(backgrounds[level - 1]), al_get_bitmap_height(backgrounds[level - 1]), 0, 0, SCREEN_W, SCREEN_H, 0);
 
@@ -147,14 +142,14 @@ void DRAW::drawLevel()
 	{
 		for (int j = 0; j < 16; j++)
 		{
-			block_type = levels[level - 1].c_str()[i * 16 + j];
+			char block_type = levels[level - 1].c_str()[i * 16 + j];
 			switch (block_type)
 			{
 			case 'F':
 				al_draw_scaled_bitmap(floor, 0, 0, al_get_bitmap_width(floor), al_get_bitmap_height(floor), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				break;
 			default:
-//				al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
+				al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				break;
 			}
 		}

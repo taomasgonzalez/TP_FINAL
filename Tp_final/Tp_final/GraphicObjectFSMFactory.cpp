@@ -9,7 +9,6 @@
 GraphicObjectFSMFactory::GraphicObjectFSMFactory(Userdata* data)
 {
 	this->data = data;
-
 }
 
 

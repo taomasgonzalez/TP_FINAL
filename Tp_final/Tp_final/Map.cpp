@@ -19,7 +19,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
-	graph_fsm_factory = GraphicObjectFSMFactory(data);
+	graph_fsm_factory = new GraphicObjectFSMFactory(data);
 }
 
 Map::~Map()
@@ -32,6 +32,7 @@ Map::~Map()
 	delete all_enemies;
 	delete all_proyectiles;
 	delete dijkstra_manager;
+	delete graph_fsm_factory;
 }
 
 
@@ -529,7 +530,7 @@ void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_typ
 {
 	MapThing* new_map_thing = map_filler.create_map_thing(identifyer, direction, scenario);
 	place_on_map(coord_x, coord_y, new_map_thing);
-	graph_fsm_factory.create_graphic_fsm(identifyer, new_map_thing->id);
+	graph_fsm_factory->create_graphic_fsm(identifyer, new_map_thing->id);
 	
 }
 
@@ -707,7 +708,7 @@ Action_info Map::get_initial_enemy_actions() {
 	return returnable_EA;
 }
 void Map::append_graphic_facility(void* drawer) {
-	map_filler.append_graphic_facility(drawer);
+	graph_fsm_factory->append_graphic_facility(drawer);
 }
 
 Sense_type get_random_sense(void) {

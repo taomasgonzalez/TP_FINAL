@@ -16,7 +16,6 @@ public:
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 
-
 private:
 	unsigned int get_enemy_id();
 	unsigned int get_player_id();

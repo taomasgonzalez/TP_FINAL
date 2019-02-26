@@ -11,7 +11,6 @@ public:
 	~GraphicObjectFSM();
 
 	Obj_Graf* get_fsm_obj_graf();
-	Item_type get_obj_graf_type();
 protected:
 	std::vector<edge_t>* drawing_state;
 	std::vector<edge_t>* waiting_to_draw_state;
