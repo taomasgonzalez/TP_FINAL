@@ -4,7 +4,7 @@ void do_nothing_graphic(void * data);
 void quit_graphic(void * data);
 void draw(void * data);
 
-GraphicGameFSM::GraphicGameFSM(Userdata * data, DRAW * drawer) : FSM(data)
+GraphicGameFSM::GraphicGameFSM(Userdata * data, DRAW * drawer) : FSM()
 {
 	this->drawer = drawer;
 

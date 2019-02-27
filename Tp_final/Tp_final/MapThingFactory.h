@@ -5,7 +5,6 @@
 #include "Snowball.h"
 #include "Fireball.h"
 #include "Player.h"
-#include "DRAW.h"
 
 class MapThingFactory
 {
@@ -23,9 +22,9 @@ private:
 	unsigned int get_nothing_id();
 	unsigned int get_wall_id();
 
-	static unsigned int next_enemy_id;
-	static unsigned int next_player_id;
-	static unsigned int next_proyectile_id;
+	unsigned int next_enemy_id;
+	unsigned int next_player_id;
+	unsigned int next_proyectile_id;
 
 	ALLEGRO_EVENT_QUEUE * enemies_ev_queue;
 	ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue;

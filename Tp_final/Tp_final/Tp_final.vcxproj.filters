@@ -243,12 +243,6 @@
     <ClCompile Include="GraphicGameFSM.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicObjectFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicObjectEventGenerator.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -264,19 +258,19 @@
     <ClCompile Include="LogicFSMSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicObjectFSMFactory.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
+    <ClCompile Include="ProyectilesActionsFSM.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicObjectFSMDRAWObserver.cpp">
+    <ClCompile Include="ScenarioDRAWObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerActionsFSM.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyActionsFSM.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProyectilesActionsFSM.cpp">
+    <ClCompile Include="CharacterActionsEventGenerator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -437,12 +431,6 @@
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicObjectFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicObjectEventGenerator.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="Action_Info.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -458,19 +446,19 @@
     <ClInclude Include="LogicFSMSceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicObjectFSMFactory.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
+    <ClInclude Include="ProyectilesActionsFSM.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicObjectFSMDRAWObserver.h">
+    <ClInclude Include="ScenarioDRAWObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsFSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsFSMDRAWObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerActionsFSM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyActionsFSM.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProyectilesActionsFSM.h">
+    <ClInclude Include="CharacterActionsEventGenerator.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

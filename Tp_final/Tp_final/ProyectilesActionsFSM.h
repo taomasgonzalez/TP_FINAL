@@ -4,7 +4,7 @@
 class ProyectilesActionsFSM : public FSM
 {
 public:
-	ProyectilesActionsFSM(Userdata* data);
+	ProyectilesActionsFSM();
 	~ProyectilesActionsFSM();
 private:
 	enum PROYECTILE_STATE { proy_MOVING, proy_DECAYING, proy_IMPACT, proy_FALLING };		// el proyectil decae cuando se detiene a los 3 casilleros y se cae

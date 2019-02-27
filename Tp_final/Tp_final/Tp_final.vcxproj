@@ -143,12 +143,12 @@
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="CharacterActionsEventGenerator.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
     <ClCompile Include="DRAW.cpp" />
     <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
@@ -156,7 +156,7 @@
     <ClCompile Include="CommunicationEventsObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
-    <ClCompile Include="GraphicObjectFSMDRAWObserver.cpp" />
+    <ClCompile Include="CharacterActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
@@ -169,9 +169,6 @@
     <ClCompile Include="GraficObjectProjectile.cpp" />
     <ClCompile Include="GraphicEventGenerator.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp" />
-    <ClCompile Include="GraphicObjectEventGenerator.cpp" />
-    <ClCompile Include="GraphicObjectFSMFactory.cpp" />
-    <ClCompile Include="GraphicObjectFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="LogicClientFSM.cpp" />
     <ClCompile Include="LogicEventGenerator.cpp" />
@@ -189,13 +186,14 @@
     <ClCompile Include="PackageFactory.cpp" />
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="PlayerActionsFSM.cpp" />
+    <ClCompile Include="CharacterActionsFSM.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectilesActionsFSM.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Snowball.cpp" />
@@ -206,12 +204,12 @@
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="CharacterActionsEventGenerator.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="DRAW.h" />
     <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyActionsFSM.h" />
     <ClInclude Include="EnemyDefines.h" />
     <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
@@ -220,7 +218,7 @@
     <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="GraphicObjectFSMDRAWObserver.h" />
+    <ClInclude Include="CharacterActionsFSMDRAWObserver.h" />
     <ClInclude Include="LogicFSMEventsObserver.h" />
     <ClInclude Include="FSMFactory.h" />
     <ClInclude Include="LogicFSMSceneObserver.h" />
@@ -234,16 +232,13 @@
     <ClInclude Include="GraficObjectProjectile.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicGameFSM.h" />
-    <ClInclude Include="GraphicObjectEventGenerator.h" />
-    <ClInclude Include="GraphicObjectFSMFactory.h" />
-    <ClInclude Include="GraphicObjectFSM.h" />
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />
     <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
-    <ClInclude Include="PlayerActionsFSM.h" />
+    <ClInclude Include="CharacterActionsFSM.h" />
     <ClInclude Include="PlayerDefines.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
@@ -262,6 +257,7 @@
     <ClInclude Include="Player.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="PurpleGuy.h" />
+    <ClInclude Include="ScenarioDRAWObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Snowball.h" />

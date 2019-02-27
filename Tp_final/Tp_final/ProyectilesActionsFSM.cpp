@@ -2,7 +2,7 @@
 
 
 
-ProyectilesActionsFSM::ProyectilesActionsFSM(Userdata* data): FSM(data)
+ProyectilesActionsFSM::ProyectilesActionsFSM(): FSM()
 {
 }
 

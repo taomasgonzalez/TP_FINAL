@@ -1,9 +1,7 @@
 #include "FSM_Class.h"
 
 
-FSM::FSM(Userdata * data) : Observable(){
-
-	this->user_data = data;
+FSM::FSM() : Observable(){
 
 }
 

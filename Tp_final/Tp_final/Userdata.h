@@ -1,10 +1,13 @@
 #pragma once
+
 #include "allegro5\allegro.h"
 #include "allegro5\allegro_image.h"
 #include <string>
 #include <array>
 #include <allegro5/allegro_audio.h>
 #include <allegro5/allegro_acodec.h>
+class DRAW;
+
 
 enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 
@@ -91,8 +94,7 @@ public:
 
 	NetworkData my_network_data;
 	AllegroData my_allegro_data;
-
-
+	static DRAW *drawer;
 
 };
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "Userdata.h" //Data usage
 #include "FSM_Class.h"
 #include "Allegroclass.h"
 #include "EventPackage.h"
@@ -12,7 +11,7 @@ class EventGenerator : public Observable
 public:
 	enum class LogicQueues { allegro, net, soft, TOTAL_QUEUES };
 	enum class GraphicQueues {TOTAL_QUEUES };
-	EventGenerator(Allegro * al, Userdata* data);
+	EventGenerator();
 	~EventGenerator();
 	
 	virtual EventPackage * fetch_event();

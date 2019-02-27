@@ -1,5 +1,4 @@
 #include "MapThing.h"
-#include "GraphicObjectFSM.h"
 #include "GraphicEventGenerator.h"
 
 MapThing::MapThing(unsigned int id, bool is_nothing, Sense_type sense)

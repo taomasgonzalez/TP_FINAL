@@ -1,6 +1,6 @@
 #pragma once
 #include "FSM_Class.h"
-
+#include "Userdata.h"
 
 /*******************************************************************************
 CLASE TIME_OUT
@@ -76,5 +76,6 @@ public:
 
 
 private:
+	Userdata * user_data = NULL;
 };
 

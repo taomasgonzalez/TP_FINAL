@@ -88,8 +88,10 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//character events
 	JUMPED,
 	JUMPED_FORWARD,
-	WALKED
-
+	WALKED,
+	FELL,
+	PUSHED,
+	FINISHED_MOVEMENT
 };
 
 

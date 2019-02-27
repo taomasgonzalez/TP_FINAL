@@ -25,7 +25,7 @@ struct edge
 ******************************************************************************/
 class FSM : public  Observable{
 public:
-	 FSM(Userdata * data);
+	 FSM();
 	 virtual void run_fsm(EventPackage * ev_pack);
 		
 	 EventPackage* get_fsm_ev_pack();
@@ -35,7 +35,6 @@ public:
 protected:
 	std::vector<edge_t>* actual_state;
 	void check_for_incorrect_event(Event_type event);
-	Userdata * user_data;
 	void expand_state(std::vector<edge_t>* to_be_expanded, edge_t expansion);		//for inheritance
 
 private:

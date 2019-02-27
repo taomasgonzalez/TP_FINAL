@@ -1,4 +1,5 @@
 #include "Userdata.h"
+
 using namespace std;
 std::array<ALLEGRO_BITMAP*, 15> AllegroData::WormWalk;
 std::array<ALLEGRO_BITMAP*, 10>AllegroData::WormJump;
@@ -84,3 +85,5 @@ Userdata::~Userdata()
 	al_destroy_bitmap(AllegroData::WindowsBackground);
 }
 
+
+DRAW* Userdata::drawer = NULL;

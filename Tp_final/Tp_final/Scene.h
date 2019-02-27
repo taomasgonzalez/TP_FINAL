@@ -66,6 +66,8 @@ public:
 	bool we_won = false;
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
+	bool new_character = false;
+
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	
