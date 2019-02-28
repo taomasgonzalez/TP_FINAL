@@ -267,10 +267,19 @@
     <ClCompile Include="CharacterActionsFSM.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActionsFSMDRAWObserver.cpp">
-      <Filter>Source Files\Observers\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterActionsEventGenerator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSM.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -455,10 +464,19 @@
     <ClInclude Include="CharacterActionsFSM.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterActionsFSMDRAWObserver.h">
-      <Filter>Header Files\Observers\Graphic</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterActionsEventGenerator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSM.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSMDRAWObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSMDRAWObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -460,3 +460,44 @@ public:
 private:
 
 };
+
+class FINISHED_MOVEMENT_EventPackage : public EventPackage {
+public:
+	FINISHED_MOVEMENT_EventPackage();
+private:
+};
+
+class WALKED_EventPackage : public EventPackage{
+public:
+	WALKED_EventPackage(Direction_type dir);
+	Direction_type walking_direction;
+};
+
+class JUMPED_EventPackage : public EventPackage {
+public:
+	JUMPED_EventPackage();
+
+private:
+};
+
+class JUMPED_FORWARD_EventPackage : public EventPackage {
+public:
+	JUMPED_FORWARD_EventPackage(Direction_type dir);
+	Direction_type jumping_direction;
+};
+
+class DIED_EventPackage : public EventPackage {
+public:
+	DIED_EventPackage();
+};
+
+class FELL_EventPackage : public EventPackage {
+public:
+	FELL_EventPackage();
+};
+
+
+class FINISHED_ATTACK_EventPackage : public EventPackage {
+public:
+	FINISHED_ATTACK_EventPackage();
+};

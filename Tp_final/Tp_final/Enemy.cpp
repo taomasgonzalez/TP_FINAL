@@ -1,5 +1,7 @@
 #include "Enemy.h"
-
+#include "EnemyActionsFSM.h"
+#include "EnemyActionsFSMDRAWObserver.h"
+#include "CharacterActionsEventGenerator.h"
 
 std::uniform_real_distribution<double> Enemy::acting_probabilities = std::uniform_real_distribution<double>(0.0, 1.0);
 unsigned Enemy::seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -8,6 +10,10 @@ std::default_random_engine Enemy::generator = std::default_random_engine(seed);
 Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 {
 	acting_timer = al_create_timer(1.0);
+
+	EnemyActionsFSM* fsm = new EnemyActionsFSM(this);
+	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, this));
+	enemy_handler = new EventHandler(fsm, new CharacterActionsEventGenerator());
 }
 
 

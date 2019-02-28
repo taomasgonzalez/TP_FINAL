@@ -22,7 +22,5 @@ public:
 protected:
 	bool dead = false;
 
-private: 
-	EventHandler * character_handler = NULL;
 };
 

@@ -149,6 +149,8 @@
     <ClCompile Include="DijkstraMachine.cpp" />
     <ClCompile Include="DRAW.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="EnemyActionsFSM.cpp" />
+    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="EnemyScenarioObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
@@ -156,7 +158,6 @@
     <ClCompile Include="CommunicationEventsObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
-    <ClCompile Include="CharacterActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
     <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
@@ -187,6 +188,8 @@
     <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="CharacterActionsFSM.cpp" />
+    <ClCompile Include="PlayerActionsFSM.cpp" />
+    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectilesActionsFSM.cpp" />
@@ -210,6 +213,8 @@
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="DRAW.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="EnemyActionsFSM.h" />
+    <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
     <ClInclude Include="EnemyDefines.h" />
     <ClInclude Include="EnemyScenarioObserver.h" />
     <ClInclude Include="EventGenerator.h" />
@@ -218,7 +223,6 @@
     <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="CharacterActionsFSMDRAWObserver.h" />
     <ClInclude Include="LogicFSMEventsObserver.h" />
     <ClInclude Include="FSMFactory.h" />
     <ClInclude Include="LogicFSMSceneObserver.h" />
@@ -239,6 +243,8 @@
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="CharacterActionsFSM.h" />
+    <ClInclude Include="PlayerActionsFSM.h" />
+    <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
     <ClInclude Include="PlayerDefines.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />

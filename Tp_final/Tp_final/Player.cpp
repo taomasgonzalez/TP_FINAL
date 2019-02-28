@@ -1,4 +1,7 @@
 #include "Player.h"
+#include "PlayerActionsFSM.h"
+#include "CharacterActionsEventGenerator.h"
+#include "PlayerActionsFSMDRAWObserver.h"
 
 //agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
 
@@ -8,6 +11,11 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 		printable = Item_type::NICK;
 	else
 		printable = Item_type::TOM;
+
+	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
+	CharacterActionsEventGenerator* ev_gen = new CharacterActionsEventGenerator();
+	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
+	player_handler = new EventHandler(fsm, ev_gen);
 }
 
 

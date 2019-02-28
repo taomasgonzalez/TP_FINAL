@@ -56,6 +56,15 @@ void FSM::expand_state(std::vector<edge_t>* to_be_expanded, edge_t expansion)
 	to_be_expanded->insert(it, expansion);
 }
 
+void FSM::change_action_routine(std::vector<edge_t>* state_to_be_changed,Event_type event1, void(*new_routine)(void*))
+{
+	
+	for (std::vector<edge_t>::iterator it = state_to_be_changed->begin(); it == state_to_be_changed->end(); ++it) 
+		if ((it->event) == event1)
+			it->fun_trans = new_routine;
+	
+}
+
 
 EventPackage* FSM::get_fsm_ev_pack() {
 	return this->my_ev_pack;
@@ -71,4 +80,9 @@ std::vector<edge_t>* FSM::give_me_the_actual_state() {
 
 	return actual_state;
 }
-
+void(*FSM::get_routine(std::vector<edge_t>* state, Event_type event1))(void*){
+	for (std::vector<edge_t>::iterator it = state->begin(); it == state->end(); ++it)
+		if ((it->event) == event1)
+			return (it->fun_trans);
+	return NULL;
+}

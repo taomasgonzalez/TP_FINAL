@@ -36,6 +36,8 @@ protected:
 	std::vector<edge_t>* actual_state;
 	void check_for_incorrect_event(Event_type event);
 	void expand_state(std::vector<edge_t>* to_be_expanded, edge_t expansion);		//for inheritance
+	void change_action_routine(std::vector<edge_t>* state_to_be_changed, Event_type event1, void(*new_routine)(void*));
+	void(*get_routine(std::vector<edge_t>* state, Event_type event1))(void*);
 
 private:
 	EventPackage * my_ev_pack;

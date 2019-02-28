@@ -6,6 +6,7 @@
 #include <chrono>
 #include <random>
 #include "Action_Info.h"
+#include "EventHandler.h"
 
 class Enemy: public Character, public Observable
 {
@@ -59,6 +60,7 @@ protected:
 	bool jump(Action_info * next_enemy_action);
 
 	Action_info action_4_obs;
-
+private:
+	EventHandler * enemy_handler = NULL;
 };
 

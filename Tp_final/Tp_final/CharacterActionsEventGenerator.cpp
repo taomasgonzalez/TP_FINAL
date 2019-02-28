@@ -2,8 +2,9 @@
 
 
 
-CharacterActionsEventGenerator::CharacterActionsEventGenerator(): EventGenerator()
+CharacterActionsEventGenerator::CharacterActionsEventGenerator()
 {
+	append_all_queues(1);
 }
 
 
