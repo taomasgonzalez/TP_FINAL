@@ -19,6 +19,5 @@ public:
 
 private:
 	void lose_life();
-	EventHandler * player_handler = NULL;
 };
 

@@ -13,7 +13,7 @@ enum class Thing_Type { PLAYER, ENEMY, PROYECTILE, FLOOR };
 
 enum class Sense_type {Right, Left, None};
 
-enum class Direction_type{Right, Left, Jump_Straight, Jump_Left, Jump_Right , None};
+enum class Direction_type{Right, Left, Jump_Straight, Jump_Left, Jump_Right , Down, None};
 
 enum class Action_type { 
 	Move = 'M', Attack = 'A' };

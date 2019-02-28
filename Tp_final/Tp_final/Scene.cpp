@@ -2,6 +2,7 @@
 #include "general.h"
 #include <fstream>
 #include <string>
+#include "CharacterSceneObserver.h"
 
 #define TABLE_FILE "levels/tabla/tabla.csv"
 #define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
@@ -218,7 +219,13 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	}
 
 	curr_enemies = new_map->get_all_enemies();
+	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
+		this->add_observer(new CharacterSceneObserver(this, *it));
+
 	curr_players = new_map->get_all_players();
+	for (std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		this->add_observer(new CharacterSceneObserver(this, *it));
+
 	curr_proyectiles = new_map->get_all_proyectiles();
 
 	maps.push_back(new_map);

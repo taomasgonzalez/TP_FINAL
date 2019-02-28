@@ -29,3 +29,11 @@ void EventHandler::handle_event() {
 
 }
 
+FSM * EventHandler::get_fsm()
+{
+	return fsm;
+}
+
+EventGenerator* EventHandler::get_ev_gen() {
+	return ev_gen;
+}

@@ -15,7 +15,7 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
 	CharacterActionsEventGenerator* ev_gen = new CharacterActionsEventGenerator();
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
-	player_handler = new EventHandler(fsm, ev_gen);
+	ev_handler = new EventHandler(fsm, ev_gen);
 }
 
 

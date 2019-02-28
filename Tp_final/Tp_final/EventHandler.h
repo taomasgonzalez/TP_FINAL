@@ -10,6 +10,9 @@ public:
 
 	void handle_event();
 
+	FSM * get_fsm();
+	EventGenerator* get_ev_gen();
+
 private:
 	FSM * fsm;
 	EventGenerator* ev_gen;
