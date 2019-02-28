@@ -177,7 +177,7 @@ void Obj_Graf_Player::draw()
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 //				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
@@ -194,7 +194,7 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
@@ -214,7 +214,7 @@ void Obj_Graf_Player::draw()
 			{
 				this->secuenceOver_ = true;
 				this->attackActualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 //				this->active = false;
 			}
 			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
@@ -226,7 +226,7 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() + BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
@@ -250,7 +250,7 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
@@ -311,7 +311,7 @@ void Obj_Graf_Player::draw()
 				this->secuenceOver_ = true;
 				this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 //				this->isActive = false;															// se pasiva el objeto
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 				this->actualImage = 0;
 			}
 			else
@@ -329,15 +329,15 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 				(this->actualImage < (JUMPING_PICS - 1)) ? this->actualImage++ : NULL;																									// ubico el siguiente frame
 				this->pos.set_y_coord(this->pos.get_y_coord() - this->velFall);															// muevo la posicion del dibujo
 			}
+			al_draw_scaled_bitmap(this->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this->jumpImages[this->actualImage]), al_get_bitmap_width(this->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case player_ATTACKING:
 			if ((this->attackActualImage + 1) < 2*ATTACKING_PICS)
@@ -349,7 +349,7 @@ void Obj_Graf_Player::draw()
 			{
 				this->secuenceOver_ = true;
 				this->attackActualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 //				this->Active = false;
 			}
 			al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
@@ -361,15 +361,15 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() + BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{
-				al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 				(this->actualImage < (FALLING_PICS - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 				this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 			}
+			al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 			break;
 		case player_IDLE:
 			this->actualImage = 0;
@@ -385,7 +385,7 @@ void Obj_Graf_Player::draw()
 				this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 				//				this->active = false;															// se pasiva el objeto
 				this->actualImage = 0;
-				this->state = player_IDLE;
+				//this->state = player_IDLE;
 			}
 			else
 			{

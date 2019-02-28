@@ -54,7 +54,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -71,7 +71,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -88,7 +88,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -161,7 +161,7 @@ void Obj_Graf_Enemy::draw()
 						this->secuenceOver_ = true;
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 						this->actualImage = 0;
 					}
 					else
@@ -179,7 +179,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -196,7 +196,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -273,7 +273,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -290,7 +290,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -307,7 +307,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -351,7 +351,7 @@ void Obj_Graf_Enemy::draw()
 					{
 						this->secuenceOver_ = true;
 						this->attackActualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 //						this->active = false;
 					}
 					al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
@@ -393,7 +393,7 @@ void Obj_Graf_Enemy::draw()
 						this->secuenceOver_ = true;
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 						this->actualImage = 0;
 					}
 					else
@@ -411,7 +411,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -428,7 +428,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -471,7 +471,7 @@ void Obj_Graf_Enemy::draw()
 					else
 					{
 						this->attackActualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 //						this->active = false;
 					}
 					al_draw_scaled_bitmap(this->attackImages[this->attackActualImage/2], 0, 0, al_get_bitmap_height(this->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(this->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
@@ -521,7 +521,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -537,7 +537,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -554,7 +554,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -625,7 +625,7 @@ void Obj_Graf_Enemy::draw()
 						this->secuenceOver_ = true;
 						this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 						this->active = false;															// se pasiva el objeto
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 						this->actualImage = 0;
 					}
 					else
@@ -642,7 +642,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
@@ -659,7 +659,7 @@ void Obj_Graf_Enemy::draw()
 						this->pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 						//				this->active = false;															// se pasiva el objeto
 						this->actualImage = 0;
-						this->state = enemy_IDLE;
+						//this->state = enemy_IDLE;
 					}
 					else
 					{
