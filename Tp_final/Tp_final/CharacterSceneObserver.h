@@ -16,6 +16,8 @@ private:
 	Character* character = NULL;
 	CharacterActionsFSM* fsm = NULL;
 	CharacterActionsEventGenerator* ev_gen = NULL;
+
+	void kill_character();
 };
 
 

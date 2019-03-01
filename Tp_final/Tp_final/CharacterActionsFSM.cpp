@@ -246,6 +246,7 @@ void CharacterActionsFSM::continue_logical_attack() {
 }
 void CharacterActionsFSM::end_if_should_end_movement()
 {
+#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();
 	obs_questions.should_interrupt_movement = false;
@@ -288,6 +289,7 @@ bool CharacterActionsFSM::finished_logical_movement() {
 
 bool CharacterActionsFSM::can_perform_logical_movement()
 {
+	#pragma message("Germo tiene que verificar si se puede ejecutar este movimiento desde escena. Este observer es CharacterSceneObserver")
 	this->obs_questions.can_perform_movement = true;
 	notify_obs();
 	this->obs_questions.can_perform_movement = false;
