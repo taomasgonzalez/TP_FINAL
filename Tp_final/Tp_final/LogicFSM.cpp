@@ -1,7 +1,7 @@
 #include "LogicFSM.h"
 
-LogicFSM::LogicFSM(Userdata* data):FSM(data) {
-
+LogicFSM::LogicFSM(Userdata* data):FSM() {
+	user_data = data;
 }
 LogicFSM::~LogicFSM() {
 

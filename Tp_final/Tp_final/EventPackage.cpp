@@ -623,3 +623,31 @@ Event_type Action_info_id_2_Event_type(Action_info_id ai_id) {
 
 	return returnable_ev_t;
 }
+
+FINISHED_MOVEMENT_EventPackage::FINISHED_MOVEMENT_EventPackage() : EventPackage(Event_type::FINISHED_MOVEMENT, true){
+
+}
+
+WALKED_EventPackage::WALKED_EventPackage(Direction_type dir): EventPackage(Event_type::WALKED, true)
+{
+}
+
+JUMPED_EventPackage::JUMPED_EventPackage(): EventPackage(Event_type::JUMPED, true)
+{
+
+}
+JUMPED_FORWARD_EventPackage::JUMPED_FORWARD_EventPackage(Direction_type dir) : EventPackage(Event_type::JUMPED_FORWARD, true) {
+
+}
+
+DIED_EventPackage::DIED_EventPackage() : EventPackage(Event_type::DIED, true) {
+
+}
+
+FELL_EventPackage::FELL_EventPackage() : EventPackage(Event_type::FELL, true){
+
+}
+
+FINISHED_ATTACK_EventPackage::FINISHED_ATTACK_EventPackage() : EventPackage(Event_type::FINISHED_ATTACK, true) {
+
+}

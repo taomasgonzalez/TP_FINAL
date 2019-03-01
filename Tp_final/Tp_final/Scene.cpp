@@ -2,13 +2,14 @@
 #include "general.h"
 #include <fstream>
 #include <string>
+#include "CharacterSceneObserver.h"
 
 #define TABLE_FILE "levels/tabla/tabla.csv"
 #define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
 
 const unsigned char *getTable();		// función para obtener la tabla para checksum
  
-Scene::Scene():Observable()
+Scene::Scene(Userdata* data):Observable()
 {
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
@@ -16,6 +17,8 @@ Scene::Scene():Observable()
 	//this->action_from_allegro = NULL;
 	this->actual_map = 0;
 	enemy_action_info;
+	this->data = data;
+
 }
 
 
@@ -197,10 +200,10 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	al_flush_event_queue(enemy_actions_queue);
 	al_flush_event_queue(proyectile_actions_queue);
 
-	Map * new_map = new Map(12, 16);
+	Map * new_map = new Map(12, 16, data);
 	new_map->register_enemies_event_queue(enemy_actions_queue);
 	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
-
+	new_map->append_graphic_facility(graphics);
 	
 	if (is_client) //The map came by networking, already checked
 	{	
@@ -216,7 +219,13 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	}
 
 	curr_enemies = new_map->get_all_enemies();
+	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
+		this->add_observer(new CharacterSceneObserver(this, *it));
+
 	curr_players = new_map->get_all_players();
+	for (std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		this->add_observer(new CharacterSceneObserver(this, *it));
+
 	curr_proyectiles = new_map->get_all_proyectiles();
 
 	maps.push_back(new_map);
@@ -928,6 +937,12 @@ Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
 	return next_movement;
 }
 
+void Scene::append_graphic_facility(void * drawer)
+{
+	this->graphics = drawer;
+}
+
+
 Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 	int shortest_distance = INT_MAX;
 	Player* nearest_player = NULL;
@@ -966,3 +981,5 @@ const unsigned char *getTable()
 
 	return table;
 }
+
+

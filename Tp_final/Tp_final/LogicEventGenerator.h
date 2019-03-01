@@ -20,8 +20,6 @@ public:
 
 private:
 
-	Userdata * my_user_data;
-
 	ALLEGRO_EVENT_QUEUE * al_key_queue;
 	ALLEGRO_EVENT_QUEUE* coordinate_scene_events_queue;
 	ALLEGRO_TIMER * time_out_timer;
@@ -33,5 +31,7 @@ private:
 	void update_from_allegro_keyboard_events();
 	void update_from_allegro_timer_events();
 
+	Allegro* al = NULL;
+	Userdata* my_user_data = NULL;
 };
 

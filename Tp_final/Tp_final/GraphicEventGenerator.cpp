@@ -1,6 +1,6 @@
 #include "GraphicEventGenerator.h"
 #define FPS (50.0)
-GraphicEventGenerator::GraphicEventGenerator(Allegro * al, Userdata * data) : EventGenerator(al, data)
+GraphicEventGenerator::GraphicEventGenerator() : EventGenerator()
 {
 	drawing_event_queue = al_create_event_queue();
 	fps_timer = al_create_timer(1.0/FPS);		//FPS de guido

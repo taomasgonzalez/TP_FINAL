@@ -1,5 +1,6 @@
 #pragma once
 #include "MapThing.h"
+#include "EventHandler.h"
 
 enum class States
 {
@@ -13,14 +14,16 @@ public:
 	Character(unsigned int id, Sense_type sense);
 	~Character();
 	States current_state;
-	//Observer_dibujo
 
 	virtual void die();
 	bool is_dead();
 
-
+	FSM* get_my_fsm();
+	EventGenerator* get_my_ev_gen();
 protected:
 	bool dead = false;
+	EventHandler * ev_handler = NULL;
+
 
 };
 

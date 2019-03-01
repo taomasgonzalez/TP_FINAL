@@ -6,6 +6,7 @@
 #include <chrono>
 #include <random>
 #include "Action_Info.h"
+#include "EventHandler.h"
 
 class Enemy: public Character, public Observable
 {

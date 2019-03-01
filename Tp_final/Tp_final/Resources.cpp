@@ -31,8 +31,10 @@ bool Resources::initialize_all_the_resources() {
 
 	if (healthy_initialization)
 	{
-		this->my_scenario = new Scene();			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
-		this->my_drawer = new DRAW();
+		my_drawer = new DRAW();
+		my_user_data->drawer = my_drawer;
+		my_scenario = new Scene(my_user_data);			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
+		my_scenario->append_graphic_facility(my_drawer);
 
 		my_communication = new Communication(my_user_data);  //Initialize the communication
 		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful
@@ -49,7 +51,7 @@ bool Resources::initialize_all_the_resources() {
 		}
 
 		my_graphic_fsm = new GraphicGameFSM(my_user_data, my_drawer);
-		my_graphic_ev_gen = new GraphicEventGenerator(my_allegro_container, my_user_data);
+		my_graphic_ev_gen = new GraphicEventGenerator();
 		my_graphic_event_handler = new EventHandler(my_graphic_fsm, my_graphic_ev_gen);
 
 		add_all_observers();

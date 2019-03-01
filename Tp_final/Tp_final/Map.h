@@ -10,7 +10,7 @@
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns);
+	Map(int number_of_rows, int number_of_columns, Userdata* data);
 	~Map();
 
 
@@ -68,9 +68,11 @@ public:
 	int get_number_of_rows();
 	int get_number_of_columns();
 
+	void append_graphic_facility(void* drawer);
+
 private:
 	MapCell get_cell(int coord_x, int coord_y);
-	MapCell * * map_cells;
+	MapCell ** map_cells;
 
 	int number_of_rows;
 	int number_of_columns;
@@ -93,6 +95,6 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
+	MapDijkstraMachine *dijkstra_manager = NULL;
 
-	MapDijkstraMachine *dijkstra_manager;
 };

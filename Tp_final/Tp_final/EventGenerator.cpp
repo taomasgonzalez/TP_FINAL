@@ -5,10 +5,9 @@
 #include "Scene.h"
 
 
-EventGenerator::EventGenerator(Allegro * al, Userdata* data)
+EventGenerator::EventGenerator()
 {
 	std::vector<std::vector<EventPackage*>> event_queues = std::vector<std::vector<EventPackage*>>();
-	my_user_data = data;
 }
 
 

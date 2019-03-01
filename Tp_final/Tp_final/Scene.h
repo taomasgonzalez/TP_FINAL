@@ -12,7 +12,7 @@
 class Scene : public Observable
 {
 public:
-	Scene();
+	Scene(Userdata* data);
 	~Scene();
 	void gameInit();
 
@@ -66,6 +66,8 @@ public:
 	bool we_won = false;
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
+	bool new_character = false;
+
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	
@@ -79,7 +81,10 @@ public:
 
 	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
+	void append_graphic_facility(void* drawer);
+
 private:
+	void * graphics = NULL;
 
 	unsigned char make_checksum(const char * CSV_map_location);
 	//checkes
@@ -112,5 +117,7 @@ private:
 	Action_info enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
+
+	Userdata* data;
 };
 

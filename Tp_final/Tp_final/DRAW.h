@@ -24,20 +24,21 @@ public:
 	DRAW();
 	~DRAW();
 //	bool init();
-	void createObjGraf(double ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo añade al mapa de objetos
-	void createObjGraf(double ID, ENEMY_TYPE type);
-	void createObjGraf(double ID, PROYECTILE_TYPE type);
-	void createObjGraf(double ID, BALL_TYPE type);
-	template <typename T> void startDraw(T state, double ID, Direction dir, int pos_x, int pos_y);		// inicia la secuencia de dibujo de un objeto grafico
+	Obj_Graf_Player* createObjGraf(unsigned int ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo añade al mapa de objetos
+	Obj_Graf_Enemy* createObjGraf(unsigned int ID, ENEMY_TYPE type);
+	Obj_Graf_Projectile* createObjGraf(unsigned int ID, PROYECTILE_TYPE type);
+	Obj_Graf_Ball* createObjGraf(unsigned int ID, BALL_TYPE type);
+
+	template <typename T> void startDraw(T state, unsigned int ID, Direction dir, int pos_x, int pos_y);		// inicia la secuencia de dibujo de un objeto grafico
 	void draw();															// esta funcion refresca los objetos graficos activos
-	void destroyObj(double ID);
+	void destroyObj(unsigned int ID);
 	void destroyAll();														// destruye todos los objetos graficos
 	void setLevel(unsigned int level);
-	bool secuenceOver(double ID);
+	bool secuenceOver(unsigned int ID);
 	void reset(unsigned int ID);
 
 private:
-	map<double, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
+	map<unsigned int, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
 	ALLEGRO_BITMAP * floor = NULL;
 	ALLEGRO_BITMAP * empty = NULL;
 	ALLEGRO_BITMAP ** backgrounds = NULL;
@@ -49,7 +50,7 @@ private:
 
 
 template<typename T>
-inline void DRAW::startDraw(T state, double ID, Direction dir, int x, int y)
+inline void DRAW::startDraw(T state, unsigned int ID, Direction dir, int x, int y)
 {
 	POINT_ pos;
 	pos.set_x_coord(x*BLOCK_SIZE);

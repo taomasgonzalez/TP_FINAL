@@ -1,5 +1,7 @@
 #pragma once
 #include "Character.h"
+#include "EventHandler.h"
+
 class Player: public Character
 {
 public:
@@ -17,6 +19,5 @@ public:
 
 private:
 	void lose_life();
-
 };
 

@@ -1,5 +1,4 @@
 #include "DRAW.h"
-//#include "csvReader.h"
 #include <vector>
 
 #define FOLDER_SCENARIO	("scenario")
@@ -61,57 +60,61 @@ DRAW::~DRAW()
 {
 }
 
-void DRAW::createObjGraf(double ID, PLAYER_TYPE type)
+Obj_Graf_Player* DRAW::createObjGraf(unsigned int ID, PLAYER_TYPE type)
 {
 	Obj_Graf_Player *obj = new Obj_Graf_Player(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, ENEMY_TYPE type)
+Obj_Graf_Enemy* DRAW::createObjGraf(unsigned int ID, ENEMY_TYPE type)
 {
 	Obj_Graf_Enemy *obj = new Obj_Graf_Enemy(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, PROYECTILE_TYPE type)
+Obj_Graf_Projectile* DRAW::createObjGraf(unsigned int ID, PROYECTILE_TYPE type)
 {
 	Obj_Graf_Projectile *obj = new Obj_Graf_Projectile(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
-void DRAW::createObjGraf(double ID, BALL_TYPE type)
+Obj_Graf_Ball* DRAW::createObjGraf(unsigned int ID, BALL_TYPE type)
 {
 	Obj_Graf_Ball *obj = new Obj_Graf_Ball(ID, type);
 	this->mapObjGraf[ID] = obj;
+	return obj;
 }
 
 void DRAW::draw()		
 {
 	this->drawLevel();
 
-	vector<double> keys;
+	vector<unsigned int> keys;
 
-	for (map<double, Obj_Graf*>::iterator it = this->mapObjGraf.begin(); it != this->mapObjGraf.end(); ++it)		// creo un vector con todas las keys del mapa de O. graficos
+	for (map<unsigned int, Obj_Graf*>::iterator it = this->mapObjGraf.begin(); it != this->mapObjGraf.end(); ++it)		// creo un vector con todas las keys del mapa de O. graficos
 		keys.push_back(it->first);
 
-	for (vector<double>::iterator it = keys.begin(); it < keys.end(); it++)			// barro todos los elementos del mapa
+	for (vector<unsigned int>::iterator it = keys.begin(); it < keys.end(); it++)			// barro todos los elementos del mapa
 		if (this->mapObjGraf[*it]->isActive())										// si el objeto grafico esta activo
 			this->mapObjGraf[*it]->draw();											// se dibuja
 }
 
-void DRAW::destroyObj(double ID)
+void DRAW::destroyObj(unsigned int ID)
 {
 	this->mapObjGraf[ID]->destroy();
 }
 
 void DRAW::destroyAll()
 {
-	vector<double> keys;
+	vector<unsigned int> keys;
 
-	for (map<double, Obj_Graf*>::iterator it = this->mapObjGraf.begin(); it != this->mapObjGraf.end(); ++it)		// creo un vector con todas las keys del mapa de O. graficos
+	for (map<unsigned int, Obj_Graf*>::iterator it = this->mapObjGraf.begin(); it != this->mapObjGraf.end(); ++it)		// creo un vector con todas las keys del mapa de O. graficos
 		keys.push_back(it->first);
 
-	for (vector<double>::iterator it = keys.begin(); it < keys.end(); it++)			// barro todos los elementos del mapa
+	for (vector<unsigned int>::iterator it = keys.begin(); it < keys.end(); it++)			// barro todos los elementos del mapa
 		this->mapObjGraf[*it]->destroy();										// si el objeto grafico esta activo
 }
 
@@ -120,7 +123,7 @@ void DRAW::setLevel(unsigned int level)
 	this->level = level;
 }
 
-bool DRAW::secuenceOver(double ID)
+bool DRAW::secuenceOver(unsigned int ID)
 {
 	return mapObjGraf[ID]->secuenceOver();
 }
@@ -132,11 +135,6 @@ void DRAW::reset(unsigned int ID)
 
 void DRAW::drawLevel()
 {
-	const char* map;
-
-	//map = give_me_the_CSV(level);
-
-	char block_type;
 
 	al_draw_scaled_bitmap(backgrounds[level - 1], 0, 0, al_get_bitmap_width(backgrounds[level - 1]), al_get_bitmap_height(backgrounds[level - 1]), 0, 0, SCREEN_W, SCREEN_H, 0);
 
@@ -144,14 +142,14 @@ void DRAW::drawLevel()
 	{
 		for (int j = 0; j < 16; j++)
 		{
-			block_type = levels[level - 1].c_str()[i * 16 + j];
+			char block_type = levels[level - 1].c_str()[i * 16 + j];
 			switch (block_type)
 			{
 			case 'F':
 				al_draw_scaled_bitmap(floor, 0, 0, al_get_bitmap_width(floor), al_get_bitmap_height(floor), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				break;
 			default:
-//				al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
+				al_draw_scaled_bitmap(empty, 0, 0, al_get_bitmap_width(empty), al_get_bitmap_height(empty), BLOCK_SIZE*j, BLOCK_SIZE*i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				break;
 			}
 		}

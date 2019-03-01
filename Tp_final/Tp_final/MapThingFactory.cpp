@@ -1,6 +1,8 @@
 #include "MapThingFactory.h"
 #include "PurpleGuyScenarioObserver.h"
 #include "Scene.h"
+#include "DRAW.h"
+
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -108,6 +110,3 @@ unsigned int MapThingFactory::get_wall_id()
 }
 
 
-unsigned int MapThingFactory::next_enemy_id;
-unsigned int MapThingFactory::next_player_id;
-unsigned int MapThingFactory::next_proyectile_id;

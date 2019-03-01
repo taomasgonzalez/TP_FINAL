@@ -24,7 +24,7 @@
 #define VEL_FALL	(BLOCK_SIZE/(FPS*MOVE_RATIO_FALL))
 
 enum  Direction {
-	Left, Right, Up
+	Left, Right, Up, None
 };
 
 class Obj_Graf
