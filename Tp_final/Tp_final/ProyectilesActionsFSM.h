@@ -21,8 +21,7 @@ public:
 	void impact();
 	void start_moving();
 	void start_falling();
-private:
-	enum PROYECTILE_STATE { proy_MOVING, proy_DECAYING, proy_IMPACT, proy_FALLING };		// el proyectil decae cuando se detiene a los 3 casilleros y se cae
+protected:
 
 	std::vector<edge_t>* moving_state = NULL;
 	std::vector<edge_t>* impact_state = NULL;
@@ -31,6 +30,7 @@ private:
 	Direction_type direction;
 
 	ALLEGRO_TIMER* moving_timer = NULL;
-
+	ALLEGRO_TIMER* falling_timer = NULL;
+	
 };
 

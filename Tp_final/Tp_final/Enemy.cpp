@@ -12,9 +12,10 @@ Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 	acting_timer = al_create_timer(1.0);
 
 	EnemyActionsFSM* fsm = new EnemyActionsFSM(this);
-	CharacterActionsEventGenerator* ev_gen = new CharacterActionsEventGenerator();
-	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
-	ev_handler = new EventHandler(fsm, ev_gen);
+	#pragma message("falta completar constructor con parametros!!")
+	//CharacterActionsEventGenerator* ev_gen = new CharacterActionsEventGenerator();
+	//fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
+	//ev_handler = new EventHandler(fsm, ev_gen);
 }
 
 

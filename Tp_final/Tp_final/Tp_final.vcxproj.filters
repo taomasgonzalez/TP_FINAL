@@ -276,9 +276,6 @@
     <ClCompile Include="CharacterSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActionsEventGenerator.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="ScenarioDRAWObserver.cpp">
       <Filter>Source Files\Observers\Graphic</Filter>
     </ClCompile>
@@ -286,7 +283,10 @@
       <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Header Files\Observers\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -464,9 +464,6 @@
     <ClInclude Include="CharacterSceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterActionsEventGenerator.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="CharacterActionsFSM.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
@@ -490,6 +487,9 @@
     </ClInclude>
     <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

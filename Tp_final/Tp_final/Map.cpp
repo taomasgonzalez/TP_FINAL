@@ -19,6 +19,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
+
 }
 
 Map::~Map()

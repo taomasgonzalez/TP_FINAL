@@ -60,21 +60,21 @@ CharacterActionsFSM::~CharacterActionsFSM()
 
 void CharacterActionsFSM::set_processes() {
 
-	jumping_process.push_back(Direction_type::Jump_Straight);
-	jumping_process.push_back(Direction_type::Jump_Straight);
+	jumping_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
+	jumping_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
 
-	jumping_left_process.push_back(Direction_type::Jump_Straight);
-	jumping_left_process.push_back(Direction_type::Jump_Straight);
-	jumping_left_process.push_back(Direction_type::Left);
+	jumping_left_process.push_back(std::make_pair(Direction_type::Jump_Straight,0));
+	jumping_left_process.push_back(std::make_pair(Direction_type::Jump_Straight,0));
+	jumping_left_process.push_back(std::make_pair(Direction_type::Left,0));
 
-	jumping_right_process.push_back(Direction_type::Jump_Straight);
-	jumping_right_process.push_back(Direction_type::Jump_Straight);
-	jumping_right_process.push_back(Direction_type::Right);
+	jumping_right_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
+	jumping_right_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
+	jumping_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
-	falling_process.push_back(Direction_type::Down);
+	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
-	walking_left_process.push_back(Direction_type::Left);
-	walking_right_process.push_back(Direction_type::Right);
+	walking_left_process.push_back(std::make_pair(Direction_type::Left, 0));
+	walking_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
 }
 
@@ -161,28 +161,28 @@ void CharacterActionsFSM::process_logical_attack()
 
 void CharacterActionsFSM::start_walking_timer()
 {
-	//al_set_timer_speed();
-	al_start_timer(walking_timer);
+	curr_timer = walking_timer;
+	al_set_timer_speed(walking_timer,(*current_moving_iteration).second);
 }
 void CharacterActionsFSM::start_jumping_timer()
 {
-	//al_set_timer_speed();
-	al_start_timer(jumping_timer);
+	curr_timer = jumping_timer;
+	set_curr_timer_and_start();
 }
 void CharacterActionsFSM::start_jumping_forward_timer()
 {
-	//al_set_timer_speed();
-	al_start_timer(jumping_forward_timer);
+	curr_timer = jumping_forward_timer;
+	set_curr_timer_and_start();
 }
 void CharacterActionsFSM::start_falling_timer()
 {
-	//al_set_timer_speed();
-	al_start_timer(falling_timer);
+	curr_timer = falling_timer;
+	set_curr_timer_and_start();
 }
 void CharacterActionsFSM::start_attacking_timer()
 {
-	//al_set_timer_speed();
-	al_start_timer(attacking_timer);
+	curr_timer = attacking_timer;
+	set_curr_timer_and_start();
 }
 void CharacterActionsFSM::start_jumping_forward()
 {
@@ -211,12 +211,23 @@ void CharacterActionsFSM::start_falling() {
 
 Direction_type CharacterActionsFSM::get_current_action_direction()
 {
-	return *current_moving_iteration;
+	return (*current_moving_iteration).first;
 }
 
 unsigned int CharacterActionsFSM::get_character_id()
 {
 	return character->id;
+}
+
+std::vector<ALLEGRO_TIMER*> CharacterActionsFSM::get_all_my_timers()
+{
+	std::vector<ALLEGRO_TIMER*> timers;
+	timers.push_back(walking_timer);
+	timers.push_back(jumping_timer);
+	timers.push_back(jumping_forward_timer);
+	timers.push_back(falling_timer);
+	timers.push_back(attacking_timer);
+	return timers;
 }
 
 void CharacterActionsFSM::continue_logical_movement()
@@ -225,6 +236,7 @@ void CharacterActionsFSM::continue_logical_movement()
 	notify_obs();
 	obs_info.perform_logical_movement = false;
 	++current_moving_iteration;
+	set_curr_timer_speed((*current_moving_iteration).second);
 }
 void CharacterActionsFSM::continue_logical_attack() {
 	obs_info.perform_logical_attack = true;
@@ -241,6 +253,7 @@ void CharacterActionsFSM::end_if_should_end_movement()
 		obs_info.interrupt_movement = true;
 		notify_obs();
 		obs_info.interrupt_movement = false;
+		al_stop_timer(curr_timer);
 	}
 }
 
@@ -253,6 +266,7 @@ void CharacterActionsFSM::end_if_should_end_attack()
 		obs_info.interrupt_attack = true;
 		notify_obs();
 		obs_info.interrupt_attack = false;
+		al_stop_timer(curr_timer);
 	}
 }
 
@@ -278,6 +292,16 @@ bool CharacterActionsFSM::can_perform_logical_movement()
 	notify_obs();
 	this->obs_questions.can_perform_movement = false;
 	return obs_answers.can_perform_movement;
+}
+
+
+void CharacterActionsFSM::set_curr_timer_and_start() {
+	set_curr_timer_speed((*current_moving_iteration).second);
+	al_start_timer(curr_timer);
+}
+
+void CharacterActionsFSM::set_curr_timer_speed(double speed) {
+	al_set_timer_speed(curr_timer, speed);
 }
 
 void do_nothing_char(void * data) {

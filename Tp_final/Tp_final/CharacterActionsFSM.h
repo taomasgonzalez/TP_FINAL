@@ -48,6 +48,8 @@ public:
 
 	Direction_type get_current_action_direction();
 	unsigned int get_character_id();
+
+	std::vector<ALLEGRO_TIMER*> get_all_my_timers();
 protected:
 
 	std::vector<edge_t>* walking_state = NULL;
@@ -62,28 +64,32 @@ protected:
 private:
 	Character * character = NULL;
 
-	std::vector<Direction_type> jumping_process;
-	std::vector<Direction_type> jumping_left_process;
-	std::vector<Direction_type> jumping_right_process;
-	std::vector<Direction_type> falling_process;
-	std::vector<Direction_type> walking_right_process;
-	std::vector<Direction_type> walking_left_process;
+	std::vector<std::pair<Direction_type, double>> jumping_process;
+	std::vector<std::pair<Direction_type, double>> falling_process;
 
+	std::vector<std::pair<Direction_type, double>> jumping_left_process;
+	std::vector<std::pair<Direction_type, double>> jumping_right_process;
 
+	std::vector<std::pair<Direction_type, double>> walking_left_process;
+	std::vector<std::pair<Direction_type, double>> walking_right_process;
 
-	std::vector<Direction_type>::iterator current_moving_iteration;
-	std::vector<Direction_type>* current_moving_vector = NULL;
+	std::vector<std::pair<Direction_type, double>>::iterator current_moving_iteration;
+	std::vector<std::pair<Direction_type, double>>* current_moving_vector = NULL;
 
 	ALLEGRO_TIMER* walking_timer = NULL;
-	void start_walking_timer();
 	ALLEGRO_TIMER* jumping_timer = NULL;
-	void start_jumping_timer();
 	ALLEGRO_TIMER* jumping_forward_timer = NULL;
-	void start_jumping_forward_timer();
 	ALLEGRO_TIMER* falling_timer = NULL;
-	void start_falling_timer();
 	ALLEGRO_TIMER* attacking_timer = NULL;
+
+	void start_walking_timer();
+	void start_jumping_timer();
+	void start_jumping_forward_timer();
+	void start_falling_timer();
 	void start_attacking_timer();
+
+	ALLEGRO_TIMER* curr_timer = NULL;
+
 
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
@@ -95,6 +101,9 @@ private:
 	void set_processes();
 	void create_all_timers();
 	void set_states();
+
+	void set_curr_timer_and_start();
+	void set_curr_timer_speed(double speed);
 };
 
 
