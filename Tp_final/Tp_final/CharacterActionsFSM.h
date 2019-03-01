@@ -1,7 +1,7 @@
 #pragma once
 #include "FSM_Class.h"
 #include "Character.h"
-
+#include "AllegroClass.h"
 
 class CharacterActionsFSM : public FSM
 {
@@ -29,6 +29,8 @@ public:
 	struct observer_QA {
 		bool can_perform_movement = false;
 		bool can_attack = false;
+		bool should_interrupt_movement = false;
+		bool should_interrupt_attack = false;
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;
@@ -72,18 +74,27 @@ private:
 	std::vector<Direction_type>::iterator current_moving_iteration;
 	std::vector<Direction_type>* current_moving_vector = NULL;
 
+	ALLEGRO_TIMER* walking_timer = NULL;
 	void start_walking_timer();
+	ALLEGRO_TIMER* jumping_timer = NULL;
 	void start_jumping_timer();
+	ALLEGRO_TIMER* jumping_forward_timer = NULL;
 	void start_jumping_forward_timer();
+	ALLEGRO_TIMER* falling_timer = NULL;
 	void start_falling_timer();
+	ALLEGRO_TIMER* attacking_timer = NULL;
 	void start_attacking_timer();
 
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
 	void continue_logical_movement(); 
 	void continue_logical_attack();
-	void interrupt_logical_movement();
-	void interrupt_logical_attack();
+	void end_if_should_end_movement();
+	void end_if_should_end_attack();
+
+	void set_processes();
+	void create_all_timers();
+	void set_states();
 };
 
 

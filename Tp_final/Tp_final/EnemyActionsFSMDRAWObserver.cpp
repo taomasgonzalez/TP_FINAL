@@ -19,37 +19,45 @@ void EnemyActionsFSMDRAWObserver::update() {
 
 	if (fsm->obs_info.start_walking_graph) {
 		drawer->startDraw(enemy_WALKING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_WALKING);
+		curr_state = enemy_WALKING;
 	}
 
 	else if (fsm->obs_info.start_attacking_graph) {
 		drawer->startDraw(enemy_ATTACKING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_ATTACKING);
+		curr_state = enemy_ATTACKING;
 	}
 
 	else if (fsm->obs_info.start_falling_graph) {
 		drawer->startDraw(enemy_FALLING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_FALLING);
+		curr_state = enemy_FALLING;
 	}
 
 	else if (fsm->obs_info.start_jumping_graph) {
 		drawer->startDraw(enemy_JUMPING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_JUMPING);
+		curr_state = enemy_JUMPING;
 	}
 
 	else if (fsm->obs_info.start_jumping_forward_graph) {
 		drawer->startDraw(enemy_JUMPING_FOWARD, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_JUMPING_FOWARD);
+		curr_state = enemy_JUMPING_FOWARD;
 	}
 
 	else if (fsm->obs_info.dying_graph) {
 		drawer->startDraw(enemy_DYING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_DYING);
+		curr_state = enemy_DYING;
 	}
 
 	else if (fsm->obs_info.reset_graph) {
 		drawer->startDraw(enemy_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		check_if_finished_and_notify(enemy_IDLE);
+		curr_state = enemy_IDLE;
+	}
+
+	//fijarse de cambiar esto de manera tal que cuando se ejecute un draw se ponga en la cola de eventos un finished
+	else if (fsm->obs_questions.should_interrupt_movement) {
+		fsm->obs_answers.should_interrupt_movement = drawer->secuenceOver(enemy->id);
+	}
+	else if (fsm->obs_questions.should_interrupt_attack) {
+		fsm->obs_answers.should_interrupt_attack = drawer->secuenceOver(enemy->id);
 	}
 	else if (fsm->obs_info.interrupt_movement) {
 		ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(), 0);
@@ -58,14 +66,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
 
-}
-void EnemyActionsFSMDRAWObserver::check_if_finished_and_notify(ENEMY_STATE state) {
-	if (drawer->secuenceOver(enemy->id)) {
-		if (state == enemy_ATTACKING)
-			ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage, 0);
-		else
-			ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(), 0);
-	}
+
 }
 
 Direction EnemyActionsFSMDRAWObserver::get_character_graph_direction(Sense_type sense) {

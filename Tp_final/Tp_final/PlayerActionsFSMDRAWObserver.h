@@ -20,7 +20,6 @@ private:
 	CharacterActionsEventGenerator* ev_gen = NULL;
 
 	Direction get_character_graph_direction(Sense_type sense);
-	void check_if_finished_and_notify(PLAYER_STATE state);
-
+	PLAYER_STATE curr_state;
 };
 

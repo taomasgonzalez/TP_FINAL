@@ -21,7 +21,7 @@ private:
 	DRAW* drawer = NULL;
 
 	Direction get_character_graph_direction(Sense_type sense);
-	void check_if_finished_and_notify(ENEMY_STATE state);
 
+	ENEMY_STATE curr_state;
 };
 

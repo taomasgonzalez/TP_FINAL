@@ -72,14 +72,6 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	NO_EVENT,
 
 	//graphic events
-	GOT_HIT,
-	STARTED_MOVING,
-	IMPACT_TICKED,
-	DIED,
-	ATTACKED,
-	FINISHED_ATTACK,
-	REVIVED,
-
 	FPS_TICKED,
 	APPEARED,
 	DISAPPEARED,
@@ -91,7 +83,15 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	WALKED,
 	FELL,
 	PUSHED,
-	FINISHED_MOVEMENT
+	FINISHED_MOVEMENT,
+	FINISHED_ATTACK,
+	DIED,
+
+	//player events
+	REVIVED,
+
+	//proyectile events
+	GOT_HIT
 };
 
 

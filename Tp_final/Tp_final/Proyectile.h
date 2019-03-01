@@ -1,5 +1,6 @@
 #pragma once
 #include "MapThing.h"
+#include "EventHandler.h"
 
 class Proyectile: public MapThing
 {
@@ -13,8 +14,10 @@ public:
 	virtual bool is_fireball();
 	ALLEGRO_TIMER * get_moving_timer();
 
+	FSM* get_my_fsm();
+	EventGenerator* get_my_ev_gen();
 protected:
-	ALLEGRO_TIMER * moving_timer;
-	
+	ALLEGRO_TIMER * moving_timer = NULL;
+	EventHandler * ev_handler = NULL;
 };
 

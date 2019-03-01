@@ -194,6 +194,7 @@
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectilesActionsFSM.cpp" />
+    <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -251,6 +252,7 @@
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
     <ClInclude Include="ProyectilesActionsFSM.h" />
+    <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
