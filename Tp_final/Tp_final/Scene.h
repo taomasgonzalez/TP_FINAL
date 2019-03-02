@@ -50,12 +50,13 @@ public:
 	//map functions
 	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
 	bool is_the_map_okay(const char * the_map , char the_checksum );
-
+	
 
 	std::vector <Map*> maps;
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
 
+	void load_action_on_character();
 
 	//flags
 	bool game_started = false;
@@ -67,7 +68,8 @@ public:
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
 	bool new_character = false;
-
+	bool load_action_on_char = false;
+	bool should_hit = false;
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	
@@ -82,7 +84,10 @@ public:
 	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
 	void append_graphic_facility(void* drawer);
+	unsigned int get_action_to_be_loaded_id();
+	Action_info get_action_to_be_loaded();
 
+	void load_action_on_character(Action_info action);
 private:
 	void * graphics = NULL;
 
@@ -120,6 +125,9 @@ private:
 
 	Player* find_nearest_player(int pos_x, int pos_y);
 
-	Userdata* data;
+	Userdata* data; 
+	unsigned int action_to_be_loaded_id;
+	Action_info action_to_be_loaded;
+
 };
 

@@ -1041,4 +1041,19 @@ const unsigned char *getTable()
 	return table;
 }
 
+void Scene::load_action_on_character(Action_info action) {
 
+	action_to_be_loaded = action;
+	load_action_on_char = true;
+	notify_obs();
+	load_action_on_char = false;
+}
+
+unsigned int Scene::get_action_to_be_loaded_id() {
+	return action_to_be_loaded_id;
+}
+
+Action_info Scene::get_action_to_be_loaded()
+{
+	return action_to_be_loaded;
+}
