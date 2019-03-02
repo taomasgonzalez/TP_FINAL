@@ -97,7 +97,7 @@ private:
 	unsigned char make_checksum(const char * CSV_map_location);
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze);
-	Direction_type load_direction(Position * extern_destination, Player* the_one_that_moves);
+	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves);
 	bool check_attack(Action_info * package_to_be_analyze);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
 	//executers

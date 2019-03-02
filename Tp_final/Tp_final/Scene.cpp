@@ -566,7 +566,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	return is_the_move_possible;
 }
 
-Direction_type Scene::load_direction(Position * extern_destination, Player* the_one_that_moves) {
+Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves) {
 
 	Direction_type my_direction;
 
@@ -690,7 +690,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 
 		the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
-		//action_to_be_loaded_id = the_enemy_that_acts->id;
+		action_to_be_loaded_id = the_enemy_that_acts->id;
 
 		extern_destination.fil = package_to_be_analyze->final_pos_x;
 		extern_destination.col = package_to_be_analyze->final_pos_y;
@@ -708,16 +708,8 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			{
 			case Action_type::Move:
 
-				if ((extern_destination.fil == the_enemy_that_acts->pos_x) && (extern_destination.col < the_enemy_that_acts->pos_y)) //Left
-					my_direction = Direction_type::Left;
-				else if ((extern_destination.fil == the_enemy_that_acts->pos_x) && (extern_destination.col > the_enemy_that_acts->pos_y)) //Right
-					my_direction = Direction_type::Right;
-				else if ((extern_destination.fil < the_enemy_that_acts->pos_x) && (extern_destination.col == the_enemy_that_acts->pos_y)) //Jump_Straight
-					my_direction = Direction_type::Jump_Straight;
-				else if ((extern_destination.fil < the_enemy_that_acts->pos_x) && (extern_destination.col < the_enemy_that_acts->pos_y)) //Jump_Left
-					my_direction = Direction_type::Jump_Left;
-				else if ((extern_destination.fil < the_enemy_that_acts->pos_x) && (extern_destination.col > the_enemy_that_acts->pos_y)) //Jump_Right
-					my_direction = Direction_type::Jump_Right;
+				my_direction = load_direction(&extern_destination, the_enemy_that_acts);
+
 				switch (my_direction)
 				{
 				case Direction_type::Left:
@@ -737,27 +729,11 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 							is_the_enemy_action_possible = true;				
 					break;
 
-				case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
-					break;
+				case Direction_type::Jump_Straight: 
 
 				case Direction_type::Jump_Left:
 
-						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
-						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
-						}
-						else
-							is_the_enemy_action_possible = true;				
-					break;
-
 				case Direction_type::Jump_Right:
-
-						if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
-						{
-							is_the_enemy_action_possible = false; //can´t be fixed, extern move received must be valid
-						}
-						else
-							is_the_enemy_action_possible = true;
 					
 					break;
 
@@ -793,6 +769,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 				}
 
 				break;
+
 			default:
 				std::cout << "Error, Un EA con acción desconocida" << std::endl;
 				break;
@@ -807,7 +784,7 @@ bool Scene::check_if_has_to_fall(unsigned int id) {
 
 	MapThing * element_to_be_checked= maps[actual_map]->get_from_map(id);
 
-	return (maps[actual_map]->cell_has_floor(element_to_be_checked.pos_x + 1, element_to_be_checked.pos_y));
+	return (maps[actual_map]->cell_has_floor(element_to_be_checked->pos_x + 1, element_to_be_checked->pos_y));
 }
 
 bool Scene::check_position(Action_info position_info) {
