@@ -19,7 +19,6 @@ protected:
 private:
 	Character* character = NULL;
 	void kill_character();
-	void append_action_to_character(Action_info action);
 };
 
 

@@ -203,6 +203,7 @@
     <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneCharacterObserver.cpp" />
     <ClCompile Include="Snowball.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
@@ -274,6 +275,7 @@
     <ClInclude Include="ScenarioDRAWObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneCharacterObserver.h" />
     <ClInclude Include="Snowball.h" />
     <ClInclude Include="Userdata.h" />
   </ItemGroup>

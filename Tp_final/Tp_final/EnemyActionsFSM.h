@@ -1,6 +1,7 @@
 #pragma once
 #include "CharacterActionsFSM.h"
 #include "Enemy.h"
+
 class EnemyActionsFSM : public CharacterActionsFSM
 {
 public:

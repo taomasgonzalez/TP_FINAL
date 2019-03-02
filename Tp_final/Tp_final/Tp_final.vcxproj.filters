@@ -294,6 +294,9 @@
     <ClCompile Include="ProyectileSceneObserver.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SceneCharacterObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -502,6 +505,9 @@
     </ClInclude>
     <ClInclude Include="ProyectileSceneObserver.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCharacterObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -37,11 +37,6 @@ void CharacterSceneObserver::update() {
 		perform_movement(ev_pack->to_Action_info());
 	}
 
-	else if (scenario->load_action_on_char) {
-		if (scenario->get_action_to_be_loaded_id() == character->id) 
-			append_action_to_character(scenario->get_action_to_be_loaded());
-	}
-	
 }
 
 void CharacterSceneObserver::kill_character() {
@@ -49,26 +44,7 @@ void CharacterSceneObserver::kill_character() {
 
 }
 
-void CharacterSceneObserver::append_action_to_character(Action_info action) {
-	EventPackage* ev_pack = NULL;
-	if (action.action == Action_type::Attack)
-		ev_pack = new ATTACK_EventPackage();
-	
-	else if (action.action == Action_type::Move) {
-		switch (action.my_direction) {
-			case Direction_type::Jump_Right:
-			case Direction_type::Jump_Left:
-				ev_pack = new JUMPED_FORWARD_EventPackage(action.my_direction);
-				break;
-			case Direction_type::Jump_Straight:
-				ev_pack = new JUMPED_EventPackage();
-				break;
-			case Direction_type::Left:
-			case Direction_type::Right:
-				ev_pack = new WALKED_EventPackage(action.my_direction);
-				break;
-		}
-	}
-	ev_gen->append_new_event(ev_pack,0);
-}
+
+/*
+void CharacterSceneObserver::perform_character_movement(Action_info* action, bool& should_die) {
 
