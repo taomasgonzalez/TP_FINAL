@@ -34,8 +34,7 @@ void CharacterSceneObserver::update() {
 		Direction_type movement_direction = fsm->get_current_action_direction();
 		unsigned int current_character_id = fsm->get_character_id();
 		MOVE_EventPackage* ev_pack = (MOVE_EventPackage*)fsm->get_fsm_ev_pack();
-		bool should_be_hit = false;
-		perform_character_movement(ev_pack->to_Action_info(), should_be_hit);
+		perform_movement(ev_pack->to_Action_info());
 	}
 
 	else if (scenario->load_action_on_char) {
@@ -72,11 +71,4 @@ void CharacterSceneObserver::append_action_to_character(Action_info action) {
 	}
 	ev_gen->append_new_event(ev_pack,0);
 }
-/*
-void CharacterSceneObserver::perform_character_movement(Action_info* action, bool& should_die) {
 
-	//fsm->obs_answers.can_perform_movement = scenario->execute_action(action->to_Action_info(), should_die, should_hit);
-	if (should_die)
-		kill_character();
-
-}*/

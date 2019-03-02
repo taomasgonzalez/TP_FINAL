@@ -501,3 +501,8 @@ class FINISHED_ATTACK_EventPackage : public EventPackage {
 public:
 	FINISHED_ATTACK_EventPackage();
 };
+
+class GOT_HIT_EventPackage : public EventPackage {
+public:
+	GOT_HIT_EventPackage();
+};

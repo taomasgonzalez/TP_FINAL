@@ -651,3 +651,8 @@ FELL_EventPackage::FELL_EventPackage() : EventPackage(Event_type::FELL, true){
 FINISHED_ATTACK_EventPackage::FINISHED_ATTACK_EventPackage() : EventPackage(Event_type::FINISHED_ATTACK, true) {
 
 }
+
+GOT_HIT_EventPackage::GOT_HIT_EventPackage():EventPackage(Event_type::GOT_HIT, true)
+{
+
+}

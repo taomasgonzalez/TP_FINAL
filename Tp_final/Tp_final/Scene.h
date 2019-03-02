@@ -56,7 +56,7 @@ public:
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
 	unsigned int actual_map;
 
-	void load_action_on_character();
+	void load_action_on_character(Action_info action);
 
 	//flags
 	bool game_started = false;
@@ -87,7 +87,6 @@ public:
 	unsigned int get_action_to_be_loaded_id();
 	Action_info get_action_to_be_loaded();
 
-	void load_action_on_character(Action_info action);
 private:
 	void * graphics = NULL;
 

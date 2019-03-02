@@ -12,13 +12,12 @@ public:
 
 	void update();
 protected:
-	virtual void perform_character_movement(EventPackage* action, bool& should_die, bool& should_hit);
-private:
+	virtual void perform_movement(Action_info action) = 0;
 	Scene * scenario = NULL;
-	Character* character = NULL;
 	CharacterActionsFSM* fsm = NULL;
 	CharacterActionsEventGenerator* ev_gen = NULL;
-
+private:
+	Character* character = NULL;
 	void kill_character();
 	void append_action_to_character(Action_info action);
 };

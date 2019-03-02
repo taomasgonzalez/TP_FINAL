@@ -210,9 +210,6 @@
     <ClCompile Include="DijkstraMachine.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="EnemyScenarioObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="PurpleGuyScenarioObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
@@ -287,6 +284,15 @@
     </ClCompile>
     <ClCompile Include="CharacterActionsEventGenerator.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySceneObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSceneObserver.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectileSceneObserver.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -401,9 +407,6 @@
     <ClInclude Include="PurpleGuyScenarioObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="EnemyScenarioObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="DijkstraMachine.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
@@ -490,6 +493,15 @@
     </ClInclude>
     <ClInclude Include="CharacterActionsEventGenerator.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySceneObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSceneObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectileSceneObserver.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

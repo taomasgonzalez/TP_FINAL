@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{BBC52453-4074-4C21-B221-1BBAF440FDE5}</ProjectGuid>
     <RootNamespace>Tpfinal</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -152,7 +152,7 @@
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
-    <ClCompile Include="EnemyScenarioObserver.cpp" />
+    <ClCompile Include="EnemySceneObserver.cpp" />
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventPackageFactory.cpp" />
@@ -191,10 +191,12 @@
     <ClCompile Include="CharacterActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp" />
+    <ClCompile Include="PlayerSceneObserver.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
     <ClCompile Include="ProyectilesActionsFSM.cpp" />
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp" />
+    <ClCompile Include="ProyectileSceneObserver.cpp" />
     <ClCompile Include="PurpleGuy.cpp" />
     <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
@@ -219,7 +221,7 @@
     <ClInclude Include="EnemyActionsFSM.h" />
     <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
     <ClInclude Include="EnemyDefines.h" />
-    <ClInclude Include="EnemyScenarioObserver.h" />
+    <ClInclude Include="EnemySceneObserver.h" />
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="EventPackageFactory.h" />
@@ -249,10 +251,12 @@
     <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
     <ClInclude Include="PlayerDefines.h" />
+    <ClInclude Include="PlayerSceneObserver.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
     <ClInclude Include="ProyectilesActionsFSM.h" />
     <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h" />
+    <ClInclude Include="ProyectileSceneObserver.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
