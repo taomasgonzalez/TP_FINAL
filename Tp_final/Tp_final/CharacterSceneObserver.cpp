@@ -44,7 +44,3 @@ void CharacterSceneObserver::kill_character() {
 
 }
 
-
-/*
-void CharacterSceneObserver::perform_character_movement(Action_info* action, bool& should_die) {
-

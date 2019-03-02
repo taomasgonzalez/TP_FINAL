@@ -44,7 +44,8 @@ void LogicFSMSceneObserver::update() {
 
 		while (my_scenario->assistant_queue->size() >= 1) //Execute all the pending Enemy actions beacuse the game starts
 		{			
-			this->my_scenario->execute_action(&(my_scenario->assistant_queue)->front());
+			bool should_die = false;
+			this->my_scenario->execute_action(&(my_scenario->assistant_queue)->front(), should_die);
 			my_scenario->assistant_queue->pop();
 		}
 	}
@@ -92,7 +93,7 @@ void LogicFSMSceneObserver::update() {
 			my_fsm->error_ocurred = false;
 		}
 		else //if it´s valid, it should be execute
-			this->my_scenario->load_action_on_character(&my_fsm->get_fsm_ev_pack()->to_Action_info());
+			this->my_scenario->load_action_on_character(my_fsm->get_fsm_ev_pack()->to_Action_info());
 	}
 
 

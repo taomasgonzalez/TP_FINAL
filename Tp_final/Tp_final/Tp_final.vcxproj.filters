@@ -288,13 +288,13 @@
     <ClCompile Include="EnemySceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSceneObserver.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="SceneCharacterObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
     <ClCompile Include="ProyectileSceneObserver.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="SceneCharacterObserver.cpp">
+    <ClCompile Include="PlayerSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -500,13 +500,13 @@
     <ClInclude Include="EnemySceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
+    <ClInclude Include="SceneCharacterObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
+    </ClInclude>
     <ClInclude Include="PlayerSceneObserver.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="ProyectileSceneObserver.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneCharacterObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
   </ItemGroup>
