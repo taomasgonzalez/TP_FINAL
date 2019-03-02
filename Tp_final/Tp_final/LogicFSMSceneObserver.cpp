@@ -92,7 +92,7 @@ void LogicFSMSceneObserver::update() {
 			my_fsm->error_ocurred = false;
 		}
 		else //if it´s valid, it should be execute
-			this->my_scenario->execute_action(&my_fsm->get_fsm_ev_pack()->to_Action_info());
+			this->my_scenario->load_action_on_character(&my_fsm->get_fsm_ev_pack()->to_Action_info());
 	}
 
 
