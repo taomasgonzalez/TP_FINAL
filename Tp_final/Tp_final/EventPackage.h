@@ -90,8 +90,14 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//player events
 	REVIVED,
 
-	//proyectile events
-	GOT_HIT
+	//enemy and proyectiles events
+	GOT_HIT, 
+
+	//enemy events
+	FROZE,
+	UNFROZE,
+	PARTIALLY_UNFROZE
+
 };
 
 
@@ -500,4 +506,9 @@ public:
 class FINISHED_ATTACK_EventPackage : public EventPackage {
 public:
 	FINISHED_ATTACK_EventPackage();
+};
+
+class GOT_HIT_EventPackage : public EventPackage {
+public:
+	GOT_HIT_EventPackage();
 };

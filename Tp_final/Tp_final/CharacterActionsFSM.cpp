@@ -24,8 +24,6 @@ void start_attacking_r(void* data);
 void check_attack_and_attack(void* data);
 void reset_attack(void* data);
 
-void char_die(void* data);
-
 void iddle_graph(void* data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character)
@@ -389,6 +387,7 @@ void check_attack_and_attack(void* data) {
 void reset_attack(void* data) {
 	iddle_graph(data);
 }
+
 
 
 

@@ -13,8 +13,7 @@ public:
 	//};
 	//observer_enemyFSM_related questions_4_observer;
 	//observer_enemyFSM_related answers_4_observer;
-private:
-	Enemy* enemy = NULL;
-
+	std::vector<edge_t>* freezing_state = NULL;
+	std::vector<edge_t>* frozen_state = NULL;
 };
 

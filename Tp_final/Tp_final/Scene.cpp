@@ -2,7 +2,8 @@
 #include "general.h"
 #include <fstream>
 #include <string>
-#include "CharacterSceneObserver.h"
+#include "EnemySceneObserver.h"
+#include "PlayerSceneObserver.h"
 
 #define TABLE_FILE "levels/tabla/tabla.csv"
 #define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
@@ -245,11 +246,11 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 
 	curr_enemies = new_map->get_all_enemies();
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-		this->add_observer(new CharacterSceneObserver(this, *it));
+		this->add_observer(new EnemySceneObserver(*it, this));
 
 	curr_players = new_map->get_all_players();
 	for (std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		this->add_observer(new CharacterSceneObserver(this, *it));
+		this->add_observer(new PlayerSceneObserver(*it, this));
 
 	curr_proyectiles = new_map->get_all_proyectiles();
 
@@ -464,7 +465,6 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
-	Position destination;
 	Direction_type my_direction;
 
 	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
@@ -789,7 +789,7 @@ bool Scene::check_if_has_to_fall(unsigned int id) {
 
 bool Scene::check_position(Action_info position_info) {
 
-	maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
+	return maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
 }
 
 

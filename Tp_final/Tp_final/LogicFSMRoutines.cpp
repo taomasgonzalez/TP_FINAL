@@ -10,7 +10,6 @@ void execute_action_send_it_and_set_ack_time_out(void * data) {
 	set_ack_time_out(data);
 	check_game_state(data);
 
-
 }
 
 void send_action(void* data) {

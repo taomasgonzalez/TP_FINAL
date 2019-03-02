@@ -35,11 +35,11 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 		case Item_type::CRAZY:
 			new_born = new Crazy(get_enemy_id(), direction);
-			((Crazy*)new_born)->add_observer(new EnemyScenarioObserver((Crazy*)new_born, scene));
+			((Crazy*)new_born)->add_observer(new EnemySceneObserver((Crazy*)new_born, scene));
 			break;
 		case Item_type::GREEN_FATTIE:
 			new_born = new GreenFatty(get_enemy_id(), direction);
-			((GreenFatty*) new_born)->add_observer(new EnemyScenarioObserver((GreenFatty*)new_born, scene));
+			((GreenFatty*) new_born)->add_observer(new EnemySceneObserver((GreenFatty*)new_born, scene));
 			break;
 		case Item_type::PURPLE_GUY:
 			new_born = new PurpleGuy(get_enemy_id(), direction);
