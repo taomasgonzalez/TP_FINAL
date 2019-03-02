@@ -288,6 +288,9 @@
     <ClCompile Include="CharacterActionsEventGenerator.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
+    <ClCompile Include="SceneCharacterObserver.cpp">
+      <Filter>Source Files\Observers\Logic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AllegroClass.h">
@@ -490,6 +493,9 @@
     </ClInclude>
     <ClInclude Include="CharacterActionsEventGenerator.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCharacterObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

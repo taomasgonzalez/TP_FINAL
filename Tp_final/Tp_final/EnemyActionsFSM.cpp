@@ -5,6 +5,7 @@
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
 
+
 }
 
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "CharacterActionsFSM.h"
 #include "Enemy.h"
+
 class EnemyActionsFSM : public CharacterActionsFSM
 {
 public:
@@ -12,6 +13,8 @@ public:
 	//};
 	//observer_enemyFSM_related questions_4_observer;
 	//observer_enemyFSM_related answers_4_observer;
+private:
+	Enemy* enemy = NULL;
 
 };
 
