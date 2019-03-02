@@ -465,7 +465,6 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
-	Position destination;
 	Direction_type my_direction;
 
 	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
@@ -790,7 +789,7 @@ bool Scene::check_if_has_to_fall(unsigned int id) {
 
 bool Scene::check_position(Action_info position_info) {
 
-	maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
+	return maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
 }
 
 
