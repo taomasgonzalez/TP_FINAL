@@ -33,13 +33,13 @@ void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_typ
 	
 }
 
-void Scene::execute_action(Action_info * action_to_be_executed)
+void Scene::execute_action(Action_info * action_to_be_executed, bool & should_die, bool & should_kill)
 {
 
 	switch (action_to_be_executed->my_info_header)
 	{
 	case Action_info_id::MOVE:
-		execute_move(action_to_be_executed);
+		execute_move(action_to_be_executed, should_die);
 		break;
 
 	case Action_info_id::ATTACK:
@@ -49,14 +49,14 @@ void Scene::execute_action(Action_info * action_to_be_executed)
 	case Action_info_id::ACTION_REQUEST:
 
 		if (action_to_be_executed->action == Action_type::Move)
-			execute_move(action_to_be_executed);
+			execute_move(action_to_be_executed, should_die);
 		else
 			execute_attack(action_to_be_executed);
 
 		break;
 
 	case Action_info_id::ENEMY_ACTION:
-		execute_enemy_action(action_to_be_executed);
+		execute_enemy_action(action_to_be_executed, should_kill);
 		break;
 
 	default:
@@ -67,7 +67,7 @@ void Scene::execute_action(Action_info * action_to_be_executed)
 
 }
 
-void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed) {
+void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& should_hit) {
 	
 	Proyectile * my_projectile = (Proyectile *)maps[actual_map]->get_from_map(proyectile_to_be_executed->id);
 
@@ -79,6 +79,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed) {
 			for (int i = 0; i < (int) my_vector_of_players.size(); i++)
 			{
 				(my_vector_of_players)[i]->die();
+				should_hit = true;
 
 			}
 		}
@@ -91,7 +92,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed) {
 			for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
 			{
 				(my_vector_of_enemys)[i]->be_hit();
-
+				should_hit = true;
 			}
 		}
 
@@ -100,7 +101,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed) {
 }
 
 
-void Scene::execute_move(Action_info * move_to_be_executed) {
+void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
 	bool move_succesful;
 	//bool enemy_can_be_moved;
@@ -122,6 +123,7 @@ void Scene::execute_move(Action_info * move_to_be_executed) {
 			if (((my_vector_of_enemys)[i]->current_state == States::Moving)&&((my_vector_of_enemys)[i]->current_state == States::Iddle))
 			{
 					the_one_that_moves->die();
+					should_die = true;
 
 					move_succesful = false;
 					break;
@@ -166,7 +168,7 @@ void Scene::execute_attack(Action_info * attack_to_be_executed) {
 
 }
 
-void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed) {
+void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_be_hit) {
 
 		Position extern_destination;
 		//Position local_destination;
@@ -185,10 +187,16 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed) {
 			std::vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(extern_destination.fil, extern_destination.col);
 			for (int i = 0; i < (int)my_vector_of_players.size(); i++)
 			{
-				my_vector_of_players[i]->die();
+
+
 			}
 		}
-		maps[actual_map]->move_id(enemy_action_to_be_executed->id, extern_destination.fil, extern_destination.col); //
+		if (maps[actual_map]->cell_has_player_proyectiles(extern_destination.fil, extern_destination.col))
+		{
+			should_be_hit = true;
+		}
+		else
+			maps[actual_map]->move_id(enemy_action_to_be_executed->id, extern_destination.fil, extern_destination.col); //
 	}
 	else if(enemy_action_to_be_executed->action == Action_type::Attack)
 		maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::FIREBALL, my_direction, this);
@@ -436,15 +444,17 @@ bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 	bool is_the_move_possible;
-	//MOVE_EventPackage* my_event_package = ((MOVE_EventPackage *)package_to_be_analyze);
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
 	Position local_destination;
+	Position destination;
 	Direction_type my_direction;
 
+	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
 	if (Action_info_to_be_checked->is_local)
 	{
 		Action_info_to_be_checked->my_character = my_player;
+		//action_to_be_loaded_id = my_player->id;
 		the_one_that_moves = get_player(my_player);
 		my_direction = Action_info_to_be_checked->my_direction;
 
@@ -453,21 +463,12 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	{
 		Action_info_to_be_checked->my_character = other_player;
 		the_one_that_moves = get_player(other_player);
+		//action_to_be_loaded_id = other_player->id;
+
 		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
 		extern_destination.col = Action_info_to_be_checked->final_pos_y;
+		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
 
-		if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Left
-			my_direction = Direction_type::Left;
-		else if ((extern_destination.fil == the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Right
-			my_direction = Direction_type::Right;
-		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col == the_one_that_moves->pos_y)) //Jump_Straight
-			my_direction = Direction_type::Jump_Straight;
-		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col < the_one_that_moves->pos_y)) //Jump_Left
-			my_direction = Direction_type::Jump_Left;
-		else if ((extern_destination.fil < the_one_that_moves->pos_x) && (extern_destination.col > the_one_that_moves->pos_y)) //Jump_Right
-			my_direction = Direction_type::Jump_Right;
-
-		Action_info_to_be_checked->my_direction = my_direction;
 	}
 
 
@@ -480,6 +481,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	}
 	else
 	{
+
+		check_for_floor(my_direction, destination);
 
 		switch (my_direction)
 		{
@@ -497,7 +500,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 			}
 			else
 			{
-				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col ))
 					is_the_move_possible = false;
 				else
 					is_the_move_possible = true;
@@ -519,71 +522,19 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 			}
 			else
 			{
-				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col ))
 					is_the_move_possible = false;
 				else
 					is_the_move_possible = true;
 			}
 			break;
 
-		case Direction_type::Jump_Straight: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
-			break;
-
+		case Direction_type::Jump_Straight:
 		case Direction_type::Jump_Left:
-			if (Action_info_to_be_checked->is_local)
-			{
-				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y - 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y - 1))
-				{
-					Action_info_to_be_checked->my_direction=Direction_type::Jump_Straight;
-					is_the_move_possible = true;
-					local_destination.fil = the_one_that_moves->pos_x - 2;
-					local_destination.col = the_one_that_moves->pos_y ;
-				}
-				else
-				{
-					is_the_move_possible = true;
-					local_destination.fil = the_one_that_moves->pos_x - 2;
-					local_destination.col = the_one_that_moves->pos_y - 1;
-				}
-			}
-			else
-			{
-				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col - 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col - 1)))
-				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
-				}
-				else
-					is_the_move_possible = true;
-			}
+		case Direction_type::Jump_Right: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+			is_the_move_possible = true;
 			break;
 
-		case Direction_type::Jump_Right:
-			if (Action_info_to_be_checked->is_local)
-			{
-				if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 1, the_one_that_moves->pos_y + 1) && maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x - 2, the_one_that_moves->pos_y + 1))
-				{
-					Action_info_to_be_checked->my_direction = Direction_type::Jump_Straight;
-					is_the_move_possible = true;
-					local_destination.fil = the_one_that_moves->pos_x - 2;
-					local_destination.col = the_one_that_moves->pos_y;
-				}
-				else
-				{
-					is_the_move_possible = true;
-					local_destination.fil = the_one_that_moves->pos_x - 2;
-					local_destination.col = the_one_that_moves->pos_y + 1;
-				}
-			}
-			else
-			{
-				if ((maps[actual_map]->cell_has_floor(extern_destination.fil - 1, extern_destination.col + 1)) && (maps[actual_map]->cell_has_floor(extern_destination.fil - 2, extern_destination.col + 1)))
-				{
-					is_the_move_possible = false; //can´t be fixed, extern move received must be valid
-				}
-				else
-					is_the_move_possible = true;
-			}
-			break;
 
 		default:
 			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
@@ -599,6 +550,108 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 	return is_the_move_possible;
 }
+
+Direction_type Scene::load_direction(Position * extern_destination, Player* the_one_that_moves) {
+
+	Direction_type my_direction;
+
+	if ((extern_destination->fil == the_one_that_moves->pos_x) && (extern_destination->col < the_one_that_moves->pos_y)) //Left
+		my_direction = Direction_type::Left;
+	else if ((extern_destination->fil == the_one_that_moves->pos_x) && (extern_destination->col > the_one_that_moves->pos_y)) //Right
+		my_direction = Direction_type::Right;
+	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col == the_one_that_moves->pos_y)) //Jump_Straight
+		my_direction = Direction_type::Jump_Straight;
+	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col < the_one_that_moves->pos_y)) //Jump_Left
+		my_direction = Direction_type::Jump_Left;
+	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col > the_one_that_moves->pos_y)) //Jump_Right
+		my_direction = Direction_type::Jump_Right;
+
+	return my_direction;
+}
+
+bool Scene::check_for_floor(Direction_type my_direction, Position destination) {
+
+	bool is_the_move_possible;
+
+	switch (my_direction)
+	{
+	case Direction_type::Left:
+
+		if (maps[actual_map]->cell_has_floor(destination.fil, destination.col - 1))
+			is_the_move_possible = false;
+		else
+		{
+			is_the_move_possible = true;
+		}
+
+		//if (action_info_to_be_checked->is_local)
+		//{
+		//	if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1))
+		//		is_the_move_possible = false;
+		//	else
+		//	{
+		//		local_destination.fil = the_one_that_moves->pos_x;
+		//		local_destination.col = the_one_that_moves->pos_y - 1;
+		//		is_the_move_possible = true;
+		//	}
+		//}
+		//else
+		//{
+		//	if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+		//		is_the_move_possible = false;
+		//	else
+		//		is_the_move_possible = true;
+		//}
+
+		break;
+
+	case Direction_type::Right:
+
+		if (maps[actual_map]->cell_has_floor(destination.fil, destination.col + 1))
+			is_the_move_possible = false;
+		else
+		{
+			is_the_move_possible = true;
+		}
+
+		//if (Action_info_to_be_checked->is_local)
+		//{
+		//	if (maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + 1))
+		//		is_the_move_possible = false;
+		//	else
+		//	{
+		//		is_the_move_possible = true;
+		//		local_destination.fil = the_one_that_moves->pos_x;
+		//		local_destination.col = the_one_that_moves->pos_y + 1;
+		//	}
+		//}
+		//else
+		//{
+		//	if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+		//		is_the_move_possible = false;
+		//	else
+		//		is_the_move_possible = true;
+		//}
+		break;
+
+	case Direction_type::Jump_Straight:
+	case Direction_type::Jump_Left:
+	case Direction_type::Jump_Right: //creo que nunca tengo que chequear esto, no hay ningún caso donde no pueda saltar para arriba. como mucho vuelvo a caer
+		is_the_move_possible = true;
+		break;
+
+
+	default:
+		std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+		break;
+	}
+}
+
+
+}
+
+
+
 bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 
 	bool is_the_attack_possible;
@@ -613,12 +666,15 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 	{
 		Action_info_to_be_checked->my_character = my_player;
 		the_one_that_attack = get_player(my_player);
+		//action_to_be_loaded_id = my_player->id;
 		in_witch_direction_is_he_looking = the_one_that_attack->get_sense();
 	}
 	else
 	{
 		Action_info_to_be_checked->my_character = other_player;
 		the_one_that_attack = get_player(other_player);
+		//action_to_be_loaded_id = other_player->id;
+
 		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
 		extern_destination.col = Action_info_to_be_checked->final_pos_y;
 
@@ -710,9 +766,12 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
+	
 
 
 		the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
+		//action_to_be_loaded_id = the_enemy_that_acts->id;
+
 		extern_destination.fil = package_to_be_analyze->final_pos_x;
 		extern_destination.col = package_to_be_analyze->final_pos_y;
 		action_to_be_checked = package_to_be_analyze->action;

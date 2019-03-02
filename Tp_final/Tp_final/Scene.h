@@ -31,8 +31,8 @@ public:
 
 
 	//Executing functions
-	void execute_action(Action_info * action_to_be_executed);
-	void execute_proyectile(Proyectile* proyectile_to_be_executed);
+	void execute_action(Action_info * action_to_be_executed, bool & should_die, bool & should_kill);
+	void execute_proyectile(Proyectile* proyectile_to_be_executed, bool & should_hit);
 
 	void finish_game();
 
@@ -89,12 +89,14 @@ private:
 	unsigned char make_checksum(const char * CSV_map_location);
 	//checkes
 	bool check_move(Action_info * package_to_be_analyze);
+	Direction_type load_direction(Position * extern_destination, Player* the_one_that_moves);
+	bool check_for_floor(Direction_type my_direction, Position destination);
 	bool check_attack(Action_info * package_to_be_analyze);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
 	//executers
-	void execute_move(Action_info * move_to_be_executed);
+	void execute_move(Action_info * move_to_be_executed, bool & should_die);
 	void execute_attack(Action_info * attack_to_be_executed);
-	void execute_enemy_action(Action_info * enemy_action_to_be_executed);
+	void execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_kill);
 
 	//EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	
