@@ -231,18 +231,20 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 	new_map->append_graphic_facility(graphics);
 	
-	if (is_client) //The map came by networking, already checked
+	if (is_client) //The map came by networking
 	{	
 		new_map->load_on_map(the_map);
 		new_map->load_checksum(the_checksum);
 		
-		this->actual_map++;
+		this->actual_map++;		
 	}
 	else
 	{	//I´m server, I´ve the map available
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
+	//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!
+	load_new_graphic_level();
 
 	curr_enemies = new_map->get_all_enemies();
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
@@ -286,6 +288,13 @@ bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
 		map_validation = false;
 	
 	return map_validation;
+}
+
+void Scene::load_new_graphic_level()
+{
+	load_graphic_level = true;
+	notify_obs();
+	load_graphic_level = false;
 }
 
 //función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
@@ -346,6 +355,11 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	}
 	
 	return map;
+}
+
+const char * Scene::give_me_the_map_info()
+{
+	return maps[actual_map]->give_me_the_original_map();
 }
 
 Action_info Scene::give_me_my_enemy_action(bool is_initializing){

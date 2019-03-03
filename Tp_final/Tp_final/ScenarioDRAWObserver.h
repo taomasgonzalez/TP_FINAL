@@ -10,7 +10,7 @@ public:
 	~ScenarioDRAWObserver();
 
 	void update();
-
+	
 private: 
 	Scene * scenario = NULL;
 	DRAW* drawer = NULL;

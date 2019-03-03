@@ -5,13 +5,17 @@
 class GraphicGameFSM : public FSM
 {
 public:
-	GraphicGameFSM(Userdata * data, DRAW * drawer);
+	GraphicGameFSM(DRAW * drawer);
 	~GraphicGameFSM();
 
+	void start_game();
+	void draw_tick();
+
 private:
+	std::vector<edge_t>* iddle_state = NULL;
 	std::vector<edge_t>* menu_state = NULL;
 	std::vector<edge_t>* playing_state = NULL;
 
-	DRAW* drawer;
+	DRAW* drawer = NULL;
 };
 

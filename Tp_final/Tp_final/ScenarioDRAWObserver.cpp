@@ -20,4 +20,7 @@ void ScenarioDRAWObserver::update() {
 
 	}
 	*/
+	if (scenario->load_graphic_level) {
+		drawer->add_level(scenario->give_me_the_map_info());
+	}
 }

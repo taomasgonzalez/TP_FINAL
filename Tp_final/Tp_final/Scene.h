@@ -44,6 +44,8 @@ public:
 	Item_type give_me_my_player();
 	Item_type give_the_other_player();
 	const char * give_me_the_CSV(unsigned int actual_map);
+	const char * give_me_the_map_info();
+
 	Player * get_player(Item_type player_to_be_found);
 	Action_info give_me_my_enemy_action(bool is_initializing);
 
@@ -53,7 +55,7 @@ public:
 	//map functions
 	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
 	bool is_the_map_okay(const char * the_map , char the_checksum );
-	
+	void load_new_graphic_level();
 
 	std::vector <Map*> maps;
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
@@ -73,6 +75,7 @@ public:
 	bool new_character = false;
 	bool load_action_on_char = false;
 	bool should_hit = false;
+	bool load_graphic_level = false;
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	

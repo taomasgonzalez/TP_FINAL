@@ -22,7 +22,7 @@ FSM * FSMFactory::create_fsm(FSM_type identifyer, Userdata * data)
 			new_born = new LogicClientFSM(data);
 			break;
 		case FSM_type::Graphic_Game:
-			new_born = new GraphicGameFSM(data, drawer);
+			new_born = new GraphicGameFSM(drawer);
 			break;
 	}
 	return new_born;

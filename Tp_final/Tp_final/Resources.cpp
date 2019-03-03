@@ -50,7 +50,7 @@ bool Resources::initialize_all_the_resources() {
 			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);
 		}
 
-		my_graphic_fsm = new GraphicGameFSM(my_user_data, my_drawer);
+		my_graphic_fsm = new GraphicGameFSM(my_drawer);
 		my_graphic_ev_gen = new GraphicEventGenerator();
 		my_graphic_event_handler = new EventHandler(my_graphic_fsm, my_graphic_ev_gen);
 
