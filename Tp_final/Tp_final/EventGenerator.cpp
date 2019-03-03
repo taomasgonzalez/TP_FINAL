@@ -59,19 +59,19 @@ void EventGenerator::append_all_queues(int total_number_of_queues)
 */
 EventPackage * EventGenerator::fetch_event()
 {
-	static unsigned int actual_queue = 0;
 	EventPackage * returned_package = NULL;
 
 	if (event_queues.size() > 0) {
-		returned_package = (event_queues.at(actual_queue)).front();
-		(event_queues.at(actual_queue)).pop();
-
+		if (!event_queues.at(actual_queue).empty()) {
+			returned_package = (event_queues.at(actual_queue)).front();
+			(event_queues.at(actual_queue)).pop();
+		}
 		actual_queue++;
 		if (actual_queue >= event_queues.size())
 			actual_queue = 0;
 	}
 	if(returned_package == NULL)
-		returned_package = new NO_EVENT_EventPackage();
+		returned_package = new END_OF_TABLE_EventPackage();
 
 	return returned_package;
 }

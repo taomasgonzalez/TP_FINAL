@@ -7,7 +7,7 @@ Communication::Communication(Userdata * my_user_data) : Observable()
 	//this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
 	//this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
 	
-	Connecting_as_a_client(my_user_data->my_network_data.give_me_my_ip(), my_user_data);  //First the program try to start as a client
+	Connecting_as_a_client(my_user_data->my_network_data.give_me_my_ip(), my_user_data);  //First the program tries to start as a client
 
 	
 	if(!(my_user_data->my_network_data.is_client())) //me fijo si logre conectarme como cliente

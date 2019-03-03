@@ -1,4 +1,5 @@
 #include "LogicEventGenerator.h"
+#include <iostream>
 
 
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator()
@@ -124,15 +125,15 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 }
 
 void LogicEventGenerator::update_from_allegro_timer_events() {
-	ALLEGRO_EVENT * allegroEvent = NULL;
+	ALLEGRO_EVENT allegroEvent;
 	EventPackage * ev_pack = NULL;
 
-	if (al_get_next_event(coordinate_scene_events_queue, allegroEvent)) {
-		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
-			if (allegroEvent->timer.source == coordinate_scene_events_timer) {
-
+	if (al_get_next_event(coordinate_scene_events_queue, &allegroEvent)) {
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+			if (allegroEvent.timer.source == coordinate_scene_events_timer) {
+				std::cout << "coordinate_scene_event" << std::endl;
 			}
-			else if (allegroEvent->timer.source == time_out_timer) {
+			else if (allegroEvent.timer.source == time_out_timer) {
 
 			}
 		}

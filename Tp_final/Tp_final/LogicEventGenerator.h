@@ -20,10 +20,10 @@ public:
 
 private:
 
-	ALLEGRO_EVENT_QUEUE * al_key_queue;
-	ALLEGRO_EVENT_QUEUE* coordinate_scene_events_queue;
-	ALLEGRO_TIMER * time_out_timer;
-	ALLEGRO_TIMER * coordinate_scene_events_timer;
+	ALLEGRO_EVENT_QUEUE * al_key_queue = NULL;
+	ALLEGRO_EVENT_QUEUE* coordinate_scene_events_queue = NULL;
+	ALLEGRO_TIMER * time_out_timer = NULL;
+	ALLEGRO_TIMER * coordinate_scene_events_timer = NULL;
 
 	unsigned int time_out_count;
 
