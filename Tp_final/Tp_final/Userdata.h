@@ -54,37 +54,6 @@ private:
 	std::string his_name="Juacho"; //must have terminator
 };
 
-class AllegroData {
-
-public:
-	
-	void LoadWormImages(); //replace with the images of the graphics elements of the game
-
-
-	static const int GroundLevel = 616;
-	static const int LeftWall = 685;
-	static const int RightWall = 1170;
-
-
-	static std::array<ALLEGRO_BITMAP*, 15> WormWalk; //Worm walk bitmaps
-	std::string str = "wwalk-F";
-	std::string ng = ".png";
-
-	static std::array<ALLEGRO_BITMAP*, 10> WormJump; //Worm jump bitmaps
-	std::string STR = "wjump-F";
-	std::string NG = ".png";
-
-	static ALLEGRO_BITMAP *Background;
-	static ALLEGRO_BITMAP *WindowsBackground;
-
-	//Worm 1 keys
-	static const unsigned int worm1KeySet[2];
-
-	//Worm 2 keys
-	static const unsigned int worm2KeySet[2];
-private:
-
-};
 
 class Userdata
 {
@@ -93,7 +62,6 @@ public:
 	~Userdata();
 
 	NetworkData my_network_data;
-	AllegroData my_allegro_data;
 	static DRAW *drawer;
 
 };

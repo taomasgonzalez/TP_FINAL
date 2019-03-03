@@ -29,10 +29,6 @@ public:
 	ALLEGRO_DISPLAY* Display;
 	ALLEGRO_SAMPLE * music;
 
-	//static const float FPS;
-	//static const float SCREEN_W;
-	//static const float SCREEN_H;
-
 	void loadPlayMusic();
 	void stopMusic();
 

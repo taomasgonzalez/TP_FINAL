@@ -20,45 +20,25 @@ Allegro::~Allegro()
 
 
 bool Allegro::Init(Userdata& Userdata) {
-
 	bool ret = false;
 
 	if (al_init()) {
 		if (al_init_image_addon()) {
 			if (al_install_keyboard()) {
 				if (this->Display = al_create_display(SCREEN_W, SCREEN_H)) {
-					if ((Userdata.my_allegro_data.Background = al_create_bitmap(SCREEN_W, SCREEN_H))&&(Userdata.my_allegro_data.WindowsBackground = al_create_bitmap(SCREEN_W, SCREEN_H))) {
-						if (this->al_queue = al_create_event_queue()) {
-							if(this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()){
-										//if ((userdata.my_allegro_data.background = al_load_bitmap("backgrounds/scenario.png"))&&(userdata.my_allegro_data.windowsbackground = al_load_bitmap("backgrounds/stars.png"))) {
-										//	ret = true;
-										//	al_draw_bitmap(userdata.my_allegro_data.background, 0, 0, null);
-										//	al_draw_bitmap(userdata.my_allegro_data.windowsbackground, 0, 0, null);
-										//}
-										//else {
-										//	ret = false;
-										//	al_destroy_display(this->display);
-										//	al_destroy_bitmap(userdata.my_allegro_data.background);
-										//	al_destroy_event_queue(this->al_queue);
-										//	//al_destroy_timer(this->time_out_timer);
-										//}
-							}
-							else{
-								al_destroy_display(this->Display);
-								al_destroy_bitmap(Userdata.my_allegro_data.Background);
-								al_destroy_event_queue(this->al_queue);
-							}
+					if (this->al_queue = al_create_event_queue()) {
+						if (this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()) {
+							ret = true;
 						}
 						else {
 							al_destroy_display(this->Display);
-							al_destroy_bitmap(Userdata.my_allegro_data.Background);
 							al_destroy_event_queue(this->al_queue);
 						}
 					}
-				}
-				else {
-					ret = false;
-					al_destroy_display(this->Display);
+					else {
+						al_destroy_display(this->Display);
+						al_destroy_event_queue(this->al_queue);
+					}
 				}
 			}
 			else {
@@ -66,15 +46,15 @@ bool Allegro::Init(Userdata& Userdata) {
 				al_destroy_display(this->Display);
 			}
 		}
-		else
+		else {
 			ret = false;
+			al_destroy_display(this->Display);
 		}
-	else{
-		ret = false;
 	}
+	else
+		ret = false;
 
 	this->time_out_timers_queue->push(al_create_timer(60.0 * 2 + 30.0)); //this->time_out_timer = al_create_timer(60.0*2+30.0)
-
 
 
 	if (al_install_audio()) //Inicializo los addons de audio
