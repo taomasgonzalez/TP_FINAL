@@ -7,7 +7,7 @@ Communication::Communication(Userdata * my_user_data) : Observable()
 	//this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
 	//this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
 	
-	Connecting_as_a_client(my_user_data->my_network_data.give_me_my_ip(), my_user_data);  //First the program tries to start as a client
+	Connecting_as_a_client(my_user_data->my_network_data.give_me_his_ip(), my_user_data);  //First the program tries to start as a client
 
 	
 	if(!(my_user_data->my_network_data.is_client())) //me fijo si logre conectarme como cliente
@@ -30,6 +30,12 @@ Communication::~Communication()
 	delete IO_handler;
 	
 }
+
+void  Communication::check_for_messages() {
+
+	notify_obs(); //ya esta prendido en user_data check_for_new_messages
+}
+
 
 /******************************
 	Connecting_as_a_client
@@ -175,6 +181,7 @@ OUTPUT:
 void Communication::sendMessage(Package * package_received) {
 
 	//startConnectionForClient(his_ip.c_str());
+
 	char buf[1000];		// por donde envio el input
 	memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
 	size_t len;
