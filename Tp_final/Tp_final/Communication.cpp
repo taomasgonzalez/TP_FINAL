@@ -81,7 +81,7 @@ void Communication::Connecting_as_a_client(std::string host, Userdata * my_user_
 
 		if ((currentTime.wall - pastTime.wall) > 1e9)
 		{
-			elapsedSeconds += (currentTime.wall - pastTime.wall) / 1e5;
+			elapsedSeconds += (currentTime.wall - pastTime.wall) / 1e6;
 			pastTime = currentTime;
 			std::cout << "Pasaron " << elapsedSeconds << " segundos." << std::endl;
 		}
@@ -181,6 +181,7 @@ OUTPUT:
 void Communication::sendMessage(Package * package_received) {
 
 	//startConnectionForClient(his_ip.c_str());
+
 	char buf[1000];		// por donde envio el input
 	//memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
 	copy_message(package_received, buf);
