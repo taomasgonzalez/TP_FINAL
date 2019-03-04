@@ -207,7 +207,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="GraphicGameFSM" Collapsed="true">
-    <Position X="23.25" Y="27.5" Width="1.5" />
+    <Position X="27.25" Y="27.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AABBAAAAAIAAAAAAAAAAAAAAAQAAAAAAAAAAhAAAAEA=</HashCode>
       <FileName>GraphicGameFSM.h</FileName>
