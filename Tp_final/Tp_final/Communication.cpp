@@ -186,11 +186,11 @@ void Communication::sendMessage(Package * package_received) {
 	size_t len;
 	boost::system::error_code error;
 	
-	do         //Evito el loopeo
-	{ //first parameter should be char [n] not char *, possible source of error
+	//do         //Evito el loopeo
+	//{ //first parameter should be char [n] not char *, possible source of error
 		len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error); 
-	} 
-	while ((error.value() == WSAEWOULDBLOCK));
+	//} 
+	//while ((error.value() == WSAEWOULDBLOCK));
 
 	if (error)
 	{
