@@ -5,31 +5,11 @@
     <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
-    <ClCompile Include="LogicFSMEventsObserver.cpp" />
-    <ClCompile Include="LogicFSMSceneObserver.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
-    <ClCompile Include="LogicClientFSM.cpp" />
-    <ClCompile Include="LogicEventGenerator.cpp" />
-    <ClCompile Include="LogicFSM.cpp" />
-    <ClCompile Include="LogicFSMRoutines.cpp" />
-    <ClCompile Include="LogicServerFSM.cpp" />
-    <ClCompile Include="Observable.cpp" />
-    <ClCompile Include="Observer.cpp" />
-    <ClCompile Include="Package.cpp" />
-    <ClCompile Include="PackageFactory.cpp" />
     <ClCompile Include="Player.cpp" />
-    <ClCompile Include="CharacterActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
-    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp" />
-    <ClCompile Include="PlayerSceneObserver.cpp" />
     <ClCompile Include="point.cpp" />
-    <ClCompile Include="Proyectile.cpp" />
-    <ClCompile Include="ProyectilesActionsFSM.cpp" />
-    <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp" />
-    <ClCompile Include="ProyectileSceneObserver.cpp" />
-    <ClCompile Include="PurpleGuy.cpp" />
-    <ClCompile Include="PurpleGuyScenarioObserver.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
@@ -124,39 +104,76 @@
     <ClCompile Include="EnemySceneObserver.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterActionsFSM.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectileSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Proyectile.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectilesActionsFSM.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuyScenarioObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Package.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="PackageFactory.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSceneObserver.cpp">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicClientFSM.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicEventGenerator.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSM.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMEventsObserver.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMRoutines.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMSceneObserver.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicServerFSM.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="Observer.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BallDefines.h" />
     <ClInclude Include="CharacterSceneObserver.h" />
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
-    <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="LogicFSMEventsObserver.h" />
-    <ClInclude Include="LogicFSMSceneObserver.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicGameFSM.h" />
-    <ClInclude Include="LogicClientFSM.h" />
-    <ClInclude Include="LogicEventGenerator.h" />
-    <ClInclude Include="LogicFSM.h" />
-    <ClInclude Include="LogicFSMRoutines.h" />
-    <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
     <ClInclude Include="PlayerSceneObserver.h" />
     <ClInclude Include="point.h" />
-    <ClInclude Include="ProyectilesActionsFSM.h" />
-    <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h" />
-    <ClInclude Include="ProyectileSceneObserver.h" />
-    <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
-    <ClInclude Include="Observable.h" />
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Package.h" />
-    <ClInclude Include="PackageFactory.h" />
-    <ClInclude Include="Proyectile.h" />
-    <ClInclude Include="PurpleGuy.h" />
     <ClInclude Include="ScenarioDRAWObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
@@ -189,9 +206,6 @@
     </ClInclude>
     <ClInclude Include="Action_Info.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterActionsEventGenerator.h">
-      <Filter>Source Files\PJ_related\Characters</Filter>
     </ClInclude>
     <ClInclude Include="Communication.h">
       <Filter>Header Files\Net_related</Filter>
@@ -262,6 +276,62 @@
     <ClInclude Include="ProjectileDefine.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
+    <ClInclude Include="CharacterActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuyScenarioObserver.h">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuy.h">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectileSceneObserver.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectilesActionsFSM.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Proyectile.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="BallDefines.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicationEventsObserver.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Package.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="PackageFactory.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicClientFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicEventGenerator.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMEventsObserver.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMRoutines.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMSceneObserver.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicServerFSM.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h" />
+    <ClInclude Include="Observable.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mis mapas\Bertachini_mapa1.csv" />
