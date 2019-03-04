@@ -24,6 +24,11 @@ std::string NetworkData::give_me_my_ip()
 {
 	return this->my_ip;
 }
+
+std::string NetworkData::give_me_his_ip()
+{
+	return this->his_ip;
+}
 void NetworkData::set_client(bool is_client) {
 
 	this->client_mode = is_client;
