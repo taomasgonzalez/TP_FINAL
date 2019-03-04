@@ -1,20 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="DijkstraMachine.cpp" />
-    <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp" />
-    <ClCompile Include="GreenFatty.cpp" />
-    <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneCharacterObserver.cpp" />
-    <ClCompile Include="Snowball.cpp" />
     <ClCompile Include="Userdata.cpp" />
     <ClCompile Include="Crazy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
@@ -162,10 +157,24 @@
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GreenFatty.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSM.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="DijkstraMachine.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Player.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Snowball.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterSceneObserver.h" />
-    <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
     <ClInclude Include="GraphicGameFSM.h" />
@@ -174,13 +183,9 @@
     <ClInclude Include="PlayerSceneObserver.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="Resources.h" />
-    <ClInclude Include="GreenFatty.h" />
     <ClInclude Include="ScenarioDRAWObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneCharacterObserver.h" />
     <ClInclude Include="Snowball.h" />
-    <ClInclude Include="Userdata.h" />
     <ClInclude Include="Character.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
@@ -335,6 +340,21 @@
     <ClInclude Include="Observable.h" />
     <ClInclude Include="GraphicEventGenerator.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="DijkstraMachine.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenFatty.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCharacterObserver.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Userdata.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

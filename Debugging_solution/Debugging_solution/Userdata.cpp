@@ -1,12 +1,6 @@
 #include "Userdata.h"
+
 using namespace std;
-std::array<ALLEGRO_BITMAP*, 15> AllegroData::WormWalk;
-std::array<ALLEGRO_BITMAP*, 10>AllegroData::WormJump;
-ALLEGRO_BITMAP *AllegroData::Background;
-ALLEGRO_BITMAP *AllegroData::WindowsBackground;
-
-
-
 
 /// NETWORKDATA METHODS
 bool NetworkData::has_new_info() {
@@ -22,13 +16,18 @@ std::string NetworkData::give_me_my_name()
 
 void NetworkData::tell_me_his_name(char * his_name, unsigned char his_name_length)
 {
-	 this->his_name=string(his_name, his_name_length);  //como viene sin /n tomo los primero namelength chars 
+	 this->his_name = string(his_name, his_name_length);  //como viene sin /n tomo los primero namelength chars 
 }
 
 
 std::string NetworkData::give_me_my_ip()
 {
 	return this->my_ip;
+}
+
+std::string NetworkData::give_me_his_ip()
+{
+	return this->his_ip;
 }
 void NetworkData::set_client(bool is_client) {
 
@@ -43,44 +42,21 @@ bool  NetworkData::get_should_check_for_new_messages(void) {
 }
 
 
-void AllegroData::LoadWormImages() {
-	string string;
-
-	for (int i = 1; i < 16; i++) {
-		string = str + to_string(i) + ng;    //Se inicializan los bitmaps de los worms
-		AllegroData::WormWalk[i - 1] = al_load_bitmap(string.c_str());
-	}
-
-	for (int i = 1; i < 11; i++) {
-		string = STR + to_string(i) + NG;
-		AllegroData::WormJump[i - 1] = al_load_bitmap(string.c_str());
-	}
-}
 
 Userdata::Userdata()
 {
-	for (int i = 0; i < 15; i++)
-		this->my_allegro_data.WormWalk[i] = NULL;
-	for (int i = 0; i < 10; i++)
-		this->my_allegro_data.WormJump[i] = NULL;
-	this->my_allegro_data.Background = NULL;
-	this->my_allegro_data.WindowsBackground = NULL;
-
 }
 
 
 
 Userdata::~Userdata()
 {
-	for (int i = 0; i < 15; i++) {
-		al_destroy_bitmap(AllegroData::WormWalk[i]);
-	}
-
-	for (int i = 0; i < 10; i++) {
-		al_destroy_bitmap(AllegroData::WormJump[i]);
-	}
-
-	al_destroy_bitmap(AllegroData::Background);
-	al_destroy_bitmap(AllegroData::WindowsBackground);
 }
 
+
+DRAW* Userdata::drawer = NULL;
+
+
+NetworkData::NetworkData() {
+
+}

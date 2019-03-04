@@ -76,6 +76,7 @@ private:
 	uint32_t expected_ack_id;
 
 
+	void copy_message(Package * package_received, char *buf);
 
 
 };

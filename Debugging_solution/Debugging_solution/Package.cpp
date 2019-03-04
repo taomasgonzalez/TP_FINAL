@@ -23,9 +23,6 @@ Package::Package(Package_type type)
 	this->header = type;
 	this->info_to_be_send = (char *)&(this->header);
 }
-Package::~Package() {
-
-}
 
 /**************************************************************
 				GET_PACKAGE_HEADER

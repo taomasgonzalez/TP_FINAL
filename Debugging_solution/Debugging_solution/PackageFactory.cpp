@@ -21,14 +21,14 @@ PackageFactory::PackageFactory()
 			break;
 
 		case Event_type::NAME_IS: {
-			NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
-			//uchar len = info_received->get_name_lenght();
-
-			//char * name = ((NAME_IS_EventPackage * )info_received)->give_me_your_name();
+			//NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
+			uchar len = info_received->get_name_lenght();
+			char * name = ((NAME_IS_EventPackage * )info_received)->give_me_your_name();
 			//pac = new NAME_IS_package(((NAME_IS_EventPackage *)info_received)->get_name_lenght(), ((NAME_IS_EventPackage *)info_received)->give_me_your_name());
-			pac = new NAME_IS_package(info_n->get_name_lenght(), info_n->give_me_your_name());
+			pac = new NAME_IS_package(info_received->get_name_lenght(), info_received->give_me_your_name());
+
+			break;
 		}
-		break;
 
 		case Event_type::MAP_IS:
 			pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map(), ((MAP_IS_EventPackage *)info_received)->give_me_the_checksum());

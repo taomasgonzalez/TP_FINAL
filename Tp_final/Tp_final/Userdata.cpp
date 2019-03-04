@@ -45,7 +45,6 @@ bool  NetworkData::get_should_check_for_new_messages(void) {
 
 Userdata::Userdata()
 {
-
 }
 
 
@@ -56,3 +55,8 @@ Userdata::~Userdata()
 
 
 DRAW* Userdata::drawer = NULL;
+
+
+NetworkData::NetworkData() {
+
+}
