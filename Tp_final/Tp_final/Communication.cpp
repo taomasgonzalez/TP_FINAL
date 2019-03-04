@@ -81,7 +81,7 @@ void Communication::Connecting_as_a_client(std::string host, Userdata * my_user_
 
 		if ((currentTime.wall - pastTime.wall) > 1e9)
 		{
-			elapsedSeconds += (currentTime.wall - pastTime.wall) / 1e5;
+			elapsedSeconds += (currentTime.wall - pastTime.wall) / 1e6;
 			pastTime = currentTime;
 			std::cout << "Pasaron " << elapsedSeconds << " segundos." << std::endl;
 		}
@@ -181,16 +181,17 @@ OUTPUT:
 void Communication::sendMessage(Package * package_received) {
 
 	//startConnectionForClient(his_ip.c_str());
+
 	char buf[1000];		// por donde envio el input
 	memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
 	size_t len;
 	boost::system::error_code error;
 	
-	do         //Evito el loopeo
-	{ //first parameter should be char [n] not char *, possible source of error
+	//do         //Evito el loopeo
+	//{ //first parameter should be char [n] not char *, possible source of error
 		len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error); 
-	} 
-	while ((error.value() == WSAEWOULDBLOCK));
+	//} 
+	//while ((error.value() == WSAEWOULDBLOCK));
 
 	if (error)
 	{
