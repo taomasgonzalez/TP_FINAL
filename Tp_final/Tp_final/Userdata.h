@@ -32,6 +32,8 @@ public:
 
 	//Getters
 	std::string give_me_my_ip();
+	std::string give_me_his_ip();
+
 	std::string give_me_my_name();
 	void tell_me_his_name(char * his_name, unsigned char his_name_length);
 	bool get_should_check_for_new_messages();
