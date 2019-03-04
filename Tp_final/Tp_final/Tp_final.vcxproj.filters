@@ -1,35 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Allegroclass.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterActionsEventGenerator.cpp" />
-    <ClCompile Include="CharacterSceneObserver.cpp" />
-    <ClCompile Include="Communication.cpp" />
-    <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
-    <ClCompile Include="DRAW.cpp" />
-    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="EnemyActionsFSM.cpp" />
     <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
-    <ClCompile Include="EnemySceneObserver.cpp" />
-    <ClCompile Include="EventGenerator.cpp" />
-    <ClCompile Include="EventHandler.cpp" />
-    <ClCompile Include="EventPackageFactory.cpp" />
-    <ClCompile Include="CommunicationEventsObserver.cpp" />
-    <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
-    <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
-    <ClCompile Include="GraficInterface.cpp" />
-    <ClCompile Include="GraficObject.cpp" />
-    <ClCompile Include="GraficObjectBall.cpp" />
-    <ClCompile Include="GraficObjectEnemy.cpp" />
-    <ClCompile Include="GraficObjectPlayer.cpp" />
-    <ClCompile Include="GraficObjectProjectile.cpp" />
-    <ClCompile Include="GraphicEventGenerator.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp" />
     <ClCompile Include="GreenFatty.cpp" />
     <ClCompile Include="LogicClientFSM.cpp" />
@@ -37,16 +14,10 @@
     <ClCompile Include="LogicFSM.cpp" />
     <ClCompile Include="LogicFSMRoutines.cpp" />
     <ClCompile Include="LogicServerFSM.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Map.cpp" />
-    <ClCompile Include="MapCell.cpp" />
-    <ClCompile Include="MapThing.cpp" />
-    <ClCompile Include="MapThingFactory.cpp" />
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Package.cpp" />
     <ClCompile Include="PackageFactory.cpp" />
-    <ClCompile Include="EventPackage.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="CharacterActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
@@ -66,40 +37,103 @@
     <ClCompile Include="SceneCharacterObserver.cpp" />
     <ClCompile Include="Snowball.cpp" />
     <ClCompile Include="Userdata.cpp" />
+    <ClCompile Include="Crazy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="DRAW.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Character.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="Communication.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPackage.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="EventGenerator.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="CommunicationEventsObserver.cpp">
+      <Filter>Source Files\Net_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Allegroclass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficInterface.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObject.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectBall.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectEnemy.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectPlayer.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectProjectile.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicEventGenerator.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPackageFactory.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSMFactory.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM_Class.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="Fireball.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThing.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThingFactory.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="MapCell.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Action_Info.h" />
-    <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="BallDefines.h" />
-    <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterActionsEventGenerator.h" />
     <ClInclude Include="CharacterSceneObserver.h" />
-    <ClInclude Include="Communication.h" />
-    <ClInclude Include="Crazy.h" />
     <ClInclude Include="DijkstraMachine.h" />
-    <ClInclude Include="DRAW.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="EnemyActionsFSM.h" />
     <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
-    <ClInclude Include="EnemyDefines.h" />
-    <ClInclude Include="EnemySceneObserver.h" />
-    <ClInclude Include="EventGenerator.h" />
-    <ClInclude Include="EventHandler.h" />
-    <ClInclude Include="EventPackageFactory.h" />
     <ClInclude Include="CommunicationEventsObserver.h" />
-    <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
     <ClInclude Include="LogicFSMEventsObserver.h" />
-    <ClInclude Include="FSMFactory.h" />
     <ClInclude Include="LogicFSMSceneObserver.h" />
-    <ClInclude Include="FSM_Class.h" />
-    <ClInclude Include="general.h" />
-    <ClInclude Include="GraficInterface.h" />
-    <ClInclude Include="GraficObject.h" />
-    <ClInclude Include="GraficObjectBall.h" />
-    <ClInclude Include="GraficObjectEnemy.h" />
-    <ClInclude Include="GraficObjectPlayer.h" />
-    <ClInclude Include="GraficObjectProjectile.h" />
     <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicGameFSM.h" />
     <ClInclude Include="LogicClientFSM.h" />
@@ -107,29 +141,20 @@
     <ClInclude Include="LogicFSM.h" />
     <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
-    <ClInclude Include="MapThingFactory.h" />
-    <ClInclude Include="CharacterActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
-    <ClInclude Include="PlayerDefines.h" />
     <ClInclude Include="PlayerSceneObserver.h" />
     <ClInclude Include="point.h" />
-    <ClInclude Include="ProjectileDefine.h" />
     <ClInclude Include="ProyectilesActionsFSM.h" />
     <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h" />
     <ClInclude Include="ProyectileSceneObserver.h" />
     <ClInclude Include="PurpleGuyScenarioObserver.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="GreenFatty.h" />
-    <ClInclude Include="Map.h" />
-    <ClInclude Include="MapCell.h" />
-    <ClInclude Include="MapThing.h" />
     <ClInclude Include="Observable.h" />
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Package.h" />
     <ClInclude Include="PackageFactory.h" />
-    <ClInclude Include="EventPackage.h" />
-    <ClInclude Include="Player.h" />
     <ClInclude Include="Proyectile.h" />
     <ClInclude Include="PurpleGuy.h" />
     <ClInclude Include="ScenarioDRAWObserver.h" />
@@ -138,6 +163,105 @@
     <ClInclude Include="SceneCharacterObserver.h" />
     <ClInclude Include="Snowball.h" />
     <ClInclude Include="Userdata.h" />
+    <ClInclude Include="Character.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsFSM.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSM.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Crazy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Fireball.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="Player.h">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="DRAW.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="Action_Info.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsEventGenerator.h">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Communication.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EventHandler.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPackage.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="AllegroClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficInterface.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObject.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectBall.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectEnemy.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectPlayer.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectProjectile.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EventPackageFactory.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="EventGenerator.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="MapCell.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThing.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThingFactory.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="general.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM_Class.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMFactory.h">
+      <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySceneObserver.h">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyDefines.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerDefines.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectileDefine.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Mis mapas\Bertachini_mapa1.csv" />
@@ -160,9 +284,6 @@
     </Filter>
     <Filter Include="Header Files\Map_related">
       <UniqueIdentifier>{4d49314f-53d1-426f-84a9-fc19bcdabc10}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Net_realted">
-      <UniqueIdentifier>{60318310-5810-4b63-baf9-9ecd263f5a3f}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Event_related\Generic">
       <UniqueIdentifier>{9c7c54af-7d02-4beb-a207-059820746cd6}</UniqueIdentifier>
@@ -187,6 +308,54 @@
     </Filter>
     <Filter Include="Header Files\Observers">
       <UniqueIdentifier>{0996d6d3-bb9f-41da-af50-d71d702b1b5f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Players">
+      <UniqueIdentifier>{12381c16-e6e4-4d2d-a7f6-028a6e4a59d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{f9c4c352-098f-465b-a497-4bba8c4b974e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related">
+      <UniqueIdentifier>{6b0fade1-79f8-4b9a-8e74-c8ce470cb597}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Graphics_related">
+      <UniqueIdentifier>{5942d79d-2e29-4c01-b328-66e203260106}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map_related">
+      <UniqueIdentifier>{da748af7-5042-465d-98b7-2fd63c0b60d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Net_related">
+      <UniqueIdentifier>{60318310-5810-4b63-baf9-9ecd263f5a3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Net_related">
+      <UniqueIdentifier>{74245396-4364-41c2-a614-eabf39d74c9d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Observers">
+      <UniqueIdentifier>{02655085-31c0-4ea4-baf1-37fa3b1a106b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related">
+      <UniqueIdentifier>{4a27dd8d-72b8-47a3-9d01-84012494883c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related\Graphic">
+      <UniqueIdentifier>{bf537947-3516-46e5-a61f-a9279074e633}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related\Logic">
+      <UniqueIdentifier>{cd465320-f050-419a-8cfc-860e9626d836}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Event_related\Generic">
+      <UniqueIdentifier>{c7c9b496-b170-4256-ac00-eae83d4805a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Proyectiles">
+      <UniqueIdentifier>{5fae448a-6d9f-4852-94b9-c2a5ac515c0d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters">
+      <UniqueIdentifier>{6fce387c-76fb-4735-a987-99c67ca46733}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Players">
+      <UniqueIdentifier>{fbe9c2bf-4149-4355-a47f-22fc3b713a70}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies">
+      <UniqueIdentifier>{2a881524-3e3a-41eb-acd6-6be8a4dbc5c3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -600,7 +769,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="ClassDiagram.cd" />
     <None Include="Mis mapas\Bertachini_mapa1.csv">
       <Filter>Source Files\Info_Mapas</Filter>
     </None>
