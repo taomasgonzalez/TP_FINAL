@@ -404,7 +404,8 @@ NAME_IS_EventPackage CONSTRUCTOR
 **************************************************************/
 NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local, uchar namelenght, const char * newname)
 	:EventPackage(Event_type::NAME_IS, is_local) {
-
+	this->Name = (char*) newname;
+	this->count = namelenght;
 }
 
 /**************************************************************
