@@ -10,7 +10,6 @@
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
     <ClCompile Include="point.cpp" />
-    <ClCompile Include="Resources.cpp" />
     <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -160,13 +159,15 @@
     </ClCompile>
     <ClCompile Include="Observable.cpp" />
     <ClCompile Include="Observer.cpp" />
+    <ClCompile Include="Resources.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CharacterSceneObserver.h" />
     <ClInclude Include="DijkstraMachine.h" />
     <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
     <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="GraphicEventGenerator.h" />
     <ClInclude Include="GraphicGameFSM.h" />
     <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
@@ -332,6 +333,9 @@
     </ClInclude>
     <ClInclude Include="Observer.h" />
     <ClInclude Include="Observable.h" />
+    <ClInclude Include="GraphicEventGenerator.h">
+      <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Mis mapas\Bertachini_mapa1.csv" />

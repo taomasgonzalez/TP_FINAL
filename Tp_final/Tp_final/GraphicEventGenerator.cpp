@@ -19,15 +19,15 @@ EventPackage * GraphicEventGenerator::fetch_event() {
 }
 
 void GraphicEventGenerator::update_allegro_timer_events() {
-	ALLEGRO_EVENT * allegroEvent = NULL;
+	ALLEGRO_EVENT allegroEvent;
 	EventPackage * ev_pack = NULL;
 
-	if (al_get_next_event(drawing_event_queue, allegroEvent)) 
-		if (allegroEvent->type == ALLEGRO_EVENT_TIMER){
-			if (allegroEvent->timer.source == fps_timer) 
+	if (al_get_next_event(drawing_event_queue, &allegroEvent)) 
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER){
+			if (allegroEvent.timer.source == fps_timer) 
 				append_new_event(new EventPackage(Event_type::FPS_TICKED, true), 0);
 		}
-		else if (allegroEvent->type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
+		else if (allegroEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			append_new_event(new LOCAL_QUIT_EventPackage(), 0);
 		}
 }
