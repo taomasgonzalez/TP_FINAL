@@ -19,7 +19,7 @@ EventPackage * GraphicEventGenerator::fetch_event() {
 }
 
 void GraphicEventGenerator::update_allegro_timer_events() {
-	ALLEGRO_EVENT  allegroEvent ;
+	ALLEGRO_EVENT allegroEvent;
 	EventPackage * ev_pack = NULL;
 
 	if (al_get_next_event(drawing_event_queue, &allegroEvent)) 
