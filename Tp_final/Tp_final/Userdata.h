@@ -47,8 +47,8 @@ public:
 
 
 private:
-	std::string my_ip = "";
-	std::string his_ip = "";
+	std::string my_ip = "25.66.202.87";
+	std::string his_ip = "25.87.197.237";
 	bool client_mode;		//By default we try to connect as a client
 	bool new_info = false;
 	bool check_for_new_messages;
