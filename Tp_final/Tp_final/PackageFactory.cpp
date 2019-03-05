@@ -9,7 +9,7 @@ PackageFactory::PackageFactory()
  Package * PackageFactory::event_package_2_package(EventPackage* info_received)
 {
 	Package * pac=NULL;
-
+	NAME_IS_EventPackage * info_n = NULL;
 	switch (info_received->give_me_your_event_type())
 	{
 		case Event_type::ACK:
@@ -21,7 +21,7 @@ PackageFactory::PackageFactory()
 			break;
 
 		case Event_type::NAME_IS: {
-			NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
+			info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
 			uchar len = info_n->get_name_lenght();
 			char * name = info_n->give_me_your_name();
 			pac = new NAME_IS_package(len, name);

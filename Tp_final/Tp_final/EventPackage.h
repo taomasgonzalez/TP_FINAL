@@ -112,9 +112,6 @@ public:
 	bool is_this_a_local_action();
 	Action_info to_Action_info();
 
-	virtual char * give_me_your_name();
-	virtual uchar get_name_lenght();
-
 protected:
 	Event_type my_internal_event;
 	bool local_action;

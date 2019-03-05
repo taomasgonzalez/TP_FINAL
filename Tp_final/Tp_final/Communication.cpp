@@ -203,36 +203,9 @@ void Communication::sendMessage(Package * package_received) {
 
 }
 void Communication::copy_message(Package * package_received, char *buf) {
-	Package_type type = package_received->get_package_header();
-	char* info_2_b_send = NULL;
-	unsigned int i=0,j = 0;
-
-	switch (type) {
-
-	case Package_type::NAME_IS:
-	{
-		NAME_IS_package* name_is = dynamic_cast<NAME_IS_package*>(package_received);
-		buf[i++] = (char)name_is->get_package_header();
-		buf[i] = (char)name_is->get_name_lenght();	
-		info_2_b_send = name_is->give_me_your_name();
-
-		while (info_2_b_send[j] != '\0') //busco donde empiezan las letras
-			j++;
-
-		for ( ; i < name_is->get_name_lenght(); i++, j++)
-			buf[i] = info_2_b_send[j];
-	}
-		break;
-
-	case Package_type::NAME:
-	{
-		NAME_package* name = dynamic_cast<NAME_package*>(package_received);
-		info_2_b_send = package_received->get_sendable_info();
-		for (int i = 0; i < package_received->get_info_length(); i++)
-			buf[i] = info_2_b_send[i];
-	}
-		break;
-	}
+	char* info_2_b_send = package_received->get_sendable_info();
+	for (int i = 0; i < package_received->get_info_length(); i++)
+		buf[i] = info_2_b_send[i];
 }
 
 
