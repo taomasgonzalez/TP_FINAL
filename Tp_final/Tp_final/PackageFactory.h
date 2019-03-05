@@ -13,7 +13,7 @@ public:
 	
 private: 
 
-	static EventPackage * my_event_package;
-	static Package * pac;
+	EventPackage * my_event_package;
+	Package * pac;
 };
 
