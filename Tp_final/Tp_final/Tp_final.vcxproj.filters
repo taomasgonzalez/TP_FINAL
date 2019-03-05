@@ -1,16 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp" />
-    <ClCompile Include="FSMCommunicationObserver.cpp" />
-    <ClCompile Include="GraphicGameFSM.cpp" />
-    <ClCompile Include="PlayerActionsFSM.cpp" />
-    <ClCompile Include="point.cpp" />
-    <ClCompile Include="ScenarioDRAWObserver.cpp" />
-    <ClCompile Include="ScenarioEventsObserver.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneCharacterObserver.cpp" />
-    <ClCompile Include="Userdata.cpp" />
     <ClCompile Include="Crazy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
@@ -152,8 +142,6 @@
     <ClCompile Include="LogicServerFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="Observable.cpp" />
-    <ClCompile Include="Observer.cpp" />
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -172,20 +160,44 @@
     <ClCompile Include="Snowball.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
     </ClCompile>
+    <ClCompile Include="FSMCommunicationObserver.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicGameFSM.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="Observable.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Observer.cpp">
+      <Filter>Source Files\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="point.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCharacterObserver.cpp">
+      <Filter>Header Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioEventsObserver.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioDRAWObserver.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsFSM.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="Userdata.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="CharacterSceneObserver.h" />
-    <ClInclude Include="EnemyActionsFSMDRAWObserver.h" />
-    <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="GraphicGameFSM.h" />
-    <ClInclude Include="PlayerActionsFSM.h" />
-    <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
-    <ClInclude Include="PlayerSceneObserver.h" />
-    <ClInclude Include="point.h" />
-    <ClInclude Include="Resources.h" />
-    <ClInclude Include="ScenarioDRAWObserver.h" />
-    <ClInclude Include="ScenarioEventsObserver.h" />
-    <ClInclude Include="Snowball.h" />
     <ClInclude Include="Character.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
@@ -336,8 +348,6 @@
     <ClInclude Include="LogicServerFSM.h">
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="Observer.h" />
-    <ClInclude Include="Observable.h" />
     <ClInclude Include="GraphicEventGenerator.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
     </ClInclude>
@@ -355,6 +365,48 @@
     </ClInclude>
     <ClInclude Include="Userdata.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FSMCommunicationObserver.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicGameFSM.h">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSceneObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Observer.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Observable.h">
+      <Filter>Header Files\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="Resources.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="point.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenarioEventsObserver.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenarioDRAWObserver.h">
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSMDRAWObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSM.h">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSMDRAWObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="Snowball.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterSceneObserver.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

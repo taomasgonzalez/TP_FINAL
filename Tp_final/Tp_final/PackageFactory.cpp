@@ -22,11 +22,9 @@ PackageFactory::PackageFactory()
 
 		case Event_type::NAME_IS: {
 			NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
-			//uchar len = info_received->get_name_lenght();
-
-			//char * name = ((NAME_IS_EventPackage * )info_received)->give_me_your_name();
-			//pac = new NAME_IS_package(((NAME_IS_EventPackage *)info_received)->get_name_lenght(), ((NAME_IS_EventPackage *)info_received)->give_me_your_name());
-			pac = new NAME_IS_package(info_n->get_name_lenght(), info_n->give_me_your_name());
+			uchar len = info_n->get_name_lenght();
+			char * name = info_n->give_me_your_name();
+			pac = new NAME_IS_package(len, name);
 		}
 		break;
 
