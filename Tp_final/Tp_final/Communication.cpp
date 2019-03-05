@@ -260,8 +260,10 @@ Package * Communication::receiveMessage() {
 			break;
 
 		case Package_type::NAME_IS:
+		{
 			received = new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
 
+		}
 			break;
 
 		case Package_type::MAP_IS:

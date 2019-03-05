@@ -152,7 +152,9 @@ NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(
 NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
 
 	newname[namelenght] = '\0';
-	NAME_IS_package::NAME_IS_package(namelenght, std::string(newname));
+	this->count = namelenght;
+	this->Name = newname;
+	this->info_length = 2 + this->count;
 
 }
 
