@@ -35,7 +35,7 @@ public:
 	Package(Package_type type);
 	Package_type get_package_header();
 	virtual ~Package();
-	virtual const char * get_sendable_info();
+	virtual std::string get_sendable_info();
 	int get_info_length();
 	std::string enum_to_string(Package_type package_to_be_translate);
 
@@ -88,9 +88,11 @@ class NAME_IS_package : public Package
 {
 public:
 	NAME_IS_package(uchar namelenght, std::string newname);
+	NAME_IS_package(uchar namelenght, char * newname);
+
 	uchar get_name_lenght();
 	std::string give_me_your_name();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 
@@ -111,7 +113,7 @@ public:
 	MAP_IS_package(const char * themap,char my_checksum);
 	char * give_me_the_map();
 	char give_me_the_checksum();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 private:
@@ -146,7 +148,7 @@ public:
 	Character_type give_me_the_character();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 private:
@@ -169,7 +171,7 @@ public:
 	Character_type give_me_the_character();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 private:
@@ -193,7 +195,7 @@ public:
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 private:
@@ -217,7 +219,7 @@ public:
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
-	const char * get_sendable_info();
+	std::string get_sendable_info();
 
 
 private:
