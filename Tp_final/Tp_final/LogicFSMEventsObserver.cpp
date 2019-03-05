@@ -50,11 +50,7 @@ void LogicFSMEventsObserver::update() {
 
 	if (fsm->receive_name) {
 		EventPackage* his_new_name_package=this->fsm->get_fsm_ev_pack();
-		unsigned char his_namelenght = ((NAME_IS_EventPackage *)his_new_name_package)->get_name_lenght();
-		char * his_name = ((NAME_IS_EventPackage *)his_new_name_package)->give_me_your_name();
-
-		my_user_data->my_network_data.tell_me_his_name(his_name, his_namelenght);
-
+		my_user_data->my_network_data.tell_me_his_name(((NAME_IS_EventPackage *)his_new_name_package)->give_me_your_name());
 	}
 	
 }

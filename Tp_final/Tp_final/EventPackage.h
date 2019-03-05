@@ -286,13 +286,13 @@ public:
 class NAME_IS_EventPackage : public EventPackage
 {
 public:
-	NAME_IS_EventPackage(bool is_local, uchar namelenght, const char * newname);
+	NAME_IS_EventPackage(bool is_local, uchar namelenght, std::string newname);
 	uchar get_name_lenght();
-	char * give_me_your_name();
+	std::string give_me_your_name();
 
 private:
 	uchar count;
-	char * Name; // without terminator
+	std::string Name; // without terminator
 };
 
 

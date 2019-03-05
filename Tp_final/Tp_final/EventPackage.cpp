@@ -404,9 +404,9 @@ NAME_IS_EventPackage METHODS DEFINITIONS
 /**************************************************************
 NAME_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local, uchar namelenght, const char * newname)
+NAME_IS_EventPackage::NAME_IS_EventPackage(bool is_local, uchar namelenght, std::string newname)
 	:EventPackage(Event_type::NAME_IS, is_local) {
-	this->Name = (char*) newname;
+	this->Name =  newname;
 	this->count = namelenght;
 }
 
@@ -421,7 +421,7 @@ uchar NAME_IS_EventPackage::get_name_lenght() {
 /**************************************************************
 					GIVE_ME_YOUR_NAME
 **************************************************************/
-char * NAME_IS_EventPackage::give_me_your_name() {
+std::string NAME_IS_EventPackage::give_me_your_name() {
 
 	return this->Name;
 }

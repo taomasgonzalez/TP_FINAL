@@ -14,9 +14,9 @@ std::string NetworkData::give_me_my_name()
 	return this->my_name;
 }
 
-void NetworkData::tell_me_his_name(char * his_name, unsigned char his_name_length)
+void NetworkData::tell_me_his_name(std::string  his_name)
 {
-	 this->his_name = string(his_name, his_name_length);  //como viene sin /n tomo los primero namelength chars 
+	 this->his_name = his_name;  //como viene sin /n tomo los primero namelength chars 
 }
 
 

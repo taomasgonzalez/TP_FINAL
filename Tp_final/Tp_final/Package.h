@@ -1,8 +1,8 @@
 #pragma once
 extern "C" {
 #include <stdint.h> 
-#include <cstring>
 }
+#include <cstring>
 #include "Userdata.h"
 
 typedef unsigned int uint;
@@ -35,6 +35,8 @@ public:
 	virtual ~Package();
 	virtual const char * get_sendable_info();
 	int get_info_length();
+	std::string enum_to_string(Package_type package_to_be_translate);
+
 
 protected:
 	char* info_to_be_send; //for Communication::SendMessage()

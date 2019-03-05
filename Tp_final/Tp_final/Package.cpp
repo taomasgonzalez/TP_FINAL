@@ -1,5 +1,25 @@
 #include "Package.h"
 
+
+std::string Package::enum_to_string(Package_type package_to_be_translate){
+
+	switch (package_to_be_translate) {
+	case Package_type::ACTION_REQUEST:
+		return std::string("33");
+
+	case Package_type::ATTACK:
+		return std::string("32");
+
+	case Package_type::MOVE:
+		return std::string("31");
+
+	case Package_type::ENEMY_ACTION:
+		return std::string("34");
+
+	default:
+		return "INVALID ENUM";
+	}
+}
 /******************************************************************************
 *******************************************************************************
 			PACKAGE METHODS DEFINITIONS
@@ -150,8 +170,8 @@ std::string NAME_IS_package::give_me_your_name() {
 */
 const char * NAME_IS_package::get_sendable_info() {
 
-	std::string info((const char*)header);
-	std::string info1((const char*)count);
+	std::string info(enum_to_string(this->header));
+	std::string info1((const char*)this->count,1);
 	std::string info2= info+ info1+Name;
 
 	return info2.c_str();
@@ -201,9 +221,9 @@ char MAP_IS_package::give_me_the_checksum() {
 */
 const char * MAP_IS_package::get_sendable_info() {
 
-	std::string info((const char*)this->header);
+	std::string info(enum_to_string(this->header));
 	std::string info1(map, 192);
-	std::string info2((const char*)Checksum);
+	std::string info2((const char*)this->Checksum,1);
 	std::string info3 = info + info1 + info2;
 
 	return info3.c_str();
@@ -252,10 +272,10 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 */
 const char * MOVE_package::get_sendable_info() {
 
-	std::string info((const char*)this->header);
-	std::string info1((const char*)this->character);
-	std::string info2((const char*)this->destination_row);
-	std::string info3((const char*)this->destination_column);
+	std::string info(enum_to_string(this->header));
+	std::string info1((const char*)this->character,1);
+	std::string info2((const char*)this->destination_row,1);
+	std::string info3((const char*)this->destination_column,1);
 
 	std::string info4 = info + info1 + info2+ info3;
 
@@ -304,10 +324,10 @@ ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de,
 */
 const char * ATTACK_package::get_sendable_info() {
 
-	std::string info((const char*)this->header);
-	std::string info1((const char*)this->character);
-	std::string info2((const char*)this->destination_row);
-	std::string info3((const char*)this->destination_column);
+	std::string info(enum_to_string(this->header));
+	std::string info1((const char*)this->character,1);
+	std::string info2((const char*)this->destination_row,1);
+	std::string info3((const char*)this->destination_column,1);
 
 	std::string info4 = info + info1 + info2 + info3;
 
@@ -357,10 +377,10 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_
 */
 const char * ACTION_REQUEST_package::get_sendable_info() {
 
-	std::string info((const char*)this->header);
-	std::string info1((const char*)this->action);
-	std::string info2((const char*)this->destination_row);
-	std::string info3((const char*)this->destination_column);
+	std::string info(enum_to_string(this->header));
+	std::string info1((const char*)this->action,1);
+	std::string info2((const char*)this->destination_row,1);
+	std::string info3((const char*)this->destination_column,1);
 
 	std::string info4 = info + info1 + info2 + info3;
 
@@ -412,11 +432,11 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 */
 const char * ENEMY_ACTION_package::get_sendable_info() {
 
-	std::string info((const char*)this->header);
-	std::string info1((const char*)this->MonsterID);
-	std::string info2((const char*)this->action);
-	std::string info3((const char*)this->destination_row);
-	std::string info4((const char*)this->destination_column);
+	std::string info(enum_to_string(this->header));
+	std::string info1((const char*)this->MonsterID,1);
+	std::string info2((const char*)this->action,1);
+	std::string info3((const char*)this->destination_row,1);
+	std::string info4((const char*)this->destination_column,1);
 
 	std::string info5 = info + info1 + info2 + info3 + info4;
 

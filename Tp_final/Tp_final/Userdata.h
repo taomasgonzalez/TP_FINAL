@@ -35,7 +35,7 @@ public:
 	std::string give_me_his_ip();
 
 	std::string give_me_my_name();
-	void tell_me_his_name(char * his_name, unsigned char his_name_length);
+	void tell_me_his_name(std::string  his_name);
 	bool get_should_check_for_new_messages();
 	bool has_new_info();
 	bool is_client();
