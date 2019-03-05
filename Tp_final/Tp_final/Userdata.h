@@ -29,7 +29,7 @@ enum class Item_type {
 class NetworkData {
 
 public:
-
+	NetworkData();
 	//Getters
 	std::string give_me_my_ip();
 	std::string give_me_his_ip();
@@ -43,17 +43,17 @@ public:
 	//setters
 	void set_client(bool is_client);
 	void set_should_check_for_new_messages(bool should_check);
-
-
+	void set_my_ip(std::string my_ip);
+	void set_his_ip(std::string his_ip);
 
 private:
-	std::string my_ip = "25.66.202.87";
-	std::string his_ip = "25.66.202.87";
+	std::string my_ip = "";
+	std::string his_ip = "";
 	bool client_mode;		//By default we try to connect as a client
 	bool new_info = false;
 	bool check_for_new_messages;
-	std::string my_name= "Eberto"; //must have terminator
-	std::string his_name= "Juacho"; //must have terminator
+	std::string my_name = "Eberto"; //must have terminator
+	std::string his_name = "Juacho"; //must have terminator
 };
 
 

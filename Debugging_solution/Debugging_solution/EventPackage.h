@@ -90,8 +90,6 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//player events
 	REVIVED,
 
-	CHANGE_LEVEL,
-
 	//enemy and proyectiles events
 	GOT_HIT, 
 

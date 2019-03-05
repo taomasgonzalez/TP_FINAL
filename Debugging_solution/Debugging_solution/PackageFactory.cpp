@@ -25,8 +25,8 @@ PackageFactory::PackageFactory()
 			uchar len = info_n->get_name_lenght();
 			char * name = info_n->give_me_your_name();
 			pac = new NAME_IS_package(len, name);
+			break;
 		}
-		break;
 
 		case Event_type::MAP_IS:
 			pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map(), ((MAP_IS_EventPackage *)info_received)->give_me_the_checksum());

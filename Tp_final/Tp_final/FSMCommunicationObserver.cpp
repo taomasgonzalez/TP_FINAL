@@ -46,7 +46,10 @@ void FSMCommunicationObserver::update() {
 
 	if (fsm->s_name_is) {
 		//tengo qeu mandar paquete NAME_IS
-		info_to_be_send = new NAME_IS_EventPackage(true, (uchar)((my_user_data->my_network_data.give_me_my_name()).size()), my_user_data->my_network_data.give_me_my_name().c_str());
+		uchar size = (uchar)((my_user_data->my_network_data.give_me_my_name()).size());
+		std::string name = my_user_data->my_network_data.give_me_my_name();
+		NAME_IS_EventPackage* info = new NAME_IS_EventPackage(true, size, name.c_str());
+		info_to_be_send = info;
 
 	}
 

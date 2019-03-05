@@ -183,7 +183,8 @@ void Communication::sendMessage(Package * package_received) {
 	//startConnectionForClient(his_ip.c_str());
 
 	char buf[1000];		// por donde envio el input
-	memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
+	//memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
+	copy_message(package_received, buf);
 	size_t len;
 	boost::system::error_code error;
 	
@@ -201,6 +202,17 @@ void Communication::sendMessage(Package * package_received) {
 	delete package_received; //libero memoria del paquete después de mandarlo
 
 }
+void Communication::copy_message(Package * package_received, char *buf) {
+	Package_type type = package_received->get_package_header();
+	switch (type) {
+	case Package_type::NAME_IS:
+		NAME_IS_package* name_is = dynamic_cast<NAME_IS_package*>(package_received);
+		char* info_2_b_send = package_received->get_sendable_info();
+		for (int i = 0; i < package_received->get_info_length(); i++)
+			buf[i] = info_2_b_send[i];
+	}
+}
+
 
 /*****************************************
 ***********receiveMessage*****************
