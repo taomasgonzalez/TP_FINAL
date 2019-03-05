@@ -1,6 +1,5 @@
 #include "Package.h"
-
-
+#include <sstream>
 std::string Package::enum_to_string(Package_type package_to_be_translate){
 
 	switch (package_to_be_translate) {
