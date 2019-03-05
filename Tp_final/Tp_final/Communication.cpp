@@ -207,7 +207,9 @@ void Communication::copy_message(Package * package_received, char *buf) {
 	switch (type) {
 	case Package_type::NAME_IS:
 		NAME_IS_package* name_is = dynamic_cast<NAME_IS_package*>(package_received);
-		memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
+		char* info_2_b_send = package_received->get_sendable_info();
+		for (int i = 0; i < package_received->get_info_length(); i++)
+			buf[i] = info_2_b_send[i];
 	}
 }
 
