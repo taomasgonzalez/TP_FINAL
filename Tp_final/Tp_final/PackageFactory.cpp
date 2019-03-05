@@ -20,13 +20,13 @@ PackageFactory::PackageFactory()
 			break;
 
 		case Event_type::NAME_IS: {
-			NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
+			NAME_IS_EventPackage * info_n = static_cast<NAME_IS_EventPackage*>(info_received);
 			pac = new NAME_IS_package(info_n->get_name_lenght(), info_n->give_me_your_name());
 		}
 			break;
 
 		case Event_type::MAP_IS: {
-			MAP_IS_EventPackage * info_m = dynamic_cast<MAP_IS_EventPackage *>(info_received);
+			MAP_IS_EventPackage * info_m = static_cast<MAP_IS_EventPackage *>(info_received);
 			pac = new MAP_IS_package(info_m->give_me_the_map(), info_m->give_me_the_checksum());
 		}
 			break;
@@ -36,25 +36,25 @@ PackageFactory::PackageFactory()
 			break;
 
 		case Event_type::MOVE: {
-			MOVE_EventPackage * info_mo = dynamic_cast<MOVE_EventPackage*>(info_received);
+			MOVE_EventPackage * info_mo = static_cast<MOVE_EventPackage*>(info_received);
 			pac = new MOVE_package((Character_type)info_mo->give_me_the_character(), info_mo->give_me_your_destination_row(), info_mo->give_me_your_destination_column());
 		}
 			break;
 
 		case Event_type::ATTACK: {
-			ATTACK_EventPackage * info_a = dynamic_cast<ATTACK_EventPackage*>(info_received);
+			ATTACK_EventPackage * info_a = static_cast<ATTACK_EventPackage*>(info_received);
 			pac = new ATTACK_package((Character_type)info_a->give_me_the_character(), info_a->give_me_your_destination_row(), info_a->give_me_your_destination_column());
 		}
 			break;
 
 		case Event_type::ACTION_REQUEST:{
-			ACTION_REQUEST_package * info_ar = dynamic_cast<ACTION_REQUEST_package*>(info_received);
-			pac = new ACTION_REQUEST_package(info_ar->give_me_the_action(), info_ar->give_me_the_destination_row(), info_ar->give_me_the_destination_column());
+			ACTION_REQUEST_EventPackage * info_ar = static_cast<ACTION_REQUEST_EventPackage*>(info_received);
+			pac = new ACTION_REQUEST_package(info_ar->give_me_the_action(), info_ar->give_me_your_destination_row(), info_ar->give_me_your_destination_column());
 		}
 			break;
 
 		case Event_type::ENEMY_ACTION: {
-			ENEMY_ACTION_EventPackage * info_ea = dynamic_cast<ENEMY_ACTION_EventPackage*>(info_received);
+			ENEMY_ACTION_EventPackage * info_ea = static_cast<ENEMY_ACTION_EventPackage*>(info_received);
 			pac = new ENEMY_ACTION_package(info_ea->give_me_the_monsterID(), info_ea->give_me_the_action(), info_ea->give_me_the_destination_row(), info_ea->give_me_the_destination_column());
 		}
 			break;
@@ -104,13 +104,13 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::NAME_IS: {
-		 NAME_IS_package* ni_pack = dynamic_cast<NAME_IS_package*>(package_recieved);
+		 NAME_IS_package* ni_pack = static_cast<NAME_IS_package*>(package_recieved);
 		 my_event_package = new NAME_IS_EventPackage(false, ni_pack->get_name_lenght(), ni_pack->give_me_your_name());
 	 }
 		break;
 
 	 case Package_type::MAP_IS: {
-		 MAP_IS_package* mi_pack = dynamic_cast<MAP_IS_package*>(package_recieved);
+		 MAP_IS_package* mi_pack = static_cast<MAP_IS_package*>(package_recieved);
 		 my_event_package = new MAP_IS_EventPackage(false, mi_pack->give_me_the_map(), mi_pack->give_me_the_checksum());
 	 }
 		break;
@@ -120,25 +120,25 @@ PackageFactory::PackageFactory()
 		 break;
 
 	 case Package_type::MOVE: {  //soy cliente y me llega un MOVE del servidor
-		 MOVE_package * mo_pack = dynamic_cast<MOVE_package*>(package_recieved);
+		 MOVE_package * mo_pack = static_cast<MOVE_package*>(package_recieved);
 		 my_event_package = new MOVE_EventPackage(mo_pack->give_me_the_destination_row(), mo_pack->give_me_the_destination_column());
 	 }
 	 break;
 
 	 case Package_type::ATTACK: { //soy cliente y me llega un ATTACK del servidor
-		 ATTACK_package * a_pack = dynamic_cast<ATTACK_package*>(package_recieved);
+		 ATTACK_package * a_pack = static_cast<ATTACK_package*>(package_recieved);
 		 my_event_package = new ATTACK_EventPackage(a_pack->give_me_the_destination_row(), a_pack->give_me_the_destination_column());
 	}
 		break;
 
 	 case Package_type::ACTION_REQUEST: {  //soy servidor y me llega un ACTION_REQUEST del cliente
-		 ACTION_REQUEST_package * ar_pack = dynamic_cast<ACTION_REQUEST_package*>(package_recieved);
+		 ACTION_REQUEST_package * ar_pack = static_cast<ACTION_REQUEST_package*>(package_recieved);
 		 my_event_package = new ACTION_REQUEST_EventPackage(ar_pack->give_me_the_action(), ar_pack->give_me_the_destination_row(), ar_pack->give_me_the_destination_column());
 	 }
 		break;
 
 	 case Package_type::ENEMY_ACTION: {
-		 ENEMY_ACTION_package * ea_pack = dynamic_cast<ENEMY_ACTION_package*>(package_recieved);
+		 ENEMY_ACTION_package * ea_pack = static_cast<ENEMY_ACTION_package*>(package_recieved);
 		 my_event_package = new ENEMY_ACTION_EventPackage(false, ea_pack->give_me_the_monsterID(), ea_pack->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
 	 }
 		 break;
