@@ -8,7 +8,6 @@ PackageFactory::PackageFactory()
 
  Package * PackageFactory::event_package_2_package(EventPackage* info_received)
 {
-	Package * pac=NULL;
 	switch (info_received->give_me_your_event_type())
 	{
 		case Event_type::ACK:
@@ -90,7 +89,6 @@ PackageFactory::PackageFactory()
  
  EventPackage * PackageFactory::package_2_event_package(Package * package_recieved)
  {
-	 EventPackage * my_event_package = NULL;
 
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
