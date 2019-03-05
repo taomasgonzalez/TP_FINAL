@@ -83,14 +83,16 @@ private:
 class NAME_IS_package : public Package
 {
 public:
-	NAME_IS_package(uchar namelenght, const char * newname);
+	NAME_IS_package(uchar namelenght, std::string newname);
 	uchar get_name_lenght();
 	char * give_me_your_name();
+	std::string get_sendable_info();
+
 
 
 private:
 	uchar count;
-	char * Name; // without terminator
+	std::string Name; // without terminator
 };
 
 /******************************************************************************
