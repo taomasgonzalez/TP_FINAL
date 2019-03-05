@@ -4,6 +4,7 @@
 std::string Package::enum_to_string(Package_type package_to_be_translate){
 
 	switch (package_to_be_translate) {
+
 	case Package_type::ACTION_REQUEST:
 		return std::string("33");
 
@@ -15,6 +16,12 @@ std::string Package::enum_to_string(Package_type package_to_be_translate){
 
 	case Package_type::ENEMY_ACTION:
 		return std::string("34");
+
+	case Package_type::NAME_IS:
+		return std::string("11");
+
+	case Package_type::MAP_IS:
+		return std::string("12");
 
 	default:
 		return "INVALID ENUM";
