@@ -301,9 +301,9 @@ void Scene::load_new_graphic_level()
 const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 
 	ifstream myFile;
-	string mapFile = "levels/level " + to_string(actual_map) + ".csv";
+	string mapFile = "levels/level " + to_string(actual_map+1) + ".csv";
 	myFile.open(mapFile.c_str());
-	char *map = new char;
+	char *map = new char[192];
 	int i = 0;
 	bool comaDelim = false;					// asumimos que el csv esta separado por ';'
 

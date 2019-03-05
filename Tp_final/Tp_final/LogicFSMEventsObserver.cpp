@@ -17,13 +17,11 @@ LogicFSMEventsObserver::~LogicFSMEventsObserver()
 void LogicFSMEventsObserver::update() {
 	//me fijo si tengo que inicializar un time out timer porque acabo de mandar un paquete siendo server.
 	if (fsm->new_ack_time_out) {
-		/*
-		if (!(fsm->waiting_for_ack)){
-			fsm->waiting_for_ack = true;
-		}
-		allegro_container->append_time_out_timer();	//agrego el nuevo timer
-		allegro_container->start_front_timer();		//lo inicio
-		*/
+		//if (!(fsm->waiting_for_ack)){
+		//	fsm->waiting_for_ack = true;
+		//}
+		//allegro_container->append_time_out_timer();	//agrego el nuevo timer
+		//allegro_container->start_front_timer();		//lo inicio
 	}
 
 	//me fijo si tengo que eliminar un timer de ack porque acabo de recibirlo
