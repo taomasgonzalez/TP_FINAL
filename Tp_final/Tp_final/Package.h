@@ -33,7 +33,7 @@ public:
 	Package(Package_type type);
 	Package_type get_package_header();
 	virtual ~Package();
-	virtual char * get_sendable_info();
+	virtual const char * get_sendable_info();
 	int get_info_length();
 
 protected:
@@ -85,8 +85,8 @@ class NAME_IS_package : public Package
 public:
 	NAME_IS_package(uchar namelenght, std::string newname);
 	uchar get_name_lenght();
-	char * give_me_your_name();
-	std::string get_sendable_info();
+	std::string give_me_your_name();
+	const char * get_sendable_info();
 
 
 
@@ -107,6 +107,8 @@ public:
 	MAP_IS_package(const char * themap,char my_checksum);
 	char * give_me_the_map();
 	char give_me_the_checksum();
+	const char * get_sendable_info();
+
 
 private:
 	char * map;
@@ -140,6 +142,8 @@ public:
 	Character_type give_me_the_character();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
+	const char * get_sendable_info();
+
 
 private:
 	Character_type character;
@@ -161,6 +165,8 @@ public:
 	Character_type give_me_the_character();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
+	const char * get_sendable_info();
+
 
 private:
 	Character_type character;
@@ -183,6 +189,8 @@ public:
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
+	const char * get_sendable_info();
+
 
 private:
 	Action_type action;
@@ -205,6 +213,8 @@ public:
 	Action_type give_me_the_action();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
+	const char * get_sendable_info();
+
 
 private:
 	uchar MonsterID;

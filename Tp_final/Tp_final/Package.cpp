@@ -56,7 +56,7 @@ Package_type Package::get_package_header()
 *OUTPUT:
 *The information to be send by networking
 */
-char * Package::get_sendable_info() {
+const char * Package::get_sendable_info() {
 
 	return this->info_to_be_send;
 }
@@ -131,7 +131,7 @@ uchar NAME_IS_package::get_name_lenght() {
 /**************************************************************
 					GIVE_ME_YOUR_NAME
 **************************************************************/
-char * NAME_IS_package::give_me_your_name() {
+std::string NAME_IS_package::give_me_your_name() {
 
 	return this->Name;
 }
@@ -148,9 +148,13 @@ char * NAME_IS_package::give_me_your_name() {
 *OUTPUT:
 *The information to be send by networking
 */
-std::string NAME_IS_package::get_sendable_info() {
+const char * NAME_IS_package::get_sendable_info() {
 
-	return this->info_to_be_send;
+	std::string info((const char*)header);
+	std::string info1((const char*)count);
+	std::string info2= info+ info1+Name;
+
+	return info2.c_str();
 }
 
 /******************************************************************************
@@ -183,7 +187,27 @@ char * MAP_IS_package::give_me_the_map() {
 char MAP_IS_package::give_me_the_checksum() {
 	return this->Checksum;
 }
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+const char * MAP_IS_package::get_sendable_info() {
 
+	std::string info((const char*)this->header);
+	std::string info1(map, 192);
+	std::string info2((const char*)Checksum);
+	std::string info3 = info + info1 + info2;
+
+	return info3.c_str();
+}
 /******************************************************************************
 *******************************************************************************
 			GAME_START_PACKAGE METHODS DEFINITIONS
@@ -214,7 +238,29 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 
 
 }
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+const char * MOVE_package::get_sendable_info() {
 
+	std::string info((const char*)this->header);
+	std::string info1((const char*)this->character);
+	std::string info2((const char*)this->destination_row);
+	std::string info3((const char*)this->destination_column);
+
+	std::string info4 = info + info1 + info2+ info3;
+
+	return info4.c_str();
+}
 Character_type MOVE_package::give_me_the_character() {
 	return this->character;
 }
@@ -244,6 +290,30 @@ ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de,
 	this->info_length = 4;
 
 }
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+const char * ATTACK_package::get_sendable_info() {
+
+	std::string info((const char*)this->header);
+	std::string info1((const char*)this->character);
+	std::string info2((const char*)this->destination_row);
+	std::string info3((const char*)this->destination_column);
+
+	std::string info4 = info + info1 + info2 + info3;
+
+	return info4.c_str();
+}
+
 Character_type ATTACK_package::give_me_the_character() {
 	return this->character;
 }
@@ -273,6 +343,30 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_
 	this->info_length = 4;
 
 }
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+const char * ACTION_REQUEST_package::get_sendable_info() {
+
+	std::string info((const char*)this->header);
+	std::string info1((const char*)this->action);
+	std::string info2((const char*)this->destination_row);
+	std::string info3((const char*)this->destination_column);
+
+	std::string info4 = info + info1 + info2 + info3;
+
+	return info4.c_str();
+}
+
 
 Action_type ACTION_REQUEST_package::give_me_the_action() {
 	return this->action;
@@ -302,6 +396,31 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
 	this->info_length = 5;
+}
+
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+const char * ENEMY_ACTION_package::get_sendable_info() {
+
+	std::string info((const char*)this->header);
+	std::string info1((const char*)this->MonsterID);
+	std::string info2((const char*)this->action);
+	std::string info3((const char*)this->destination_row);
+	std::string info4((const char*)this->destination_column);
+
+	std::string info5 = info + info1 + info2 + info3 + info4;
+
+	return info5.c_str();
 }
 
 uchar ENEMY_ACTION_package::give_me_the_monsterID() {
