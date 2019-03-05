@@ -78,6 +78,6 @@ private:
 
 	void copy_message(Package * package_received, char *buf);
 
-
+	Package * received = NULL;
 };
 

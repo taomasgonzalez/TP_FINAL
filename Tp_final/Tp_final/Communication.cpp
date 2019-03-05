@@ -221,7 +221,6 @@ OUTPUT:
 Package * Communication::receiveMessage() {
 	//startConnectionForServer();
 
-	Package * package_received=NULL;
 
 	boost::system::error_code error;	
 
@@ -250,91 +249,91 @@ Package * Communication::receiveMessage() {
 		{
 		case Package_type::ACK:
 
-			package_received = new ACK_package;
+			received = new ACK_package;
 
 			break;
 
 		case Package_type::NAME:
 
-			package_received = new NAME_package;
+			received = new NAME_package;
 
 			break;
 
 		case Package_type::NAME_IS:
-			return new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
+			received = new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
 
 			break;
 
 		case Package_type::MAP_IS:
 
-			package_received = new MAP_IS_package(&buf[1], buf[193]);
+			received = new MAP_IS_package(&buf[1], buf[193]);
 
 			break;
 
 		case Package_type::GAME_START:
 
-			package_received = new GAME_START_package;
+			received = new GAME_START_package;
 
 			break;
 
 		case Package_type::MOVE:
 
-			package_received = new MOVE_package((Character_type)buf[1], buf[2], buf[3]);
+			received = new MOVE_package((Character_type)buf[1], buf[2], buf[3]);
 
 			break;
 
 		case Package_type::ATTACK:
 
-			package_received = new ATTACK_package((Character_type)buf[1], buf[2], buf[3]);
+			received = new ATTACK_package((Character_type)buf[1], buf[2], buf[3]);
 
 			break;
 
 		case Package_type::ACTION_REQUEST:
 
-			package_received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2], buf[3]);
+			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2], buf[3]);
 
 			break;
 
 		case Package_type::ENEMY_ACTION:
 
-			package_received = new ENEMY_ACTION_package(buf[1], (Action_type)buf[2], buf[3], buf[4]);
+			received = new ENEMY_ACTION_package(buf[1], (Action_type)buf[2], buf[3], buf[4]);
 
 			break;
 
 		case Package_type::WE_WON:
 
-			package_received = new WE_WON_package;
+			received = new WE_WON_package;
 
 			break;
 
 		case Package_type::PLAY_AGAIN:
 
-			package_received = new PLAY_AGAIN_package;
+			received = new PLAY_AGAIN_package;
 
 			break;
 
 		case Package_type::GAME_OVER:
 
-			package_received = new GAME_OVER_package;
+			received = new GAME_OVER_package;
 
 			break;
 
 		case Package_type::QUIT:
 
-			package_received = new QUIT_package;
+			received = new QUIT_package;
 
 			break;
 
 		case Package_type::ERROR1: //An error that was received by networking
 
-			package_received = new ERROR_package;
+			received = new ERROR_package;
 
 			break;
 
 		default:  //The program received an unknown header package, thus it´S considered that the package is corrupted
 
 			this->healthy_connection = false; 
-			package_received = new ERROR_package;
+			received = new ERROR_package;
 			break;
 
 		}
@@ -346,7 +345,7 @@ Package * Communication::receiveMessage() {
 		//this->healthy_connection = false; NO ES ERROR NECESARIAMENTE
 	}
 
-	return package_received;
+	return received;
 }
 
 
