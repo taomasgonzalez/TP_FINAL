@@ -198,9 +198,10 @@ void Communication::sendMessage(Package * package_received) {
 	delete package_received; //libero memoria del paquete después de mandarlo
 
 }
+
 void Communication::copy_message(Package * package_received, char *buf) {
-	char* info_2_b_send = (char *)package_received->get_sendable_info();
 	std::string info_2_b_send2 = package_received->get_sendable_info();
+	char* info_2_b_send = (char *)info_2_b_send2.c_str();
 
 	for (int i = 0; i < package_received->get_info_length(); i++)
 		buf[i] = info_2_b_send[i];
@@ -260,8 +261,7 @@ Package * Communication::receiveMessage() {
 			break;
 
 		case Package_type::NAME_IS:
-
-			package_received = new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
+			return new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
 
 			break;
 

@@ -82,7 +82,7 @@ Package_type Package::get_package_header()
 *OUTPUT:
 *The information to be send by networking
 */
-const char * Package::get_sendable_info() {
+std::string Package::get_sendable_info() {
 
 	return this->info_to_be_send;
 }
@@ -146,6 +146,15 @@ NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(
 	this->info_length = 2 + this->count;
 
 }
+/**************************************************************
+			NAME_IS_PACKAGE_CONSTRUCTOR
+**************************************************************/
+NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
+
+	newname[namelenght] = '\0';
+	NAME_IS_package::NAME_IS_package(namelenght, std::string(newname));
+
+}
 
 /**************************************************************
 					GET_NAME_LENGHT
@@ -174,7 +183,7 @@ std::string NAME_IS_package::give_me_your_name() {
 *OUTPUT:
 *The information to be send by networking
 */
-const char * NAME_IS_package::get_sendable_info() {
+std::string NAME_IS_package::get_sendable_info() {
 
 	std::string info2;
 	std::stringstream ss;
@@ -189,7 +198,7 @@ const char * NAME_IS_package::get_sendable_info() {
 	std::string info2= info+ info1+Name;
 	*/
 
-	return info2.c_str();
+	return info2;
 }
 
 /******************************************************************************
@@ -234,14 +243,14 @@ char MAP_IS_package::give_me_the_checksum() {
 *OUTPUT:
 *The information to be send by networking
 */
-const char * MAP_IS_package::get_sendable_info() {
+std::string MAP_IS_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1(map, 192);
 	std::string info2((const char*)this->Checksum,1);
 	std::string info3 = info + info1 + info2;
 
-	return info3.c_str();
+	return info3;
 }
 /******************************************************************************
 *******************************************************************************
@@ -285,7 +294,7 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 *OUTPUT:
 *The information to be send by networking
 */
-const char * MOVE_package::get_sendable_info() {
+std::string MOVE_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1((const char*)this->character,1);
@@ -294,7 +303,7 @@ const char * MOVE_package::get_sendable_info() {
 
 	std::string info4 = info + info1 + info2+ info3;
 
-	return info4.c_str();
+	return info4;
 }
 Character_type MOVE_package::give_me_the_character() {
 	return this->character;
@@ -337,7 +346,7 @@ ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de,
 *OUTPUT:
 *The information to be send by networking
 */
-const char * ATTACK_package::get_sendable_info() {
+std::string ATTACK_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1((const char*)this->character,1);
@@ -390,7 +399,7 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_
 *OUTPUT:
 *The information to be send by networking
 */
-const char * ACTION_REQUEST_package::get_sendable_info() {
+std::string ACTION_REQUEST_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1((const char*)this->action,1);
@@ -399,7 +408,7 @@ const char * ACTION_REQUEST_package::get_sendable_info() {
 
 	std::string info4 = info + info1 + info2 + info3;
 
-	return info4.c_str();
+	return info4;
 }
 
 
@@ -445,7 +454,7 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 *OUTPUT:
 *The information to be send by networking
 */
-const char * ENEMY_ACTION_package::get_sendable_info() {
+std::string ENEMY_ACTION_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1((const char*)this->MonsterID,1);
@@ -455,7 +464,7 @@ const char * ENEMY_ACTION_package::get_sendable_info() {
 
 	std::string info5 = info + info1 + info2 + info3 + info4;
 
-	return info5.c_str();
+	return info5;
 }
 
 uchar ENEMY_ACTION_package::give_me_the_monsterID() {
