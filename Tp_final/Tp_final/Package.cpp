@@ -1,6 +1,5 @@
 #include "Package.h"
-
-
+#include <sstream>
 std::string Package::enum_to_string(Package_type package_to_be_translate){
 
 	switch (package_to_be_translate) {
@@ -178,8 +177,8 @@ std::string NAME_IS_package::give_me_your_name() {
 const char * NAME_IS_package::get_sendable_info() {
 
 	
-	stringstream ss;
-	string target;
+	std::stringstream ss;
+	std::string target;
 	ss << enum_to_string(this->header);
 	ss << count;
 	ss << this->Name;
