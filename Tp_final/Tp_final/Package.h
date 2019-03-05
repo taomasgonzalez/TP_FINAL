@@ -4,6 +4,8 @@ extern "C" {
 }
 #include <cstring>
 #include "Userdata.h"
+#include <string>
+#include <sstream>
 
 typedef unsigned int uint;
 typedef unsigned char uchar;

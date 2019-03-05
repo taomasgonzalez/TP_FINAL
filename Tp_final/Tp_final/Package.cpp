@@ -6,22 +6,22 @@ std::string Package::enum_to_string(Package_type package_to_be_translate){
 	switch (package_to_be_translate) {
 
 	case Package_type::ACTION_REQUEST:
-		return std::string("33");
+		return std::string("\x33");
 
 	case Package_type::ATTACK:
-		return std::string("32");
+		return std::string("\x32");
 
 	case Package_type::MOVE:
-		return std::string("31");
+		return std::string("\x31");
 
 	case Package_type::ENEMY_ACTION:
-		return std::string("34");
+		return std::string("\x34");
 
 	case Package_type::NAME_IS:
-		return std::string("11");
+		return std::string("\x11");
 
 	case Package_type::MAP_IS:
-		return std::string("12");
+		return std::string("\x12");
 
 	default:
 		return "INVALID ENUM";
@@ -177,9 +177,17 @@ std::string NAME_IS_package::give_me_your_name() {
 */
 const char * NAME_IS_package::get_sendable_info() {
 
+	
+	stringstream ss;
+	string target;
+	ss << enum_to_string(this->header);
+	ss << count;
+	ss << this->Name;
+	/*
 	std::string info(enum_to_string(this->header));
-	std::string info1((const char*)this->count,1);
+	std::string info1(1,this->count);
 	std::string info2= info+ info1+Name;
+	*/
 
 	return info2.c_str();
 }
