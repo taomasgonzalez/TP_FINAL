@@ -113,11 +113,10 @@ NAME_package::NAME_package() :Package(Package_type::NAME) {
 /**************************************************************
 			NAME_IS_PACKAGE_CONSTRUCTOR
 **************************************************************/
-NAME_IS_package::NAME_IS_package(uchar namelenght,const  char * newname) :Package(Package_type::NAME_IS) {
+NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(Package_type::NAME_IS) {
 
 	this->count = namelenght;
-	this->Name = (char*) newname;
-
+	this->Name =  newname;
 	this->info_length = 2 + this->count;
 
 }
@@ -135,6 +134,23 @@ uchar NAME_IS_package::get_name_lenght() {
 char * NAME_IS_package::give_me_your_name() {
 
 	return this->Name;
+}
+
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+std::string NAME_IS_package::get_sendable_info() {
+
+	return this->info_to_be_send;
 }
 
 /******************************************************************************
