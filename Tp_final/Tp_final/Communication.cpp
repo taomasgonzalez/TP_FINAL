@@ -200,6 +200,8 @@ void Communication::sendMessage(Package * package_received) {
 }
 void Communication::copy_message(Package * package_received, char *buf) {
 	char* info_2_b_send = (char *)package_received->get_sendable_info();
+	std::string info_2_b_send2 = package_received->get_sendable_info();
+
 	for (int i = 0; i < package_received->get_info_length(); i++)
 		buf[i] = info_2_b_send[i];
 }

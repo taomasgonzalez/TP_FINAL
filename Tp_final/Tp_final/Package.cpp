@@ -177,12 +177,13 @@ std::string NAME_IS_package::give_me_your_name() {
 */
 const char * NAME_IS_package::get_sendable_info() {
 
-	
-	stringstream ss;
-	string target;
+	std::string info2;
+	std::stringstream ss;
+	std::string target;
 	ss << enum_to_string(this->header);
 	ss << count;
 	ss << this->Name;
+	ss >> info2;
 	/*
 	std::string info(enum_to_string(this->header));
 	std::string info1(1,this->count);
