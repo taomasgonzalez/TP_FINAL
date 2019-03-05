@@ -53,7 +53,6 @@ void FSMCommunicationObserver::update() {
 		info_to_be_send = new ERROR_EventPackage(true);
 		com->sendMessage(PackageFactory::event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	}
-
 	if (fsm->s_map_is) {
 		//tengo qeu mandar paquete MAP_IS! //investigar vectores y ponerlo lindo, solo pasará si soy server
 		info_to_be_send = new MAP_IS_EventPackage(true,scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum() );
