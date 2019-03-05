@@ -59,10 +59,4 @@ DRAW* Userdata::drawer = NULL;
 
 NetworkData::NetworkData() {
 
-}	
-void NetworkData::set_my_ip(std::string my_ip) {
-	this->my_ip = my_ip;
-}
-void NetworkData::set_his_ip(std::string his_ip) {
-	this->his_ip = his_ip;
 }
