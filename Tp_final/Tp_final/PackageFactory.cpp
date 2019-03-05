@@ -28,7 +28,6 @@ PackageFactory::PackageFactory()
 			pac = new MAP_IS_package(info_m->give_me_the_map(), info_m->give_me_the_checksum());
 		}
 			break;
-
 		case Event_type::GAME_START:
 			pac = new GAME_START_package();
 			break;
