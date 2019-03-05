@@ -33,7 +33,7 @@ public:
 	Package(Package_type type);
 	Package_type get_package_header();
 	virtual ~Package();
-	char * get_sendable_info();
+	virtual char * get_sendable_info();
 	int get_info_length();
 
 protected:

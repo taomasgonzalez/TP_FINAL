@@ -592,13 +592,6 @@ Action_info EventPackage::to_Action_info() {
 	return returnable_info;
 }
 
-char * EventPackage::give_me_your_name()
-{
-	return nullptr;
-}
-uchar EventPackage::get_name_lenght() {
-	return 0;
-}
 
 Action_info_id Event_type_2_Action_info_id(Event_type event_t) {
 	Action_info_id returnable_ai_id = Action_info_id::None;

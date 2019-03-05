@@ -43,8 +43,8 @@ public:
 	//setters
 	void set_client(bool is_client);
 	void set_should_check_for_new_messages(bool should_check);
-	void set_my_ip(std::string my_ip);
-	void set_his_ip(std::string his_ip);
+
+
 
 private:
 	std::string my_ip = "";

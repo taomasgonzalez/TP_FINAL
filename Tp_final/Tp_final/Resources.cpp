@@ -1,5 +1,5 @@
 #include "Resources.h"
-
+#include <iostream>
 #include "CommunicationEventsObserver.h"
 #include "FSMCommunicationObserver.h"
 #include "LogicFSMEventsObserver.h"
@@ -33,6 +33,7 @@ bool Resources::initialize_all_the_resources() {
 	{
 		my_drawer = new DRAW();
 		my_user_data->drawer = my_drawer;
+		
 		my_scenario = new Scene(my_user_data);			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
 		my_scenario->append_graphic_facility(my_drawer);
 
