@@ -1,6 +1,8 @@
 #include "PackageFactory.h"
 
 
+EventPackage * PackageFactory::my_event_package = NULL;
+Package * PackageFactory::pac = NULL;
 
 PackageFactory::PackageFactory()
 {

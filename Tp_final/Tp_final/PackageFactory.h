@@ -8,12 +8,12 @@ class PackageFactory
 {
 public:
 	PackageFactory();
-	Package * event_package_2_package(EventPackage * info_received);
-	EventPackage * package_2_event_package(Package * package_recieved);
+	static Package * event_package_2_package(EventPackage * info_received);
+	static EventPackage * package_2_event_package(Package * package_recieved);
 	
 private: 
 
-	EventPackage * my_event_package = NULL;
-	Package * pac = NULL;
+	static EventPackage * my_event_package;
+	static Package * pac;
 };
 
