@@ -1,9 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="Crazy.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
@@ -85,9 +82,6 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="EnemySceneObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="CharacterActionsFSM.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
@@ -102,12 +96,6 @@
     </ClCompile>
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="PurpleGuy.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
-    <ClCompile Include="PurpleGuyScenarioObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
     <ClCompile Include="Package.cpp">
       <Filter>Source Files\Net_related</Filter>
@@ -145,9 +133,6 @@
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GreenFatty.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="EnemyActionsFSM.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClCompile>
@@ -178,23 +163,38 @@
     <ClCompile Include="point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SceneCharacterObserver.cpp">
-      <Filter>Header Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="ScenarioEventsObserver.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="ScenarioDRAWObserver.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="PlayerActionsFSM.cpp">
       <Filter>Source Files\PJ_related\Characters\Players</Filter>
     </ClCompile>
     <ClCompile Include="Userdata.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioDRAWObserver.cpp">
+      <Filter>Source Files\Map_related\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ScenarioEventsObserver.cpp">
+      <Filter>Source Files\Map_related\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneCharacterObserver.cpp">
+      <Filter>Source Files\Map_related\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="Crazy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\Crazy</Filter>
+    </ClCompile>
+    <ClCompile Include="GreenFatty.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\GreenFatty</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuy.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\PurpleGuy</Filter>
+    </ClCompile>
+    <ClCompile Include="PurpleGuyScenarioObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\PurpleGuy</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemySceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies\Observers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +205,6 @@
       <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
     <ClInclude Include="EnemyActionsFSM.h">
-      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Crazy.h">
       <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
@@ -282,9 +279,6 @@
     <ClInclude Include="FSMFactory.h">
       <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
-    <ClInclude Include="EnemySceneObserver.h">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="EnemyDefines.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
@@ -296,12 +290,6 @@
     </ClInclude>
     <ClInclude Include="CharacterActionsEventGenerator.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
-    </ClInclude>
-    <ClInclude Include="PurpleGuyScenarioObserver.h">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="PurpleGuy.h">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="ProyectileSceneObserver.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
@@ -354,13 +342,7 @@
     <ClInclude Include="DijkstraMachine.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
-    <ClInclude Include="GreenFatty.h">
-      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="Scene.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneCharacterObserver.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
     <ClInclude Include="Userdata.h">
@@ -387,15 +369,6 @@
     <ClInclude Include="point.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScenarioEventsObserver.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="ScenarioDRAWObserver.h">
-      <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyActionsFSMDRAWObserver.h">
-      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerActionsFSM.h">
       <Filter>Header Files\PJ_related\Characters\Players</Filter>
     </ClInclude>
@@ -407,6 +380,33 @@
     </ClInclude>
     <ClInclude Include="CharacterSceneObserver.h">
       <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="Crazy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\Crazy</Filter>
+    </ClInclude>
+    <ClInclude Include="GreenFatty.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\GreenFatty</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuy.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\PurpleGuy</Filter>
+    </ClInclude>
+    <ClInclude Include="PurpleGuyScenarioObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\PurpleGuy</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsFSMDRAWObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemySceneObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenarioDRAWObserver.h">
+      <Filter>Header Files\Map_related\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="ScenarioEventsObserver.h">
+      <Filter>Header Files\Map_related\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCharacterObserver.h">
+      <Filter>Header Files\Map_related\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -502,6 +502,36 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Characters\Enemies">
       <UniqueIdentifier>{2a881524-3e3a-41eb-acd6-6be8a4dbc5c3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies\Crazy">
+      <UniqueIdentifier>{68c4363d-fbd2-4e72-ab8f-a7ca288bd3f4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies\PurpleGuy">
+      <UniqueIdentifier>{f6227356-f503-46b9-9f71-d076f41d4cf2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies\GreenFatty">
+      <UniqueIdentifier>{29c330dc-5436-446e-ae12-79ab98820d9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Enemies\Observers">
+      <UniqueIdentifier>{9cd73442-7996-47d1-af9d-f116d7538201}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Map_related\Observers">
+      <UniqueIdentifier>{f52a3129-0d87-41a9-afa8-d78c19403426}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Map_related\Observers">
+      <UniqueIdentifier>{ec0f47b3-f99e-4072-b2f3-f04bff2feb05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies\Crazy">
+      <UniqueIdentifier>{632ef892-7c40-4329-a586-458e61e01b0e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies\PurpleGuy">
+      <UniqueIdentifier>{182581ec-e05c-4111-933a-23d6acace798}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies\GreenFatty">
+      <UniqueIdentifier>{85ff200c-7431-4ae7-86e2-f0b9dc059b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Enemies\Observers">
+      <UniqueIdentifier>{22e9ba71-fd95-4df4-8825-8f5a2dafe59f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

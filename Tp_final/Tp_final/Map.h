@@ -95,6 +95,8 @@ private:
 	void place_on_map_thing_vectors(MapThing* thing);
 
 	MapThingFactory map_filler;
+
+	//should perform a call to load_on_map to create the dijkstra_manager.
 	MapDijkstraMachine *dijkstra_manager = NULL;
 
 };

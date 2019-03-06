@@ -28,7 +28,7 @@ void CommunicationEventsObserver::update() {
 		Package * new_pack = com->receiveMessage();
 
 
-		if (new_pack != NULL) //me llego un mensaje
+		if (new_pack != NULL) //me un mensaje
 		{
 			EventPackage * new_event_package = (new PackageFactory())->package_2_event_package(new_pack); //convierto el paquete a EventPackage
 			event_gen->append_new_event(new_event_package, (int) (LogicEventGenerator::LogicQueues::net)); //lo meto en la cola

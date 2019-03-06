@@ -25,7 +25,7 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 	frozen_state->push_back({ Event_type::DIED, dead_state, enemy_die_r});
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
 
-
+	this->actual_state = iddle_state;
 }
 
 
