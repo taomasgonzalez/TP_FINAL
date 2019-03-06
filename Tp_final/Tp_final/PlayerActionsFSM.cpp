@@ -12,7 +12,33 @@ PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 {
 	this->player = player;
 
-	std::vector<edge_t>* pushing_state = new std::vector<edge_t>();
+	set_states();
+	this->actual_state = iddle_state;
+
+	set_processes();
+	create_all_timers();
+}
+
+
+PlayerActionsFSM::~PlayerActionsFSM()
+{
+	delete pushing_state;
+}
+void player_revive(void* data) {
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	iddle_graph_player(data);
+	fsm->revive_player();
+}
+void PlayerActionsFSM::start_pushing_timer()
+{
+	set_curr_timer_and_start(pushing_timer);
+}
+void PlayerActionsFSM::revive_player() {
+	player->revive();
+}
+void PlayerActionsFSM::set_states() {
+
+	pushing_state = new std::vector<edge_t>();
 
 	expand_state(iddle_state, { Event_type::PUSHED, pushing_state, start_pushing });
 	expand_state(iddle_state, { Event_type::DIED, dead_state, player_die });
@@ -31,22 +57,19 @@ PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 
 	expand_state(dead_state, { Event_type::APPEARED, iddle_state, player_revive });
 }
+void PlayerActionsFSM::create_all_timers() {
+	pushing_timer = al_create_timer(1.0);
+}
+void PlayerActionsFSM::set_processes() {
+	pushing_right_proccess.push_back(std::make_pair(Direction_type::Right, 0));
 
+	pushing_left_proccess.push_back(std::make_pair(Direction_type::Left, 0));
+}
 
-PlayerActionsFSM::~PlayerActionsFSM()
-{
-	delete pushing_state;
-}
-void player_revive(void* data) {
-	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
-	iddle_graph_player(data);
-	fsm->revive_player();
-}
-void PlayerActionsFSM::start_pushing_timer()
-{
-}
-void PlayerActionsFSM::revive_player() {
-	player->revive();
+std::vector<ALLEGRO_TIMER*> PlayerActionsFSM::get_all_my_timers() {
+	std::vector<ALLEGRO_TIMER*> character_timers = CharacterActionsFSM::get_all_my_timers();
+	character_timers.push_back(pushing_timer);
+	return character_timers;
 }
 
 void player_die(void* data) {

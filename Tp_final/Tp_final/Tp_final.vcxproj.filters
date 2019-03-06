@@ -103,12 +103,6 @@
     <ClCompile Include="PackageFactory.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp">
-      <Filter>Header Files\PJ_related\Characters\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerSceneObserver.cpp">
-      <Filter>Header Files\PJ_related\Characters\Players</Filter>
-    </ClCompile>
     <ClCompile Include="LogicClientFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
@@ -195,6 +189,12 @@
     </ClCompile>
     <ClCompile Include="EnemySceneObserver.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -354,9 +354,6 @@
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSceneObserver.h">
-      <Filter>Header Files\PJ_related\Characters\Players</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
@@ -370,9 +367,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="PlayerActionsFSM.h">
-      <Filter>Header Files\PJ_related\Characters\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionsFSMDRAWObserver.h">
       <Filter>Header Files\PJ_related\Characters\Players</Filter>
     </ClInclude>
     <ClInclude Include="Snowball.h">
@@ -407,6 +401,12 @@
     </ClInclude>
     <ClInclude Include="SceneCharacterObserver.h">
       <Filter>Header Files\Map_related\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsFSMDRAWObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Players\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerSceneObserver.h">
+      <Filter>Header Files\PJ_related\Characters\Players\Observers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -532,6 +532,12 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Characters\Enemies\Observers">
       <UniqueIdentifier>{22e9ba71-fd95-4df4-8825-8f5a2dafe59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\PJ_related\Characters\Players\Observers">
+      <UniqueIdentifier>{c0295c08-c5d4-45d8-8ade-3f7979c7b69d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Players\Observers">
+      <UniqueIdentifier>{66535075-048e-428c-9ce9-9c15465b760d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

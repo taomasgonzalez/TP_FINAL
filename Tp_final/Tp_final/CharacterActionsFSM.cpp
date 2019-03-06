@@ -153,28 +153,23 @@ void CharacterActionsFSM::process_logical_attack()
 
 void CharacterActionsFSM::start_walking_timer()
 {
-	curr_timer = walking_timer;
-	al_set_timer_speed(walking_timer,(*current_moving_iteration).second);
+	set_curr_timer_and_start(walking_timer);
 }
 void CharacterActionsFSM::start_jumping_timer()
 {
-	curr_timer = jumping_timer;
-	set_curr_timer_and_start();
+	set_curr_timer_and_start(jumping_timer);
 }
 void CharacterActionsFSM::start_jumping_forward_timer()
 {
-	curr_timer = jumping_forward_timer;
-	set_curr_timer_and_start();
+	set_curr_timer_and_start(jumping_forward_timer);
 }
 void CharacterActionsFSM::start_falling_timer()
 {
-	curr_timer = falling_timer;
-	set_curr_timer_and_start();
+	set_curr_timer_and_start(falling_timer);
 }
 void CharacterActionsFSM::start_attacking_timer()
 {
-	curr_timer = attacking_timer;
-	set_curr_timer_and_start();
+	set_curr_timer_and_start(attacking_timer);
 }
 void CharacterActionsFSM::start_jumping_forward()
 {
@@ -199,6 +194,11 @@ void CharacterActionsFSM::start_attacking()
 }
 void CharacterActionsFSM::start_falling() {
 	start_falling_timer();
+}
+
+void CharacterActionsFSM::stop_action()
+{
+	stop_curr_timer();
 }
 
 Direction_type CharacterActionsFSM::get_current_action_direction()
@@ -266,13 +266,23 @@ void CharacterActionsFSM::end_if_should_end_attack()
 
 void CharacterActionsFSM::start_walking()
 {
+	WALKED_EventPackage * curr_jump = (WALKED_EventPackage*)get_fsm_ev_pack();
+
+	if (curr_jump->walking_direction == Direction_type::Jump_Right) {
+		current_moving_vector = &walking_right_process;
+		current_moving_iteration = walking_right_process.begin();
+	}
+	else if (curr_jump->walking_direction == Direction_type::Jump_Left) {
+		current_moving_vector = &walking_left_process; 
+		current_moving_iteration = walking_left_process.begin();
+	}
 
 	start_walking_timer();
 }
 
 void CharacterActionsFSM::start_jumping() {
-	current_moving_iteration = jumping_process.begin();
 	current_moving_vector = &jumping_process;
+	current_moving_iteration = jumping_process.begin();
 	start_jumping_timer();
 }
 
@@ -290,13 +300,17 @@ bool CharacterActionsFSM::can_perform_logical_movement()
 }
 
 
-void CharacterActionsFSM::set_curr_timer_and_start() {
+void CharacterActionsFSM::set_curr_timer_and_start(ALLEGRO_TIMER * new_curr_timer) {
+	curr_timer = new_curr_timer;
 	set_curr_timer_speed((*current_moving_iteration).second);
 	al_start_timer(curr_timer);
 }
 
 void CharacterActionsFSM::set_curr_timer_speed(double speed) {
 	al_set_timer_speed(curr_timer, speed);
+}
+void CharacterActionsFSM::stop_curr_timer() {
+	al_stop_timer(curr_timer);
 }
 
 void do_nothing_char(void * data) {
@@ -335,7 +349,8 @@ void check_jumping_and_jump(void* data) {
 }
 void reset_jumping(void* data) {
 	iddle_graph(data);
-
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->stop_action();
 }
 
 void start_jumping_forward_r(void* data) {

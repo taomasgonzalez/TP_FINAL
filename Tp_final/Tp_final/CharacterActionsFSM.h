@@ -46,6 +46,8 @@ public:
 	void start_attacking();
 	void start_falling();
 
+	void stop_action();
+
 	Direction_type get_current_action_direction();
 	unsigned int get_character_id();
 
@@ -53,6 +55,8 @@ public:
 
 
 protected:
+
+	typedef std::vector<std::pair<Direction_type, double>> process_t;
 
 	std::vector<edge_t>* walking_state = NULL;
 	std::vector<edge_t>* jumping_state = NULL;
@@ -62,22 +66,25 @@ protected:
 	std::vector<edge_t>* falling_state = NULL;
 	std::vector<edge_t>* dead_state = NULL;
 
-	void set_curr_timer_and_start();
+	void set_curr_timer_and_start(ALLEGRO_TIMER* new_curr_timer);
 	void set_curr_timer_speed(double speed);
+	void stop_curr_timer();
 
-	std::vector<std::pair<Direction_type, double>>::iterator current_moving_iteration;
-	std::vector<std::pair<Direction_type, double>>* current_moving_vector = NULL;
+	process_t::iterator current_moving_iteration;
+	process_t* current_moving_vector = NULL;
+	ALLEGRO_TIMER* curr_timer = NULL;
+
 private:
 	Character * character = NULL;
 
-	std::vector<std::pair<Direction_type, double>> jumping_process;
-	std::vector<std::pair<Direction_type, double>> falling_process;
+	process_t jumping_process;
+	process_t falling_process;
 
-	std::vector<std::pair<Direction_type, double>> jumping_left_process;
-	std::vector<std::pair<Direction_type, double>> jumping_right_process;
+	process_t jumping_left_process;
+	process_t jumping_right_process;
 
-	std::vector<std::pair<Direction_type, double>> walking_left_process;
-	std::vector<std::pair<Direction_type, double>> walking_right_process;
+	process_t walking_left_process;
+	process_t walking_right_process;
 
 
 	ALLEGRO_TIMER* walking_timer = NULL;
@@ -92,7 +99,6 @@ private:
 	void start_falling_timer();
 	void start_attacking_timer();
 
-	ALLEGRO_TIMER* curr_timer = NULL;
 
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
