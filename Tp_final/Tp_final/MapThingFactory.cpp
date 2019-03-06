@@ -33,17 +33,23 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 		case Item_type::FLOOR:
 			new_born = new MapThing(get_wall_id(), false, Sense_type::None);
 			break;
-		case Item_type::CRAZY:
-			new_born = new Crazy(get_enemy_id(), direction);
-			//((Crazy*)new_born)->add_observer(new EnemySceneObserver((Crazy*)new_born, scene));
+		case Item_type::CRAZY: {
+			Crazy* crazy = new Crazy(get_enemy_id(), direction);
+			crazy->add_observer(new EnemySceneObserver(crazy, scene));
+			new_born = crazy;
+		}
 			break;
-		case Item_type::GREEN_FATTIE:
-			new_born = new GreenFatty(get_enemy_id(), direction);
-			//((GreenFatty*) new_born)->add_observer(new EnemySceneObserver((GreenFatty*)new_born, scene));
+		case Item_type::GREEN_FATTIE:{
+			GreenFatty * green_fatty = new GreenFatty(get_enemy_id(), direction);
+			green_fatty->add_observer(new EnemySceneObserver(green_fatty, scene));
+			new_born = green_fatty;
+		}
 			break;
-		case Item_type::PURPLE_GUY:
-			new_born = new PurpleGuy(get_enemy_id(), direction);
-			//((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
+		case Item_type::PURPLE_GUY: {
+			PurpleGuy * purple_guy = new PurpleGuy(get_enemy_id(), direction);
+			purple_guy->add_observer(new PurpleGuyScenarioObserver(purple_guy, scene));
+			new_born = purple_guy;
+		}
 			break;
 		case Item_type::TOM:
 			new_born = new Player(get_player_id(), false, direction);
