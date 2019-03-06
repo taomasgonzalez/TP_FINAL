@@ -131,7 +131,6 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 	if (al_get_next_event(coordinate_scene_events_queue, &allegroEvent)) {
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
 			if (allegroEvent.timer.source == coordinate_scene_events_timer) {
-				std::cout << "coordinate_scene_event" << std::endl;
 			}
 			else if (allegroEvent.timer.source == time_out_timer) {
 

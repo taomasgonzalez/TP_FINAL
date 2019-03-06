@@ -236,7 +236,8 @@ Package * Communication::receiveMessage() {
 
 	if (error.value() == WSAEWOULDBLOCK) {
 		//no leyo nada!!
-		std::cout << "NOREAD " << error.message() << std::endl;
+		received = NULL;
+		//std::cout << "NOREAD " << error.message() << std::endl;
 	}
 
 	else if (!error)
