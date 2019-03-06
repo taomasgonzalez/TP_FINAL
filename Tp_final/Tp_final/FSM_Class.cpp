@@ -52,7 +52,7 @@ void FSM::check_for_incorrect_event(Event_type event) {
 
 void FSM::expand_state(std::vector<edge_t>* to_be_expanded, edge_t expansion)
 {
-	std::vector<edge_t>::iterator it = (to_be_expanded->end())-1;
+	std::vector<edge_t>::iterator it = (to_be_expanded->end()-1);
 	to_be_expanded->insert(it, expansion);
 }
 
