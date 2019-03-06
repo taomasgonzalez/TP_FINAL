@@ -86,16 +86,16 @@ void CharacterActionsFSM::create_all_timers() {
 
 void CharacterActionsFSM::set_states() {
 
-	std::vector<edge_t>* iddle_state = new std::vector<edge_t>();
+	iddle_state = new std::vector<edge_t>();
 
-	std::vector<edge_t>* walking_state = new std::vector<edge_t>();
-	std::vector<edge_t>* jumping_state = new std::vector<edge_t>();
-	std::vector<edge_t> * jumping_forward_state = new std::vector<edge_t>();
-	std::vector<edge_t>* falling_state = new std::vector<edge_t>();
+	walking_state = new std::vector<edge_t>();
+	jumping_state = new std::vector<edge_t>();
+	jumping_forward_state = new std::vector<edge_t>();
+	falling_state = new std::vector<edge_t>();
 
-	std::vector<edge_t>* attacking_state = new std::vector<edge_t>();
+	attacking_state = new std::vector<edge_t>();
 
-	std::vector<edge_t>* dead_state = new std::vector<edge_t>();
+	dead_state = new std::vector<edge_t>();
 
 	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });

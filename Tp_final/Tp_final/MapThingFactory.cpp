@@ -27,7 +27,7 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 	Scene* scene = (Scene*)obs_info;
 	MapThing* new_born = nullptr;
 	switch (identifyer) {
-	case Item_type::NADA:
+		case Item_type::NADA:
 			new_born = new MapThing(get_nothing_id(), true, Sense_type::None);
 			break;
 		case Item_type::FLOOR:
