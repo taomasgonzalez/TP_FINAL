@@ -227,8 +227,8 @@ void CharacterActionsFSM::continue_logical_movement()
 	obs_info.perform_logical_movement = true;
 	notify_obs();
 	obs_info.perform_logical_movement = false;
-	++current_moving_iteration;
 	set_curr_timer_speed((*current_moving_iteration).second);
+	++current_moving_iteration;
 }
 void CharacterActionsFSM::continue_logical_attack() {
 	obs_info.perform_logical_attack = true;
@@ -266,6 +266,7 @@ void CharacterActionsFSM::end_if_should_end_attack()
 
 void CharacterActionsFSM::start_walking()
 {
+
 	start_walking_timer();
 }
 

@@ -2,13 +2,14 @@
 
 
 void do_nothing_enemy_r(void* data);
-void got_hit_r(void* data);
+void check_got_hit_and_get_hit_r(void* data);
 void partially_unfroze_r(void* data);
 void freeze_r(void* data);
 void unfroze_r(void* data);
 void start_moving_snowball_r(void* data);
 void snowball_move_r(void* data);
 void enemy_die_r(void* data);
+void start_got_hit_r(void*data);
 
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
@@ -30,12 +31,12 @@ EnemyActionsFSM::~EnemyActionsFSM()
 void EnemyActionsFSM::set_states()
 {
 
-	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
+	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 
 	freezing_state = new std::vector<edge_t>();
 	frozen_state = new std::vector<edge_t>();
 
-	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, got_hit_r });
+	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r});
 	freezing_state->push_back({ Event_type::FROZE, frozen_state, freeze_r });
 	freezing_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
 	freezing_state->push_back({ Event_type::UNFROZE, iddle_state, unfroze_r });
@@ -54,11 +55,29 @@ void EnemyActionsFSM::set_processes() {
 void EnemyActionsFSM::create_all_timers() {
 
 }
+
+void EnemyActionsFSM::got_hit() {
+	
+	enemy->be_hit();
+
+}
+void EnemyActionsFSM::start_got_hit() {
+
+	start_freezing_timer();
+}
+
 void do_nothing_enemy_r(void* data) {
 
 }
-void got_hit_r(void* data) {
+void check_got_hit_and_get_hit_r(void* data) {
+	(EnemyActionsFSM*)fsm = (EnemyActionsFSM*) data;
+	fsm->got_hit();
 }
+void start_got_hit_r(void*data) {
+	(EnemyActionsFSM*)fsm = (EnemyActionsFSM*)data;
+	fsm->start_got_hit();
+}
+
 void partially_unfroze_r(void* data){
 
 }

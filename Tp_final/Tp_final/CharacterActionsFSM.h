@@ -51,6 +51,7 @@ public:
 
 	virtual std::vector<ALLEGRO_TIMER*> get_all_my_timers();
 
+
 protected:
 
 	std::vector<edge_t>* walking_state = NULL;
@@ -61,7 +62,11 @@ protected:
 	std::vector<edge_t>* falling_state = NULL;
 	std::vector<edge_t>* dead_state = NULL;
 
+	void set_curr_timer_and_start();
+	void set_curr_timer_speed(double speed);
 
+	std::vector<std::pair<Direction_type, double>>::iterator current_moving_iteration;
+	std::vector<std::pair<Direction_type, double>>* current_moving_vector = NULL;
 private:
 	Character * character = NULL;
 
@@ -74,8 +79,6 @@ private:
 	std::vector<std::pair<Direction_type, double>> walking_left_process;
 	std::vector<std::pair<Direction_type, double>> walking_right_process;
 
-	std::vector<std::pair<Direction_type, double>>::iterator current_moving_iteration;
-	std::vector<std::pair<Direction_type, double>>* current_moving_vector = NULL;
 
 	ALLEGRO_TIMER* walking_timer = NULL;
 	ALLEGRO_TIMER* jumping_timer = NULL;
@@ -91,7 +94,6 @@ private:
 
 	ALLEGRO_TIMER* curr_timer = NULL;
 
-
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
 	void continue_logical_movement(); 
@@ -103,8 +105,6 @@ private:
 	void create_all_timers();
 	void set_states();
 
-	void set_curr_timer_and_start();
-	void set_curr_timer_speed(double speed);
 };
 
 
