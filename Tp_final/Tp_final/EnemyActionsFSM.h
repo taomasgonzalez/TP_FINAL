@@ -16,5 +16,11 @@ public:
 	//observer_enemyFSM_related answers_4_observer;
 	std::vector<edge_t>* freezing_state = NULL;
 	std::vector<edge_t>* frozen_state = NULL;
+private:
+	void set_states();
+	void set_processes();
+	void create_all_timers();
+
+	Enemy * enemy = NULL;
 };
 
