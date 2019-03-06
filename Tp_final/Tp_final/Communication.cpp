@@ -193,7 +193,7 @@ void Communication::sendMessage(Package * package_received) {
 	if (error)
 	{
 		this->healthy_connection = false;
-		std::cout << "Error while trying to send message. " << error.message() << std::endl;
+		//std::cout << "Error while trying to send message. " << error.message() << std::endl;
 	}
 	delete package_received; //libero memoria del paquete después de mandarlo
 

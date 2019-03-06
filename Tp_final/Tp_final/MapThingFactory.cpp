@@ -35,15 +35,15 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 		case Item_type::CRAZY:
 			new_born = new Crazy(get_enemy_id(), direction);
-			((Crazy*)new_born)->add_observer(new EnemySceneObserver((Crazy*)new_born, scene));
+			//((Crazy*)new_born)->add_observer(new EnemySceneObserver((Crazy*)new_born, scene));
 			break;
 		case Item_type::GREEN_FATTIE:
 			new_born = new GreenFatty(get_enemy_id(), direction);
-			((GreenFatty*) new_born)->add_observer(new EnemySceneObserver((GreenFatty*)new_born, scene));
+			//((GreenFatty*) new_born)->add_observer(new EnemySceneObserver((GreenFatty*)new_born, scene));
 			break;
 		case Item_type::PURPLE_GUY:
 			new_born = new PurpleGuy(get_enemy_id(), direction);
-			((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
+			//((PurpleGuy*) new_born)->add_observer(new PurpleGuyScenarioObserver((PurpleGuy*) new_born, scene));
 			break;
 		case Item_type::TOM:
 			new_born = new Player(get_player_id(), false, direction);
@@ -84,8 +84,7 @@ void MapThingFactory::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * ev_
 
 unsigned int MapThingFactory::get_enemy_id()
 {
-	next_enemy_id++;
-	return next_enemy_id-1;
+	return next_enemy_id++;
 }
 
 unsigned int MapThingFactory::get_player_id()
