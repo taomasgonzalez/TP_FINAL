@@ -70,11 +70,11 @@ void do_nothing_enemy_r(void* data) {
 
 }
 void check_got_hit_and_get_hit_r(void* data) {
-	(EnemyActionsFSM*)fsm = (EnemyActionsFSM*) data;
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*) data;
 	fsm->got_hit();
 }
 void start_got_hit_r(void*data) {
-	(EnemyActionsFSM*)fsm = (EnemyActionsFSM*)data;
+	 EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->start_got_hit();
 }
 
