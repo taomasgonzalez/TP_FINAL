@@ -8,8 +8,9 @@ public:
 	EnemyActionsFSM(Enemy* enemy);
 	~EnemyActionsFSM();
 
-	//struct observer_enemyFSM_related {
+	std::vector<ALLEGRO_TIMER*> get_all_my_timers();
 
+	//struct observer_enemyFSM_related {
 	//};
 	//observer_enemyFSM_related questions_4_observer;
 	//observer_enemyFSM_related answers_4_observer;

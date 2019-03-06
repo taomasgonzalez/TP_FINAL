@@ -49,7 +49,8 @@ public:
 	Direction_type get_current_action_direction();
 	unsigned int get_character_id();
 
-	std::vector<ALLEGRO_TIMER*> get_all_my_timers();
+	virtual std::vector<ALLEGRO_TIMER*> get_all_my_timers();
+
 protected:
 
 	std::vector<edge_t>* walking_state = NULL;

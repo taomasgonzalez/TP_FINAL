@@ -55,9 +55,16 @@ void snowball_move_r(void* data){
 }
 
 void enemy_die_r(void* data) {
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->obs_info.dying_graph = true;
 	fsm->notify_obs();
 	fsm->obs_info.dying_graph = false;
 	fsm->kill_character();
+}
+
+std::vector<ALLEGRO_TIMER*> EnemyActionsFSM::get_all_my_timers(){
+	
+	std::vector<ALLEGRO_TIMER*> original_timers = CharacterActionsFSM::get_all_my_timers();
+	//original_timers.push_back();
+	return original_timers;
 }
