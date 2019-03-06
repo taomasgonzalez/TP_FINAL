@@ -240,6 +240,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	}
 	else
 	{	//I´m server, I´ve the map available
+
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
