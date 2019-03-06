@@ -592,7 +592,6 @@ void Map::load_on_map(const char* map_string, void* scenario) {
 		MapThing * new_thing = map_filler.create_map_thing((Item_type)map_string[i], get_random_sense(), scenario);
 		place_on_map(fil, col, new_thing);
 	}
-	dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns, map_string);
 }
 
 void Map::load_checksum(unsigned char checksum) {

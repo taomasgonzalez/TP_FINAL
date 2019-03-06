@@ -35,7 +35,7 @@ void CommunicationEventsObserver::update() {
 		}
 		else
 		{
-			std::cout << "No se recibio ningún mensaje"  << std::endl;
+			//std::cout << "No se recibio ningún mensaje"  << std::endl;
 		}
 	}
 }
