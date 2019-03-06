@@ -515,3 +515,11 @@ class GOT_HIT_EventPackage : public EventPackage {
 public:
 	GOT_HIT_EventPackage();
 };
+
+
+class PUSHED_EventPackage : public EventPackage {
+public:
+	PUSHED_EventPackage(Direction_type dir);
+	~PUSHED_EventPackage();
+	Direction_type pushing_direction;
+};

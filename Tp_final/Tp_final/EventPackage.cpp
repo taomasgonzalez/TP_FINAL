@@ -660,3 +660,12 @@ GOT_HIT_EventPackage::GOT_HIT_EventPackage():EventPackage(Event_type::GOT_HIT, t
 {
 
 }
+
+PUSHED_EventPackage::PUSHED_EventPackage(Direction_type dir) : EventPackage(Event_type::PUSHED, true)
+{
+	this->pushing_direction = dir;
+}
+
+PUSHED_EventPackage::~PUSHED_EventPackage()
+{
+}

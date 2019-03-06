@@ -1,7 +1,7 @@
 #include "PlayerActionsFSM.h"
 
 void player_revive(void* data);
-void start_pushing(void* data);
+void start_pushing_r(void* data);
 
 void check_push_and_push(void* data);
 void reset_push(void* data);
@@ -19,15 +19,9 @@ PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 	create_all_timers();
 }
 
-
 PlayerActionsFSM::~PlayerActionsFSM()
 {
 	delete pushing_state;
-}
-void player_revive(void* data) {
-	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
-	iddle_graph_player(data);
-	fsm->revive_player();
 }
 void PlayerActionsFSM::start_pushing_timer()
 {
@@ -40,7 +34,7 @@ void PlayerActionsFSM::set_states() {
 
 	pushing_state = new std::vector<edge_t>();
 
-	expand_state(iddle_state, { Event_type::PUSHED, pushing_state, start_pushing });
+	expand_state(iddle_state, { Event_type::PUSHED, pushing_state, start_pushing_r });
 	expand_state(iddle_state, { Event_type::DIED, dead_state, player_die });
 
 	expand_state(walking_state, { Event_type::DIED, dead_state, player_die });
@@ -61,9 +55,9 @@ void PlayerActionsFSM::create_all_timers() {
 	pushing_timer = al_create_timer(1.0);
 }
 void PlayerActionsFSM::set_processes() {
-	pushing_right_proccess.push_back(std::make_pair(Direction_type::Right, 0));
+	pushing_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
-	pushing_left_proccess.push_back(std::make_pair(Direction_type::Left, 0));
+	pushing_left_process.push_back(std::make_pair(Direction_type::Left, 0));
 }
 
 std::vector<ALLEGRO_TIMER*> PlayerActionsFSM::get_all_my_timers() {
@@ -72,6 +66,27 @@ std::vector<ALLEGRO_TIMER*> PlayerActionsFSM::get_all_my_timers() {
 	return character_timers;
 }
 
+void PlayerActionsFSM::start_pushing() {
+
+	PUSHED_EventPackage * curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
+
+	if (curr_push->pushing_direction == Direction_type::Jump_Right) {
+		current_moving_vector = &pushing_right_process;
+		current_moving_iteration = pushing_right_process.begin();
+	}
+	else if (curr_push->pushing_direction == Direction_type::Jump_Left) {
+		current_moving_vector = &pushing_left_process;
+		current_moving_iteration = pushing_left_process.begin();
+	}
+
+	start_pushing_timer();
+}
+
+void player_revive(void* data) {
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	iddle_graph_player(data);
+	fsm->revive_player();
+}
 void player_die(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->obs_info.dying_graph = true;
@@ -80,13 +95,13 @@ void player_die(void* data) {
 	fsm->kill_character();
 }
 
-void start_pushing(void* data) {
+void start_pushing_r(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
 	(fsm->obs_info).start_pushing_graph = true;
 	fsm->notify_obs();
 	(fsm->obs_info).start_pushing_graph = false;
 
-	fsm->start_pushing_timer();
+	fsm->start_pushing();
 }
 
 void check_push_and_push(void* data) {
