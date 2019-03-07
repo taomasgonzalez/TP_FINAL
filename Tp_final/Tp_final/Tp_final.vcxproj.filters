@@ -196,6 +196,9 @@
     <ClCompile Include="PlayerSceneObserver.cpp">
       <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="MapThingFSM.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -407,6 +410,9 @@
     </ClInclude>
     <ClInclude Include="PlayerSceneObserver.h">
       <Filter>Header Files\PJ_related\Characters\Players\Observers</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThingFSM.h">
+      <Filter>Source Files\Map_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

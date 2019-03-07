@@ -11,16 +11,14 @@ void player_die(void*data);
 PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 {
 	this->player = player;
+	//the parent class automatically sets all states and processes and creates all timers!!
 
-	set_states();
 	this->actual_state = iddle_state;
-
-	set_processes();
-	create_all_timers();
 }
 
 PlayerActionsFSM::~PlayerActionsFSM()
 {
+	destroy_all_timers();
 	delete pushing_state;
 }
 void PlayerActionsFSM::start_pushing_timer()
@@ -52,19 +50,15 @@ void PlayerActionsFSM::set_states() {
 	expand_state(dead_state, { Event_type::APPEARED, iddle_state, player_revive });
 }
 void PlayerActionsFSM::create_all_timers() {
-	pushing_timer = al_create_timer(1.0);
+	create_timer(pushing_timer);
 }
 void PlayerActionsFSM::set_processes() {
+
 	pushing_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
 	pushing_left_process.push_back(std::make_pair(Direction_type::Left, 0));
 }
 
-std::vector<ALLEGRO_TIMER*> PlayerActionsFSM::get_all_my_timers() {
-	std::vector<ALLEGRO_TIMER*> character_timers = CharacterActionsFSM::get_all_my_timers();
-	character_timers.push_back(pushing_timer);
-	return character_timers;
-}
 
 void PlayerActionsFSM::start_pushing() {
 

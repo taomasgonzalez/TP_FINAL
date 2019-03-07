@@ -15,8 +15,13 @@ public:
 	observer_playerFSM_related answers_4_observable;
 
 	void revive_player();
-	std::vector<ALLEGRO_TIMER*> get_all_my_timers();
 	void start_pushing();
+
+protected:
+	void set_states();
+	void create_all_timers();
+	void set_processes();
+
 private:
 	std::vector<edge_t>* pushing_state = NULL;
 
@@ -27,8 +32,6 @@ private:
 	process_t pushing_right_process;
 
 	void start_pushing_timer();
-	void set_states();
-	void create_all_timers();
-	void set_processes();
+
 };
 

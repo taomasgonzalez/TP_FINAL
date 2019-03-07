@@ -1,9 +1,8 @@
 #pragma once
-#include "FSM_Class.h"
 #include "Character.h"
-#include "AllegroClass.h"
+#include "MapThingFSM.h"
 
-class CharacterActionsFSM : public FSM
+class CharacterActionsFSM : public MapThingFSM
 {
 public:
 	CharacterActionsFSM(Character* character);
@@ -48,15 +47,7 @@ public:
 
 	void stop_action();
 
-	Direction_type get_current_action_direction();
-	unsigned int get_character_id();
-
-	virtual std::vector<ALLEGRO_TIMER*> get_all_my_timers();
-
-
 protected:
-
-	typedef std::vector<std::pair<Direction_type, double>> process_t;
 
 	std::vector<edge_t>* walking_state = NULL;
 	std::vector<edge_t>* jumping_state = NULL;
@@ -66,13 +57,9 @@ protected:
 	std::vector<edge_t>* falling_state = NULL;
 	std::vector<edge_t>* dead_state = NULL;
 
-	void set_curr_timer_and_start(ALLEGRO_TIMER* new_curr_timer);
-	void set_curr_timer_speed(double speed);
-	void stop_curr_timer();
-
-	process_t::iterator current_moving_iteration;
-	process_t* current_moving_vector = NULL;
-	ALLEGRO_TIMER* curr_timer = NULL;
+	void set_processes();
+	void create_all_timers();
+	void set_states();
 
 private:
 	Character * character = NULL;
@@ -107,9 +94,6 @@ private:
 	void end_if_should_end_movement();
 	void end_if_should_end_attack();
 
-	void set_processes();
-	void create_all_timers();
-	void set_states();
 
 };
 

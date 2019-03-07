@@ -8,8 +8,6 @@ public:
 	EnemyActionsFSM(Enemy* enemy);
 	~EnemyActionsFSM();
 
-	std::vector<ALLEGRO_TIMER*> get_all_my_timers();
-
 	//struct observer_enemyFSM_related {
 	//};
 	//observer_enemyFSM_related questions_4_observer;
@@ -28,13 +26,14 @@ protected:
 	ALLEGRO_TIMER* frozen_timer = NULL;
 	ALLEGRO_TIMER* freezing_timer = NULL;
 
-	std::vector<std::pair<Direction_type, double>> freezing_process;
-	std::vector<std::pair<Direction_type, double>> frozen_processs;
+	process_t freezing_process;
+	process_t frozen_processs;
 
-private:
 	void set_states();
 	void set_processes();
 	void create_all_timers();
+
+private:
 
 	Enemy * enemy = NULL;
 };

@@ -7,11 +7,34 @@ void impact_r(void* data);
 void finished_impacting(void* data);
 void start_falling_pr(void* data);
 
-ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): FSM()
+ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFSM(proyectile)
 {
-	std::vector<edge_t>* moving_state = new std::vector<edge_t>();
-	std::vector<edge_t>* impact_state = new std::vector<edge_t>();
-	std::vector<edge_t>*inactive_state = new std::vector<edge_t>();
+	this->proyectile = proyectile;
+	//the parent class automatically sets all states and processes and creates all timers!!
+	this->actual_state = moving_state;
+}
+
+
+ProyectilesActionsFSM::~ProyectilesActionsFSM()
+{
+	//the parent class automatically destroys all timers!! 
+
+	delete moving_state;
+	delete impact_state;
+	delete inactive_state;
+	delete falling_state;
+}
+
+void ProyectilesActionsFSM::set_processes() {
+
+}
+
+void ProyectilesActionsFSM::set_states() {
+
+	moving_state = new std::vector<edge_t>();
+	impact_state = new std::vector<edge_t>();
+	inactive_state = new std::vector<edge_t>();
+	falling_state = new std::vector<edge_t>();
 
 	moving_state->push_back({ Event_type::MOVE, moving_state, check_move_and_move });
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, impact_r });
@@ -26,19 +49,17 @@ ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): FSM()
 	falling_state->push_back({ Event_type::FELL, falling_state, start_falling_pr });
 	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_proy });
 	actual_state = inactive_state;
+
 }
 
-
-ProyectilesActionsFSM::~ProyectilesActionsFSM()
-{
-	delete moving_state;
-	delete impact_state;
-	delete inactive_state;
+void ProyectilesActionsFSM::create_all_timers() {
+	create_timer(moving_timer);
+	create_timer(falling_timer);
 }
-
 void ProyectilesActionsFSM::start_moving() {
+
 	MOVE_EventPackage* ev_pack = (MOVE_EventPackage*) get_fsm_ev_pack();
-	direction = ev_pack->give_me_your_direction();
+	Direction_type direction = ev_pack->give_me_your_direction();
 	observer_info.move = true;
 	notify_obs();
 	observer_info.move = false;
@@ -51,9 +72,6 @@ void ProyectilesActionsFSM::impact() {
 
 }
 
-Direction_type ProyectilesActionsFSM::get_direction() {
-	return direction;
-}
 void ProyectilesActionsFSM::start_falling() {
 	observer_info.fall = true;
 	notify_obs();
@@ -67,6 +85,7 @@ void do_nothing_proy(void* data) {
 
 void check_move_and_move(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
+	//fsm->process_logical_movement();
 
 }
 

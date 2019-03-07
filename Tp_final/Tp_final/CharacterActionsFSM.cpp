@@ -26,26 +26,18 @@ void reset_attack(void* data);
 
 void iddle_graph(void* data);
 
-CharacterActionsFSM::CharacterActionsFSM(Character * character)
+CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
 	this->character = character;
+	//the parent class automatically sets all states and processes and creates all timers!!
 
-	set_states();
 	this->actual_state = iddle_state;
-
-	set_processes();
-	create_all_timers();
 }
 
 
 CharacterActionsFSM::~CharacterActionsFSM()
 {
-	al_destroy_timer(walking_timer);
-	al_destroy_timer(jumping_timer);
-	al_destroy_timer(jumping_forward_timer);
-	al_destroy_timer(falling_timer);
-	al_destroy_timer(attacking_timer);
-
+	destroy_all_timers();
 	delete walking_state;
 	delete jumping_state;
 	delete jumping_forward_state;
@@ -77,11 +69,13 @@ void CharacterActionsFSM::set_processes() {
 }
 
 void CharacterActionsFSM::create_all_timers() {
-	walking_timer = al_create_timer(1.0);
-	jumping_timer = al_create_timer(1.0);
-	jumping_forward_timer = al_create_timer(1.0);
-	falling_timer = al_create_timer(1.0);
-	attacking_timer = al_create_timer(1.0);
+
+	create_timer(walking_timer);
+	create_timer(jumping_timer);
+	create_timer(jumping_forward_timer);
+	create_timer(falling_timer);
+	create_timer(attacking_timer);
+
 }
 
 void CharacterActionsFSM::set_states() {
@@ -201,26 +195,7 @@ void CharacterActionsFSM::stop_action()
 	stop_curr_timer();
 }
 
-Direction_type CharacterActionsFSM::get_current_action_direction()
-{
-	return (*current_moving_iteration).first;
-}
 
-unsigned int CharacterActionsFSM::get_character_id()
-{
-	return character->id;
-}
-
-std::vector<ALLEGRO_TIMER*> CharacterActionsFSM::get_all_my_timers()
-{
-	std::vector<ALLEGRO_TIMER*> timers;
-	timers.push_back(walking_timer);
-	timers.push_back(jumping_timer);
-	timers.push_back(jumping_forward_timer);
-	timers.push_back(falling_timer);
-	timers.push_back(attacking_timer);
-	return timers;
-}
 
 void CharacterActionsFSM::continue_logical_movement()
 {
@@ -299,19 +274,6 @@ bool CharacterActionsFSM::can_perform_logical_movement()
 	return obs_answers.can_perform_movement;
 }
 
-
-void CharacterActionsFSM::set_curr_timer_and_start(ALLEGRO_TIMER * new_curr_timer) {
-	curr_timer = new_curr_timer;
-	set_curr_timer_speed((*current_moving_iteration).second);
-	al_start_timer(curr_timer);
-}
-
-void CharacterActionsFSM::set_curr_timer_speed(double speed) {
-	al_set_timer_speed(curr_timer, speed);
-}
-void CharacterActionsFSM::stop_curr_timer() {
-	al_stop_timer(curr_timer);
-}
 
 void do_nothing_char(void * data) {
 

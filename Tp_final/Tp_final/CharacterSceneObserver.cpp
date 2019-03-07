@@ -23,7 +23,7 @@ void CharacterSceneObserver::update() {
 	}
 	else if (fsm->obs_info.perform_logical_attack) {
 		Direction_type attack_direction = fsm->get_current_action_direction();
-		unsigned int current_character_id = fsm->get_character_id();
+		unsigned int current_character_id = fsm->get_id();
 		//scene->execute_attack(ev_pack->to_Action_info())
 	}
 	else if (fsm->obs_questions.can_perform_movement) {
@@ -32,7 +32,7 @@ void CharacterSceneObserver::update() {
 	}
 	else if (fsm->obs_info.perform_logical_movement) {
 		Direction_type movement_direction = fsm->get_current_action_direction();
-		unsigned int current_character_id = fsm->get_character_id();
+		unsigned int current_character_id = fsm->get_id();
 		MOVE_EventPackage* ev_pack = (MOVE_EventPackage*)fsm->get_fsm_ev_pack();
 		perform_movement(ev_pack->to_Action_info());
 	}

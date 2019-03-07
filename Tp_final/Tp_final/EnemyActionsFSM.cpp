@@ -14,17 +14,15 @@ void start_got_hit_r(void*data);
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
 	this->enemy = enemy;
-	set_states();
 
+	//the parent class automatically sets all states and processes and creates all timers!!
 	this->actual_state = iddle_state;
-
-	set_processes();
-	create_all_timers();
 }
 
 
 EnemyActionsFSM::~EnemyActionsFSM()
 {
+	destroy_all_timers();
 	delete freezing_state;
 	delete frozen_state;
 }
@@ -50,6 +48,7 @@ void EnemyActionsFSM::set_states()
 
 
 void EnemyActionsFSM::set_processes() {
+
 
 }
 void EnemyActionsFSM::create_all_timers() {
@@ -110,9 +109,3 @@ void enemy_die_r(void* data) {
 	fsm->kill_character();
 }
 
-std::vector<ALLEGRO_TIMER*> EnemyActionsFSM::get_all_my_timers(){
-	
-	std::vector<ALLEGRO_TIMER*> original_timers = CharacterActionsFSM::get_all_my_timers();
-	//original_timers.push_back();
-	return original_timers;
-}
