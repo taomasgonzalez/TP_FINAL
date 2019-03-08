@@ -11,7 +11,10 @@ void player_die(void*data);
 PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 {
 	this->player = player;
-	//the parent class automatically sets all states and processes and creates all timers!!
+
+	set_states();
+	set_processes();
+	create_all_timers();
 
 	this->actual_state = iddle_state;
 }

@@ -15,7 +15,9 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
 	this->enemy = enemy;
 
-	//the parent class automatically sets all states and processes and creates all timers!!
+	set_states();
+	set_processes();
+	create_all_timers();
 	this->actual_state = iddle_state;
 }
 

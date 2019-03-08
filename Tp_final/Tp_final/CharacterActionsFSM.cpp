@@ -29,8 +29,9 @@ void iddle_graph(void* data);
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
 	this->character = character;
-	//the parent class automatically sets all states and processes and creates all timers!!
-
+	set_states();
+	set_processes();
+	create_all_timers();
 	this->actual_state = iddle_state;
 }
 
@@ -138,64 +139,40 @@ void CharacterActionsFSM::process_logical_movement()
 
 void CharacterActionsFSM::process_logical_attack()
 {
-	if (!finished_logical_movement()) {
-		if (can_perform_logical_movement())
-			continue_logical_movement();
-	}
+	if (!has_attacked()) 
+		attack();
+
 	end_if_should_end_attack();
 }
 
-void CharacterActionsFSM::start_walking_timer()
-{
-	set_curr_timer_and_start(walking_timer);
-}
-void CharacterActionsFSM::start_jumping_timer()
-{
-	set_curr_timer_and_start(jumping_timer);
-}
-void CharacterActionsFSM::start_jumping_forward_timer()
-{
-	set_curr_timer_and_start(jumping_forward_timer);
-}
-void CharacterActionsFSM::start_falling_timer()
-{
-	set_curr_timer_and_start(falling_timer);
-}
-void CharacterActionsFSM::start_attacking_timer()
-{
-	set_curr_timer_and_start(attacking_timer);
-}
+
 void CharacterActionsFSM::start_jumping_forward()
 {
 	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
 
-	if (curr_jump->jumping_direction == Direction_type::Jump_Right){
-		current_moving_iteration = jumping_right_process.begin();
-		current_moving_vector = &jumping_right_process;
-	}
-	else if (curr_jump->jumping_direction == Direction_type::Jump_Left){
-		current_moving_iteration = jumping_left_process.begin();
-		current_moving_vector = &jumping_left_process;\
-	}
+	if (curr_jump->jumping_direction == Direction_type::Jump_Right)
+		set_curr_process(&jumping_right_process);
+	else if (curr_jump->jumping_direction == Direction_type::Jump_Left)
+		set_curr_process(&jumping_left_process);
 
-	start_jumping_forward_timer();
+	set_curr_timer_and_start(jumping_forward_timer);
 
 }
 
 void CharacterActionsFSM::start_attacking()
 {
-	start_attacking_timer();
+	attacked = false;
+	set_curr_timer_and_start(attacking_timer);
 }
 void CharacterActionsFSM::start_falling() {
-	start_falling_timer();
+	set_curr_process(&falling_process);
+	set_curr_timer_and_start(falling_timer);
 }
 
 void CharacterActionsFSM::stop_action()
 {
 	stop_curr_timer();
 }
-
-
 
 void CharacterActionsFSM::continue_logical_movement()
 {
@@ -205,12 +182,24 @@ void CharacterActionsFSM::continue_logical_movement()
 	set_curr_timer_speed((*current_moving_iteration).second);
 	++current_moving_iteration;
 }
-void CharacterActionsFSM::continue_logical_attack() {
-	obs_info.perform_logical_attack = true;
-	notify_obs();
-	obs_info.perform_logical_attack = false;
-	++current_moving_iteration;
+
+void CharacterActionsFSM::start_walking()
+{
+	WALKED_EventPackage * curr_jump = (WALKED_EventPackage*)get_fsm_ev_pack();
+
+	if (curr_jump->walking_direction == Direction_type::Right) 
+		set_curr_process(&walking_right_process);
+	else if (curr_jump->walking_direction == Direction_type::Left) 
+		set_curr_process(&walking_left_process);
+
+	set_curr_timer_and_start(walking_timer);
 }
+
+void CharacterActionsFSM::start_jumping() {
+	set_curr_process(&jumping_process);
+	set_curr_timer_and_start(jumping_timer);
+}
+
 void CharacterActionsFSM::end_if_should_end_movement()
 {
 #pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
@@ -221,7 +210,7 @@ void CharacterActionsFSM::end_if_should_end_movement()
 		obs_info.interrupt_movement = true;
 		notify_obs();
 		obs_info.interrupt_movement = false;
-		al_stop_timer(curr_timer);
+		stop_curr_timer();
 	}
 }
 
@@ -234,31 +223,8 @@ void CharacterActionsFSM::end_if_should_end_attack()
 		obs_info.interrupt_attack = true;
 		notify_obs();
 		obs_info.interrupt_attack = false;
-		al_stop_timer(curr_timer);
+		stop_curr_timer();
 	}
-}
-
-
-void CharacterActionsFSM::start_walking()
-{
-	WALKED_EventPackage * curr_jump = (WALKED_EventPackage*)get_fsm_ev_pack();
-
-	if (curr_jump->walking_direction == Direction_type::Jump_Right) {
-		current_moving_vector = &walking_right_process;
-		current_moving_iteration = walking_right_process.begin();
-	}
-	else if (curr_jump->walking_direction == Direction_type::Jump_Left) {
-		current_moving_vector = &walking_left_process; 
-		current_moving_iteration = walking_left_process.begin();
-	}
-
-	start_walking_timer();
-}
-
-void CharacterActionsFSM::start_jumping() {
-	current_moving_vector = &jumping_process;
-	current_moving_iteration = jumping_process.begin();
-	start_jumping_timer();
 }
 
 bool CharacterActionsFSM::finished_logical_movement() {
@@ -274,6 +240,17 @@ bool CharacterActionsFSM::can_perform_logical_movement()
 	return obs_answers.can_perform_movement;
 }
 
+bool CharacterActionsFSM::has_attacked() {
+	return attacked;
+}
+void CharacterActionsFSM::attack() {
+	obs_info.perform_logical_attack = true;
+	notify_obs();
+	obs_info.perform_logical_attack = false;
+
+	//to prevent other attack timers from being executed.
+	attacked = true;
+}
 
 void do_nothing_char(void * data) {
 
@@ -357,18 +334,15 @@ void start_attacking_r(void* data) {
 	fsm->start_attacking();
 
 }
+
 void check_attack_and_attack(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->process_logical_attack();
-
+	fsm->start_attacking();
 }
+
 void reset_attack(void* data) {
 	iddle_graph(data);
 }
-
-
-
-
 
 void iddle_graph(void * data)
 {

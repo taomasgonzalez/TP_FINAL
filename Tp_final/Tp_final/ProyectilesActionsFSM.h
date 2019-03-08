@@ -14,13 +14,20 @@ public:
 		bool fall = false;
 	};
 
-	obs_info observer_info;
+	struct observer_info {
+		bool start_moving_graph = false;
+		bool start_impacting_graph = false;
+		bool start_falling_graph = false;
 
-	Direction_type get_direction();
-	void impact();
+	};
+
+	observer_info obs_info;
+
+	void start_impacting();
 	void start_moving();
 	void start_falling();
 
+	void process_logical_movement();
 protected:
 
 	std::vector<edge_t>* moving_state = NULL;
@@ -38,11 +45,12 @@ private:
 
 	ALLEGRO_TIMER* moving_timer = NULL;
 	ALLEGRO_TIMER* falling_timer = NULL;
+	ALLEGRO_TIMER* impacting_timer = NULL;
 
 	process_t moving_right_process;
 	process_t moving_left_process;
 	process_t falling_process;
 
-	//void process_logical_movement();
+
 };
 

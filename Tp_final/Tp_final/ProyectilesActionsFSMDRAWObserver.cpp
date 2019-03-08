@@ -17,15 +17,15 @@ ProyectilesActionsFSMDRAWObserver::~ProyectilesActionsFSMDRAWObserver()
 
 
 void ProyectilesActionsFSMDRAWObserver::update() {
-	if (fsm->observer_info.move) {
+	if (fsm->obs_info.start_moving_graph) {
 		drawer->startDraw(proy_MOVING, proyectile->id, direction_translation(fsm->get_current_action_direction()), proyectile->pos_x, proyectile->pos_y);
 		curr_state = proy_MOVING;
 	}
-	else if (fsm->observer_info.impact) {
+	else if (fsm->obs_info.start_impacting_graph) {
 		drawer->startDraw(proy_IMPACT, proyectile->id, direction_translation(fsm->get_current_action_direction()), proyectile->pos_x, proyectile->pos_y);
 		curr_state = proy_IMPACT;
 	}
-	else if (fsm->observer_info.fall) {
+	else if (fsm->obs_info.start_falling_graph) {
 		drawer->startDraw(proy_FALLING, proyectile->id, direction_translation(fsm->get_current_action_direction()), proyectile->pos_x, proyectile->pos_y);
 		curr_state = proy_FALLING;
 	}

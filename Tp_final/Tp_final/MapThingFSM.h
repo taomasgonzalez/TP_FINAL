@@ -21,6 +21,8 @@ protected:
 	void set_curr_timer_speed(double speed);
 	void stop_curr_timer();
 
+	void set_curr_process(process_t* process);
+
 	process_t::iterator current_moving_iteration;
 	process_t* current_moving_vector = NULL;
 	ALLEGRO_TIMER* curr_timer = NULL;

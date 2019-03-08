@@ -15,10 +15,11 @@ public:
 		bool start_jumping_forward_graph = false;
 		bool start_falling_graph = false;
 		bool start_attacking_graph = false;
-		bool interrupt_movement = false;
-		bool interrupt_attack = false;
 		bool dying_graph = false;
 		bool reset_graph = false;
+
+		bool interrupt_movement = false;
+		bool interrupt_attack = false;
 		bool perform_logical_movement = false;
 		bool perform_logical_attack = false;
 	};
@@ -27,7 +28,6 @@ public:
 
 	struct observer_QA {
 		bool can_perform_movement = false;
-		bool can_attack = false;
 		bool should_interrupt_movement = false;
 		bool should_interrupt_attack = false;
 	};
@@ -80,20 +80,17 @@ private:
 	ALLEGRO_TIMER* falling_timer = NULL;
 	ALLEGRO_TIMER* attacking_timer = NULL;
 
-	void start_walking_timer();
-	void start_jumping_timer();
-	void start_jumping_forward_timer();
-	void start_falling_timer();
-	void start_attacking_timer();
-
-
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
 	void continue_logical_movement(); 
-	void continue_logical_attack();
 	void end_if_should_end_movement();
 	void end_if_should_end_attack();
 
+
+	void attack();
+	bool has_attacked();
+
+	bool attacked = false;
 
 };
 
