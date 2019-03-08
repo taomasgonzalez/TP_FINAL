@@ -74,38 +74,74 @@ void ProyectilesActionsFSM::create_all_timers() {
 }
 void ProyectilesActionsFSM::start_moving() {
 
+	obs_info.start_moving_graph = true;
+	notify_obs();								//ProyectilesActionsFSMDRAWObserver
+	obs_info.start_moving_graph = false;
+
 	MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(get_fsm_ev_pack());
 	Direction_type direction = ev_pack->give_me_your_direction();
-
+	
 	if (direction == Direction_type::Left) 
 		set_curr_process(&moving_left_process);
 	else if(direction == Direction_type::Right) 
 		set_curr_process(&moving_right_process);
+
 
 	set_curr_timer_and_start(moving_timer);
 }
 
 void ProyectilesActionsFSM::start_impacting() {
 	
+	obs_info.start_impacting_graph = true;
+	notify_obs();								//ProyectilesActionsFSMDRAWObserver
+	obs_info.start_impacting_graph = false;
+
 	set_curr_timer_and_start(impacting_timer);
 }
 
 void ProyectilesActionsFSM::start_falling() {
 
+	obs_info.start_falling_graph = true;
+	notify_obs();								//ProyectilesActionsFSMDRAWObserver
+	obs_info.start_falling_graph = false;
+
+	set_curr_timer_and_start(falling_timer);
 }
 
 void ProyectilesActionsFSM::process_logical_movement()
 {
-
-	/*
-	if (!finished_logical_movement()) {
-		if (can_perform_logical_movement())
-			continue_logical_movement();
-	}
+	if (!finished_logical_movement()) 
+		continue_logical_movement();
+	
 	end_if_should_end_movement();
-	*/
 }
 
+void ProyectilesActionsFSM::continue_logical_movement()
+{
+	obs_info.perform_logical_movement = true;
+	notify_obs();
+	obs_info.perform_logical_movement = false;
+	set_curr_timer_speed((*current_moving_iteration).second);
+	++current_moving_iteration;
+}
+
+bool ProyectilesActionsFSM::finished_logical_movement() {
+	return (current_moving_vector->end() == current_moving_iteration);
+}
+
+void ProyectilesActionsFSM::end_if_should_end_movement()
+{
+#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
+	obs_questions.should_interrupt_movement = true;
+	notify_obs();
+	obs_questions.should_interrupt_movement = false;
+	if (obs_answers.should_interrupt_movement) {
+		obs_info.interrupt_movement = true;
+		notify_obs();
+		obs_info.interrupt_movement = false;
+		stop_curr_timer();
+	}
+}
 void do_nothing_proy(void* data) {
 
 }
@@ -128,10 +164,6 @@ void finished_impacting(void* data) {
 
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-	fsm->obs_info.start_moving_graph = true;
-	fsm->notify_obs();
-	fsm->obs_info.start_moving_graph = false;
-
 	fsm->start_moving();
 }
 

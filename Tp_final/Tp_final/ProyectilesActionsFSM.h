@@ -8,20 +8,23 @@ public:
 	ProyectilesActionsFSM(Proyectile* proyectile);
 	~ProyectilesActionsFSM();
 
-	struct obs_info{
-		bool move = false;
-		bool impact = false;
-		bool fall = false;
-	};
-
 	struct observer_info {
 		bool start_moving_graph = false;
 		bool start_impacting_graph = false;
 		bool start_falling_graph = false;
-
+		bool perform_logical_movement = false;
+		bool interrupt_movement = false;
 	};
 
 	observer_info obs_info;
+
+	struct observer_QA {
+		bool can_perform_movement = false;
+		bool should_interrupt_movement = false;
+	};
+	observer_QA obs_questions;
+	observer_QA obs_answers;
+
 
 	void start_impacting();
 	void start_moving();
@@ -51,6 +54,8 @@ private:
 	process_t moving_left_process;
 	process_t falling_process;
 
-
+	void continue_logical_movement();
+	bool finished_logical_movement();
+	void end_if_should_end_movement();
 };
 
