@@ -6,10 +6,12 @@ void start_moving_r(void* data);
 void check_move_and_move(void* data);
 
 void start_impacting_r(void* data);
-void finished_impacting(void* data);
+void finished_impacting_r(void* data);
 
 void start_falling_pr(void* data);
+void check_fall_and_fall_r(void* data);
 
+//void finish_falling_r(void* data);
 
 ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFSM(proyectile)
 {
@@ -21,7 +23,6 @@ ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFS
 
 	this->actual_state = moving_state;
 }
-
 
 ProyectilesActionsFSM::~ProyectilesActionsFSM()
 {
@@ -36,7 +37,11 @@ ProyectilesActionsFSM::~ProyectilesActionsFSM()
 void ProyectilesActionsFSM::set_processes() {
 
 	moving_left_process.push_back(std::make_pair(Direction_type::Left, 0));
+	moving_left_process.push_back(std::make_pair(Direction_type::Left, 0));
+	moving_left_process.push_back(std::make_pair(Direction_type::Left, 0));
 
+	moving_right_process.push_back(std::make_pair(Direction_type::Right, 0));
+	moving_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 	moving_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
@@ -56,10 +61,12 @@ void ProyectilesActionsFSM::set_states() {
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, start_impacting_r });
 	moving_state->push_back({ Event_type::END_OF_TABLE, moving_state, do_nothing_proy });
 
-	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting});
+	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting_r });
 	impact_state->push_back({ Event_type::END_OF_TABLE, impact_state, do_nothing_proy});
 
 	falling_state->push_back({ Event_type::FELL, falling_state, start_falling_pr });
+	falling_state->push_back({ Event_type::MOVE, falling_state, check_fall_and_fall_r });
+	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, impact_state, start_impacting_r});
 	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_proy });
 
 	start_moving();
@@ -86,7 +93,6 @@ void ProyectilesActionsFSM::start_moving() {
 	else if(direction == Direction_type::Right) 
 		set_curr_process(&moving_right_process);
 
-
 	set_curr_timer_and_start(moving_timer);
 }
 
@@ -105,6 +111,7 @@ void ProyectilesActionsFSM::start_falling() {
 	notify_obs();								//ProyectilesActionsFSMDRAWObserver
 	obs_info.start_falling_graph = false;
 
+	set_curr_process(&falling_process);
 	set_curr_timer_and_start(falling_timer);
 }
 
@@ -116,13 +123,26 @@ void ProyectilesActionsFSM::process_logical_movement()
 	end_if_should_end_movement();
 }
 
+ALLEGRO_TIMER * ProyectilesActionsFSM::get_moving_timer()
+{
+	return moving_timer;
+}
+ALLEGRO_TIMER * ProyectilesActionsFSM::get_falling_timer()
+{
+	return falling_timer;
+}
+ALLEGRO_TIMER * ProyectilesActionsFSM::get_impacting_timer()
+{
+	return impacting_timer;
+}
 void ProyectilesActionsFSM::continue_logical_movement()
 {
 	obs_info.perform_logical_movement = true;
 	notify_obs();
 	obs_info.perform_logical_movement = false;
-	set_curr_timer_speed((*current_moving_iteration).second);
 	++current_moving_iteration;
+	if (!finished_logical_movement())
+		set_curr_timer_speed((*current_moving_iteration).second);
 }
 
 bool ProyectilesActionsFSM::finished_logical_movement() {
@@ -142,31 +162,38 @@ void ProyectilesActionsFSM::end_if_should_end_movement()
 		stop_curr_timer();
 	}
 }
+
+void ProyectilesActionsFSM::finished_impacting() {
+	obs_info.interrupt_impact = true;
+	notify_obs();						//ProyectileActionsFSMDRAWObserver
+	obs_info.interrupt_impact = false;
+
+	//delete from scene???
+}
+
 void do_nothing_proy(void* data) {
 
 }
-
-
 void check_move_and_move(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->process_logical_movement();
 }
-
+void check_fall_and_fall_r(void* data) {
+	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
+	fsm->process_logical_movement();
+}
 void start_impacting_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_impacting();
 }
-
-void finished_impacting(void* data) {
+void finished_impacting_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-
+	fsm->finished_impacting();
 }
-
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_moving();
 }
-
 void start_falling_pr(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_falling();

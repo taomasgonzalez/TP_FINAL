@@ -69,7 +69,6 @@ public:
 	int get_number_of_columns();
 
 	void append_graphic_facility(void* drawer);
-
 private:
 	MapCell get_cell(int coord_x, int coord_y);
 	MapCell ** map_cells;

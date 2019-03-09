@@ -47,6 +47,12 @@ public:
 
 	void stop_action();
 
+	ALLEGRO_TIMER* get_walking_timer();
+	ALLEGRO_TIMER* get_jumping_timer();
+	ALLEGRO_TIMER* get_jumping_forward_timer();
+	ALLEGRO_TIMER* get_falling_timer();
+	ALLEGRO_TIMER* get_attacking_timer();
+
 protected:
 
 	std::vector<edge_t>* walking_state = NULL;

@@ -57,6 +57,15 @@ void EnemyActionsFSM::create_all_timers() {
 
 }
 
+ALLEGRO_TIMER * EnemyActionsFSM::get_frozen_timer()
+{
+	return frozen_timer;
+}
+ALLEGRO_TIMER * EnemyActionsFSM::get_freezing_timer()
+{
+	return freezing_timer;
+}
+
 void EnemyActionsFSM::got_hit() {
 	
 	enemy->be_hit();

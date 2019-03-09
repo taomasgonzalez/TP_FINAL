@@ -174,13 +174,35 @@ void CharacterActionsFSM::stop_action()
 	stop_curr_timer();
 }
 
+ALLEGRO_TIMER * CharacterActionsFSM::get_walking_timer()
+{
+	return walking_timer;
+}
+
+ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_timer()
+{
+	return jumping_timer;
+}
+ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_forward_timer()
+{
+	return jumping_forward_timer;
+}
+ALLEGRO_TIMER * CharacterActionsFSM::get_falling_timer()
+{
+	return falling_timer;
+}
+ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer()
+{
+	return attacking_timer;
+}
 void CharacterActionsFSM::continue_logical_movement()
 {
 	obs_info.perform_logical_movement = true;
 	notify_obs();
 	obs_info.perform_logical_movement = false;
-	set_curr_timer_speed((*current_moving_iteration).second);
 	++current_moving_iteration;
+	if(!finished_logical_movement())
+		set_curr_timer_speed((*current_moving_iteration).second);
 }
 
 void CharacterActionsFSM::start_walking()

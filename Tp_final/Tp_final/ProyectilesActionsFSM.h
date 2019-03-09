@@ -14,6 +14,7 @@ public:
 		bool start_falling_graph = false;
 		bool perform_logical_movement = false;
 		bool interrupt_movement = false;
+		bool interrupt_impact = false;
 	};
 
 	observer_info obs_info;
@@ -30,7 +31,14 @@ public:
 	void start_moving();
 	void start_falling();
 
+	void finished_impacting();
+
 	void process_logical_movement();
+
+	ALLEGRO_TIMER* get_moving_timer();
+	ALLEGRO_TIMER* get_falling_timer();
+	ALLEGRO_TIMER* get_impacting_timer();
+
 protected:
 
 	std::vector<edge_t>* moving_state = NULL;
@@ -41,6 +49,7 @@ protected:
 	void create_all_timers();
 	void set_states();
 	void set_processes();
+
 
 private:
 

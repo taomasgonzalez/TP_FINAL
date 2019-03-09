@@ -29,4 +29,3 @@ EventGenerator* Character::get_my_ev_gen() {
 	return ev_handler->get_ev_gen();
 }
 
-

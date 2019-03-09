@@ -6,7 +6,7 @@
 #include "Fireball.h"
 #include "Player.h"
 
-class MapThingFactory
+class MapThingFactory : public Observable
 {
 public:
 	MapThingFactory();
@@ -14,6 +14,13 @@ public:
 	MapThing* create_map_thing(Item_type identifyer, Sense_type direction, void * scenario);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
+	MapThing* get_last_created_map_thing();
+
+	struct observer_info {
+		bool new_map_thing = false;
+	};
+
+	observer_info obs_info;
 
 private:
 	unsigned int get_enemy_id();
@@ -28,6 +35,8 @@ private:
 
 	ALLEGRO_EVENT_QUEUE * enemies_ev_queue;
 	ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue;
+
+	MapThing* last_created_map_thing = NULL;
 
 };
 

@@ -10,12 +10,6 @@
     <ClCompile Include="Character.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterSceneObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
@@ -85,16 +79,10 @@
     <ClCompile Include="CharacterActionsFSM.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
-    <ClCompile Include="ProyectileSceneObserver.cpp">
-      <Filter>Source Files\PJ_related\Proyectiles</Filter>
-    </ClCompile>
     <ClCompile Include="Proyectile.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
     </ClCompile>
     <ClCompile Include="ProyectilesActionsFSM.cpp">
-      <Filter>Source Files\PJ_related\Proyectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
     </ClCompile>
     <ClCompile Include="Package.cpp">
@@ -199,6 +187,33 @@
     <ClCompile Include="MapThingFSM.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectileSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
+    <ClCompile Include="ProyectilesActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Proyectiles</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyActionsEventGenerator.cpp">
+      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThingEventGenerator.cpp">
+      <Filter>Source Files\Map_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -290,9 +305,6 @@
     </ClInclude>
     <ClInclude Include="ProjectileDefine.h">
       <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
     <ClInclude Include="ProyectileSceneObserver.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
@@ -411,8 +423,26 @@
     <ClInclude Include="PlayerSceneObserver.h">
       <Filter>Header Files\PJ_related\Characters\Players\Observers</Filter>
     </ClInclude>
+    <ClInclude Include="MapThingFactoryDRAWObserver.h">
+      <Filter>Header Files\Map_related\Observers</Filter>
+    </ClInclude>
     <ClInclude Include="MapThingFSM.h">
-      <Filter>Source Files\Map_related</Filter>
+      <Filter>Header Files\Map_related</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Characters</Filter>
+    </ClInclude>
+    <ClInclude Include="ProyectilesActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Proyectiles</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Characters\Players</Filter>
+    </ClInclude>
+    <ClInclude Include="EnemyActionsEventGenerator.h">
+      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="MapThingEventGenerator.h">
+      <Filter>Header Files\Map_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -544,6 +574,12 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Characters\Players\Observers">
       <UniqueIdentifier>{66535075-048e-428c-9ce9-9c15465b760d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Observers">
+      <UniqueIdentifier>{c34821c3-3136-4bad-b3e8-a6ad8ca2ddc0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Proyectiles\Observers">
+      <UniqueIdentifier>{b38043f4-caf4-487f-8672-337d0e80a075}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

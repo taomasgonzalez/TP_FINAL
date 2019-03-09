@@ -1,5 +1,5 @@
 #include "Map.h"
-
+#include "MapThingFactoryDRAWObserver.h"
 #include<iostream>
 
 Sense_type get_random_sense(void);
@@ -19,6 +19,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
+	map_filler.add_observer(new MapThingFactoryDRAWObserver(&map_filler));
 }
 
 Map::~Map()
@@ -710,5 +711,7 @@ void Map::append_graphic_facility(void* drawer) {
 Sense_type get_random_sense(void) {
 	return ((true) ? Sense_type::Left : Sense_type::Right);
 }
+
+
 
 

@@ -1,11 +1,13 @@
 #include "Enemy.h"
 #include "EnemyActionsFSM.h"
 #include "EnemyActionsFSMDRAWObserver.h"
-#include "CharacterActionsEventGenerator.h"
+#include "EnemyActionsEventGenerator.h"
 
 std::uniform_real_distribution<double> Enemy::acting_probabilities = std::uniform_real_distribution<double>(0.0, 1.0);
 unsigned Enemy::seed = std::chrono::system_clock::now().time_since_epoch().count();
 std::default_random_engine Enemy::generator = std::default_random_engine(seed);
+
+void get_and_set_timers(EnemyActionsEventGenerator* ev_gen, EnemyActionsFSM* fsm);
 
 Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 {
@@ -13,8 +15,9 @@ Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 
 	EnemyActionsFSM* fsm = new EnemyActionsFSM(this);
 	//en el momento en que necesite mas timers para EnemyActionsFSM, tendre que overridiear la funcion get_all_my_timers!
-	CharacterActionsEventGenerator* ev_gen = new CharacterActionsEventGenerator(fsm->get_all_timers());
+	EnemyActionsEventGenerator* ev_gen = new EnemyActionsEventGenerator(fsm->get_all_timers());
 	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
+	get_and_set_timers(ev_gen, fsm);
 	ev_handler = new EventHandler(fsm, ev_gen);
 }
 
@@ -182,3 +185,17 @@ void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 	next_enemy_action->id = id;
 	next_enemy_action->is_local = true;
 }
+
+void get_and_set_timers(EnemyActionsEventGenerator* ev_gen, EnemyActionsFSM* fsm) {
+
+	ev_gen->set_attacking_timer(fsm->get_attacking_timer());
+	ev_gen->set_falling_timer(fsm->get_falling_timer());
+	ev_gen->set_jumping_forward_timer(fsm->get_jumping_forward_timer());
+	ev_gen->set_jumping_timer(fsm->get_jumping_timer());
+	ev_gen->set_walking_timer(fsm->get_walking_timer());
+
+	ev_gen->set_frozen_timer(fsm->get_frozen_timer());
+	ev_gen->set_freezing_timer(fsm->get_freezing_timer());
+}
+
+

@@ -178,8 +178,8 @@ void Scene::execute_attack(Action_info * attack_to_be_executed) {
 	my_direction = (Sense_type)attack_to_be_executed->my_direction;
 	the_one_that_moves = get_player(attack_to_be_executed->my_character);
 
-	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction, this);
 
+	maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::SNOWBALL, my_direction, this);
 }
 
 void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_be_hit) {
@@ -216,8 +216,9 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 		else
 			maps[actual_map]->move_id(enemy_action_to_be_executed->id, extern_destination.fil, extern_destination.col); //
 	}
-	else if(enemy_action_to_be_executed->action == Action_type::Attack)
+	else if(enemy_action_to_be_executed->action == Action_type::Attack){
 		maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::FIREBALL, my_direction, this);
+	}
 }
 
 

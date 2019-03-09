@@ -15,6 +15,11 @@ MapThingFSM::~MapThingFSM()
 }
 
 
+std::vector<ALLEGRO_TIMER*> MapThingFSM::get_all_timers()
+{
+	return all_timers;
+}
+
 unsigned int MapThingFSM::get_id() {
 	return thing->id;
 }
@@ -31,10 +36,6 @@ void MapThingFSM::set_curr_timer_speed(double speed) {
 }
 void MapThingFSM::stop_curr_timer() {
 	al_stop_timer(curr_timer);
-}
-
-std::vector<ALLEGRO_TIMER*> MapThingFSM::get_all_timers() {
-	return all_timers;
 }
 
 void MapThingFSM::create_timer(ALLEGRO_TIMER* timer) {

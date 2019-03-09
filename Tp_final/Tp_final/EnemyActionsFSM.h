@@ -12,9 +12,9 @@ public:
 	//};
 	//observer_enemyFSM_related questions_4_observer;
 	//observer_enemyFSM_related answers_4_observer;
-	std::vector<edge_t>* freezing_state = NULL;
-	std::vector<edge_t>* frozen_state = NULL;
 
+	ALLEGRO_TIMER* get_frozen_timer();
+	ALLEGRO_TIMER* get_freezing_timer();
 
 	void got_hit();
 	void start_got_hit();
@@ -25,6 +25,9 @@ protected:
 
 	ALLEGRO_TIMER* frozen_timer = NULL;
 	ALLEGRO_TIMER* freezing_timer = NULL;
+
+	std::vector<edge_t>* freezing_state = NULL;
+	std::vector<edge_t>* frozen_state = NULL;
 
 	process_t freezing_process;
 	process_t frozen_processs;

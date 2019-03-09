@@ -64,19 +64,21 @@ void PlayerActionsFSM::set_processes() {
 
 
 void PlayerActionsFSM::start_pushing() {
+	obs_info.start_pushing_graph = true;
+	notify_obs();
+	obs_info.start_pushing_graph = false;
 
 	PUSHED_EventPackage * curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
 
-	if (curr_push->pushing_direction == Direction_type::Jump_Right) {
-		current_moving_vector = &pushing_right_process;
-		current_moving_iteration = pushing_right_process.begin();
-	}
-	else if (curr_push->pushing_direction == Direction_type::Jump_Left) {
-		current_moving_vector = &pushing_left_process;
-		current_moving_iteration = pushing_left_process.begin();
-	}
+	if (curr_push->pushing_direction == Direction_type::Jump_Right) 
+		set_curr_process(&pushing_right_process);
+	else if (curr_push->pushing_direction == Direction_type::Jump_Left) 
+		set_curr_process(&pushing_left_process);
 
 	start_pushing_timer();
+}
+ALLEGRO_TIMER* PlayerActionsFSM::get_pushing_timer() {
+	return pushing_timer;
 }
 
 void player_revive(void* data) {
@@ -94,15 +96,12 @@ void player_die(void* data) {
 
 void start_pushing_r(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
-	(fsm->obs_info).start_pushing_graph = true;
-	fsm->notify_obs();
-	(fsm->obs_info).start_pushing_graph = false;
-
 	fsm->start_pushing();
 }
 
 void check_push_and_push(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	
 }
 void reset_push(void* data) {
 	iddle_graph_player(data);
@@ -115,5 +114,6 @@ void iddle_graph_player(void *data) {
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
 }
+
 
 

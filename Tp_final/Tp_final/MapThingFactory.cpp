@@ -72,6 +72,11 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 	else if (new_born->is_proyectile())
 		al_register_event_source(proyectiles_ev_queue, al_get_timer_event_source(((Proyectile*)new_born)->get_moving_timer()));
 
+	last_created_map_thing = new_born;
+	this->obs_info.new_map_thing = true;
+	notify_obs();
+	this->obs_info.new_map_thing = false;
+
 	return new_born;
 }
 
@@ -115,3 +120,6 @@ unsigned int MapThingFactory::get_wall_id()
 }
 
 
+MapThing* MapThingFactory::get_last_created_map_thing() {
+	return last_created_map_thing;
+}

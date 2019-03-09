@@ -72,7 +72,6 @@ public:
 	bool we_won = false;
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
-	bool new_character = false;
 	bool load_action_on_char = false;
 	bool should_hit = false;
 	bool load_graphic_level = false;
@@ -92,7 +91,6 @@ public:
 	void append_graphic_facility(void* drawer);
 	unsigned int get_action_to_be_loaded_id();
 	Action_info get_action_to_be_loaded();
-
 private:
 	void * graphics = NULL;
 

@@ -30,6 +30,15 @@ void ProyectilesActionsFSMDRAWObserver::update() {
 		curr_state = proy_FALLING;
 	}
 
+	if (fsm->obs_questions.should_interrupt_movement) {
+		fsm->obs_answers.should_interrupt_movement = drawer->secuenceOver(proyectile->id);
+	}
+	if (fsm->obs_info.interrupt_movement) {
+		ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(),0);
+	}
+	if (fsm->obs_info.interrupt_impact) {
+		//set inactive state
+	}
 }
 
 Direction direction_translation(Direction_type dir) {
