@@ -33,7 +33,7 @@ public:
 	Obj_Graf();
 	~Obj_Graf();
 	Obj_Graf(double ID);
-	virtual void startDraw(Direction dir, void *estado, POINT_& pos) = 0;			// a startDraw lo llama el modelo del juego y le marca donde iniciar la secuencia de dibujo y en que dirección y estado
+	virtual void startDraw(Direction dir, void *estado, POINT_& pos) = 0;			// a startDraw lo llama el modelo del juego y le marca donde iniciar la secuencia de dibujo y en que direcciÃ³n y estado
 	virtual void destroy() = 0;
 	virtual void draw() = 0;
 	void setID(double ID);											// setea el ID
@@ -41,6 +41,8 @@ public:
 	void setPos(double x, double y);								// coordenadas del objeto en el mapa
 	void setInitalPos(POINT_ pos);
 	bool isActive();
+	void activeObj();
+	void disactiveObj();
 	virtual void reset() = 0;
 	virtual bool secuenceOver() = 0;
 
@@ -53,6 +55,6 @@ protected:
 	bool active;						// el objeto garfico va a estar activo cuando se halla iniciado su secuencia de dibujo
 	int velX;							// velocidad de desplazamiento horizontal (andando) (en pixeles/sec)
 	int velFall;						// velocidad de caida
-	POINT_ InitalPos;					// posición inicial para saber cuando detener la animación, y pasivar el objeto
+	POINT_ InitalPos;					// posiciÃ³n inicial para saber cuando detener la animaciÃ³n, y pasivar el objeto
 	bool secuenceOver_;
 };
