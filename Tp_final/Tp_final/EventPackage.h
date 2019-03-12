@@ -93,11 +93,15 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 
 	//enemy and proyectiles events
 	GOT_HIT, 
+	GOT_SMASHED,
 
 	//enemy events
 	FROZE,
 	UNFROZE,
-	PARTIALLY_UNFROZE
+	PARTIALLY_UNFROZE,
+	BOUNCE,
+	ROLLING,
+	CHARGING
 
 };
 
