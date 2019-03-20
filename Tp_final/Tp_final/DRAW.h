@@ -37,6 +37,8 @@ public:
 	void add_level(const char* level);
 	bool secuenceOver(unsigned int ID);
 	void reset(unsigned int ID);
+	void activeObj(unsigned int ID);
+	void disactiveObj(unsigned int ID);
 
 private:
 	map<unsigned int, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos

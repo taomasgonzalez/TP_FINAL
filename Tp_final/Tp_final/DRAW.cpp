@@ -139,3 +139,12 @@ void DRAW::drawLevel()
 	}
 }
 
+void DRAW::activeObj(unsigned int ID)
+{
+	this->mapObjGraf[ID]->activeObj();
+}
+
+void DRAW::disactiveObj(unsigned int ID)
+{
+	this->mapObjGraf[ID]->disactiveObj();
+}

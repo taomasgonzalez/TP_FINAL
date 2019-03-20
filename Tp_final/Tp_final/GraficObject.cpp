@@ -41,3 +41,13 @@ bool Obj_Graf::isActive()
 {
 	return this->active;
 }
+
+void Obj_Graf::activeObj()
+{
+	this->active = true;
+}
+
+void Obj_Graf::disactiveObj()
+{
+	this->active = false;
+}

@@ -165,8 +165,10 @@ void CharacterActionsFSM::start_attacking()
 	set_curr_timer_and_start(attacking_timer);
 }
 void CharacterActionsFSM::start_falling() {
+
 	set_curr_process(&falling_process);
 	set_curr_timer_and_start(falling_timer);
+
 }
 
 void CharacterActionsFSM::stop_action()
@@ -200,7 +202,9 @@ void CharacterActionsFSM::continue_logical_movement()
 	obs_info.perform_logical_movement = true;
 	notify_obs();
 	obs_info.perform_logical_movement = false;
+
 	++current_moving_iteration;
+
 	if(!finished_logical_movement())
 		set_curr_timer_speed((*current_moving_iteration).second);
 }
@@ -224,10 +228,11 @@ void CharacterActionsFSM::start_jumping() {
 
 void CharacterActionsFSM::end_if_should_end_movement()
 {
-#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
+	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();
 	obs_questions.should_interrupt_movement = false;
+
 	if (obs_answers.should_interrupt_movement) {
 		obs_info.interrupt_movement = true;
 		notify_obs();
@@ -241,6 +246,7 @@ void CharacterActionsFSM::end_if_should_end_attack()
 	obs_questions.should_interrupt_attack = true;
 	notify_obs();
 	obs_questions.should_interrupt_attack = false;
+
 	if (obs_answers.should_interrupt_attack) {
 		obs_info.interrupt_attack = true;
 		notify_obs();
@@ -258,6 +264,8 @@ bool CharacterActionsFSM::can_perform_logical_movement()
 	#pragma message("Germo tiene que verificar si se puede ejecutar este movimiento desde escena. Este observer es CharacterSceneObserver")
 	this->obs_questions.can_perform_movement = true;
 	notify_obs();
+	#pragma message("Debería editar obs_answers.can_perform_movement desde escena?")
+
 	this->obs_questions.can_perform_movement = false;
 	return obs_answers.can_perform_movement;
 }
@@ -266,6 +274,7 @@ bool CharacterActionsFSM::has_attacked() {
 	return attacked;
 }
 void CharacterActionsFSM::attack() {
+
 	obs_info.perform_logical_attack = true;
 	notify_obs();
 	obs_info.perform_logical_attack = false;
