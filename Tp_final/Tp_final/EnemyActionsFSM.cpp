@@ -10,6 +10,7 @@ void start_moving_snowball_r(void* data);
 void snowball_move_r(void* data);
 void enemy_die_r(void* data);
 void start_got_hit_r(void*data);
+void fall_and_start_got_hit_r(void* data);
 
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
