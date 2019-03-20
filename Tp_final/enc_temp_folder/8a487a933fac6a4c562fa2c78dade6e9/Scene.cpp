@@ -10,7 +10,7 @@
 
 const unsigned char *getTable();		// función para obtener la tabla para checksum
  
-Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observable()
+Scene::Scene(Userdata* data):Observable()
 {
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
@@ -19,8 +19,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	this->actual_map = 0;
 	enemy_action_info;
 	this->data = data;
-	this->other_player = his_player;
-	this->my_player = my_player;
+
 }
 
 
