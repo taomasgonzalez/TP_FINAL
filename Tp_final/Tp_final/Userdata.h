@@ -65,6 +65,6 @@ public:
 
 	NetworkData my_network_data;
 	static DRAW *drawer;
-
+	static Direction_type sense_2_direction(Sense_type sense);
 };
 

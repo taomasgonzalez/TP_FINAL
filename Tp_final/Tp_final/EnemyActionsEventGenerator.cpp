@@ -22,12 +22,10 @@ void EnemyActionsEventGenerator::update_allegro_timer_events()
 
 	if (al_get_next_event(timers_queue, &allegroEvent)) {
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			if (allegroEvent.timer.source == frozen_timer) {
-
-			}
-			else if (allegroEvent.timer.source == freezing_timer) {
-
-			}
+			if (allegroEvent.timer.source == frozen_timer)
+				append_new_event(new PARTIALLY_UNFROZE_EventPackage(), (int)MapThing_queues::Allegro);
+			else if (allegroEvent.timer.source == freezing_timer) 
+				append_new_event(new UNFROZE_EventPackage(), (int) MapThing_queues::Allegro);
 		}
 	}
 }

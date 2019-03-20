@@ -56,6 +56,15 @@ Userdata::~Userdata()
 
 DRAW* Userdata::drawer = NULL;
 
+Direction_type Userdata::sense_2_direction(Sense_type sense) {
+	if (sense == Sense_type::Left)
+		return Direction_type::Left;
+	else if (sense == Sense_type::Right)
+		return Direction_type::Right;
+	else
+		return Direction_type::None;
+}
+
 
 NetworkData::NetworkData() {
 

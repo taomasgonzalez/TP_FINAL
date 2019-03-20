@@ -187,6 +187,8 @@ public:
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
 	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
 	MOVE_EventPackage(Action_info * my_info);
+	//to be completed when neeeded!!
+	MOVE_EventPackage();
 
 	Item_type give_me_the_character();
 	void set_character(Item_type the_one_that_moves);
@@ -522,4 +524,18 @@ public:
 	PUSHED_EventPackage(Direction_type dir);
 	~PUSHED_EventPackage();
 	Direction_type pushing_direction;
+};
+
+
+class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
+public:
+	PARTIALLY_UNFROZE_EventPackage();
+	~PARTIALLY_UNFROZE_EventPackage();
+
+};
+
+class UNFROZE_EventPackage : public EventPackage {
+public:
+	UNFROZE_EventPackage();
+	~UNFROZE_EventPackage();
 };

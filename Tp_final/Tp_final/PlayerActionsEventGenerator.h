@@ -1,10 +1,10 @@
 #pragma once
 #include "CharacterActionsEventGenerator.h"
-
+#include "Player.h"
 class PlayerActionsEventGenerator : public CharacterActionsEventGenerator
 {
 public:
-	PlayerActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers);
+	PlayerActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers, Player* player);
 	~PlayerActionsEventGenerator();
 
 	EventPackage* fetch_event();
@@ -13,5 +13,7 @@ public:
 protected:
 	void update_allegro_timer_events();
 	ALLEGRO_TIMER* pushing_timer = NULL;
+private:
+	Player * player = NULL;
 };
 

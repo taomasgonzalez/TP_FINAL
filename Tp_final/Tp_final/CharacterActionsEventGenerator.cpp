@@ -4,6 +4,7 @@
 
 CharacterActionsEventGenerator::CharacterActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers) :MapThingEventGenerator(timers)
 {
+
 }
 
 
@@ -43,19 +44,19 @@ void CharacterActionsEventGenerator::update_allegro_timer_events() {
 	if (al_get_next_event(timers_queue, &allegroEvent)) {
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
 			if (allegroEvent.timer.source == walking_timer) {
-				//append_new_event(new MOVE_EventPackage(, MapThing_queues::MapThingFSM);
+				append_new_event(new MOVE_EventPackage(),(int) MapThing_queues::Allegro);
 			}
 			else if (allegroEvent.timer.source == jumping_timer) {
-
+				append_new_event(new MOVE_EventPackage(), (int)MapThing_queues::Allegro);
 			}
 			else if (allegroEvent.timer.source == jumping_forward_timer) {
-
+				append_new_event(new MOVE_EventPackage(), (int)MapThing_queues::Allegro);
 			}
 			else if (allegroEvent.timer.source == falling_timer) {
-
+				append_new_event(new MOVE_EventPackage(), (int)MapThing_queues::Allegro);
 			}
 			else if (allegroEvent.timer.source == attacking_timer) {
-
+				append_new_event(new ATTACK_EventPackage(), (int)MapThing_queues::Allegro);
 			}
 		}
 	}

@@ -2,8 +2,9 @@
 
 
 
-PlayerActionsEventGenerator::PlayerActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers) : CharacterActionsEventGenerator(timers)
+PlayerActionsEventGenerator::PlayerActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers, Player* player) : CharacterActionsEventGenerator(timers)
 {
+	this->player = player;
 }
 
 
@@ -23,7 +24,7 @@ void PlayerActionsEventGenerator::update_allegro_timer_events()
 	if (al_get_next_event(timers_queue, &allegroEvent)) {
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
 			if (allegroEvent.timer.source == pushing_timer) {
-
+				append_new_event(new PUSHED_EventPackage(Userdata::sense_2_direction(player->get_sense())), (int)MapThing_queues::Allegro);
 			}
 		}
 	}

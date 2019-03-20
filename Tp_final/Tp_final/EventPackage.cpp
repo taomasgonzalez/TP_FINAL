@@ -194,6 +194,11 @@ MOVE_EventPackage::MOVE_EventPackage(Action_info * my_info) :EventPackage(Event_
 
 }
 
+MOVE_EventPackage::MOVE_EventPackage():EventPackage(Event_type::MOVE, true)
+{
+
+}
+
 
 
 /**************************************************************
@@ -668,4 +673,18 @@ PUSHED_EventPackage::PUSHED_EventPackage(Direction_type dir) : EventPackage(Even
 
 PUSHED_EventPackage::~PUSHED_EventPackage()
 {
+}
+
+PARTIALLY_UNFROZE_EventPackage::PARTIALLY_UNFROZE_EventPackage() : EventPackage(Event_type::PARTIALLY_UNFROZE, true){
+
+}
+PARTIALLY_UNFROZE_EventPackage::~PARTIALLY_UNFROZE_EventPackage() {
+
+}
+
+UNFROZE_EventPackage::UNFROZE_EventPackage() :EventPackage(Event_type::UNFROZE, true) {
+
+}
+UNFROZE_EventPackage::~UNFROZE_EventPackage() {
+
 }

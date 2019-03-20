@@ -46,6 +46,8 @@ void EnemyActionsFSM::set_states()
 	frozen_state->push_back({ Event_type::MOVE, frozen_state, snowball_move_r });
 	frozen_state->push_back({ Event_type::DIED, dead_state, enemy_die_r });
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
+
+	actual_state = iddle_state;
 }
 
 

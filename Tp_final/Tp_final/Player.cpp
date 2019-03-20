@@ -15,7 +15,7 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 
 	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
 	#pragma message("falta completar constructor con parametros!!")
-	PlayerActionsEventGenerator* ev_gen = new PlayerActionsEventGenerator(fsm->get_all_timers());
+	PlayerActionsEventGenerator* ev_gen = new PlayerActionsEventGenerator(fsm->get_all_timers(), this);
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
 	get_and_set_timers(ev_gen, fsm);
 	ev_handler = new EventHandler(fsm, ev_gen);
