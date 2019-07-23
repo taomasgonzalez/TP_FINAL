@@ -59,7 +59,7 @@ public:
 
 	std::vector <Map*> maps;
 	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
-	unsigned int actual_map;
+	 int actual_map;
 
 	void load_action_on_character(Action_info action);
 
