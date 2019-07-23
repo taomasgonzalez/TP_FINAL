@@ -12,7 +12,7 @@
 class Scene : public Observable
 {
 public:
-	Scene(Userdata* data, Item_type my_player, Item_type his_player);
+	Scene(Userdata* data);
 	~Scene();
 	void gameInit();
 

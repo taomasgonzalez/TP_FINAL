@@ -10,7 +10,7 @@
 
 const unsigned char *getTable();		// función para obtener la tabla para checksum
  
-Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observable()
+Scene::Scene(Userdata* data):Observable()
 {
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
@@ -19,8 +19,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	this->actual_map = 0;
 	enemy_action_info;
 	this->data = data;
-	this->other_player = his_player;
-	this->my_player = my_player;
+
 }
 
 
@@ -246,9 +245,9 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 		new_map->load_on_map(give_me_the_CSV(actual_map));
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
-	#pragma message(//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!)
 	//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!
 	load_new_graphic_level();
+
 	curr_enemies = new_map->get_all_enemies();
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		this->add_observer(new EnemySceneObserver(*it, this));

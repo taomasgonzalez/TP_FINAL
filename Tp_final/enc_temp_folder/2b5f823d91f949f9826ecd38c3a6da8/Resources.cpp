@@ -34,24 +34,22 @@ bool Resources::initialize_all_the_resources() {
 		my_drawer = new DRAW();
 		my_user_data->drawer = my_drawer;
 		
+		my_scenario = new Scene(my_user_data);			//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
+		my_scenario->append_graphic_facility(my_drawer);
 
 		my_communication = new Communication(my_user_data);  //Initialize the communication
 		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful
 
-	
 		if (my_user_data->my_network_data.is_client()) {
 			my_logic_fsm = new LogicClientFSM(my_user_data);
 			my_logic_ev_gen = new LogicEventGenerator(my_allegro_container, my_user_data);
 			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);
-			my_scenario = new Scene(my_user_data, Item_type::NICK, Item_type::TOM);
 		}
 		else {
 			my_logic_fsm = new LogicServerFSM(my_user_data);
 			my_logic_ev_gen = new LogicEventGenerator(my_allegro_container, my_user_data);
-			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);	//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
-			my_scenario = new Scene(my_user_data, Item_type::TOM, Item_type::NICK);			
+			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);
 		}
-		my_scenario->append_graphic_facility(my_drawer);
 
 		my_graphic_fsm = new GraphicGameFSM(my_drawer);
 		my_graphic_ev_gen = new GraphicEventGenerator();
