@@ -278,6 +278,78 @@ void ImageContainer::load_purple_bitmaps() {
 
 void ImageContainer::load_fatty_bitmaps()
 {
+	std::string carpeta1 = FOLDER_ENEMY;
+	std::string carpeta2 = FOLDER_FATTY;
+	std::string carpeta3 = FOLDER_WALKING;
+	std::string file = FILE_FATTY_WALKING;
+	std::string imageDir;
+
+	enemy_images curr_images = my_enemy_images.fatty;
+
+	curr_images.walkImages = new ALLEGRO_BITMAP *[WALKING_PICS_FATTY];
+	for (int i = 0; i < WALKING_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.walkImages[i] = al_load_bitmap(imageDir.c_str());
+	}
+
+	carpeta3 = FOLDER_JUMPING;
+	file = FILE_FATTY_JUMPING;
+	curr_images.jumpImages = new ALLEGRO_BITMAP *[JUMPING_PICS_FATTY];
+	for (int i = 0; i < JUMPING_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.jumpImages[i] = al_load_bitmap(imageDir.c_str());
+	}
+
+	carpeta3 = FOLDER_IDLE;
+	file = FILE_FATTY_IDLE;
+	curr_images.idleImages = new ALLEGRO_BITMAP *[IDLE_PICS_FATTY];
+	for (int i = 0; i < IDLE_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.idleImages[i] = al_load_bitmap(imageDir.c_str());
+	}
+	carpeta3 = FOLDER_ATTACKING;
+	file = FILE_FATTY_ATTACKING;
+	curr_images.attackImages = new ALLEGRO_BITMAP *[ATTACKING_PICS_FATTY];
+	for (int i = 0; i < ATTACKING_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.attackImages[i] = al_load_bitmap(imageDir.c_str());
+	}
+	carpeta3 = FOLDER_FALLING;
+	file = FILE_FATTY_FALLING;
+	curr_images.fallImages = new ALLEGRO_BITMAP *[FALLING_PICS_FATTY];
+	for (int i = 0; i < FALLING_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.fallImages[i] = al_load_bitmap(imageDir.c_str());
+	}
+	carpeta3 = FOLDER_TRAPPED_1;
+	file = FILE_FATTY_TRAPPED_1;
+	curr_images.trap1Images = new ALLEGRO_BITMAP *[TRAPPED_1_PICS_FATTY];
+	for (int i = 0; i < TRAPPED_1_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.trap1Images[i] = al_load_bitmap(imageDir.c_str());
+	}
+	carpeta3 = FOLDER_TRAPPED_2;
+	file = FILE_FATTY_TRAPPED_2;
+	curr_images.trap2Images = new ALLEGRO_BITMAP *[TRAPPED_2_PICS_FATTY];
+	for (int i = 0; i < TRAPPED_2_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.trap2Images[i] = al_load_bitmap(imageDir.c_str());
+	}
+	carpeta3 = FOLDER_DYING;
+	file = FILE_FATTY_DYING;
+	curr_images.dieImages = new ALLEGRO_BITMAP *[DYING_PICS_FATTY];
+	for (int i = 0; i < DYING_PICS_FATTY; i++)
+	{
+		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images.dieImages[i] = al_load_bitmap(imageDir.c_str());
+	}
 }
 
 void ImageContainer::load_crazy_bitmaps()
