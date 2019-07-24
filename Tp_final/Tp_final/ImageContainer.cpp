@@ -274,8 +274,11 @@ void ImageContainer::load_crazy_bitmaps()
 		curr_images.inballDestructiontImages[i] = al_load_bitmap(imageDir.c_str());
 	}
 }
+
 void ImageContainer::load_projectile_bitmaps()
 {
+	load_fire_bitmaps();
+	load_snowball_bitmaps();
 }
 void ImageContainer::load_snowball_bitmaps()
 {
@@ -285,10 +288,11 @@ void ImageContainer::load_fire_bitmaps()
 }
 void ImageContainer::load_character_bitmaps()
 {
+	load_tom_bitmaps();
+	load_nick_bitmaps();
 }
 void ImageContainer::load_tom_bitmaps()
 {
-
 }
 void ImageContainer::load_nick_bitmaps()
 {
