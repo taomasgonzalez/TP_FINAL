@@ -1,6 +1,6 @@
 #include "ImageContainer.h"
 
-
+using namespace std;
 
 ImageContainer::ImageContainer()
 {
