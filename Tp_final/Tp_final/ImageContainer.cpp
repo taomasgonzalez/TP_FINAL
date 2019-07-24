@@ -129,7 +129,7 @@ void ImageContainer::load_nick_bitmaps()
 	fill_bitmap(my_character_images_container.nick.dieImages, FOLDER_CHARA, FOLDER_DYING, FILE_NICK_DYING, DYING_PICS, FOLDER_NICK);
 }
 
-void ImageContainer::fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2=""){
+void ImageContainer::fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2){
 	string imageDir;
 
 	curr_images = new ALLEGRO_BITMAP *[limit];
