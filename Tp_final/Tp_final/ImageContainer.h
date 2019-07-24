@@ -38,13 +38,13 @@ public:
 		ALLEGRO_BITMAP ** inballDestructiontImages = NULL;
 	};
 
-	struct enemies_images_container{
+	struct enemies_images_container {
 		enemy_images purple;
 		enemy_images crazy;
 		enemy_images fatty;
 	};
 
-	enemies_images_container my_enemy_images;
+	enemies_images_container my_enemy_images_container;
 
 	struct character_images {
 		ALLEGRO_BITMAP ** walkImages = NULL;
@@ -93,7 +93,6 @@ private:
 	void load_tom_bitmaps();
 	void load_nick_bitmaps();
 
-	void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "") {
+	void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
 
 };
-
