@@ -31,6 +31,7 @@ DRAW::DRAW()
 
 	if (!floor || !empty)
 		cout << "ERROR: could not load scenario !" << endl;
+
 }
 
 
@@ -40,7 +41,7 @@ DRAW::~DRAW()
 
 Obj_Graf_Player* DRAW::createObjGraf(unsigned int ID, PLAYER_TYPE type)
 {
-	Obj_Graf_Player *obj = new Obj_Graf_Player(ID, type);
+	Obj_Graf_Player *obj = new Obj_Graf_Player(ID, type, &images);
 	this->mapObjGraf[ID] = obj;
 	return obj;
 }
@@ -59,12 +60,6 @@ Obj_Graf_Projectile* DRAW::createObjGraf(unsigned int ID, PROYECTILE_TYPE type)
 	return obj;
 }
 
-Obj_Graf_Ball* DRAW::createObjGraf(unsigned int ID, BALL_TYPE type)
-{
-	Obj_Graf_Ball *obj = new Obj_Graf_Ball(ID, type);
-	this->mapObjGraf[ID] = obj;
-	return obj;
-}
 
 void DRAW::draw()		
 {

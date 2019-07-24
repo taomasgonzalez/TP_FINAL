@@ -170,7 +170,6 @@
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraficInterface.cpp" />
     <ClCompile Include="GraficObject.cpp" />
-    <ClCompile Include="GraficObjectBall.cpp" />
     <ClCompile Include="GraficObjectEnemy.cpp" />
     <ClCompile Include="GraficObjectPlayer.cpp" />
     <ClCompile Include="GraficObjectProjectile.cpp" />
@@ -217,7 +216,6 @@
   <ItemGroup>
     <ClInclude Include="Action_Info.h" />
     <ClInclude Include="AllegroClass.h" />
-    <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterActionsEventGenerator.h" />
     <ClInclude Include="EnemyActionsEventGenerator.h" />
@@ -248,7 +246,6 @@
     <ClInclude Include="general.h" />
     <ClInclude Include="GraficInterface.h" />
     <ClInclude Include="GraficObject.h" />
-    <ClInclude Include="GraficObjectBall.h" />
     <ClInclude Include="GraficObjectEnemy.h" />
     <ClInclude Include="GraficObjectPlayer.h" />
     <ClInclude Include="GraficObjectProjectile.h" />

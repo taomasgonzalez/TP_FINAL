@@ -2,7 +2,6 @@
 #include "GraficObjectPlayer.h"
 #include "GraficObjectEnemy.h"
 #include "GraficObjectProjectile.h"
-#include "GraficObjectBall.h"
 #include <iostream>
 #include <map>
 #include <vector>
@@ -27,7 +26,6 @@ public:
 	Obj_Graf_Player* createObjGraf(unsigned int ID, PLAYER_TYPE type);						// crea un objeto grafico del tipo deseado y se lo añade al mapa de objetos
 	Obj_Graf_Enemy* createObjGraf(unsigned int ID, ENEMY_TYPE type);
 	Obj_Graf_Projectile* createObjGraf(unsigned int ID, PROYECTILE_TYPE type);
-	Obj_Graf_Ball* createObjGraf(unsigned int ID, BALL_TYPE type);
 
 	template <typename T> void startDraw(T state, unsigned int ID, Direction dir, int pos_x, int pos_y);		// inicia la secuencia de dibujo de un objeto grafico
 	void draw();															// esta funcion refresca los objetos graficos activos

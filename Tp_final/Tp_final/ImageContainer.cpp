@@ -4,8 +4,9 @@ using namespace std;
 
 ImageContainer::ImageContainer()
 {
-	
-
+	load_enemy_bitmaps();
+	load_projectile_bitmaps();
+	load_character_bitmaps();
 }
 ImageContainer::~ImageContainer()
 {
@@ -179,10 +180,6 @@ void ImageContainer::load_crazy_bitmaps()
 
 	enemy_images curr_images = my_enemy_images.crazy;
 
-	fill_bitmap(curr_images.walkImages, FOLDER_ENEMY, FOLDER_WALKING, FILE_CRAZY_WALKING, WALKING_PICS_CRAZY, FOLDER_CRAZY);
-	fill_bitmap(curr_images.jumpImages, FOLDER_ENEMY, FOLDER_JUMPING, FILE_CRAZY_JUMPING, JUMPING_PICS_CRAZY, FOLDER_CRAZY);
-
-
 	carpeta3 = FOLDER_IDLE;
 	file = FILE_CRAZY_IDLE;
 	curr_images.idleImages = new ALLEGRO_BITMAP *[IDLE_PICS_CRAZY];
@@ -298,7 +295,7 @@ void ImageContainer::load_nick_bitmaps()
 {
 }
 
-void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = ""){
+void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2=""){
 	string imageDir;
 
 	curr_images = new ALLEGRO_BITMAP *[limit];

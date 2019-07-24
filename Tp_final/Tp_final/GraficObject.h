@@ -1,16 +1,6 @@
 #pragma once
-#include <allegro5/allegro5.h> 
-#include <allegro5/allegro.h>
-#include <allegro5/allegro_color.h> 
-#include <allegro5/allegro_primitives.h> 
-#include <allegro5/allegro_image.h> 
-#include <allegro5/allegro_acodec.h>
-#include <allegro5/allegro_audio.h>
-#include "point.h"
-#include <string>
-#include <math.h>				/* pow */
-#include <iostream>
 
+#include "ImageContainer.h"
 #define COLS (16)
 #define ROWS (12)
 

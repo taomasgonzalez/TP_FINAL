@@ -30,7 +30,8 @@ public:
 		ALLEGRO_BITMAP ** trap1Images = NULL;
 		ALLEGRO_BITMAP ** trap2Images = NULL;
 		ALLEGRO_BITMAP ** dieImages = NULL;
-		// estas son la imagenes de la bola
+
+		//ball images
 		ALLEGRO_BITMAP ** inballIdleImages = NULL;
 		ALLEGRO_BITMAP ** inballMoveImages = NULL;
 		ALLEGRO_BITMAP ** inballPushImages = NULL;
@@ -93,7 +94,7 @@ private:
 	void load_tom_bitmaps();
 	void load_nick_bitmaps();
 
-	void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "") {
+	void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
 
 };
 

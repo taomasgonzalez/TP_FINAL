@@ -1,15 +1,11 @@
 #include "GraficObjectPlayer.h"
-#include "PlayerDefines.h"
 #include <iostream>
 
 using namespace std;
 
 
-Obj_Graf_Player::Obj_Graf_Player()
-{
-}
 
-Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type) : Obj_Graf(ID)
+Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* container) : Obj_Graf(ID)
 {
 	this->velX = VELOCITY_X;					// se setea la velocidad de desplazamiento de los jugadores
 	this->type = type;

@@ -1,5 +1,4 @@
 #include "GraficObjectEnemy.h"
-#include "EnemyDefines.h"
 
 using namespace std;
 

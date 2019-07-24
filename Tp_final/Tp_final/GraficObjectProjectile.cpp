@@ -1,5 +1,4 @@
 #include "GraficObjectProjectile.h"
-#include "ProjectileDefine.h"
 
 using namespace std;
 
