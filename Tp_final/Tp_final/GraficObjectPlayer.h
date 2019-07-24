@@ -22,16 +22,10 @@ public:
 private:
 	PLAYER_STATE state;
 	PLAYER_TYPE type;
-	void loadBitmap(PLAYER_TYPE type);						// se pasa el tipo para saber que imagenes cargar
 	unsigned int idleActualImage;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
 	unsigned int walkActualImage;
-	ALLEGRO_BITMAP ** walkImages = NULL;
-	ALLEGRO_BITMAP ** jumpImages = NULL;
-	ALLEGRO_BITMAP ** idleImages = NULL;
-	ALLEGRO_BITMAP ** attackImages = NULL;
-	ALLEGRO_BITMAP ** fallImages = NULL;
-	ALLEGRO_BITMAP ** pushImages = NULL;
-	ALLEGRO_BITMAP ** dieImages = NULL;
+
+	ImageContainer::character_images * images = NULL;
 };

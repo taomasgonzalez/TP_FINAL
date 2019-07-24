@@ -14,148 +14,17 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* co
 	this->idleActualImage = 0;
 	this->dieActualImage = 0;
 	this->walkActualImage = 0;
-	loadBitmap(type);					// se cargan las imagenes de los personajes que corresponden
+
+	if (PLAYER_TYPE::NICK)
+		images = &container->my_character_images_container.nick;
+	else if(PLAYER_TYPE::TOM)
+		images = &container->my_character_images_container.tom;
 }
 
 
 Obj_Graf_Player::~Obj_Graf_Player()
 {
 	
-}
-
-
-void Obj_Graf_Player::loadBitmap(PLAYER_TYPE type)
-{
-	string carpeta1;
-	string carpeta2;
-	string carpeta3;
-	string file;
-	string imageDir;
-
-	switch (this->type)
-	{
-	case TOM:
-		carpeta1 = FOLDER_CHARA;
-		carpeta2 = FOLDER_TOM;
-		carpeta3 = FOLDER_WALKING;
-		file = FILE_TOM_WALKING;
-		this->walkImages = new ALLEGRO_BITMAP *[WALKING_PICS];
-		for (int i = 0; i < WALKING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->walkImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_JUMPING;
-		file = FILE_TOM_JUMPING;
-		this->jumpImages = new ALLEGRO_BITMAP *[JUMPING_PICS];
-		for (int i = 0; i < JUMPING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->jumpImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_IDLE;
-		file = FILE_TOM_IDLE;
-		this->idleImages = new ALLEGRO_BITMAP *[IDLE_PICS];
-		for (int i = 0; i < IDLE_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->idleImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_ATTACKING;
-		file = FILE_TOM_ATTACKING;
-		this->attackImages = new ALLEGRO_BITMAP *[ATTACKING_PICS];
-		for (int i = 0; i < ATTACKING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->attackImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_FALLING;
-		file = FILE_TOM_FALLING;
-		this->fallImages = new ALLEGRO_BITMAP *[FALLING_PICS];
-		for (int i = 0; i < FALLING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_PUSHING;
-		file = FILE_TOM_PUSHING;
-		this->pushImages = new ALLEGRO_BITMAP *[PUSHING_PICS];
-		for (int i = 0; i < PUSHING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_DYING;
-		file = FILE_TOM_DYING;
-		this->dieImages = new ALLEGRO_BITMAP *[DYING_PICS];
-		for (int i = 0; i < DYING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->dieImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		break;
-
-	case NICK:
-		carpeta1 = FOLDER_CHARA;
-		carpeta2 = FOLDER_NICK;
-		carpeta3 = FOLDER_WALKING;
-		file = FILE_NICK_WALKING;
-		this->walkImages = new ALLEGRO_BITMAP *[WALKING_PICS];
-		for (int i = 0; i < WALKING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->walkImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_JUMPING;
-		file = FILE_NICK_JUMPING;
-		this->jumpImages = new ALLEGRO_BITMAP *[JUMPING_PICS];
-		for (int i = 0; i < JUMPING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->jumpImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_IDLE;
-		file = FILE_NICK_IDLE;
-		this->idleImages = new ALLEGRO_BITMAP *[IDLE_PICS];
-		for (int i = 0; i < IDLE_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->idleImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_ATTACKING;
-		file = FILE_NICK_ATTACKING;
-		this->attackImages = new ALLEGRO_BITMAP *[ATTACKING_PICS];
-		for (int i = 0; i < ATTACKING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->attackImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_FALLING;
-		file = FILE_NICK_FALLING;
-		this->fallImages = new ALLEGRO_BITMAP *[FALLING_PICS];
-		for (int i = 0; i < FALLING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_PUSHING;
-		file = FILE_NICK_PUSHING;
-		this->pushImages = new ALLEGRO_BITMAP *[PUSHING_PICS];
-		for (int i = 0; i < PUSHING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->pushImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_DYING;
-		file = FILE_NICK_DYING;
-		this->dieImages = new ALLEGRO_BITMAP *[DYING_PICS];
-		for (int i = 0; i < DYING_PICS; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-			this->dieImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		break;
-	}
 }
 
 void Obj_Graf_Player::draw()

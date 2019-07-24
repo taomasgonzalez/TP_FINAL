@@ -7,22 +7,25 @@ Obj_Graf_Projectile::Obj_Graf_Projectile()
 }
 
 
-Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type) : Obj_Graf(ID)
+Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* container) : Obj_Graf(ID)
 {
 	this->actualImage = 0;
 	this->actualImpactImage = 0;
 	this->actualDecayImage = 0;
 	this->type = type;
-	loadBitmap(type);
 	switch (type)
 	{
 	case SNOW:
 		this->velX = VEL_SNOW;
+		container->my_projectile_images_container.snowball;
 		break;
 	case FIRE:
 		this->velX = VEL_FIRE;
+		container->my_projectile_images_container.fire;
 		break;
 	}
+
+	
 }
 
 Obj_Graf_Projectile::~Obj_Graf_Projectile()
@@ -393,88 +396,3 @@ bool Obj_Graf_Projectile::secuenceOver()
 	return this->secuenceOver_;
 }
 
-void Obj_Graf_Projectile::loadBitmap(PROYECTILE_TYPE type) 
-{
-	string carpeta1;
-	string carpeta2;
-	string carpeta3;
-	string file;
-	string imageDir;
-
-	switch (this->type)
-	{
-	case SNOW:
-		carpeta1 = FOLDER_PROYECTILES;
-		carpeta2 = FOLDER_SNOW;
-		carpeta3 = FOLDER_MOVING;
-		file = FILE_SNOW_MOVING;
-		this->moveImages = new ALLEGRO_BITMAP *[MOVING_PICS_SNOW];
-		for (int i = 0; i < MOVING_PICS_SNOW; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
-			this->moveImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_DECAYING;
-		file = FILE_SNOW_DECAYING;
-		this->decayImages = new ALLEGRO_BITMAP *[DECAYING_PICS_SNOW];
-		for (int i = 0; i < DECAYING_PICS_SNOW; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
-			this->decayImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_IMPACT;
-		file = FILE_SNOW_IMPACT;
-		this->impactImages = new ALLEGRO_BITMAP *[IMPACT_PICS_SNOW];
-		for (int i = 0; i < IMPACT_PICS_SNOW; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 1) + ".png";
-			this->impactImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_FALLING;
-		file = FILE_SNOW_FALLING;
-		this->fallImages = new ALLEGRO_BITMAP *[FALLING_PICS_SNOW];
-		for (int i = 0; i < FALLING_PICS_SNOW; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
-			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		break;
-
-	case FIRE:
-		carpeta1 = FOLDER_PROYECTILES;
-		carpeta2 = FOLDER_FIRE;
-		carpeta3 = FOLDER_MOVING;
-		file = FILE_FIRE_MOVING;
-		this->moveImages = new ALLEGRO_BITMAP *[MOVING_PICS_FIRE];
-		for (int i = 0; i < MOVING_PICS_FIRE; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 6) + ".png";
-			this->moveImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_DECAYING;
-		file = FILE_FIRE_DECAYING;
-		this->decayImages = new ALLEGRO_BITMAP *[DECAYING_PICS_FIRE];
-		for (int i = 0; i < DECAYING_PICS_FIRE; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
-			this->decayImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_IMPACT;
-		file = FILE_FIRE_IMPACT;
-		this->impactImages = new ALLEGRO_BITMAP *[IMPACT_PICS_FIRE];
-		for (int i = 0; i < IMPACT_PICS_FIRE; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i/* + 1*/) + ".png";
-			this->impactImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		carpeta3 = FOLDER_FALLING;
-		file = FILE_FIRE_FALLING;
-		this->fallImages = new ALLEGRO_BITMAP *[FALLING_PICS_FIRE];
-		for (int i = 0; i < FALLING_PICS_FIRE; i++)
-		{
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i + 6) + ".png";
-			this->fallImages[i] = al_load_bitmap(imageDir.c_str());
-		}
-		break;
-	}
-}

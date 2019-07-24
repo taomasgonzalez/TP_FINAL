@@ -11,7 +11,7 @@ class Obj_Graf_Projectile :
 {
 public:
 	Obj_Graf_Projectile();
-	Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type);
+	Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* container);
 	~Obj_Graf_Projectile();
 
 	void draw();
@@ -23,12 +23,11 @@ public:
 private:
 	PROYECTILE_TYPE type;
 	PROYECTILE_STATE state;
-	void loadBitmap(PROYECTILE_TYPE type);						// dependiendo del enemigo se le cargan determinadas imagenes
-	ALLEGRO_BITMAP ** moveImages = NULL;
-	ALLEGRO_BITMAP ** decayImages = NULL;
-	ALLEGRO_BITMAP ** impactImages = NULL;
-	ALLEGRO_BITMAP ** fallImages = NULL;
+
 	unsigned int actualImpactImage;										// cuando se inicia la secuancia de impacto tiene que empezar si o si de 0 (el actualImage puede no estar en 0)
 	unsigned int actualDecayImage;
+
+
+	ImageContainer::projectile_images * images;
 };
 

@@ -21,7 +21,7 @@ public:
 	ImageContainer();
 	~ImageContainer();
 
-	struct enemy_images {
+	typedef struct enemy_images {
 		ALLEGRO_BITMAP ** attackImages = NULL;
 		ALLEGRO_BITMAP ** walkImages = NULL;
 		ALLEGRO_BITMAP ** jumpImages = NULL;
@@ -37,17 +37,17 @@ public:
 		ALLEGRO_BITMAP ** inballPushImages = NULL;
 		ALLEGRO_BITMAP ** inballFallImages = NULL;
 		ALLEGRO_BITMAP ** inballDestructiontImages = NULL;
-	};
+	}enemy_images;
 
-	struct enemies_images_container {
+	typedef struct enemies_images_container {
 		enemy_images purple;
 		enemy_images crazy;
 		enemy_images fatty;
-	};
+	} enemies_images_container;
 
 	enemies_images_container my_enemy_images_container;
 
-	struct character_images {
+	typedef struct character_images {
 		ALLEGRO_BITMAP ** walkImages = NULL;
 		ALLEGRO_BITMAP ** jumpImages = NULL;
 		ALLEGRO_BITMAP ** idleImages = NULL;
@@ -55,25 +55,25 @@ public:
 		ALLEGRO_BITMAP ** fallImages = NULL;
 		ALLEGRO_BITMAP ** pushImages = NULL;
 		ALLEGRO_BITMAP ** dieImages = NULL;
-	};
+	} character_images;
 
-	struct character_images_container {
+	typedef struct character_images_container {
 		character_images tom;
 		character_images nick;
-	};
+	} character_images_container;
 	character_images_container my_character_images_container;
 
-	struct projectile_images {
+	typedef struct projectile_images {
 		ALLEGRO_BITMAP ** moveImages = NULL;
 		ALLEGRO_BITMAP ** decayImages = NULL;
 		ALLEGRO_BITMAP ** impactImages = NULL;
 		ALLEGRO_BITMAP ** fallImages = NULL;
-	};
+	}projectile_images;
 
-	struct projectile_images_container {
+	typedef struct projectile_images_container {
 		projectile_images snowball;
 		projectile_images fire;
-	};
+	}projectile_images_container ;
 
 	projectile_images_container my_projectile_images_container;
 
