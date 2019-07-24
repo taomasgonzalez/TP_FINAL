@@ -31,9 +31,6 @@
     <ClCompile Include="GraficObject.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="GraficObjectBall.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClCompile>
     <ClCompile Include="GraficObjectEnemy.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
@@ -259,9 +256,6 @@
     <ClInclude Include="GraficObject.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
-    <ClInclude Include="GraficObjectBall.h">
-      <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
     <ClInclude Include="GraficObjectEnemy.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
@@ -318,9 +312,6 @@
     </ClInclude>
     <ClInclude Include="Proyectile.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="BallDefines.h">
-      <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="CommunicationEventsObserver.h">
       <Filter>Header Files\Net_related</Filter>

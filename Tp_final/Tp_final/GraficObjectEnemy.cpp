@@ -1,5 +1,4 @@
 #include "GraficObjectEnemy.h"
-#include "EnemyDefines.h"
 
 using namespace std;
 
@@ -64,7 +63,7 @@ void Obj_Graf_Enemy::draw()
 				}
 				al_draw_scaled_bitmap(this->walkImages[this->walkActualImage / 2], 0, 0, al_get_bitmap_height(this->walkImages[this->walkActualImage / 2]), al_get_bitmap_width(this->walkImages[this->walkActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				((this->walkActualImage + 1) < 2 * WALKING_PICS_PURPLE) ? this->walkActualImage++ : this->walkActualImage = 0;			// se pasa al siguiente sprite
-				break;
+				//break;
 			case enemy_JUMPING:
 				if (this->pos.get_y_coord() < (this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 				{

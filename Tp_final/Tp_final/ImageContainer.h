@@ -30,7 +30,8 @@ public:
 		ALLEGRO_BITMAP ** trap1Images = NULL;
 		ALLEGRO_BITMAP ** trap2Images = NULL;
 		ALLEGRO_BITMAP ** dieImages = NULL;
-		// estas son la imagenes de la bola
+
+		//ball images
 		ALLEGRO_BITMAP ** inballIdleImages = NULL;
 		ALLEGRO_BITMAP ** inballMoveImages = NULL;
 		ALLEGRO_BITMAP ** inballPushImages = NULL;
