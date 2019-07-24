@@ -16,6 +16,8 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	original_distribution = NULL;
 
 	all_players = new std::vector<Player*>();
+	//this->all_players->push_back(new Player(0, true, Sense_type::Left));
+	//this->all_players->push_back(new Player(1, false, Sense_type::Right));
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
@@ -421,7 +423,12 @@ const char * Map::get_last_loaded_distribution()
 */
 Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y)
 {
-	return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
+	//return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
+	Position pos;
+	pos.fil = 0;
+	pos.col = 0;
+
+	return pos;
 }
 /******************************************
 ***********get_number_of_rows**************

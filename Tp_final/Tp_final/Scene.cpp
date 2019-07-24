@@ -21,6 +21,8 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	this->data = data;
 	this->other_player = his_player;
 	this->my_player = my_player;
+
+
 }
 
 
@@ -237,14 +239,14 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	{	
 		if (actual_map == -1)
 			actual_map++;
-		new_map->load_on_map(the_map);
+		new_map->load_on_map(the_map,this);
 		new_map->load_checksum(the_checksum);
 		this->actual_map++;		
 	}
 	else
 	{	//I´m server, I´ve the map available
 		this->actual_map++;
-		new_map->load_on_map(give_me_the_CSV(actual_map));
+		new_map->load_on_map(give_me_the_CSV(actual_map),this);
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
 	#pragma message(//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!)
@@ -504,6 +506,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 		extern_destination.col = Action_info_to_be_checked->final_pos_y;
 
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
+		my_direction = Action_info_to_be_checked->my_direction;
 
 	}
 
@@ -574,12 +577,12 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 			break;
 		}
 	}
-
 	if (is_the_move_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage
 	{
 		Action_info_to_be_checked->final_pos_x=local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
+
 
 	return is_the_move_possible;
 }
@@ -598,6 +601,9 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 		my_direction = Direction_type::Jump_Left;
 	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col > the_one_that_moves->pos_y)) //Jump_Right
 		my_direction = Direction_type::Jump_Right;
+	//defecto, ARREGLAR
+	else
+		my_direction = Direction_type::Left;
 
 	return my_direction;
 }

@@ -32,26 +32,28 @@ Action_info PurpleGuy::act(){
 	double timer_speed;
 
 	while (!returnable_EA.valid){
-		if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
+		if (sample >= 2) {			
+
+		//if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
 			move_to_nearest_player(&returnable_EA);
-			timer_speed = 0;
+			timer_speed = 1;
 		}
 		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
 			sample = acting_probabilities(generator);
 
 			while (!returnable_EA.valid) {
 				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 						//1/3 probability
-					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
+					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5;
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.9;
+					move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
 				else																//1/3 probability
-					move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.1;
+					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.1;
 			}
 		}
 		else if ((sample >= 0.9) && (sample <= 1.0)) {		//0.1 probability
 			stay_still(&returnable_EA);
-			timer_speed = 0;
+			timer_speed = 1;
 		}
 	}
 
