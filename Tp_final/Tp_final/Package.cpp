@@ -84,7 +84,8 @@ Package_type Package::get_package_header()
 */
 std::string Package::get_sendable_info() {
 
-	return this->info_to_be_send;
+	std::string info = this->info_to_be_send;
+	return info;
 }
 
 /**************************************************************
@@ -249,7 +250,8 @@ std::string MAP_IS_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
 	std::string info1(map, 192);
-	std::string info2((const char*)this->Checksum,1);
+	std::string info2(1, Checksum);
+	//std::string info2((const char*)this->Checksum,1);
 	std::string info3 = info + info1 + info2;
 
 	return info3;

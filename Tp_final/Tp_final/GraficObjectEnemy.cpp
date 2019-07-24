@@ -1451,7 +1451,7 @@ void Obj_Graf_Enemy::loadBitmap(ENEMY_TYPE type)
 		this->inballFallImages[i] = al_load_bitmap(imageDir.c_str());
 	}
 	carpeta3 = FOLDER_DESTRUCTION_BALL;
-	file = FILE_DESTRUCTION_BALL;
+	file = FILE_DESTRUCTION_BALL;  // FALTAN IMAGENES DE LOS ENEMIGOS CONGELANDOSE
 	this->inballDestructiontImages = new ALLEGRO_BITMAP *[DESTRUCTION_PICS_BALL];
 	for (int i = 0; i < DESTRUCTION_PICS_BALL; i++)
 	{

@@ -441,7 +441,8 @@ MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
 MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, char checksum) :EventPackage(Event_type::MAP_IS, is_local) {
 
-
+	this->map =(char *) themap;
+	this->Checksum = checksum;
 }
 /**************************************************************
 					GIVE_ME_THE_MAP
