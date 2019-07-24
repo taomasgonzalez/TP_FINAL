@@ -214,6 +214,7 @@
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="ImageContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -444,6 +445,7 @@
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
+    <ClInclude Include="ImageContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mis mapas\Bertachini_mapa1.csv" />

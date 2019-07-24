@@ -145,6 +145,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterActionsEventGenerator.cpp" />
     <ClCompile Include="EnemyActionsEventGenerator.cpp" />
+    <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
     <ClCompile Include="PlayerActionsEventGenerator.cpp" />
     <ClCompile Include="ProyectilesActionsEventGenerator.cpp" />
@@ -220,6 +221,7 @@
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterActionsEventGenerator.h" />
     <ClInclude Include="EnemyActionsEventGenerator.h" />
+    <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="MapThingEventGenerator.h" />
     <ClInclude Include="PlayerActionsEventGenerator.h" />
     <ClInclude Include="ProyectilesActionsEventGenerator.h" />
