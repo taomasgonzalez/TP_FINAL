@@ -6,7 +6,7 @@
 #include <iostream>
 #include <map>
 #include <vector>
-
+#include "ImageContainer.h"
 #include "AllegroClass.h"
 
 /*
@@ -48,6 +48,7 @@ private:
 	vector<string> levels;
 	unsigned int level;
 	void drawLevel();
+	ImageContainer images;
 };
 
 
