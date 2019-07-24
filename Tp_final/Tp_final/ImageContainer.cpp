@@ -179,20 +179,10 @@ void ImageContainer::load_crazy_bitmaps()
 
 	enemy_images curr_images = my_enemy_images.crazy;
 
-	curr_images.walkImages = new ALLEGRO_BITMAP *[WALKING_PICS_CRAZY];
-	for (int i = 0; i < WALKING_PICS_CRAZY; i++)
-	{
-		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		curr_images.walkImages[i] = al_load_bitmap(imageDir.c_str());
-	}
-	carpeta3 = FOLDER_JUMPING;
-	file = FILE_CRAZY_JUMPING;
-	curr_images.jumpImages = new ALLEGRO_BITMAP *[JUMPING_PICS_CRAZY];
-	for (int i = 0; i < JUMPING_PICS_CRAZY; i++)
-	{
-		imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		curr_images.jumpImages[i] = al_load_bitmap(imageDir.c_str());
-	}
+	fill_bitmap(curr_images.walkImages, FOLDER_ENEMY, FOLDER_WALKING, FILE_CRAZY_WALKING, WALKING_PICS_CRAZY, FOLDER_CRAZY);
+	fill_bitmap(curr_images.jumpImages, FOLDER_ENEMY, FOLDER_JUMPING, FILE_CRAZY_JUMPING, JUMPING_PICS_CRAZY, FOLDER_CRAZY);
+
+
 	carpeta3 = FOLDER_IDLE;
 	file = FILE_CRAZY_IDLE;
 	curr_images.idleImages = new ALLEGRO_BITMAP *[IDLE_PICS_CRAZY];
@@ -302,4 +292,18 @@ void ImageContainer::load_tom_bitmaps()
 }
 void ImageContainer::load_nick_bitmaps()
 {
+}
+
+void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = ""){
+	string imageDir;
+
+	curr_images = new ALLEGRO_BITMAP *[limit];
+
+	for (int i = 0; i < limit; i++){
+		if (carpeta2 == "")
+			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
+		else
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		curr_images[i] = al_load_bitmap(imageDir.c_str());
+	}
 }
