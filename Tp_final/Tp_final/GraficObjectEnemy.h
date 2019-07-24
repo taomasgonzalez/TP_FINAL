@@ -10,7 +10,7 @@ class Obj_Graf_Enemy :
 {
 public:
 	Obj_Graf_Enemy();
-	Obj_Graf_Enemy(double ID, ENEMY_TYPE type);		// luego tengo que ver como arreglo que me entrenen con un ENEMY_TYPE
+	Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* container);		// luego tengo que ver como arreglo que me entrenen con un ENEMY_TYPE
 	~Obj_Graf_Enemy();
 
 	void draw();
@@ -23,26 +23,17 @@ private:
 	ENEMY_TYPE type;
 	ENEMY_STATE state;
 	unsigned int vel_x_inball;
+	unsigned int trap1ActualImage;
+	unsigned int trap2ActualImage;
+	unsigned int trap1ticks;
+	unsigned int trap2ticks;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
 	unsigned int idleActualImage;
 	unsigned int walkActualImage;
 	unsigned int actualImageInball;
-	void loadBitmap(ENEMY_TYPE type);										// dependiendo del enemigo se le cargan determinadas imagenes
-	ALLEGRO_BITMAP ** walkImages = NULL;
-	ALLEGRO_BITMAP ** jumpImages = NULL;
-	ALLEGRO_BITMAP ** idleImages = NULL;
-	ALLEGRO_BITMAP ** attackImages = NULL;
-	ALLEGRO_BITMAP ** fallImages = NULL;
-	ALLEGRO_BITMAP ** trap1Images = NULL;
-	ALLEGRO_BITMAP ** trap2Images = NULL;
-	ALLEGRO_BITMAP ** dieImages = NULL;
-																// estas son la imagenes de la bola
-	ALLEGRO_BITMAP ** inballIdleImages = NULL;
-	ALLEGRO_BITMAP ** inballMoveImages = NULL;
-	ALLEGRO_BITMAP ** inballPushImages = NULL;
-	ALLEGRO_BITMAP ** inballFallImages = NULL;
-	ALLEGRO_BITMAP ** inballDestructiontImages = NULL;
 	unsigned int actualDestructionImage;
+
+	ImageContainer::enemy_images * images;
 };
 

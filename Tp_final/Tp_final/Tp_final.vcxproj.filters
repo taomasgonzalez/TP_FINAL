@@ -31,9 +31,6 @@
     <ClCompile Include="GraficObject.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="GraficObjectBall.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClCompile>
     <ClCompile Include="GraficObjectEnemy.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
@@ -214,6 +211,7 @@
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="ImageContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -256,9 +254,6 @@
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="GraficObject.h">
-      <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
-    <ClInclude Include="GraficObjectBall.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="GraficObjectEnemy.h">
@@ -317,9 +312,6 @@
     </ClInclude>
     <ClInclude Include="Proyectile.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="BallDefines.h">
-      <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="CommunicationEventsObserver.h">
       <Filter>Header Files\Net_related</Filter>
@@ -444,6 +436,7 @@
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
+    <ClInclude Include="ImageContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Mis mapas\Bertachini_mapa1.csv" />

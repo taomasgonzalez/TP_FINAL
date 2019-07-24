@@ -145,6 +145,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterActionsEventGenerator.cpp" />
     <ClCompile Include="EnemyActionsEventGenerator.cpp" />
+    <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
     <ClCompile Include="PlayerActionsEventGenerator.cpp" />
     <ClCompile Include="ProyectilesActionsEventGenerator.cpp" />
@@ -169,7 +170,6 @@
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraficInterface.cpp" />
     <ClCompile Include="GraficObject.cpp" />
-    <ClCompile Include="GraficObjectBall.cpp" />
     <ClCompile Include="GraficObjectEnemy.cpp" />
     <ClCompile Include="GraficObjectPlayer.cpp" />
     <ClCompile Include="GraficObjectProjectile.cpp" />
@@ -216,10 +216,10 @@
   <ItemGroup>
     <ClInclude Include="Action_Info.h" />
     <ClInclude Include="AllegroClass.h" />
-    <ClInclude Include="BallDefines.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="CharacterActionsEventGenerator.h" />
     <ClInclude Include="EnemyActionsEventGenerator.h" />
+    <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="MapThingEventGenerator.h" />
     <ClInclude Include="PlayerActionsEventGenerator.h" />
     <ClInclude Include="ProyectilesActionsEventGenerator.h" />
@@ -246,7 +246,6 @@
     <ClInclude Include="general.h" />
     <ClInclude Include="GraficInterface.h" />
     <ClInclude Include="GraficObject.h" />
-    <ClInclude Include="GraficObjectBall.h" />
     <ClInclude Include="GraficObjectEnemy.h" />
     <ClInclude Include="GraficObjectPlayer.h" />
     <ClInclude Include="GraficObjectProjectile.h" />
