@@ -48,13 +48,13 @@ void Obj_Graf_Projectile::draw()
 					this->secuenceOver_ = true;
 					this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 					//this->active = false;
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-					//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					//al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-					//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					//al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);
 				}
 				((this->actualImage + 1) < MOVING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
@@ -62,7 +62,7 @@ void Obj_Graf_Projectile::draw()
 			case proy_DECAYING:
 				if (this->actualDecayImage < DECAYING_PICS_SNOW)
 				{
-					al_draw_scaled_bitmap(this->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(this->decayImages[this->actualDecayImage]), al_get_bitmap_height(this->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(images->decayImages[this->actualDecayImage]), al_get_bitmap_height(images->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 					this->actualDecayImage++;																									// termino la secuencia de disparo
 				}
@@ -78,11 +78,11 @@ void Obj_Graf_Projectile::draw()
 				//if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE/2))						// BLOCK_SIZE / 2 para que no atraviese el piso
 				//{
 				//	this->active = false;
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				//}
 				//else
 				//{
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				//	this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 				//	(this->actualImage < DECAYING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
 				//}
@@ -90,8 +90,8 @@ void Obj_Graf_Projectile::draw()
 			case proy_IMPACT:
 				if (this->actualImpactImage < IMPACT_PICS_SNOW)															// si todavia no termino la secuancia que siga
 				{
-					al_draw_scaled_bitmap(this->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(this->impactImages[this->actualImpactImage]), al_get_bitmap_height(this->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-					//al_draw_bitmap(this->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(images->impactImages[this->actualImpactImage]), al_get_bitmap_height(images->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					//al_draw_bitmap(images->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImpactImage++;
 				}
 				else
@@ -110,7 +110,7 @@ void Obj_Graf_Projectile::draw()
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					(this->actualImage < (FALLING_PICS_SNOW - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
@@ -128,13 +128,13 @@ void Obj_Graf_Projectile::draw()
 					this->secuenceOver_ = true;
 					this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 					// this->active = false;
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					//al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					// al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					// al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);
 				}
 				((this->actualImage + 1) < MOVING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
@@ -142,7 +142,7 @@ void Obj_Graf_Projectile::draw()
 			case proy_DECAYING:
 				if (this->actualDecayImage < DECAYING_PICS_SNOW)
 				{
-					al_draw_scaled_bitmap(this->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(this->decayImages[this->actualDecayImage]), al_get_bitmap_height(this->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					al_draw_scaled_bitmap(images->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(images->decayImages[this->actualDecayImage]), al_get_bitmap_height(images->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 					this->actualDecayImage++;																									// termino la secuencia de disparo
 				}
@@ -158,11 +158,11 @@ void Obj_Graf_Projectile::draw()
 				//if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE / 2))		
 				//{
 				//	this->active = false;
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				//}
 				//else
 				//{
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				//	this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 				//	(this->actualImage < DECAYING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
 				//}
@@ -170,8 +170,8 @@ void Obj_Graf_Projectile::draw()
 			case proy_IMPACT:
 				if (this->actualImpactImage < IMPACT_PICS_SNOW)															// si todavia no termino la secuancia que siga
 				{
-					al_draw_scaled_bitmap(this->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(this->impactImages[this->actualImpactImage]), al_get_bitmap_height(this->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					//al_draw_bitmap(this->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(images->impactImages[this->actualImpactImage]), al_get_bitmap_height(images->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					//al_draw_bitmap(images->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImpactImage++;
 				}
 				else
@@ -190,7 +190,7 @@ void Obj_Graf_Projectile::draw()
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this->fallImages[this->actualImage]), al_get_bitmap_width(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					(this->actualImage < (FALLING_PICS_SNOW - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
@@ -212,11 +212,11 @@ void Obj_Graf_Projectile::draw()
 					this->secuenceOver_ = true;
 					this->pos.set_x_coord(this->InitalPos.get_x_coord() - BLOCK_SIZE);
 					//this->active = false;
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					this->pos.set_x_coord(this->pos.get_x_coord() - this->velX);
 				}
 				((this->actualImage + 1) < MOVING_PICS_FIRE) ? this->actualImage++ : this->actualImage = 0;
@@ -224,7 +224,7 @@ void Obj_Graf_Projectile::draw()
 			case proy_DECAYING:
 				if (this->actualDecayImage < DECAYING_PICS_FIRE)
 				{
-					al_draw_scaled_bitmap(this->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(this->decayImages[this->actualDecayImage]), al_get_bitmap_height(this->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(images->decayImages[this->actualDecayImage]), al_get_bitmap_height(images->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 					//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 					this->actualDecayImage++;																									// termino la secuencia de disparo
 				}
@@ -240,11 +240,11 @@ void Obj_Graf_Projectile::draw()
 				//if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE / 2))						// BLOCK_SIZE / 2 para que no atraviese el piso
 				//{
 				//	this->active = false;
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				//}
 				//else
 				//{
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				//	this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 				//	(this->actualImage < DECAYING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
 				//}
@@ -252,8 +252,8 @@ void Obj_Graf_Projectile::draw()
 			case proy_IMPACT:
 				if (this->actualImpactImage < IMPACT_PICS_SNOW)															// si todavia no termino la secuancia que siga
 				{
-					al_draw_scaled_bitmap(this->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(this->impactImages[this->actualImpactImage]), al_get_bitmap_height(this->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-					//al_draw_bitmap(this->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+					al_draw_scaled_bitmap(images->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(images->impactImages[this->actualImpactImage]), al_get_bitmap_height(images->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+					//al_draw_bitmap(images->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 					this->actualImpactImage++;
 				}
 				else
@@ -276,7 +276,7 @@ void Obj_Graf_Projectile::draw()
 					(this->actualImage < (FALLING_PICS_FIRE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 				}
-				al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(this->fallImages[this->actualImage]), al_get_bitmap_height(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(images->fallImages[this->actualImage]), al_get_bitmap_height(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				break;
 			}
 			break;
@@ -290,13 +290,13 @@ void Obj_Graf_Projectile::draw()
 					this->secuenceOver_ = true;
 					this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
 					// this->active = false;
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					//al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(this->moveImages[this->actualImage]), al_get_bitmap_height(this->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					//al_draw_bitmap(this->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->moveImages[this->actualImage], 0, 0, al_get_bitmap_width(images->moveImages[this->actualImage]), al_get_bitmap_height(images->moveImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					//al_draw_bitmap(images->moveImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);
 				}
 				((this->actualImage + 1) < MOVING_PICS_FIRE) ? this->actualImage++ : this->actualImage = 0;
@@ -304,7 +304,7 @@ void Obj_Graf_Projectile::draw()
 			case proy_DECAYING:
 				if (this->actualDecayImage < DECAYING_PICS_FIRE)
 				{
-					al_draw_scaled_bitmap(this->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(this->decayImages[this->actualDecayImage]), al_get_bitmap_height(this->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					al_draw_scaled_bitmap(images->decayImages[this->actualDecayImage], 0, 0, al_get_bitmap_width(images->decayImages[this->actualDecayImage]), al_get_bitmap_height(images->decayImages[this->actualDecayImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					//al_draw_bitmap(this->attackImages[this->attackActualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);			// se dibuja
 					this->actualDecayImage++;																									// termino la secuencia de disparo
 				}
@@ -320,11 +320,11 @@ void Obj_Graf_Projectile::draw()
 				//if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE / 2))
 				//{
 				//	this->active = false;
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				//}
 				//else
 				//{
-				//	al_draw_bitmap(this->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
+				//	al_draw_bitmap(images->decayImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 				//	this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);
 				//	(this->actualImage < MOVING_PICS_SNOW) ? this->actualImage++ : this->actualImage = 0;
 				//}
@@ -332,8 +332,8 @@ void Obj_Graf_Projectile::draw()
 			case proy_IMPACT:
 				if (this->actualImpactImage < IMPACT_PICS_FIRE)															// si todavia no termino la secuancia que siga
 				{
-					al_draw_scaled_bitmap(this->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(this->impactImages[this->actualImpactImage]), al_get_bitmap_height(this->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-					//al_draw_bitmap(this->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+					al_draw_scaled_bitmap(images->impactImages[this->actualImpactImage], 0, 0, al_get_bitmap_width(images->impactImages[this->actualImpactImage]), al_get_bitmap_height(images->impactImages[this->actualImpactImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					//al_draw_bitmap(images->impactImages[this->actualImpactImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 					this->actualImpactImage++;
 				}
 				else
@@ -352,7 +352,7 @@ void Obj_Graf_Projectile::draw()
 				}
 				else
 				{
-					al_draw_scaled_bitmap(this->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(this->fallImages[this->actualImage]), al_get_bitmap_height(this->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+					al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(images->fallImages[this->actualImage]), al_get_bitmap_height(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 					//al_draw_bitmap(this->jumpImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);			// se dibuja
 					(this->actualImage < (FALLING_PICS_FIRE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 					this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
@@ -378,10 +378,6 @@ void Obj_Graf_Projectile::startDraw(Direction dir, void *state, POINT_& pos)
 
 void Obj_Graf_Projectile::destroy()
 {
-	delete[] moveImages;
-	delete[] decayImages;
-	delete[] impactImages;
-	delete[] fallImages;
 }
 
 void Obj_Graf_Projectile::reset()

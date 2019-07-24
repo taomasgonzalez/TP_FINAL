@@ -28,7 +28,6 @@ private:
 	unsigned int idleActualImage;
 	unsigned int walkActualImage;
 	unsigned int actualImageInball;
-
 	unsigned int actualDestructionImage;
 
 	ImageContainer::enemy_images * images;
