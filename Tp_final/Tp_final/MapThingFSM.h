@@ -32,7 +32,7 @@ protected:
 	virtual void set_states() = 0;
 
 	std::vector<ALLEGRO_TIMER*> all_timers;
-	void create_timer(ALLEGRO_TIMER* timer);
+	void create_timer(ALLEGRO_TIMER** timer);
 
 	void destroy_all_timers();
 

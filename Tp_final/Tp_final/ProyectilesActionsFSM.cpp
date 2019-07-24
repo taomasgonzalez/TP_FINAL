@@ -76,8 +76,8 @@ void ProyectilesActionsFSM::set_states() {
 }
 
 void ProyectilesActionsFSM::create_all_timers() {
-	create_timer(moving_timer);
-	create_timer(falling_timer);
+	create_timer(&moving_timer);
+	create_timer(&falling_timer);
 }
 void ProyectilesActionsFSM::start_moving() {
 

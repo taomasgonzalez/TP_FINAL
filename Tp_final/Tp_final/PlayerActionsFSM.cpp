@@ -53,7 +53,7 @@ void PlayerActionsFSM::set_states() {
 	expand_state(dead_state, { Event_type::APPEARED, iddle_state, player_revive });
 }
 void PlayerActionsFSM::create_all_timers() {
-	create_timer(pushing_timer);
+	create_timer(&pushing_timer);
 }
 void PlayerActionsFSM::set_processes() {
 

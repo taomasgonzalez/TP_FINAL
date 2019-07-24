@@ -38,9 +38,9 @@ void MapThingFSM::stop_curr_timer() {
 	al_stop_timer(curr_timer);
 }
 
-void MapThingFSM::create_timer(ALLEGRO_TIMER* timer) {
-	timer = al_create_timer(1.0);
-	all_timers.push_back(timer);
+void MapThingFSM::create_timer(ALLEGRO_TIMER** timer) {
+	*timer = al_create_timer(1.0);
+	all_timers.push_back(*timer);
 }
 void MapThingFSM::destroy_all_timers() {
 	for (std::vector<ALLEGRO_TIMER*>::iterator it = all_timers.begin(); it != all_timers.end(); ++it)

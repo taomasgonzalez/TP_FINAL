@@ -79,8 +79,8 @@ void EnemyActionsFSM::set_processes() {
 }
 
 void EnemyActionsFSM::create_all_timers() {
-	create_timer(frozen_timer);
-	create_timer(freezing_timer);
+	create_timer(&frozen_timer);
+	create_timer(&freezing_timer);
 
 }
 

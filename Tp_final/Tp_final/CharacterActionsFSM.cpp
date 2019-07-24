@@ -71,11 +71,11 @@ void CharacterActionsFSM::set_processes() {
 
 void CharacterActionsFSM::create_all_timers() {
 
-	create_timer(walking_timer);
-	create_timer(jumping_timer);
-	create_timer(jumping_forward_timer);
-	create_timer(falling_timer);
-	create_timer(attacking_timer);
+	create_timer(&walking_timer);
+	create_timer(&jumping_timer);
+	create_timer(&jumping_forward_timer);
+	create_timer(&falling_timer);
+	create_timer(&attacking_timer);
 
 }
 
