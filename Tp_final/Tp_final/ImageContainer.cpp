@@ -1,7 +1,5 @@
 #include "ImageContainer.h"
 
-void fill_bitmap2(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2);
-
 using namespace std;
 
 ImageContainer::ImageContainer()
@@ -12,6 +10,7 @@ ImageContainer::ImageContainer()
 }
 ImageContainer::~ImageContainer()
 {
+	destroy_all_bitmaps();
 }
 void ImageContainer::load_enemy_bitmaps() {
 
@@ -144,16 +143,97 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 	}
 }
 
-void fill_bitmap2(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2) {
-	string imageDir;
+void ImageContainer::destroy_enemy_bitmaps()
+{
+	// delete purple
+	delete[] my_enemy_images_container.purple.attackImages;
+	delete[] my_enemy_images_container.purple.dieImages;
+	delete[] my_enemy_images_container.purple.fallImages;
+	delete[] my_enemy_images_container.purple.idleImages;
+	delete[] my_enemy_images_container.purple.inballDestructiontImages;
+	delete[] my_enemy_images_container.purple.inballFallImages;
+	delete[] my_enemy_images_container.purple.inballIdleImages;
+	delete[] my_enemy_images_container.purple.inballMoveImages;
+	delete[] my_enemy_images_container.purple.inballPushImages;
+	delete[] my_enemy_images_container.purple.jumpImages;
+	delete[] my_enemy_images_container.purple.trap1Images;
+	delete[] my_enemy_images_container.purple.trap2Images;
+	delete[] my_enemy_images_container.purple.walkImages;
 
-	*curr_images = new ALLEGRO_BITMAP *[limit];
 
-	for (int i = 0; i < limit; i++) {
-		if (carpeta2 == "")
-			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
-		else
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		(*curr_images)[i] = al_load_bitmap(imageDir.c_str());
-	}
+	// delete fatty
+	delete[] my_enemy_images_container.fatty.attackImages;
+	delete[] my_enemy_images_container.fatty.dieImages;
+	delete[] my_enemy_images_container.fatty.fallImages;
+	delete[] my_enemy_images_container.fatty.idleImages;
+	delete[] my_enemy_images_container.fatty.inballDestructiontImages;
+	delete[] my_enemy_images_container.fatty.inballFallImages;
+	delete[] my_enemy_images_container.fatty.inballIdleImages;
+	delete[] my_enemy_images_container.fatty.inballMoveImages;
+	delete[] my_enemy_images_container.fatty.inballPushImages;
+	delete[] my_enemy_images_container.fatty.jumpImages;
+	delete[] my_enemy_images_container.fatty.trap1Images;
+	delete[] my_enemy_images_container.fatty.trap2Images;
+	delete[] my_enemy_images_container.fatty.walkImages;
+
+
+	// delete crazy
+	delete[] my_enemy_images_container.crazy.attackImages;
+	delete[] my_enemy_images_container.crazy.dieImages;
+	delete[] my_enemy_images_container.crazy.fallImages;
+	delete[] my_enemy_images_container.crazy.idleImages;
+	delete[] my_enemy_images_container.crazy.inballDestructiontImages;
+	delete[] my_enemy_images_container.crazy.inballFallImages;
+	delete[] my_enemy_images_container.crazy.inballIdleImages;
+	delete[] my_enemy_images_container.crazy.inballMoveImages;
+	delete[] my_enemy_images_container.crazy.inballPushImages;
+	delete[] my_enemy_images_container.crazy.jumpImages;
+	delete[] my_enemy_images_container.crazy.trap1Images;
+	delete[] my_enemy_images_container.crazy.trap2Images;
+	delete[] my_enemy_images_container.crazy.walkImages;
+}
+
+void ImageContainer::destroy_projectile_bitmaps()
+{
+	// delete snow
+	delete[] my_projectile_images_container.snowball.decayImages;
+	delete[] my_projectile_images_container.snowball.fallImages;
+	delete[] my_projectile_images_container.snowball.impactImages;
+	delete[] my_projectile_images_container.snowball.moveImages;
+
+
+	// delete fire
+	delete[] my_projectile_images_container.fire.decayImages;
+	delete[] my_projectile_images_container.fire.fallImages;
+	delete[] my_projectile_images_container.fire.impactImages;
+	delete[] my_projectile_images_container.fire.moveImages;
+}
+
+void ImageContainer::destroy_character_bitmaps()
+{
+	//delete tom
+	delete[] my_character_images_container.tom.attackImages;
+	delete[] my_character_images_container.tom.dieImages;
+	delete[] my_character_images_container.tom.fallImages;
+	delete[] my_character_images_container.tom.idleImages;
+	delete[] my_character_images_container.tom.jumpImages;
+	delete[] my_character_images_container.tom.pushImages;
+	delete[] my_character_images_container.tom.walkImages;
+
+
+	//delete nick
+	delete[] my_character_images_container.nick.attackImages;
+	delete[] my_character_images_container.nick.dieImages;
+	delete[] my_character_images_container.nick.fallImages;
+	delete[] my_character_images_container.nick.idleImages;
+	delete[] my_character_images_container.nick.jumpImages;
+	delete[] my_character_images_container.nick.pushImages;
+	delete[] my_character_images_container.nick.walkImages;
+}
+
+void ImageContainer::destroy_all_bitmaps()
+{
+	destroy_character_bitmaps();
+	destroy_enemy_bitmaps();
+	destroy_projectile_bitmaps();
 }
