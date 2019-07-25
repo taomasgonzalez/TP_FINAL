@@ -17,20 +17,20 @@
 #define ATTACKING_PICS_FATTY 8
 #define ATTACKING_PICS_CRAZY 8
 #define TRAPPED_1_PICS_PURPLE 8
-#define TRAPPED_1_PICS_FATTY 8
-#define TRAPPED_1_PICS_CRAZY 8
+#define TRAPPED_1_PICS_FATTY	8
+#define TRAPPED_1_PICS_CRAZY	8
 #define TRAPPED_2_PICS_PURPLE 8
-#define TRAPPED_2_PICS_FATTY 8
-#define TRAPPED_2_PICS_CRAZY 8
-#define IDLE_PICS_PURPLE 12
-#define IDLE_PICS_FATTY 8
-#define IDLE_PICS_CRAZY 8
+#define TRAPPED_2_PICS_FATTY	8
+#define TRAPPED_2_PICS_CRAZY	8
+#define IDLE_PICS_PURPLE	12
+#define IDLE_PICS_FATTY		8
+#define IDLE_PICS_CRAZY		8
 #define FALLING_PICS_PURPLE	8
-#define FALLING_PICS_FATTY 1
-#define FALLING_PICS_CRAZY 1
-#define DYING_PICS_PURPLE 8
-#define DYING_PICS_FATTY 8
-#define DYING_PICS_CRAZY 8
+#define FALLING_PICS_FATTY	1
+#define FALLING_PICS_CRAZY	1
+#define DYING_PICS_PURPLE	8
+#define DYING_PICS_FATTY	8
+#define DYING_PICS_CRAZY	8
 
 
 #define FOLDER_ENEMY	("enemies")
@@ -41,8 +41,8 @@
 #define FOLDER_WALKING	("WALKING")		
 #define FOLDER_JUMPING	("JUMPING")
 #define FOLDER_IDLE		("IDLE")
-#define FOLDER_TRAPPED_1	("TRAPPED")
-#define FOLDER_TRAPPED_2	("TRAPPED")
+#define FOLDER_TRAPPED_1	("TRAPPED_1")
+#define FOLDER_TRAPPED_2	("TRAPPED_2")
 #define FOLDER_ATTACKING	("ATTACKING")
 #define FOLDER_FALLING		("FALLING")
 #define FOLDER_DYING		("DYING")
@@ -83,8 +83,10 @@
 #define VEL_X_INBALL	(BLOCK_SIZE/(FPS*MOVE_RATIO))
 #define MOVE_RATIO_PUSHED	(1.0)
 #define VEL_PUSHED_INBALL	(BLOCK_SIZE/(FPS*MOVE_RATIO_PUSHED))
+#define TIME_TRAPPED	(3.0)										// segundos con el enemigo atrapado PARCIALMENTE en nieve
+#define TICKS_TRAPPED	(TIME_TRAPPED*FPS)							// ticks con el enemigo atrapado PARCIALMENTE en la nieve
 
-#define IDLE_PICS_BALL		1
+#define IDLE_PICS_BALL	1
 #define MOVING_PICS_BALL	16											// cantidad de imagenes de cada una para saber repetir el ciclo
 #define PUSHING_PICS_BALL	16
 #define FALLING_PICS_BALL	16

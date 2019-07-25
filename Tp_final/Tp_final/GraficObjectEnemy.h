@@ -23,6 +23,10 @@ private:
 	ENEMY_TYPE type;
 	ENEMY_STATE state;
 	unsigned int vel_x_inball;
+	unsigned int trap1ActualImage;
+	unsigned int trap2ActualImage;
+	unsigned int trap1ticks;
+	unsigned int trap2ticks;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
 	unsigned int idleActualImage;

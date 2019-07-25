@@ -9,11 +9,16 @@ Obj_Graf_Enemy::Obj_Graf_Enemy()
 Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* container) : Obj_Graf(ID)
 {
 	this->actualImage = 0;
-	this->type = type;
 	this->attackActualImage = 0;
-	this->dieActualImage = 0;
-	this->idleActualImage = 0;
 	this->walkActualImage = 0;
+	this->idleActualImage = 0;
+	this->dieActualImage = 0;
+	this->trap1ActualImage = 0;
+	this->trap2ActualImage = 0;
+	this->trap1ticks = 0;
+	this->trap2ticks = 0;
+	this->actualImageInball = 0;
+	this->type = type;
 	this->vel_x_inball = VEL_X_INBALL;
 
 	switch (type)
@@ -126,16 +131,26 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_PURPLE * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-				this->actualImage++;
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_PURPLE * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
-				this->actualImage++;
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_PURPLE)
@@ -306,14 +321,26 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_PURPLE * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_PURPLE) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_PURPLE * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_PURPLE)
@@ -506,14 +533,24 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->attackImages[this->attackActualImage / 2], 0, 0, al_get_bitmap_height(images->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(images->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_FATTY * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_FATTY * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_FATTY)
@@ -699,14 +736,26 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->attackImages[this->attackActualImage / 2], 0, 0, al_get_bitmap_height(images->attackImages[this->attackActualImage / 2]), al_get_bitmap_width(images->attackImages[this->attackActualImage / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-				this->actualImage++;
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_FATTY * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_FATTY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-				this->actualImage++;
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_FATTY * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_FATTY)
@@ -883,14 +932,26 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-				this->actualImage++;
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_CRAZY * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
-				this->actualImage++;
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_CRAZY * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+				//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_CRAZY)
@@ -1061,14 +1122,24 @@ void Obj_Graf_Enemy::draw()
 				al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 				break;
 			case enemy_TRAPPED_1:
-				((this->actualImage + 1) < TRAPPED_1_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap1Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->actualImage]), al_get_bitmap_width(images->trap1Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_CRAZY * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
+				al_draw_scaled_bitmap(images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				this->trap1ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap1ticks = 0;
+				}
 				break;
 			case enemy_TRAPPED_2:
-				((this->actualImage + 1) < TRAPPED_2_PICS_CRAZY) ? this->actualImage++ : this->actualImage = 0;
-				al_draw_scaled_bitmap(images->trap2Images[this->actualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->actualImage]), al_get_bitmap_width(images->trap2Images[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
-				this->actualImage++;
+				this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_CRAZY * 2)) / 2;
+				al_draw_scaled_bitmap(images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+				this->trap2ticks++;
+				if (this->trap1ticks > TICKS_TRAPPED)
+				{
+					this->secuenceOver_ = true;
+					this->trap2ticks = 0;
+				}
 				break;
 			case enemy_DYING:
 				if ((this->dieActualImage + 1) < DYING_PICS_CRAZY)
@@ -1184,8 +1255,14 @@ void Obj_Graf_Enemy::reset()
 {
 	this->actualImage = 0;
 	this->attackActualImage = 0;
+	this->walkActualImage = 0;
 	this->idleActualImage = 0;
 	this->dieActualImage = 0;
+	this->trap1ActualImage = 0;
+	this->trap2ActualImage = 0;
+	this->trap1ticks = 0;
+	this->trap2ticks = 0;
+	this->actualImageInball = 0;
 }
 
 bool Obj_Graf_Enemy::secuenceOver()

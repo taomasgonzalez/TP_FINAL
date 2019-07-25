@@ -94,6 +94,6 @@ private:
 	void load_tom_bitmaps();
 	void load_nick_bitmaps();
 
-	void fill_bitmap(ALLEGRO_BITMAP ** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
+	void fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
 
 };

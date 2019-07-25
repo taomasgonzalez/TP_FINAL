@@ -17,11 +17,11 @@ Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageC
 	{
 	case SNOW:
 		this->velX = VEL_SNOW;
-		container->my_projectile_images_container.snowball;
+		images = &container->my_projectile_images_container.snowball;
 		break;
 	case FIRE:
 		this->velX = VEL_FIRE;
-		container->my_projectile_images_container.fire;
+		images = &container->my_projectile_images_container.fire;
 		break;
 	}
 
