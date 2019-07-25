@@ -142,7 +142,7 @@ NAME_package::NAME_package() :Package(Package_type::NAME) {
 **************************************************************/
 NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(Package_type::NAME_IS) {
 
-	this->count = namelenght;
+	this->count = namelenght-48; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->Name =  newname;
 	this->info_length = 2 + this->count;
 
@@ -152,8 +152,8 @@ NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(
 **************************************************************/
 NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
 
-	newname[namelenght] = '\0';
-	this->count = namelenght;
+	newname[namelenght-48] = '\0';
+	this->count = namelenght-48;
 	this->Name = newname;
 	this->info_length = 2 + this->count;
 
@@ -190,9 +190,8 @@ std::string NAME_IS_package::get_sendable_info() {
 
 	std::string info2;
 	std::stringstream ss;
-	std::string target;
 	ss << enum_to_string(this->header);
-	ss << count;
+	ss << (count+48); //corrimiento para evitar un 0 que sea funcione como un terminador no deseado
 	ss << this->Name;
 	ss >> info2;
 	/*
@@ -280,8 +279,8 @@ GAME_START_package::GAME_START_package() :Package(Package_type::GAME_START) {
 MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char col_de) : Package(Package_type::MOVE) {
 
 	this->character = the_one_that_moves;
-	this->destination_row = fil_de;
-	this->destination_column = col_de;
+	this->destination_row = fil_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_column = col_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->info_length = 4;
 
 
@@ -301,9 +300,9 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 std::string MOVE_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
-	std::string info1((const char*)this->character,1);
-	std::string info2((const char*)this->destination_row,1);
-	std::string info3((const char*)this->destination_column,1);
+	std::string info1(1,(char)this->character);
+	std::string info2(1,this->destination_row+48);
+	std::string info3(1,this->destination_column+48);
 
 	std::string info4 = info + info1 + info2+ info3;
 
@@ -333,8 +332,8 @@ char MOVE_package::give_me_the_destination_column() {
 ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de, char col_de) :Package(Package_type::ATTACK) {
 
 	this->character = the_one_that_attacks;
-	this->destination_row = fil_de;
-	this->destination_column = col_de;
+	this->destination_row = fil_de - 48; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_column = col_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->info_length = 4;
 
 }
@@ -352,10 +351,11 @@ ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de,
 */
 std::string ATTACK_package::get_sendable_info() {
 
+
 	std::string info(enum_to_string(this->header));
-	std::string info1((const char*)this->character,1);
-	std::string info2((const char*)this->destination_row,1);
-	std::string info3((const char*)this->destination_column,1);
+	std::string info1(1,(char)this->character);
+	std::string info2(1,this->destination_row+48);
+	std::string info3(1,this->destination_column+48);
 
 	std::string info4 = info + info1 + info2 + info3;
 
@@ -386,8 +386,8 @@ char ATTACK_package::give_me_the_destination_column() {
 ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_de, char col_de) :Package(Package_type::ACTION_REQUEST) {
 
 	this->action = the_action;
-	this->destination_row = fil_de;
-	this->destination_column = col_de;
+	this->destination_row = fil_de-48;
+	this->destination_column = col_de-48;
 	this->info_length = 4;
 
 }
@@ -406,9 +406,9 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_
 std::string ACTION_REQUEST_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
-	std::string info1((const char*)this->action,1);
-	std::string info2((const char*)this->destination_row,1);
-	std::string info3((const char*)this->destination_column,1);
+	std::string info1(1,(char)this->action);
+	std::string info2(1,this->destination_row+48);
+	std::string info3(1,this->destination_column+48);
 
 	std::string info4 = info + info1 + info2 + info3;
 
@@ -439,10 +439,10 @@ char ACTION_REQUEST_package::give_me_the_destination_column() {
 **************************************************************/
 ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de) :Package(Package_type::ENEMY_ACTION) {
 
-	this->MonsterID = the_MonsterID;
+	this->MonsterID = the_MonsterID-48;
 	this->action = the_action;
-	this->destination_row = fil_de;
-	this->destination_column = col_de;
+	this->destination_row = fil_de-48;
+	this->destination_column = col_de-48;
 	this->info_length = 5;
 }
 
@@ -461,15 +461,12 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 std::string ENEMY_ACTION_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
-	std::string info1(1,this->MonsterID);
+	std::string info1(1,this->MonsterID+48); //para evitar tener un terminador que cropee el string
 	std::string info2(1,(char)this->action);
-	std::string info3(1,this->destination_row);
-	std::string info4(1,this->destination_column);
+	std::string info3(1,this->destination_row+48);//cuidado porque a partir de columna/fila 10 ya no vas a tener un ascii número
+	std::string info4(1,this->destination_column+48);
 
-	std::string info5 = info + info1;
-	info5 += info2;
-	info5 += info3;
-	info5 += info4;
+	std::string info5 = info + info1 + info2 + info3 + info4;
 
 	return info5;
 }
