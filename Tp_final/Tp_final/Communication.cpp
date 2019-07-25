@@ -270,6 +270,7 @@ Package * Communication::receiveMessage() {
 		case Package_type::MAP_IS:
 
 			received = new MAP_IS_package(&buf[1], buf[193]);
+			std::cout << received->get_sendable_info();
 
 			break;
 
