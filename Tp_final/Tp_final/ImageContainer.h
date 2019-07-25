@@ -6,6 +6,7 @@
 #include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
+//#include <allegro5\>
 #include "point.h"
 #include <string>
 #include <math.h>				/* pow */
@@ -78,6 +79,11 @@ public:
 	projectile_images_container my_projectile_images_container;
 
 private:
+	void destroy_bitmap(ALLEGRO_BITMAP ** curr_images, int limit);
+	void destroy_enemy_images(enemy_images* e_images);
+	void destroy_character_images(character_images* c_images);
+	void destroy_projectile_images(projectile_images* p_images);
+
 	//enemy bitmaps
 	void load_enemy_bitmaps();
 	void load_purple_bitmaps();
@@ -95,5 +101,4 @@ private:
 	void load_nick_bitmaps();
 
 	void fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
-
 };

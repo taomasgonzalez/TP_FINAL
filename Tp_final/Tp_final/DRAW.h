@@ -46,7 +46,7 @@ private:
 	vector<string> levels;
 	unsigned int level;
 	void drawLevel();
-	ImageContainer images;
+	ImageContainer* images = NULL;
 };
 
 
