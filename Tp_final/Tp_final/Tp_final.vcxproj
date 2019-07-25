@@ -292,11 +292,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram3.cd" />
-    <None Include="Mis mapas\Bertachini_mapa1.csv" />
-    <None Include="Mis mapas\Bertachini_mapa2.csv" />
-    <None Include="Mis mapas\Bertachini_mapa3.csv" />
-    <None Include="Mis mapas\Bertachini_mapa4.csv" />
-    <None Include="Mis mapas\Bertachini_mapa5.csv" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

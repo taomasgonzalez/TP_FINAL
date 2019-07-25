@@ -55,6 +55,11 @@ Action_info PurpleGuy::act(){
 			stay_still(&returnable_EA);
 			timer_speed = 1;
 		}
+		else
+		{
+			stay_still(&returnable_EA);
+			timer_speed = 1;
+		}
 	}
 
 	al_set_timer_speed(acting_timer, timer_speed);

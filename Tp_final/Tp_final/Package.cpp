@@ -461,12 +461,15 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 std::string ENEMY_ACTION_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
-	std::string info1((const char*)this->MonsterID,1);
-	std::string info2((const char*)this->action,1);
-	std::string info3((const char*)this->destination_row,1);
-	std::string info4((const char*)this->destination_column,1);
+	std::string info1(1,this->MonsterID);
+	std::string info2(1,(char)this->action);
+	std::string info3(1,this->destination_row);
+	std::string info4(1,this->destination_column);
 
-	std::string info5 = info + info1 + info2 + info3 + info4;
+	std::string info5 = info + info1;
+	info5 += info2;
+	info5 += info3;
+	info5 += info4;
 
 	return info5;
 }

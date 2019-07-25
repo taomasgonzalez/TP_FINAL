@@ -37,6 +37,8 @@ public:
 	obs_info enemy_answers_4_observable;
 
 	Action_info get_action_4_obs();
+	void set_action_4_obs(Action_info action);
+
 
 protected:
 	//frozen_timer;

@@ -85,6 +85,7 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 		next_enemy_action->final_pos_x = pos_x + 1;
 		next_enemy_action->my_direction = Direction_type::Left;
 	}
+	set_action_4_obs(*next_enemy_action);
 
 	return (next_enemy_action->valid = can_make_movement());
 }
@@ -166,6 +167,13 @@ Action_info Enemy::get_action_4_obs()
 {
 	return action_4_obs;
 }
+
+void Enemy::set_action_4_obs(Action_info action) {
+
+	this->action_4_obs= action;
+
+}
+
 
 void Enemy::freeze()
 {

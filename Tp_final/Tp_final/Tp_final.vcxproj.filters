@@ -439,11 +439,6 @@
     <ClInclude Include="ImageContainer.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Mis mapas\Bertachini_mapa1.csv" />
-    <None Include="Mis mapas\Bertachini_mapa2.csv" />
-    <None Include="Mis mapas\Bertachini_mapa3.csv" />
-    <None Include="Mis mapas\Bertachini_mapa4.csv" />
-    <None Include="Mis mapas\Bertachini_mapa5.csv" />
     <None Include="packages.config" />
     <None Include="ClassDiagram3.cd" />
   </ItemGroup>
@@ -696,9 +691,6 @@
     <ClCompile Include="GraficObject.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="GraficObjectBall.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClCompile>
     <ClCompile Include="GraficObjectEnemy.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
@@ -896,9 +888,6 @@
     <ClInclude Include="GraficObject.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
-    <ClInclude Include="GraficObjectBall.h">
-      <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
     <ClInclude Include="GraficObjectEnemy.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
@@ -915,9 +904,6 @@
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="DRAW.h">
-      <Filter>Header Files\Graphics_related</Filter>
-    </ClInclude>
-    <ClInclude Include="BallDefines.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="ProjectileDefine.h">

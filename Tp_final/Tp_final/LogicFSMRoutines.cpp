@@ -370,6 +370,7 @@ void save_enemy_action(void* data) {
 	fsm->notify_obs();
 	fsm->sv_enemy_action = false;
 }
+
 void send_enemy_action(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;

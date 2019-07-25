@@ -543,6 +543,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 				local_destination.fil = the_one_that_moves->pos_x;
 				local_destination.col = the_one_that_moves->pos_y + delta;
 			}
+
 			break;
 
 		case Direction_type::Jump_Straight:
@@ -552,6 +553,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 				local_destination.fil = the_one_that_moves->pos_x + delta;
 				local_destination.col = the_one_that_moves->pos_y;
 			}
+			is_the_move_possible = true;
+
 			break;
 
 		case Direction_type::Jump_Left:
@@ -560,6 +563,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 				local_destination.fil = the_one_that_moves->pos_x - 2;
 				local_destination.col = the_one_that_moves->pos_y-1;
 			}
+			is_the_move_possible = true;
+
 			break;
 		case Direction_type::Jump_Right:			
 			if (Action_info_to_be_checked->is_local)
