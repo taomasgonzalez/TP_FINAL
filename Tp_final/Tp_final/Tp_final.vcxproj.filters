@@ -972,20 +972,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Mis mapas\Bertachini_mapa1.csv">
-      <Filter>Source Files\Info_Mapas</Filter>
-    </None>
-    <None Include="Mis mapas\Bertachini_mapa2.csv">
-      <Filter>Source Files\Info_Mapas</Filter>
-    </None>
-    <None Include="Mis mapas\Bertachini_mapa3.csv">
-      <Filter>Source Files\Info_Mapas</Filter>
-    </None>
-    <None Include="Mis mapas\Bertachini_mapa4.csv">
-      <Filter>Source Files\Info_Mapas</Filter>
-    </None>
-    <None Include="Mis mapas\Bertachini_mapa5.csv">
-      <Filter>Source Files\Info_Mapas</Filter>
-    </None>
   </ItemGroup>
 </Project>

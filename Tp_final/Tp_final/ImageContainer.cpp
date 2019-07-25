@@ -138,22 +138,11 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 	for (int i = 0; i < limit; i++){
 		if (carpeta2 == "")
 			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
+			//imageDir = carpeta1 + '\\' + carpeta3 + '\\' + file + to_string(i /* + 1*/) + ".png";
 		else
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		(*curr_images)[i] = al_load_bitmap(imageDir.c_str());
-	}
-}
-
-void fill_bitmap2(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2) {
-	string imageDir;
-
-	*curr_images = new ALLEGRO_BITMAP *[limit];
-
-	for (int i = 0; i < limit; i++) {
-		if (carpeta2 == "")
-			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
-		else
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		(*curr_images)[i] = al_load_bitmap(imageDir.c_str());
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i) + ".png";
+			//imageDir = carpeta1 + '\\' + carpeta2 + '\\' + carpeta3 + '\\' + file + to_string(i) + ".png";
+		ALLEGRO_BITMAP* point = al_load_bitmap(imageDir.c_str());
+		(*curr_images)[i] = point;
 	}
 }
