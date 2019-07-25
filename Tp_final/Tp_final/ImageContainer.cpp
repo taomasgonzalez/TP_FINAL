@@ -12,6 +12,16 @@ ImageContainer::ImageContainer()
 }
 ImageContainer::~ImageContainer()
 {
+	destroy_enemy_images(&my_enemy_images_container.fatty);
+	destroy_enemy_images(&my_enemy_images_container.fatty);
+	destroy_enemy_images(&my_enemy_images_container.purple);
+
+	destroy_character_images(&my_character_images_container.tom);
+	destroy_character_images(&my_character_images_container.nick);
+
+	destroy_projectile_images(&my_projectile_images_container.fire);
+	destroy_projectile_images(&my_projectile_images_container.snowball);
+
 }
 void ImageContainer::load_enemy_bitmaps() {
 
@@ -145,4 +155,41 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 		ALLEGRO_BITMAP* point = al_load_bitmap(imageDir.c_str());
 		(*curr_images)[i] = point;
 	}
+}
+void ImageContainer::destroy_bitmap(ALLEGRO_BITMAP ** curr_images, int limit) {
+	for (int i = 0; i < limit; i++) 
+		al_destroy_bitmap(curr_images[i]);
+}
+
+void ImageContainer::destroy_enemy_images(enemy_images* e_images) {
+	delete e_images->attackImages;
+	delete e_images->dieImages;
+	delete e_images->fallImages;
+	delete e_images->idleImages;
+	delete e_images->inballDestructiontImages;
+	delete e_images->inballFallImages;
+	delete e_images->inballIdleImages;
+	delete e_images->inballMoveImages;
+	delete e_images->inballPushImages;
+	delete e_images->jumpImages;
+	delete e_images->trap1Images;
+	delete e_images->trap2Images;
+	delete e_images->walkImages;
+}
+
+void ImageContainer::destroy_character_images(character_images* c_images) {
+	delete c_images->walkImages;
+	delete c_images->jumpImages;
+	delete c_images->idleImages;
+	delete c_images->attackImages;
+	delete c_images->fallImages;
+	delete c_images->pushImages;
+	delete c_images->dieImages;
+}
+
+void ImageContainer::destroy_projectile_images(projectile_images* p_images) {
+	delete p_images->moveImages;
+	delete p_images->decayImages;
+	delete p_images->impactImages;
+	delete p_images->fallImages;
 }

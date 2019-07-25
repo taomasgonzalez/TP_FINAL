@@ -38,6 +38,7 @@ DRAW::DRAW()
 
 DRAW::~DRAW()
 {
+	delete images;
 }
 
 Obj_Graf_Player* DRAW::createObjGraf(unsigned int ID, PLAYER_TYPE type)
