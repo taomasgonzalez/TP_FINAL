@@ -162,6 +162,7 @@ void ImageContainer::destroy_bitmap(ALLEGRO_BITMAP ** curr_images, int limit) {
 }
 
 void ImageContainer::destroy_enemy_images(enemy_images* e_images) {
+	//FALTA HACER LLAMADO A CADA DESTROY BITMAP!!!!
 	delete e_images->attackImages;
 	delete e_images->dieImages;
 	delete e_images->fallImages;

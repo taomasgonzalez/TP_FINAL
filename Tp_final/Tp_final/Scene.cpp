@@ -728,7 +728,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 		if (the_enemy_that_acts->is_dead())
 		{
-			std::cout << " Error , el mounstro que debería actuar está muerto" << std::endl;
+			std::cout << " Error , el monstruo que debería actuar está muerto" << std::endl;
 			is_the_enemy_action_possible = false;
 		}
 		else
