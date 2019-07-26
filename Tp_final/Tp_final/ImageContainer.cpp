@@ -137,9 +137,12 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 	for (int i = 0; i < limit; i++){
 		if (carpeta2 == "")
 			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
+			//imageDir = carpeta1 + '\\' + carpeta3 + '\\' + file + to_string(i /* + 1*/) + ".png";
 		else
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
-		(*curr_images)[i] = al_load_bitmap(imageDir.c_str());
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i) + ".png";
+			//imageDir = carpeta1 + '\\' + carpeta2 + '\\' + carpeta3 + '\\' + file + to_string(i) + ".png";
+		ALLEGRO_BITMAP* point = al_load_bitmap(imageDir.c_str());
+		(*curr_images)[i] = point;
 	}
 }
 
