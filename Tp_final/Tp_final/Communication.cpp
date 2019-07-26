@@ -262,7 +262,7 @@ Package * Communication::receiveMessage() {
 
 		case Package_type::NAME_IS:
 		{
-			received = new NAME_IS_package(buf[1], &buf[2]); //sending namelength and newname(char*) to the constructor
+			received = new NAME_IS_package(buf[1]-48, &buf[2]); //sending namelength and newname(char*) to the constructor
 
 		}
 			break;
@@ -270,6 +270,7 @@ Package * Communication::receiveMessage() {
 		case Package_type::MAP_IS:
 
 			received = new MAP_IS_package(&buf[1], buf[193]);
+			std::cout << received->get_sendable_info();
 
 			break;
 
@@ -281,25 +282,25 @@ Package * Communication::receiveMessage() {
 
 		case Package_type::MOVE:
 
-			received = new MOVE_package((Character_type)buf[1], buf[2], buf[3]);
+			received = new MOVE_package((Character_type)buf[1], buf[2]-48, buf[3]-48); //sacando el desfasaje hecho para evitar null terminator en buffer
 
 			break;
 
 		case Package_type::ATTACK:
 
-			received = new ATTACK_package((Character_type)buf[1], buf[2], buf[3]);
+			received = new ATTACK_package((Character_type)buf[1], buf[2]-48, buf[3]-48);
 
 			break;
 
 		case Package_type::ACTION_REQUEST:
 
-			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2], buf[3]);
+			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2]-48, buf[3]-48);
 
 			break;
 
 		case Package_type::ENEMY_ACTION:
 
-			received = new ENEMY_ACTION_package(buf[1], (Action_type)buf[2], buf[3], buf[4]);
+			received = new ENEMY_ACTION_package(buf[1]-48, (Action_type)buf[2], buf[3]-48, buf[4]-48);
 
 			break;
 

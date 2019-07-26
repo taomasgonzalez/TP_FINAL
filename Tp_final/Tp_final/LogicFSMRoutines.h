@@ -16,8 +16,7 @@ void send_ack(void * data);
 void send_quit(void * data);
 void send_name_is(void* data);
 void send_ack_and_quit(void* data);
-void execute_and_send_
-(void* data);
+void execute_and_send_enemy_action(void* data);
 void send_game_start(void* data);
 void send_error_and_finish_game(void* data);
 void send_action_and_set_ack_time_out(void* data);

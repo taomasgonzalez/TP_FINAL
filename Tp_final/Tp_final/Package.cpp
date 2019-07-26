@@ -142,7 +142,7 @@ NAME_package::NAME_package() :Package(Package_type::NAME) {
 **************************************************************/
 NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(Package_type::NAME_IS) {
 
-	this->count = namelenght-48; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->count = namelenght; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->Name =  newname;
 	this->info_length = 2 + this->count;
 
@@ -152,8 +152,8 @@ NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(
 **************************************************************/
 NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
 
-	newname[namelenght-48] = '\0';
-	this->count = namelenght-48;
+	newname[namelenght] = '\0';
+	this->count = namelenght;
 	this->Name = newname;
 	this->info_length = 2 + this->count;
 
@@ -279,8 +279,8 @@ GAME_START_package::GAME_START_package() :Package(Package_type::GAME_START) {
 MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char col_de) : Package(Package_type::MOVE) {
 
 	this->character = the_one_that_moves;
-	this->destination_row = fil_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	this->destination_column = col_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_row = fil_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_column = col_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->info_length = 4;
 
 
@@ -332,8 +332,8 @@ char MOVE_package::give_me_the_destination_column() {
 ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de, char col_de) :Package(Package_type::ATTACK) {
 
 	this->character = the_one_that_attacks;
-	this->destination_row = fil_de - 48; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	this->destination_column = col_de - 48;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_row = fil_de ; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	this->destination_column = col_de;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->info_length = 4;
 
 }
@@ -386,8 +386,8 @@ char ATTACK_package::give_me_the_destination_column() {
 ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_de, char col_de) :Package(Package_type::ACTION_REQUEST) {
 
 	this->action = the_action;
-	this->destination_row = fil_de-48;
-	this->destination_column = col_de-48;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
 	this->info_length = 4;
 
 }
@@ -439,10 +439,10 @@ char ACTION_REQUEST_package::give_me_the_destination_column() {
 **************************************************************/
 ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de) :Package(Package_type::ENEMY_ACTION) {
 
-	this->MonsterID = the_MonsterID-48;
+	this->MonsterID = the_MonsterID;
 	this->action = the_action;
-	this->destination_row = fil_de-48;
-	this->destination_column = col_de-48;
+	this->destination_row = fil_de;
+	this->destination_column = col_de;
 	this->info_length = 5;
 }
 
