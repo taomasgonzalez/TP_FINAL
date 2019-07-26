@@ -62,6 +62,7 @@ public:
 		character_images tom;
 		character_images nick;
 	} character_images_container;
+
 	character_images_container my_character_images_container;
 
 	typedef struct projectile_images {
@@ -79,11 +80,6 @@ public:
 	projectile_images_container my_projectile_images_container;
 
 private:
-	void destroy_bitmap(ALLEGRO_BITMAP ** curr_images, int limit);
-	void destroy_enemy_images(enemy_images* e_images);
-	void destroy_character_images(character_images* c_images);
-	void destroy_projectile_images(projectile_images* p_images);
-
 	//enemy bitmaps
 	void load_enemy_bitmaps();
 	void load_purple_bitmaps();
@@ -101,4 +97,10 @@ private:
 	void load_nick_bitmaps();
 
 	void fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
+
+	void destroy_enemy_bitmaps();
+	void destroy_projectile_bitmaps();
+	void destroy_character_bitmaps();
+	void destroy_all_bitmaps();		// frees memory from bitmaps
+
 };
