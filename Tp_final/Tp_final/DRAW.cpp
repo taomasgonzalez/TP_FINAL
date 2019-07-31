@@ -75,6 +75,8 @@ void DRAW::draw()
 	for (vector<unsigned int>::iterator it = keys.begin(); it < keys.end(); it++)			// barro todos los elementos del mapa
 		if (this->mapObjGraf[*it]->isActive())										// si el objeto grafico esta activo
 			this->mapObjGraf[*it]->draw();											// se dibuja
+
+	al_flip_display();
 }
 
 void DRAW::destroyObj(unsigned int ID)
