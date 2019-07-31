@@ -19,6 +19,8 @@
 #include "Scene.h"
 #include "Allegroclass.h"
 #include "general.h"
+#include "EventHandler.h"
+
 
 class Resources
 {

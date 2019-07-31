@@ -86,16 +86,16 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : LogicFSM(data)
 	Waiting_for_ACK_playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_playing_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }); //se recibe un quit por networking,
 	Waiting_for_ACK_playing_state->push_back({ Event_type::ERROR1, NULL, analayze_error });
-	Waiting_for_ACK_playing_state->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing });
+	Waiting_for_ACK_playing_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_playing_state, do_nothing });
 
 	//Waiting_if_the_client_wants_to_play_again
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::PLAY_AGAIN, this->Waiting_if_the_user_wants_to_play_again, ask_user_being_server_and_send_decition }); //se recibe un PLAY_AGAIN del client que quiere volver a jugar
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game });  //se recibe un GAME_OVER del client que no quiere volver a jugar
-	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::ACK, NULL, finish_game });								//validación del client a un paquete GAME_OVER mandado por el servidor desde ask_user_and_send_decition()
+	//Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::ACK, NULL, finish_game });	 //??? chequear creo que no corresponde, nunca llega un ACK							//validación del client a un paquete GAME_OVER mandado por el servidor desde ask_user_and_send_decition()
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }); //se recibe un quit por networking,
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::ERROR1, NULL, analayze_error });
-	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing });
+	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_client_wants_to_play_again, do_nothing });
 
 	//Waiting_if_the_user_wants_to_play_again
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is });  //el usuario del servidor quiere volver a jugar
@@ -104,7 +104,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : LogicFSM(data)
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }); //se recibe un quit por networking,
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::ERROR1, NULL, analayze_error });
-	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing });
+	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_user_wants_to_play_again, do_nothing });
 
 	//Waiting_for_ACK_quit_state
 	Waiting_for_ACK_quit_state->push_back({ Event_type::ACK, NULL, finish_game });

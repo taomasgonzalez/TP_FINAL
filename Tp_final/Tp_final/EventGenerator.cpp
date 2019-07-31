@@ -62,14 +62,24 @@ EventPackage * EventGenerator::fetch_event()
 	EventPackage * returned_package = NULL;
 
 	if (event_queues.size() > 0) {
-		if (!event_queues.at(actual_queue).empty()) {
-			returned_package = (event_queues.at(actual_queue)).front();
-			(event_queues.at(actual_queue)).pop();
+		
+
+		for (int counter=0; counter <= (event_queues.size()-1); counter++, actual_queue++) {
+
+			if (!(actual_queue < event_queues.size()))
+				actual_queue = 0;
+
+			if (!event_queues.at(actual_queue).empty()) 
+			{
+				returned_package = (event_queues.at(actual_queue)).front();
+				(event_queues.at(actual_queue)).pop();
+				actual_queue++;
+				break;
+			}
 		}
-		actual_queue++;
-		if (actual_queue >= event_queues.size())
-			actual_queue = 0;
+
 	}
+
 	if(returned_package == NULL)
 		returned_package = new END_OF_TABLE_EventPackage();
 

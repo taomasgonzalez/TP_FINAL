@@ -29,7 +29,7 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	set_fsm_ev_pack(ev_pack);
 
 	int event_pos = 0;
-	while (((actual_state->at(event_pos)).event != event1) && ((actual_state->at(event_pos)).event != Event_type::END_OF_TABLE))
+	while (((actual_state->at(event_pos)).event != event1))
 	{
 		event_pos++;
 	}
@@ -39,8 +39,8 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	//	this->check_for_incorrect_event(event1);			
 
 	//Runs the functions related to that event
-	((actual_state->at(event_pos)).fun_trans)(this);
-	this->actual_state = ((actual_state->at(event_pos)).nextstate);
+		((actual_state->at(event_pos)).fun_trans)(this);
+		this->actual_state = ((actual_state->at(event_pos)).nextstate);
 
 }
 

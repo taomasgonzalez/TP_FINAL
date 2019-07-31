@@ -21,15 +21,16 @@ EventHandler::~EventHandler()
 *	OUTPUT:
 *		void.
 */
-bool EventHandler::handle_event() {
-
-	bool handled_event;
+void EventHandler::handle_event() {
 
 	EventPackage * ev_pack = ev_gen->fetch_event();
-	if (handled_event = (ev_pack->give_me_your_event_type() != Event_type::NO_EVENT) )
+	if (ev_pack->give_me_your_event_type() != Event_type::NO_EVENT)
 		fsm->run_fsm(ev_pack);
+	else
+		delete ev_pack;
 
-	return handled_event;
+	return;
+
 }
 
 FSM * EventHandler::get_fsm()
