@@ -24,10 +24,8 @@ EventHandler::~EventHandler()
 bool EventHandler::handle_event() {
 
 	EventPackage * ev_pack = ev_gen->fetch_event();
-
-	fsm->run_fsm(ev_pack);
-
-
+	if(ev_pack != NULL)
+		fsm->run_fsm(ev_pack);
 	return true;
 
 }
