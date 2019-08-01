@@ -116,11 +116,10 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 				ev_pack = new LOCAL_QUIT_EventPackage();
 			}
 		}
+		append_new_event(ev_pack,(int) LogicQueues::allegro);
 	}
-	else
-		ev_pack = new NO_EVENT_EventPackage();
 
-	append_new_event(ev_pack,(int) LogicQueues::allegro);
+
 
 }
 

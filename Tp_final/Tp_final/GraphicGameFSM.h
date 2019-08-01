@@ -11,6 +11,8 @@ public:
 	void start_game();
 	void draw_tick();
 	void change_level();
+	virtual void run_fsm(EventPackage * ev_pack);
+
 
 private:
 	std::vector<edge_t>* iddle_state = NULL;

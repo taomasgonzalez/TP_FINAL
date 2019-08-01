@@ -29,14 +29,17 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	set_fsm_ev_pack(ev_pack);
 
 	int event_pos = 0;
-	while (((actual_state->at(event_pos)).event != event1))
+	while (((actual_state->at(event_pos)).event != event1)&&(event1!= Event_type::END_OF_TABLE))
 	{
 		event_pos++;
 	}
 
+
+
 	//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
-	//if (this->actual_state->event == My_Event::END_OF_TABLE) 
-	//	this->check_for_incorrect_event(event1);			
+	if (event1 == Event_type::END_OF_TABLE)
+		std::cout << "ERROR,EVENTO RECIBIDO NO PERTENECE AL ESTADO";
+	//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
 
 	//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);

@@ -80,8 +80,6 @@ EventPackage * EventGenerator::fetch_event()
 
 	}
 
-	if(returned_package == NULL)
-		returned_package = new END_OF_TABLE_EventPackage();
 
 	return returned_package;
 }

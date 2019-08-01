@@ -8,7 +8,7 @@ public:
 	EventHandler(FSM * fsm, EventGenerator* ev_gen);
 	~EventHandler();
 
-	void handle_event();
+	bool handle_event();
 
 	FSM * get_fsm();
 	EventGenerator* get_ev_gen();
