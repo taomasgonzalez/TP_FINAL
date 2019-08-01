@@ -11,7 +11,7 @@ class MapThingFactory : public Observable
 public:
 	MapThingFactory();
 	~MapThingFactory();
-	MapThing* create_map_thing(Item_type identifyer, Sense_type direction, void * scenario);
+	MapThing* create_map_thing(int fil, int col, Item_type identifyer, Sense_type direction, void * obs_info);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue);
 	MapThing* get_last_created_map_thing();
