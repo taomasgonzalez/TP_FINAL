@@ -595,31 +595,6 @@ Action_info EventPackage::to_Action_info() {
 	returnable_info.my_info_header = Event_type_2_Action_info_id(give_me_your_event_type());
 	returnable_info.is_local = is_this_a_local_action();
 
-	switch (returnable_info.my_info_header)
-	{
-	case Action_info_id::MOVE:
-	case Action_info_id::ATTACK:
-		returnable_info.final_pos_x;
-		returnable_info.final_pos_y;
-
-		break;
-	case Action_info_id::ACTION_REQUEST:
-		returnable_info.final_pos_x;
-		returnable_info.final_pos_y;
-		break;
-	case Action_info_id::ENEMY_ACTION:
-		break;
-	case Action_info_id::DIE:
-		break;
-	case Action_info_id::HIT:
-		break;
-	case Action_info_id::None:
-		break;
-	default:
-		break;
-	}
-
-
 
 	return returnable_info;
 }

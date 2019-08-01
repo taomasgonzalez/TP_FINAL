@@ -70,7 +70,35 @@ void LogicFSMSceneObserver::update() {
 	if (my_fsm->check_action) {
 
 		EventPackage* event_to_be_checked = this->my_fsm->get_fsm_ev_pack();
-		Action_info acting_information = event_to_be_checked->to_Action_info();
+		Action_info acting_information;
+
+		switch (event_to_be_checked->give_me_your_event_type())
+		{
+		case Event_type::MOVE:
+		{
+			MOVE_EventPackage * info_mo = static_cast<MOVE_EventPackage*>(event_to_be_checked);
+			acting_information = info_mo->to_Action_info();
+			break;
+		}
+		case Event_type::ATTACK:
+		{
+			ATTACK_EventPackage * info_attack = static_cast<ATTACK_EventPackage*>(event_to_be_checked);
+			acting_information = info_attack->to_Action_info();
+			break;
+		}
+		case Event_type::ACTION_REQUEST:
+		{
+			ACTION_REQUEST_EventPackage * info_actrequest = static_cast<ACTION_REQUEST_EventPackage*>(event_to_be_checked);
+			acting_information = info_actrequest->to_Action_info();
+			break;
+		}
+		case Event_type::ENEMY_ACTION:
+		{
+			ENEMY_ACTION_EventPackage * info_enemyact = static_cast<ENEMY_ACTION_EventPackage*>(event_to_be_checked);
+			acting_information = info_enemyact->to_Action_info();
+			break;
+		}
+		}
 
 		if (!this->my_scenario->is_the_action_possible(&acting_information)) //mando a analizar el EventPackage 
 			my_fsm->error_ocurred = true;
