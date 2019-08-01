@@ -79,11 +79,11 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 
 	if (my_sense == Sense_type::Left){
 		next_enemy_action->final_pos_x = pos_x - 1;
-		next_enemy_action->my_direction = Direction_type::Right;
+		next_enemy_action->my_direction = Direction_type::Left;
 	}
 	else if (my_sense == Sense_type::Right){
 		next_enemy_action->final_pos_x = pos_x + 1;
-		next_enemy_action->my_direction = Direction_type::Left;
+		next_enemy_action->my_direction = Direction_type::Right;
 	}
 	set_action_4_obs(*next_enemy_action);
 

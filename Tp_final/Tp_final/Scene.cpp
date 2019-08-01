@@ -237,8 +237,8 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	
 	if (is_client) //The map came by networking
 	{	
-		if (actual_map == -1)
-			actual_map++;
+		//if (actual_map == -1)
+		//	actual_map++;
 		new_map->load_on_map(the_map,this);
 		new_map->load_checksum(the_checksum);
 		this->actual_map++;		
@@ -887,24 +887,24 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
-	ALLEGRO_EVENT * allegroEvent = NULL;
-	while (al_get_next_event(enemy_actions_queue, allegroEvent)) 
-		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
-			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent->timer.source);
+	ALLEGRO_EVENT allegroEvent;
+	while (al_get_next_event(enemy_actions_queue, &allegroEvent)) 
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent.timer.source);
 			if (wanted_enemy != NULL) {
 				enemy_action_info = wanted_enemy->act();
 				new_enemy_action = true;
-				notify_obs();
+				notify_obs();					//ScenarioEventsObserver
 				new_enemy_action = false;
 			}
 		}
 }
 
 void Scene::control_proyectile_actions() {
-	ALLEGRO_EVENT * allegroEvent = NULL;
-	while (al_get_next_event(proyectile_actions_queue, allegroEvent))
-		if (allegroEvent->type == ALLEGRO_EVENT_TIMER) {
-			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent->timer.source);
+	ALLEGRO_EVENT allegroEvent;
+	while (al_get_next_event(proyectile_actions_queue, &allegroEvent))
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent.timer.source);
 			//if (wanted_proyectile != NULL)
 				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
 		}

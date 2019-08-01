@@ -55,8 +55,8 @@ template<typename T>
 inline void DRAW::startDraw(T state, unsigned int ID, Direction dir, int x, int y)
 {
 	POINT_ pos;
-	pos.set_x_coord(x*BLOCK_SIZE);
-	pos.set_y_coord(y*BLOCK_SIZE);
+	pos.set_x_coord(y*BLOCK_SIZE);
+	pos.set_y_coord(x*BLOCK_SIZE);
 	void *vp;
 	vp = &state;
 	mapObjGraf[ID]->startDraw(dir, vp, pos);

@@ -534,7 +534,7 @@ void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 */
 void Map::place_on_map(int coord_x, int coord_y, Item_type identifyer, Sense_type direction, void * scenario)
 {
-	MapThing* new_map_thing = map_filler.create_map_thing(identifyer, direction, scenario);
+	MapThing* new_map_thing = map_filler.create_map_thing(coord_x, coord_y, identifyer, direction, scenario);
 	place_on_map(coord_x, coord_y, new_map_thing);
 	
 }
@@ -596,7 +596,7 @@ void Map::load_on_map(const char* map_string, void* scenario) {
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;
-		MapThing * new_thing = map_filler.create_map_thing((Item_type)map_string[i], get_random_sense(), scenario);
+		MapThing * new_thing = map_filler.create_map_thing(fil, col, (Item_type)map_string[i], get_random_sense(), scenario);
 		place_on_map(fil, col, new_thing);
 	}
 }

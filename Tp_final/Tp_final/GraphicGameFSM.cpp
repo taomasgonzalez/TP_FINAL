@@ -53,6 +53,7 @@ GraphicGameFSM::~GraphicGameFSM()
 }
 void GraphicGameFSM::start_game() {
 	drawer->setLevel(level);
+	drawer->draw();
 }
 
 void GraphicGameFSM::draw_tick() {

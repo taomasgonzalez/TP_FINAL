@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "DRAW.h"
 
-class ScenarioDRAWObserver
+class ScenarioDRAWObserver : public Observer
 {
 public:
 	ScenarioDRAWObserver(Scene* scenario, DRAW* drawer);

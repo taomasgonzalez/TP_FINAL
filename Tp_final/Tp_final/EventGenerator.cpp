@@ -79,8 +79,6 @@ EventPackage * EventGenerator::fetch_event()
 		}
 
 	}
-
-
 	return returned_package;
 }
 

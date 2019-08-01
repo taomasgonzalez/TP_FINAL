@@ -21,8 +21,7 @@ MapThingFactory::MapThingFactory()
 MapThingFactory::~MapThingFactory()
 {
 }
-
-MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type direction, void * obs_info)
+MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identifyer, Sense_type direction, void * obs_info)
 {
 	Scene* scene = (Scene*)obs_info;
 	MapThing* new_born = nullptr;
@@ -66,9 +65,11 @@ MapThing * MapThingFactory::create_map_thing(Item_type identifyer, Sense_type di
 			break;
 	}
 
+	new_born->pos_x = fil;
+	new_born->pos_y = col;
 
 	if (new_born->is_enemy())
-		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(((Enemy*)new_born)->get_acting_timer()));
+		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(static_cast<Enemy*>(new_born)->get_acting_timer()));
 	else if (new_born->is_proyectile())
 		al_register_event_source(proyectiles_ev_queue, al_get_timer_event_source(((Proyectile*)new_born)->get_moving_timer()));
 
