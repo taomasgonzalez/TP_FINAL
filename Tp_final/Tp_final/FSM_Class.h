@@ -7,6 +7,7 @@
 #include "Observable.h"
 #include "EventPackage.h"
 #include <vector>
+#include <iostream>
 
 /*****************************************************
 *          DEFINITION OF EDGE

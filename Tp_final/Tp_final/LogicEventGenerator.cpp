@@ -52,7 +52,7 @@ EventPackage * LogicEventGenerator::fetch_event()
 */
 void LogicEventGenerator::update_from_allegro_events() {
 	update_from_allegro_keyboard_events();
-	update_from_allegro_timer_events();
+	//update_from_allegro_timer_events(); la comenté porque la función no está hecha 31/7/19 Germo
 }
 
 void LogicEventGenerator::update_from_allegro_keyboard_events() {

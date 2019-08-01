@@ -37,6 +37,13 @@ GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
 	this->level = 1;
 }
 
+void GraphicGameFSM::run_fsm(EventPackage * ev_pack) {
+
+	if (ev_pack != NULL)
+		FSM::run_fsm(ev_pack);
+
+}
+
 
 GraphicGameFSM::~GraphicGameFSM()
 {

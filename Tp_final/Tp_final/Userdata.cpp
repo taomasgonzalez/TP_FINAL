@@ -67,6 +67,6 @@ Direction_type Userdata::sense_2_direction(Sense_type sense) {
 
 
 NetworkData::NetworkData() {
-	my_ip = "25.98.236.6";
-	his_ip = "25.66.202.87";
+	my_ip = "127.0.0.1";
+	his_ip = "127.0.0.1";
 }

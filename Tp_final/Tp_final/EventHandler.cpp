@@ -23,13 +23,13 @@ EventHandler::~EventHandler()
 */
 bool EventHandler::handle_event() {
 
-	bool handled_event;
-
 	EventPackage * ev_pack = ev_gen->fetch_event();
-	if (handled_event = (ev_pack->give_me_your_event_type() != Event_type::NO_EVENT) )
-		fsm->run_fsm(ev_pack);
 
-	return handled_event;
+	fsm->run_fsm(ev_pack);
+
+
+	return true;
+
 }
 
 FSM * EventHandler::get_fsm()

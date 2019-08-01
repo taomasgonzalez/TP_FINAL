@@ -16,9 +16,6 @@
     <ClCompile Include="EventPackage.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="EventGenerator.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="CommunicationEventsObserver.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
@@ -212,6 +209,9 @@
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
     <ClCompile Include="ImageContainer.cpp" />
+    <ClCompile Include="EventGenerator.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
