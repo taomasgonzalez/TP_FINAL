@@ -251,7 +251,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	}
 	#pragma message(//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!)
 	//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!
-	load_new_graphic_level();
+	//load_new_graphic_level();
 	curr_enemies = new_map->get_all_enemies();
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		this->add_observer(new EnemySceneObserver(*it, this));

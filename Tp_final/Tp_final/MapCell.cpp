@@ -52,8 +52,11 @@ std::vector<Proyectile*> MapCell::get_proyectiles() {
 MapThing* MapCell::get_id(unsigned int wanted_id) {
 	MapThing * found_id = NULL;
 	for (std::vector<MapThing*>::iterator it = cell_things->begin(); it != cell_things->end(); ++it)
-		if ((*it)->id == wanted_id)
-			found_id = (*it);
+	{
+		if(((*it)->get_printable()!= Item_type::FLOOR)&&((*it)->get_printable() != Item_type::NADA)) //FLOOR & NOTHING TIENEN ID CERO, LOS SALTEO
+			if ((*it)->id == wanted_id)
+				found_id = (*it);
+	}
 
 	return found_id;
 }

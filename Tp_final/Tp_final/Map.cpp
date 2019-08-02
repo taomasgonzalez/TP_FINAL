@@ -314,9 +314,16 @@ std::vector<Proyectile*> Map::get_cell_proyectiles(int coord_x, int coord_y) {
 MapThing * Map::get_from_map(unsigned int id) {
 	MapThing* gotten = NULL;
 	for (int i = 0; i < number_of_rows; i++)
+	{
 		for (int j = 0; j < number_of_columns; j++)
+		{
 			if ((gotten = get_cell(i, j).get_id(id)) != NULL)
 				break;
+		}
+		if (gotten!=NULL)
+			break;
+
+	}
 
 	return gotten;
 }
