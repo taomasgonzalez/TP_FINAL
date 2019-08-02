@@ -249,9 +249,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 		new_map->load_on_map(give_me_the_CSV(actual_map),this);
 		new_map->load_checksum(this->make_checksum(give_me_the_CSV(actual_map)));
 	}
-	#pragma message(//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!)
-	//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!
-	load_new_graphic_level();
+
 	curr_enemies = new_map->get_all_enemies();
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		this->add_observer(new EnemySceneObserver(*it, this));
@@ -263,6 +261,8 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	curr_proyectiles = new_map->get_all_proyectiles();
 
 	maps.push_back(new_map);
+	//THIS NEXT FUNCTION DEPENDS ON HAVING THE actual_map VALUE SET ON THE LAST CREATED MAP INDEX!!
+	load_new_graphic_level();
 
 }
 
