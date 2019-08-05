@@ -214,10 +214,11 @@ std::string NAME_IS_package::get_sendable_info() {
 MAP_IS_package::MAP_IS_package(const char * themap, char my_checksum) :Package(Package_type::MAP_IS) {
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
-	this->map = new char[QBLOCKS];
+	unsigned int qblocks = 192; //lo cambio por una variable porque a veces,  desconozco el motivo, tirar error el new de abajo
+	this->map = new char[qblocks];
 	this->Checksum = my_checksum;
-	memcpy(this->map, themap, (size_t)QBLOCKS);
-	this->info_length = 2 + QBLOCKS;
+	memcpy(this->map, themap, (size_t)qblocks);
+	this->info_length = 2 + qblocks;
 
 }
 
