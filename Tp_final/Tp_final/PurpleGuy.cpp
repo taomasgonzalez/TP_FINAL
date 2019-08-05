@@ -5,6 +5,7 @@ double PurpleGuy::moving_speed = 300;
 PurpleGuy::PurpleGuy(unsigned int id, Sense_type sense) :Enemy(id, sense)
 {
 	printable = Item_type::PURPLE_GUY;
+
 }
 
 
@@ -27,7 +28,7 @@ PurpleGuy::~PurpleGuy()
 Action_info PurpleGuy::act(){
 
 	Action_info returnable_EA = Action_info();
-	al_stop_timer(acting_timer);
+	//al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
 	double timer_speed;
 
@@ -46,7 +47,13 @@ Action_info PurpleGuy::act(){
 					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5;
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
+				{
+					if (this->my_sense == Sense_type::Left)
+						this->my_sense = Sense_type::Right;
+					else
+						this->my_sense = Sense_type::Left;
 					move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
+				}
 				else																//1/3 probability
 					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.1;
 			}
@@ -62,8 +69,8 @@ Action_info PurpleGuy::act(){
 		}
 	}
 
-	al_set_timer_speed(acting_timer, timer_speed);
-	al_start_timer(acting_timer);
+	//al_set_timer_speed(acting_timer, timer_speed);
+	//al_start_timer(acting_timer);
 
 	return returnable_EA;
 }
@@ -78,7 +85,7 @@ Action_info PurpleGuy::act(){
 *	OUTPUT:
 *		void.
 */
-void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) {
+void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) { //NOTE:: Watch out that EA_info has ALL the fileds correctly loaded!!!!!
 	EA_info_common_filling(next_enemy_action);
 
 	purple_questions_4_observer.calculate_shortest_distance = true;

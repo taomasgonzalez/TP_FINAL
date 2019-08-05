@@ -106,13 +106,13 @@ void Allegro::append_time_out_timer() {
 }
 void Allegro::start_front_timer() {
 	ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
-	al_start_timer(new_timer);
+	//al_start_timer(new_timer);
 }
 void Allegro::dequeu_time_out_timer() {
 	if(this->time_out_timers_queue->size() >= 1){
 		ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
 		this->time_out_timers_queue->pop();
-		al_stop_timer(new_timer);
+		//al_stop_timer(new_timer);
 		al_destroy_timer(new_timer);
 	}
 }

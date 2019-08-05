@@ -268,7 +268,17 @@ bool Map::cell_has_player_proyectiles(int coord_x, int coord_y)
 */
 bool Map::cell_has_floor(int coord_x, int coord_y)
 {
-	return get_cell(coord_x, coord_y).has_floor();
+	bool appropiate_coordinates = false;
+
+	if ((coord_x <= 11) && (coord_x >= 0)&&(coord_y <= 17) && (coord_y >= 0)) //check if they were send appropiate coordinates  
+		appropiate_coordinates = true;
+
+	if (appropiate_coordinates)
+		appropiate_coordinates = get_cell(coord_x, coord_y).has_floor();
+	else
+		std::cout << "Map::cell_has_floor, Inappropiate coordinates received";
+
+	return appropiate_coordinates;
 }
 /******************************************
 **************get_cell_players*************

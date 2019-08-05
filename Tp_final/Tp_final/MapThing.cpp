@@ -4,14 +4,16 @@
 MapThing::MapThing(unsigned int id, bool is_nothing, Sense_type sense)
 {
 	this->id = id;
-	this->my_sense = sense;
 	if (is_nothing)
 		this->printable = Item_type::NADA;		//thing vacio
-	else
+	else if(sense==Sense_type::None)
 	{
 		this->printable = Item_type::FLOOR;		//es pared
-		this->my_sense = Sense_type::None;
+		//this->my_sense = Sense_type::None; lo comento porque no le encuentro utilidad para cuando soy un floor pero si me modifica SIEMPRE el sense de todo lo que sea "algo"
 	}
+	else
+		this->my_sense = sense;
+
 	
 }
 

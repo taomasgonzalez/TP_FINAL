@@ -13,7 +13,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 	coordinate_scene_events_queue = al_create_event_queue();
 	coordinate_scene_events_timer = al_create_timer(50.0 / 1000.0);
 	al_register_event_source(coordinate_scene_events_queue, al_get_timer_event_source(coordinate_scene_events_timer));
-	al_start_timer(coordinate_scene_events_timer);
+	//al_start_timer(coordinate_scene_events_timer);
 	append_all_queues( (int) LogicQueues::TOTAL_QUEUES);
 }
 

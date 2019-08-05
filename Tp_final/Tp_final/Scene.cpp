@@ -608,7 +608,7 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 		my_direction = Direction_type::Jump_Right;
 	//defecto, ARREGLAR
 	else
-		my_direction = Direction_type::Left;
+		my_direction = Direction_type::None;  //a stay still was received
 
 	return my_direction;
 }
@@ -764,6 +764,10 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 				case Direction_type::Jump_Right:
 					
+					break;
+
+				case Direction_type::None: //stay still was received
+					is_the_enemy_action_possible = true;
 					break;
 
 				default:

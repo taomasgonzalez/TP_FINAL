@@ -25,7 +25,8 @@ void LogicFSMSceneObserver::update() {
 	}
 
 	if (my_fsm->ld_enemy_action) { //I´m the client, an EA arrived during initialization by networking, I must save it to run it later
-		my_scenario->append_new_auxilar_event(my_fsm->get_fsm_ev_pack()->to_Action_info());
+		ENEMY_ACTION_EventPackage * info_EA = static_cast<ENEMY_ACTION_EventPackage*>(my_fsm->get_fsm_ev_pack());
+		my_scenario->append_new_auxilar_event(info_EA->to_Action_info());
 	}
 
 	if (my_fsm->sv_enemy_action) { //I´m the server, EA generated before send it during initialization

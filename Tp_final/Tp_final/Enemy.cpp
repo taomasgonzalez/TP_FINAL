@@ -78,11 +78,13 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 	next_enemy_action->action = Action_type::Move;
 
 	if (my_sense == Sense_type::Left){
-		next_enemy_action->final_pos_x = pos_x - 1;
+		next_enemy_action->final_pos_y = pos_y - 1;
+		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Left;
 	}
 	else if (my_sense == Sense_type::Right){
-		next_enemy_action->final_pos_x = pos_x + 1;
+		next_enemy_action->final_pos_y = pos_y + 1;
+		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Right;
 	}
 	set_action_4_obs(*next_enemy_action);
@@ -105,12 +107,18 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 	next_enemy_action->action = Action_type::Move;
 
 	if (my_sense == Sense_type::Left){
-		next_enemy_action->final_pos_x = pos_x + 1;
+		next_enemy_action->final_pos_y = pos_y + 1;
+		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Right;
+		my_sense = Sense_type::Right;
+
 	}
 	else if (my_sense == Sense_type::Right){
-		next_enemy_action->final_pos_x = pos_x - 1;
+		next_enemy_action->final_pos_y = pos_y - 1;
+		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Left;
+		my_sense = Sense_type::Left;
+
 	}
 
 	return (next_enemy_action->valid = can_make_movement());
@@ -157,7 +165,8 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 
 	next_enemy_action->action = Action_type::Move;
-	next_enemy_action->final_pos_y = pos_y + 1;
+	next_enemy_action->final_pos_x = pos_x - 1;
+	next_enemy_action->final_pos_y = pos_y;
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
 
 	return (next_enemy_action->valid = can_make_movement());
