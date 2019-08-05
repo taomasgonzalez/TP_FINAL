@@ -110,12 +110,14 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 		next_enemy_action->final_pos_y = pos_y + 1;
 		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Right;
+		this->my_sense = Sense_type::Right;
 
 	}
 	else if (my_sense == Sense_type::Right){
 		next_enemy_action->final_pos_y = pos_y - 1;
 		next_enemy_action->final_pos_x = pos_x;
 		next_enemy_action->my_direction = Direction_type::Left;
+		this->my_sense = Sense_type::Left;
 
 	}
 

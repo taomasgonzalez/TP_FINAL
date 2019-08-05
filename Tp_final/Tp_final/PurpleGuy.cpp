@@ -48,11 +48,7 @@ Action_info PurpleGuy::act(){
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
 				{
-					if (this->my_sense == Sense_type::Left)
-						this->my_sense = Sense_type::Right;
-					else
-						this->my_sense = Sense_type::Left;
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
+					this->move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
 				}
 				else																//1/3 probability
 					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.1;

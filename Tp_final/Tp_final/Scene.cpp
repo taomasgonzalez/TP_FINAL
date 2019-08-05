@@ -743,7 +743,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 				{
 				case Direction_type::Left:
 
-						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
 							is_the_enemy_action_possible = false;
 						else
 							is_the_enemy_action_possible = true;
@@ -752,7 +752,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 				case Direction_type::Right:
 
-						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
 							is_the_enemy_action_possible = false;
 						else
 							is_the_enemy_action_possible = true;				
