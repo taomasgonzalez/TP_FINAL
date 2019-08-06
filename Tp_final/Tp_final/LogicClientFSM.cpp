@@ -77,9 +77,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): LogicFSM(data){
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing });
 
 	this->actual_state = this->Initial_state;
-
 }
-
 
 LogicClientFSM::~LogicClientFSM()
 {

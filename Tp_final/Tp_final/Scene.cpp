@@ -510,17 +510,13 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 	}
 
-
-
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
-
 	}
 	else
 	{
-
 		int delta = 0;
 		switch (my_direction)
 		{
@@ -821,10 +817,8 @@ bool Scene::check_if_has_to_fall(unsigned int id) {
 }
 
 bool Scene::check_position(Action_info position_info) {
-
 	return maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
 }
-
 
 Player * Scene::get_player(Item_type player_to_be_found) {
 
