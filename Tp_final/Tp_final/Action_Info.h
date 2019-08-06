@@ -4,7 +4,7 @@
 enum class Action_info_id{ MOVE, ATTACK, ACTION_REQUEST, ENEMY_ACTION, DIE,HIT, None};
 struct Action_info {
 
-	Action_info_id my_info_header;
+	Action_info_id my_info_header= Action_info_id::None;
 	bool is_local;
 	bool finished_loading; //For ENEMYS_LOADED_EventPackage
 	unsigned int id;

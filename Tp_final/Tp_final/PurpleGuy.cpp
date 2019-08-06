@@ -40,25 +40,27 @@ Action_info PurpleGuy::act(){
 			timer_speed = 1;
 		}
 		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
-			sample = acting_probabilities(generator);
+			sample = acting_probabilities(generator); 
 
 			while (!returnable_EA.valid) {
+
 				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 						//1/3 probability
-					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5;
+					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //en ningún caso debería ser posible no saltar
 
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
 				{
 					this->move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
 				}
 				else																//1/3 probability
-					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.1;
+					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //moves in the other direction
 			}
+			
 		}
 		else if ((sample >= 0.9) && (sample <= 1.0)) {		//0.1 probability
 			stay_still(&returnable_EA);
 			timer_speed = 1;
 		}
-		else
+		else //para debbugear pq dijikstra no está arreglada tdv
 		{
 			stay_still(&returnable_EA);
 			timer_speed = 1;
