@@ -33,9 +33,8 @@ Action_info PurpleGuy::act(){
 	double timer_speed;
 
 	while (!returnable_EA.valid){
-		if (sample >= 2) {			
 
-		//if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
+		if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
 			move_to_nearest_player(&returnable_EA);
 			timer_speed = 1;
 		}
@@ -43,25 +42,15 @@ Action_info PurpleGuy::act(){
 			sample = acting_probabilities(generator); 
 
 			while (!returnable_EA.valid) {
-
 				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 						//1/3 probability
 					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //en ningún caso debería ser posible no saltar
-
 				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
-				{
-					this->move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
-				}
+					move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
 				else																//1/3 probability
 					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //moves in the other direction
 			}
-			
 		}
 		else if ((sample >= 0.9) && (sample <= 1.0)) {		//0.1 probability
-			stay_still(&returnable_EA);
-			timer_speed = 1;
-		}
-		else //para debbugear pq dijikstra no está arreglada tdv
-		{
 			stay_still(&returnable_EA);
 			timer_speed = 1;
 		}
@@ -85,7 +74,7 @@ Action_info PurpleGuy::act(){
 */
 void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) { //NOTE:: Watch out that EA_info has ALL the fileds correctly loaded!!!!!
 	EA_info_common_filling(next_enemy_action);
-
+	//set_action_4_obs(*next_enemy_action);
 	purple_questions_4_observer.calculate_shortest_distance = true;
 	notify_obs();
 	purple_questions_4_observer.calculate_shortest_distance = false;

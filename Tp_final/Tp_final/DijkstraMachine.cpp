@@ -4,7 +4,7 @@
 
 bool is_floor(const char place);
 
-MapDijkstraMachine::MapDijkstraMachine(unsigned int n_rows, unsigned int n_cols, const char* map_string)
+MapDijkstraMachine::MapDijkstraMachine(unsigned int n_rows, unsigned int n_cols)
 {
 	rows = n_rows;
 	cols = n_cols;
@@ -23,11 +23,7 @@ MapDijkstraMachine::MapDijkstraMachine(unsigned int n_rows, unsigned int n_cols,
 		for (int j = 0; j < n_vertices; j++) {
 			graph[i][j] = 0;
 		}
-
-	build_graph(map_string);
-
 }
-
 
 MapDijkstraMachine::~MapDijkstraMachine()
 {
@@ -38,6 +34,10 @@ MapDijkstraMachine::~MapDijkstraMachine()
 	delete dist;
 	delete sptSet;
 	delete parent;
+}
+
+void MapDijkstraMachine::load_on_machine(const char* map_string) {
+	build_graph(map_string);
 }
 /*
 //Implementation for Dijkstra's SSSP(Single source shortest path) algorithm

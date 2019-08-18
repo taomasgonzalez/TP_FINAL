@@ -13,13 +13,11 @@ void execute_action_send_it_and_set_ack_time_out(void * data) {
 }
 
 void send_action(void* data) {
-
 	LogicFSM* fsm = (LogicFSM*)data;
 
 	fsm->s_action = true;
 	fsm->notify_obs();
 	fsm->s_action = false;
-
 }
 
 void execute_receive_action_request_send_action_and_send_ack(void * data) {
@@ -52,7 +50,6 @@ void execute_receive_action_and_send_ack(void *data) {
 	execute_extern_action(data);
 	received_ack_routine(data);
 	send_ack(data);
-
 }
 
 void check_action(void* data) {
