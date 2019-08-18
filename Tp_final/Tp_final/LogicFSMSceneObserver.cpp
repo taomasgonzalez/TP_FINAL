@@ -37,7 +37,6 @@ void LogicFSMSceneObserver::update() {
 			my_scenario->append_new_auxilar_event(my_enemy_action_struct);  //cola de la struct y no EVPs
 			my_event_gen->append_new_event(new ENEMY_ACTION_EventPackage(&my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //has to be send to the client
 		}
-
 	}
 
 	if (my_fsm->ex_saved_enemy_actions) //for both client and server

@@ -23,7 +23,8 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	map_filler = MapThingFactory();
 	map_filler.add_observer(new MapThingFactoryDRAWObserver(&map_filler));
 
-	//dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns, );
+	dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns);
+
 }
 
 Map::~Map()
@@ -442,12 +443,7 @@ const char * Map::get_last_loaded_distribution()
 */
 Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_x, int to_y)
 {
-	//return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
-	Position pos;
-	pos.fil = 0;
-	pos.col = 0;
-
-	return pos;
+	return dijkstra_manager->get_next_movement_shortest_path(from_x, from_y, to_x, to_y);
 }
 /******************************************
 ***********get_number_of_rows**************
@@ -618,6 +614,7 @@ void Map::load_on_map(const char* map_string, void* scenario) {
 		MapThing * new_thing = map_filler.create_map_thing(fil, col, (Item_type)map_string[i], get_random_sense(), scenario);
 		place_on_map(fil, col, new_thing);
 	}
+	dijkstra_manager->load_on_machine(map_string);
 }
 
 void Map::load_checksum(unsigned char checksum) {

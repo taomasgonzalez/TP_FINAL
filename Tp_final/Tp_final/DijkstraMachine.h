@@ -11,10 +11,10 @@ using namespace std;
 class MapDijkstraMachine
 {
 public:
-	MapDijkstraMachine(unsigned int n_rows, unsigned int n_cols, const char* map_string);
+	MapDijkstraMachine(unsigned int n_rows, unsigned int n_cols);
 	~MapDijkstraMachine();
 	Position get_next_movement_shortest_path(int source_x, int source_y, int destination_x, int destination_y);
-
+	void load_on_machine(const char* map_string);
 private:
 /*
 	static const int sz = 10001; //Maximum possible number of vertices. Preallocating space for DataStructures accordingly

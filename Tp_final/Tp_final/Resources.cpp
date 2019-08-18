@@ -36,7 +36,6 @@ bool Resources::initialize_all_the_resources() {
 		my_drawer = new DRAW();
 		my_user_data->drawer = my_drawer;
 		
-
 		my_communication = new Communication(my_user_data);  //Initialize the communication
 		healthy_initialization = this->my_communication->is_the_connection_healthy();  //Checks if the communication process was successful
 
