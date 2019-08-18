@@ -14,9 +14,9 @@ std::string NetworkData::give_me_my_name()
 	return this->my_name;
 }
 
-void NetworkData::tell_me_his_name(std::string  his_name)
+void NetworkData::tell_me_his_name(char * his_name, unsigned char his_name_length)
 {
-	 this->his_name = his_name;  //como viene sin /n tomo los primero namelength chars 
+	 this->his_name = string(his_name, his_name_length);  //como viene sin /n tomo los primero namelength chars 
 }
 
 
@@ -56,17 +56,7 @@ Userdata::~Userdata()
 
 DRAW* Userdata::drawer = NULL;
 
-Direction_type Userdata::sense_2_direction(Sense_type sense) {
-	if (sense == Sense_type::Left)
-		return Direction_type::Left;
-	else if (sense == Sense_type::Right)
-		return Direction_type::Right;
-	else
-		return Direction_type::None;
-}
-
 
 NetworkData::NetworkData() {
-	my_ip = "25.98.236.6";
-	his_ip = "25.66.202.87";
+
 }

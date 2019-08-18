@@ -15,5 +15,5 @@ LogicFSMGraphicEventsObserver::~LogicFSMGraphicEventsObserver()
 
 void LogicFSMGraphicEventsObserver::update() {
 	if (logic->start_game) 
-		graphic->append_new_event(logic->get_fsm_ev_pack(), 0);
+		graphic->append_new_event(new GAME_START_EventPackage(), 0);
 }

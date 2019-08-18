@@ -23,6 +23,9 @@ Package::Package(Package_type type)
 	this->header = type;
 	this->info_to_be_send = (char *)&(this->header);
 }
+Package::~Package(){
+
+}
 
 /**************************************************************
 				GET_PACKAGE_HEADER
@@ -113,8 +116,8 @@ NAME_package::NAME_package() :Package(Package_type::NAME) {
 NAME_IS_package::NAME_IS_package(uchar namelenght,const  char * newname) :Package(Package_type::NAME_IS) {
 
 	this->count = namelenght;
-	this->Name = new char[namelenght];
-	memcpy(this->Name, newname, (size_t)namelenght);
+	this->Name = (char*) newname;
+
 	this->info_length = 2 + this->count;
 
 }

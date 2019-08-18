@@ -12,68 +12,72 @@ PackageFactory::PackageFactory()
 
 	switch (info_received->give_me_your_event_type())
 	{
-	case Event_type::ACK:
-		pac = new ACK_package();
-		break;
+		case Event_type::ACK:
+			pac = new ACK_package();
+			break;
 
-	case Event_type::NAME:
-		pac = new NAME_package();
-		break;
+		case Event_type::NAME:
+			pac = new NAME_package();
+			break;
 
-	case Event_type::NAME_IS:
-		pac = new NAME_IS_package(((NAME_IS_EventPackage *)info_received)->get_name_lenght(), ((NAME_IS_EventPackage *)info_received)->give_me_your_name());
-		break;
+		case Event_type::NAME_IS: {
+			NAME_IS_EventPackage * info_n = dynamic_cast<NAME_IS_EventPackage*>(info_received);
+			uchar len = info_n->get_name_lenght();
+			char * name = info_n->give_me_your_name();
+			pac = new NAME_IS_package(len, name);
+			break;
+		}
 
-	case Event_type::MAP_IS:
-		pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map(), ((MAP_IS_EventPackage *)info_received)->give_me_the_checksum());
-		break;
+		case Event_type::MAP_IS:
+			pac = new MAP_IS_package(((MAP_IS_EventPackage *)info_received)->give_me_the_map(), ((MAP_IS_EventPackage *)info_received)->give_me_the_checksum());
+			break;
 
-	case Event_type::GAME_START:
-		pac = new GAME_START_package();
-		break;
+		case Event_type::GAME_START:
+			pac = new GAME_START_package();
+			break;
 
-	case Event_type::MOVE:
-			pac = new MOVE_package((Character_type)((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
-		break;
+		case Event_type::MOVE:
+				pac = new MOVE_package((Character_type)((MOVE_EventPackage *)info_received)->give_me_the_character(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_row(), ((MOVE_EventPackage *)info_received)->give_me_your_destination_column());
+			break;
 
-	case Event_type::ATTACK:
-		pac = new ATTACK_package((Character_type)((ATTACK_EventPackage *)info_received)->give_me_the_character(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_row(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_column());
+		case Event_type::ATTACK:
+			pac = new ATTACK_package((Character_type)((ATTACK_EventPackage *)info_received)->give_me_the_character(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_row(), ((ATTACK_EventPackage *)info_received)->give_me_your_destination_column());
 
-		break;
+			break;
 
-	case Event_type::ACTION_REQUEST:
-		pac = new ACTION_REQUEST_package(((ACTION_REQUEST_package *)info_received)->give_me_the_action(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_column());		
-		break;
+		case Event_type::ACTION_REQUEST:
+			pac = new ACTION_REQUEST_package(((ACTION_REQUEST_package *)info_received)->give_me_the_action(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_row(), ((ACTION_REQUEST_package *)info_received)->give_me_the_destination_column());		
+			break;
 
-	case Event_type::ENEMY_ACTION:
-		pac = new ENEMY_ACTION_package(((ENEMY_ACTION_EventPackage*)info_received)->give_me_the_monsterID(),((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_action(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_row(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_column());
-		break;
+		case Event_type::ENEMY_ACTION:
+			pac = new ENEMY_ACTION_package(((ENEMY_ACTION_EventPackage*)info_received)->give_me_the_monsterID(),((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_action(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_row(), ((ENEMY_ACTION_EventPackage *)info_received)->give_me_the_destination_column());
+			break;
 
 
-	case Event_type::WE_WON:
-		pac = new WE_WON_package();
-		break;
+		case Event_type::WE_WON:
+			pac = new WE_WON_package();
+			break;
 
-	case Event_type::PLAY_AGAIN:
-		pac = new PLAY_AGAIN_package();
-		break;
+		case Event_type::PLAY_AGAIN:
+			pac = new PLAY_AGAIN_package();
+			break;
 
-	case Event_type::GAME_OVER:
-		pac = new GAME_OVER_package();
-		break;
+		case Event_type::GAME_OVER:
+			pac = new GAME_OVER_package();
+			break;
 
-	case Event_type::ERROR1:
-		pac = new ERROR_package();
-		break;
+		case Event_type::ERROR1:
+			pac = new ERROR_package();
+			break;
 
-	case Event_type::LOCAL_QUIT:
-		pac = new QUIT_package();
-		break;
+		case Event_type::LOCAL_QUIT:
+			pac = new QUIT_package();
+			break;
 
-	default: //me llego un EventPackage corrompido que no se que tiene, cargo un error
-		pac = new ERROR_package();
-		std::cout << "Me llego un EventPackage con header irrecononocible, en  PackageFactory::event_package_2_package()" << std::endl;
-		break;
+		default: //me llego un EventPackage corrompido que no se que tiene, cargo un error
+			pac = new ERROR_package();
+			std::cout << "Me llego un EventPackage con header irrecononocible, en  PackageFactory::event_package_2_package()" << std::endl;
+			break;
 	}
 	
 	return pac;

@@ -7,8 +7,8 @@
 
 #define _WIN32_WINNT 0x0501
 
-#define DISPLAY_HEIGHT 696
-#define DISPLAY_WIDTH 1920
+#define DISPLAY_HEIGHT 800
+#define DISPLAY_WIDTH 600
 #define WQTY 2 //Cantidad de worms
 
 #define MOVE_FPS 100.0
