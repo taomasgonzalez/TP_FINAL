@@ -6,6 +6,7 @@
 #include "LogicFSMSceneObserver.h"
 #include "ScenarioEventsObserver.h"
 #include "ScenarioDRAWObserver.h"
+#include "LogicFSMGraphicEventsObserver.h"
 
 Resources::Resources() {
 
@@ -67,11 +68,13 @@ bool Resources::initialize_all_the_resources() {
 };
 
 void Resources::add_all_observers() {
-
 	my_communication->add_observer(new CommunicationEventsObserver(my_logic_ev_gen, my_communication, my_user_data));
+
 	my_logic_fsm->add_observer(new FSMCommunicationObserver(my_logic_fsm,my_communication, my_scenario, my_user_data));
 	my_logic_fsm->add_observer(new LogicFSMEventsObserver(my_logic_ev_gen, my_logic_fsm, my_allegro_container, my_user_data, my_scenario));
 	my_logic_fsm->add_observer(new LogicFSMSceneObserver(my_logic_fsm, my_scenario, my_logic_ev_gen, my_user_data));
+	my_logic_fsm->add_observer(new LogicFSMGraphicEventsObserver(my_logic_fsm, my_graphic_ev_gen);
+
 	my_scenario->add_observer(new ScenarioEventsObserver(my_logic_ev_gen, my_scenario, my_logic_fsm, my_user_data));
 	my_scenario->add_observer(new ScenarioDRAWObserver(my_scenario, my_drawer));
 }
