@@ -35,7 +35,8 @@ Action_info PurpleGuy::act(){
 	while (!returnable_EA.valid){
 
 		if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
-			move_to_nearest_player(&returnable_EA);
+			//move_to_nearest_player(&returnable_EA);
+			stay_still(&returnable_EA);
 			timer_speed = 1;
 		}
 		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability

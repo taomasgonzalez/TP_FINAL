@@ -67,6 +67,7 @@ bool Resources::initialize_all_the_resources() {
 };
 
 void Resources::add_all_observers() {
+
 	my_communication->add_observer(new CommunicationEventsObserver(my_logic_ev_gen, my_communication, my_user_data));
 
 	my_logic_fsm->add_observer(new FSMCommunicationObserver(my_logic_fsm,my_communication, my_scenario, my_user_data));

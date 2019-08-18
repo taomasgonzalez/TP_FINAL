@@ -25,7 +25,7 @@ bool Allegro::Init(Userdata& Userdata) {
 	if (al_init()) {
 		if (al_init_image_addon()) {
 			if (al_install_keyboard()) {
-				if (this->Display = al_create_display(SCREEN_W, SCREEN_H)) {
+				if (this->Display = al_create_display(DISPLAY_W, DISPLAY_H)) {
 					if (this->al_queue = al_create_event_queue()) {
 						if (this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()) {
 							ret = true;

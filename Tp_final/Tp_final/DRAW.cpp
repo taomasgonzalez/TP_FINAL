@@ -125,6 +125,7 @@ void DRAW::drawLevel()
 		for (int j = 0; j < 16; j++)
 		{
 			char block_type = levels[level - 1].c_str()[i * 16 + j];
+			std::cout << block_type;
 			switch (block_type)
 			{
 			case 'F':

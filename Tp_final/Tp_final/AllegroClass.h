@@ -11,11 +11,11 @@
 #include <allegro5/allegro_ttf.h>
 
 #include "Userdata.h"
+#include "general.h"
 #include <queue>
 #define BACKGROUND_MUSIC "Soundtracks/Super Mario Bros Soundtrack.wav"
 #define JUMP_MUSIC "Soundtracks/Super Mario Bros - Jump Sound Effect.wav"
-#define SCREEN_W 1920
-#define SCREEN_H 696
+
 
 
 class Allegro

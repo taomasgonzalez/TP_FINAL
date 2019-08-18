@@ -1,12 +1,10 @@
 #pragma once
 
 #include "ImageContainer.h"
+#include "general.h"
+
 #define COLS (16)
 #define ROWS (12)
-
-#define FPS (50.0)
-
-#define BLOCK_SIZE (50)		// pixeles en X e Y que tiene un bloque de pantalla
 
 #define JUMP_TIME (1.2)			// tiempo de salto -> 1.2s			(lo que tarda en llegar 2 bloques mas arriba)
 
