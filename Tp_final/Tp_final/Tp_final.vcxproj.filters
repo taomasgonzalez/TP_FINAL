@@ -212,6 +212,7 @@
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
+    <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -437,6 +438,7 @@
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
     <ClInclude Include="ImageContainer.h" />
+    <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

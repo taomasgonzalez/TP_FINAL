@@ -22,6 +22,8 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
 	map_filler.add_observer(new MapThingFactoryDRAWObserver(&map_filler));
+
+	//dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns, );
 }
 
 Map::~Map()

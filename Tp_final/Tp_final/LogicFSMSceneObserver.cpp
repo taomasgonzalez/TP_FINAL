@@ -21,7 +21,7 @@ void LogicFSMSceneObserver::update() {
 	}
 
 	if (my_fsm->start_game) { //scene get´s noticed that the game has started, has to start executing actions
-		my_scenario->initializing =false;// ya se hace desde main
+		my_scenario->initializing = false; // ya se hace desde main
 	}
 
 	if (my_fsm->ld_enemy_action) { //I´m the client, an EA arrived during initialization by networking, I must save it to run it later

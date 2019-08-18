@@ -74,7 +74,6 @@ void Resources::add_all_observers() {
 	my_logic_fsm->add_observer(new LogicFSMSceneObserver(my_logic_fsm, my_scenario, my_logic_ev_gen, my_user_data));
 	my_scenario->add_observer(new ScenarioEventsObserver(my_logic_ev_gen, my_scenario, my_logic_fsm, my_user_data));
 	my_scenario->add_observer(new ScenarioDRAWObserver(my_scenario, my_drawer));
-
 }
 
 bool Resources::game_is_running() {
