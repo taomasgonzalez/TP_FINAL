@@ -244,7 +244,7 @@ void do_nothing(void* data)
 void send_name_is(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_name_is = true;
-	fsm->notify_obs();
+	fsm->notify_obs();	//FSMCommunicationObserver
 	fsm->s_name_is = false;
 	set_ack_time_out(data);
 }
@@ -254,7 +254,7 @@ void send_name_is(void* data) {
 void send_quit(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_quit = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->s_quit = false;
 	set_ack_time_out(data);
 
@@ -326,7 +326,7 @@ void execute_saved_enemy_actions(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 
 	fsm->ex_saved_enemy_actions = true;
-	fsm->notify_obs();
+	fsm->notify_obs();				//LogicFSMSceneObserver
 	fsm->ex_saved_enemy_actions = false;
 }
 
@@ -380,17 +380,17 @@ void send_enemy_action(void* data) {
 void send_game_start(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_game_start = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->s_game_start = false;
 	fsm->start_game = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//LogicFSMSceneObserver, GraphicGameFSM, LogicFSMGraphicEventsObserver
 	fsm->start_game = false;
 }
 
 void ask_for_name(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_name = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->s_name = false;
 }
 void check_map_and_save_send_ack(void*data) {
@@ -470,14 +470,15 @@ void start_game_and_send_ack(void*data) {
 }
 void set_ack_time_out(void*data) {
 	LogicFSM * fsm = (LogicFSM*)data;
+	//FALTA IMPLEMENTAR
 	fsm->new_ack_time_out = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->new_ack_time_out = true;
 }
 void send_ack(void * data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->s_ack = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->s_ack = false;
 }
 

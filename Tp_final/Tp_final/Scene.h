@@ -91,6 +91,7 @@ public:
 	void append_graphic_facility(void* drawer);
 	unsigned int get_action_to_be_loaded_id();
 	Action_info get_action_to_be_loaded();
+
 private:
 	void * graphics = NULL;
 
