@@ -6,14 +6,29 @@ Communication::Communication(Userdata * my_user_data) : Observable()
 {
 	//this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
 	//this->socket = new boost::asio::ip::tcp::socket(*this->IO_handler);
-	
-	Connecting_as_a_client(my_user_data->my_network_data.give_me_his_ip(), my_user_data);  //First the program tries to start as a client
 
-	
-	if(!(my_user_data->my_network_data.is_client())) //me fijo si logre conectarme como cliente
-	{
-		Connecting_as_a_server(my_user_data);
+	/*	if no handshake is required, the user has already selected whether 
+		the communication class should be a client or a server.
+	*/
+
+	bool aux_client = true;			//this is the default value if no handshake is needed.
+
+	if(!my_user_data->my_network_data.handshake){
+		aux_client = my_user_data->my_network_data.is_client();
+		/*	We therefore should store that selection and then reset the client value for user data,
+		as this value will show us if the connection as client has succeeded.*/
+		my_user_data->my_network_data.set_client(false);
 	}
+
+	do {
+		if(aux_client)		 //we should try to connect as client. 
+			Connecting_as_a_client(my_user_data->my_network_data.give_me_his_ip(), my_user_data);  //First the program tries to start as a client
+	} while (!my_user_data->my_network_data.handshake && !my_user_data->my_network_data.is_client());
+
+
+	if(!(my_user_data->my_network_data.is_client())) //me fijo si logre conectarme como cliente
+		Connecting_as_a_server(my_user_data);
+	
 #ifdef DEBUG
 	std::cout << "Salio del constructor" << std::endl;
 #endif // DEBUG
@@ -50,7 +65,6 @@ OUTPUT:
 	void.
 */
 void Communication::Connecting_as_a_client(std::string host, Userdata * my_user_data) {
-
 
 
 	this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection

@@ -43,7 +43,7 @@ public:
 	//setters
 	void set_client(bool is_client);
 	void set_should_check_for_new_messages(bool should_check);
-
+	bool handshake = true;
 
 
 private:

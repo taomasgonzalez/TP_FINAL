@@ -7,7 +7,8 @@ int main(void) {
 
 	Resources my_resources = Resources();
 
-	if (!my_resources.initialize_all_the_resources()) {
+	//if (!my_resources.initialize_all_the_resources()) {
+	if (!my_resources.initialize_all_the_resources(true)) {
 		printf("Error al inicializar los recursos\n");
 		getchar();
 		return 0;

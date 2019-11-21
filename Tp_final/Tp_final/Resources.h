@@ -38,6 +38,7 @@ public:
 	EventHandler * my_graphic_event_handler = NULL;
 
 	bool initialize_all_the_resources();
+	bool initialize_all_the_resources(bool client);
 
 	bool game_is_running();
 
