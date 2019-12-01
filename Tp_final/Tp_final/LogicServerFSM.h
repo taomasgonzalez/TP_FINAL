@@ -7,6 +7,7 @@ public:
 	LogicServerFSM(Userdata * data);
 	~LogicServerFSM();
 
+
 private:
 
 	/****************************

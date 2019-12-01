@@ -14,56 +14,71 @@ class Scene : public Observable
 public:
 	Scene(Userdata* data, Item_type my_player, Item_type his_player);
 	~Scene();
+
 	void gameInit();
 
-	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
-
-	//Analyze of gaming situations
-	bool is_the_action_possible(Action_info * package_to_be_analyze); //wrap for a clearer implementation of check_Action
-
+/*******************************************************************************
+	STATE OF THE GAME
+******************************************************************************/
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
 	bool any_monsters_left();
 	bool did_we_win();  //I´m client, analyze if the game was won by the players
 	bool did_we_lose(); //I´m client, analyze if the game was lost by the players
 
+	bool game_is_finished();
+	void finish_game();			//ends the game
+
+	//Getters
+
+	//player information
+	Item_type give_me_my_player();
+	Item_type give_the_other_player();
+	Player * get_player(Item_type player_to_be_found);
+
+	//map information
+	const char * give_me_the_CSV(unsigned int actual_map);
+	const char * give_me_the_map_info();
+	Action_info give_me_my_enemy_action(bool is_initializing);
+
+/*******************************************************************************
+	MOVEMENTS
+******************************************************************************/
+	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
+
 	//checkers
 	bool check_if_has_to_fall(unsigned int id);
 	bool check_position(Action_info position_info);
 	void check_current_game_situation();
-
+	bool is_the_action_possible(Action_info * package_to_be_analyze); //wrap for a clearer implementation of check_Action
 
 	//Executing functions
 	void execute_action(Action_info * action_to_be_executed, bool & should_be_hit);
 	void execute_proyectile(Proyectile* proyectile_to_be_executed, bool & should_hit);
+	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
-	void finish_game();
+	/*nuevas funciones de timer para los enemies, agregadas por tommy
+	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
+	*/
+	void control_enemy_actions();
+	void control_proyectile_actions();
 
-	//Getters
-	//EventPackage * give_me_my_allegro_event();
-	Item_type give_me_my_player();
-	Item_type give_the_other_player();
-	const char * give_me_the_CSV(unsigned int actual_map);
-	const char * give_me_the_map_info();
+/*******************************************************************************
+	OPERATING OVER MAPS
+******************************************************************************/
 
-	Player * get_player(Item_type player_to_be_found);
-	Action_info give_me_my_enemy_action(bool is_initializing);
-
-	//Control Flags getters
-	bool game_is_finished();
-
-	//map functions
 	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
 	bool is_the_map_okay(const char * the_map , char the_checksum );
 	void load_new_graphic_level();
 
 	std::vector <Map*> maps;
-	//std::vector<Map*>::iterator actual_map;  //aprender a usarlo bien
-	 int actual_map;
+	int actual_map;
 
 	void load_action_on_character(Action_info action);
 
-	//flags
+/*******************************************************************************
+	FLAGS FOR OBSERVERS
+******************************************************************************/
 	bool game_started = false;
 	bool game_finished = false;
 	bool initializing = false;
@@ -80,13 +95,6 @@ public:
 	
 	std::queue<Action_info>* assistant_queue;
 
-	/*nuevas funciones de timer para los enemies, agregadas por tommy
-	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
-	*/
-	void control_enemy_actions();
-	void control_proyectile_actions();
-
-	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
 	void append_graphic_facility(void* drawer);
 	unsigned int get_action_to_be_loaded_id();
@@ -96,11 +104,13 @@ private:
 	void * graphics = NULL;
 
 	unsigned char make_checksum(const char * CSV_map_location);
+
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze);
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves);
 	bool check_attack(Action_info * package_to_be_analyze);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
+
 	//executers
 	void execute_move(Action_info * move_to_be_executed, bool & should_die);
 	void execute_attack(Action_info * attack_to_be_executed);

@@ -41,6 +41,7 @@ public:
 	bool initialize_all_the_resources(bool client);
 
 	bool game_is_running();
+	Scene * my_scenario = NULL;				//Pointer to manage the scenario
 
 private:	
 	/*
@@ -50,7 +51,6 @@ private:
 	*/
 	bool game_running = false;
 
-	Scene * my_scenario = NULL;				//Pointer to manage the scenario
 	DRAW* my_drawer = NULL;
 	Communication * my_communication = NULL;  //Pointer to manage the communication
 	LogicFSM* my_logic_fsm = NULL;

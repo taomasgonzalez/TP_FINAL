@@ -21,8 +21,6 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	this->data = data;
 	this->other_player = his_player;
 	this->my_player = my_player;
-
-
 }
 
 

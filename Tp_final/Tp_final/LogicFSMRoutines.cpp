@@ -95,7 +95,7 @@ void send_action_request_and_set_ack_time_out(void* data) {
 void receive_name_and_send_ack(void*data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->receive_name = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//LogicFSMEventsObserver, loads in user data his names
 	fsm->receive_name = false;
 	send_ack(data);
 }

@@ -76,7 +76,10 @@ LogicClientFSM::LogicClientFSM(Userdata* data): LogicFSM(data){
 	Waiting_for_ACK_quit_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit });				//se recibe un quit por networking,
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing });
 
-	this->actual_state = this->Initial_state;
+	if (!data->my_network_data.handshake)
+		this->actual_state = this->Playing_state;
+	else
+		this->actual_state = this->Initial_state;
 }
 
 LogicClientFSM::~LogicClientFSM()

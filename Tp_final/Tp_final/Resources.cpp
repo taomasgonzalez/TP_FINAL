@@ -103,7 +103,7 @@ bool Resources::initialize_all_the_resources(bool client)
 
 		add_all_observers();
 		game_running = true;			//starts running the game.
-		my_scenario->gameInit();
+		//my_scenario->gameInit();
 	}
 
 	return healthy_initialization;
