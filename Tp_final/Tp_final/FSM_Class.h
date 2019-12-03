@@ -11,7 +11,7 @@
 #include <string>
 
 using namespace std;
-
+//changing fsm class!
 /*****************************************************
 *          DEFINITION OF EDGE
 * **************************************************/
