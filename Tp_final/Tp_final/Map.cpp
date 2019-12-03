@@ -277,7 +277,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 		appropiate_coordinates = true;
 
 	if (appropiate_coordinates)
-		appropiate_coordinates = get_cell(coord_x, coord_y).has_floor();
+		appropiate_coordinates = !get_cell(coord_x, coord_y).has_floor();
 	else
 		std::cout << "Map::cell_has_floor, Inappropiate coordinates received";
 

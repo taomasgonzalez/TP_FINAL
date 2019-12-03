@@ -344,8 +344,10 @@ Action_info ACTION_REQUEST_EventPackage::to_Action_info()
 {
 	Action_info returnable_info = EventPackage::to_Action_info();
 
-	if (returnable_info.is_local)
+	if (returnable_info.is_local){
 		returnable_info.my_direction = give_me_your_direction(); //none
+		returnable_info.action = give_me_the_action();
+	}
 	else
 	{
 		returnable_info.action = give_me_the_action();

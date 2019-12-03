@@ -54,8 +54,8 @@ void execute_receive_action_and_send_ack(void *data) {
 
 void check_action(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
-	fsm->check_action = true;
-	fsm->notify_obs();
+	fsm->check_action = true;			
+	fsm->notify_obs();				//LogicFSMSceneObserver
 	fsm->check_action = false;
 }
 
@@ -69,7 +69,7 @@ void check_game_state(void* data) {
 void send_action_and_set_ack_time_out(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->s_action = true;
-	fsm->notify_obs();
+	fsm->notify_obs();		//FSMCommunicationObserver
 	fsm->s_action = false;
 
 	set_ack_time_out(data);
@@ -87,7 +87,7 @@ void execute_action_and_send_ack(void* data) {
 void send_action_request_and_set_ack_time_out(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->s_action_request = true;
-	fsm->notify_obs();
+	fsm->notify_obs();				//FSMCommunicationObserver
 	fsm->s_action_request = false;
 	set_ack_time_out(data);
 }

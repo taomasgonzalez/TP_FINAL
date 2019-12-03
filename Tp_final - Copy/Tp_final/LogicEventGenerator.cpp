@@ -70,20 +70,20 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 
 				if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT)
 
-					if (my_user_data->my_network_data.is_client())
+					if (!my_user_data->my_network_data.is_client())
 						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
 					else
 						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Left);
 
 				else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
 
-					if (my_user_data->my_network_data.is_client())
+					if (!my_user_data->my_network_data.is_client())
 						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
 					else
 						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Right);
 				else
 
-					if (my_user_data->my_network_data.is_client())
+					if (!my_user_data->my_network_data.is_client())
 						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
 					else
 						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Straight);
@@ -91,7 +91,7 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 
 			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
 
-				if (my_user_data->my_network_data.is_client())
+				if (!my_user_data->my_network_data.is_client())
 					ev_pack = new MOVE_EventPackage(Direction_type::Left);
 				else
 					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Left);
@@ -99,14 +99,14 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 
 			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
 
-				if (my_user_data->my_network_data.is_client())
+				if (!my_user_data->my_network_data.is_client())
 					ev_pack = new MOVE_EventPackage(Direction_type::Right);
 				else
 					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Right);
 			}
 			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE) {
 
-				if (my_user_data->my_network_data.is_client())
+				if (!my_user_data->my_network_data.is_client())
 					ev_pack = new ATTACK_EventPackage();
 				else
 					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Attack, Direction_type::None);
@@ -119,8 +119,6 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 	}
 	if(ev_pack != NULL)
 		append_new_event(ev_pack,(int) LogicQueues::allegro);
-
-
 
 }
 

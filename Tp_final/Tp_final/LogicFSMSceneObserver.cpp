@@ -103,7 +103,7 @@ void LogicFSMSceneObserver::update() {
 		if (!this->my_scenario->is_the_action_possible(&acting_information)) //mando a analizar el EventPackage 
 			my_fsm->error_ocurred = true;
 		else 
-			this->my_fsm->set_fsm_ev_pack(EventPackageFactory().create_event_package(&acting_information));
+			my_fsm->set_fsm_ev_pack(EventPackageFactory().create_event_package(&acting_information));
 
 	}
 

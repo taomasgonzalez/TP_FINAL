@@ -521,7 +521,9 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 		case Direction_type::Left:
 			delta = -1;
-			is_the_move_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + delta) : maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
+			is_the_move_possible = Action_info_to_be_checked->is_local ? 
+				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + delta) :
+				maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x;
@@ -531,7 +533,9 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 		case Direction_type::Right:
 			delta = 1;
-			is_the_move_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + delta) : maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
+			is_the_move_possible = Action_info_to_be_checked->is_local ?
+				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + delta) :
+				maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x;
