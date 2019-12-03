@@ -86,40 +86,40 @@ void Allegro :: stopMusic(void)
 	al_stop_samples();
 	al_destroy_sample(music);
 }
-
-ALLEGRO_EVENT_QUEUE*  Allegro::get_al_queue() {
-	return al_queue;
-}
-
-
-ALLEGRO_TIMER * Allegro::get_front_time_out_timer() {
-
-	if ((this->time_out_timers_queue->size()) >= 1)
-		return this->time_out_timers_queue->front();
-	else
-		return NULL;
-}
-
-void Allegro::append_time_out_timer() {
-	ALLEGRO_TIMER* new_timer = al_create_timer(2*60.0+30.0);
-	al_register_event_source(this->al_queue, al_get_timer_event_source(new_timer));
-}
-void Allegro::start_front_timer() {
-	ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
-	//al_start_timer(new_timer);
-}
-void Allegro::dequeu_time_out_timer() {
-	if(this->time_out_timers_queue->size() >= 1){
-		ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
-		this->time_out_timers_queue->pop();
-		//al_stop_timer(new_timer);
-		al_destroy_timer(new_timer);
-	}
-}
-
-bool Allegro::no_time_outs() {
-	return (time_out_timers_queue->size() == 0);
-}
+//
+//ALLEGRO_EVENT_QUEUE*  Allegro::get_al_queue() {
+//	return al_queue;
+//}
+//
+//
+//ALLEGRO_TIMER * Allegro::get_front_time_out_timer() {
+//
+//	if ((this->time_out_timers_queue->size()) >= 1)
+//		return this->time_out_timers_queue->front();
+//	else
+//		return NULL;
+//}
+//
+//void Allegro::append_time_out_timer() {
+//	ALLEGRO_TIMER* new_timer = al_create_timer(2*60.0+30.0);
+//	al_register_event_source(this->al_queue, al_get_timer_event_source(new_timer));
+//}
+//void Allegro::start_front_timer() {
+//	ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
+//	//al_start_timer(new_timer);
+//}
+//void Allegro::dequeu_time_out_timer() {
+//	if(this->time_out_timers_queue->size() >= 1){
+//		ALLEGRO_TIMER* new_timer = this->time_out_timers_queue->front();
+//		this->time_out_timers_queue->pop();
+//		//al_stop_timer(new_timer);
+//		al_destroy_timer(new_timer);
+//	}
+//}
+//
+//bool Allegro::no_time_outs() {
+//	return (time_out_timers_queue->size() == 0);
+//}
 
 //const float FPS = 50.0;
 //const float SCREEN_W = 1920;

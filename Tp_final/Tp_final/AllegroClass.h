@@ -32,13 +32,14 @@ public:
 	void loadPlayMusic();
 	void stopMusic();
 
-	ALLEGRO_EVENT_QUEUE*  get_al_queue();
-	ALLEGRO_TIMER * get_front_time_out_timer();
-	void append_time_out_timer();
-	void dequeu_time_out_timer();
-	void start_front_timer();
-	bool no_time_outs();
+	//ALLEGRO_EVENT_QUEUE*  get_al_queue();
+	//ALLEGRO_TIMER * get_front_time_out_timer();
+	//void append_time_out_timer();
+	//void dequeu_time_out_timer();
+	//void start_front_timer();
+	//bool no_time_outs();
 private:
+
 	ALLEGRO_EVENT_QUEUE * al_queue;			//cola para eventos de allegro
 	std::queue<ALLEGRO_TIMER*>* time_out_timers_queue;
 

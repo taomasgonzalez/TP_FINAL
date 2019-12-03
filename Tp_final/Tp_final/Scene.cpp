@@ -237,7 +237,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	{	
 		//if (actual_map == -1)
 		//	actual_map++;
-		new_map->load_on_map(the_map,this);
+		new_map->load_on_map(the_map, this);
 		new_map->load_checksum(the_checksum);
 		this->actual_map++;		
 	}

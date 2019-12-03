@@ -23,6 +23,8 @@ Communication::Communication(Userdata * my_user_data) : Observable()
 	do {
 		if(aux_client)		 //we should try to connect as client. 
 			Connecting_as_a_client(my_user_data->my_network_data.give_me_his_ip(), my_user_data);  //First the program tries to start as a client
+		else
+			break;
 	} while (!my_user_data->my_network_data.handshake && !my_user_data->my_network_data.is_client());
 
 

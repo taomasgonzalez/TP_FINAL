@@ -6,8 +6,10 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 {
 	this->my_user_data = data;
 	this->al = al;
-	al_key_queue = al->get_al_queue();
-	time_out_timer = al->get_front_time_out_timer();
+	al_key_queue = al_create_event_queue();
+	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
+	//time_out_timer = al->get_front_time_out_timer();
+	//al_register_event_source
 	time_out_count = 0;
 	
 	coordinate_scene_events_queue = al_create_event_queue();

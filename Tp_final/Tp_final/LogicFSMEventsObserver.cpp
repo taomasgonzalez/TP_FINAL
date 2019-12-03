@@ -26,10 +26,10 @@ void LogicFSMEventsObserver::update() {
 
 	//me fijo si tengo que eliminar un timer de ack porque acabo de recibirlo
 	if (fsm->reset_ack_timer) {
-		allegro_container->dequeu_time_out_timer();		
+		//allegro_container->dequeu_time_out_timer();		
 
-		if (allegro_container->no_time_outs())		//me fijo si ya no toy esperando ningun ack mas
-			fsm->waiting_for_ack = false;
+		//if (allegro_container->no_time_outs())		//me fijo si ya no toy esperando ningun ack mas
+		//	fsm->waiting_for_ack = false;
 	}
 	
 	if(fsm->end_game){
