@@ -12,7 +12,14 @@ DRAW::DRAW()
 {
 	string carpeta1 = FOLDER_SCENARIO;
 	string file = FILE_FLOOR;
+
+	ALLEGRO_PATH *path = al_get_standard_path(ALLEGRO_RESOURCES_PATH);
+	al_append_path_component(path, "resources");
+	al_change_directory(al_path_cstr(path, '/'));  // change the working directory
+	al_destroy_path(path);
+
 	string imageDir = carpeta1 + '/' + file + ".png";
+
 	this->floor = al_load_bitmap(imageDir.c_str());
 
 	file = FILE_EMPTY;
@@ -117,7 +124,6 @@ void DRAW::add_level(const char * level)
 
 void DRAW::drawLevel()
 {
-
 	al_draw_scaled_bitmap(backgrounds[level - 1], 0, 0, al_get_bitmap_width(backgrounds[level - 1]), al_get_bitmap_height(backgrounds[level - 1]), 0, 0, SCREEN_W, SCREEN_H, 0);
 
 	for (int i = 0; i < 12; i++)
