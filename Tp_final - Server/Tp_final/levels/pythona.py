@@ -1,0 +1,5 @@
+file = open('level 1.csv','r')
+words = file.read()
+words = words.replace(";", "")
+words = words.replace("\n", "")
+print(words)
