@@ -391,21 +391,21 @@ Action_info Scene::give_me_my_enemy_action(bool is_initializing){
 
 void Scene::gameInit() {	
 
-	this->game_started = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
+	game_started = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
 	notify_obs();
-	this->game_started = false;
+	game_started = false;
 
 }
 
 
 Item_type Scene::give_me_my_player() {
 
-	return this-> my_player;
+	return my_player;
 }
 
 Item_type Scene::give_the_other_player() {
 
-	return this->other_player;
+	return other_player;
 }
 
 
@@ -430,13 +430,13 @@ bool Scene::any_monsters_left()
 
 
 bool Scene::game_is_finished() {
-	return this->game_finished;
+	return game_finished;
 }
 
 void Scene::finish_game() {
-	this->game_finished = true;
+	game_finished = true;
 	notify_obs();
-	this->game_finished = false;
+	game_finished = false;
 }
 
 

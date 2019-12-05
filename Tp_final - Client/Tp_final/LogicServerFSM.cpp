@@ -4,18 +4,18 @@
 
 LogicServerFSM::LogicServerFSM(Userdata * data) : LogicFSM(data)
 {
-	this->Initial_state = new std::vector<edge_t>();
-	this->Naming_him_state = new std::vector<edge_t>();
-	this->Naming_me_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_name_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_quit_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_map_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_enemy_actions_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_playing_state = new std::vector<edge_t>();
-	this->Waiting_for_ACK_game_start_state = new std::vector<edge_t>();
-	this->Playing_state = new std::vector<edge_t>();
-	this->Waiting_if_the_client_wants_to_play_again = new std::vector<edge_t>();
-	this->Waiting_if_the_user_wants_to_play_again = new std::vector<edge_t>();
+	Initial_state = new std::vector<edge_t>();
+	Naming_him_state = new std::vector<edge_t>();
+	Naming_me_state = new std::vector<edge_t>();
+	Waiting_for_ACK_name_state = new std::vector<edge_t>();
+	Waiting_for_ACK_quit_state = new std::vector<edge_t>();
+	Waiting_for_ACK_map_state = new std::vector<edge_t>();
+	Waiting_for_ACK_enemy_actions_state = new std::vector<edge_t>();
+	Waiting_for_ACK_playing_state = new std::vector<edge_t>();
+	Waiting_for_ACK_game_start_state = new std::vector<edge_t>();
+	Playing_state = new std::vector<edge_t>();
+	Waiting_if_the_client_wants_to_play_again = new std::vector<edge_t>();
+	Waiting_if_the_user_wants_to_play_again = new std::vector<edge_t>();
 
 	//Initial_state
 	Initial_state->push_back({ Event_type::START_COMMUNICATION, this->Naming_him_state, ask_for_name });

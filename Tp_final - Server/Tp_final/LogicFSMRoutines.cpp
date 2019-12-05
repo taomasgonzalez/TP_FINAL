@@ -452,7 +452,7 @@ void load_action_and_send_it_back(void * data) {
 	execute_extern_action(data);
 
 	fsm->s_action_from_action_request = true;
-	fsm->notify_obs();
+	fsm->notify_obs();					//FSMCommunicationObserver
 	fsm->s_action_from_action_request = false;
 
 	set_ack_time_out(data);
