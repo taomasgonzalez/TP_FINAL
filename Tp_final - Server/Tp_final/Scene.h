@@ -6,6 +6,7 @@
 #include "Map.h"
 #include <iostream>
 
+using namespace std;
 /*******************************************************************************
 							ENUM CLASS STATE_TYPE
 ******************************************************************************/
@@ -87,7 +88,6 @@ public:
 	bool we_won = false;
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
-	bool load_action_on_char = false;
 	bool should_hit = false;
 	bool load_graphic_level = false;
 
@@ -95,10 +95,7 @@ public:
 	
 	std::queue<Action_info>* assistant_queue;
 
-
 	void append_graphic_facility(void* drawer);
-	unsigned int get_action_to_be_loaded_id();
-	Action_info get_action_to_be_loaded();
 
 private:
 	void * graphics = NULL;
@@ -117,14 +114,16 @@ private:
 	void execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_be_hit);
 
 	//EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
-	
+	Action_info action_to_be_loaded;
+	unsigned int action_to_be_loaded_id;
+
 	unsigned int points;
 	Item_type my_player;
 	Item_type other_player;
 
-	std::vector<Player*>* curr_players;
-	std::vector<Enemy*>* curr_enemies;
-	std::vector<Proyectile*>* curr_proyectiles;
+	vector<Player*>* curr_players;
+	vector<Enemy*>* curr_enemies;
+	vector<Proyectile*>* curr_proyectiles;
 
 	
 	/*nuevas funciones de timer para los enemies, agregadas por tommy
@@ -140,8 +139,6 @@ private:
 	Player* find_nearest_player(int pos_x, int pos_y);
 
 	Userdata* data; 
-	unsigned int action_to_be_loaded_id;
-	Action_info action_to_be_loaded;
 
 };
 

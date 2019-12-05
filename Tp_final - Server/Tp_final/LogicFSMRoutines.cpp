@@ -355,7 +355,7 @@ void execute_extern_action(void* data) {
 
 
 	fsm->ex_action = true;
-	fsm->notify_obs();
+	fsm->notify_obs();			//FSMSceneObserver
 	fsm->ex_action = false;
 }
 

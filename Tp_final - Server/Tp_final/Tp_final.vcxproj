@@ -145,13 +145,13 @@
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterActionsEventGenerator.cpp" />
+    <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="EnemyActionsEventGenerator.cpp" />
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
     <ClCompile Include="PlayerActionsEventGenerator.cpp" />
     <ClCompile Include="ProyectilesActionsEventGenerator.cpp" />
-    <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
@@ -211,7 +211,6 @@
     <ClCompile Include="ScenarioDRAWObserver.cpp" />
     <ClCompile Include="ScenarioEventsObserver.cpp" />
     <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneCharacterObserver.cpp" />
     <ClCompile Include="Snowball.cpp" />
     <ClCompile Include="Userdata.cpp" />
   </ItemGroup>
@@ -289,7 +288,6 @@
     <ClInclude Include="ScenarioDRAWObserver.h" />
     <ClInclude Include="ScenarioEventsObserver.h" />
     <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneCharacterObserver.h" />
     <ClInclude Include="Snowball.h" />
     <ClInclude Include="Userdata.h" />
   </ItemGroup>

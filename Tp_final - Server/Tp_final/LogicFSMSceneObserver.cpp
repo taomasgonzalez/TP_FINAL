@@ -109,19 +109,18 @@ void LogicFSMSceneObserver::update() {
 
 	if (my_fsm->ex_action)
 	{
-		if (!my_fsm->valid_extern_action)
-		{
-			this->my_event_gen->empty_all_queues();
-			this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
-			my_fsm->error_ocurred = false;
+		if (!my_fsm->valid_extern_action && !my_fsm->valid_local_action) {
+			if (!my_fsm->valid_extern_action)
+			{
+				this->my_event_gen->empty_all_queues();
+				this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
+				my_fsm->error_ocurred = false;
+			}
+			else if (!my_fsm->valid_local_action)
+				my_fsm->error_ocurred = false;
 		}
-		else if (!my_fsm->valid_local_action)
-		{
-			(void)0; //ignore
-			my_fsm->error_ocurred = false;
-		}
-		else //if it´s valid, it should be execute
-			this->my_scenario->load_action_on_character(my_fsm->get_fsm_ev_pack()->to_Action_info());
+		else //if it´s valid, it should be executed
+			my_scenario->load_action_on_character(my_fsm->get_fsm_ev_pack()->to_Action_info());
 	}
 
 

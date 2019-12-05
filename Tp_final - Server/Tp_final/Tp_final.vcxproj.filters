@@ -148,9 +148,6 @@
     <ClCompile Include="ScenarioEventsObserver.cpp">
       <Filter>Source Files\Map_related\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="SceneCharacterObserver.cpp">
-      <Filter>Source Files\Map_related\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Crazy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies\Crazy</Filter>
     </ClCompile>
@@ -177,9 +174,6 @@
     </ClCompile>
     <ClCompile Include="MapThingFSM.cpp">
       <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterSceneObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters\Observers</Filter>
     </ClCompile>
     <ClCompile Include="ProyectileSceneObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
@@ -212,6 +206,9 @@
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="GraphicGameFSM.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -404,9 +401,6 @@
     <ClInclude Include="ScenarioEventsObserver.h">
       <Filter>Header Files\Map_related\Observers</Filter>
     </ClInclude>
-    <ClInclude Include="SceneCharacterObserver.h">
-      <Filter>Header Files\Map_related\Observers</Filter>
-    </ClInclude>
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h">
       <Filter>Header Files\PJ_related\Characters\Players\Observers</Filter>
     </ClInclude>
@@ -564,9 +558,6 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Characters\Players\Observers">
       <UniqueIdentifier>{66535075-048e-428c-9ce9-9c15465b760d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\PJ_related\Characters\Observers">
-      <UniqueIdentifier>{c34821c3-3136-4bad-b3e8-a6ad8ca2ddc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\PJ_related\Proyectiles\Observers">
       <UniqueIdentifier>{b38043f4-caf4-487f-8672-337d0e80a075}</UniqueIdentifier>

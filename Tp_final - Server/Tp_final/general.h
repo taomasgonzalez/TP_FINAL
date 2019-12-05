@@ -53,6 +53,9 @@
 
 #define Sending_ERRORSTR "Sending_ERROR"
 
+#define MAX_NUMBER_OF_MONSTERS 256
+#define MAX_NUMBER_OF_PLAYERS 2
+
 struct Position {
 
 	int fil;

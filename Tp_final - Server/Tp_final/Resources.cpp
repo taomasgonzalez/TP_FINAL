@@ -10,8 +10,8 @@
 
 Resources::Resources() {
 
-	this->my_allegro_container = new Allegro();
-	this->my_user_data = new Userdata();
+	my_allegro_container = new Allegro();
+	my_user_data = new Userdata();
 };
 
 Resources::~Resources() {  //Delete all the resources loaded
@@ -44,13 +44,13 @@ bool Resources::initialize_all_the_resources() {
 			my_logic_fsm = new LogicClientFSM(my_user_data);
 			my_logic_ev_gen = new LogicEventGenerator(my_allegro_container, my_user_data);
 			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);
-			my_scenario = new Scene(my_user_data, Item_type::NICK, Item_type::TOM);
+			my_scenario = new Scene(my_user_data, CLIENT_PLAYER, SERVER_PLAYER);
 		}
 		else {
 			my_logic_fsm = new LogicServerFSM(my_user_data);
 			my_logic_ev_gen = new LogicEventGenerator(my_allegro_container, my_user_data);
 			my_logic_event_handler = new EventHandler(my_logic_fsm, my_logic_ev_gen);	//tienen que estar aca por ahora para que las cosas internas de allegro se inicialicen correctamente
-			my_scenario = new Scene(my_user_data, Item_type::TOM, Item_type::NICK);			
+			my_scenario = new Scene(my_user_data, SERVER_PLAYER, CLIENT_PLAYER);
 		}
 		my_scenario->append_graphic_facility(my_drawer);
 

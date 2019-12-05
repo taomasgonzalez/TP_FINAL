@@ -319,7 +319,6 @@ ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
 ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de) { //extern ACTION_REQUEST
 
 	this->action = the_action;
-
 }
 
 /**************************************************************
@@ -327,8 +326,8 @@ ACTION_REQUEST_EventPackage CONSTRUCTOR
 **************************************************************/
 ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
 	
-	this->action = my_info->action;
-	this->set_direction(my_info->my_direction);
+	action = my_info->action;
+	set_direction(my_info->my_direction);
 
 }
 
@@ -336,7 +335,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) :
 give_me_the_action
 **************************************************************/
 Action_type ACTION_REQUEST_EventPackage::give_me_the_action() {
-	return this->action;
+	return action;
 }
 
 //cualquier queja (que no sea de logica interna) quejarse a Tommy.
@@ -347,12 +346,14 @@ Action_info ACTION_REQUEST_EventPackage::to_Action_info()
 	if (returnable_info.is_local){
 		returnable_info.my_direction = give_me_your_direction(); //none
 		returnable_info.action = give_me_the_action();
-	}
+		returnable_info.id = (unsigned int) CLIENT_PLAYER;
+ 	}
 	else
 	{
 		returnable_info.action = give_me_the_action();
 		returnable_info.final_pos_x = give_me_your_destination_row();
 		returnable_info.final_pos_y = give_me_your_destination_column();
+		returnable_info.id = (unsigned int) CLIENT_PLAYER;
 	}
 
 	return returnable_info;
