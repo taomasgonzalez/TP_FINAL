@@ -1,4 +1,4 @@
-#include "Allegroclass.h"
+#include "AllegroClass.h"
 
 Allegro::Allegro()
 {
