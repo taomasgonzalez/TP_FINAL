@@ -281,33 +281,20 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 
 }
 
-//hace checksum , función guido
 unsigned char Scene::make_checksum(const char * CSV_map_location) {
 
 	unsigned char local_checksum = 0; 
 
 	for (int i = 0; i < FILE_LENGHT; i++)
-	{
 		local_checksum = checksum_table[local_checksum^CSV_map_location[i]];
-//		cout << (unsigned int)index << ' ';
-	}
-
+	
 	return local_checksum;
-}//después usar esta función que haga guido para el checksum de mapas que llegan para validarlos(hecho)
+}
 
 
 bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
 {
-	bool map_validation;
-	unsigned char extern_checksum = the_checksum;
-	unsigned char local_checksum = this->make_checksum(the_map);
-
-	if (local_checksum == extern_checksum)
-		map_validation = true;
-	else
-		map_validation = false;
-	
-	return map_validation;
+	return make_checksum(the_map) == the_checksum;
 }
 
 void Scene::load_new_graphic_level()
