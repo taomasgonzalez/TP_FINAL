@@ -9,7 +9,6 @@ public:
 	~Player();
 
 	unsigned int lives = 3;
-	//unsigned int potion
 
 	bool is_player();
 	void move();

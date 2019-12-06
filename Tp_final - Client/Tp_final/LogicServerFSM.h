@@ -7,6 +7,7 @@ public:
 	LogicServerFSM(Userdata * data);
 	~LogicServerFSM();
 
+	bool control_enemies = false;
 
 private:
 
@@ -14,6 +15,7 @@ private:
 	states
 	******************************/
 
+	virtual void run_fsm(EventPackage * ev_pack);
 
 	std::vector<edge_t>* Initial_state = NULL;
 

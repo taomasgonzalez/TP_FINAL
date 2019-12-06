@@ -5,9 +5,9 @@ Direction direction_translation(Direction_type dir);
 ProyectilesActionsFSMDRAWObserver::ProyectilesActionsFSMDRAWObserver(Proyectile * proyectile)
 {
 	this->proyectile = proyectile;
-	this->fsm = static_cast<ProyectilesActionsFSM*>(proyectile->get_my_fsm());
+	this->fsm = static_cast<ProyectilesActionsFSM*>(proyectile->ev_handler->get_fsm());
 	this->drawer = Userdata::drawer;
-	this->ev_gen = proyectile->get_my_ev_gen();
+	this->ev_gen = proyectile->ev_handler->get_ev_gen();
 }
 
 

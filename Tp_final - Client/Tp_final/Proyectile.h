@@ -14,10 +14,8 @@ public:
 	virtual bool is_fireball();
 	ALLEGRO_TIMER * get_moving_timer();
 
-	FSM* get_my_fsm();
-	EventGenerator* get_my_ev_gen();
+	EventHandler * ev_handler = NULL;
 protected:
 	ALLEGRO_TIMER * moving_timer = NULL;
-	EventHandler * ev_handler = NULL;
 };
 

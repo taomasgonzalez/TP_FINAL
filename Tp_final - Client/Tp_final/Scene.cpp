@@ -904,16 +904,26 @@ void Scene::control_enemy_actions()
 			}
 		}
 }
+void Scene::control_all_actions() {
 
-void Scene::control_proyectile_actions() {
-	ALLEGRO_EVENT allegroEvent;
-	while (al_get_next_event(proyectile_actions_queue, &allegroEvent))
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent.timer.source);
-			//if (wanted_proyectile != NULL)
-				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
-		}
+	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		(*it)->ev_handler->handle_event();
+
+	for (vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
+		(*it)->ev_handler->handle_event();
+
 }
+
+//void Scene::control_proyectile_actions() {
+//
+//	ALLEGRO_EVENT allegroEvent;
+//	while (al_get_next_event(proyectile_actions_queue, &allegroEvent))
+//		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+//			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent.timer.source);
+//			//if (wanted_proyectile != NULL)
+//				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
+//		}
+//}
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
 {
