@@ -5,8 +5,8 @@ ProyectileSceneObserver::ProyectileSceneObserver(Proyectile* proy, Scene * scena
 {
 	this->proy = proy;
 	this->scenario = scenario;
-	this->fsm = static_cast<ProyectilesActionsFSM*>(proy->get_my_fsm());
-	this->ev_gen = proy->get_my_ev_gen();
+	this->fsm = static_cast<ProyectilesActionsFSM*>(proy->ev_handler->get_fsm());
+	this->ev_gen = proy->ev_handler->get_ev_gen();
 }
 
 

@@ -34,14 +34,6 @@ ALLEGRO_TIMER * Proyectile::get_moving_timer()
 	return moving_timer;
 }
 
-FSM * Proyectile::get_my_fsm()
-{
-	return ev_handler->get_fsm();
-}
-
-EventGenerator* Proyectile::get_my_ev_gen() {
-	return ev_handler->get_ev_gen();
-}
 
 
 void get_and_set_timers(ProyectilesActionsEventGenerator* ev_gen, ProyectilesActionsFSM* fsm) {

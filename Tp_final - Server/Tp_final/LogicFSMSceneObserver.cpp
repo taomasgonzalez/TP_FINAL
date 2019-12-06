@@ -160,5 +160,14 @@ void LogicFSMSceneObserver::update() {
 	{
 		this->my_scenario->load_new_map(this->my_user_data->my_network_data.is_client()); 
 	}
+
+	if (my_fsm->control_actions) {
+		my_scenario->control_all_actions();
+	}
+
+	if (my_fsm->control_enemies) {
+		my_scenario->control_enemy_actions();
+	}
+
 }
 

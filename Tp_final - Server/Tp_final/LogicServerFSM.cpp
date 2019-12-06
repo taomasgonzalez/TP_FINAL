@@ -151,3 +151,11 @@ LogicServerFSM::~LogicServerFSM()
 	delete Waiting_if_the_user_wants_to_play_again;
 }
 
+
+void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
+	LogicFSM::run_fsm(ev_pack);
+
+	control_enemies = true;
+	notify_obs();
+	control_enemies = false;
+}

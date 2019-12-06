@@ -17,14 +17,12 @@ public:
 	virtual void die();
 	bool is_dead();
 
-	FSM* get_my_fsm();
-	EventGenerator* get_my_ev_gen();
 	States current_state;
 	void append_action_to_character(Action_info action);
+	EventHandler * ev_handler = NULL;
 
 protected:
 	bool dead = false;
-	EventHandler * ev_handler = NULL;
 
 
 };

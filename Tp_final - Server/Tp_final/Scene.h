@@ -37,9 +37,6 @@ public:
 	Item_type give_the_other_player();
 	Player * get_player(Item_type player_to_be_found);
 
-	//map information
-	const char * give_me_the_CSV(unsigned int actual_map);
-	const char * give_me_the_map_info();
 	Action_info give_me_my_enemy_action(bool is_initializing);
 
 /*******************************************************************************
@@ -58,12 +55,8 @@ public:
 	void execute_proyectile(Proyectile* proyectile_to_be_executed, bool & should_hit);
 	Position shortest_movement_2_nearest_player(PurpleGuy* purple_guy);
 
-	/*nuevas funciones de timer para los enemies, agregadas por tommy
-	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA.
-	*/
 	void control_enemy_actions();
-	void control_proyectile_actions();
-
+	void control_all_actions();
 /*******************************************************************************
 	OPERATING OVER MAPS
 ******************************************************************************/
@@ -71,6 +64,7 @@ public:
 	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
 	bool is_the_map_okay(const char * the_map , char the_checksum );
 	void load_new_graphic_level();
+	const char * give_me_the_map_info();
 
 	std::vector <Map*> maps;
 	int actual_map;
@@ -102,11 +96,19 @@ private:
 
 	unsigned char make_checksum(const char * CSV_map_location);
 
+	//map information
+	const char * give_me_the_CSV(unsigned int actual_map);
+
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze);
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves);
 	bool check_attack(Action_info * package_to_be_analyze);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
+
+/*******************************************************************************
+	CONTROLLER FUNCTIONS
+******************************************************************************/
+
 
 	//executers
 	void execute_move(Action_info * move_to_be_executed, bool & should_die);

@@ -11,7 +11,6 @@ public:
 	void start_game();
 	void draw_tick();
 	void change_level();
-	virtual void run_fsm(EventPackage * ev_pack);
 
 
 private:

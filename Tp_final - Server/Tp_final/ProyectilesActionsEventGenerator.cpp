@@ -1,8 +1,8 @@
 #include "ProyectilesActionsEventGenerator.h"
 
+using namespace std;
 
-
-ProyectilesActionsEventGenerator::ProyectilesActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers) : MapThingEventGenerator(timers)
+ProyectilesActionsEventGenerator::ProyectilesActionsEventGenerator(vector<ALLEGRO_TIMER*> timers) : MapThingEventGenerator(timers)
 {
 
 }
@@ -41,4 +41,5 @@ void ProyectilesActionsEventGenerator::update_allegro_timer_events() {
 			//}
 		}
 	}
+
 }

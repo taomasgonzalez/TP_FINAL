@@ -328,6 +328,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) :
 	
 	action = my_info->action;
 	set_direction(my_info->my_direction);
+
 }
 
 /**************************************************************

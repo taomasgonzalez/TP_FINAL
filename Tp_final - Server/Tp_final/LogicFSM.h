@@ -56,6 +56,8 @@ public:
 	//execute falgs
 	bool ex_action = false;
 	bool ex_saved_enemy_actions = false;
+	bool control_actions = false;
+	bool control_enemies = false;
 
 	bool start_game = false;
 

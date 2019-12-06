@@ -1,12 +1,14 @@
 #pragma once
 #include "EventGenerator.h"
 
+using namespace std;
+
 class MapThingEventGenerator : public EventGenerator
 {
 public:
 	enum class MapThing_queues { MapThingFSM, Allegro };
 
-	MapThingEventGenerator(std::vector<ALLEGRO_TIMER*> timers);
+	MapThingEventGenerator(vector<ALLEGRO_TIMER*> timers);
 	~MapThingEventGenerator();
 
 protected:
