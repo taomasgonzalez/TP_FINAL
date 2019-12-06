@@ -115,7 +115,7 @@ public:
 
 	Event_type give_me_your_event_type();
 	bool is_this_a_local_action();
-	Action_info to_Action_info();
+	virtual Action_info to_Action_info();
 
 protected:
 	Event_type my_internal_event;
@@ -198,7 +198,7 @@ public:
 	void set_character(Item_type the_one_that_moves);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
-	Action_info to_Action_info();
+	virtual Action_info to_Action_info();
 
 private:
 	Item_type character;
@@ -221,7 +221,7 @@ public:
 	void set_character(Item_type the_one_that_moves);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
-	Action_info to_Action_info();
+	virtual Action_info to_Action_info();
 
 private:
 	Item_type character;
@@ -245,7 +245,7 @@ public:
 	Action_type give_me_the_action();
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
-	Action_info to_Action_info();
+	virtual Action_info to_Action_info();
 
 private:
 	Action_type action;
@@ -340,7 +340,7 @@ public:
 	char give_me_the_destination_column();
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
-	Action_info to_Action_info();
+	virtual Action_info to_Action_info();
 
 private:
 	uchar MonsterID;
