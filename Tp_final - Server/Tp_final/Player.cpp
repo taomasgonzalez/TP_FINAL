@@ -2,6 +2,7 @@
 #include "PlayerActionsFSM.h"
 #include "PlayerActionsEventGenerator.h"
 #include "PlayerActionsFSMDRAWObserver.h"
+#include "CharacterSceneObserver.h"
 
 //agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
 void get_and_set_timers(PlayerActionsEventGenerator* ev_gen, PlayerActionsFSM* fsm);
@@ -17,6 +18,7 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 	#pragma message("falta completar constructor con parametros!!")
 	PlayerActionsEventGenerator* ev_gen = new PlayerActionsEventGenerator(fsm->get_all_timers(), this);
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
+	
 	get_and_set_timers(ev_gen, fsm);
 	ev_handler = new EventHandler(fsm, ev_gen);
 }

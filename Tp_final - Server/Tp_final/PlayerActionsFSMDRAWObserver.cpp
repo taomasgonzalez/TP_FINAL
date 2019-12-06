@@ -14,8 +14,6 @@ PlayerActionsFSMDRAWObserver::~PlayerActionsFSMDRAWObserver()
 {
 }
 
-
-
 void PlayerActionsFSMDRAWObserver::update() {
 	Direction dir = get_character_graph_direction(player->get_sense());
 

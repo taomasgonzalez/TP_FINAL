@@ -2,6 +2,8 @@
 
 using namespace std;
 
+bool Userdata::generating_graphic_events = false;
+
 /// NETWORKDATA METHODS
 bool NetworkData::has_new_info() {
 	return this->new_info;

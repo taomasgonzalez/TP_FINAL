@@ -72,7 +72,7 @@ Obj_Graf_Projectile* DRAW::createObjGraf(unsigned int ID, PROYECTILE_TYPE type)
 
 void DRAW::draw()		
 {
-	this->drawLevel();
+	drawLevel();
 
 	vector<unsigned int> keys;
 
@@ -130,11 +130,8 @@ void DRAW::drawLevel()
 	{
 		for (int j = 0; j < 16; j++)
 		{
-			std::cout << "i : " + to_string(i);
-			std::cout << "j : " + to_string(j);
 
 			char block_type = levels[level - 1].c_str()[i * 16 + j];
-			std::cout << block_type;
 			switch (block_type)
 			{
 			case 'F':

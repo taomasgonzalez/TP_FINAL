@@ -643,16 +643,15 @@ FINISHED_MOVEMENT_EventPackage::FINISHED_MOVEMENT_EventPackage() : EventPackage(
 
 }
 
-WALKED_EventPackage::WALKED_EventPackage(Direction_type dir): EventPackage(Event_type::WALKED, true)
-{
+WALKED_EventPackage::WALKED_EventPackage(Direction_type dir): EventPackage(Event_type::WALKED, true){
+	walking_direction = dir;
 }
 
-JUMPED_EventPackage::JUMPED_EventPackage(): EventPackage(Event_type::JUMPED, true)
-{
+JUMPED_EventPackage::JUMPED_EventPackage(): EventPackage(Event_type::JUMPED, true){
 
 }
 JUMPED_FORWARD_EventPackage::JUMPED_FORWARD_EventPackage(Direction_type dir) : EventPackage(Event_type::JUMPED_FORWARD, true) {
-
+	jumping_direction = dir;
 }
 
 DIED_EventPackage::DIED_EventPackage() : EventPackage(Event_type::DIED, true) {

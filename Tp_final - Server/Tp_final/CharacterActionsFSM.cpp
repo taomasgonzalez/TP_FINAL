@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#define DOUBLE_FPS_SPEED	1/120.0
 void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
@@ -32,7 +33,7 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	set_states();
 	set_processes();
 	create_all_timers();
-	this->actual_state = iddle_state;
+	actual_state = iddle_state;
 }
 
 
@@ -64,13 +65,13 @@ void CharacterActionsFSM::set_processes() {
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
-	walking_left_process.push_back(std::make_pair(Direction_type::Left, 0));
-	walking_right_process.push_back(std::make_pair(Direction_type::Right, 0));
+	walking_left_process.push_back(std::make_pair(Direction_type::Left, DOUBLE_FPS_SPEED));
+	walking_right_process.push_back(std::make_pair(Direction_type::Right, DOUBLE_FPS_SPEED));
 
 }
 
 void CharacterActionsFSM::create_all_timers() {
-
+	
 	create_timer(&walking_timer);
 	create_timer(&jumping_timer);
 	create_timer(&jumping_forward_timer);

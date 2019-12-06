@@ -907,7 +907,7 @@ void Scene::control_enemy_actions()
 void Scene::control_all_actions() {
 
 	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		(*it)->ev_handler->handle_event();
+ 		(*it)->ev_handler->handle_event();
 
 	for (vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
 		(*it)->ev_handler->handle_event();

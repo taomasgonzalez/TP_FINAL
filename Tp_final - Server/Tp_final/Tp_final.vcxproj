@@ -167,7 +167,6 @@
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
-    <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraficInterface.cpp" />

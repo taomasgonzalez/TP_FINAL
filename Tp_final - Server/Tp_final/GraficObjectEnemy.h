@@ -34,6 +34,26 @@ private:
 	unsigned int actualImageInball;
 	unsigned int actualDestructionImage;
 
+	void handle_walking();
+	void handle_jumping();
+	void handle_jumping_forward();
+	void handle_iddle();
+	void handle_trapped(ENEMY_STATE trapped_state);			//ENEMY_STATE : enemy_TRAPPED_1 or enemy_TRAPPED_2
+	void handle_attacking();
+	void handle_falling();
+	void handle_dying();
+	void handle_inball_iddle();
+	void handle_inball_moving();
+	void handle_inball_pushing();
+	void handle_inball_falling();
+	void handle_inball_destruction();
+
+
+	void going_right();
+
+	int get_movement_delta();
 	ImageContainer::enemy_images * images;
+
+
 };
 

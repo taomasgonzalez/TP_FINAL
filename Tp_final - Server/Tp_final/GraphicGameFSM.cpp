@@ -5,6 +5,7 @@ void quit_graphic(void * data);
 void draw(void * data);
 void start_game_r(void* data);
 void change_level_r(void* data);
+
 GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
 {
 	this->drawer = drawer;
@@ -46,8 +47,11 @@ GraphicGameFSM::~GraphicGameFSM()
 	delete playing_state;
 }
 void GraphicGameFSM::start_game() {
+	//should start the graphic timer for fps events!!
 	drawer->setLevel(level);
-	drawer->draw();
+	Userdata::generating_graphic_events = true;
+
+	//drawer->draw();
 }
 
 void GraphicGameFSM::draw_tick() {
@@ -67,7 +71,7 @@ void do_nothing_graphic(void* data) {
 }
 void quit_graphic(void * data) {
 	GraphicGameFSM* fsm =(GraphicGameFSM*) data;
-
+	//Userdata::generating_graphic_events = false;
 }
 void draw(void * data) {
 	GraphicGameFSM* fsm = (GraphicGameFSM*)data;

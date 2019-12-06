@@ -28,7 +28,7 @@ unsigned int MapThingFSM::get_id() {
 void MapThingFSM::set_curr_timer_and_start(ALLEGRO_TIMER * new_curr_timer) {
 	curr_timer = new_curr_timer;
 	set_curr_timer_speed((*current_moving_iteration).second);
-	//al_start_timer(curr_timer);
+	al_start_timer(curr_timer);
 }
 
 void MapThingFSM::set_curr_timer_speed(double speed) {

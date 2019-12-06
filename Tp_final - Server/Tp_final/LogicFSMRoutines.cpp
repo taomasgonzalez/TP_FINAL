@@ -62,7 +62,7 @@ void check_action(void* data) {
 void check_game_state(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->check_game_state = true;
-	fsm->notify_obs();
+	fsm->notify_obs();			//LogicFSMSceneObserver
 	fsm->check_game_state = false;
 }
 

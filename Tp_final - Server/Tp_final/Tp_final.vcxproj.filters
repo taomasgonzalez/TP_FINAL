@@ -13,9 +13,6 @@
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
-    <ClCompile Include="EventPackage.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="CommunicationEventsObserver.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
@@ -37,13 +34,7 @@
     <ClCompile Include="GraficObjectProjectile.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicEventGenerator.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClCompile>
     <ClCompile Include="EventPackageFactory.cpp">
-      <Filter>Source Files\Event_related\Generic</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMFactory.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
     <ClCompile Include="FSM_Class.cpp">
@@ -199,7 +190,6 @@
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
@@ -209,6 +199,15 @@
     </ClCompile>
     <ClCompile Include="CharacterSceneObserver.cpp">
       <Filter>Source Files\PJ_related\Characters</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageContainer.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPackage.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicEventGenerator.cpp">
+      <Filter>Source Files\Event_related\Graphic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -428,10 +427,12 @@
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
-    <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Header Files\Event_related\Graphic</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageContainer.h">
+      <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -747,9 +748,6 @@
     <ClCompile Include="EnemySceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="SceneCharacterObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="ProyectileSceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
@@ -951,9 +949,6 @@
       <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
     <ClInclude Include="EnemySceneObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneCharacterObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="PlayerSceneObserver.h">
