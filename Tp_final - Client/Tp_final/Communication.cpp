@@ -246,7 +246,7 @@ Package * Communication::receiveMessage() {
 
 	//do
 	//{
-		len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
+	len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
 
 	//} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
 

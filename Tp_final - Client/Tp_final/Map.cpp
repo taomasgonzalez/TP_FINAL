@@ -13,7 +13,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	for (int i = 0; i < number_of_rows; ++i)
 		map_cells[i] = new MapCell[number_of_columns];
 
-	original_distribution = NULL;
+	original_distribution = "";
 
 	all_players = new std::vector<Player*>();
 	//this->all_players->push_back(new Player(0, true, Sense_type::Left));
@@ -96,7 +96,7 @@ std::vector<Player*>* Map::get_all_players()
 */
 const char * Map::give_me_the_original_map() {
 
-	return this->original_distribution;
+	return original_distribution.c_str();
 }
 
 /******************************************
@@ -424,7 +424,7 @@ void Map::print_cell(int coord_x, int coord_y)
 */
 const char * Map::get_last_loaded_distribution()
 {
-	return original_distribution;
+	return original_distribution.c_str();
 }
 /*********************************************
 *******find_next_movement_4_shortest_path*****
@@ -607,11 +607,11 @@ int Map::get_max_number_of_floors() {
 */
 void Map::load_on_map(const char* map_string, void* scenario) {
 	original_distribution = map_string;
-
+	cout << string(map_string);
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;
-		MapThing * new_thing = map_filler.create_map_thing(fil, col, (Item_type)map_string[i], get_random_sense(), scenario);
+		MapThing * new_thing = map_filler.create_map_thing(fil, col, (Item_type)map_string[i], get_random_sense(), scenario);		
 		place_on_map(fil, col, new_thing);
 	}
 	//dijkstra_manager->load_on_machine(map_string);
@@ -633,7 +633,7 @@ void Map::load_checksum(unsigned char checksum) {
 void Map::reset_map()
 {
 	clear();
-	load_on_map(original_distribution);
+	load_on_map(original_distribution.c_str());
 }
 /*************************************************
 *************delete_from_map_thing_vectors********

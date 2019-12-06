@@ -151,9 +151,6 @@
     <ClCompile Include="ScenarioEventsObserver.cpp">
       <Filter>Source Files\Map_related\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="SceneCharacterObserver.cpp">
-      <Filter>Source Files\Map_related\Observers</Filter>
-    </ClCompile>
     <ClCompile Include="Crazy.cpp">
       <Filter>Source Files\PJ_related\Characters\Enemies\Crazy</Filter>
     </ClCompile>
@@ -405,9 +402,6 @@
       <Filter>Header Files\Map_related\Observers</Filter>
     </ClInclude>
     <ClInclude Include="ScenarioEventsObserver.h">
-      <Filter>Header Files\Map_related\Observers</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneCharacterObserver.h">
       <Filter>Header Files\Map_related\Observers</Filter>
     </ClInclude>
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h">

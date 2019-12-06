@@ -971,6 +971,7 @@ void Scene::load_action_on_character(Action_info action) {
 	bool appended = false;
 	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
 		if((*it)->id == action.id){
+			
 			(*it)->append_action_to_character(action_to_be_loaded);
 			appended = true;
 		}

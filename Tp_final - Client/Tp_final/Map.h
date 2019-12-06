@@ -7,6 +7,9 @@
 #include "MapThingFactory.h"
 #include "DijkstraMachine.h"
 #include <vector>
+
+using namespace std;
+
 class Map
 {
 public:
@@ -78,7 +81,7 @@ private:
 	unsigned char my_checksum;
 
 
-	const char* original_distribution;
+	string original_distribution;
 	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
 
 	void place_on_map(int coord_x, int coord_y, MapThing* thing);

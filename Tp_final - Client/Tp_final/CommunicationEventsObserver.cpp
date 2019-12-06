@@ -33,9 +33,6 @@ void CommunicationEventsObserver::update() {
 			EventPackage * new_event_package = (new PackageFactory())->package_2_event_package(new_pack); //convierto el paquete a EventPackage
 			event_gen->append_new_event(new_event_package, (int) (LogicEventGenerator::LogicQueues::net)); //lo meto en la cola
 		}
-		else
-		{
-			//std::cout << "No se recibio ningún mensaje"  << std::endl;
-		}
+
 	}
 }

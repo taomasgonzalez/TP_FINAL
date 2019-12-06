@@ -7,6 +7,7 @@
 
 #define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
 
+using namespace std;
 static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 164, 135, 207, 169, 5, 26, 64, 165, 219,
 													61, 20, 68, 89, 130, 63, 52, 102, 24, 229, 132, 245, 80, 216, 195, 115,
 													90, 168, 156, 203, 177, 120, 2, 190, 188, 7, 100, 185, 174, 243, 162, 10,
@@ -28,7 +29,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 {
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
-	this->assistant_queue = new std::queue<Action_info>();
+	this->assistant_queue = new queue<Action_info>();
 	//this->action_from_allegro = NULL;
 	this->actual_map = -1;
 	enemy_action_info;
@@ -76,7 +77,7 @@ void Scene::execute_action(Action_info * action_to_be_executed, bool & should_be
 		break;
 
 	default:
-		std::cout << "Error, Acción no ejecutable" << std::endl;
+		cout << "Error, Acción no ejecutable" << endl;
 		break;
 
 	}
@@ -91,7 +92,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 	{
 		if (maps[actual_map]->cell_has_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y))
 		{
-			std::vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
+			vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
 			for (int i = 0; i < (int) my_vector_of_players.size(); i++)
 			{
 				
@@ -108,7 +109,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 	{
 		if (maps[actual_map]->cell_has_enemies(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y))
 		{
-			std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
+			vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
 			for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
 			{
 
@@ -141,7 +142,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
 	 if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
 	{
-		std::vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
+		vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
 		for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
 		{
 			if (((my_vector_of_enemys)[i]->current_state == States::Moving)&&((my_vector_of_enemys)[i]->current_state == States::Iddle))
@@ -213,7 +214,7 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 	{
 		if (maps[actual_map]->cell_has_players(extern_destination.fil, extern_destination.col))
 		{
-			std::vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(extern_destination.fil, extern_destination.col);
+			vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(extern_destination.fil, extern_destination.col);
 			for (int i = 0; i < (int)my_vector_of_players.size(); i++)
 			{
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
@@ -266,12 +267,12 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	}
 
 	curr_enemies = new_map->get_all_enemies();
-	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-		this->add_observer(new EnemySceneObserver(*it, this));
+	for (vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
+		add_observer(new EnemySceneObserver(*it, this));
 
 	curr_players = new_map->get_all_players();
-	for (std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		this->add_observer(new PlayerSceneObserver(*it, this));
+	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		add_observer(new PlayerSceneObserver(*it, this));
 
 	curr_proyectiles = new_map->get_all_proyectiles();
 
@@ -391,27 +392,27 @@ Action_info Scene::give_me_my_enemy_action(bool is_initializing){
 
 void Scene::gameInit() {	
 
-	this->game_started = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
+	game_started = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
 	notify_obs();
-	this->game_started = false;
+	game_started = false;
 
 }
 
 
 Item_type Scene::give_me_my_player() {
 
-	return this-> my_player;
+	return my_player;
 }
 
 Item_type Scene::give_the_other_player() {
 
-	return this->other_player;
+	return other_player;
 }
 
 
 bool Scene::both_players_dead()
 {
-	for(std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+	for(vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
 		if (!(*it)->is_dead()) 
 			return false;
 
@@ -421,7 +422,7 @@ bool Scene::both_players_dead()
 bool Scene::any_monsters_left()
 {
 
-	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
+	for (vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		if (!(*it)->is_dead())
 			return true;
 
@@ -430,13 +431,13 @@ bool Scene::any_monsters_left()
 
 
 bool Scene::game_is_finished() {
-	return this->game_finished;
+	return game_finished;
 }
 
 void Scene::finish_game() {
-	this->game_finished = true;
+	game_finished = true;
 	notify_obs();
-	this->game_finished = false;
+	game_finished = false;
 }
 
 
@@ -472,7 +473,7 @@ bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 		break;
 
 	default:
-		std::cout << "Acción no analizable" << std::endl;
+		cout << "Acción no analizable" << endl;
 		break;
 
 	}
@@ -964,17 +965,19 @@ Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 
 void Scene::load_action_on_character(Action_info action) {
 
-	action_to_be_loaded = action;
-	load_action_on_char = true;
-	notify_obs();
-	load_action_on_char = false;
+	//i am not certain that this line can be removed!! should check before doing so
+	action_to_be_loaded = action;		
+
+	bool appended = false;
+	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		if((*it)->id == action.id){
+			(*it)->append_action_to_character(action_to_be_loaded);
+			appended = true;
+		}
+	
+	if(!appended)
+		for (vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
+			if ((*it)->id == action.id)
+				(*it)->append_action_to_character(action_to_be_loaded);
 }
 
-unsigned int Scene::get_action_to_be_loaded_id() {
-	return action_to_be_loaded_id;
-}
-
-Action_info Scene::get_action_to_be_loaded()
-{
-	return action_to_be_loaded;
-}

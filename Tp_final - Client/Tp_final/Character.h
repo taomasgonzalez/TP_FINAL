@@ -20,6 +20,7 @@ public:
 	FSM* get_my_fsm();
 	EventGenerator* get_my_ev_gen();
 	States current_state;
+	void append_action_to_character(Action_info action);
 
 protected:
 	bool dead = false;

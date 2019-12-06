@@ -12,8 +12,7 @@ MapThingFactory::MapThingFactory()
 {
 	//cada vez que creo una instancia nueva, se reinicia la cuenta para la clase entera.
 	next_enemy_id = 0;
-	next_player_id = next_enemy_id + MAX_NUMBER_OF_MONSTERS;
-	next_proyectile_id = next_player_id + MAX_NUMBER_OF_PLAYERS;
+	next_proyectile_id = MAX_NUMBER_OF_MONSTERS + MAX_NUMBER_OF_PLAYERS;
 
 }
 
@@ -51,10 +50,10 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 		}
 			break;
 		case Item_type::TOM:
-			new_born = new Player(get_player_id(), false, direction);
+			new_born = new Player((unsigned int)Item_type::TOM, false, direction);
 			break;
 		case Item_type::NICK:
-			new_born = new Player(get_player_id(), true, direction);
+			new_born = new Player((unsigned int)Item_type::NICK, true, direction);
 			break;
 		case Item_type::FIREBALL:
 			new_born = new Fireball(get_proyectile_id(), direction);
@@ -96,13 +95,10 @@ void MapThingFactory::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * ev_
 
 unsigned int MapThingFactory::get_enemy_id()
 {
+	if (next_enemy_id == (unsigned int)Item_type::TOM || next_enemy_id == (unsigned int)Item_type::NICK)
+		next_enemy_id++;
+			
 	return next_enemy_id++;
-}
-
-unsigned int MapThingFactory::get_player_id()
-{
-	next_player_id++;
-	return next_player_id - 1;
 }
 
 unsigned int MapThingFactory::get_proyectile_id()

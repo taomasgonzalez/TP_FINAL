@@ -24,7 +24,6 @@ public:
 
 private:
 	unsigned int get_enemy_id();
-	unsigned int get_player_id();
 	unsigned int get_proyectile_id();
 	unsigned int get_nothing_id();
 	unsigned int get_wall_id();

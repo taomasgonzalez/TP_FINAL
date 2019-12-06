@@ -328,7 +328,6 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) :
 	
 	action = my_info->action;
 	set_direction(my_info->my_direction);
-
 }
 
 /**************************************************************
@@ -353,6 +352,7 @@ Action_info ACTION_REQUEST_EventPackage::to_Action_info()
 		returnable_info.action = give_me_the_action();
 		returnable_info.final_pos_x = give_me_your_destination_row();
 		returnable_info.final_pos_y = give_me_your_destination_column();
+		returnable_info.my_direction = give_me_your_direction();
 		returnable_info.id = (unsigned int) CLIENT_PLAYER;
 	}
 

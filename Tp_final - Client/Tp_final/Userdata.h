@@ -25,6 +25,8 @@ enum class Character_id {
 enum class Item_type {
 	TOM = 'T', NICK = 'N', PURPLE_GUY = 'P', GREEN_FATTIE = 'G', CRAZY = 'C', FLOOR = 'F', NADA = 'E', FIREBALL = 'B', SNOWBALL = 'S'
 };
+#define SERVER_PLAYER	Item_type::TOM
+#define CLIENT_PLAYER	Item_type::NICK
 
 class NetworkData {
 

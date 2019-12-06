@@ -114,9 +114,9 @@ LogicServerFSM::LogicServerFSM(Userdata * data) : LogicFSM(data)
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing });
 
 	if(!data->my_network_data.handshake)
-		this->actual_state = this->Playing_state;
+		actual_state = Playing_state;
 	else 	
-		this->actual_state = this->Initial_state;
+		actual_state = Initial_state;
 
 }
 
