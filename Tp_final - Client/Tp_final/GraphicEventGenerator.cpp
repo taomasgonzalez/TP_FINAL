@@ -1,5 +1,7 @@
 #include "GraphicEventGenerator.h"
+
 #define FPS (50.0)
+
 GraphicEventGenerator::GraphicEventGenerator() : EventGenerator()
 {
 	drawing_event_queue = al_create_event_queue();
@@ -14,6 +16,7 @@ GraphicEventGenerator::~GraphicEventGenerator()
 
 }
 EventPackage * GraphicEventGenerator::fetch_event() {
+
 	update_allegro_timer_events();
 	return EventGenerator::fetch_event();
 }
@@ -21,6 +24,9 @@ EventPackage * GraphicEventGenerator::fetch_event() {
 void GraphicEventGenerator::update_allegro_timer_events() {
 	ALLEGRO_EVENT allegroEvent;
 	EventPackage * ev_pack = NULL;
+
+	if (Userdata::generating_graphic_events)
+		al_start_timer(fps_timer);
 
 	if (al_get_next_event(drawing_event_queue, &allegroEvent)) 
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER){

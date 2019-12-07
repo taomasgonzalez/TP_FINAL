@@ -52,9 +52,11 @@ void PlayerActionsFSM::set_states() {
 
 	expand_state(dead_state, { Event_type::APPEARED, iddle_state, player_revive });
 }
+
 void PlayerActionsFSM::create_all_timers() {
 	create_timer(&pushing_timer);
 }
+
 void PlayerActionsFSM::set_processes() {
 
 	pushing_right_process.push_back(std::make_pair(Direction_type::Right, 0));
@@ -105,7 +107,6 @@ void check_push_and_push(void* data) {
 }
 void reset_push(void* data) {
 	iddle_graph_player(data);
-
 }
 
 void iddle_graph_player(void *data) {

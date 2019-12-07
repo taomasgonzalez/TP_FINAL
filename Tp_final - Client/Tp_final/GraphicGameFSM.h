@@ -1,6 +1,7 @@
 #pragma once
 #include "FSM_Class.h"
 #include "DRAW.h"
+#include "Userdata.h"
 
 class GraphicGameFSM : public FSM
 {

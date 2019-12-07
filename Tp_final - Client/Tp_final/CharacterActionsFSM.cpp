@@ -2,6 +2,7 @@
 #include "Player.h"
 #include "Enemy.h"
 
+#define DOUBLE_FPS_SPEED	1/120.0
 void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
@@ -32,7 +33,7 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	set_states();
 	set_processes();
 	create_all_timers();
-	this->actual_state = iddle_state;
+	actual_state = iddle_state;
 }
 
 
@@ -64,13 +65,13 @@ void CharacterActionsFSM::set_processes() {
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
-	walking_left_process.push_back(std::make_pair(Direction_type::Left, 0));
-	walking_right_process.push_back(std::make_pair(Direction_type::Right, 0));
+	walking_left_process.push_back(std::make_pair(Direction_type::Left, DOUBLE_FPS_SPEED));
+	walking_right_process.push_back(std::make_pair(Direction_type::Right, DOUBLE_FPS_SPEED));
 
 }
 
 void CharacterActionsFSM::create_all_timers() {
-
+	
 	create_timer(&walking_timer);
 	create_timer(&jumping_timer);
 	create_timer(&jumping_forward_timer);
@@ -137,8 +138,7 @@ void CharacterActionsFSM::process_logical_movement()
 
 }
 
-void CharacterActionsFSM::process_logical_attack()
-{
+void CharacterActionsFSM::process_logical_attack(){
 	if (!has_attacked()) 
 		attack();
 
@@ -146,8 +146,7 @@ void CharacterActionsFSM::process_logical_attack()
 }
 
 
-void CharacterActionsFSM::start_jumping_forward()
-{
+void CharacterActionsFSM::start_jumping_forward(){
 	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
 
 	if (curr_jump->jumping_direction == Direction_type::Jump_Right)
@@ -159,8 +158,7 @@ void CharacterActionsFSM::start_jumping_forward()
 
 }
 
-void CharacterActionsFSM::start_attacking()
-{
+void CharacterActionsFSM::start_attacking(){
 	attacked = false;
 	set_curr_timer_and_start(attacking_timer);
 }
@@ -171,34 +169,29 @@ void CharacterActionsFSM::start_falling() {
 
 }
 
-void CharacterActionsFSM::stop_action()
-{
+void CharacterActionsFSM::stop_action(){
 	stop_curr_timer();
 }
 
-ALLEGRO_TIMER * CharacterActionsFSM::get_walking_timer()
-{
+ALLEGRO_TIMER * CharacterActionsFSM::get_walking_timer(){
 	return walking_timer;
 }
 
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_timer()
-{
+ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_timer(){
 	return jumping_timer;
 }
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_forward_timer()
-{
+
+ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_forward_timer(){
 	return jumping_forward_timer;
 }
-ALLEGRO_TIMER * CharacterActionsFSM::get_falling_timer()
-{
+ALLEGRO_TIMER * CharacterActionsFSM::get_falling_timer(){
 	return falling_timer;
 }
-ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer()
-{
+ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer(){
 	return attacking_timer;
 }
-void CharacterActionsFSM::continue_logical_movement()
-{
+void CharacterActionsFSM::continue_logical_movement(){
+
 	obs_info.perform_logical_movement = true;
 	notify_obs();
 	obs_info.perform_logical_movement = false;
@@ -209,13 +202,12 @@ void CharacterActionsFSM::continue_logical_movement()
 		set_curr_timer_speed((*current_moving_iteration).second);
 }
 
-void CharacterActionsFSM::start_walking()
-{
-	WALKED_EventPackage * curr_jump = (WALKED_EventPackage*)get_fsm_ev_pack();
+void CharacterActionsFSM::start_walking(){
+	WALKED_EventPackage * curr_walk = (WALKED_EventPackage*)get_fsm_ev_pack();
 
-	if (curr_jump->walking_direction == Direction_type::Right) 
+	if (curr_walk->walking_direction == Direction_type::Right)
 		set_curr_process(&walking_right_process);
-	else if (curr_jump->walking_direction == Direction_type::Left) 
+	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
 
 	set_curr_timer_and_start(walking_timer);
@@ -226,8 +218,7 @@ void CharacterActionsFSM::start_jumping() {
 	set_curr_timer_and_start(jumping_timer);
 }
 
-void CharacterActionsFSM::end_if_should_end_movement()
-{
+void CharacterActionsFSM::end_if_should_end_movement(){
 	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();
@@ -241,8 +232,7 @@ void CharacterActionsFSM::end_if_should_end_movement()
 	}
 }
 
-void CharacterActionsFSM::end_if_should_end_attack()
-{
+void CharacterActionsFSM::end_if_should_end_attack(){
 	obs_questions.should_interrupt_attack = true;
 	notify_obs();
 	obs_questions.should_interrupt_attack = false;
@@ -259,10 +249,10 @@ bool CharacterActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
 
-bool CharacterActionsFSM::can_perform_logical_movement()
-{
+bool CharacterActionsFSM::can_perform_logical_movement(){
+
 	#pragma message("Germo tiene que verificar si se puede ejecutar este movimiento desde escena. Este observer es CharacterSceneObserver")
-	this->obs_questions.can_perform_movement = true;
+	obs_questions.can_perform_movement = true;
 	notify_obs();
 	#pragma message("Debería editar obs_answers.can_perform_movement desde escena?")
 
@@ -288,7 +278,9 @@ void do_nothing_char(void * data) {
 }
 
 void start_walking_r(void* data) {
+
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
+	EventPackage *ev_pack = fsm->get_fsm_ev_pack();
 	(fsm->obs_info).start_walking_graph = true;
 	fsm->notify_obs();
 	(fsm->obs_info).start_walking_graph = false;

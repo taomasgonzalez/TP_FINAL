@@ -27,5 +27,16 @@ private:
 	unsigned int dieActualImage;
 	unsigned int walkActualImage;
 
+	void handle_walking();
+	void handle_jumping();
+	void handle_jumping_forward();
+	void handle_iddle();
+	void handle_attacking();
+	void handle_falling();
+	void handle_pushing();
+	void handle_dying();
+
+	int get_movement_delta();
+
 	ImageContainer::character_images * images = NULL;
 };

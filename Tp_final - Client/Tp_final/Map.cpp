@@ -607,7 +607,6 @@ int Map::get_max_number_of_floors() {
 */
 void Map::load_on_map(const char* map_string, void* scenario) {
 	original_distribution = map_string;
-	cout << string(map_string);
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int fil = i / number_of_columns;
 		int col = i % number_of_columns;

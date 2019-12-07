@@ -13,11 +13,12 @@ PlayerActionsEventGenerator::~PlayerActionsEventGenerator()
 }
 EventPackage* PlayerActionsEventGenerator::fetch_event() {
 	update_allegro_timer_events();
-	return EventGenerator::fetch_event();
+	return CharacterActionsEventGenerator::fetch_event();
 }
 
 void PlayerActionsEventGenerator::update_allegro_timer_events()
 {
+	CharacterActionsEventGenerator::update_allegro_timer_events();
 	ALLEGRO_EVENT allegroEvent;
 	EventPackage * ev_pack = NULL;
 

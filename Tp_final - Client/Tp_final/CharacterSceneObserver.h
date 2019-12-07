@@ -19,6 +19,8 @@ protected:
 private:
 	Character* character = NULL;
 	void kill_character();
+	void direction_to_deltas(Action_info* action);
+
 };
 
 
