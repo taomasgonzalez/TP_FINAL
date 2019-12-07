@@ -91,7 +91,7 @@ void ImageContainer::load_snowball_bitmaps()
 	fill_bitmap(&my_projectile_images_container.snowball.moveImages, FOLDER_PROYECTILES, FOLDER_MOVING, FILE_SNOW_MOVING, MOVING_PICS_SNOW, FOLDER_SNOW);
 	fill_bitmap(&my_projectile_images_container.snowball.decayImages, FOLDER_PROYECTILES, FOLDER_DECAYING, FILE_SNOW_DECAYING, DECAYING_PICS_SNOW, FOLDER_SNOW);
 	fill_bitmap(&my_projectile_images_container.snowball.impactImages, FOLDER_PROYECTILES, FOLDER_IMPACT, FILE_SNOW_IMPACT, IMPACT_PICS_SNOW, FOLDER_SNOW);
-	fill_bitmap(&my_projectile_images_container.snowball.moveImages, FOLDER_PROYECTILES, FOLDER_FALLING, FILE_SNOW_FALLING, FALLING_PICS_SNOW, FOLDER_SNOW);
+	fill_bitmap(&my_projectile_images_container.snowball.fallImages, FOLDER_PROYECTILES, FOLDER_FALLING, FILE_SNOW_FALLING, FALLING_PICS_SNOW, FOLDER_SNOW);
 }
 
 void ImageContainer::load_fire_bitmaps()
@@ -99,7 +99,7 @@ void ImageContainer::load_fire_bitmaps()
 	fill_bitmap(&my_projectile_images_container.fire.moveImages, FOLDER_PROYECTILES, FOLDER_MOVING, FILE_FIRE_MOVING, MOVING_PICS_FIRE, FOLDER_FIRE);
 	fill_bitmap(&my_projectile_images_container.fire.decayImages, FOLDER_PROYECTILES, FOLDER_DECAYING, FILE_FIRE_DECAYING, DECAYING_PICS_FIRE, FOLDER_FIRE);
 	fill_bitmap(&my_projectile_images_container.fire.impactImages, FOLDER_PROYECTILES, FOLDER_IMPACT, FILE_FIRE_IMPACT, IMPACT_PICS_FIRE, FOLDER_FIRE);
-	fill_bitmap(&my_projectile_images_container.fire.moveImages, FOLDER_PROYECTILES, FOLDER_FALLING, FILE_FIRE_FALLING, FALLING_PICS_FIRE, FOLDER_FIRE);
+	fill_bitmap(&my_projectile_images_container.fire.fallImages, FOLDER_PROYECTILES, FOLDER_FALLING, FILE_FIRE_FALLING, FALLING_PICS_FIRE, FOLDER_FIRE);
 }
 
 void ImageContainer::load_character_bitmaps()
@@ -137,12 +137,9 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 	for (int i = 0; i < limit; i++){
 		if (carpeta2 == "")
 			imageDir = carpeta1 + '/' + carpeta3 + '/' + file + to_string(i /* + 1*/) + ".png";
-			//imageDir = carpeta1 + '\\' + carpeta3 + '\\' + file + to_string(i /* + 1*/) + ".png";
 		else
-			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i) + ".png";
-			//imageDir = carpeta1 + '\\' + carpeta2 + '\\' + carpeta3 + '\\' + file + to_string(i) + ".png";
-		ALLEGRO_BITMAP* point = al_load_bitmap(imageDir.c_str());
-		(*curr_images)[i] = point;
+			imageDir = carpeta1 + '/' + carpeta2 + '/' + carpeta3 + '/' + file + to_string(i /*+ 1*/) + ".png";
+		(*curr_images)[i] = al_load_bitmap(imageDir.c_str());
 	}
 }
 

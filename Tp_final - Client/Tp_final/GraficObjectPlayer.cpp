@@ -15,10 +15,15 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* co
 	dieActualImage = 0;
 	walkActualImage = 0;
 
-	if (PLAYER_TYPE::NICK)
+	switch (type)
+	{
+	case NICK:
 		images = &container->my_character_images_container.nick;
-	else if(PLAYER_TYPE::TOM)
+		break;
+	case TOM:
 		images = &container->my_character_images_container.tom;
+		break;
+	}
 }
 
 
@@ -51,6 +56,7 @@ void Obj_Graf_Player::draw()
 			break;																				
 		case player_PUSHING:
 			handle_pushing();
+			break;
 		case player_DYING:
 			handle_dying();
 			break;
@@ -130,30 +136,31 @@ void Obj_Graf_Player::handle_jumping_forward() {
 	int delta = get_movement_delta();
 	bool reached_final_pos = false;
 
-	if (dir == Direction::Left)
-		reached_final_pos = pos.get_y_coord() < (InitalPos.get_y_coord() + delta * 2 * BLOCK_SIZE);
-	else if (dir == Direction::Right)
-		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * 2 * BLOCK_SIZE);
-
-	if (reached_final_pos)		// veo si ya llego a la pos final 
+	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
 		secuenceOver_ = true;
-		pos.set_y_coord(InitalPos.get_y_coord() + delta * 2 * BLOCK_SIZE);
+		pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;
 	}
 	else
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
-		pos.set_y_coord(pos.get_y_coord() + delta * velFall);															// muevo la posicion del dibujo
+		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
 	}
 
-	if (pos.get_x_coord() <= (InitalPos.get_x_coord() + delta* BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+	if (dir == Direction::Left)
+		reached_final_pos = pos.get_x_coord() <= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+	else if (dir == Direction::Right)
+		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+
+
+	if (reached_final_pos)
 		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 	else
-		pos.set_x_coord(pos.get_x_coord() + delta * (velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
+		pos.set_x_coord(pos.get_x_coord() + delta * velX / 2);	// muevo la posicion del dibujo
 
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 void Obj_Graf_Player::handle_iddle() {

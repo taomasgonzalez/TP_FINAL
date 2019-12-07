@@ -24,10 +24,15 @@ private:
 	PROYECTILE_TYPE type;
 	PROYECTILE_STATE state;
 
+	void handle_moving(PROYECTILE_TYPE);
+	void handle_falling(PROYECTILE_TYPE);
+	void handle_decaying(PROYECTILE_TYPE);
+	void handle_impacting(PROYECTILE_TYPE);
+
 	unsigned int actualImpactImage;										// cuando se inicia la secuancia de impacto tiene que empezar si o si de 0 (el actualImage puede no estar en 0)
 	unsigned int actualDecayImage;
 
-
+	int get_movement_delta();
 	ImageContainer::projectile_images * images;
 };
 

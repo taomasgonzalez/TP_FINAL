@@ -22,7 +22,7 @@ public:
 private:
 	ENEMY_TYPE type;
 	ENEMY_STATE state;
-	unsigned int vel_x_inball;
+	float vel_x_inball;
 	unsigned int trap1ActualImage;
 	unsigned int trap2ActualImage;
 	unsigned int trap1ticks;
@@ -42,7 +42,7 @@ private:
 	void handle_attacking();
 	void handle_falling();
 	void handle_dying();
-	void handle_inball_iddle();
+	void handle_inball_iddle();						//INBALL pics are common to all enemies
 	void handle_inball_moving();
 	void handle_inball_pushing();
 	void handle_inball_falling();
