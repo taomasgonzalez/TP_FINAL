@@ -18,6 +18,9 @@ void PlayerActionsFSMDRAWObserver::update() {
 	Direction dir = get_character_graph_direction(player->get_sense());
 
 	if (fsm->obs_info.start_walking_graph) {
+		
+		MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(fsm->get_fsm_ev_pack());
+		Direction dir = get_character_graph_direction(ev_pack->give_me_your_direction());
 		drawer->startDraw(player_WALKING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_WALKING;
 	}
@@ -84,4 +87,19 @@ Direction PlayerActionsFSMDRAWObserver::get_character_graph_direction(Sense_type
 	return returnable;
 }
 
+Direction PlayerActionsFSMDRAWObserver::get_character_graph_direction(Direction_type direction) {
+	Direction returnable = Direction::None;
+	switch (direction) {
+	case Direction_type::Left:
+		returnable = Direction::Left;
+		break;
+	case Direction_type::Right:
+		returnable = Direction::Right;
+		break;
+	default:
+		returnable = Direction::None;
+		break;
+	}
+	return returnable;
+}
 

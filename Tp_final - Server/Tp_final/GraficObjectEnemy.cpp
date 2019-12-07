@@ -1005,7 +1005,6 @@ void Obj_Graf_Enemy::handle_iddle() {
 	actualImage = 0;
 
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	cout << this->ID << endl;
 	al_draw_scaled_bitmap(images->idleImages[idleActualImage], 0, 0, 
 		al_get_bitmap_height(images->idleImages[idleActualImage]), al_get_bitmap_width(images->idleImages[idleActualImage]),
 		pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
@@ -1239,8 +1238,6 @@ void Obj_Graf_Enemy::going_right() {
 		{
 			this->secuenceOver_ = true;
 			this->pos.set_x_coord(this->InitalPos.get_x_coord() + BLOCK_SIZE);
-			//this->active = false;
-			//al_draw_bitmap(this->pushImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), ALLEGRO_FLIP_HORIZONTAL);
 		}
 		else
 		{

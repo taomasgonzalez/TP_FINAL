@@ -155,7 +155,7 @@ LogicServerFSM::~LogicServerFSM()
 void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
 	LogicFSM::run_fsm(ev_pack);
 
-	control_enemies = true;
-	notify_obs();
-	control_enemies = false;
+	//control_enemies = true;
+	//notify_obs();
+	//control_enemies = false;
 }
