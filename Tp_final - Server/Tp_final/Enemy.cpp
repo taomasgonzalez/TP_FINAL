@@ -206,10 +206,6 @@ void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 void get_and_set_timers(EnemyActionsEventGenerator* ev_gen, EnemyActionsFSM* fsm) {
 
 	ev_gen->set_attacking_timer(fsm->get_attacking_timer());
-	ev_gen->set_falling_timer(fsm->get_falling_timer());
-	ev_gen->set_jumping_forward_timer(fsm->get_jumping_forward_timer());
-	ev_gen->set_jumping_timer(fsm->get_jumping_timer());
-	ev_gen->set_walking_timer(fsm->get_walking_timer());
 
 	ev_gen->set_frozen_timer(fsm->get_frozen_timer());
 	ev_gen->set_freezing_timer(fsm->get_freezing_timer());

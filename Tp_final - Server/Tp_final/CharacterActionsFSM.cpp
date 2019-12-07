@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Enemy.h"
 
-#define DOUBLE_FPS_SPEED	1/120.0
 void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
@@ -65,17 +64,13 @@ void CharacterActionsFSM::set_processes() {
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
-	walking_left_process.push_back(std::make_pair(Direction_type::Left, DOUBLE_FPS_SPEED));
-	walking_right_process.push_back(std::make_pair(Direction_type::Right, DOUBLE_FPS_SPEED));
+	walking_left_process.push_back(std::make_pair(Direction_type::Left, 1/120.0));
+	walking_right_process.push_back(std::make_pair(Direction_type::Right, 1 / 120.0));
 
 }
 
 void CharacterActionsFSM::create_all_timers() {
 	
-	create_timer(&walking_timer);
-	create_timer(&jumping_timer);
-	create_timer(&jumping_forward_timer);
-	create_timer(&falling_timer);
 	create_timer(&attacking_timer);
 
 }
@@ -154,7 +149,7 @@ void CharacterActionsFSM::start_jumping_forward(){
 	else if (curr_jump->jumping_direction == Direction_type::Jump_Left)
 		set_curr_process(&jumping_left_process);
 
-	set_curr_timer_and_start(jumping_forward_timer);
+	//set_curr_timer_and_start(jumping_forward_timer);
 
 }
 
@@ -165,7 +160,7 @@ void CharacterActionsFSM::start_attacking(){
 void CharacterActionsFSM::start_falling() {
 
 	set_curr_process(&falling_process);
-	set_curr_timer_and_start(falling_timer);
+	//set_curr_timer_and_start(falling_timer);
 
 }
 
@@ -173,20 +168,6 @@ void CharacterActionsFSM::stop_action(){
 	stop_curr_timer();
 }
 
-ALLEGRO_TIMER * CharacterActionsFSM::get_walking_timer(){
-	return walking_timer;
-}
-
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_timer(){
-	return jumping_timer;
-}
-
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_forward_timer(){
-	return jumping_forward_timer;
-}
-ALLEGRO_TIMER * CharacterActionsFSM::get_falling_timer(){
-	return falling_timer;
-}
 ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer(){
 	return attacking_timer;
 }
@@ -210,12 +191,12 @@ void CharacterActionsFSM::start_walking(){
 	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
 
-	set_curr_timer_and_start(walking_timer);
+
 }
 
 void CharacterActionsFSM::start_jumping() {
 	set_curr_process(&jumping_process);
-	set_curr_timer_and_start(jumping_timer);
+	//set_curr_timer_and_start(jumping_timer);
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){

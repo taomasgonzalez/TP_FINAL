@@ -47,10 +47,6 @@ public:
 
 	void stop_action();
 
-	ALLEGRO_TIMER* get_walking_timer();
-	ALLEGRO_TIMER* get_jumping_timer();
-	ALLEGRO_TIMER* get_jumping_forward_timer();
-	ALLEGRO_TIMER* get_falling_timer();
 	ALLEGRO_TIMER* get_attacking_timer();
 
 protected:
@@ -80,10 +76,6 @@ private:
 	process_t walking_right_process;
 
 
-	ALLEGRO_TIMER* walking_timer = NULL;
-	ALLEGRO_TIMER* jumping_timer = NULL;
-	ALLEGRO_TIMER* jumping_forward_timer = NULL;
-	ALLEGRO_TIMER* falling_timer = NULL;
 	ALLEGRO_TIMER* attacking_timer = NULL;
 
 	bool finished_logical_movement();

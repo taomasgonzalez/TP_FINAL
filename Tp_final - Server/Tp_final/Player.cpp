@@ -52,10 +52,6 @@ void Player::lose_life()
 void get_and_set_timers(PlayerActionsEventGenerator* ev_gen, PlayerActionsFSM* fsm) {
 
 	ev_gen->set_attacking_timer(fsm->get_attacking_timer());
-	ev_gen->set_falling_timer(fsm->get_falling_timer());
-	ev_gen->set_jumping_forward_timer(fsm->get_jumping_forward_timer());
-	ev_gen->set_jumping_timer(fsm->get_jumping_timer());
-	ev_gen->set_walking_timer(fsm->get_walking_timer());
 
 	ev_gen->set_pushing_timer(fsm->get_pushing_timer());
 }
