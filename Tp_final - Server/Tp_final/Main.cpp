@@ -7,16 +7,13 @@ int main(void) {
 
 	Resources my_resources = Resources();
 
-	// if (!my_resources.initialize_all_the_resources()) {
+	 //if (!my_resources.initialize_all_the_resources()) {
 	if (!my_resources.initialize_all_the_resources(false)) {
 		printf("Error al inicializar los recursos\n");
 		getchar();
 		return 0;
 	}
-	// ahora salteo el handshake
-	else {
-		
-	}
+
 	my_resources.my_graphic_event_handler->get_ev_gen()->append_new_event(new GAME_START_EventPackage(), 0);
 
 	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
