@@ -45,7 +45,6 @@ void CharacterSceneObserver::update() {
 
 void CharacterSceneObserver::kill_character() {
 	ev_gen->append_new_event(new DIED_EventPackage(), 0);
-
 }
 
 void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
@@ -53,7 +52,7 @@ void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
 	action->final_pos_y = character->pos_y;
 
 	if (action->my_direction == Direction_type::Right)
-		action->final_pos_x = character->pos_x;
+		action->final_pos_x += 1;
 	else if (action->my_direction == Direction_type::Jump_Straight)
 		action->final_pos_y = character->pos_y + 1;
 	else if (action->my_direction == Direction_type::Left)

@@ -16,9 +16,9 @@ protected:
 	Scene * scenario = NULL;
 	CharacterActionsFSM* fsm = NULL;
 	CharacterActionsEventGenerator* ev_gen = NULL;
+	void kill_character();
 private:
 	Character* character = NULL;
-	void kill_character();
 	void direction_to_deltas(Action_info* action);
 
 };
