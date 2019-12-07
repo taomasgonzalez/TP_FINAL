@@ -15,44 +15,49 @@ PlayerActionsFSMDRAWObserver::~PlayerActionsFSMDRAWObserver()
 }
 
 void PlayerActionsFSMDRAWObserver::update() {
-	Direction dir = get_character_graph_direction(player->get_sense());
-
+	Direction dir;
 	if (fsm->obs_info.start_walking_graph) {
-		
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(fsm->get_fsm_ev_pack());
-		Direction dir = get_character_graph_direction(ev_pack->give_me_your_direction());
 		drawer->startDraw(player_WALKING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_WALKING;
 	}
 	else if (fsm->obs_info.start_attacking_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_ATTACKING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_ATTACKING;
 	}
 	else if (fsm->obs_info.start_falling_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_FALLING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_FALLING;
 	}
 
 	else if (fsm->obs_info.start_jumping_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_JUMPING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_JUMPING;
 	}
 
 	else if (fsm->obs_info.start_jumping_forward_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_JUMPING_FOWARD, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_JUMPING_FOWARD;
 	}
 
 	else if (fsm->obs_info.dying_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_DYING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_DYING;
 	}
 
 	else if (fsm->obs_info.reset_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_IDLE;
 	}
 	else if (fsm->obs_info.start_pushing_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_PUSHING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_PUSHING;
 	}

@@ -291,7 +291,6 @@
     <ClInclude Include="Userdata.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram3.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

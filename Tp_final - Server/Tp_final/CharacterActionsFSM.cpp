@@ -221,7 +221,7 @@ void CharacterActionsFSM::start_jumping() {
 void CharacterActionsFSM::end_if_should_end_movement(){
 	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
-	notify_obs();
+	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
 	if (obs_answers.should_interrupt_movement) {
@@ -281,10 +281,10 @@ void start_walking_r(void* data) {
 
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
 	EventPackage *ev_pack = fsm->get_fsm_ev_pack();
+	fsm->start_walking();
 	(fsm->obs_info).start_walking_graph = true;
 	fsm->notify_obs();
 	(fsm->obs_info).start_walking_graph = false;
-	fsm->start_walking();
 
 }
 void check_walking_and_walk(void* data) {

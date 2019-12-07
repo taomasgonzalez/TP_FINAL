@@ -437,7 +437,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -617,9 +616,6 @@
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicServerFSM.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMFactory.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicFSMRoutines.cpp">
