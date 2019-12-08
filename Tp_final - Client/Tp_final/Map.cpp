@@ -275,7 +275,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 {
 	bool appropiate_coordinates = false;
 
-	if ((coord_x <= 17) && (coord_x >= 0)&&(coord_y <= 11) && (coord_y >= 0)) //check if they were send appropiate coordinates  
+	if ((coord_x <= 17) && (coord_x >= 0) && (coord_y <= 11) && (coord_y >= 0)) //check if they were send appropiate coordinates
 		appropiate_coordinates = true;
 
 	if (appropiate_coordinates)
@@ -328,10 +328,14 @@ std::vector<Proyectile*> Map::get_cell_proyectiles(int coord_x, int coord_y) {
 */
 MapThing * Map::get_from_map(unsigned int id) {
 	MapThing* gotten = NULL;
-	for (int i = 0; i < number_of_rows; i++)
+	for (int i = 0; i < number_of_columns; i++)
 	{
-		for (int j = 0; j < number_of_columns; j++)
+		for (int j = 0; j < number_of_rows; j++)
 		{
+			string temp1 = to_string(i);
+			string temp2 = to_string(j);
+
+			cout << "x: " << temp1 << ", y: " << temp2;
 			if ((gotten = get_cell(i, j)->get_id(id)) != NULL)
 				break;
 		}
@@ -371,8 +375,8 @@ MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
 */
 bool Map::delete_from_map(unsigned int id) {
 
-	for (int i = 0; i < number_of_rows; i++)
-		for (int j = 0; j < number_of_columns; j++){
+	for (int i = 0; i < number_of_columns; i++)
+		for (int j = 0; j < number_of_rows; j++){
 			MapThing* thing = get_cell(i, j)->get_id(id);
 			if(thing != NULL)
 				return delete_from_map(thing);
@@ -528,17 +532,10 @@ bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
 */
 void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
 
-	string temp1 = to_string(coord_x);
-	string temp2 = to_string(coord_y);
-
-	cout << "x: " << temp1 << ", y: " << temp2;
-
 	map_cells[coord_x][coord_y].place_on_cell(thing);
 	thing->pos_x = coord_x;
 	thing->pos_y = coord_y;
 	place_on_map_thing_vectors(thing);
-
-	cout << ", " << map_cells[coord_x][coord_y].has_floor() << endl;
 	
 }
 /******************************************
