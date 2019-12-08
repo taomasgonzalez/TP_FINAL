@@ -134,7 +134,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 	Position extern_destination;
 	Direction_type my_direction;
 
-	extern_destination.fil = move_to_be_executed->final_pos_x;
+	extern_destination.fil = move_to_be_executed->final_pos_x;		//CAMBIO ACA
 	extern_destination.col = move_to_be_executed->final_pos_y;
 	my_direction = move_to_be_executed->my_direction;
 	the_one_that_moves = get_player(move_to_be_executed->my_character);
@@ -505,8 +505,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 		the_one_that_moves = get_player(other_player);
 		action_to_be_loaded_id = the_one_that_moves->id;
 
-		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
-		extern_destination.col = Action_info_to_be_checked->final_pos_y;
+		extern_destination.fil = Action_info_to_be_checked->final_pos_y;
+		extern_destination.col = Action_info_to_be_checked->final_pos_x;
 
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
 		my_direction = Action_info_to_be_checked->my_direction;
@@ -540,7 +540,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 			delta = 1;
 			is_the_move_possible = Action_info_to_be_checked->is_local ?
 				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
-				maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
+				maps[actual_map]->cell_has_floor(extern_destination.col, extern_destination.fil);
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x + delta;

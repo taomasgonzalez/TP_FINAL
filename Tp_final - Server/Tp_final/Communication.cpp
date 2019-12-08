@@ -310,7 +310,7 @@ Package * Communication::receiveMessage() {
 
 		case Package_type::ACTION_REQUEST:
 
-			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2]-48, buf[3]-48);
+			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2] - 48, buf[3] - 48);
 
 			break;
 
