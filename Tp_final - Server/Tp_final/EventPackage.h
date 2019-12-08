@@ -101,8 +101,8 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	PARTIALLY_UNFROZE,
 	BOUNCE,
 	ROLLING,
-	CHARGING
-
+	CHARGING,
+	FINISHED_GRAPH_STEP
 };
 
 
@@ -542,4 +542,10 @@ class UNFROZE_EventPackage : public EventPackage {
 public:
 	UNFROZE_EventPackage();
 	~UNFROZE_EventPackage();
+};
+
+class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {
+public:
+	FINISHED_GRAPH_STEP_EventPackage();
+	~FINISHED_GRAPH_STEP_EventPackage();
 };

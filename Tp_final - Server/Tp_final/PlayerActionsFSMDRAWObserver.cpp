@@ -16,9 +16,15 @@ PlayerActionsFSMDRAWObserver::~PlayerActionsFSMDRAWObserver()
 
 void PlayerActionsFSMDRAWObserver::update() {
 	Direction dir;
+
+	if (first_update) {
+		drawer->add_observer(player->id, this);
+		first_update = false;
+	}
+
 	if (fsm->obs_info.start_walking_graph) {
 		dir = get_character_graph_direction(fsm->get_current_action_direction());
-		MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(fsm->get_fsm_ev_pack());
+		player->set_sense(dir_to_sense(fsm->get_current_action_direction()));
 		drawer->startDraw(player_WALKING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_WALKING;
 	}
@@ -52,8 +58,10 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 
 	else if (fsm->obs_info.reset_graph) {
-		dir = get_character_graph_direction(fsm->get_current_action_direction());
-		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
+		dir = get_character_graph_direction(player->get_sense());
+		//drawer->startDraw(player_IDLE, player->id, dir, player->pos_y, player->pos_x);
+		//drawer->startDraw(player_IDLE, player->id, dir, player->pos_y, player->pos_x);
+		drawer->startDraw(player_IDLE, player->id, dir, 11, 11);
 		curr_state = player_IDLE;
 	}
 	else if (fsm->obs_info.start_pushing_graph) {
@@ -72,6 +80,9 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 	else if (fsm->obs_info.interrupt_attack) {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
+	}
+	else if (drawer->finished_drawing_step(player->id)) {
+		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
 	}
 }
 
@@ -108,3 +119,18 @@ Direction PlayerActionsFSMDRAWObserver::get_character_graph_direction(Direction_
 	return returnable;
 }
 
+Sense_type PlayerActionsFSMDRAWObserver::dir_to_sense(Direction_type sense) {
+	Sense_type returnable = Sense_type::None;
+	switch (sense) {
+	case Direction_type::Left:
+		returnable = Sense_type::Left;
+		break;
+	case Direction_type::Right:
+		returnable = Sense_type::Right;
+		break;
+	default:
+		returnable = Sense_type::None;
+		break;
+	}
+	return returnable;
+}

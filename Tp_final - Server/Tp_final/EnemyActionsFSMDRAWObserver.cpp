@@ -17,6 +17,10 @@ EnemyActionsFSMDRAWObserver::~EnemyActionsFSMDRAWObserver()
 void EnemyActionsFSMDRAWObserver::update() {
 	Direction dir = get_character_graph_direction(enemy->get_sense());
 
+	if (first_update) {
+		drawer->add_observer(enemy->id, this);
+		first_update = false;
+	}
 	if (fsm->obs_info.start_walking_graph) {
 		drawer->startDraw(enemy_WALKING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_WALKING;

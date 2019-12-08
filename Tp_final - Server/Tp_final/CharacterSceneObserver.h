@@ -17,8 +17,8 @@ protected:
 	CharacterActionsFSM* fsm = NULL;
 	CharacterActionsEventGenerator* ev_gen = NULL;
 	void kill_character();
-private:
 	Character* character = NULL;
+private:
 	void direction_to_deltas(Action_info* action);
 
 };

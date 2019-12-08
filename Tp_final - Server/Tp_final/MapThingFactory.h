@@ -36,7 +36,6 @@ private:
 	ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue;
 
 	MapThing* last_created_map_thing = NULL;
-
 };
 
 

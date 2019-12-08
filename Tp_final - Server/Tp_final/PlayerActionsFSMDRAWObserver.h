@@ -21,6 +21,8 @@ private:
 
 	Direction get_character_graph_direction(Sense_type sense);
 	Direction get_character_graph_direction(Direction_type direction);
+	Sense_type dir_to_sense(Direction_type sense);
 	PLAYER_STATE curr_state;
+	bool first_update = true;
 };
 

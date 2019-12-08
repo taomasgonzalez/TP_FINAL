@@ -12,6 +12,7 @@ PlayerSceneObserver::~PlayerSceneObserver()
 }
 void PlayerSceneObserver::perform_movement(Action_info action) {
 	bool should_die = false;
+	action.my_character = character->get_printable();
 	scenario->execute_action(&action, should_die);
 
 	if (should_die) 

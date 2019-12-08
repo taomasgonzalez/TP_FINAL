@@ -91,11 +91,14 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
+	iddle_state->push_back({ Event_type::FINISHED_GRAPH_STEP, iddle_state, do_nothing_char });
+	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
+
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
-	walking_state->push_back({ Event_type::MOVE, walking_state, check_walking_and_walk });
+	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
@@ -133,9 +136,8 @@ void CharacterActionsFSM::process_logical_movement()
 
 		}
 	}
-	else
-		//appends a movement finished event to the queue if the graphic part has finished its sequence. 
-		end_if_should_end_movement();
+	//appends a movement finished event to the queue if the graphic part has finished its sequence. 
+	end_if_should_end_movement();
 	
 }
 
@@ -252,7 +254,6 @@ void do_nothing_char(void * data) {
 
 void start_walking_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
-	EventPackage *ev_pack = fsm->get_fsm_ev_pack();
 	fsm->start_walking();
 }
 
@@ -263,6 +264,8 @@ void CharacterActionsFSM::start_walking() {
 		set_curr_process(&walking_right_process);
 	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
+
+	set_fsm_ev_pack(new MOVE_EventPackage(curr_walk->walking_direction));
 
 	if (can_perform_logical_movement()) {
 		obs_info.start_walking_graph = true;
@@ -276,7 +279,6 @@ void check_walking_and_walk(void* data) {
 }
 void reset_walking(void* data) {
 	iddle_graph(data);
-
 }
 
 void start_jumping_r(void* data) {
@@ -357,5 +359,3 @@ void iddle_graph(void * data)
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
 }
-
-

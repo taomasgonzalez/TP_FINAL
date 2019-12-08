@@ -73,7 +73,7 @@ public:
 
 	void append_graphic_facility(void* drawer);
 private:
-	MapCell get_cell(int coord_x, int coord_y);
+	MapCell* get_cell(int coord_x, int coord_y);
 	MapCell ** map_cells;
 
 	int number_of_rows;

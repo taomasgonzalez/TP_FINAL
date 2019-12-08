@@ -150,3 +150,4 @@ void MapCell::set_i_have_variable(Thing_Type type,bool set_to) {
 	else if (type == Thing_Type::PLAYER)
 		i_have_players = set_to;
 }
+

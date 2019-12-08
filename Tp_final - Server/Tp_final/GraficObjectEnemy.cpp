@@ -1,4 +1,5 @@
 #include "GraficObjectEnemy.h"
+#include "EnemyActionsFSMDRAWObserver.h"
 
 using namespace std;
 

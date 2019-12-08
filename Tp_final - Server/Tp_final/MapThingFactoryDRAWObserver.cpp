@@ -1,6 +1,5 @@
 #include "MapThingFactoryDRAWObserver.h"
 
-
 Direction get_graph_direction(Sense_type sense);
 
 MapThingFactoryDRAWObserver::MapThingFactoryDRAWObserver(MapThingFactory* factory)

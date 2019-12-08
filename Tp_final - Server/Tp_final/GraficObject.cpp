@@ -51,3 +51,14 @@ void Obj_Graf::disactiveObj()
 {
 	this->active = false;
 }
+
+bool Obj_Graf::finished_drawing_step() {
+	return finished_step;
+}
+
+
+void Obj_Graf::notify_finished_drawing_step() {
+	finished_step = true;
+	notify_obs();
+	finished_step = false;
+}

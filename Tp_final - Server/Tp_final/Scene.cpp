@@ -178,7 +178,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
 
 	if(move_succesful)
-		maps[actual_map]->move_id(get_player(my_player)->id , extern_destination.fil, extern_destination.col); //
+		maps[actual_map]->move_id(the_one_that_moves->id , extern_destination.fil, extern_destination.col); //
 
 }
 
@@ -832,7 +832,8 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 	Player * player_found = NULL;
 	//usar get_from_map()
 	//std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
-	if ((*curr_players)[0]->get_printable() == player_to_be_found)
+	Item_type player_name = (*curr_players)[0]->get_printable();
+	if (player_name == player_to_be_found)
 		player_found = (*curr_players)[0];
 	else
 		player_found = (*curr_players)[1];

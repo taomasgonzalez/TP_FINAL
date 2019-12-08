@@ -55,3 +55,8 @@ void get_and_set_timers(PlayerActionsEventGenerator* ev_gen, PlayerActionsFSM* f
 
 	ev_gen->set_pushing_timer(fsm->get_pushing_timer());
 }
+
+
+void add_observer_to_fsm(Observer* observer) {
+
+}

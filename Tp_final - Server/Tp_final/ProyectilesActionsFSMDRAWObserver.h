@@ -17,7 +17,7 @@ private:
 	Proyectile* proyectile = NULL;
 	DRAW* drawer = NULL;
 	EventGenerator* ev_gen = NULL;
-
 	PROYECTILE_STATE curr_state;
+	bool first_update = true;
 };
 

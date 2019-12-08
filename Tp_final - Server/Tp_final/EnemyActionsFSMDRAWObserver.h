@@ -14,7 +14,6 @@ public:
 	void update();
 
 private:
-
 	EnemyActionsFSM * fsm = NULL;
 	CharacterActionsEventGenerator* ev_gen = NULL;
 	Enemy* enemy = NULL;
@@ -23,5 +22,6 @@ private:
 	Direction get_character_graph_direction(Sense_type sense);
 
 	ENEMY_STATE curr_state;
+	bool first_update = true;
 };
 
