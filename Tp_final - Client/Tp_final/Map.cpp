@@ -2,6 +2,8 @@
 #include "MapThingFactoryDRAWObserver.h"
 #include<iostream>
 
+#include<string>
+using namespace std;
 Sense_type get_random_sense(void);
 
 Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
@@ -9,21 +11,21 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
 
-	map_cells = new MapCell*[number_of_rows];
-	for (int i = 0; i < number_of_rows; ++i)
-		map_cells[i] = new MapCell[number_of_columns];
-
+	//map_cells = new MapCell*[number_of_rows];
+	//for (int i = 0; i < number_of_rows; ++i)
+	//	map_cells[i] = new MapCell[number_of_columns];
+	map_cells = new MapCell*[number_of_columns];
+	for (int i = 0; i < number_of_columns; ++i)
+		map_cells[i] = new MapCell[number_of_rows];
 	original_distribution = "";
 
 	all_players = new std::vector<Player*>();
-	//this->all_players->push_back(new Player(0, true, Sense_type::Left));
-	//this->all_players->push_back(new Player(1, false, Sense_type::Right));
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
 	map_filler.add_observer(new MapThingFactoryDRAWObserver(&map_filler));
 
-	dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns);
+	//dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns);
 
 }
 
@@ -99,7 +101,7 @@ const char * Map::give_me_the_original_map() {
 	return original_distribution.c_str();
 }
 
-/******************************************
+/******************************************	
 **************give_me_the_checksum*********
 *******************************************
 *give_me_the_checksum
@@ -126,7 +128,7 @@ unsigned char  Map::give_me_the_checksum() {
 *		a boolean that is true if the given cell contains a proyectile. False otherwise. 
 */
 bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).has_proyectiles();
+	return get_cell(coord_x, coord_y)->has_proyectiles();
 }
 /******************************************
 **************cell_has_players*************
@@ -141,7 +143,7 @@ bool Map::cell_has_proyectiles(int coord_x, int coord_y) {
 *		a boolean that is true if the given cell contains a player. False otherwise.
 */
 bool Map::cell_has_players(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).has_players();
+	return get_cell(coord_x, coord_y)->has_players();
 }
 /******************************************
 **************cell_has_enemies*************
@@ -156,7 +158,7 @@ bool Map::cell_has_players(int coord_x, int coord_y) {
 *		a boolean that is true if the given cell contains an enemy. False otherwise.
 */
 bool Map::cell_has_enemies(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).has_enemies();
+	return get_cell(coord_x, coord_y)->has_enemies();
 }
 /******************************************
 **************get_cell*********************
@@ -170,8 +172,8 @@ bool Map::cell_has_enemies(int coord_x, int coord_y) {
 *	OUTPUT:
 *		a MapCell with the characteristics mentioned in the method description.
 */
-MapCell Map::get_cell(int coord_x, int coord_y) {
-	return map_cells[coord_x][coord_y];
+MapCell* Map::get_cell(int coord_x, int coord_y) {
+	return &map_cells[coord_x][coord_y];
 }
 /******************************************
 **************clear************************
@@ -189,7 +191,7 @@ void Map::clear()
 {
 	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++)
-			get_cell(i, j).clear();
+			get_cell(i, j)->clear();
 
 	all_enemies->clear();
 	all_proyectiles->clear();
@@ -207,7 +209,7 @@ void Map::clear()
 *		a vector of Enemy pointers containing all enemies for the given map cell.
 */
 std::vector<Enemy*> Map::get_cell_enemies(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).get_enemies();
+	return get_cell(coord_x, coord_y)->get_enemies();
 }
 /******************************************
 *********cell_has_enemy_proyectiles********
@@ -277,7 +279,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 		appropiate_coordinates = true;
 
 	if (appropiate_coordinates)
-		appropiate_coordinates = !get_cell(coord_x, coord_y).has_floor();
+		appropiate_coordinates = !get_cell(coord_x, coord_y)->has_floor();
 	else
 		std::cout << "Map::cell_has_floor, Inappropiate coordinates received";
 
@@ -297,7 +299,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 *		a vector containing player pointers to all the players that are currently on the given map cell.
 */
 std::vector<Player*> Map::get_cell_players(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).get_players();
+	return get_cell(coord_x, coord_y)->get_players();
 }
 /******************************************
 *************get_cell_proyectiles**********
@@ -313,7 +315,7 @@ std::vector<Player*> Map::get_cell_players(int coord_x, int coord_y) {
 *		a vector containing proyectiles pointers to all the proyectiles that are currently on the given map cell.
 */
 std::vector<Proyectile*> Map::get_cell_proyectiles(int coord_x, int coord_y) {
-	return get_cell(coord_x, coord_y).get_proyectiles();
+	return get_cell(coord_x, coord_y)->get_proyectiles();
 }
 /******************************************
 **************get_from_map*****************
@@ -330,7 +332,7 @@ MapThing * Map::get_from_map(unsigned int id) {
 	{
 		for (int j = 0; j < number_of_columns; j++)
 		{
-			if ((gotten = get_cell(i, j).get_id(id)) != NULL)
+			if ((gotten = get_cell(i, j)->get_id(id)) != NULL)
 				break;
 		}
 		if (gotten!=NULL)
@@ -355,7 +357,7 @@ MapThing * Map::get_from_map(unsigned int id) {
 */
 MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
 {
-	return get_cell(coord_x, coord_y).get_floor(coord_z);
+	return get_cell(coord_x, coord_y)->get_floor(coord_z);
 }
 /******************************************
 **************delete_from_map**************
@@ -371,7 +373,7 @@ bool Map::delete_from_map(unsigned int id) {
 
 	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++){
-			MapThing* thing = get_cell(i, j).get_id(id);
+			MapThing* thing = get_cell(i, j)->get_id(id);
 			if(thing != NULL)
 				return delete_from_map(thing);
 		}
@@ -391,7 +393,7 @@ bool Map::delete_from_map(MapThing * thing) {
 
 	bool successfully_deleted = false;
 
-	if (successfully_deleted = get_cell(thing->pos_x, thing->pos_y).delete_map_thing(thing)){
+	if (successfully_deleted = get_cell(thing->pos_x, thing->pos_y)->delete_map_thing(thing)){
 		delete_from_map_thing_vectors(thing);
 		thing->pos_x = -1;
 		thing->pos_y = -1;
@@ -411,7 +413,7 @@ bool Map::delete_from_map(MapThing * thing) {
 */
 void Map::print_cell(int coord_x, int coord_y)
 {
-	get_cell(coord_x, coord_y).print();
+	get_cell(coord_x, coord_y)->print();
 }
 /******************************************
 ************get_last_loaded_distribution***
@@ -525,11 +527,18 @@ bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
 *		void.
 */
 void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
-	MapCell cell = get_cell(coord_x, coord_y);
-	cell.place_on_cell(thing);
+
+	string temp1 = to_string(coord_x);
+	string temp2 = to_string(coord_y);
+
+	cout << "x: " << temp1 << ", y: " << temp2;
+
+	map_cells[coord_x][coord_y].place_on_cell(thing);
 	thing->pos_x = coord_x;
 	thing->pos_y = coord_y;
 	place_on_map_thing_vectors(thing);
+
+	cout << ", " << map_cells[coord_x][coord_y].has_floor() << endl;
 	
 }
 /******************************************
@@ -560,10 +569,10 @@ void Map::print_map() {
 		printf("FLOOR %u : \n", z);
 		for (int x = 0; x < number_of_rows; x++)
 			for (int y = 0; y < number_of_columns; y++) {
-				MapCell curr_cell = get_cell(x, y);
-				int num_floors = curr_cell.get_number_of_floors();
+				MapCell* curr_cell = get_cell(x, y);
+				int num_floors = curr_cell->get_number_of_floors();
 				if (num_floors >= z)
-					printf("%c", curr_cell.get_floor(z)->get_printable());
+					printf("%c", curr_cell->get_floor(z)->get_printable());
 				else
 					printf(" ");
 			}
@@ -589,7 +598,7 @@ int Map::get_max_number_of_floors() {
 	for (int i = 0; i < number_of_rows; i++)
 		for (int j = 0; j < number_of_columns; j++) {
 			int curr = 0;
-			if ((curr = get_cell(i, j).get_number_of_floors()) > max_number_of_floors)
+			if ((curr = get_cell(i, j)->get_number_of_floors()) > max_number_of_floors)
 				max_number_of_floors = curr;
 		}
 
@@ -608,11 +617,12 @@ int Map::get_max_number_of_floors() {
 void Map::load_on_map(const char* map_string, void* scenario) {
 	original_distribution = map_string;
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
-		int fil = i / number_of_columns;
-		int col = i % number_of_columns;
-		MapThing * new_thing = map_filler.create_map_thing(fil, col, (Item_type)map_string[i], get_random_sense(), scenario);		
-		place_on_map(fil, col, new_thing);
+		int x = i % number_of_columns;			//version correcta en teoria
+		int y = i / number_of_columns;
+		MapThing * new_thing = map_filler.create_map_thing(x, y, (Item_type)map_string[i], get_random_sense(), scenario);
+		place_on_map(x, y, new_thing);
 	}
+	
 	//dijkstra_manager->load_on_machine(map_string);
 }
 

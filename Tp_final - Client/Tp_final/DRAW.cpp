@@ -147,10 +147,17 @@ void DRAW::drawLevel()
 
 void DRAW::activeObj(unsigned int ID)
 {
-	this->mapObjGraf[ID]->activeObj();
+	mapObjGraf[ID]->activeObj();
 }
 
 void DRAW::disactiveObj(unsigned int ID)
 {
-	this->mapObjGraf[ID]->disactiveObj();
+	mapObjGraf[ID]->disactiveObj();
+}
+bool DRAW::finished_drawing_step(unsigned int ID)
+{
+	return mapObjGraf[ID]->finished_drawing_step();
+}
+void DRAW::add_observer(unsigned int ID, Observer* observers) {
+	mapObjGraf[ID]->add_observer(observers);
 }

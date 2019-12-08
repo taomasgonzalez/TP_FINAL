@@ -19,7 +19,7 @@ public:
 	void destroy();
 	void reset();
 	bool secuenceOver();
-
+	
 private:
 	PROYECTILE_TYPE type;
 	PROYECTILE_STATE state;

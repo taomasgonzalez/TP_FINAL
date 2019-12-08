@@ -9,18 +9,18 @@ Obj_Graf_Projectile::Obj_Graf_Projectile()
 
 Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* container) : Obj_Graf(ID)
 {
-	this->actualImage = 0;
-	this->actualImpactImage = 0;
-	this->actualDecayImage = 0;
+	actualImage = 0;
+	actualImpactImage = 0;
+	actualDecayImage = 0;
 	this->type = type;
 	switch (type)
 	{
 	case SNOW:
-		this->velX = VEL_SNOW;
+		velX = VEL_SNOW;
 		images = &container->my_projectile_images_container.snowball;
 		break;
 	case FIRE:
-		this->velX = VEL_FIRE;
+		velX = VEL_FIRE;
 		images = &container->my_projectile_images_container.fire;
 		break;
 	}
@@ -34,7 +34,7 @@ Obj_Graf_Projectile::~Obj_Graf_Projectile()
 
 void Obj_Graf_Projectile::draw()
 {
-	switch (this->state) {
+	switch (state) {
 	case proy_MOVING:
 		handle_moving(this->type);			//checked
 		break;
@@ -53,13 +53,13 @@ void Obj_Graf_Projectile::draw()
 
 void Obj_Graf_Projectile::startDraw(Direction dir, void *state, POINT_& pos)
 {
-	this->active = true;
+	active = true;
 	this->dir = dir;
 	this->pos = pos;
-	this->InitalPos = pos;
+	InitalPos = pos;
 	this->state = *(PROYECTILE_STATE *)state;
-	this->actualImage = 0;			// comienza con la primera imagen
-	this->secuenceOver_ = false;
+	actualImage = 0;			// comienza con la primera imagen
+	secuenceOver_ = false;
 }
 
 void Obj_Graf_Projectile::destroy()

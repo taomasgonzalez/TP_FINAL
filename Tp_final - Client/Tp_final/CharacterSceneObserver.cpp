@@ -24,8 +24,8 @@ void CharacterSceneObserver::update() {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
 	if (fsm->obs_questions.can_perform_movement) {
-		MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(fsm->get_fsm_ev_pack());
-		Action_info info = ev_pack->to_Action_info();
+		MOVE_EventPackage ev_pack;
+		Action_info info = ev_pack.to_Action_info();
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
 		direction_to_deltas(&info);
@@ -33,8 +33,8 @@ void CharacterSceneObserver::update() {
 	}
 	if (fsm->obs_info.perform_logical_movement) {
 		
-		MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(fsm->get_fsm_ev_pack());
-		Action_info info = ev_pack->to_Action_info();
+		MOVE_EventPackage ev_pack;
+		Action_info info = ev_pack.to_Action_info();
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
 		direction_to_deltas(&info);
@@ -45,7 +45,6 @@ void CharacterSceneObserver::update() {
 
 void CharacterSceneObserver::kill_character() {
 	ev_gen->append_new_event(new DIED_EventPackage(), 0);
-
 }
 
 void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
@@ -53,7 +52,7 @@ void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
 	action->final_pos_y = character->pos_y;
 
 	if (action->my_direction == Direction_type::Right)
-		action->final_pos_x = character->pos_x;
+		action->final_pos_x += 1;
 	else if (action->my_direction == Direction_type::Jump_Straight)
 		action->final_pos_y = character->pos_y + 1;
 	else if (action->my_direction == Direction_type::Left)

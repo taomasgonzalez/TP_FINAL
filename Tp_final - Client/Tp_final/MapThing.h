@@ -28,6 +28,7 @@ public:
 	int pos_x;
 	int pos_y;
 
+	
 protected:
 	Item_type printable;
 	Sense_type my_sense;

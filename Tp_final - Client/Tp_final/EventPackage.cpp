@@ -693,3 +693,11 @@ UNFROZE_EventPackage::UNFROZE_EventPackage() :EventPackage(Event_type::UNFROZE, 
 UNFROZE_EventPackage::~UNFROZE_EventPackage() {
 
 }
+
+
+FINISHED_GRAPH_STEP_EventPackage::FINISHED_GRAPH_STEP_EventPackage() : EventPackage(Event_type::FINISHED_GRAPH_STEP, true){
+
+}
+FINISHED_GRAPH_STEP_EventPackage::~FINISHED_GRAPH_STEP_EventPackage() {
+
+}

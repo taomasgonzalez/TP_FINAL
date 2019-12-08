@@ -7,7 +7,7 @@
 #include <vector>
 #include "ImageContainer.h"
 #include "AllegroClass.h"
-
+#include "Observer.h"
 /*
 
 #define SCREEN_W (16*BLOCK_SIZE)
@@ -37,6 +37,8 @@ public:
 	void reset(unsigned int ID);
 	void activeObj(unsigned int ID);
 	void disactiveObj(unsigned int ID);
+	bool finished_drawing_step(unsigned int ID);
+	void add_observer(unsigned int ID, Observer* observers);
 
 private:
 	map<unsigned int, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
@@ -55,8 +57,8 @@ template<typename T>
 inline void DRAW::startDraw(T state, unsigned int ID, Direction dir, int x, int y)
 {
 	POINT_ pos;
-	pos.set_x_coord(y*BLOCK_SIZE);
-	pos.set_y_coord(x*BLOCK_SIZE);
+	pos.set_x_coord(x*BLOCK_SIZE);
+	pos.set_y_coord(y*BLOCK_SIZE);
 	void *vp;
 	vp = &state;
 	mapObjGraf[ID]->startDraw(dir, vp, pos);

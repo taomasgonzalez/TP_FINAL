@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Enemy.h"
 
-#define DOUBLE_FPS_SPEED	1/120.0
 void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
@@ -65,17 +64,13 @@ void CharacterActionsFSM::set_processes() {
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
-	walking_left_process.push_back(std::make_pair(Direction_type::Left, DOUBLE_FPS_SPEED));
-	walking_right_process.push_back(std::make_pair(Direction_type::Right, DOUBLE_FPS_SPEED));
+	walking_left_process.push_back(std::make_pair(Direction_type::Left, 1/120.0));
+	walking_right_process.push_back(std::make_pair(Direction_type::Right, 1 / 120.0));
 
 }
 
 void CharacterActionsFSM::create_all_timers() {
 	
-	create_timer(&walking_timer);
-	create_timer(&jumping_timer);
-	create_timer(&jumping_forward_timer);
-	create_timer(&falling_timer);
 	create_timer(&attacking_timer);
 
 }
@@ -96,11 +91,14 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
+	iddle_state->push_back({ Event_type::FINISHED_GRAPH_STEP, iddle_state, do_nothing_char });
+	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
+
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
-	walking_state->push_back({ Event_type::MOVE, walking_state, check_walking_and_walk });
+	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
@@ -130,12 +128,17 @@ void CharacterActionsFSM::kill_character() {
 
 void CharacterActionsFSM::process_logical_movement()
 {
-	if (!finished_logical_movement()){
-		if (can_perform_logical_movement())
-			continue_logical_movement();
-	}
-	end_if_should_end_movement();
+	
+	if(!finished_logical_movement()){			//do i have any more sub-movements to perform?
+		if (can_perform_logical_movement())		//can i perform this sub-movement? Do the game conditions enable me to do so?
+			continue_logical_movement();		//if so, perform the movement.
+		else {
 
+		}
+	}
+	//appends a movement finished event to the queue if the graphic part has finished its sequence. 
+	end_if_should_end_movement();
+	
 }
 
 void CharacterActionsFSM::process_logical_attack(){
@@ -145,7 +148,6 @@ void CharacterActionsFSM::process_logical_attack(){
 	end_if_should_end_attack();
 }
 
-
 void CharacterActionsFSM::start_jumping_forward(){
 	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
 
@@ -154,7 +156,7 @@ void CharacterActionsFSM::start_jumping_forward(){
 	else if (curr_jump->jumping_direction == Direction_type::Jump_Left)
 		set_curr_process(&jumping_left_process);
 
-	set_curr_timer_and_start(jumping_forward_timer);
+	//set_curr_timer_and_start(jumping_forward_timer);
 
 }
 
@@ -165,7 +167,7 @@ void CharacterActionsFSM::start_attacking(){
 void CharacterActionsFSM::start_falling() {
 
 	set_curr_process(&falling_process);
-	set_curr_timer_and_start(falling_timer);
+	//set_curr_timer_and_start(falling_timer);
 
 }
 
@@ -173,49 +175,22 @@ void CharacterActionsFSM::stop_action(){
 	stop_curr_timer();
 }
 
-ALLEGRO_TIMER * CharacterActionsFSM::get_walking_timer(){
-	return walking_timer;
-}
-
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_timer(){
-	return jumping_timer;
-}
-
-ALLEGRO_TIMER * CharacterActionsFSM::get_jumping_forward_timer(){
-	return jumping_forward_timer;
-}
-ALLEGRO_TIMER * CharacterActionsFSM::get_falling_timer(){
-	return falling_timer;
-}
 ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer(){
 	return attacking_timer;
 }
 void CharacterActionsFSM::continue_logical_movement(){
 
 	obs_info.perform_logical_movement = true;
-	notify_obs();
+	notify_obs();						//CharacterSceneObserver
 	obs_info.perform_logical_movement = false;
 
 	++current_moving_iteration;
-
-	if(!finished_logical_movement())
-		set_curr_timer_speed((*current_moving_iteration).second);
 }
 
-void CharacterActionsFSM::start_walking(){
-	WALKED_EventPackage * curr_walk = (WALKED_EventPackage*)get_fsm_ev_pack();
 
-	if (curr_walk->walking_direction == Direction_type::Right)
-		set_curr_process(&walking_right_process);
-	else if (curr_walk->walking_direction == Direction_type::Left)
-		set_curr_process(&walking_left_process);
-
-	set_curr_timer_and_start(walking_timer);
-}
 
 void CharacterActionsFSM::start_jumping() {
 	set_curr_process(&jumping_process);
-	set_curr_timer_and_start(jumping_timer);
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){
@@ -226,7 +201,7 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 
 	if (obs_answers.should_interrupt_movement) {
 		obs_info.interrupt_movement = true;
-		notify_obs();
+		notify_obs();				
 		obs_info.interrupt_movement = false;
 		stop_curr_timer();
 	}
@@ -253,7 +228,7 @@ bool CharacterActionsFSM::can_perform_logical_movement(){
 
 	#pragma message("Germo tiene que verificar si se puede ejecutar este movimiento desde escena. Este observer es CharacterSceneObserver")
 	obs_questions.can_perform_movement = true;
-	notify_obs();
+	notify_obs();				//CharacterSceneObserver
 	#pragma message("Debería editar obs_answers.can_perform_movement desde escena?")
 
 	this->obs_questions.can_perform_movement = false;
@@ -278,14 +253,25 @@ void do_nothing_char(void * data) {
 }
 
 void start_walking_r(void* data) {
-
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
-	EventPackage *ev_pack = fsm->get_fsm_ev_pack();
 	fsm->start_walking();
-	(fsm->obs_info).start_walking_graph = true;
-	fsm->notify_obs();
-	(fsm->obs_info).start_walking_graph = false;
+}
 
+void CharacterActionsFSM::start_walking() {
+	WALKED_EventPackage * curr_walk = (WALKED_EventPackage*)get_fsm_ev_pack();
+	
+	if (curr_walk->walking_direction == Direction_type::Right)
+		set_curr_process(&walking_right_process);
+	else if (curr_walk->walking_direction == Direction_type::Left)
+		set_curr_process(&walking_left_process);
+
+	set_fsm_ev_pack(new MOVE_EventPackage(curr_walk->walking_direction));
+
+	if (can_perform_logical_movement()) {
+		obs_info.start_walking_graph = true;
+		notify_obs();
+		obs_info.start_walking_graph = false;
+	}
 }
 void check_walking_and_walk(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
@@ -293,7 +279,6 @@ void check_walking_and_walk(void* data) {
 }
 void reset_walking(void* data) {
 	iddle_graph(data);
-
 }
 
 void start_jumping_r(void* data) {
@@ -374,5 +359,3 @@ void iddle_graph(void * data)
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
 }
-
-

@@ -63,6 +63,3 @@ Sense_type MapThing::get_sense() {
 	return this->my_sense;
 }
 
-
-
-

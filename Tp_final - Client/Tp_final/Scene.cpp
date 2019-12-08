@@ -178,7 +178,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
 
 	if(move_succesful)
-		maps[actual_map]->move_id(get_player(my_player)->id , extern_destination.fil, extern_destination.col); //
+		maps[actual_map]->move_id(the_one_that_moves->id , extern_destination.fil, extern_destination.col); //
 
 }
 
@@ -539,7 +539,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 		case Direction_type::Right:
 			delta = 1;
 			is_the_move_possible = Action_info_to_be_checked->is_local ?
-				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y + delta) :
+				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
 				maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
 			if (Action_info_to_be_checked->is_local)
 			{
@@ -599,15 +599,15 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 
 	Direction_type my_direction;
 
-	if ((extern_destination->fil == the_one_that_moves->pos_x) && (extern_destination->col < the_one_that_moves->pos_y)) //Left
+	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) //Left
 		my_direction = Direction_type::Left;
-	else if ((extern_destination->fil == the_one_that_moves->pos_x) && (extern_destination->col > the_one_that_moves->pos_y)) //Right
+	else if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) //Right
 		my_direction = Direction_type::Right;
-	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col == the_one_that_moves->pos_y)) //Jump_Straight
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) //Jump_Straight
 		my_direction = Direction_type::Jump_Straight;
-	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col < the_one_that_moves->pos_y)) //Jump_Left
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) //Jump_Left
 		my_direction = Direction_type::Jump_Left;
-	else if ((extern_destination->fil < the_one_that_moves->pos_x) && (extern_destination->col > the_one_that_moves->pos_y)) //Jump_Right
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) //Jump_Right
 		my_direction = Direction_type::Jump_Right;
 	//defecto, ARREGLAR
 	else
@@ -832,7 +832,8 @@ Player * Scene::get_player(Item_type player_to_be_found) {
 	Player * player_found = NULL;
 	//usar get_from_map()
 	//std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
-	if ((*curr_players)[0]->get_printable() == player_to_be_found)
+	Item_type player_name = (*curr_players)[0]->get_printable();
+	if (player_name == player_to_be_found)
 		player_found = (*curr_players)[0];
 	else
 		player_found = (*curr_players)[1];

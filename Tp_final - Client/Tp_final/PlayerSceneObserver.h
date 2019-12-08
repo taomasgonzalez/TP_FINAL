@@ -8,5 +8,6 @@ public:
 
 	void perform_movement(Action_info action);
 
+private:
 };
 

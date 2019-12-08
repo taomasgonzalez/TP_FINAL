@@ -17,6 +17,11 @@ ProyectilesActionsFSMDRAWObserver::~ProyectilesActionsFSMDRAWObserver()
 
 
 void ProyectilesActionsFSMDRAWObserver::update() {
+
+	if (first_update) {
+		drawer->add_observer(proyectile->id, this);
+		first_update = false;
+	}
 	if (fsm->obs_info.start_moving_graph) {
 		drawer->startDraw(proy_MOVING, proyectile->id, direction_translation(fsm->get_current_action_direction()), proyectile->pos_x, proyectile->pos_y);
 		curr_state = proy_MOVING;

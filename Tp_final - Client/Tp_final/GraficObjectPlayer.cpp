@@ -1,5 +1,6 @@
 #include "GraficObjectPlayer.h"
 #include <iostream>
+#include "PlayerActionsFSMDRAWObserver.h"
 
 using namespace std;
 
@@ -107,6 +108,7 @@ void Obj_Graf_Player::handle_walking() {
 		secuenceOver_ = true;
 		pos.set_x_coord(InitalPos.get_x_coord() + delta* BLOCK_SIZE);
 		actualImage = 0;
+		notify_finished_drawing_step();
 	}
 	else
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);		// muevo la posicion del dibujo
