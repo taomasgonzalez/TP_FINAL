@@ -11,13 +11,12 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	this->number_of_rows = number_of_rows;
 	this->number_of_columns = number_of_columns;
 
-	map_cells = new MapCell*[number_of_rows];
-	for (int i = 0; i < number_of_rows; ++i)
-		map_cells[i] = new MapCell[number_of_columns];
-
-	//map_cells = new MapCell*[number_of_columns];
-	//for (int i = 0; i < number_of_columns; ++i)
-	//	map_cells[i] = new MapCell[number_of_rows];
+	//map_cells = new MapCell*[number_of_rows];
+	//for (int i = 0; i < number_of_rows; ++i)
+	//	map_cells[i] = new MapCell[number_of_columns];
+	map_cells = new MapCell*[number_of_columns];
+	for (int i = 0; i < number_of_columns; ++i)
+		map_cells[i] = new MapCell[number_of_rows];
 	original_distribution = "";
 
 	all_players = new std::vector<Player*>();
@@ -528,11 +527,18 @@ bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
 *		void.
 */
 void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
-	//MapCell* cell = get_cell(coord_x, coord_y);
+
+	string temp1 = to_string(coord_x);
+	string temp2 = to_string(coord_y);
+
+	cout << "x: " << temp1 << ", y: " << temp2;
+
 	map_cells[coord_x][coord_y].place_on_cell(thing);
 	thing->pos_x = coord_x;
 	thing->pos_y = coord_y;
 	place_on_map_thing_vectors(thing);
+
+	cout << ", " << map_cells[coord_x][coord_y].has_floor() << endl;
 	
 }
 /******************************************
@@ -611,10 +617,8 @@ int Map::get_max_number_of_floors() {
 void Map::load_on_map(const char* map_string, void* scenario) {
 	original_distribution = map_string;
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
-		//int x = i % number_of_columns;			version correcta en teoria
-		//int y = i / number_of_columns;
-		int x = i / number_of_columns;
-		int y = i % number_of_columns;
+		int x = i % number_of_columns;			//version correcta en teoria
+		int y = i / number_of_columns;
 		MapThing * new_thing = map_filler.create_map_thing(x, y, (Item_type)map_string[i], get_random_sense(), scenario);
 		place_on_map(x, y, new_thing);
 	}
