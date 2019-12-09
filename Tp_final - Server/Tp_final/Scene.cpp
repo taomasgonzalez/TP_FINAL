@@ -501,16 +501,18 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 	}
 	else
 	{
-		Action_info_to_be_checked->my_character = other_player;
-		the_one_that_moves = get_player(other_player);
-		action_to_be_loaded_id = the_one_that_moves->id;
+		if (!data->my_network_data.is_client()) {
+			Action_info_to_be_checked->my_character = other_player;
+			the_one_that_moves = get_player(other_player);
+		}
+		else
+			the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
+		action_to_be_loaded_id = the_one_that_moves->id;
 		extern_destination.fil = Action_info_to_be_checked->final_pos_y;
 		extern_destination.col = Action_info_to_be_checked->final_pos_x;
-
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
 		my_direction = Action_info_to_be_checked->my_direction;
-
 	}
 
 	if (the_one_that_moves->is_dead())
