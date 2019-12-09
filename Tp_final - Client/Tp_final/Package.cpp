@@ -277,12 +277,12 @@ GAME_START_package::GAME_START_package() :Package(Package_type::GAME_START) {
 /**************************************************************
 			MOVE_PACKAGE_CONSTRUCTOR
 **************************************************************/
-MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char col_de) : Package(Package_type::MOVE) {
+MOVE_package::MOVE_package(Item_type the_one_that_moves, char fil_de, char col_de) : Package(Package_type::MOVE) {
 
-	this->character = the_one_that_moves;
-	this->destination_row = fil_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	this->destination_column = col_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	this->info_length = 4;
+	character = the_one_that_moves;
+	destination_row = fil_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	destination_column = col_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
+	info_length = 4;
 
 
 }
@@ -300,25 +300,25 @@ MOVE_package::MOVE_package(Character_type the_one_that_moves, char fil_de, char 
 */
 std::string MOVE_package::get_sendable_info() {
 
-	std::string info(enum_to_string(this->header));
-	std::string info1(1,(char)this->character);
-	std::string info2(1,this->destination_row+48);
-	std::string info3(1,this->destination_column+48);
+	std::string info(enum_to_string(header));
+	std::string info1(1,(char)character);
+	std::string info2(1, destination_row+48);
+	std::string info3(1, destination_column+48);
 
 	std::string info4 = info + info1 + info2+ info3;
 
 	return info4;
 }
-Character_type MOVE_package::give_me_the_character() {
-	return this->character;
+Item_type MOVE_package::give_me_the_character() {
+	return character;
 }
 
 char MOVE_package::give_me_the_destination_row() {
-	return this->destination_row;
+	return destination_row;
 
 }
 char MOVE_package::give_me_the_destination_column() {
-	return this->destination_column;
+	return destination_column;
 
 }
 

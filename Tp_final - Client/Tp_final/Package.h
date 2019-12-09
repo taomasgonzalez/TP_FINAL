@@ -144,15 +144,15 @@ private:
 class MOVE_package : public Package
 {
 public:
-	MOVE_package(Character_type the_one_that_moves, char fil_de, char col_de);
-	Character_type give_me_the_character();
+	MOVE_package(Item_type the_one_that_moves, char fil_de, char col_de);
+	Item_type give_me_the_character();
 	char give_me_the_destination_row();
 	char give_me_the_destination_column();
 	std::string get_sendable_info();
 
 
 private:
-	Character_type character;
+	Item_type character;
 	char destination_row;
 	char destination_column;
 

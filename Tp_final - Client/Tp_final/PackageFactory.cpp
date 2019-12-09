@@ -34,7 +34,7 @@ PackageFactory::PackageFactory()
 
 		case Event_type::MOVE: {
 			MOVE_EventPackage * info_mo = static_cast<MOVE_EventPackage*>(info_received);
-			pac = new MOVE_package((Character_type)info_mo->give_me_the_character(), info_mo->give_me_your_destination_row(), info_mo->give_me_your_destination_column());
+			pac = new MOVE_package(info_mo->give_me_the_character(), info_mo->give_me_your_destination_row(), info_mo->give_me_your_destination_column());
 		}
 			break;
 
@@ -117,7 +117,7 @@ PackageFactory::PackageFactory()
 
 	 case Package_type::MOVE: {  //soy cliente y me llega un MOVE del servidor
 		 MOVE_package * mo_pack = static_cast<MOVE_package*>(package_recieved);
-		 my_event_package = new MOVE_EventPackage(mo_pack->give_me_the_destination_row(), mo_pack->give_me_the_destination_column());
+		 my_event_package = new MOVE_EventPackage(mo_pack->give_me_the_character(), mo_pack->give_me_the_destination_row(), mo_pack->give_me_the_destination_column());
 	 }
 	 break;
 

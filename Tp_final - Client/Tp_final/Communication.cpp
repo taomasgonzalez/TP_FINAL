@@ -298,7 +298,7 @@ Package * Communication::receiveMessage() {
 
 		case Package_type::MOVE:
 
-			received = new MOVE_package((Character_type)buf[1], buf[2]-48, buf[3]-48); //sacando el desfasaje hecho para evitar null terminator en buffer
+			received = new MOVE_package((Item_type)buf[1], buf[2]-48, buf[3]-48); //sacando el desfasaje hecho para evitar null terminator en buffer
 
 			break;
 

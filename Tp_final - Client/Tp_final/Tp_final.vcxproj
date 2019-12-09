@@ -146,6 +146,7 @@
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="CharacterActionsEventGenerator.cpp" />
     <ClCompile Include="EnemyActionsEventGenerator.cpp" />
+    <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
@@ -167,9 +168,7 @@
     <ClCompile Include="Fireball.cpp" />
     <ClCompile Include="FSMCommunicationObserver.cpp" />
     <ClCompile Include="LogicFSMEventsObserver.cpp" />
-    <ClCompile Include="FSMFactory.cpp" />
     <ClCompile Include="LogicFSMSceneObserver.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraficInterface.cpp" />
     <ClCompile Include="GraficObject.cpp" />
     <ClCompile Include="GraficObjectEnemy.cpp" />
