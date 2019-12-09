@@ -335,7 +335,6 @@ MapThing * Map::get_from_map(unsigned int id) {
 			string temp1 = to_string(i);
 			string temp2 = to_string(j);
 
-			cout << "x: " << temp1 << ", y: " << temp2;
 			if ((gotten = get_cell(i, j)->get_id(id)) != NULL)
 				break;
 		}
