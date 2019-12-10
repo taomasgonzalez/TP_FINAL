@@ -100,9 +100,7 @@ void LogicFSMSceneObserver::update() {
 		}
 		}
 
-		if (!this->my_scenario->is_the_action_possible(&acting_information)) //mando a analizar el EventPackage 
-			my_fsm->error_ocurred = true;
-		else 
+		if (my_fsm->valid_action = my_scenario->is_the_action_possible(&acting_information))  //mando a analizar el EventPackage 
 			my_fsm->set_fsm_ev_pack(EventPackageFactory().create_event_package(&acting_information));
 
 	}
@@ -112,8 +110,8 @@ void LogicFSMSceneObserver::update() {
 		if (!my_fsm->valid_extern_action && !my_fsm->valid_local_action) {
 			if (!my_fsm->valid_extern_action)
 			{
-				this->my_event_gen->empty_all_queues();
-				this->my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
+				my_event_gen->empty_all_queues();
+				my_event_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
 				my_fsm->error_ocurred = false;
 			}
 			else if (!my_fsm->valid_local_action)

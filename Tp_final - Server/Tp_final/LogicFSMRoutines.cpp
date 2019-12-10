@@ -449,14 +449,16 @@ void load_action_and_send_it_back(void * data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 
 	check_action(data);
-	execute_extern_action(data);
+	if (fsm->valid_action) {
+		execute_extern_action(data);
 
-	fsm->s_action_from_action_request = true;
-	fsm->notify_obs();					//FSMCommunicationObserver
-	fsm->s_action_from_action_request = false;
+		fsm->s_action_from_action_request = true;
+		fsm->notify_obs();					//FSMCommunicationObserver
+		fsm->s_action_from_action_request = false;
 
-	set_ack_time_out(data);
-	check_game_state(data);
+		set_ack_time_out(data);
+		check_game_state(data);
+	}
 }
 
 void start_game_and_send_ack(void*data) {
