@@ -56,6 +56,7 @@ LogicClientFSM::LogicClientFSM(Userdata* data): LogicFSM(data){
 	Waiting_for_servers_response_state->push_back({ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack }); //extern MOVE that arrives through networking , has to be checked
 	Waiting_for_servers_response_state->push_back({ Event_type::ATTACK, this->Playing_state, execute_receive_action_and_send_ack });  //extern ATTACK that arrives through networking , has to be checked
 	Waiting_for_servers_response_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit }); //se recibe un envio un quit local, paso a esperar el ACK
+	Waiting_for_servers_response_state->push_back({ Event_type::ACTION_REQUEST, this->Waiting_for_servers_response_state, do_nothing }); //se recibe un quit por networking,
 	Waiting_for_servers_response_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit }); //se recibe un quit por networking,
 	Waiting_for_servers_response_state->push_back({ Event_type::ERROR1, NULL, analayze_error });
 	Waiting_for_servers_response_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_servers_response_state, do_nothing });

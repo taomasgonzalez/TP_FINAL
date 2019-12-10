@@ -168,8 +168,10 @@ EventPackage* FSM::get_fsm_ev_pack() {
 
 void FSM::set_fsm_ev_pack(EventPackage * new_ev_pack)
 {
-	delete my_ev_pack;
-	my_ev_pack = new_ev_pack;
+	if (new_ev_pack != my_ev_pack) {
+		delete my_ev_pack;
+		my_ev_pack = new_ev_pack;
+	}
 }
 
 std::vector<edge_t>* FSM::give_me_the_actual_state() {

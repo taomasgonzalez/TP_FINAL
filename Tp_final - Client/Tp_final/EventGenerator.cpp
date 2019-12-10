@@ -96,5 +96,7 @@ void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
 
 //ONLY FOR CASES IN WHICH I KNOW THIS WON T CAUSE AN OVERFLOW OF THE QUEUE!!!
 void EventGenerator::append_new_event_front(EventPackage * ev_pack) {
+	
+	
 	aux_front_queue.push(ev_pack);
 }
