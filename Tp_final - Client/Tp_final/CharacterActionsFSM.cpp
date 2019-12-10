@@ -25,6 +25,7 @@ void check_attack_and_attack(void* data);
 void reset_attack(void* data);
 
 void iddle_graph(void* data);
+void re_append_ev(void* data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
@@ -100,7 +101,7 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, do_nothing_char });
+	walking_state->push_back({ Event_type::WALKED, walking_state, re_append_ev });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::MOVE, jumping_state, check_jumping_and_jump });
@@ -359,4 +360,11 @@ void iddle_graph(void * data)
 	fsm->obs_info.reset_graph = true;
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
+}
+
+void re_append_ev(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->obs_info.reappend_event = true;
+	fsm->notify_obs();
+	fsm->obs_info.reappend_event = false;
 }

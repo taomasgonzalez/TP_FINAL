@@ -4,7 +4,7 @@
 #include "EventPackage.h"
 #include "Observable.h"
 #include <queue> 
-
+#include <stack>
 
 class EventGenerator : public Observable
 {
@@ -16,6 +16,7 @@ public:
 	
 	virtual EventPackage * fetch_event();
 	virtual void append_new_event(EventPackage* ev_pack, int queue_id);
+	void append_new_event_front(EventPackage* ev_pack);
 	//In case an error ocurred and there are pending events to be run by the fsm
 	virtual void empty_all_queues();
 protected:
@@ -27,5 +28,6 @@ protected:
 private:
 	Userdata * my_user_data = NULL;
 	unsigned int actual_queue = 0;
+	std::stack<EventPackage*> aux_front_queue;
 };
 
