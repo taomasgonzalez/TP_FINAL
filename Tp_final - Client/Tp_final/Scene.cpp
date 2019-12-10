@@ -568,6 +568,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 			break;
 		default:
+			is_the_move_possible = false;
 			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
 			break;
 		}
@@ -585,6 +586,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves) {
 
 	Direction_type my_direction;
+	cout << "fil: " << extern_destination->fil << ", col: " << extern_destination->fil << endl;
+	cout << "y: " << the_one_that_moves->pos_y << ", x: " << the_one_that_moves->pos_x << endl;
 
 	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) //Left
 		my_direction = Direction_type::Left;

@@ -105,10 +105,11 @@ void Obj_Graf_Player::handle_walking() {
 
 	if (reached_final_pos)		//veo si ya llego a la pos final 
 	{
+		if(!secuenceOver_)
+			notify_finished_drawing_step();
 		secuenceOver_ = true;
 		pos.set_x_coord(InitalPos.get_x_coord() + delta* BLOCK_SIZE);
 		actualImage = 0;
-		notify_finished_drawing_step();
 	}
 	else
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);		// muevo la posicion del dibujo

@@ -1,5 +1,6 @@
 #include "EventPackage.h"
-
+#include <string>
+#include <iostream>
 Action_info_id Event_type_2_Action_info_id(Event_type event_t);
 Event_type Action_info_id_2_Event_type(Action_info_id event_t);
 /******************************************************************************
@@ -345,19 +346,15 @@ Action_info ACTION_REQUEST_EventPackage::to_Action_info()
 {
 	Action_info returnable_info = EventPackage::to_Action_info();
 
-	if (returnable_info.is_local){
-		returnable_info.my_direction = give_me_your_direction(); //none
-		returnable_info.action = give_me_the_action();
-		returnable_info.id = (unsigned int) CLIENT_PLAYER;
- 	}
-	else
-	{
-		returnable_info.action = give_me_the_action();
+	if (!returnable_info.is_local){
 		returnable_info.final_pos_x = give_me_your_destination_row();
 		returnable_info.final_pos_y = give_me_your_destination_column();
-		returnable_info.my_direction = give_me_your_direction();
-		returnable_info.id = (unsigned int) CLIENT_PLAYER;
 	}
+	std::cout << "Local: " << std::to_string(returnable_info.is_local) << std::endl;
+	returnable_info.my_direction = give_me_your_direction(); //none
+	std::cout << "Direction: " << std::to_string((int)returnable_info.my_direction) << std::endl;
+	returnable_info.action = give_me_the_action();
+	returnable_info.id = (unsigned int)CLIENT_PLAYER;
 
 	return returnable_info;
 }

@@ -100,6 +100,7 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
+	walking_state->push_back({ Event_type::WALKED, walking_state, do_nothing_char });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::MOVE, jumping_state, check_jumping_and_jump });

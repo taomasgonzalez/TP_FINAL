@@ -568,6 +568,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 
 			break;
 		default:
+			is_the_move_possible = false;
 			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
 			break;
 		}
@@ -870,7 +871,6 @@ void Scene::check_current_game_situation() {
 		notify_obs();
 		we_won = false;
 	}
-
 }
 
 void Scene::append_new_auxilar_event(Action_info new_action_info) {
