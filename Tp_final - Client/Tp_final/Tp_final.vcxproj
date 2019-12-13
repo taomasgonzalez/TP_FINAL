@@ -164,11 +164,7 @@
     <ClCompile Include="EventGenerator.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventPackageFactory.cpp" />
-    <ClCompile Include="CommunicationEventsObserver.cpp" />
     <ClCompile Include="Fireball.cpp" />
-    <ClCompile Include="FSMCommunicationObserver.cpp" />
-    <ClCompile Include="LogicFSMEventsObserver.cpp" />
-    <ClCompile Include="LogicFSMSceneObserver.cpp" />
     <ClCompile Include="GraficInterface.cpp" />
     <ClCompile Include="GraficObject.cpp" />
     <ClCompile Include="GraficObjectEnemy.cpp" />
@@ -180,7 +176,6 @@
     <ClCompile Include="LogicClientFSM.cpp" />
     <ClCompile Include="LogicEventGenerator.cpp" />
     <ClCompile Include="LogicFSM.cpp" />
-    <ClCompile Include="LogicFSMRoutines.cpp" />
     <ClCompile Include="LogicServerFSM.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Map.cpp" />
@@ -239,10 +234,7 @@
     <ClInclude Include="EventPackageFactory.h" />
     <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Fireball.h" />
-    <ClInclude Include="FSMCommunicationObserver.h" />
-    <ClInclude Include="LogicFSMEventsObserver.h" />
     <ClInclude Include="FSMFactory.h" />
-    <ClInclude Include="LogicFSMSceneObserver.h" />
     <ClInclude Include="FSM_Class.h" />
     <ClInclude Include="general.h" />
     <ClInclude Include="GraficInterface.h" />
@@ -255,7 +247,6 @@
     <ClInclude Include="LogicClientFSM.h" />
     <ClInclude Include="LogicEventGenerator.h" />
     <ClInclude Include="LogicFSM.h" />
-    <ClInclude Include="LogicFSMRoutines.h" />
     <ClInclude Include="LogicServerFSM.h" />
     <ClInclude Include="MapThingFactory.h" />
     <ClInclude Include="CharacterActionsFSM.h" />
