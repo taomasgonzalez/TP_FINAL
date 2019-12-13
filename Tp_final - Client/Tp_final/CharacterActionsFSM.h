@@ -17,6 +17,7 @@ public:
 		bool start_attacking_graph = false;
 		bool dying_graph = false;
 		bool reset_graph = false;
+		bool disappear_graph = false;
 
 		bool interrupt_movement = false;
 		bool interrupt_attack = false;
@@ -46,6 +47,8 @@ public:
 	void start_jumping_forward();
 	void start_attacking();
 	void start_falling();
+
+	void disappear_char();
 
 	void stop_action();
 

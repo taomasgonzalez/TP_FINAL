@@ -16,7 +16,6 @@ public:
 
 	void revive_player();
 	void start_pushing();
-
 	ALLEGRO_TIMER* get_pushing_timer();
 
 protected:

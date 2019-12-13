@@ -44,8 +44,6 @@ void PlayerActionsFSM::set_states() {
 	expand_state(falling_state, { Event_type::DIED, dead_state, player_die });
 	expand_state(attacking_state, { Event_type::DIED, dead_state, player_die });
 
-	expand_state(dead_state, { Event_type::APPEARED, iddle_state, player_revive });
-
 	pushing_state->push_back({ Event_type::MOVE, pushing_state, check_push_and_push });
 	pushing_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_push });
 	pushing_state->push_back({ Event_type::DIED, dead_state, get_routine(iddle_state,Event_type::DIED) });

@@ -25,6 +25,7 @@ void check_attack_and_attack(void* data);
 void reset_attack(void* data);
 
 void iddle_graph(void* data);
+void disappear_graph_r(void* data);
 void re_append_ev(void* data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
@@ -119,12 +120,18 @@ void CharacterActionsFSM::set_states() {
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
 	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char });
 
+	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
 	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
 
 }
 
 void CharacterActionsFSM::kill_character() {
 	character->die();
+}
+void CharacterActionsFSM::disappear_char() {
+	obs_info.disappear_graph = true;
+	notify_obs();
+	obs_info.disappear_graph = false;
 }
 
 void CharacterActionsFSM::process_logical_movement()
@@ -160,7 +167,6 @@ void CharacterActionsFSM::start_jumping_forward(){
 	//set_curr_timer_and_start(jumping_forward_timer);
 
 }
-
 void CharacterActionsFSM::start_attacking(){
 	attacked = false;
 	set_curr_timer_and_start(attacking_timer);
@@ -363,4 +369,10 @@ void re_append_ev(void * data) {
 	fsm->obs_info.reappend_event = true;
 	fsm->notify_obs();
 	fsm->obs_info.reappend_event = false;
+}
+
+
+void disappear_graph_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->disappear_char();
 }

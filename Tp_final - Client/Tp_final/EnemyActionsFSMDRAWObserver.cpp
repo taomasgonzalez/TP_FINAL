@@ -69,7 +69,9 @@ void EnemyActionsFSMDRAWObserver::update() {
 	else if (fsm->obs_info.interrupt_attack) {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
-
+	else if (fsm->obs_info.disappear_graph) {
+		drawer->disactiveObj(enemy->id);
+	}
 
 }
 
