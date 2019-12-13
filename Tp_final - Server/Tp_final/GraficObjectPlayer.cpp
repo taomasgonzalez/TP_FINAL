@@ -131,6 +131,8 @@ void Obj_Graf_Player::handle_jumping() {
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
+		if (pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
+			notify_finished_drawing_step();
 	}
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
