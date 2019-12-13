@@ -128,7 +128,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 
 void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
-	bool move_succesful;
+	bool move_succesful = true;
 	//bool enemy_can_be_moved;
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
@@ -140,42 +140,36 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 	the_one_that_moves = get_player(move_to_be_executed->my_character);
 
 
-	 if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
+	if (maps[actual_map]->cell_has_enemies(extern_destination.fil, extern_destination.col))
 	{
 		vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
 		for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
 		{
-			if (((my_vector_of_enemys)[i]->current_state == States::Moving)&&((my_vector_of_enemys)[i]->current_state == States::Iddle))
+			States enemy_state = (my_vector_of_enemys)[i]->current_state;
+			if (enemy_state == States::Moving || enemy_state == States::Iddle)
 			{					
 				should_die = true;
 				move_succesful = false;
-
-					break;
+				break;
 			}
 		}
 
-		for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
-		{
-			if ((my_vector_of_enemys)[i]->amount_of_hits_taken>=3) //The enemy is snowballed
-				if(my_direction==Direction_type::Right)
-					maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col+1); //The snowballed enemy moves along with the player
-				else
-					maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col - 1); //The snowballed enemy moves along with the player
+		if(move_succesful)
+			for (int i = 0; (i < (int) my_vector_of_enemys.size()) && move_succesful; i++)
+			{
+				if ((my_vector_of_enemys)[i]->amount_of_hits_taken >= 3)			//The enemy is snowballed
+					if (my_direction == Direction_type::Right || my_direction == Direction_type::Jump_Right)
+						maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col + 1); //The snowballed enemy moves along with the player
+					else
+						maps[actual_map]->move_id((my_vector_of_enemys)[i]->id, extern_destination.fil, extern_destination.col - 1); //The snowballed enemy moves along with the player
 
-
-		}
-
-
+			}
 	}
-	 else if (maps[actual_map]->cell_has_enemy_proyectiles(extern_destination.fil, extern_destination.col))
+	else if (maps[actual_map]->cell_has_enemy_proyectiles(extern_destination.fil, extern_destination.col))
 	{
 		should_die = true;
 		move_succesful = false;
 	}
-
-	else
-		move_succesful = true;
-
 
 	if(move_succesful)
 		maps[actual_map]->move_id(the_one_that_moves->id , extern_destination.fil, extern_destination.col); //
