@@ -48,11 +48,6 @@ Communication::~Communication()
 	
 }
 
-void  Communication::check_for_messages() {
-
-	notify_obs(); //ya esta prendido en user_data check_for_new_messages
-}
-
 
 /******************************
 	Connecting_as_a_client

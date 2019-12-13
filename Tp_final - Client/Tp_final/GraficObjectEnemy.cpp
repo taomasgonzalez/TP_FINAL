@@ -200,14 +200,11 @@ void Obj_Graf_Enemy::handle_jumping() {
 		secuenceOver_ = true;
 		pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;
-		notify_finished_drawing_step();
 	}
 	else
 	{
 		(actualImage < (pics_quantity - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
-		if(pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
-			notify_finished_drawing_step();
 	}
 
 	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
@@ -238,16 +235,11 @@ void Obj_Graf_Enemy::handle_jumping_forward() {
 		secuenceOver_ = true;
 		pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;
-		notify_finished_drawing_step();
 	}
 	else
 	{
 		(actualImage < (pics_quantity - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
-		
-		if (pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
-			notify_finished_drawing_step();
-
 	}
 
 	bool reached_final_pos = false;

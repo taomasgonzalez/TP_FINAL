@@ -1,5 +1,7 @@
 #include "FSM_Class.h"
+#include <string>
 
+using namespace std;
 
 FSM::FSM() : Observable(){
 
@@ -120,7 +122,7 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	if (ev_pack != NULL){
 
 		Event_type event1 = ev_pack->give_me_your_event_type();
-		cout << "LLego un evento " << event_string[(int)event1] << endl;
+		cout << "LLego un evento " << event_string[(int) event1] << endl;
 		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;

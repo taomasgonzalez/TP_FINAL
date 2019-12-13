@@ -48,7 +48,6 @@ public:
 	void endCom();
 	void sendMessage(Package * package_received);
 	Package * receiveMessage();
-	void  check_for_messages();
 
 	//Package * get_received_package();
 	uint32_t get_expected_id();

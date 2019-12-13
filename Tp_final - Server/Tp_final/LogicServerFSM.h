@@ -4,7 +4,7 @@
 class LogicServerFSM: public LogicFSM
 {
 public:
-	LogicServerFSM(Userdata * data);
+	LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
 	~LogicServerFSM();
 
 	bool control_enemies = false;

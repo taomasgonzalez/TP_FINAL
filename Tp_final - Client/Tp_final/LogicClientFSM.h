@@ -4,7 +4,7 @@
 class LogicClientFSM: public LogicFSM
 {
 public:
-	LogicClientFSM(Userdata* data);
+	LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
 	~LogicClientFSM();
 
 private:

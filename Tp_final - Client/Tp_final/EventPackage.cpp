@@ -351,11 +351,10 @@ Action_info ACTION_REQUEST_EventPackage::to_Action_info()
 		returnable_info.final_pos_y = give_me_your_destination_column();
 	}
 	std::cout << "Local: " << std::to_string(returnable_info.is_local) << std::endl;
-	returnable_info.my_direction = give_me_your_direction(); //none
-	std::cout << "Direction: " << std::to_string((int)returnable_info.my_direction) << std::endl;
+	returnable_info.id = (unsigned int) CLIENT_PLAYER;
 	returnable_info.action = give_me_the_action();
-	returnable_info.id = (unsigned int)CLIENT_PLAYER;
-
+	returnable_info.my_direction = give_me_your_direction();
+	std::cout << std::endl << std::to_string((int)returnable_info.my_direction) << std::endl;
 	return returnable_info;
 }
 

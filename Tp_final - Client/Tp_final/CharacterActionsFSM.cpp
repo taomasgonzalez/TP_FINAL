@@ -362,7 +362,7 @@ void iddle_graph(void * data)
 	fsm->obs_info.reset_graph = false;
 }
 
-void re_append_ev(void* data) {
+void re_append_ev(void * data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->obs_info.reappend_event = true;
 	fsm->notify_obs();

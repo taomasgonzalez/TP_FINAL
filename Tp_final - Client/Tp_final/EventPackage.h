@@ -3,12 +3,12 @@
 #include "Userdata.h"
 
 #include <stdint.h> 
-#include <cstring>
+#include <string>
 #include "Action_Info.h"
 
 typedef unsigned int uint;
 typedef unsigned char uchar;
-
+using namespace std;
 
 
 enum class Event_type  //Events that are usde by the internal function of the program 

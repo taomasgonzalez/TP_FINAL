@@ -124,14 +124,11 @@ void Obj_Graf_Player::handle_jumping() {
 		secuenceOver_ = true;
 		pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;
-		notify_finished_drawing_step();
 	}
 	else
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
-		if (pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
-			notify_finished_drawing_step();
 	}
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
@@ -147,14 +144,11 @@ void Obj_Graf_Player::handle_jumping_forward() {
 		secuenceOver_ = true;
 		pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;
-		notify_finished_drawing_step();
 	}
 	else
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
-		pos.set_y_coord(pos.get_y_coord() - velFall);		// muevo la posicion del dibujo
-		if (pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
-			notify_finished_drawing_step();
+		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
 	}
 
 	if (dir == Direction::Left)
@@ -192,12 +186,11 @@ void Obj_Graf_Player::handle_attacking() {
 
 }
 void Obj_Graf_Player::handle_falling() {
-	if (pos.get_y_coord() > (InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+	if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
-		secuenceOver_ = true;
-		pos.set_y_coord(this->InitalPos.get_y_coord() + BLOCK_SIZE);
-		actualImage = 0;
-		notify_finished_drawing_step();
+		this->secuenceOver_ = true;
+		this->pos.set_y_coord(this->InitalPos.get_y_coord() + BLOCK_SIZE);
+		this->actualImage = 0;
 	}
 	else
 	{

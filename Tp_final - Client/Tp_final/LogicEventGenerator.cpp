@@ -76,7 +76,7 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
 					else
 						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Left);
-					
+
 				else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
 
 					if (!my_user_data->my_network_data.is_client())

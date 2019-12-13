@@ -80,7 +80,7 @@ PackageFactory::PackageFactory()
 			std::cout << "Me llego un EventPackage con header irrecononocible, en  PackageFactory::event_package_2_package()" << std::endl;
 			break;
 	}
-	
+	delete info_received;
 	return pac;
 }
 

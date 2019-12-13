@@ -65,13 +65,12 @@ EventPackage * EventGenerator::fetch_event()
 		returned_package = aux_front_queue.top();
 		aux_front_queue.pop();
 	}
-
 	if (event_queues.size() > 0) {
 		
 
 		for (int counter=0; counter <= (event_queues.size()-1); counter++, actual_queue++) {
 
-			if (actual_queue >= event_queues.size())
+			if (!(actual_queue < event_queues.size()))
 				actual_queue = 0;
 
 			if (!event_queues.at(actual_queue).empty()) 
@@ -96,7 +95,5 @@ void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
 
 //ONLY FOR CASES IN WHICH I KNOW THIS WON T CAUSE AN OVERFLOW OF THE QUEUE!!!
 void EventGenerator::append_new_event_front(EventPackage * ev_pack) {
-	
-	
 	aux_front_queue.push(ev_pack);
 }

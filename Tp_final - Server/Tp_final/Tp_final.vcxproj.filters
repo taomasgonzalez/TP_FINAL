@@ -13,9 +13,6 @@
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
-    <ClCompile Include="CommunicationEventsObserver.cpp">
-      <Filter>Source Files\Net_related</Filter>
-    </ClCompile>
     <ClCompile Include="Allegroclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -85,15 +82,6 @@
     <ClCompile Include="LogicFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="LogicFSMEventsObserver.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="LogicFSMRoutines.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="LogicFSMSceneObserver.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="LogicServerFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
@@ -111,9 +99,6 @@
     </ClCompile>
     <ClCompile Include="Snowball.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMCommunicationObserver.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Map_related</Filter>
@@ -310,9 +295,6 @@
     <ClInclude Include="Proyectile.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
     </ClInclude>
-    <ClInclude Include="CommunicationEventsObserver.h">
-      <Filter>Header Files\Net_related</Filter>
-    </ClInclude>
     <ClInclude Include="Package.h">
       <Filter>Header Files\Net_related</Filter>
     </ClInclude>
@@ -326,15 +308,6 @@
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
     <ClInclude Include="LogicFSM.h">
-      <Filter>Header Files\Event_related\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicFSMEventsObserver.h">
-      <Filter>Header Files\Event_related\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicFSMRoutines.h">
-      <Filter>Header Files\Event_related\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicFSMSceneObserver.h">
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
     <ClInclude Include="LogicServerFSM.h">
@@ -351,9 +324,6 @@
     </ClInclude>
     <ClInclude Include="Userdata.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="FSMCommunicationObserver.h">
-      <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
