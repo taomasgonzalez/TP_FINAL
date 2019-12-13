@@ -121,6 +121,8 @@ void Obj_Graf_Player::handle_walking() {
 void Obj_Graf_Player::handle_jumping() {
 	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
+		if (!secuenceOver_)
+			notify_finished_drawing_step();
 		secuenceOver_ = true;
 		pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 		actualImage = 0;

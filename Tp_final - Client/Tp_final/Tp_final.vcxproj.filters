@@ -189,7 +189,9 @@
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="FSM_Class.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -324,9 +326,6 @@
     <ClInclude Include="Userdata.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicGameFSM.h">
-      <Filter>Source Files\Graphics_related</Filter>
-    </ClInclude>
     <ClInclude Include="Observer.h">
       <Filter>Header Files\Observers</Filter>
     </ClInclude>
@@ -401,6 +400,9 @@
     </ClInclude>
     <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
+    <ClInclude Include="GraphicGameFSM.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
