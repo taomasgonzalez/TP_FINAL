@@ -101,10 +101,9 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, re_append_ev });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
-	jumping_state->push_back({ Event_type::MOVE, jumping_state, check_jumping_and_jump });
+	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
 	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
 
@@ -191,9 +190,7 @@ void CharacterActionsFSM::continue_logical_movement(){
 
 
 
-void CharacterActionsFSM::start_jumping() {
-	set_curr_process(&jumping_process);
-}
+
 
 void CharacterActionsFSM::end_if_should_end_movement(){
 	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
@@ -228,12 +225,9 @@ bool CharacterActionsFSM::finished_logical_movement() {
 
 bool CharacterActionsFSM::can_perform_logical_movement(){
 
-	#pragma message("Germo tiene que verificar si se puede ejecutar este movimiento desde escena. Este observer es CharacterSceneObserver")
 	obs_questions.can_perform_movement = true;
 	notify_obs();				//CharacterSceneObserver
-	#pragma message("Debería editar obs_answers.can_perform_movement desde escena?")
-
-	this->obs_questions.can_perform_movement = false;
+	obs_questions.can_perform_movement = false;
 	return obs_answers.can_perform_movement;
 }
 
@@ -267,8 +261,6 @@ void CharacterActionsFSM::start_walking() {
 	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
 
-	set_fsm_ev_pack(new MOVE_EventPackage(curr_walk->walking_direction));
-
 	if (can_perform_logical_movement()) {
 		obs_info.start_walking_graph = true;
 		notify_obs();
@@ -285,11 +277,17 @@ void reset_walking(void* data) {
 
 void start_jumping_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	(fsm->obs_info).start_jumping_graph = true;
-	fsm->notify_obs();
-	(fsm->obs_info).start_jumping_graph = false;
-
 	fsm->start_jumping();
+
+}
+void CharacterActionsFSM::start_jumping() {
+	set_curr_process(&jumping_process);
+
+	if (can_perform_logical_movement()) {
+		obs_info.start_jumping_graph = true;
+		notify_obs();
+		obs_info.start_jumping_graph = false;
+	}
 }
 void check_jumping_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
@@ -298,8 +296,6 @@ void check_jumping_and_jump(void* data) {
 }
 void reset_jumping(void* data) {
 	iddle_graph(data);
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->stop_action();
 }
 
 void start_jumping_forward_r(void* data) {

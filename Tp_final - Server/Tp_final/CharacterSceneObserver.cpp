@@ -18,14 +18,13 @@ CharacterSceneObserver::~CharacterSceneObserver()
 void CharacterSceneObserver::update() {
 	if (fsm->obs_info.perform_logical_attack) {
 		Sense_type sense = character->get_sense();
-		//Direction_type dir = (sense == Sense_type::Right) ? Direction_type::Right : Direction_type::Left;
 		unsigned int current_character_id = fsm->get_id();
-		//scene->execute_attack(ev_pack->to_Action_info());
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
 	if (fsm->obs_questions.can_perform_movement) {
-		MOVE_EventPackage ev_pack;
-		Action_info info = ev_pack.to_Action_info();
+		Action_info info;
+		info.my_info_header = Action_info_id::MOVE;
+		info.action = Action_type::Move;
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
 		direction_to_deltas(&info);
@@ -57,7 +56,7 @@ void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
 	else if (action->my_direction == Direction_type::Left)
 		action->final_pos_x -= 1;
 	else if (action->my_direction == Direction_type::Jump_Straight)
-		action->final_pos_y += 1;
+		action->final_pos_y -= 1;
 	else if (action->my_direction == Direction_type::Down)
 		action->final_pos_y -= 1;
 	else if (action->my_direction == Direction_type::Jump_Right) {
