@@ -127,7 +127,7 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;
-		while ( ((actual_state->at(event_pos)).event != event1) && (event1!= Event_type::END_OF_TABLE) )
+		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
 			event_pos++;
 
 		//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ

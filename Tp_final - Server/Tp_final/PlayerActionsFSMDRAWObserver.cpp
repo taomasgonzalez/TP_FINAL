@@ -52,7 +52,7 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 
 	else if (fsm->obs_info.dying_graph) {
-		dir = get_character_graph_direction(fsm->get_current_action_direction());
+		dir = get_character_graph_direction(player->get_sense());
 		drawer->startDraw(player_DYING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_DYING;
 	}
@@ -81,6 +81,9 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 	else if (drawer->finished_drawing_step(player->id)) {
 		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
+	}
+	else if (fsm->obs_info.disappear_graph) {
+		drawer->disactiveObj(player->id);
 	}
 }
 

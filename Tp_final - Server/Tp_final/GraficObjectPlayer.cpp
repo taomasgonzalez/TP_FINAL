@@ -239,6 +239,8 @@ void Obj_Graf_Player::handle_dying() {
 	}
 	else
 	{
+		if (!secuenceOver_)
+			notify_finished_drawing_step();
 		secuenceOver_ = true;
 		dieActualImage = 0;
 	}
