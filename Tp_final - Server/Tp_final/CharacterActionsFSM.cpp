@@ -136,12 +136,21 @@ void CharacterActionsFSM::disappear_char() {
 
 void CharacterActionsFSM::process_logical_movement()
 {
-	
+	bool can_perform = true;
 	if(!finished_logical_movement()){			//do i have any more sub-movements to perform?
-		if (can_perform_logical_movement())		//can i perform this sub-movement? Do the game conditions enable me to do so?
-			continue_logical_movement();		//if so, perform the movement.
-		else {
+		
 
+		//can i perform this sub-movement? Do the game conditions enable me to do so?
+		if (actual_state != walking_state)		//should not check if the player is walking
+			can_perform = can_perform_logical_movement();
+
+		if (can_perform)
+			continue_logical_movement();		//if so, perform the movement.
+		else {			
+			obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
+			notify_obs();
+			obs_info.interrupt_movement = false;
+			stop_curr_timer();
 		}
 	}
 	//appends a movement finished event to the queue if the graphic part has finished its sequence. 
@@ -260,6 +269,7 @@ void start_walking_r(void* data) {
 }
 
 void CharacterActionsFSM::start_walking() {
+
 	WALKED_EventPackage * curr_walk = (WALKED_EventPackage*)get_fsm_ev_pack();
 	
 	if (curr_walk->walking_direction == Direction_type::Right)
@@ -267,11 +277,14 @@ void CharacterActionsFSM::start_walking() {
 	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
 
-	if (can_perform_logical_movement()) {
-		obs_info.start_walking_graph = true;
-		notify_obs();
-		obs_info.start_walking_graph = false;
-	}
+	/*the character doesn t need to check if the movement is possible 
+	* as this is a walking movement and takes only one step, which has been previously checked before 
+	* changing the state of the character. If checking the movement is necessary due to changes in the code, 
+	* can_perform_logical_movement() should be called before executing the next lines (start_walking_graph) */
+
+	obs_info.start_walking_graph = true;
+	notify_obs();
+	obs_info.start_walking_graph = false;
 }
 void check_walking_and_walk(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;

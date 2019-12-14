@@ -4,9 +4,9 @@
 
 class LogicEventGenerator : public EventGenerator
 {
-	
+
 public:
-	
+
 
 	LogicEventGenerator(Allegro * al, Userdata* data);
 	~LogicEventGenerator();

@@ -2,7 +2,7 @@
 #include <iostream>
 
 
-LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGenerator()
+LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGenerator()
 {
 	this->my_user_data = data;
 	this->al = al;
@@ -10,8 +10,8 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
 
-	keyboard_jump_events_timer = al_create_timer(1 / 5.0);
-	keyboard_move_events_timer = al_create_timer(1 / 5.0);
+	keyboard_jump_events_timer = al_create_timer(1 / 1.5);
+	keyboard_move_events_timer = al_create_timer(1 / 1.5);
 
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_jump_events_timer));
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_move_events_timer));
@@ -19,7 +19,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 	//time_out_timer = al->get_front_time_out_timer();
 	//time_out_count = 0;
 	//al_start_timer(coordinate_scene_events_timer);
-	append_all_queues( (int) LogicQueues::TOTAL_QUEUES);
+	append_all_queues((int)LogicQueues::TOTAL_QUEUES);
 }
 
 
@@ -47,7 +47,7 @@ EventPackage * LogicEventGenerator::fetch_event()
 /******************************************
 ********update_from_allegro_events*********
 *******************************************
-*update_from_allegro_events is an internal method that converts events inside an allegro event queue to 
+*update_from_allegro_events is an internal method that converts events inside an allegro event queue to
 *EventPackages that represent the Logic function of that allegro Event.
 *update_from_allegro_events does this by removign the allegro event from the allegro event queue.
 *	INPUT:
@@ -61,7 +61,7 @@ void LogicEventGenerator::update_from_allegro_events() {
 }
 
 void LogicEventGenerator::update_from_allegro_keyboard_events() {
-	ALLEGRO_EVENT  allegroEvent ;
+	ALLEGRO_EVENT  allegroEvent;
 	EventPackage * ev_pack = NULL;
 
 	if (al_get_next_event(al_key_queue, &allegroEvent)) {			//tomo de la cola en caso de que no este vacia
@@ -80,11 +80,11 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 			}
 			update_keyboard_state(&ev_pack);
 		}
-		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN || allegroEvent.type == ALLEGRO_EVENT_KEY_UP) 
+		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN || allegroEvent.type == ALLEGRO_EVENT_KEY_UP)
 			update_keyboard_state(&ev_pack);
 	}
-	if(ev_pack != NULL)
-		append_new_event(ev_pack,(int) LogicQueues::allegro);
+	if (ev_pack != NULL)
+		append_new_event(ev_pack, (int)LogicQueues::allegro);
 
 }
 void LogicEventGenerator::update_keyboard_state(EventPackage ** ev_pack) {
@@ -124,14 +124,14 @@ EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action
 	}
 
 	if (!my_user_data->my_network_data.is_client()) {
-		if(action == Action_type::Attack)
+		if (action == Action_type::Attack)
 			ev_pack = new ATTACK_EventPackage();
-		else  if(action == Action_type::Move)
+		else  if (action == Action_type::Move)
 			ev_pack = new MOVE_EventPackage(dir);
 	}
-	else 
+	else
 		ev_pack = new ACTION_REQUEST_EventPackage(action, dir);
-	
+
 	return ev_pack;
 }
 
