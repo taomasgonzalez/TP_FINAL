@@ -69,62 +69,72 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 		}
 		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN) {					//tecla presionada
 			if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_UP) {
-
+				jump_move_pressed = true;
 				if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT)
-
-					if (!my_user_data->my_network_data.is_client())
-						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Left);
-					else
-						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Left);
-
+					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Left);
 				else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-
-					if (!my_user_data->my_network_data.is_client())
-						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Right);
-					else
-						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Right);
+					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Right);
 				else
+					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
 
-					if (!my_user_data->my_network_data.is_client())
-						ev_pack = new MOVE_EventPackage(Direction_type::Jump_Straight);
-					else
-						ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Jump_Straight);
 			}
 
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) {	//tecla izquierda
-
-				if (!my_user_data->my_network_data.is_client())
-					ev_pack = new MOVE_EventPackage(Direction_type::Left);
-				else
-					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Left);
+			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) { 	//tecla izquierda
+				side_move_dir = Direction_type::Left;
+				ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
+				side_move_pressed = true;
 			}
-
 			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-
-				if (!my_user_data->my_network_data.is_client())
-					ev_pack = new MOVE_EventPackage(Direction_type::Right);
-				else
-					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Move, Direction_type::Right);
+				side_move_dir = Direction_type::Right;
+				ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
+				side_move_pressed = true;
 			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE) {
+			//
+			//if (side_move_pressed && jump_move_pressed) {
+			//	if (ev_pack != NULL)
+			//		delete ev_pack;
+			//	Direction_type new_dir = (side_move_dir == Direction_type::Left) ? 
+			//							Direction_type::Jump_Left : 
+			//							Direction_type::Jump_Right;
 
-				if (!my_user_data->my_network_data.is_client())
-					ev_pack = new ATTACK_EventPackage();
-				else
-					ev_pack = new ACTION_REQUEST_EventPackage(Action_type::Attack, Direction_type::None);
+			//	ev_pack = direction_to_event_package(Action_type::Move, new_dir);
+			//}
 
-			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_Q) {
+			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE) 
+				direction_to_event_package(Action_type::Attack, Direction_type::None);
+
+			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_Q) 
 				ev_pack = new LOCAL_QUIT_EventPackage();
-			}
+
+		}
+		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {
+			if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_UP)
+				jump_move_pressed = false;
+			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT
+				|| allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
+				side_move_pressed = false;
 		}
 	}
 	if(ev_pack != NULL)
 		append_new_event(ev_pack,(int) LogicQueues::allegro);
 
-
-
 }
+
+EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type dir) {
+	EventPackage* ev_pack = NULL;
+
+	if (!my_user_data->my_network_data.is_client()) {
+		if(action == Action_type::Attack)
+			ev_pack = new ATTACK_EventPackage();
+		else  if(action == Action_type::Move)
+			ev_pack = new MOVE_EventPackage(dir);
+	}
+	else 
+		ev_pack = new ACTION_REQUEST_EventPackage(action, dir);
+	
+	return ev_pack;
+}
+
 
 void LogicEventGenerator::update_from_allegro_timer_events() {
 	ALLEGRO_EVENT allegroEvent;

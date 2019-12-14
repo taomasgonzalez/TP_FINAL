@@ -1,5 +1,7 @@
 #include "Communication.h"
 
+#include <string>
+using namespace std;
 
 
 Communication::Communication(Userdata * my_user_data) : Observable()
@@ -178,7 +180,7 @@ void Communication::Connecting_as_a_server(Userdata * my_user_data) {
 /*****************************************
 ***********sendMessage********************
 ******************************************
-sendMessage - Receives a package and makes the convertion to send it by networking
+sendMessage - 
 
 INPUT:
 	Package *
@@ -187,25 +189,19 @@ OUTPUT:
 */
 void Communication::sendMessage(Package * package_received) {
 
-	//startConnectionForClient(his_ip.c_str());
 
-	char buf[1000];		// por donde envio el input
-	//memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
+	char buf[1000];	
 	copy_message(package_received, buf);
 	size_t len;
 	boost::system::error_code error;
 	
-	//do         //Evito el loopeo
-	//{ //first parameter should be char [n] not char *, possible source of error
-		len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error); 
-	//} 
-	//while ((error.value() == WSAEWOULDBLOCK));
+	len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error); 
 
-	if (error)
-	{
-		this->healthy_connection = false;
-		//std::cout << "Error while trying to send message. " << error.message() << std::endl;
+	if (error) {
+		cout << endl << "Error de com" << endl;
+		healthy_connection = false;
 	}
+
 	delete package_received; //libero memoria del paquete después de mandarlo
 
 }
@@ -242,11 +238,11 @@ Package * Communication::receiveMessage() {
 	//do
 	//{
 	len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
-
+	int ack_quant = 0;
 	//} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
-
-	if (error.value() == WSAEWOULDBLOCK) {
-		//no leyo nada!!
+	if (len > 0)
+		cout << endl << "len: " << to_string(len) << endl;
+	if (error.value() == WSAEWOULDBLOCK) {		//no leyo nada!!
 		received = NULL;
 		//std::cout << "NOREAD " << error.message() << std::endl;
 	}
@@ -254,15 +250,16 @@ Package * Communication::receiveMessage() {
 	else if (!error)
 	{
 
+		
 		Package_type type = (Package_type)buf[0];
 
 
 		switch (type)
 		{
 		case Package_type::ACK:
-
+			ack_quant++;
 			received = new ACK_package;
-
+			cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
 			break;
 
 		case Package_type::NAME:

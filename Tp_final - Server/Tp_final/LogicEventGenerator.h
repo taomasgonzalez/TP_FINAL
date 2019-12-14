@@ -19,7 +19,7 @@ public:
 	void empty_all_queues();
 
 private:
-
+	EventPackage * direction_to_event_package(Action_type action, Direction_type dir);
 	ALLEGRO_EVENT_QUEUE * al_key_queue = NULL;
 	ALLEGRO_EVENT_QUEUE* coordinate_scene_events_queue = NULL;
 	ALLEGRO_TIMER * time_out_timer = NULL;
@@ -33,5 +33,9 @@ private:
 
 	Allegro* al = NULL;
 	Userdata* my_user_data = NULL;
+
+	bool side_move_pressed = false;
+	bool jump_move_pressed = false;
+	Direction_type side_move_dir;
 };
 

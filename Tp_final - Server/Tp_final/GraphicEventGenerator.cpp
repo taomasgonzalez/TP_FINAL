@@ -1,7 +1,5 @@
 #include "GraphicEventGenerator.h"
 
-#define FPS (50.0)
-
 GraphicEventGenerator::GraphicEventGenerator() : EventGenerator()
 {
 	drawing_event_queue = al_create_event_queue();

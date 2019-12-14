@@ -1,6 +1,7 @@
 #include "Communication.h"
 
-
+#include "Communication.h"
+using namespace std;
 
 Communication::Communication(Userdata * my_user_data) : Observable()
 {
@@ -187,25 +188,18 @@ OUTPUT:
 */
 void Communication::sendMessage(Package * package_received) {
 
-	//startConnectionForClient(his_ip.c_str());
-
-	char buf[1000];		// por donde envio el input
-	//memcpy(buf, package_received->get_sendable_info(), package_received->get_info_length());
+	char buf[1000];
 	copy_message(package_received, buf);
 	size_t len;
 	boost::system::error_code error;
-	
-	//do         //Evito el loopeo
-	//{ //first parameter should be char [n] not char *, possible source of error
-		len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error); 
-	//} 
-	//while ((error.value() == WSAEWOULDBLOCK));
 
-	if (error)
-	{
-		this->healthy_connection = false;
-		//std::cout << "Error while trying to send message. " << error.message() << std::endl;
+	len = socket->write_some(boost::asio::buffer(buf, (size_t)(package_received->get_info_length())), error);
+
+	if (error) {
+		cout << endl << "Error de com" << endl;
+		healthy_connection = false;
 	}
+
 	delete package_received; //libero memoria del paquete después de mandarlo
 
 }
@@ -239,30 +233,28 @@ Package * Communication::receiveMessage() {
 
 	size_t len = 0;
 
-	//do
-	//{
 	len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
-
-	//} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
-
+	static int ack_quant = 0;
+	if (len > 0)
+		cout << endl << "len: " << to_string(len) << endl;
+	if (len > 5) {
+		cout << endl << "len: " << to_string(len) << endl;
+	}
 	if (error.value() == WSAEWOULDBLOCK) {
 		//no leyo nada!!
 		received = NULL;
 		//std::cout << "NOREAD " << error.message() << std::endl;
 	}
-
-	else if (!error)
-	{
+	else if (!error){
 
 		Package_type type = (Package_type)buf[0];
-
 
 		switch (type)
 		{
 		case Package_type::ACK:
-
+			ack_quant++;
 			received = new ACK_package;
-
+			cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
 			break;
 
 		case Package_type::NAME:
