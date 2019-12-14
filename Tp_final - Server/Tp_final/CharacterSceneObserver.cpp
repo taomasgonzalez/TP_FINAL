@@ -28,7 +28,7 @@ void CharacterSceneObserver::update() {
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
 		direction_to_deltas(&info);
-		fsm->obs_answers.can_perform_movement = scenario->is_the_action_possible(&info);
+		fsm->obs_answers.can_perform_movement = scenario->is_the_action_possible(&info, true);
 	}
 	if (fsm->obs_info.perform_logical_movement) {
 		

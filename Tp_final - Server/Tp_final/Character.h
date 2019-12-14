@@ -2,11 +2,6 @@
 #include "MapThing.h"
 #include "EventHandler.h"
 
-enum class States
-{
-	Moving, Frozen, Snowballed, Iddle
-};
-
 
 class Character: public MapThing
 {
@@ -16,8 +11,10 @@ public:
 
 	virtual void die();
 	bool is_dead();
+	bool is_moving();
+	bool is_iddle();
+	bool is_attacking();
 
-	States current_state;
 	void append_action_to_character(Action_info action);
 	EventHandler * ev_handler = NULL;
 

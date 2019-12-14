@@ -93,7 +93,6 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
-	iddle_state->push_back({ Event_type::FINISHED_GRAPH_STEP, iddle_state, do_nothing_char });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
@@ -134,6 +133,16 @@ void CharacterActionsFSM::disappear_char() {
 	obs_info.disappear_graph = false;
 }
 
+bool CharacterActionsFSM::is_moving() {
+	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
+}
+bool CharacterActionsFSM::is_iddle() {
+	return actual_state == iddle_state;
+}
+bool CharacterActionsFSM::is_attacking() {
+	return actual_state == attacking_state;
+}
+
 void CharacterActionsFSM::process_logical_movement()
 {
 	bool can_perform = true;
@@ -141,7 +150,7 @@ void CharacterActionsFSM::process_logical_movement()
 		
 
 		//can i perform this sub-movement? Do the game conditions enable me to do so?
-		if (actual_state != walking_state)		//should not check if the player is walking
+		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
 
 		if (can_perform)
@@ -174,7 +183,6 @@ void CharacterActionsFSM::start_jumping_forward(){
 		set_curr_process(&jumping_left_process);
 
 	//set_curr_timer_and_start(jumping_forward_timer);
-
 }
 void CharacterActionsFSM::start_attacking(){
 	attacked = false;
@@ -184,7 +192,9 @@ void CharacterActionsFSM::start_falling() {
 
 	set_curr_process(&falling_process);
 	//set_curr_timer_and_start(falling_timer);
-
+	obs_info.start_falling_graph = true;
+	notify_obs();
+	obs_info.start_falling_graph = false;
 }
 
 void CharacterActionsFSM::stop_action(){
@@ -238,6 +248,9 @@ bool CharacterActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
 
+bool CharacterActionsFSM::first_logical_movement() {
+	return (current_moving_vector->begin() == current_moving_iteration);
+}
 bool CharacterActionsFSM::can_perform_logical_movement(){
 
 	obs_questions.can_perform_movement = true;
@@ -277,17 +290,18 @@ void CharacterActionsFSM::start_walking() {
 	else if (curr_walk->walking_direction == Direction_type::Left)
 		set_curr_process(&walking_left_process);
 
-	/*the character doesn t need to check if the movement is possible 
-	* as this is a walking movement and takes only one step, which has been previously checked before 
-	* changing the state of the character. If checking the movement is necessary due to changes in the code, 
-	* can_perform_logical_movement() should be called before executing the next lines (start_walking_graph) */
-
 	obs_info.start_walking_graph = true;
 	notify_obs();
 	obs_info.start_walking_graph = false;
 }
 void check_walking_and_walk(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+
+	/*the character doesn t need to check if the movement is possible
+	* as this is a walking movement and takes only one step, which has been previously checked before
+	* changing the state of the character. If checking the movement is necessary due to changes in the code,
+	* can_perform_logical_movement() should be called before executing the next lines (start_walking_graph) */
+
 	fsm->process_logical_movement();
 }
 void reset_walking(void* data) {
@@ -302,11 +316,9 @@ void start_jumping_r(void* data) {
 void CharacterActionsFSM::start_jumping() {
 	set_curr_process(&jumping_process);
 
-	if (can_perform_logical_movement()) {
-		obs_info.start_jumping_graph = true;
-		notify_obs();
-		obs_info.start_jumping_graph = false;
-	}
+	obs_info.start_jumping_graph = true;
+	notify_obs();
+	obs_info.start_jumping_graph = false;
 }
 void check_jumping_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
@@ -336,9 +348,7 @@ void reset_jumping_forward(void* data) {
 
 void start_falling_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->obs_info.start_falling_graph = true;
-	fsm->notify_obs();
-	fsm->obs_info.start_falling_graph = false;
+
 	fsm->start_falling();
 
 }

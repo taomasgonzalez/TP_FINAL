@@ -145,8 +145,8 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 		vector<Enemy*> my_vector_of_enemys = maps[actual_map]->get_cell_enemies(extern_destination.fil, extern_destination.col);
 		for (int i = 0; i < (int) my_vector_of_enemys.size(); i++)
 		{
-			States enemy_state = (my_vector_of_enemys)[i]->current_state;
-			if (enemy_state == States::Moving || enemy_state == States::Iddle)
+			Enemy* curr_enemy = (my_vector_of_enemys)[i];
+			if (curr_enemy->is_moving() || curr_enemy->is_iddle())
 			{					
 				should_die = true;
 				move_succesful = false;
@@ -436,7 +436,7 @@ void Scene::finish_game() {
 
 
 //analizo jugadas externas e internas relacionadas a scene
-bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
+bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool character_check) {
 
 	bool is_the_action_possible = false;
 
@@ -445,7 +445,7 @@ bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 	{
 	case Action_info_id::MOVE:
 
-		is_the_action_possible=check_move(package_to_be_analyze);
+		is_the_action_possible=check_move(package_to_be_analyze, character_check);
 		break;
 
 	case Action_info_id::ATTACK:
@@ -456,7 +456,7 @@ bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 	case Action_info_id::ACTION_REQUEST:
 
 		if(package_to_be_analyze->action == Action_type::Move)
-			is_the_action_possible = check_move(package_to_be_analyze);
+			is_the_action_possible = check_move(package_to_be_analyze, character_check);
 		else
 			is_the_action_possible = check_attack(package_to_be_analyze);
 
@@ -476,8 +476,8 @@ bool Scene::is_the_action_possible( Action_info * package_to_be_analyze) {
 	return is_the_action_possible;
 }
 
-bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
-
+bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_check) {
+	cout << endl << "Entro CHECK" << endl;
 	bool is_the_move_possible;
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
@@ -512,6 +512,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked ) {
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
+	else if (!character_check && !the_one_that_moves->is_iddle()) 
+		is_the_move_possible = false;
 	else
 	{
 		int delta = 0;

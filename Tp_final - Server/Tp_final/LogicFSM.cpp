@@ -366,7 +366,7 @@ void LogicFSM::check_action() {
 	}
 	}
 
-	if (valid_action = scenario->is_the_action_possible(&acting_information))  //mando a analizar el EventPackage 
+	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
 		set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 }
 
@@ -717,8 +717,6 @@ void LogicFSM::set_ack_time_out() {
 	//allegro_container->start_front_timer();		//lo inicio
 }
 void LogicFSM::send_ack() {
-	static int ack_quant = 0;
-	cout << endl << "Manda ACK, numero:" << to_string(++ack_quant) << endl;
 	com->sendMessage(pack_factory.event_package_2_package(new ACK_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 

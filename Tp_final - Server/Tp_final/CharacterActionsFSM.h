@@ -50,6 +50,12 @@ public:
 
 	void disappear_char();
 
+	bool is_moving();
+
+	bool is_iddle();
+
+	bool is_attacking();
+
 	void stop_action();
 
 	ALLEGRO_TIMER* get_attacking_timer();
@@ -82,6 +88,7 @@ private:
 
 	ALLEGRO_TIMER* attacking_timer = NULL;
 
+	bool first_logical_movement();
 	bool finished_logical_movement();
 	bool can_perform_logical_movement();
 	void continue_logical_movement(); 
