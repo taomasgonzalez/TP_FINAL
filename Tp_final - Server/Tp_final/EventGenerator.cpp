@@ -25,9 +25,9 @@ EventGenerator::~EventGenerator()
 *		void.
 */
 void EventGenerator::empty_all_queues() {
-	for (std::vector<std::queue<EventPackage*>>::iterator it = event_queues.begin(); it != event_queues.end(); ++it) 
+	for (std::vector<std::deque<EventPackage*>>::iterator it = event_queues.begin(); it != event_queues.end(); ++it) 
 		while ((*it).size() >= 1)
-			(*it).pop();
+			(*it).pop_front();
 }
 /******************************************
 ***************append_all_queues*****************
@@ -42,7 +42,7 @@ void EventGenerator::empty_all_queues() {
 void EventGenerator::append_all_queues(int total_number_of_queues)
 {
 	for(int i =0; i < total_number_of_queues; i++)
-		event_queues.push_back(std::queue<EventPackage*>());
+		event_queues.push_back(std::deque<EventPackage*>());
 }
 
 
@@ -76,7 +76,7 @@ EventPackage * EventGenerator::fetch_event()
 			if (!event_queues.at(actual_queue).empty()) 
 			{
 				returned_package = (event_queues.at(actual_queue)).front();
-				(event_queues.at(actual_queue)).pop();
+				(event_queues.at(actual_queue)).pop_front();
 				actual_queue++;
 				break;
 			}
@@ -90,7 +90,7 @@ EventPackage * EventGenerator::fetch_event()
 
 void EventGenerator::append_new_event(EventPackage * ev_pack, int queue_id)
 {
-	(event_queues.at(queue_id)).push(ev_pack);
+	(event_queues.at(queue_id)).push_back(ev_pack);
 }
 
 //ONLY FOR CASES IN WHICH I KNOW THIS WON T CAUSE AN OVERFLOW OF THE QUEUE!!!

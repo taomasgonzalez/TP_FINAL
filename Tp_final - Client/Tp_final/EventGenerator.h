@@ -3,9 +3,9 @@
 #include "Allegroclass.h"
 #include "EventPackage.h"
 #include "Observable.h"
-#include <queue> 
+#include <deque> 
 #include <stack>
-
+#include <queue>
 class EventGenerator : public Observable
 {
 public:
@@ -19,8 +19,9 @@ public:
 	//In case an error ocurred and there are pending events to be run by the fsm
 	virtual void empty_all_queues();
 	void append_new_event_front(EventPackage* ev_pack);
+
 protected:
-	std::vector<std::queue<EventPackage*>> event_queues;
+	std::vector<std::deque<EventPackage*>> event_queues;
 
 	///para ser llamado dentro del constructor hijo!!!
 	virtual void append_all_queues(int total_number_of_queues);

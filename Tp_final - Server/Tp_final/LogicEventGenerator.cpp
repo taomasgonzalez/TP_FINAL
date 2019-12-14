@@ -6,15 +6,18 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data): EventGen
 {
 	this->my_user_data = data;
 	this->al = al;
+
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
+
+	keyboard_jump_events_timer = al_create_timer(1 / 5.0);
+	keyboard_move_events_timer = al_create_timer(1 / 5.0);
+
+	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_jump_events_timer));
+	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_move_events_timer));
+
 	//time_out_timer = al->get_front_time_out_timer();
-	//al_register_event_source
-	time_out_count = 0;
-	
-	coordinate_scene_events_queue = al_create_event_queue();
-	coordinate_scene_events_timer = al_create_timer(50.0 / 1000.0);
-	al_register_event_source(coordinate_scene_events_queue, al_get_timer_event_source(coordinate_scene_events_timer));
+	//time_out_count = 0;
 	//al_start_timer(coordinate_scene_events_timer);
 	append_all_queues( (int) LogicQueues::TOTAL_QUEUES);
 }
@@ -58,7 +61,6 @@ void LogicEventGenerator::update_from_allegro_events() {
 }
 
 void LogicEventGenerator::update_from_allegro_keyboard_events() {
-
 	ALLEGRO_EVENT  allegroEvent ;
 	EventPackage * ev_pack = NULL;
 
@@ -67,61 +69,59 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 		if (allegroEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo quittear porque mandaron a cerrar la pantalla				
 			ev_pack = new LOCAL_QUIT_EventPackage();
 		}
-		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN) {					//tecla presionada
-			if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_UP) {
-				jump_move_pressed = true;
-				if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT)
-					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Left);
-				else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Right);
-				else
-					ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
-
+		else if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+			if (allegroEvent.timer.source == keyboard_jump_events_timer) {
+				can_jump = true;
+				al_stop_timer(keyboard_jump_events_timer);
 			}
-
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT) { 	//tecla izquierda
-				side_move_dir = Direction_type::Left;
-				ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
-				side_move_pressed = true;
+			else if (allegroEvent.timer.source == keyboard_move_events_timer) {
+				can_move = true;
+				al_stop_timer(keyboard_move_events_timer);
 			}
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT) {	//tecla derecha
-				side_move_dir = Direction_type::Right;
-				ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
-				side_move_pressed = true;
-			}
-			//
-			//if (side_move_pressed && jump_move_pressed) {
-			//	if (ev_pack != NULL)
-			//		delete ev_pack;
-			//	Direction_type new_dir = (side_move_dir == Direction_type::Left) ? 
-			//							Direction_type::Jump_Left : 
-			//							Direction_type::Jump_Right;
-
-			//	ev_pack = direction_to_event_package(Action_type::Move, new_dir);
-			//}
-
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE) 
-				direction_to_event_package(Action_type::Attack, Direction_type::None);
-
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_Q) 
-				ev_pack = new LOCAL_QUIT_EventPackage();
-
+			update_keyboard_state(&ev_pack);
 		}
-		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {
-			if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_UP)
-				jump_move_pressed = false;
-			else if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_LEFT
-				|| allegroEvent.keyboard.keycode == ALLEGRO_KEY_RIGHT)
-				side_move_pressed = false;
-		}
+		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN || allegroEvent.type == ALLEGRO_EVENT_KEY_UP) 
+			update_keyboard_state(&ev_pack);
 	}
 	if(ev_pack != NULL)
 		append_new_event(ev_pack,(int) LogicQueues::allegro);
 
 }
+void LogicEventGenerator::update_keyboard_state(EventPackage ** ev_pack) {
+	ALLEGRO_KEYBOARD_STATE keystate;
+	al_get_keyboard_state(&keystate);
 
+	if (al_key_down(&keystate, ALLEGRO_KEY_LEFT))
+		side_move_dir = Direction_type::Left;
+	else if (al_key_down(&keystate, ALLEGRO_KEY_RIGHT))
+		side_move_dir = Direction_type::Right;
+	else
+		side_move_dir = Direction_type::None;
+
+	if (jumping = al_key_down(&keystate, ALLEGRO_KEY_UP)) {
+		if (can_jump) {
+			*ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
+			can_jump = false;
+			al_start_timer(keyboard_jump_events_timer);
+		}
+	}
+	else if (side_move_dir != Direction_type::None && can_move) {
+		*ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
+		can_move = false;
+		al_start_timer(keyboard_move_events_timer);
+	}
+}
 EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type dir) {
 	EventPackage* ev_pack = NULL;
+
+
+	if (action == Action_type::Move && jumping) {
+		//the player is jumping in one direction, so should first convert to the suited Direction_type
+		if (dir != Direction_type::None)
+			dir = (dir == Direction_type::Left) ? Direction_type::Jump_Left : Direction_type::Jump_Right;
+		else
+			dir = Direction_type::Jump_Straight;
+	}
 
 	if (!my_user_data->my_network_data.is_client()) {
 		if(action == Action_type::Attack)
@@ -137,18 +137,18 @@ EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action
 
 
 void LogicEventGenerator::update_from_allegro_timer_events() {
-	ALLEGRO_EVENT allegroEvent;
-	EventPackage * ev_pack = NULL;
+	//ALLEGRO_EVENT allegroEvent;
+	//EventPackage * ev_pack = NULL;
 
-	if (al_get_next_event(coordinate_scene_events_queue, &allegroEvent)) {
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			if (allegroEvent.timer.source == coordinate_scene_events_timer) {
-			}
-			else if (allegroEvent.timer.source == time_out_timer) {
+	//if (al_get_next_event(coordinate_scene_events_queue, &allegroEvent)) {
+	//	if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+	//		if (allegroEvent.timer.source == coordinate_scene_events_timer) {
+	//		}
+	//		else if (allegroEvent.timer.source == time_out_timer) {
 
-			}
-		}
-	}
+	//		}
+	//	}
+	//}
 
 }
 /******************************************
@@ -164,5 +164,4 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 void LogicEventGenerator::empty_all_queues() {
 	EventGenerator::empty_all_queues();
 	al_flush_event_queue(al_key_queue);
-	al_flush_event_queue(coordinate_scene_events_queue);
 }
