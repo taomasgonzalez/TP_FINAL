@@ -119,20 +119,25 @@ void Obj_Graf_Player::handle_walking() {
 	((walkActualImage + 1) < 2 * WALKING_PICS) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 }
 void Obj_Graf_Player::handle_jumping() {
-	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+	static bool notified_half_jump = false;
+	if (pos.get_y_coord() <= (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
-		if (!secuenceOver_)
+		if (!secuenceOver_) {
+			secuenceOver_ = true;
 			notify_finished_drawing_step();
-		secuenceOver_ = true;
-		pos.set_y_coord(this->InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
-		actualImage = 0;
+			notified_half_jump = false;
+			pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+			actualImage = 0;
+		}
 	}
 	else
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
-		if(pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE))
+		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
 			notify_finished_drawing_step();
+			notified_half_jump = true;
+		}
 	}
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 	al_draw_scaled_bitmap(images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(images->jumpImages[actualImage]), al_get_bitmap_width(images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);

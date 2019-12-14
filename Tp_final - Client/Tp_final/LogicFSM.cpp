@@ -366,7 +366,7 @@ void LogicFSM::check_action() {
 	}
 	}
 
-	if (valid_action = scenario->is_the_action_possible(&acting_information))  //mando a analizar el EventPackage 
+	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
 		set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 }
 

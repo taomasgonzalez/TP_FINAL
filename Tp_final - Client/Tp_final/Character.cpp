@@ -1,5 +1,5 @@
 #include "Character.h"
-
+#include "CharacterActionsFSM.h"
 Character::Character(unsigned int id, Sense_type sense) : MapThing(id, false, sense)
 {
 
@@ -20,6 +20,21 @@ bool Character::is_dead()
 	return dead;
 }
 
+bool Character::is_moving()
+{
+	CharacterActionsFSM* char_fsm =  static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+	return char_fsm->is_moving();
+}
+
+bool Character::is_iddle()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+	return char_fsm->is_iddle();
+}
+bool Character::is_attacking() {
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+	return char_fsm->is_attacking();
+}
 
 void Character::append_action_to_character(Action_info action) {
 
