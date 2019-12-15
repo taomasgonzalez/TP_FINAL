@@ -44,12 +44,6 @@ Scene::~Scene()
 	delete assistant_queue;
 }
 
-
-
-void Scene::handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action) {
-	
-}
-
 void Scene::execute_action(Action_info * action_to_be_executed, bool & should_be_hit)
 {
 
@@ -480,21 +474,18 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	cout << endl << "Entro CHECK" << endl;
 	bool is_the_move_possible;
 	Player * the_one_that_moves = NULL;
-	Position extern_destination;
 	Position local_destination;
 	Direction_type my_direction;
 
-	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
-	
+	/*	if this particular scene is a client scene and the move comes from networking, then the character is
+		already specified in Action_info_to_be_checked.*/
 	if (Action_info_to_be_checked->is_local || !data->my_network_data.is_client())
 		Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
 
 	the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
-	if (!Action_info_to_be_checked->is_local){
-
-		extern_destination.fil = Action_info_to_be_checked->final_pos_y;
-		extern_destination.col = Action_info_to_be_checked->final_pos_x;
+	if (!Action_info_to_be_checked->is_local){		
+		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
 	}
 
@@ -514,32 +505,32 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		switch (my_direction)
 		{
 		case Direction_type::Jump_Straight:
-			if (Action_info_to_be_checked->is_local)
-			{
+			if (Action_info_to_be_checked->is_local) {
 				local_destination.fil = the_one_that_moves->pos_x;
 				local_destination.col = the_one_that_moves->pos_y - 1;
 			}
-			is_the_move_possible = true;
+			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1);
 
 			break;
 
 		case Direction_type::Jump_Left:
-			if (Action_info_to_be_checked->is_local)
-			{
-				local_destination.fil = the_one_that_moves->pos_x - 2;
-				local_destination.col = the_one_that_moves->pos_y-1;
-			}
-			is_the_move_possible = true;
+		case Direction_type::Jump_Right:
 
-			break;
-		case Direction_type::Jump_Right:			
-			if (Action_info_to_be_checked->is_local)
-			{
-				local_destination.fil = the_one_that_moves->pos_x + 2;
+			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
+
+			if (Action_info_to_be_checked->is_local) {
+				local_destination.fil = the_one_that_moves->pos_x + delta * 2;
+				local_destination.col = the_one_that_moves->pos_y - 1;
+				if (!character_check)	delta = 0;
+				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
+			}
+			else
+				is_the_move_possible = maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
+
+			if (Action_info_to_be_checked->is_local){
+				local_destination.fil = the_one_that_moves->pos_x + delta * 2;
 				local_destination.col = the_one_that_moves->pos_y - 1;
 			}
-											
-			is_the_move_possible = true;
 			break;
 
 		case Direction_type::Left:
@@ -548,7 +539,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 			is_the_move_possible = Action_info_to_be_checked->is_local ?
 				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
-				maps[actual_map]->cell_has_floor(extern_destination.col, extern_destination.fil);
+				maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x + delta;
@@ -564,7 +555,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	}
 	if (is_the_move_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage
 	{
-		Action_info_to_be_checked->final_pos_x=local_destination.fil;
+		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
 

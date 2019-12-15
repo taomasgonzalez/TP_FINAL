@@ -42,7 +42,6 @@ public:
 /*******************************************************************************
 	MOVEMENTS
 ******************************************************************************/
-	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
 
 	//checkers
 	bool check_if_has_to_fall(unsigned int id);

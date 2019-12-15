@@ -319,11 +319,8 @@ void LogicFSM::check_and_send_action_request() {
 
 	check_action();
 
-	if (!error_ocurred)  //The action request was valid
+	if (valid_action)  //The action request was valid
 		send_action_request_and_set_ack_time_out();
-	else
-		error_ocurred = false; //The action request was invalid
-
 }
 
 void LogicFSM::execute_receive_action_and_send_ack() {

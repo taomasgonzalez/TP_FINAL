@@ -10,8 +10,8 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
 
-	keyboard_jump_events_timer = al_create_timer(1 / 1);
-	keyboard_move_events_timer = al_create_timer(1 / 1);
+	keyboard_jump_events_timer = al_create_timer(1 / 1.2);
+	keyboard_move_events_timer = al_create_timer(1 / 1.2);
 
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_jump_events_timer));
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_move_events_timer));
