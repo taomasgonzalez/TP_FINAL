@@ -485,19 +485,13 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Direction_type my_direction;
 
 	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
-	if (Action_info_to_be_checked->is_local)
-	{
-		Action_info_to_be_checked->my_character = my_player;
-		the_one_that_moves = get_player(my_player);
-	}
-	else
-	{
-		if (!data->my_network_data.is_client()) {
-			Action_info_to_be_checked->my_character = other_player;
-			the_one_that_moves = get_player(other_player);
-		}
-		else
-			the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
+	
+	if (Action_info_to_be_checked->is_local || !data->my_network_data.is_client())
+		Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
+
+	the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
+
+	if (!Action_info_to_be_checked->is_local){
 
 		extern_destination.fil = Action_info_to_be_checked->final_pos_y;
 		extern_destination.col = Action_info_to_be_checked->final_pos_x;

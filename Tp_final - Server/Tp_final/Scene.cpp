@@ -485,19 +485,13 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Direction_type my_direction;
 
 	//hacer funcion ´para evitar chocclo que reciba parámetros, si es local, ptr my_direction para modificarlo ahí adentro y el destino
-	if (Action_info_to_be_checked->is_local)
-	{
-		Action_info_to_be_checked->my_character = my_player;
-		the_one_that_moves = get_player(my_player);
-	}
-	else
-	{
-		if (!data->my_network_data.is_client()) {
-			Action_info_to_be_checked->my_character = other_player;
-			the_one_that_moves = get_player(other_player);
-		}
-		else
-			the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
+
+	if (Action_info_to_be_checked->is_local || !data->my_network_data.is_client())
+		Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
+
+	the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
+
+	if (!Action_info_to_be_checked->is_local) {
 
 		extern_destination.fil = Action_info_to_be_checked->final_pos_y;
 		extern_destination.col = Action_info_to_be_checked->final_pos_x;
@@ -512,7 +506,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
-	else if (!character_check && !the_one_that_moves->is_iddle()) 
+	else if (!character_check && !the_one_that_moves->is_iddle())
 		is_the_move_possible = false;
 	else
 	{
@@ -533,18 +527,18 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x - 2;
-				local_destination.col = the_one_that_moves->pos_y-1;
+				local_destination.col = the_one_that_moves->pos_y - 1;
 			}
 			is_the_move_possible = true;
 
 			break;
-		case Direction_type::Jump_Right:			
+		case Direction_type::Jump_Right:
 			if (Action_info_to_be_checked->is_local)
 			{
 				local_destination.fil = the_one_that_moves->pos_x + 2;
 				local_destination.col = the_one_that_moves->pos_y - 1;
 			}
-											
+
 			is_the_move_possible = true;
 			break;
 
@@ -570,14 +564,13 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	}
 	if (is_the_move_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage
 	{
-		Action_info_to_be_checked->final_pos_x=local_destination.fil;
+		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
 
 
 	return is_the_move_possible;
 }
-
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves) {
 
 	Direction_type my_direction;

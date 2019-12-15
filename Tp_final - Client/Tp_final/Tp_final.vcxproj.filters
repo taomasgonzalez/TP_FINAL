@@ -181,16 +181,20 @@
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
     <ClCompile Include="EventPackage.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageContainer.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
+    <ClCompile Include="LogicFSMGraphicEventsObserver.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -398,10 +402,14 @@
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
-    <ClInclude Include="ImageContainer.h" />
-    <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="GraphicGameFSM.h">
       <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageContainer.h">
+      <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="LogicFSMGraphicEventsObserver.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

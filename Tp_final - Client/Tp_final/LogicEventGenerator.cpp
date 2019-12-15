@@ -10,8 +10,8 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
 
-	keyboard_jump_events_timer = al_create_timer(1 / 1.5);
-	keyboard_move_events_timer = al_create_timer(1 / 1.5);
+	keyboard_jump_events_timer = al_create_timer(1 / 1);
+	keyboard_move_events_timer = al_create_timer(1 / 1);
 
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_jump_events_timer));
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_move_events_timer));
@@ -126,10 +126,10 @@ EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action
 	if (!my_user_data->my_network_data.is_client()) {
 		if (action == Action_type::Attack)
 			ev_pack = new ATTACK_EventPackage();
-		else  if (action == Action_type::Move)
+		else  if (action == Action_type::Move && dir != Direction_type::None)
 			ev_pack = new MOVE_EventPackage(dir);
 	}
-	else
+	else if(dir != Direction_type::None)
 		ev_pack = new ACTION_REQUEST_EventPackage(action, dir);
 
 	return ev_pack;
