@@ -473,24 +473,23 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool cha
 bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_check) {
 	cout << endl << "Entro CHECK" << endl;
 	bool is_the_move_possible;
-	Player * the_one_that_moves = NULL;
 	Position local_destination;
-	Direction_type my_direction;
 
 	/*	if this particular scene is a client scene and the move comes from networking, then the character is
 		already specified in Action_info_to_be_checked.*/
 	if (Action_info_to_be_checked->is_local || !data->my_network_data.is_client())
 		Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
 
-	the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
+	Player * the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
-	if (!Action_info_to_be_checked->is_local){		
+	if (!Action_info_to_be_checked->is_local){	
+		bool out_of_range = false;
 		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
-		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
+		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves, &out_of_range);
 	}
 
 	Action_info_to_be_checked->id = the_one_that_moves->id;
-	my_direction = Action_info_to_be_checked->my_direction;
+	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 
 	if (the_one_that_moves->is_dead())
 	{
@@ -517,20 +516,14 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		case Direction_type::Jump_Right:
 
 			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
-
+			if (!character_check)	delta = 0;
+			
 			if (Action_info_to_be_checked->is_local) {
-				local_destination.fil = the_one_that_moves->pos_x + delta * 2;
+				local_destination.fil = the_one_that_moves->pos_x + delta;
 				local_destination.col = the_one_that_moves->pos_y - 1;
-				if (!character_check)	delta = 0;
-				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
 			}
-			else
-				is_the_move_possible = maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
+			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
 
-			if (Action_info_to_be_checked->is_local){
-				local_destination.fil = the_one_that_moves->pos_x + delta * 2;
-				local_destination.col = the_one_that_moves->pos_y - 1;
-			}
 			break;
 
 		case Direction_type::Left:
@@ -563,21 +556,32 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	return is_the_move_possible;
 }
 
-Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves) {
+Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range) {
 
 	Direction_type my_direction;
 
-	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) //Left
+	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Left
 		my_direction = Direction_type::Left;
-	else if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) //Right
+		*out_of_range = (the_one_that_moves->pos_x - extern_destination->col) > 1;
+	}
+	else if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) { //Right
 		my_direction = Direction_type::Right;
-	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) //Jump_Straight
+		*out_of_range = (extern_destination->col - the_one_that_moves->pos_x) > 1;
+	}
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) { //Jump_Straight
 		my_direction = Direction_type::Jump_Straight;
-	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) //Jump_Left
+		*out_of_range = (the_one_that_moves->pos_x - extern_destination->fil) != 2;
+	}
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Jump_Left
 		my_direction = Direction_type::Jump_Left;
-	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) //Jump_Right
+		*out_of_range = ((the_one_that_moves->pos_x - extern_destination->fil) > 1) ||
+						((the_one_that_moves->pos_y - extern_destination->col) != 2);
+	}
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) { //Jump_Right
 		my_direction = Direction_type::Jump_Right;
-	//defecto, ARREGLAR
+		*out_of_range = ((the_one_that_moves->pos_x - extern_destination->fil) > 1) ||
+						((the_one_that_moves->pos_x - extern_destination->col) != 2);
+	}
 	else
 		my_direction = Direction_type::None;  //a stay still was received
 
@@ -707,8 +711,8 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			switch (action_to_be_checked)
 			{
 			case Action_type::Move:
-
-				my_direction = load_direction(&extern_destination, the_enemy_that_acts);
+				bool out_of_range;
+				my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
 
 				switch (my_direction)
 				{

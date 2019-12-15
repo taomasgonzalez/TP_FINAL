@@ -1,6 +1,7 @@
 #include "LogicEventGenerator.h"
 #include <iostream>
 
+#define LOGIC_EV_GEN_AMOUNT_EV_PACKS	2
 
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGenerator()
 {
@@ -10,12 +11,9 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
 
-	keyboard_jump_events_timer = al_create_timer(1 / 1.2);
-	keyboard_move_events_timer = al_create_timer(1 / 1.2);
-
-	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_jump_events_timer));
-	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_move_events_timer));
-
+	keyboard_events_timer = al_create_timer(1 / 15.0);
+	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_events_timer));
+	al_start_timer(keyboard_events_timer);
 	//time_out_timer = al->get_front_time_out_timer();
 	//time_out_count = 0;
 	//al_start_timer(coordinate_scene_events_timer);
@@ -62,34 +60,29 @@ void LogicEventGenerator::update_from_allegro_events() {
 
 void LogicEventGenerator::update_from_allegro_keyboard_events() {
 	ALLEGRO_EVENT  allegroEvent;
-	EventPackage * ev_pack = NULL;
+	EventPackage * ev_packs[LOGIC_EV_GEN_AMOUNT_EV_PACKS] = { NULL, NULL};
 
 	if (al_get_next_event(al_key_queue, &allegroEvent)) {			//tomo de la cola en caso de que no este vacia
 
 		if (allegroEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo quittear porque mandaron a cerrar la pantalla				
-			ev_pack = new LOCAL_QUIT_EventPackage();
+			ev_packs[0] = new LOCAL_QUIT_EventPackage();
 		}
 		else if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			if (allegroEvent.timer.source == keyboard_jump_events_timer) {
-				can_jump = true;
-				al_stop_timer(keyboard_jump_events_timer);
-			}
-			else if (allegroEvent.timer.source == keyboard_move_events_timer) {
-				can_move = true;
-				al_stop_timer(keyboard_move_events_timer);
-			}
-			update_keyboard_state(&ev_pack);
+			if (allegroEvent.timer.source == keyboard_events_timer) 
+				update_keyboard_state(ev_packs);
 		}
-		else if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN || allegroEvent.type == ALLEGRO_EVENT_KEY_UP)
-			update_keyboard_state(&ev_pack);
 	}
-	if (ev_pack != NULL)
-		append_new_event(ev_pack, (int)LogicQueues::allegro);
+
+	for(int i =0; i < LOGIC_EV_GEN_AMOUNT_EV_PACKS; i++)
+		if (ev_packs[i] != NULL)
+			append_new_event(ev_packs[i], (int)LogicQueues::allegro);
 
 }
-void LogicEventGenerator::update_keyboard_state(EventPackage ** ev_pack) {
+void LogicEventGenerator::update_keyboard_state(EventPackage* ev_packs[LOGIC_EV_GEN_AMOUNT_EV_PACKS]) {
 	ALLEGRO_KEYBOARD_STATE keystate;
 	al_get_keyboard_state(&keystate);
+
+	int actual_ev_pack = 0;
 
 	if (al_key_down(&keystate, ALLEGRO_KEY_LEFT))
 		side_move_dir = Direction_type::Left;
@@ -98,22 +91,16 @@ void LogicEventGenerator::update_keyboard_state(EventPackage ** ev_pack) {
 	else
 		side_move_dir = Direction_type::None;
 
-	if (jumping = al_key_down(&keystate, ALLEGRO_KEY_UP)) {
-		if (can_jump) {
-			*ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
-			can_jump = false;
-			al_start_timer(keyboard_jump_events_timer);
-		}
-	}
-	else if (side_move_dir != Direction_type::None && can_move) {
-		*ev_pack = direction_to_event_package(Action_type::Move, side_move_dir);
-		can_move = false;
-		al_start_timer(keyboard_move_events_timer);
-	}
+	jumping = al_key_down(&keystate, ALLEGRO_KEY_UP);
+
+	ev_packs[actual_ev_pack++] = direction_to_event_package(Action_type::Move, side_move_dir);
+	
+	if (al_key_down(&keystate, ALLEGRO_KEY_SPACE))
+		ev_packs[actual_ev_pack++] = direction_to_event_package(Action_type::Attack, Direction_type::None);
+
 }
 EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type dir) {
 	EventPackage* ev_pack = NULL;
-
 
 	if (action == Action_type::Move && jumping) {
 		//the player is jumping in one direction, so should first convert to the suited Direction_type

@@ -13,9 +13,10 @@ LogicFSM::~LogicFSM() {
 
 
 void LogicFSM::run_fsm(EventPackage * ev_pack) {
-
+	if(ev_pack != NULL)
+		print_curr_state();
 	FSM::run_fsm(ev_pack);
-
+	
 	Package * new_pack = com->receiveMessage();
 
 	if (new_pack != NULL) //me un mensaje
@@ -601,6 +602,10 @@ void LogicFSM::save_enemy_action() {
 		scenario->append_new_auxilar_event(my_enemy_action_struct);  //cola de la struct y no EVPs
 		ev_gen->append_new_event(new ENEMY_ACTION_EventPackage(&my_enemy_action_struct), (int)EventGenerator::LogicQueues::soft); //has to be sent to the client
 	}
+}
+
+void LogicFSM::print_curr_state()
+{
 }
 
 void LogicFSM::send_enemy_action() {

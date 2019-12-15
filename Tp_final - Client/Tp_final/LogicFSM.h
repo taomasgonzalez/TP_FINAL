@@ -124,7 +124,8 @@ public:
 	void load_enemy_action();
 	void save_enemy_action();
 
-
+protected:
+	virtual void print_curr_state();
 private:
 	Userdata * user_data = NULL;
 	LogicEventGenerator * ev_gen = NULL;
@@ -134,6 +135,7 @@ private:
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
 	void execute_action();
+
 };
 
 
@@ -185,7 +187,7 @@ void check_map_and_save_send_ack_r(void* data);
 void check_sum_and_send_ack_r(void* data);
 
 //timers
-void set_ack_time_out_r(void* data);
+void set_ack_time_out(void* data);
 void received_ack_routine_r(void* data);
 
 //others

@@ -46,7 +46,6 @@ LogicClientFSM::LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Playing_state->push_back({ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack_r }); //extern MOVE that arrives through networking , has to be checked
 	Playing_state->push_back({ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_action_and_send_ack_r });
 	Playing_state->push_back({ Event_type::ATTACK, this->Playing_state, execute_receive_action_and_send_ack_r });  //extern ATTACK that arrives through networking , has to be checked
-
 	Playing_state->push_back({ Event_type::ACTION_REQUEST, this->Playing_state, check_and_send_action_request_r });	//Action request generate by allegro, has to be send to the server
 	Playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r });		//se recibe un envio un quit local, paso a esperar el ACK
 	Playing_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r });	//se recibe un quit por networking,
@@ -91,5 +90,27 @@ LogicClientFSM::~LogicClientFSM()
 
 	delete Waiting_for_ACK_quit_state;
 	delete Waiting_if_the_server_wants_to_play_again;
+}
+
+void LogicClientFSM::print_curr_state()
+{
+	if (Initial_state == actual_state)									
+		cout <<"Initial_state" << endl;
+	else if (Naming_me_state == actual_state)								
+		cout << "Naming_me_state" << endl;
+	else if (Naming_him_state == actual_state)
+		cout << "Naming_him_state" << endl;
+	else if (Waiting_for_map_state == actual_state)
+		cout << "Waiting_for_map_state" << endl;
+	else if (Waiting_for_enemy_actions_state == actual_state)
+		cout << "Waiting_for_enemy_actions_state" << endl;
+	else if (Playing_state == actual_state)
+		cout << "Playing_state" << endl;
+	else if (Waiting_for_servers_response_state == actual_state)
+		cout << "Waiting_for_servers_response_state" << endl;
+	else if (Waiting_if_the_server_wants_to_play_again == actual_state)
+		cout << "Waiting_if_the_server_wants_to_play_again" << endl;
+	else if (Waiting_for_ACK_quit_state == actual_state)
+		cout << "Waiting_for_ACK_quit_state" << endl;
 }
 
