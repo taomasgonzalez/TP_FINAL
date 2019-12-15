@@ -224,7 +224,7 @@ Action_info MOVE_EventPackage::to_Action_info()
 	returnable_info.final_pos_x = give_me_your_destination_row();
 	returnable_info.final_pos_y = give_me_your_destination_column();
 	returnable_info.my_character = give_me_the_character();
-	returnable_info.id = (unsigned int)returnable_info.my_character;
+	returnable_info.id = (unsigned int) returnable_info.my_character;
 	returnable_info.action = Action_type::Move;
 	returnable_info.my_direction = give_me_your_direction();
 
