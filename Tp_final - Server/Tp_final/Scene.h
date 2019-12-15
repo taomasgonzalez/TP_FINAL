@@ -42,7 +42,6 @@ public:
 /*******************************************************************************
 	MOVEMENTS
 ******************************************************************************/
-	void handle_movement(Character_id char_id, unsigned int id, Direction_type dir, Action_type action);
 
 	//checkers
 	bool check_if_has_to_fall(unsigned int id);
@@ -101,7 +100,7 @@ private:
 
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);
-	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves);
+	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range);
 	bool check_attack(Action_info * package_to_be_analyze);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
 

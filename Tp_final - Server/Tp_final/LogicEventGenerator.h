@@ -23,8 +23,7 @@ private:
 	ALLEGRO_EVENT_QUEUE * al_key_queue = NULL;
 	ALLEGRO_TIMER * time_out_timer = NULL;
 
-	ALLEGRO_TIMER* keyboard_jump_events_timer = NULL;
-	ALLEGRO_TIMER* keyboard_move_events_timer = NULL;
+	ALLEGRO_TIMER* keyboard_events_timer = NULL;
 
 	unsigned int time_out_count;
 
@@ -35,11 +34,9 @@ private:
 	Allegro* al = NULL;
 	Userdata* my_user_data = NULL;
 
-	void update_keyboard_state(EventPackage ** ev_pack);
+	void update_keyboard_state(EventPackage** ev_pack);
 	Direction_type side_move_dir = Direction_type::None;
 	bool jumping = false;
 
-	bool can_jump = true;
-	bool can_move = true;
 };
 

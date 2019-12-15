@@ -57,12 +57,10 @@ void CharacterActionsFSM::set_processes() {
 	jumping_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
 
 	jumping_left_process.push_back(std::make_pair(Direction_type::Jump_Straight,0));
-	jumping_left_process.push_back(std::make_pair(Direction_type::Jump_Straight,0));
-	jumping_left_process.push_back(std::make_pair(Direction_type::Left,0));
+	jumping_left_process.push_back(std::make_pair(Direction_type::Jump_Left,0));
 
 	jumping_right_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
-	jumping_right_process.push_back(std::make_pair(Direction_type::Jump_Straight, 0));
-	jumping_right_process.push_back(std::make_pair(Direction_type::Right, 0));
+	jumping_right_process.push_back(std::make_pair(Direction_type::Jump_Right, 0));
 
 	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
 
@@ -148,7 +146,6 @@ void CharacterActionsFSM::process_logical_movement()
 	bool can_perform = true;
 	if(!finished_logical_movement()){			//do i have any more sub-movements to perform?
 		
-
 		//can i perform this sub-movement? Do the game conditions enable me to do so?
 		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
@@ -174,16 +171,6 @@ void CharacterActionsFSM::process_logical_attack(){
 	end_if_should_end_attack();
 }
 
-void CharacterActionsFSM::start_jumping_forward(){
-	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
-
-	if (curr_jump->jumping_direction == Direction_type::Jump_Right)
-		set_curr_process(&jumping_right_process);
-	else if (curr_jump->jumping_direction == Direction_type::Jump_Left)
-		set_curr_process(&jumping_left_process);
-
-	//set_curr_timer_and_start(jumping_forward_timer);
-}
 void CharacterActionsFSM::start_attacking(){
 	attacked = false;
 	set_curr_timer_and_start(attacking_timer);
@@ -331,16 +318,23 @@ void reset_jumping(void* data) {
 
 void start_jumping_forward_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->obs_info.start_jumping_forward_graph = true;
-	fsm->notify_obs();
-	fsm->obs_info.start_jumping_forward_graph = false;
-
 	fsm->start_jumping_forward();
+}
+void CharacterActionsFSM::start_jumping_forward(){
+	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
+
+	if (curr_jump->jumping_direction == Direction_type::Jump_Right)
+		set_curr_process(&jumping_right_process);
+	else if (curr_jump->jumping_direction == Direction_type::Jump_Left)
+		set_curr_process(&jumping_left_process);
+
+	obs_info.start_jumping_forward_graph = true;
+	notify_obs();
+	obs_info.start_jumping_forward_graph = false;
 }
 void check_jumping_forward_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->process_logical_movement();
-
 }
 void reset_jumping_forward(void* data) {
 	iddle_graph(data);

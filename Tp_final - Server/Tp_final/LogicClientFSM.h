@@ -7,6 +7,8 @@ public:
 	LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
 	~LogicClientFSM();
 
+protected:
+	virtual void print_curr_state();
 private:
 	/****************************
 		states
