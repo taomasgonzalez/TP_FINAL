@@ -8,12 +8,7 @@
 #include "ImageContainer.h"
 #include "AllegroClass.h"
 #include "Observer.h"
-/*
 
-#define SCREEN_W (16*BLOCK_SIZE)
-#define SCREEN_H (12*BLOCK_SIZE)
-
-*/
 
 using namespace std;
 
