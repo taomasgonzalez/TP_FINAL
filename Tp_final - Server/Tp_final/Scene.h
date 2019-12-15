@@ -117,7 +117,6 @@ private:
 
 	//EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	Action_info action_to_be_loaded;
-	unsigned int action_to_be_loaded_id;
 
 	unsigned int points;
 	Item_type my_player;

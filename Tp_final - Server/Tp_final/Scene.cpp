@@ -504,7 +504,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves);
 	}
 
-	action_to_be_loaded_id = the_one_that_moves->id;
+	Action_info_to_be_checked->id = the_one_that_moves->id;
 	my_direction = Action_info_to_be_checked->my_direction;
 
 	if (the_one_that_moves->is_dead())
@@ -616,14 +616,14 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 	{
 		Action_info_to_be_checked->my_character = my_player;
 		the_one_that_attacks = get_player(my_player);
-		action_to_be_loaded_id = the_one_that_attacks->id;
+		Action_info_to_be_checked->id = the_one_that_attacks->id;
 		in_witch_direction_is_he_looking = the_one_that_attacks->get_sense();
 	}
 	else
 	{
 		Action_info_to_be_checked->my_character = other_player;
 		the_one_that_attacks = get_player(other_player);
-		action_to_be_loaded_id = the_one_that_attacks->id;
+		Action_info_to_be_checked->id = the_one_that_attacks->id;
 
 		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
 		extern_destination.col = Action_info_to_be_checked->final_pos_y;
@@ -705,7 +705,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 
 		the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
-		action_to_be_loaded_id = the_enemy_that_acts->id;
+		package_to_be_analyze->id = the_enemy_that_acts->id;
 
 		extern_destination.fil = package_to_be_analyze->final_pos_x;
 		extern_destination.col = package_to_be_analyze->final_pos_y;

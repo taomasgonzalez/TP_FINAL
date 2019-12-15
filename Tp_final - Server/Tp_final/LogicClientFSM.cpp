@@ -43,6 +43,7 @@ LogicClientFSM::LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_enemy_actions_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
 	Waiting_for_enemy_actions_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_enemy_actions_state, do_nothing_r });
 
+	Playing_state->push_back({ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack_r }); //extern MOVE that arrives through networking , has to be checked
 	Playing_state->push_back({ Event_type::ENEMY_ACTION, this->Playing_state, execute_receive_action_and_send_ack_r });
 	Playing_state->push_back({ Event_type::ACTION_REQUEST, this->Waiting_for_servers_response_state, check_and_send_action_request_r });	//Action request generate by allegro, has to be send to the server
 	Playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r });		//se recibe un envio un quit local, paso a esperar el ACK

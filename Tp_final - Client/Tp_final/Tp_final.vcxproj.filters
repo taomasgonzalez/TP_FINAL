@@ -13,9 +13,6 @@
     <ClCompile Include="Communication.cpp">
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
-    <ClCompile Include="EventPackage.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
     <ClCompile Include="Allegroclass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -190,6 +187,9 @@
     </ClCompile>
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="FSM_Class.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
+    </ClCompile>
+    <ClCompile Include="EventPackage.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
   </ItemGroup>
@@ -591,9 +591,6 @@
     <ClCompile Include="LogicServerFSM.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
-    <ClCompile Include="LogicFSMRoutines.cpp">
-      <Filter>Source Files\Event_related\Logic</Filter>
-    </ClCompile>
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
@@ -605,9 +602,6 @@
     </ClCompile>
     <ClCompile Include="FSM_Class.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
-    </ClCompile>
-    <ClCompile Include="FSMCommunicationObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
     <ClCompile Include="ScenarioEventsObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
@@ -674,15 +668,6 @@
     </ClCompile>
     <ClCompile Include="EventPackageFactory.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
-    </ClCompile>
-    <ClCompile Include="CommunicationEventsObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="LogicFSMEventsObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
-    </ClCompile>
-    <ClCompile Include="LogicFSMSceneObserver.cpp">
-      <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
     <ClCompile Include="EnemyActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\Observers\Graphic</Filter>
@@ -797,12 +782,6 @@
     <ClInclude Include="LogicClientFSM.h">
       <Filter>Header Files\Event_related\Logic</Filter>
     </ClInclude>
-    <ClInclude Include="LogicFSMRoutines.h">
-      <Filter>Header Files\Event_related\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="FSMCommunicationObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
     <ClInclude Include="ScenarioEventsObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
@@ -879,12 +858,6 @@
       <Filter>Header Files\Event_related\Generic</Filter>
     </ClInclude>
     <ClInclude Include="CommunicationEventsObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicFSMEventsObserver.h">
-      <Filter>Header Files\Observers\Logic</Filter>
-    </ClInclude>
-    <ClInclude Include="LogicFSMSceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="CharacterSceneObserver.h">
