@@ -46,7 +46,9 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 
 	else if (fsm->obs_info.start_jumping_forward_graph) {
-		dir = get_character_graph_direction(fsm->get_current_action_direction());
+		//dir = get_character_graph_direction(fsm->get_current_action_direction());
+		JUMPED_FORWARD_EventPackage* ev_pack = static_cast<JUMPED_FORWARD_EventPackage*>(fsm->get_fsm_ev_pack());
+		dir = get_character_graph_direction(ev_pack->jumping_direction);
 		drawer->startDraw(player_JUMPING_FOWARD, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_JUMPING_FOWARD;
 	}
@@ -108,9 +110,11 @@ Direction PlayerActionsFSMDRAWObserver::get_character_graph_direction(Direction_
 	Direction returnable = Direction::None;
 	switch (direction) {
 	case Direction_type::Left:
+	case Direction_type::Jump_Left:
 		returnable = Direction::Left;
 		break;
 	case Direction_type::Right:
+	case Direction_type::Jump_Right:
 		returnable = Direction::Right;
 		break;
 	default:

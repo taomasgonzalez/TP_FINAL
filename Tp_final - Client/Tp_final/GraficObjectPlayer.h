@@ -37,6 +37,6 @@ private:
 	void handle_dying();
 
 	int get_movement_delta();
-
+	bool notified_half_jump = false;
 	ImageContainer::character_images * images = NULL;
 };
