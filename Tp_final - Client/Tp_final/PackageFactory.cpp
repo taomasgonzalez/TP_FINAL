@@ -86,7 +86,6 @@ PackageFactory::PackageFactory()
  
  EventPackage * PackageFactory::package_2_event_package(Package * package_recieved)
  {
-
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:

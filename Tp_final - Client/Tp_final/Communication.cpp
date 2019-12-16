@@ -1,9 +1,9 @@
 #include "Communication.h"
 
 #include <string>
+
 using namespace std;
-
-
+#define COM_BUFFER_LEN	1000
 Communication::Communication(Userdata * my_user_data) : Observable()
 {
 	//this->IO_handler = new boost::asio::io_service();					//Creation of the common necessary objetcs for connection
@@ -226,19 +226,18 @@ OUTPUT:
 	Package *
 */
 Package * Communication::receiveMessage() {
-	//startConnectionForServer();
-
 
 	boost::system::error_code error;	
 
-	char buf[1000];		// por donde recibire el input
-
+	
+	char buf[COM_BUFFER_LEN];		// por donde recibire el input
+	for (int i = 0; i < COM_BUFFER_LEN; i++)
+		buf[i] = 'í';
 	size_t len = 0;
 
 	//do
 	//{
 	len = socket->read_some(boost::asio::buffer(buf), error);			//leo el input que me envia la otra maquina		
-	int ack_quant = 0;
 	//} while (error.value() == WSAEWOULDBLOCK); //NO DEBERÍA LOOPEAR, NO SALE NUNCA SI NO LE LLEGA EL MENSAJE, BLOQUEANTE, PARA ESO ESTÁ EL ALLEGRO TIMER
 	if (len > 0)
 		cout << endl << "len: " << to_string(len) << endl;
@@ -246,115 +245,24 @@ Package * Communication::receiveMessage() {
 		received = NULL;
 		//std::cout << "NOREAD " << error.message() << std::endl;
 	}
-
 	else if (!error)
 	{
+		for (int i = 0; i < COM_BUFFER_LEN; ) {
+			Package* parsed_package = create_package(&buf[i]);
 
-		
-		Package_type type = (Package_type)buf[0];
-
-
-		switch (type)
-		{
-		case Package_type::ACK:
-			ack_quant++;
-			received = new ACK_package;
-			cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
-			break;
-
-		case Package_type::NAME:
-
-			received = new NAME_package;
-
-			break;
-
-		case Package_type::NAME_IS:
-		{
-			received = new NAME_IS_package(buf[1]-48, &buf[2]); //sending namelength and newname(char*) to the constructor
-
+			if (parsed_package == NULL)		break;
+			packages_queue.push(parsed_package);
+			i += parsed_package->get_info_length();
 		}
-			break;
 
-		case Package_type::MAP_IS:
-
-			received = new MAP_IS_package(&buf[1], buf[193]);
-			std::cout << received->get_sendable_info();
-
-			break;
-
-		case Package_type::GAME_START:
-
-			received = new GAME_START_package;
-
-			break;
-
-		case Package_type::MOVE:
-
-			received = new MOVE_package((Item_type)buf[1], buf[2]-48, buf[3]-48); //sacando el desfasaje hecho para evitar null terminator en buffer
-
-			break;
-
-		case Package_type::ATTACK:
-
-			received = new ATTACK_package((Character_type)buf[1], buf[2]-48, buf[3]-48);
-
-			break;
-
-		case Package_type::ACTION_REQUEST:
-
-			received = new ACTION_REQUEST_package((Action_type)buf[1], buf[2] - 48, buf[3] - 48);
-
-			break;
-
-		case Package_type::ENEMY_ACTION:
-
-			received = new ENEMY_ACTION_package(buf[1]-48, (Action_type)buf[2], buf[3]-48, buf[4]-48);
-
-			break;
-
-		case Package_type::WE_WON:
-
-			received = new WE_WON_package;
-
-			break;
-
-		case Package_type::PLAY_AGAIN:
-
-			received = new PLAY_AGAIN_package;
-
-			break;
-
-		case Package_type::GAME_OVER:
-
-			received = new GAME_OVER_package;
-
-			break;
-
-		case Package_type::QUIT:
-
-			received = new QUIT_package;
-
-			break;
-
-		case Package_type::ERROR1: //An error that was received by networking
-
-			received = new ERROR_package;
-
-			break;
-
-		default:  //The program received an unknown header package, thus it´S considered that the package is corrupted
-
-			this->healthy_connection = false; 
-			received = new ERROR_package;
-			break;
-
-		}
 	}
 
 	else 
-	{
 		std::cout << "Error while trying to connect to server " << error.message() << std::endl;
-		//this->healthy_connection = false; NO ES ERROR NECESARIAMENTE
+
+	if (!packages_queue.empty()) {
+		received = packages_queue.front();
+		packages_queue.pop();
 	}
 
 	return received;
@@ -408,4 +316,107 @@ uint32_t Communication::get_expected_id() {
 bool Communication::is_the_connection_healthy()
 {
 	return this->healthy_connection;
+}
+
+
+Package* Communication::create_package(char* aux_buf){
+	static int ack_quant = 0;
+	Package* new_package = NULL;
+	Package_type type = (Package_type)aux_buf[0];
+
+	switch (type)
+	{
+	case Package_type::ACK:
+		ack_quant++;
+		new_package = new ACK_package;
+		cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
+		break;
+
+	case Package_type::NAME:
+
+		new_package = new NAME_package;
+
+		break;
+
+	case Package_type::NAME_IS:
+	{
+		new_package = new NAME_IS_package(aux_buf[1] - 48, &aux_buf[2]); //sending namelength and newname(char*) to the constructor
+
+	}
+	break;
+
+	case Package_type::MAP_IS:
+
+		new_package = new MAP_IS_package(&aux_buf[1], aux_buf[193]);
+		std::cout << new_package->get_sendable_info();
+
+		break;
+
+	case Package_type::GAME_START:
+
+		new_package = new GAME_START_package;
+
+		break;
+
+	case Package_type::MOVE:
+
+		new_package = new MOVE_package((Item_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48); //sacando el desfasaje hecho para evitar null terminator en buffer
+
+		break;
+
+	case Package_type::ATTACK:
+
+		new_package = new ATTACK_package((Character_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
+
+		break;
+
+	case Package_type::ACTION_REQUEST:
+
+		new_package = new ACTION_REQUEST_package((Action_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
+
+		break;
+
+	case Package_type::ENEMY_ACTION:
+
+		new_package = new ENEMY_ACTION_package(aux_buf[1] - 48, (Action_type)aux_buf[2], aux_buf[3] - 48, aux_buf[4] - 48);
+
+		break;
+
+	case Package_type::WE_WON:
+
+		new_package = new WE_WON_package;
+
+		break;
+
+	case Package_type::PLAY_AGAIN:
+
+		new_package = new PLAY_AGAIN_package;
+
+		break;
+
+	case Package_type::GAME_OVER:
+
+		new_package = new GAME_OVER_package;
+
+		break;
+
+	case Package_type::QUIT:
+
+		new_package = new QUIT_package;
+
+		break;
+
+	case Package_type::ERROR1: //An error that was received by networking
+
+		new_package = new ERROR_package;
+
+		break;
+
+	default:  //The program received an unknown header package, thus it´S considered that no package was received.
+
+		new_package = NULL;
+		break;
+
+	}
+	return new_package;
 }
