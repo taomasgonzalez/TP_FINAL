@@ -156,3 +156,33 @@ void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
 
 	//scenario->control_enemy_actions();
 }
+
+
+void LogicServerFSM::print_curr_state()
+{
+
+	if (Initial_state == actual_state)
+		cout << "Initial_state" << endl;
+	else if (Naming_me_state == actual_state)
+		cout << "Naming_me_state" << endl;
+	else if (Naming_him_state == actual_state)
+		cout << "Naming_him_state" << endl;
+	else if (Waiting_for_ACK_name_state == actual_state)
+		cout << "Waiting_for_ACK_name_state" << endl;
+	else if (Waiting_for_ACK_map_state == actual_state)
+		cout << "Waiting_for_map_state" << endl;
+	else if (Waiting_for_ACK_enemy_actions_state == actual_state)
+		cout << "Waiting_for_ACK_enemy_actions_state" << endl;
+	else if (Playing_state == actual_state)
+		cout << "Playing_state" << endl;
+	else if (Waiting_for_ACK_playing_state == actual_state)
+		cout << "Waiting_for_ACK_playing_state" << endl;
+	else if (Waiting_for_ACK_game_start_state == actual_state)
+		cout << "Waiting_for_ACK_game_start_state" << endl;
+	else if (Waiting_if_the_client_wants_to_play_again == actual_state)
+		cout << "Waiting_if_the_client_wants_to_play_again" << endl;
+	else if (Waiting_if_the_user_wants_to_play_again == actual_state)
+		cout << "Waiting_if_the_user_wants_to_play_again" << endl;
+	else if (Waiting_for_ACK_quit_state == actual_state)
+		cout << "Waiting_for_ACK_quit_state" << endl;
+}

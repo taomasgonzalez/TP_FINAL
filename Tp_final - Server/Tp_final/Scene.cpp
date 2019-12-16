@@ -516,12 +516,12 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		case Direction_type::Jump_Right:
 
 			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
-			if (!character_check)	delta = 0;
 			
 			if (Action_info_to_be_checked->is_local) {
 				local_destination.fil = the_one_that_moves->pos_x + delta;
-				local_destination.col = the_one_that_moves->pos_y - 1;
+				local_destination.col = the_one_that_moves->pos_y - 2;
 			}
+			if (!character_check)	delta = 0;
 			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
 
 			break;

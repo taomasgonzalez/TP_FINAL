@@ -8,7 +8,8 @@ public:
 	~LogicServerFSM();
 
 	bool control_enemies = false;
-
+protected:
+	void print_curr_state();
 private:
 
 	/****************************

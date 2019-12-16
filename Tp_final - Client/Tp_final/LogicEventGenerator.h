@@ -34,7 +34,9 @@ private:
 	Allegro* al = NULL;
 	Userdata* my_user_data = NULL;
 
-	void update_keyboard_state(EventPackage** ev_pack);
+#define LOGIC_EV_GEN_AMOUNT_EV_PACKS	2
+
+	void update_keyboard_state(EventPackage* ev_packs[LOGIC_EV_GEN_AMOUNT_EV_PACKS]);
 	Direction_type side_move_dir = Direction_type::None;
 	bool jumping = false;
 

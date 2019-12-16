@@ -15,13 +15,13 @@
 #include <ctime>
 #include <fstream>
 #include <string>
-
+#include <queue>
 #include "Package.h"
 #include "general.h"
 #include "Userdata.h"
 #include "Observable.h"
 
-
+using namespace std;
 //typedef basic_string<char> string;
 
 
@@ -76,7 +76,9 @@ private:
 
 
 	void copy_message(Package * package_received, char *buf);
-
+	Package* create_package(char* aux_buf);
 	Package * received = NULL;
+	queue<Package*> packages_queue;
+
 };
 

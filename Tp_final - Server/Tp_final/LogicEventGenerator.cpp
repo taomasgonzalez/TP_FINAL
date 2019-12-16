@@ -1,7 +1,6 @@
 #include "LogicEventGenerator.h"
 #include <iostream>
 
-#define LOGIC_EV_GEN_AMOUNT_EV_PACKS	2
 
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGenerator()
 {
@@ -11,7 +10,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_key_queue = al_create_event_queue();
 	al_register_event_source(al_key_queue, al_get_keyboard_event_source());
 
-	keyboard_events_timer = al_create_timer(1 / 15.0);
+	keyboard_events_timer = al_create_timer(1 / 5.0);
 	al_register_event_source(al_key_queue, al_get_timer_event_source(keyboard_events_timer));
 	al_start_timer(keyboard_events_timer);
 	//time_out_timer = al->get_front_time_out_timer();
