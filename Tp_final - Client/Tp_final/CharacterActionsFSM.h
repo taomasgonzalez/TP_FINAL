@@ -60,6 +60,7 @@ public:
 
 	bool has_to_fall();
 	void dont_fall();
+
 	ALLEGRO_TIMER* get_attacking_timer();
 protected:
 
