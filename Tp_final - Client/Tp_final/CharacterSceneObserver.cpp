@@ -51,21 +51,28 @@ void CharacterSceneObserver::direction_to_deltas(Action_info* action) {
 	action->final_pos_x = character->pos_x;
 	action->final_pos_y = character->pos_y;
 
-	if (action->my_direction == Direction_type::Right)
+	if (action->my_direction == Direction_type::Right) {
 		action->final_pos_x += 1;
-	else if (action->my_direction == Direction_type::Left)
+		character->set_sense(Sense_type::Right);
+	}
+	else if (action->my_direction == Direction_type::Left){
 		action->final_pos_x -= 1;
-	else if (action->my_direction == Direction_type::Jump_Straight)
+		character->set_sense(Sense_type::Left);
+	}
+	else if (action->my_direction == Direction_type::Jump_Straight) 
 		action->final_pos_y -= 1;
-	else if (action->my_direction == Direction_type::Down)
-		action->final_pos_y -= 1;
+	else if (action->my_direction == Direction_type::Down) 
+		action->final_pos_y += 1;
+	
 	else if (action->my_direction == Direction_type::Jump_Right) {
 		action->final_pos_x += 1;
-		action->final_pos_y += 1;
+		action->final_pos_y -= 1;
+		character->set_sense(Sense_type::Right);
 	}
 	else if (action->my_direction == Direction_type::Jump_Left) {
 		action->final_pos_x -= 1;
-		action->final_pos_y += 1;
+		action->final_pos_y -= 1;
+		character->set_sense(Sense_type::Left);
 	}
 }
 
