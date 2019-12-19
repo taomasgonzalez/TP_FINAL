@@ -791,9 +791,17 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 bool Scene::check_if_has_to_fall(unsigned int id) {
 
-	MapThing * element_to_be_checked= maps[actual_map]->get_from_map(id);
+	Character * element_to_be_checked = static_cast<Character*>(maps[actual_map]->get_from_map(id));
+	bool has_to_fall = false;
 
-	return (maps[actual_map]->cell_has_floor(element_to_be_checked->pos_x + 1, element_to_be_checked->pos_y));
+	if (element_to_be_checked->has_to_fall()) {
+		if (maps[actual_map]->cell_has_floor(element_to_be_checked->pos_x + 1, element_to_be_checked->pos_y))
+			has_to_fall = true;
+		else
+			element_to_be_checked->dont_fall();
+	}
+
+	return has_to_fall;
 }
 
 bool Scene::check_position(Action_info position_info) {

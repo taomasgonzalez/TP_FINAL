@@ -186,6 +186,16 @@ void CharacterActionsFSM::stop_action(){
 	stop_curr_timer();
 }
 
+bool CharacterActionsFSM::has_to_fall()
+{
+	return false;
+}
+
+void CharacterActionsFSM::dont_fall()
+{
+
+}
+
 ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer(){
 	return attacking_timer;
 }

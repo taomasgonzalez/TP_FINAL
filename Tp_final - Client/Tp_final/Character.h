@@ -15,6 +15,9 @@ public:
 	bool is_iddle();
 	bool is_attacking();
 
+	bool has_to_fall();
+	void dont_fall();
+
 	void append_action_to_character(Action_info action);
 	EventHandler * ev_handler = NULL;
 

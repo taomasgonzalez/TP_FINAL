@@ -36,6 +36,16 @@ bool Character::is_attacking() {
 	return char_fsm->is_attacking();
 }
 
+bool Character::has_to_fall()
+{
+	return static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->has_to_fall();
+}
+
+void Character::dont_fall()
+{
+	static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->dont_fall();
+}
+
 void Character::append_action_to_character(Action_info action) {
 
 	EventPackage* ev_pack = NULL;
