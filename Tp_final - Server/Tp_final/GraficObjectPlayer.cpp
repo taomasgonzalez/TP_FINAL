@@ -73,6 +73,7 @@ void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 	this->state = * (PLAYER_STATE *)state;
 	actualImage = 0;								// comienza con la primera imagen
 	secuenceOver_ = false;
+	notified_half_jump = false;
 }
 
 void Obj_Graf_Player::destroy()
@@ -119,7 +120,6 @@ void Obj_Graf_Player::handle_walking() {
 	((walkActualImage + 1) < 2 * WALKING_PICS) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 }
 void Obj_Graf_Player::handle_jumping() {
-	static bool notified_half_jump = false;
 	if (pos.get_y_coord() <= (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
 		if (!secuenceOver_) {
@@ -150,14 +150,22 @@ void Obj_Graf_Player::handle_jumping_forward() {
 
 	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
-		secuenceOver_ = true;
-		pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
-		actualImage = 0;
+		if (!secuenceOver_) {
+			secuenceOver_ = true;
+			notify_finished_drawing_step();
+			notified_half_jump = false;
+			pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
+			actualImage = 0;
+		}
 	}
 	else
 	{
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
+		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
+			notify_finished_drawing_step();
+			notified_half_jump = true;
+		}
 	}
 
 	if (dir == Direction::Left)
