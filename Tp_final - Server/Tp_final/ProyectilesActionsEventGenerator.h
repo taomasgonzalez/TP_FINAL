@@ -4,7 +4,7 @@
 class ProyectilesActionsEventGenerator : public MapThingEventGenerator
 {
 public:
-	ProyectilesActionsEventGenerator(std::vector<ALLEGRO_TIMER*> timers);
+	ProyectilesActionsEventGenerator();
 	~ProyectilesActionsEventGenerator();
 
 	EventPackage * fetch_event();

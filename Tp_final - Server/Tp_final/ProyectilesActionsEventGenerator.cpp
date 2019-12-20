@@ -2,7 +2,7 @@
 
 using namespace std;
 
-ProyectilesActionsEventGenerator::ProyectilesActionsEventGenerator(vector<ALLEGRO_TIMER*> timers) : MapThingEventGenerator(timers)
+ProyectilesActionsEventGenerator::ProyectilesActionsEventGenerator( ) : MapThingEventGenerator()
 {
 
 }
@@ -31,15 +31,6 @@ void ProyectilesActionsEventGenerator::set_impacting_timer(ALLEGRO_TIMER* impact
 }
 
 void ProyectilesActionsEventGenerator::update_allegro_timer_events() {
-	ALLEGRO_EVENT allegroEvent;
-	EventPackage * ev_pack = NULL;
 
-	if (al_get_next_event(timers_queue, &allegroEvent)) {
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			//if (allegroEvent.timer.source == coordinate_scene_events_timer) {
-				
-			//}
-		}
-	}
 
 }
