@@ -887,13 +887,16 @@ void Scene::control_enemy_actions()
 }
 void Scene::control_all_actions() {
 
+	//for (int i = 0; i < curr_players->size(); i++) {
+	//	Player* curr_player = curr_players->at(i);
+	//	if (check_if_has_to_fall(curr_player))
+	//		curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+	//	curr_player->ev_handler->handle_event();
+	//}
 	for (int i = 0; i < curr_players->size(); i++) {
 		Player* curr_player = curr_players->at(i);
-		if (check_if_has_to_fall(curr_player))
-			curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
-		curr_players->at(i)->ev_handler->handle_event();
-	}
-	
+		curr_player->ev_handler->handle_event();
+	}	
 	for(int i = 0; i < curr_proyectiles->size(); i++)
 		curr_proyectiles->at(i)->ev_handler->handle_event();
 }
