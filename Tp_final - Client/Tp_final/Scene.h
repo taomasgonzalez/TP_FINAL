@@ -44,7 +44,7 @@ public:
 ******************************************************************************/
 
 	//checkers
-	bool check_if_has_to_fall(unsigned int id);
+	bool check_if_has_to_fall(Character* charac);
 	bool check_position(Action_info position_info);
 	void check_current_game_situation();
 	bool is_the_action_possible(Action_info * package_to_be_analyze, bool character_check); //wrap for a clearer implementation of check_Action
