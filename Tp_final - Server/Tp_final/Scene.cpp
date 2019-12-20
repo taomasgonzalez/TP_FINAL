@@ -466,7 +466,6 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool cha
 
 	}
 
-
 	return is_the_action_possible;
 }
 
@@ -789,16 +788,17 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	return is_the_enemy_action_possible;
 }
 
-bool Scene::check_if_has_to_fall(unsigned int id) {
+bool Scene::check_if_has_to_fall(Character* charac) {
 
-	Character * element_to_be_checked = static_cast<Character*>(maps[actual_map]->get_from_map(id));
 	bool has_to_fall = false;
 
-	if (element_to_be_checked->has_to_fall()) {
-		if (maps[actual_map]->cell_has_floor(element_to_be_checked->pos_x + 1, element_to_be_checked->pos_y))
+	if (charac->has_to_fall()) {
+		if (charac->pos_y < 10 &&
+				maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 			has_to_fall = true;
+		}
 		else
-			element_to_be_checked->dont_fall();
+			charac->dont_fall();
 	}
 
 	return has_to_fall;
@@ -887,8 +887,12 @@ void Scene::control_enemy_actions()
 }
 void Scene::control_all_actions() {
 
-	for (int i = 0; i < curr_players->size(); i++)
+	for (int i = 0; i < curr_players->size(); i++) {
+		Player* curr_player = curr_players->at(i);
+		if (check_if_has_to_fall(curr_player))
+			curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
 		curr_players->at(i)->ev_handler->handle_event();
+	}
 	
 	for(int i = 0; i < curr_proyectiles->size(); i++)
 		curr_proyectiles->at(i)->ev_handler->handle_event();

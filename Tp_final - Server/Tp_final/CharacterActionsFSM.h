@@ -44,6 +44,7 @@ public:
 
 	void start_walking();
 	void start_jumping();
+	void start_iddle();
 	void start_jumping_forward();
 	void start_attacking();
 	void start_falling();

@@ -37,6 +37,7 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	char_ev_queue = al_create_event_queue();
 	al_register_event_source(char_ev_queue, al_get_timer_event_source(falling_timer));
 	actual_state = iddle_state;
+	al_start_timer(falling_timer);
 }
 
 
@@ -106,7 +107,7 @@ void CharacterActionsFSM::set_states() {
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
-	falling_state->push_back({ Event_type::MOVE, falling_state, check_fall_and_fall });
+	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
 	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char });
 
@@ -116,7 +117,7 @@ void CharacterActionsFSM::set_states() {
 
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
 	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
-
+	
 }
 
 void CharacterActionsFSM::kill_character() {
@@ -168,15 +169,15 @@ void CharacterActionsFSM::process_logical_attack(){
 }
 
 void CharacterActionsFSM::start_attacking(){
+	al_stop_timer(falling_timer);
 	attacked = false;
 }
 void CharacterActionsFSM::start_falling() {
-
+	al_stop_timer(falling_timer);
 	set_curr_process(&falling_process);
 	obs_info.start_falling_graph = true;
 	notify_obs();
 	obs_info.start_falling_graph = false;
-	al_start_timer(falling_timer);
 }
 
 void CharacterActionsFSM::stop_action(){
@@ -185,12 +186,14 @@ void CharacterActionsFSM::stop_action(){
 bool CharacterActionsFSM::has_to_fall()
 {
 	ALLEGRO_EVENT  allegroEvent;
-
+	bool returnable = false;
 	if (al_get_next_event(char_ev_queue, &allegroEvent))
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) 	//debo quittear porque mandaron a cerrar la pantalla	
-			return allegroEvent.timer.source == falling_timer;
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
+			returnable = allegroEvent.timer.source == falling_timer;
+			while (al_get_next_event(char_ev_queue, &allegroEvent));		//empties all timer events
+		}
 				 
-	return false;
+	return returnable;
 }
 
 void CharacterActionsFSM::dont_fall()
@@ -206,10 +209,6 @@ void CharacterActionsFSM::continue_logical_movement(){
 
 	++current_moving_iteration;
 }
-
-
-
-
 
 void CharacterActionsFSM::end_if_should_end_movement(){
 	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
@@ -274,6 +273,7 @@ void start_walking_r(void* data) {
 }
 
 void CharacterActionsFSM::start_walking() {
+	al_stop_timer(falling_timer);
 
 	WALKED_EventPackage * curr_walk = (WALKED_EventPackage*)get_fsm_ev_pack();
 	
@@ -306,11 +306,20 @@ void start_jumping_r(void* data) {
 
 }
 void CharacterActionsFSM::start_jumping() {
+	al_stop_timer(falling_timer);
 	set_curr_process(&jumping_process);
 
 	obs_info.start_jumping_graph = true;
 	notify_obs();
 	obs_info.start_jumping_graph = false;
+}
+
+
+void CharacterActionsFSM::start_iddle() {
+	obs_info.reset_graph = true;
+	notify_obs();
+	obs_info.reset_graph = false;
+	al_start_timer(falling_timer);
 }
 void check_jumping_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
@@ -326,6 +335,7 @@ void start_jumping_forward_r(void* data) {
 	fsm->start_jumping_forward();
 }
 void CharacterActionsFSM::start_jumping_forward(){
+	al_stop_timer(falling_timer);
 	JUMPED_FORWARD_EventPackage * curr_jump = (JUMPED_FORWARD_EventPackage*) get_fsm_ev_pack();
 
 	if (curr_jump->jumping_direction == Direction_type::Jump_Right)
@@ -355,7 +365,6 @@ void check_fall_and_fall(void* data) {
 }
 void reset_fall(void* data) {
 	iddle_graph(data);
-
 }
 
 void start_attacking_r(void* data) {
@@ -379,9 +388,7 @@ void reset_attack(void* data) {
 void iddle_graph(void * data)
 {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->obs_info.reset_graph = true;
-	fsm->notify_obs();
-	fsm->obs_info.reset_graph = false;
+	fsm->start_iddle();
 }
 
 void re_append_ev(void * data) {

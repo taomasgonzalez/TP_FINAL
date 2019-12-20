@@ -205,17 +205,20 @@ void Obj_Graf_Player::handle_attacking() {
 void Obj_Graf_Player::handle_falling() {
 	if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
-		this->secuenceOver_ = true;
-		this->pos.set_y_coord(this->InitalPos.get_y_coord() + BLOCK_SIZE);
-		this->actualImage = 0;
+		if (!secuenceOver_) {
+			notify_finished_drawing_step();
+			secuenceOver_ = true;
+			pos.set_y_coord(InitalPos.get_y_coord() + BLOCK_SIZE);
+			actualImage = 0;
+		}
 	}
 	else
 	{
-		(this->actualImage < (FALLING_PICS - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
-		this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
+		(actualImage < (FALLING_PICS - 1)) ? actualImage++ : actualImage = 0;																									// ubico el siguiente frame
+		pos.set_y_coord(pos.get_y_coord() + velFall);															// muevo la posicion del dibujo
 	}
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(images->fallImages[actualImage], 0, 0, al_get_bitmap_height(images->fallImages[actualImage]), al_get_bitmap_width(images->fallImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 void Obj_Graf_Player::handle_pushing() {
