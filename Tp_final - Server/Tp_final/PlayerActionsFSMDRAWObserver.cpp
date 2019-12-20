@@ -1,7 +1,7 @@
 #include "PlayerActionsFSMDRAWObserver.h"
 
 
-PlayerActionsFSMDRAWObserver::PlayerActionsFSMDRAWObserver(PlayerActionsFSM* fsm, CharacterActionsEventGenerator* ev_gen, Player* player)
+PlayerActionsFSMDRAWObserver::PlayerActionsFSMDRAWObserver(PlayerActionsFSM* fsm, EventGenerator* ev_gen, Player* player)
 {
 	this->fsm = fsm;
 	this->player = player;

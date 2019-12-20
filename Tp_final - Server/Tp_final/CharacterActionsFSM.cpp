@@ -34,13 +34,14 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	set_states();
 	set_processes();
 	create_all_timers();
+	char_ev_queue = al_create_event_queue();
+	al_register_event_source(char_ev_queue, al_get_timer_event_source(falling_timer));
 	actual_state = iddle_state;
 }
 
 
 CharacterActionsFSM::~CharacterActionsFSM()
 {
-	destroy_all_timers();
 	delete walking_state;
 	delete jumping_state;
 	delete jumping_forward_state;
@@ -70,9 +71,7 @@ void CharacterActionsFSM::set_processes() {
 }
 
 void CharacterActionsFSM::create_all_timers() {
-	
-	create_timer(&attacking_timer);
-
+	falling_timer = al_create_timer(1/50.0);
 }
 
 void CharacterActionsFSM::set_states() {
@@ -154,7 +153,6 @@ void CharacterActionsFSM::process_logical_movement()
 			obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
 			notify_obs();
 			obs_info.interrupt_movement = false;
-			stop_curr_timer();
 		}
 	}
 	//appends a movement finished event to the queue if the graphic part has finished its sequence. 
@@ -171,34 +169,35 @@ void CharacterActionsFSM::process_logical_attack(){
 
 void CharacterActionsFSM::start_attacking(){
 	attacked = false;
-	set_curr_timer_and_start(attacking_timer);
 }
 void CharacterActionsFSM::start_falling() {
 
 	set_curr_process(&falling_process);
-	//set_curr_timer_and_start(falling_timer);
 	obs_info.start_falling_graph = true;
 	notify_obs();
 	obs_info.start_falling_graph = false;
+	al_start_timer(falling_timer);
 }
 
 void CharacterActionsFSM::stop_action(){
-	stop_curr_timer();
 }
 
 bool CharacterActionsFSM::has_to_fall()
 {
+	ALLEGRO_EVENT  allegroEvent;
+
+	if (al_get_next_event(char_ev_queue, &allegroEvent))
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) 	//debo quittear porque mandaron a cerrar la pantalla	
+			return allegroEvent.timer.source == falling_timer;
+				 
 	return false;
 }
 
 void CharacterActionsFSM::dont_fall()
 {
-
+	al_stop_timer(falling_timer);
 }
 
-ALLEGRO_TIMER * CharacterActionsFSM::get_attacking_timer(){
-	return attacking_timer;
-}
 void CharacterActionsFSM::continue_logical_movement(){
 
 	obs_info.perform_logical_movement = true;
@@ -222,7 +221,6 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 		obs_info.interrupt_movement = true;
 		notify_obs();				
 		obs_info.interrupt_movement = false;
-		stop_curr_timer();
 	}
 }
 
@@ -235,7 +233,6 @@ void CharacterActionsFSM::end_if_should_end_attack(){
 		obs_info.interrupt_attack = true;
 		notify_obs();
 		obs_info.interrupt_attack = false;
-		stop_curr_timer();
 	}
 }
 
@@ -350,9 +347,7 @@ void reset_jumping_forward(void* data) {
 
 void start_falling_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-
 	fsm->start_falling();
-
 }
 void check_fall_and_fall(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;

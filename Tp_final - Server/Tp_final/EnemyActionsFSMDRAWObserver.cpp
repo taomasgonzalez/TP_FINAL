@@ -1,7 +1,7 @@
 #include "EnemyActionsFSMDRAWObserver.h"
 
 
-EnemyActionsFSMDRAWObserver::EnemyActionsFSMDRAWObserver(EnemyActionsFSM* fsm, CharacterActionsEventGenerator* ev_gen, Enemy* enemy)
+EnemyActionsFSMDRAWObserver::EnemyActionsFSMDRAWObserver(EnemyActionsFSM* fsm, EventGenerator* ev_gen, Enemy* enemy)
 {
 	this->fsm = fsm;
 	this->drawer = Userdata::drawer;

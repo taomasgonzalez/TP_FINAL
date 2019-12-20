@@ -22,7 +22,6 @@ protected:
 	std::vector<edge_t>* freezing_state = NULL;
 	std::vector<edge_t>* frozen_state = NULL;
 
-
 	process_t freezing_process;
 	process_t frozen_processs;
 
@@ -35,12 +34,10 @@ private:
 	process_t rolling_left_process;
 	process_t rolling_right_process;
 
-	ALLEGRO_TIMER* rolling_timer = NULL;
 	ALLEGRO_TIMER* frozen_timer = NULL;
 	ALLEGRO_TIMER* freezing_timer = NULL;
 
 	unsigned int amount_of_walls_hit = 0;
-
 
 	Enemy * enemy = NULL;
 };

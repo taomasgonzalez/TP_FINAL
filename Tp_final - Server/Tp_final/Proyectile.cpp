@@ -8,8 +8,7 @@ Proyectile::Proyectile(unsigned int id, Sense_type proyectile_sense) : MapThing(
 {
 	moving_timer = al_create_timer(1.0);
 	ProyectilesActionsFSM* fsm = new ProyectilesActionsFSM(this);
-	ProyectilesActionsEventGenerator* ev_gen = new ProyectilesActionsEventGenerator(fsm->get_all_timers());
-	get_and_set_timers(ev_gen, fsm);
+	EventGenerator* ev_gen = new EventGenerator();
 	ev_handler = new EventHandler(fsm, ev_gen);
 }
 

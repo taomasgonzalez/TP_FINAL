@@ -1,7 +1,7 @@
 #include "Enemy.h"
 #include "EnemyActionsFSM.h"
 #include "EnemyActionsFSMDRAWObserver.h"
-#include "EventGenerator.h"
+#include "MapThingEventGenerator.h"
 
 std::uniform_real_distribution<double> Enemy::acting_probabilities = std::uniform_real_distribution<double>(0.0, 1.0);
 unsigned Enemy::seed = std::chrono::system_clock::now().time_since_epoch().count();
@@ -14,7 +14,7 @@ Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 
 	EnemyActionsFSM* fsm = new EnemyActionsFSM(this);
 	//en el momento en que necesite mas timers para EnemyActionsFSM, tendre que overridiear la funcion get_all_my_timers!
-	EventGenerator* ev_gen = new EventGenerator();
+	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
 	ev_handler = new EventHandler(fsm, ev_gen);
 }

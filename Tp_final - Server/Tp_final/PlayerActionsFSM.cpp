@@ -21,12 +21,7 @@ PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
 
 PlayerActionsFSM::~PlayerActionsFSM()
 {
-	destroy_all_timers();
 	delete pushing_state;
-}
-void PlayerActionsFSM::start_pushing_timer()
-{
-	set_curr_timer_and_start(pushing_timer);
 }
 void PlayerActionsFSM::revive_player() {
 	player->revive();
@@ -52,7 +47,6 @@ void PlayerActionsFSM::set_states() {
 }
 
 void PlayerActionsFSM::create_all_timers() {
-	create_timer(&pushing_timer);
 }
 
 void PlayerActionsFSM::set_processes() {
@@ -75,10 +69,6 @@ void PlayerActionsFSM::start_pushing() {
 	else if (curr_push->pushing_direction == Direction_type::Jump_Left) 
 		set_curr_process(&pushing_left_process);
 
-	start_pushing_timer();
-}
-ALLEGRO_TIMER* PlayerActionsFSM::get_pushing_timer() {
-	return pushing_timer;
 }
 
 void player_revive(void* data) {
