@@ -169,15 +169,6 @@
     <ClCompile Include="ProyectilesActionsEventGenerator.cpp">
       <Filter>Source Files\PJ_related\Proyectiles</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="PlayerActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Characters\Players</Filter>
-    </ClCompile>
-    <ClCompile Include="EnemyActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Characters\Enemies</Filter>
-    </ClCompile>
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
@@ -387,17 +378,8 @@
     <ClInclude Include="MapThingFSM.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Characters</Filter>
-    </ClInclude>
     <ClInclude Include="ProyectilesActionsEventGenerator.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
-    </ClInclude>
-    <ClInclude Include="PlayerActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Characters\Players</Filter>
-    </ClInclude>
-    <ClInclude Include="EnemyActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Characters\Enemies</Filter>
     </ClInclude>
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>

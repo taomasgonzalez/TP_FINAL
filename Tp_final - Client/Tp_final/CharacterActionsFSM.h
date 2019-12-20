@@ -61,7 +61,6 @@ public:
 	bool has_to_fall();
 	void dont_fall();
 
-	ALLEGRO_TIMER* get_attacking_timer();
 protected:
 
 	std::vector<edge_t>* walking_state = NULL;
@@ -88,8 +87,8 @@ private:
 	process_t walking_left_process;
 	process_t walking_right_process;
 
-
-	ALLEGRO_TIMER* attacking_timer = NULL;
+	ALLEGRO_TIMER * falling_timer = NULL;
+	ALLEGRO_EVENT_QUEUE* char_ev_queue = NULL;
 
 	bool first_logical_movement();
 	bool finished_logical_movement();
@@ -98,12 +97,10 @@ private:
 	void end_if_should_end_movement();
 	void end_if_should_end_attack();
 
-
 	void attack();
 	bool has_attacked();
 
 	bool attacked = false;
-
 };
 
 

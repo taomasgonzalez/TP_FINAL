@@ -16,7 +16,6 @@ public:
 
 	void revive_player();
 	void start_pushing();
-	ALLEGRO_TIMER* get_pushing_timer();
 
 protected:
 	void set_states();
@@ -26,13 +25,10 @@ protected:
 private:
 	std::vector<edge_t>* pushing_state = NULL;
 
-	ALLEGRO_TIMER* pushing_timer = NULL;
 	Player* player = NULL;
 
 	process_t pushing_left_process;
 	process_t pushing_right_process;
-
-	void start_pushing_timer();
 
 };
 

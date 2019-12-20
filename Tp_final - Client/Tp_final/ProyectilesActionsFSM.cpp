@@ -76,8 +76,6 @@ void ProyectilesActionsFSM::set_states() {
 }
 
 void ProyectilesActionsFSM::create_all_timers() {
-	create_timer(&moving_timer);
-	create_timer(&falling_timer);
 }
 void ProyectilesActionsFSM::start_moving() {
 
@@ -92,8 +90,6 @@ void ProyectilesActionsFSM::start_moving() {
 		set_curr_process(&moving_left_process);
 	else if(direction == Direction_type::Right) 
 		set_curr_process(&moving_right_process);
-
-	set_curr_timer_and_start(moving_timer);
 }
 
 void ProyectilesActionsFSM::start_impacting() {
@@ -101,8 +97,6 @@ void ProyectilesActionsFSM::start_impacting() {
 	obs_info.start_impacting_graph = true;
 	notify_obs();								//ProyectilesActionsFSMDRAWObserver
 	obs_info.start_impacting_graph = false;
-
-	set_curr_timer_and_start(impacting_timer);
 }
 
 void ProyectilesActionsFSM::start_falling() {
@@ -112,7 +106,6 @@ void ProyectilesActionsFSM::start_falling() {
 	obs_info.start_falling_graph = false;
 
 	set_curr_process(&falling_process);
-	set_curr_timer_and_start(falling_timer);
 }
 
 void ProyectilesActionsFSM::process_logical_movement()
@@ -141,8 +134,6 @@ void ProyectilesActionsFSM::continue_logical_movement()
 	notify_obs();
 	obs_info.perform_logical_movement = false;
 	++current_moving_iteration;
-	if (!finished_logical_movement())
-		set_curr_timer_speed((*current_moving_iteration).second);
 }
 
 bool ProyectilesActionsFSM::finished_logical_movement() {
@@ -159,7 +150,6 @@ void ProyectilesActionsFSM::end_if_should_end_movement()
 		obs_info.interrupt_movement = true;
 		notify_obs();
 		obs_info.interrupt_movement = false;
-		stop_curr_timer();
 	}
 }
 

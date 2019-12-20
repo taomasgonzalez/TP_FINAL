@@ -6,7 +6,7 @@ CharacterSceneObserver::CharacterSceneObserver(Scene* scenario, Character* chara
 	this->scenario = scenario;
 	this->character = character;
 	this->fsm = static_cast<CharacterActionsFSM*>(character->ev_handler->get_fsm());
-	this->ev_gen = static_cast<CharacterActionsEventGenerator*>(character->ev_handler->get_ev_gen());
+	this->ev_gen = character->ev_handler->get_ev_gen();
 }
 
 

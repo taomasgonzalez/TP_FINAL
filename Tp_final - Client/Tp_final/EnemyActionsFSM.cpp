@@ -19,13 +19,12 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 	set_states();
 	set_processes();
 	create_all_timers();
-	this->actual_state = iddle_state;
+	actual_state = iddle_state;
 }
 
 
 EnemyActionsFSM::~EnemyActionsFSM()
 {
-	destroy_all_timers();
 	delete freezing_state;
 	delete frozen_state;
 }
@@ -79,8 +78,6 @@ void EnemyActionsFSM::set_processes() {
 }
 
 void EnemyActionsFSM::create_all_timers() {
-	create_timer(&frozen_timer);
-	create_timer(&freezing_timer);
 
 }
 

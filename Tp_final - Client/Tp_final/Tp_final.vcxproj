@@ -144,13 +144,10 @@
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="CharacterActionsEventGenerator.cpp" />
-    <ClCompile Include="EnemyActionsEventGenerator.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
-    <ClCompile Include="PlayerActionsEventGenerator.cpp" />
     <ClCompile Include="ProyectilesActionsEventGenerator.cpp" />
     <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
@@ -212,12 +209,9 @@
     <ClInclude Include="Action_Info.h" />
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="Character.h" />
-    <ClInclude Include="CharacterActionsEventGenerator.h" />
-    <ClInclude Include="EnemyActionsEventGenerator.h" />
     <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="MapThingEventGenerator.h" />
-    <ClInclude Include="PlayerActionsEventGenerator.h" />
     <ClInclude Include="ProyectilesActionsEventGenerator.h" />
     <ClInclude Include="CharacterSceneObserver.h" />
     <ClInclude Include="Communication.h" />
