@@ -1,8 +1,6 @@
 #include "Proyectile.h"
-#include "ProyectilesActionsEventGenerator.h"
 #include "ProyectilesActionsFSM.h"
 
-void get_and_set_timers(ProyectilesActionsEventGenerator* ev_gen, ProyectilesActionsFSM* fsm);
 
 Proyectile::Proyectile(unsigned int id, Sense_type proyectile_sense) : MapThing(id, false, proyectile_sense)
 {
@@ -35,8 +33,3 @@ ALLEGRO_TIMER * Proyectile::get_moving_timer()
 
 
 
-void get_and_set_timers(ProyectilesActionsEventGenerator* ev_gen, ProyectilesActionsFSM* fsm) {
-	ev_gen->set_falling_timer(fsm->get_falling_timer());
-	ev_gen->set_impacting_timer(fsm->get_impacting_timer());
-	ev_gen->set_moving_timer(fsm->get_moving_timer());
-}

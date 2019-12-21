@@ -121,7 +121,6 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 
 }
 
-
 void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 
 	bool move_succesful = true;
@@ -225,7 +224,6 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 		maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::FIREBALL, my_direction, this);
 	}
 }
-
 
 void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
 
@@ -387,7 +385,6 @@ void Scene::gameInit() {
 
 }
 
-
 Item_type Scene::give_me_my_player() {
 
 	return my_player;
@@ -397,7 +394,6 @@ Item_type Scene::give_the_other_player() {
 
 	return other_player;
 }
-
 
 bool Scene::both_players_dead()
 {
@@ -896,7 +892,6 @@ void Scene::append_graphic_facility(void * drawer)
 {
 	this->graphics = drawer;
 }
-
 
 Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 	int shortest_distance = INT_MAX;

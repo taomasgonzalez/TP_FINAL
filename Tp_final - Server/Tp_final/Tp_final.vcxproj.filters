@@ -160,9 +160,6 @@
     <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
-    <ClCompile Include="ProyectilesActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Proyectiles</Filter>
-    </ClCompile>
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
@@ -372,9 +369,6 @@
     </ClInclude>
     <ClInclude Include="MapThingFSM.h">
       <Filter>Header Files\Map_related</Filter>
-    </ClInclude>
-    <ClInclude Include="ProyectilesActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Proyectiles</Filter>
     </ClInclude>
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
@@ -675,9 +669,6 @@
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
       <Filter>Header Files\Observers\Graphic</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterActionsEventGenerator.cpp">
-      <Filter>Source Files\PJ_related\Characters</Filter>
-    </ClCompile>
     <ClCompile Include="EnemySceneObserver.cpp">
       <Filter>Source Files\Observers\Logic</Filter>
     </ClCompile>
@@ -862,9 +853,6 @@
     </ClInclude>
     <ClInclude Include="ProyectilesActionsFSMDRAWObserver.h">
       <Filter>Header Files\Observers\Graphic</Filter>
-    </ClInclude>
-    <ClInclude Include="CharacterActionsEventGenerator.h">
-      <Filter>Header Files\PJ_related\Characters</Filter>
     </ClInclude>
     <ClInclude Include="EnemySceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>

@@ -29,14 +29,12 @@ public:
 
 	void start_impacting();
 	void start_moving();
-	void start_falling();
 
 	void finished_impacting();
 
 	void process_logical_movement();
 
 	ALLEGRO_TIMER* get_moving_timer();
-	ALLEGRO_TIMER* get_falling_timer();
 	ALLEGRO_TIMER* get_impacting_timer();
 
 protected:

@@ -102,10 +102,13 @@ void Obj_Graf_Projectile::handle_moving(PROYECTILE_TYPE type)
 
 	if (reached_final_pos)
 	{
-		secuenceOver_ = true;
-		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
-		active = false;															// se pasiva el objeto
-		actualImage = 0;
+		if (!secuenceOver_) {
+			secuenceOver_ = true;
+			notify_finished_drawing_step();
+			pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+			active = false;															// se pasiva el objeto
+			actualImage = 0;
+		}
 	}
 	else
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);	// muevo la posicion del dibujo

@@ -267,7 +267,6 @@ ATTACK_EventPackage::ATTACK_EventPackage(Action_info * my_info) :EventPackage(Ev
 	this->character = my_info->my_character;
 	this->set_direction(my_info->my_direction);
 
-
 }
 
 

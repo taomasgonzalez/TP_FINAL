@@ -8,8 +8,6 @@ void check_move_and_move(void* data);
 void start_impacting_r(void* data);
 void finished_impacting_r(void* data);
 
-void start_falling_pr(void* data);
-void check_fall_and_fall_r(void* data);
 
 //void finish_falling_r(void* data);
 
@@ -88,14 +86,6 @@ void ProyectilesActionsFSM::start_impacting() {
 	obs_info.start_impacting_graph = false;
 }
 
-void ProyectilesActionsFSM::start_falling() {
-
-	obs_info.start_falling_graph = true;
-	notify_obs();								//ProyectilesActionsFSMDRAWObserver
-	obs_info.start_falling_graph = false;
-
-	set_curr_process(&falling_process);
-}
 
 void ProyectilesActionsFSM::process_logical_movement()
 {
@@ -108,10 +98,6 @@ void ProyectilesActionsFSM::process_logical_movement()
 ALLEGRO_TIMER * ProyectilesActionsFSM::get_moving_timer()
 {
 	return moving_timer;
-}
-ALLEGRO_TIMER * ProyectilesActionsFSM::get_falling_timer()
-{
-	return falling_timer;
 }
 ALLEGRO_TIMER * ProyectilesActionsFSM::get_impacting_timer()
 {
@@ -146,18 +132,12 @@ void ProyectilesActionsFSM::finished_impacting() {
 	obs_info.interrupt_impact = true;
 	notify_obs();						//ProyectileActionsFSMDRAWObserver
 	obs_info.interrupt_impact = false;
-
-	//delete from scene???
 }
 
 void do_nothing_proy(void* data) {
 
 }
 void check_move_and_move(void* data) {
-	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-	fsm->process_logical_movement();
-}
-void check_fall_and_fall_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->process_logical_movement();
 }
@@ -172,8 +152,4 @@ void finished_impacting_r(void* data) {
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_moving();
-}
-void start_falling_pr(void* data) {
-	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-	fsm->start_falling();
 }
