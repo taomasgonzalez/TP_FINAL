@@ -28,9 +28,6 @@ void LogicFSM::run_fsm(EventPackage * ev_pack) {
 	scenario->control_all_actions();
 }
 
-
-
-
 void execute_action_send_it_and_set_ack_time_out_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->execute_action_send_it_and_set_ack_time_out();
@@ -111,19 +108,14 @@ void analyze_we_lost_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->analyze_we_lost();
 }
-
 void ask_the_user_if_wants_to_play_again_r(void* data) {
-
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->ask_the_user_if_wants_to_play_again();
 }
-
 void ask_user_being_client_and_send_decition_r(void* data) {
-
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->ask_user_being_client_and_send_decition();
 }
-
 void ask_user_being_server_and_send_decition_r(void* data) {
 
 	LogicFSM* fsm = (LogicFSM*)data;
@@ -135,9 +127,7 @@ void tell_user_send_ack_and_finish_game_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->tell_user_send_ack_and_finish_game();
 }
-
 void send_we_lost_r(void* data) { //el servidor le avisa a client que se perdió
-
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->send_we_lost();
 }
@@ -146,71 +136,57 @@ void send_game_over_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->send_game_over();
 }
-
 void send_play_again_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->send_play_again();
 }
-
 void load_and_send_enemy_action_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->load_and_send_enemy_action();
 }
-
 void do_nothing_r(void* data)
 {
 
 }
-
 void send_name_is_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_name_is();
 }
-
-
 //se recibe un envio un quit por allegro, se manda el paquete QUIT por networking, paso a esperar el ACK
 void send_quit_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_quit();
 }
-
 void send_ack_and_quit_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_ack_and_quit();
 }
-
 void analayze_error_r(void* data)
 {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->analayze_error();
 }
-
 //Se sale del programa sin avisar, rutina de acción del evento ERROR1
 void finish_game_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->finish_game();
 }
-
 void received_ack_routine_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->received_ack_routine();
 }
-
 void check_sum_and_send_ack_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->check_sum_and_send_ack();
 }
-
 void send_error_and_finish_game_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_error_and_finish_game();
 }
-
 void execute_and_send_enemy_action_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->execute_and_send_enemy_action();
 }
-
 void save_enemy_action_and_send_it_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->save_enemy_action_and_send_it();
@@ -219,35 +195,28 @@ void execute_saved_enemy_actions_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->execute_saved_enemy_actions();
 }
-
 void execute_local_action_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->execute_local_action();
-
 }
-
 void execute_extern_action_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->execute_extern_action();
 }
-
 void save_enemy_action_r(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->save_enemy_action();	
 }
-
 void send_enemy_action_r(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_enemy_action();
 }
-
 void send_game_start_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_game_start();
 }
-
 void ask_for_name_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->ask_for_name();
@@ -265,20 +234,17 @@ void load_enemy_action_and_send_ack_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->load_enemy_action_and_send_ack();
 }
-
 void load_enemy_action(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->load_enemy_action();
 
 }
-
 void load_action_and_send_it_back_r(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->load_action_and_send_it_back();
 }
-
 void start_game_and_send_ack_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->start_game_and_send_ack();
@@ -301,7 +267,6 @@ void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 	send_action();
 	set_ack_time_out();
 	check_game_state();
-
 }
 
 void LogicFSM::send_action() {

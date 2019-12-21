@@ -243,8 +243,6 @@ public:
 	ACTION_REQUEST_EventPackage(Action_info* my_info);
 
 	Action_type give_me_the_action();
-
-	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
 
 private:

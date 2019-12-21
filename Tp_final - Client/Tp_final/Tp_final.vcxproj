@@ -148,7 +148,6 @@
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
-    <ClCompile Include="ProyectilesActionsEventGenerator.cpp" />
     <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
@@ -212,7 +211,6 @@
     <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="MapThingEventGenerator.h" />
-    <ClInclude Include="ProyectilesActionsEventGenerator.h" />
     <ClInclude Include="CharacterSceneObserver.h" />
     <ClInclude Include="Communication.h" />
     <ClInclude Include="Crazy.h" />
