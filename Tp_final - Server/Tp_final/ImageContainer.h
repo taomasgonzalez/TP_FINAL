@@ -6,7 +6,6 @@
 #include <allegro5/allegro_image.h> 
 #include <allegro5/allegro_acodec.h>
 #include <allegro5/allegro_audio.h>
-//#include <allegro5\>
 #include "point.h"
 #include <string>
 #include <math.h>				/* pow */
@@ -61,6 +60,9 @@ public:
 	typedef struct character_images_container {
 		character_images tom;
 		character_images nick;
+		character_images purple;
+		character_images fatty;
+		character_images crazy;
 	} character_images_container;
 
 	character_images_container my_character_images_container;
@@ -95,6 +97,9 @@ private:
 	void load_character_bitmaps();
 	void load_tom_bitmaps();
 	void load_nick_bitmaps();
+	void load_purple_general_bitmaps();
+	void load_fatty_general_bitmaps();
+	void load_crazy_general_bitmaps();
 
 	void fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
 
