@@ -115,7 +115,9 @@ EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action
 		else  if (action == Action_type::Move && dir != Direction_type::None)
 			ev_pack = new MOVE_EventPackage(dir);
 	}
-	else if(dir != Direction_type::None)
+	else if (dir != Direction_type::None)
+		ev_pack = new ACTION_REQUEST_EventPackage(action, dir);
+	else if (action == Action_type::Attack)
 		ev_pack = new ACTION_REQUEST_EventPackage(action, dir);
 
 	return ev_pack;

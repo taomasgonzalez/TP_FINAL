@@ -69,7 +69,7 @@ public:
 	int actual_map;
 
 	void load_action_on_character(Action_info action);
-
+	void load_action_on_projectile(Action_info action);
 /*******************************************************************************
 	FLAGS FOR OBSERVERS
 ******************************************************************************/

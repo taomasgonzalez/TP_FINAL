@@ -158,7 +158,6 @@ void CharacterActionsFSM::process_logical_movement()
 	}
 	//appends a movement finished event to the queue if the graphic part has finished its sequence. 
 	end_if_should_end_movement();
-	
 }
 
 void CharacterActionsFSM::process_logical_attack(){

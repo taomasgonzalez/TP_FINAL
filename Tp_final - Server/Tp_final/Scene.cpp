@@ -5,7 +5,9 @@
 #include "EnemySceneObserver.h"
 #include "PlayerSceneObserver.h"
 
-#define FILE_LENGHT (16*12)			// 12 FILAS POR 16 COLUMNAS
+#define AMOUNT_COLS	16
+#define AMOUNT_FILS	12
+#define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)			
 
 using namespace std;
 static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 164, 135, 207, 169, 5, 26, 64, 165, 219,
@@ -174,7 +176,6 @@ void Scene::execute_attack(Action_info * attack_to_be_executed) {
 
 	Player * the_one_that_moves = NULL;
 	Position extern_destination;
-	//Position local_destination;
 	Sense_type my_direction;
 
 	extern_destination.fil = attack_to_be_executed->final_pos_x;
@@ -552,7 +553,6 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
 
-
 	return is_the_move_possible;
 }
 
@@ -589,98 +589,54 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 }
 
 
-
-
 bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 
 	bool is_the_attack_possible;
-	Player * the_one_that_attacks = NULL;
-	Position extern_destination;
 	Position local_destination;
-	Sense_type in_witch_direction_is_he_looking;
+	Sense_type proj_sense;
 
-
-
+	Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
+	Player * the_one_that_attacks = get_player(Action_info_to_be_checked->my_character);
+	Action_info_to_be_checked->id = the_one_that_attacks->id;
 	if (Action_info_to_be_checked->is_local)
-	{
-		Action_info_to_be_checked->my_character = my_player;
-		the_one_that_attacks = get_player(my_player);
-		Action_info_to_be_checked->id = the_one_that_attacks->id;
-		in_witch_direction_is_he_looking = the_one_that_attacks->get_sense();
-	}
-	else
-	{
-		Action_info_to_be_checked->my_character = other_player;
-		the_one_that_attacks = get_player(other_player);
-		Action_info_to_be_checked->id = the_one_that_attacks->id;
-
-		extern_destination.fil = Action_info_to_be_checked->final_pos_x;
-		extern_destination.col = Action_info_to_be_checked->final_pos_y;
-
-		if ((extern_destination.fil == the_one_that_attacks->pos_x) && (extern_destination.col < the_one_that_attacks->pos_y)) //Left
-		{
-			in_witch_direction_is_he_looking = Sense_type::Left;
+		proj_sense = the_one_that_attacks->get_sense();
+	else{
+		if ((Action_info_to_be_checked->final_pos_y == the_one_that_attacks->pos_y) &&
+				(Action_info_to_be_checked->final_pos_x < the_one_that_attacks->pos_x)) { //Left
+			proj_sense = Sense_type::Left;
 			Action_info_to_be_checked->my_direction = Direction_type::Left;
 		}
-		else  //Right
-		{
-			in_witch_direction_is_he_looking = Sense_type::Right;
+		else {  //Right
+			proj_sense = Sense_type::Right;
 			Action_info_to_be_checked->my_direction = Direction_type::Right;
 		}
-
 	}
 
-
-	if (the_one_that_attacks->is_dead())
-	{
+	if (the_one_that_attacks->is_dead()){
 		is_the_attack_possible = false;
 		std::cout << " Error , el jugador que debería atacar está muerto" << std::endl;
 	}
-	else
-	{
-		int delta = 0;
+	else{
+		int delta = (proj_sense == Sense_type::Left) ? -1 : 1;
 
-		if (in_witch_direction_is_he_looking == Sense_type::Left)
-		{
-			delta = -1;
-			is_the_attack_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x, the_one_that_attacks->pos_y + delta) : maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
-			if (Action_info_to_be_checked->is_local)
-			{
-				local_destination.fil = the_one_that_attacks->pos_x;
-				local_destination.col = the_one_that_attacks->pos_y + delta;
-			}
+		is_the_attack_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x + delta, the_one_that_attacks->pos_y) : 
+				maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
 
-		
+		if (Action_info_to_be_checked->is_local){
+			local_destination.fil = the_one_that_attacks->pos_x + delta;
+			local_destination.col = the_one_that_attacks->pos_y;
 		}
-		else //Sense_type::Right
-		{
-			delta = 1;
-			is_the_attack_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x, the_one_that_attacks->pos_y + delta) : maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col);
-			if (Action_info_to_be_checked->is_local)
-			{
-				local_destination.fil = the_one_that_attacks->pos_x;
-				local_destination.col = the_one_that_attacks->pos_y + delta;
-			}
-
-		}
-
 	}
 
-	if (is_the_attack_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage
-	{
+	if (is_the_attack_possible && Action_info_to_be_checked->is_local) { //load the destination column and row in the eventpackage
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 
-		if (in_witch_direction_is_he_looking == Sense_type::Left)
-			Action_info_to_be_checked->my_direction = Direction_type::Left;
-		else
-			Action_info_to_be_checked->my_direction = Direction_type::Right;
-
+		Action_info_to_be_checked->my_direction = (proj_sense == Sense_type::Left) ? Direction_type::Left : Direction_type::Right;
 	}
 
 	return is_the_attack_possible;
 }
-
 
 bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
@@ -891,13 +847,12 @@ void Scene::control_all_actions() {
 	//	Player* curr_player = curr_players->at(i);
 	//	if (check_if_has_to_fall(curr_player))
 	//		curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
-	//	curr_players->at(i)->ev_handler->handle_event();
+	//	curr_player->ev_handler->handle_event();
 	//}
 	for (int i = 0; i < curr_players->size(); i++) {
 		Player* curr_player = curr_players->at(i);
 		curr_player->ev_handler->handle_event();
-	}
-	
+	}	
 	for(int i = 0; i < curr_proyectiles->size(); i++)
 		curr_proyectiles->at(i)->ev_handler->handle_event();
 }
@@ -978,4 +933,15 @@ void Scene::load_action_on_character(Action_info action) {
 			if ((*it)->id == action.id)
 				(*it)->append_action_to_character(action_to_be_loaded);
 }
+
+void Scene::load_action_on_projectile(Action_info action)
+{
+	//action.
+	Item_type player_type = action.is_local ? my_player : other_player;
+	Player* curr_player = get_player(player_type);
+	Sense_type curr_sense = curr_player->get_sense();
+	maps[actual_map]->place_on_map(curr_player->pos_x, curr_player->pos_y, Item_type::SNOWBALL, curr_sense, this);
+}
+
+
 
