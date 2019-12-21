@@ -40,7 +40,7 @@ PackageFactory::PackageFactory()
 
 		case Event_type::ATTACK: {
 			ATTACK_EventPackage * info_a = static_cast<ATTACK_EventPackage*>(info_received);
-			pac = new ATTACK_package((Character_type)info_a->give_me_the_character(), info_a->give_me_your_destination_row(), info_a->give_me_your_destination_column());
+			pac = new ATTACK_package((Item_type)info_a->give_me_the_character(), info_a->give_me_your_destination_row(), info_a->give_me_your_destination_column());
 		}
 			break;
 
@@ -121,7 +121,7 @@ PackageFactory::PackageFactory()
 
 	 case Package_type::ATTACK: { //soy cliente y me llega un ATTACK del servidor
 		 ATTACK_package * a_pack = static_cast<ATTACK_package*>(package_recieved);
-		 my_event_package = new ATTACK_EventPackage(a_pack->give_me_the_destination_row(), a_pack->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage(a_pack->give_me_the_character(), a_pack->give_me_the_destination_row(), a_pack->give_me_the_destination_column());
 	}
 		break;
 

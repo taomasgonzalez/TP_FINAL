@@ -263,7 +263,8 @@ void send_ack_r(void* data) {
 void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 
 	check_action();
-	execute_local_action();
+	if (valid_action)
+		execute_local_action();
 	send_action();
 	set_ack_time_out();
 	check_game_state();

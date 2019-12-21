@@ -330,7 +330,7 @@ char MOVE_package::give_me_the_destination_column() {
 /**************************************************************
 			ATTACK_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ATTACK_package::ATTACK_package(Character_type the_one_that_attacks, char fil_de, char col_de) :Package(Package_type::ATTACK) {
+ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, char fil_de, char col_de) :Package(Package_type::ATTACK) {
 
 	this->character = the_one_that_attacks;
 	this->destination_row = fil_de ; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
@@ -363,7 +363,7 @@ std::string ATTACK_package::get_sendable_info() {
 	return info4.c_str();
 }
 
-Character_type ATTACK_package::give_me_the_character() {
+Item_type ATTACK_package::give_me_the_character() {
 	return this->character;
 }
 

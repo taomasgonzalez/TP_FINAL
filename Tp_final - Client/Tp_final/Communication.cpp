@@ -360,7 +360,7 @@ Package* Communication::create_package(char* aux_buf){
 
 	case Package_type::ATTACK:
 
-		new_package = new ATTACK_package((Character_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
+		new_package = new ATTACK_package((Item_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
 
 		break;
 

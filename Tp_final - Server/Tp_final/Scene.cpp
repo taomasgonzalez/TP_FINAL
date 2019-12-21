@@ -588,7 +588,10 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 	bool is_the_attack_possible;
 	Sense_type proj_sense;
 
-	Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
+	if (!proj_check)
+		if (Action_info_to_be_checked->is_local || !data->my_network_data.is_client())
+			Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
+
 	Player * the_one_that_attacks = get_player(Action_info_to_be_checked->my_character);
 	Action_info_to_be_checked->id = the_one_that_attacks->id;
 	if (Action_info_to_be_checked->is_local)
@@ -612,8 +615,7 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 	else{
 		int delta = (proj_sense == Sense_type::Left) ? -1 : 1;
 
-		is_the_attack_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x + delta, the_one_that_attacks->pos_y) : 
-				maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
+		is_the_attack_possible = maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x + delta, the_one_that_attacks->pos_y);
 
 		if (is_the_attack_possible && Action_info_to_be_checked->is_local) { //load the destination column and row in the eventpackage
 			Action_info_to_be_checked->final_pos_y = the_one_that_attacks->pos_y;
@@ -933,8 +935,11 @@ void Scene::load_action_on_character(Action_info action) {
 
 void Scene::load_action_on_projectile(Action_info action)
 {
-	//action.
-	Item_type player_type = action.is_local ? my_player : other_player;
+	Item_type player_type;
+
+	if(action.is_local)		player_type = my_player;
+	else	player_type = action.my_character;
+		
 	Player* curr_player = get_player(player_type);
 	Sense_type curr_sense = curr_player->get_sense();
 	maps[actual_map]->place_on_map(curr_player->pos_x, curr_player->pos_y, Item_type::SNOWBALL, curr_sense, this);
