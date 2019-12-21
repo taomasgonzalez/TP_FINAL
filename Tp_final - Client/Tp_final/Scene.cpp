@@ -597,14 +597,8 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 	if (Action_info_to_be_checked->is_local)
 		proj_sense = the_one_that_attacks->get_sense();
 	else{
-		if (Action_info_to_be_checked->final_pos_y == the_one_that_attacks->pos_y &&
-				Action_info_to_be_checked->final_pos_x < the_one_that_attacks->pos_x) { //Left
-			proj_sense = Sense_type::Left;
-			Action_info_to_be_checked->my_direction = Direction_type::Left;
-		}
-		else if (Action_info_to_be_checked->final_pos_y == the_one_that_attacks->pos_y &&
-			Action_info_to_be_checked->final_pos_x == the_one_that_attacks->pos_x &&
-			Action_info_to_be_checked->final_pos_x == 0) {
+		if ((Action_info_to_be_checked->final_pos_y == the_one_that_attacks->pos_y) &&
+				(Action_info_to_be_checked->final_pos_x < the_one_that_attacks->pos_x)) { //Left
 			proj_sense = Sense_type::Left;
 			Action_info_to_be_checked->my_direction = Direction_type::Left;
 		}

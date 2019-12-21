@@ -19,7 +19,7 @@ void LogicFSM::run_fsm(EventPackage * ev_pack) {
 	
 	Package * new_pack = com->receiveMessage();
 
-	if (new_pack != NULL) 
+	if (new_pack != NULL) //me un mensaje
 	{
 		EventPackage * new_event_package = pack_factory.package_2_event_package(new_pack); //convierto el paquete a EventPackage
 		ev_gen->append_new_event(new_event_package, (int)(LogicEventGenerator::LogicQueues::net)); //lo meto en la cola
@@ -263,11 +263,16 @@ void send_ack_r(void* data) {
 void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 
 	check_action();
-	if (valid_action)
+	if (valid_action) {
+
 		execute_local_action();
-	send_action();
-	set_ack_time_out();
-	check_game_state();
+		send_action();
+		set_ack_time_out();
+		check_game_state();
+	}
+	else 
+		should_change_state = false;
+
 }
 
 void LogicFSM::send_action() {
