@@ -1,11 +1,12 @@
 #pragma once
 
 #include "ImageContainer.h"
-#include "general.h"
-#include "Observable.h"
-
 #define COLS (16)
 #define ROWS (12)
+
+#define FPS (50.0)
+
+#define BLOCK_SIZE (50)		// pixeles en X e Y que tiene un bloque de pantalla
 
 #define JUMP_TIME (1.2)			// tiempo de salto -> 1.2s			(lo que tarda en llegar 2 bloques mas arriba)
 
@@ -16,7 +17,7 @@ enum  Direction {
 	Left, Right, Up, None
 };
 
-class Obj_Graf: public Observable
+class Obj_Graf
 {
 public:
 	Obj_Graf();
@@ -34,19 +35,17 @@ public:
 	void disactiveObj();
 	virtual void reset() = 0;
 	virtual bool secuenceOver() = 0;
-	virtual bool finished_drawing_step();
+	bool half_way_jumped();			//NUEVO
+
 protected:
 	double ID;							// identificador del objeto grafico
-//	ALLEGRO_BITMAP *** images = NULL;			// triple puntero porque por el bitmap ya tenes 1 y vas a tener varios arreglos para cada estado
 	unsigned int actualImage;			// te marca que posicion de arreglo estas para poder pasar a la siguiente
 	Direction dir;
 	POINT_ pos;
 	bool active;						// el objeto garfico va a estar activo cuando se halla iniciado su secuencia de dibujo
-	int velX;							// velocidad de desplazamiento horizontal (andando) (en pixeles/sec)
-	int velFall;						// velocidad de caida
+	float velX;							// velocidad de desplazamiento horizontal (andando) (en pixeles/sec)
+	float velFall;						// velocidad de caida
 	POINT_ InitalPos;					// posición inicial para saber cuando detener la animación, y pasivar el objeto
 	bool secuenceOver_;
-
-	void notify_finished_drawing_step();
-	bool finished_step = false;
+	bool half_way_jumped_;					// Esta variable indica cuando se llego a la mitad de un salto (cuando se desplazo de un bloque al siguiete), en caso que el objeto pueda saltar, en su defecto estara siempre en false
 };
