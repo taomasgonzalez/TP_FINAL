@@ -36,16 +36,16 @@ void Obj_Graf_Projectile::draw()
 {
 	switch (state) {
 	case proy_MOVING:
-		handle_moving(this->type);			//checked
+		handle_moving(type);			//checked
 		break;
 	case proy_DECAYING:
-		handle_decaying(this->type);
+		handle_decaying(type);
 		break;
 	case proy_IMPACT:
-		handle_impacting(this->type);
+		handle_impacting(type);
 		break;
 	case proy_FALLING:
-		handle_falling(this->type);			//checked
+		handle_falling(type);			//checked
 		break;
 	}
 }

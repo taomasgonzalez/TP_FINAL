@@ -41,6 +41,9 @@ void ProyectilesActionsFSMDRAWObserver::update() {
 	if (fsm->obs_info.interrupt_movement) {
 		ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(),0);
 	}
+	else if (drawer->finished_drawing_step(proyectile->id)) {
+		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
+	}
 	if (fsm->obs_info.interrupt_impact) {
 		//set inactive state
 	}

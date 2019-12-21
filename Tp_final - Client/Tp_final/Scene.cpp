@@ -279,7 +279,6 @@ unsigned char Scene::make_checksum(const char * CSV_map_location) {
 	return local_checksum;
 }
 
-
 bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
 {
 	return make_checksum(the_map) == the_checksum;
@@ -375,7 +374,6 @@ Action_info Scene::give_me_my_enemy_action(bool is_initializing){
 	return enemy_action_info;
 
 }
-
 
 void Scene::gameInit() {	
 
