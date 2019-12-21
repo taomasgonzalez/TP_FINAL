@@ -137,7 +137,10 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 
 		//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);
-		this->actual_state = ((actual_state->at(event_pos)).nextstate);
+		if (should_change_state)
+			actual_state = ((actual_state->at(event_pos)).nextstate);
+		else
+			should_change_state = true;
 	}
 }
 

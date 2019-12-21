@@ -19,7 +19,7 @@ void LogicFSM::run_fsm(EventPackage * ev_pack) {
 	
 	Package * new_pack = com->receiveMessage();
 
-	if (new_pack != NULL) //me un mensaje
+	if (new_pack != NULL) 
 	{
 		EventPackage * new_event_package = pack_factory.package_2_event_package(new_pack); //convierto el paquete a EventPackage
 		ev_gen->append_new_event(new_event_package, (int)(LogicEventGenerator::LogicQueues::net)); //lo meto en la cola
