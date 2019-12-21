@@ -50,7 +50,7 @@ void ProyectilesActionsFSM::set_states() {
 
 	inactive_state->push_back({ Event_type::END_OF_TABLE, inactive_state, do_nothing_proy });
 
-	moving_state->push_back({ Event_type::MOVE, moving_state, check_move_and_move });
+	moving_state->push_back({ Event_type::FINISHED_GRAPH_STEP, moving_state, check_move_and_move });
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, start_impacting_r });
 	moving_state->push_back({ Event_type::END_OF_TABLE, moving_state, do_nothing_proy });
 
@@ -66,12 +66,11 @@ void ProyectilesActionsFSM::create_all_timers() {
 }
 void ProyectilesActionsFSM::start_moving() {
 
-	MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(get_fsm_ev_pack());
-	Direction_type direction = ev_pack->give_me_your_direction();
+	Sense_type sense = proyectile->get_sense();
 	
-	if (direction == Direction_type::Left) 
+	if (sense == Sense_type::Left)
 		set_curr_process(&moving_left_process);
-	else if(direction == Direction_type::Right) 
+	else if(sense == Sense_type::Right)
 		set_curr_process(&moving_right_process);
 
 	obs_info.start_moving_graph = true;

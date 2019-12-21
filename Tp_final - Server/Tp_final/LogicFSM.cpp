@@ -701,10 +701,10 @@ void LogicFSM::execute_action() {
 			error_ocurred = false;
 	}
 	else {		//if it´s valid, it should be executed
-		Event_type fsm_ev_type = get_fsm_ev_pack()->give_me_your_event_type();
-		if (fsm_ev_type == Event_type::MOVE)
-			scenario->load_action_on_character(get_fsm_ev_pack()->to_Action_info());
-		else if(fsm_ev_type == Event_type::ATTACK)
-			scenario->load_action_on_projectile(get_fsm_ev_pack()->to_Action_info());
+		Action_info action = get_fsm_ev_pack()->to_Action_info();
+		if (action.action == Action_type::Move)
+			scenario->load_action_on_character(action);
+		else if (action.action == Action_type::Attack)
+			scenario->load_action_on_projectile(action);
 	}
 }
