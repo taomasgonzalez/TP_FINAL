@@ -27,11 +27,9 @@ ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFS
 ProyectilesActionsFSM::~ProyectilesActionsFSM()
 {
 	//the parent class automatically destroys all timers!! 
-
 	delete moving_state;
 	delete impact_state;
 	delete inactive_state;
-	delete falling_state;
 }
 
 void ProyectilesActionsFSM::set_processes() {
@@ -44,8 +42,6 @@ void ProyectilesActionsFSM::set_processes() {
 	moving_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 	moving_right_process.push_back(std::make_pair(Direction_type::Right, 0));
 
-	falling_process.push_back(std::make_pair(Direction_type::Down, 0));
-
 }
 
 void ProyectilesActionsFSM::set_states() {
@@ -53,9 +49,8 @@ void ProyectilesActionsFSM::set_states() {
 	moving_state = new std::vector<edge_t>();
 	impact_state = new std::vector<edge_t>();
 	inactive_state = new std::vector<edge_t>();
-	falling_state = new std::vector<edge_t>();
 
-	inactive_state->push_back({ Event_type::END_OF_TABLE, inactive_state, do_nothing_proy});
+	inactive_state->push_back({ Event_type::END_OF_TABLE, inactive_state, do_nothing_proy });
 
 	moving_state->push_back({ Event_type::MOVE, moving_state, check_move_and_move });
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, start_impacting_r });
@@ -64,24 +59,14 @@ void ProyectilesActionsFSM::set_states() {
 	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting_r });
 	impact_state->push_back({ Event_type::END_OF_TABLE, impact_state, do_nothing_proy});
 
-	falling_state->push_back({ Event_type::FELL, falling_state, start_falling_pr });
-	falling_state->push_back({ Event_type::MOVE, falling_state, check_fall_and_fall_r });
-	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, impact_state, start_impacting_r});
-	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_proy });
-
-	start_moving();
-
 	actual_state = moving_state;
 
+	start_moving();
 }
 
 void ProyectilesActionsFSM::create_all_timers() {
 }
 void ProyectilesActionsFSM::start_moving() {
-
-	obs_info.start_moving_graph = true;
-	notify_obs();								//ProyectilesActionsFSMDRAWObserver
-	obs_info.start_moving_graph = false;
 
 	MOVE_EventPackage* ev_pack = static_cast<MOVE_EventPackage*>(get_fsm_ev_pack());
 	Direction_type direction = ev_pack->give_me_your_direction();
@@ -90,6 +75,10 @@ void ProyectilesActionsFSM::start_moving() {
 		set_curr_process(&moving_left_process);
 	else if(direction == Direction_type::Right) 
 		set_curr_process(&moving_right_process);
+
+	obs_info.start_moving_graph = true;
+	notify_obs();								//ProyectilesActionsFSMDRAWObserver
+	obs_info.start_moving_graph = false;
 }
 
 void ProyectilesActionsFSM::start_impacting() {
