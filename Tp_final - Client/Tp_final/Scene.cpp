@@ -425,7 +425,7 @@ void Scene::finish_game() {
 
 
 //analizo jugadas externas e internas relacionadas a scene
-bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool character_check) {
+bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map_thing_check) {
 
 	bool is_the_action_possible = false;
 
@@ -434,20 +434,20 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool cha
 	{
 	case Action_info_id::MOVE:
 
-		is_the_action_possible=check_move(package_to_be_analyze, character_check);
+		is_the_action_possible=check_move(package_to_be_analyze, map_thing_check);
 		break;
 
 	case Action_info_id::ATTACK:
 
-		is_the_action_possible = check_attack(package_to_be_analyze);
+		is_the_action_possible = check_attack(package_to_be_analyze, map_thing_check);
 		break;
 
 	case Action_info_id::ACTION_REQUEST:
 
 		if(package_to_be_analyze->action == Action_type::Move)
-			is_the_action_possible = check_move(package_to_be_analyze, character_check);
+			is_the_action_possible = check_move(package_to_be_analyze, map_thing_check);
 		else
-			is_the_action_possible = check_attack(package_to_be_analyze);
+			is_the_action_possible = check_attack(package_to_be_analyze, map_thing_check);
 
 		break;
 
@@ -583,10 +583,9 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 }
 
 
-bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
+bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_check) {
 
 	bool is_the_attack_possible;
-	Position local_destination;
 	Sense_type proj_sense;
 
 	Action_info_to_be_checked->my_character = Action_info_to_be_checked->is_local ? my_player : other_player;
@@ -616,17 +615,22 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked) {
 		is_the_attack_possible = Action_info_to_be_checked->is_local ? maps[actual_map]->cell_has_floor(the_one_that_attacks->pos_x + delta, the_one_that_attacks->pos_y) : 
 				maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
 
-		if (Action_info_to_be_checked->is_local){
-			local_destination.fil = the_one_that_attacks->pos_x + delta;
-			local_destination.col = the_one_that_attacks->pos_y;
+		if (is_the_attack_possible && Action_info_to_be_checked->is_local) { //load the destination column and row in the eventpackage
+			Action_info_to_be_checked->final_pos_y = the_one_that_attacks->pos_y;
+			if (!proj_check) {
+				int future_move = the_one_that_attacks->pos_x + delta * 3;
+				if (future_move >= AMOUNT_COLS)
+					Action_info_to_be_checked->final_pos_x = AMOUNT_COLS - 1;
+				else if (future_move < 0)
+					Action_info_to_be_checked->final_pos_x = 0;
+				else
+					Action_info_to_be_checked->final_pos_x = future_move;
+			}
+			else 
+				Action_info_to_be_checked->final_pos_x = the_one_that_attacks->pos_x + delta;
+
+			Action_info_to_be_checked->my_direction = (proj_sense == Sense_type::Left) ? Direction_type::Left : Direction_type::Right;
 		}
-	}
-
-	if (is_the_attack_possible && Action_info_to_be_checked->is_local) { //load the destination column and row in the eventpackage
-		Action_info_to_be_checked->final_pos_x = local_destination.fil;
-		Action_info_to_be_checked->final_pos_y = local_destination.col;
-
-		Action_info_to_be_checked->my_direction = (proj_sense == Sense_type::Left) ? Direction_type::Left : Direction_type::Right;
 	}
 
 	return is_the_attack_possible;

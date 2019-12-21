@@ -47,7 +47,7 @@ public:
 	bool check_if_has_to_fall(Character* charac);
 	bool check_position(Action_info position_info);
 	void check_current_game_situation();
-	bool is_the_action_possible(Action_info * package_to_be_analyze, bool character_check); //wrap for a clearer implementation of check_Action
+	bool is_the_action_possible(Action_info * package_to_be_analyze, bool map_thing_check); //wrap for a clearer implementation of check_Action
 
 	//Executing functions
 	void execute_action(Action_info * action_to_be_executed, bool & should_be_hit);
@@ -101,7 +101,7 @@ private:
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range);
-	bool check_attack(Action_info * package_to_be_analyze);
+	bool check_attack(Action_info * package_to_be_analyze, bool proj_check);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
 
 /*******************************************************************************

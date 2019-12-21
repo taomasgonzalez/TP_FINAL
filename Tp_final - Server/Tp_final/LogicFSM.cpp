@@ -690,17 +690,7 @@ void LogicFSM::send_ack() {
 
 void LogicFSM::execute_action() {
 
-	if (!valid_extern_action && !valid_local_action) {
-		if (! valid_extern_action)
-		{
-			ev_gen->empty_all_queues();
-			ev_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
-			error_ocurred = false;
-		}
-		else if (!valid_local_action)
-			error_ocurred = false;
-	}
-	else {		//if it´s valid, it should be executed
+	if (valid_action) {		//if it´s valid, it should be executed
 		Action_info action = get_fsm_ev_pack()->to_Action_info();
 		if (action.action == Action_type::Move)
 			scenario->load_action_on_character(action);

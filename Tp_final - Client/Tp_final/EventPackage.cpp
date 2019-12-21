@@ -289,7 +289,7 @@ void ATTACK_EventPackage::set_character(Item_type the_one_that_moves) {
 Action_info ATTACK_EventPackage::to_Action_info()
 {
 	Action_info returnable_info = EventPackage::to_Action_info();
-
+	returnable_info.action = Action_type::Attack;
 	if (returnable_info.is_local)
 		returnable_info.my_direction = give_me_your_direction(); //none
 	else{
