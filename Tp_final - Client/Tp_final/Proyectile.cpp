@@ -1,12 +1,14 @@
 #include "Proyectile.h"
-#include "ProyectilesActionsFSM.h"
-
+#include "ProyectilesActionsFSMDRAWObserver.h"
+#include "MapThingEventGenerator.h"
 
 Proyectile::Proyectile(unsigned int id, Sense_type proyectile_sense) : MapThing(id, false, proyectile_sense)
 {
 	moving_timer = al_create_timer(1.0);
 	ProyectilesActionsFSM* fsm = new ProyectilesActionsFSM(this);
-	EventGenerator* ev_gen = new EventGenerator();
+	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
+	fsm->add_observer(new ProyectilesActionsFSMDRAWObserver(fsm, ev_gen, this));
+
 	ev_handler = new EventHandler(fsm, ev_gen);
 }
 

@@ -2,12 +2,12 @@
 
 Direction direction_translation(Direction_type dir);
 
-ProyectilesActionsFSMDRAWObserver::ProyectilesActionsFSMDRAWObserver(Proyectile * proyectile)
+ProyectilesActionsFSMDRAWObserver::ProyectilesActionsFSMDRAWObserver(ProyectilesActionsFSM* fsm, EventGenerator* ev_gen, Proyectile* proyectile)
 {
 	this->proyectile = proyectile;
-	this->fsm = static_cast<ProyectilesActionsFSM*>(proyectile->ev_handler->get_fsm());
+	this->fsm = fsm;
 	this->drawer = Userdata::drawer;
-	this->ev_gen = proyectile->ev_handler->get_ev_gen();
+	this->ev_gen = ev_gen;
 }
 
 

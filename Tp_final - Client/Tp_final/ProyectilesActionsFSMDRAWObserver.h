@@ -7,7 +7,7 @@
 class ProyectilesActionsFSMDRAWObserver : public Observer
 {
 public:
-	ProyectilesActionsFSMDRAWObserver(Proyectile * proyectile);
+	ProyectilesActionsFSMDRAWObserver(ProyectilesActionsFSM* fsm, EventGenerator* ev_gen, Proyectile* proyectile);
 	~ProyectilesActionsFSMDRAWObserver();
 
 	void update();
