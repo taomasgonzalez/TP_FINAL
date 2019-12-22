@@ -298,9 +298,11 @@ void LogicFSM::check_and_send_action_request() {
 void LogicFSM::execute_receive_action_and_send_ack() {
 
 	check_action();
-	execute_extern_action();
-	received_ack_routine();
-	send_ack();
+	if (valid_action) {
+		execute_extern_action();
+		received_ack_routine();
+		send_ack();
+	}
 }
 
 void LogicFSM::check_action() {

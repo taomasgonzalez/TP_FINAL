@@ -33,7 +33,7 @@ public:
 	void finished_impacting();
 
 	void process_logical_movement();
-
+	void start_fsm();
 	ALLEGRO_TIMER* get_moving_timer();
 	ALLEGRO_TIMER* get_impacting_timer();
 

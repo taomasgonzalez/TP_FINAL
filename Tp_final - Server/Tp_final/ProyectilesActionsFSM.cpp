@@ -60,6 +60,7 @@ void ProyectilesActionsFSM::set_states() {
 	actual_state = moving_state;
 
 	start_moving();
+	notify_obs();
 }
 
 void ProyectilesActionsFSM::create_all_timers() {
@@ -93,6 +94,12 @@ void ProyectilesActionsFSM::process_logical_movement()
 	
 	end_if_should_end_movement();
 }
+
+void ProyectilesActionsFSM::start_fsm()
+{
+	notify_obs();
+}
+
 
 ALLEGRO_TIMER * ProyectilesActionsFSM::get_moving_timer()
 {

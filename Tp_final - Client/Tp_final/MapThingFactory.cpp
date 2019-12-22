@@ -3,6 +3,7 @@
 #include "DRAW.h"
 #include "PlayerSceneObserver.h"
 #include "PurpleGuyScenarioObserver.h"
+#include "ProyectileSceneObserver.h"
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -61,11 +62,16 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 			new_born = play;
 			break;
 		case Item_type::FIREBALL:
-			new_born = new Fireball(get_proyectile_id(), direction);
+			Fireball * fire;
+			fire = new Fireball(get_proyectile_id(), direction);
+			fire->ev_handler->get_fsm()->add_observer(new ProyectileSceneObserver(fire, scene));
+			new_born = fire;
 			break;
 		case Item_type::SNOWBALL:
-			new_born = new Snowball(get_proyectile_id(), direction);
-
+			Snowball * snow;
+			snow = new Snowball(get_proyectile_id(), direction);
+			snow->ev_handler->get_fsm()->add_observer(new ProyectileSceneObserver(snow, scene));
+			new_born = snow;
 			break;
 	}
 
@@ -81,6 +87,11 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 	this->obs_info.new_map_thing = true;
 	notify_obs();
 	this->obs_info.new_map_thing = false;
+
+	if (identifyer == Item_type::FIREBALL)
+		static_cast<Fireball*>(new_born)->ev_handler->get_fsm()->notify_obs();
+	else if (identifyer == Item_type::SNOWBALL)
+		static_cast<Snowball*>(new_born)->ev_handler->get_fsm()->notify_obs();
 
 	return new_born;
 }

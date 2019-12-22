@@ -14,7 +14,6 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 		printable = Item_type::TOM;
 
 	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
-	#pragma message("falta completar constructor con parametros!!")
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
 	

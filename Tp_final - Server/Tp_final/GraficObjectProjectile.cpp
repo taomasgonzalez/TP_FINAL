@@ -68,9 +68,9 @@ void Obj_Graf_Projectile::destroy()
 
 void Obj_Graf_Projectile::reset()
 {
-	this->actualImage = 0;
-	this->actualDecayImage = 0;
-	this->actualImpactImage = 0;
+	actualImage = 0;
+	actualDecayImage = 0;
+	actualImpactImage = 0;
 }
 
 bool Obj_Graf_Projectile::secuenceOver()
