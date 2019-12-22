@@ -31,7 +31,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 
 Map::~Map()
 {
-	for (int i = 0; i < number_of_rows; ++i)
+	for (int i = 0; i < number_of_columns; ++i)
 		delete[] map_cells[i];
 	delete[] map_cells;
 

@@ -26,7 +26,6 @@ void reset_attack(void* data);
 
 void iddle_graph(void* data);
 void disappear_graph_r(void* data);
-void re_append_ev(void* data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
@@ -210,7 +209,6 @@ void CharacterActionsFSM::continue_logical_movement(){
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){
-	#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
@@ -388,13 +386,6 @@ void iddle_graph(void * data)
 {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->start_iddle();
-}
-
-void re_append_ev(void * data) {
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->obs_info.reappend_event = true;
-	fsm->notify_obs();
-	fsm->obs_info.reappend_event = false;
 }
 
 

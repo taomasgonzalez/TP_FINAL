@@ -34,9 +34,9 @@ public:
 
 	void process_logical_movement();
 	void start_fsm();
-	ALLEGRO_TIMER* get_moving_timer();
 	ALLEGRO_TIMER* get_impacting_timer();
 
+	bool has_disappeared();
 protected:
 
 	std::vector<edge_t>* moving_state = NULL;

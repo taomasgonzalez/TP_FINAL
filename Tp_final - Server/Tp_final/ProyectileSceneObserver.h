@@ -17,5 +17,7 @@ private:
 	EventGenerator* ev_gen = NULL;
 	ProyectilesActionsFSM * fsm = NULL;
 
+	void perform_movement(Action_info action);
+	void direction_to_deltas(Action_info* action);
 };
 
