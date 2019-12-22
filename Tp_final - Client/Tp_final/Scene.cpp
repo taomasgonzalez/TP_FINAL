@@ -29,8 +29,6 @@ static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 
 
 Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observable()
 {
-	enemy_actions_queue = al_create_event_queue();
-	proyectile_actions_queue = al_create_event_queue();
 	this->assistant_queue = new queue<Action_info>();
 	//this->action_from_allegro = NULL;
 	this->actual_map = -1;
@@ -227,12 +225,7 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 
 void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
 
-	al_flush_event_queue(enemy_actions_queue);
-	al_flush_event_queue(proyectile_actions_queue);
-
 	Map * new_map = new Map(12, 16, data);
-	new_map->register_enemies_event_queue(enemy_actions_queue);
-	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 	new_map->append_graphic_facility(graphics);
 	
 	if (is_client) //The map came by networking
@@ -767,8 +760,6 @@ bool Scene::check_position(Action_info position_info) {
 Player * Scene::get_player(Item_type player_to_be_found) {
 
 	Player * player_found = NULL;
-	//usar get_from_map()
-	//std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
 	Item_type player_name = (*curr_players)[0]->get_printable();
 	if (player_name == player_to_be_found)
 		player_found = (*curr_players)[0];
@@ -829,17 +820,16 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
-	ALLEGRO_EVENT allegroEvent;
-	while (al_get_next_event(enemy_actions_queue, &allegroEvent)) 
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent.timer.source);
-			if (wanted_enemy != NULL) {
-				enemy_action_info = wanted_enemy->act();
-				new_enemy_action = true;
-				notify_obs();					//ScenarioEventsObserver
-				new_enemy_action = false;
-			}
+	for (int i = 0; i < curr_enemies->size(); i++) {
+		Enemy* curr_enemy = curr_enemies->at(i);
+		if (curr_enemy->is_iddle()) {
+			enemy_action_info = curr_enemy->act();
+			new_enemy_action = true;
+			notify_obs();					//ScenarioEventsObserver
+			new_enemy_action = false;
 		}
+		curr_enemy->ev_handler->handle_event();
+	}
 }
 void Scene::control_all_actions() {
 
@@ -857,33 +847,6 @@ void Scene::control_all_actions() {
 		curr_proyectiles->at(i)->ev_handler->handle_event();
 }
 
-//void Scene::control_proyectile_actions() {
-//
-//	ALLEGRO_EVENT allegroEvent;
-//	while (al_get_next_event(proyectile_actions_queue, &allegroEvent))
-//		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-//			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent.timer.source);
-//			//if (wanted_proyectile != NULL)
-//				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
-//		}
-//}
-
-Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
-{
-	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-		if ((*it)->get_acting_timer() == timer)
-			return (*it);
-
-	return NULL;
-}
-
-Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
-	for (std::vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
-		if ((*it)->get_moving_timer() == timer)
-			return (*it);
-
-	return NULL;
-}
 
 Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
 	Player* nearest_player = find_nearest_player(purple_guy->pos_x, purple_guy->pos_y);
@@ -902,7 +865,6 @@ Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 	Player* nearest_player = NULL;
 
 	for(std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it){
-
 		Player* curr_player = (*it);
 		int taxi_distance = abs(curr_player->pos_x - pos_x) + abs(curr_player->pos_y - pos_y);		//function abs returns an int type
 
