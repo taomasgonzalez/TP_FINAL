@@ -89,35 +89,21 @@ void ProyectilesActionsFSM::start_impacting() {
 
 void ProyectilesActionsFSM::process_logical_movement()
 {
-
 	bool can_perform = true;
 	if (!finished_logical_movement()) {			//do i have any more sub-movements to perform?
 
-												//can i perform this sub-movement? Do the game conditions enable me to do so?
+		//can i perform this sub-movement? Do the game conditions enable me to do so?
 		if (!first_logical_movement())
 			can_perform = can_perform_logical_movement();
 
-		if (can_perform)
-			continue_logical_movement();		//if so, perform the movement.
-		else {
-			obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
-			notify_obs();
-			obs_info.interrupt_movement = false;
-		}
+		can_perform ? continue_logical_movement() : interrupt_move();
 	}
-
-}
-
-void ProyectilesActionsFSM::start_fsm()
-{
-	notify_obs();
+	else 
+		interrupt_move();
 }
 
 
-ALLEGRO_TIMER * ProyectilesActionsFSM::get_impacting_timer()
-{
-	return impacting_timer;
-}
+
 void ProyectilesActionsFSM::continue_logical_movement()
 {
 	obs_info.perform_logical_movement = true;
@@ -128,18 +114,6 @@ void ProyectilesActionsFSM::continue_logical_movement()
 
 bool ProyectilesActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
-}
-
-void ProyectilesActionsFSM::end_if_should_end_movement()
-{
-	obs_questions.should_interrupt_movement = true;
-	notify_obs();
-	obs_questions.should_interrupt_movement = false;
-	if (obs_answers.should_interrupt_movement) {
-		obs_info.interrupt_movement = true;
-		notify_obs();
-		obs_info.interrupt_movement = false;
-	}
 }
 
 void ProyectilesActionsFSM::finished_impacting() {
@@ -168,7 +142,7 @@ void start_moving_r(void* data) {
 	fsm->start_moving();
 }
 bool ProyectilesActionsFSM::first_logical_movement() {
-	return (current_moving_vector->begin() == current_moving_iteration);
+	return current_moving_vector->begin() == current_moving_iteration;
 }
 
 bool ProyectilesActionsFSM::can_perform_logical_movement() {
@@ -180,4 +154,10 @@ bool ProyectilesActionsFSM::can_perform_logical_movement() {
 
 bool ProyectilesActionsFSM::has_disappeared() {
 	return actual_state == inactive_state;
+}
+
+void ProyectilesActionsFSM::interrupt_move() {
+	obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
+	notify_obs();
+	obs_info.interrupt_movement = false;
 }
