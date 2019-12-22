@@ -39,8 +39,6 @@ void CharacterSceneObserver::update() {
 		direction_to_deltas(&info);
 		perform_movement(info);
 	}
-	if (fsm->obs_info.reappend_event)
-		ev_gen->append_new_event_front(fsm->get_fsm_ev_pack());
 }
 
 void CharacterSceneObserver::kill_character() {

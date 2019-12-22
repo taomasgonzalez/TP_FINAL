@@ -10,6 +10,8 @@ EventHandler::EventHandler(FSM * fsm, EventGenerator* ev_gen)
 
 EventHandler::~EventHandler()
 {
+	delete fsm;
+	delete ev_gen;
 }
 
 /******************************************

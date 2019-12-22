@@ -9,13 +9,11 @@ public:
 	~Proyectile();
 
 	bool is_proyectile();
-
 	virtual bool is_snowball();
 	virtual bool is_fireball();
-	ALLEGRO_TIMER * get_moving_timer();
+	bool has_disappeared();
 
 	EventHandler * ev_handler = NULL;
 protected:
-	ALLEGRO_TIMER * moving_timer = NULL;
 };
 

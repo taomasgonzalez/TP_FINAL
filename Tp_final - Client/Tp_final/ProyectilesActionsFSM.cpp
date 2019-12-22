@@ -114,10 +114,6 @@ void ProyectilesActionsFSM::start_fsm()
 }
 
 
-ALLEGRO_TIMER * ProyectilesActionsFSM::get_moving_timer()
-{
-	return moving_timer;
-}
 ALLEGRO_TIMER * ProyectilesActionsFSM::get_impacting_timer()
 {
 	return impacting_timer;
@@ -136,7 +132,6 @@ bool ProyectilesActionsFSM::finished_logical_movement() {
 
 void ProyectilesActionsFSM::end_if_should_end_movement()
 {
-#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();
 	obs_questions.should_interrupt_movement = false;
@@ -181,4 +176,8 @@ bool ProyectilesActionsFSM::can_perform_logical_movement() {
 	notify_obs();				//ProyectilesSceneObserver
 	obs_questions.can_perform_movement = false;
 	return obs_answers.can_perform_movement;
+}
+
+bool ProyectilesActionsFSM::has_disappeared() {
+	return actual_state == inactive_state;
 }

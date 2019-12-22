@@ -4,12 +4,18 @@
 #include <string>
 #include "EnemySceneObserver.h"
 #include "PlayerSceneObserver.h"
+#include <algorithm>    // std::find_if
 
 #define AMOUNT_COLS	16
 #define AMOUNT_FILS	12
 #define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)			
 
 using namespace std;
+
+static int searched_id;
+static bool proy_meets_id(Proyectile* proy);
+static bool char_meets_id(Character* charac);
+
 static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 164, 135, 207, 169, 5, 26, 64, 165, 219,
 													61, 20, 68, 89, 130, 63, 52, 102, 24, 229, 132, 245, 80, 216, 195, 115,
 													90, 168, 156, 203, 177, 120, 2, 190, 188, 7, 100, 185, 174, 243, 162, 10,
@@ -26,6 +32,13 @@ static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 
 													3, 14, 204, 72, 21, 41, 56, 66, 28, 193, 40, 217, 25, 54, 179, 117,
 													238, 87, 240, 155, 180, 170, 242, 212, 191, 163, 78, 218, 137, 194, 175, 110,
 													43, 119, 224, 71, 122, 142, 42, 160, 104, 48, 247, 103, 15, 11, 138, 239 };
+
+static bool proy_meets_id(Proyectile* proy) {
+	return proy->id == searched_id;
+}
+static bool char_meets_id(Character* charac) {
+	return charac->id == searched_id;
+}
 
 Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observable()
 {
@@ -71,7 +84,9 @@ void Scene::execute_action(Action_info * action_to_be_executed, bool & should_be
 	case Action_info_id::ENEMY_ACTION:
 		execute_enemy_action(action_to_be_executed, should_be_hit);
 		break;
-
+	case Action_info_id::PROY_MOVE:
+		execute_proy_move(action_to_be_executed, should_be_hit);
+		break;
 	default:
 		cout << "Error, Acción no ejecutable" << endl;
 		break;
@@ -188,15 +203,15 @@ void Scene::execute_attack(Action_info * attack_to_be_executed) {
 
 void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_be_hit) {
 
-		Position extern_destination;
-		//Position local_destination;
-		Enemy * the_enemy_that_acts = NULL;
-		Sense_type my_direction;
-		the_enemy_that_acts = (Enemy *)maps[actual_map]->get_from_map(enemy_action_to_be_executed->id);
+	Position extern_destination;
+	//Position local_destination;
+	Enemy * the_enemy_that_acts = NULL;
+	Sense_type my_direction;
+	the_enemy_that_acts = (Enemy *)maps[actual_map]->get_from_map(enemy_action_to_be_executed->id);
 
-		my_direction = (Sense_type)enemy_action_to_be_executed->my_direction;
-		extern_destination.fil = enemy_action_to_be_executed->final_pos_x;
-		extern_destination.col = enemy_action_to_be_executed->final_pos_y;
+	my_direction = (Sense_type)enemy_action_to_be_executed->my_direction;
+	extern_destination.fil = enemy_action_to_be_executed->final_pos_x;
+	extern_destination.col = enemy_action_to_be_executed->final_pos_y;
 
 	if (enemy_action_to_be_executed->action == Action_type::Move)
 	{
@@ -223,6 +238,29 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 	else if(enemy_action_to_be_executed->action == Action_type::Attack){
 		maps[actual_map]->place_on_map(extern_destination.fil, extern_destination.col, Item_type::FIREBALL, my_direction, this);
 	}
+}
+
+void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should_be_hit)
+{
+	Map* curr_map = maps[actual_map];
+	searched_id = action_to_be_executed->id;
+	Proyectile* proy = *find_if(curr_proyectiles->begin(), curr_proyectiles->end(), proy_meets_id);
+
+	curr_map->move_map_thing(proy, action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
+
+	if (proy->is_fireball()) {
+		if (should_be_hit = curr_map->cell_has_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
+			vector<Enemy*> enemies = curr_map->get_cell_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
+			for (vector<Enemy*>::iterator enemy = enemies.begin(); enemy != enemies.end(); ++enemy)
+				(*enemy)->ev_handler->get_ev_gen()->append_new_event(new GOT_HIT_EventPackage(), 0);
+		}
+	}
+	else if (proy->is_snowball()) 
+		if (should_be_hit = curr_map->cell_has_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
+			vector<Player*> players = curr_map->get_cell_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
+			for (vector<Player*>::iterator player = players.begin(); player != players.end(); ++player)
+				(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+		}
 }
 
 void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
@@ -454,14 +492,20 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map
 	case Action_info_id::ENEMY_ACTION:
 		is_the_action_possible = check_enemy_action(package_to_be_analyze);
 		break;
-
+	case Action_info_id::PROY_MOVE:
+		is_the_action_possible = check_proy_move(package_to_be_analyze);
+		break;
 	default:
 		cout << "Acción no analizable" << endl;
 		break;
-
+		
 	}
 
 	return is_the_action_possible;
+}
+
+bool Scene::check_proy_move(Action_info * Action_info_to_be_checked) {
+	return maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
 }
 
 bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_check) {
@@ -649,95 +693,95 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	
 
 
-		the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
-		package_to_be_analyze->id = the_enemy_that_acts->id;
+	the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
+	package_to_be_analyze->id = the_enemy_that_acts->id;
 
-		extern_destination.fil = package_to_be_analyze->final_pos_x;
-		extern_destination.col = package_to_be_analyze->final_pos_y;
-		action_to_be_checked = package_to_be_analyze->action;
+	extern_destination.fil = package_to_be_analyze->final_pos_x;
+	extern_destination.col = package_to_be_analyze->final_pos_y;
+	action_to_be_checked = package_to_be_analyze->action;
 
 
-		if (the_enemy_that_acts->is_dead())
+	if (the_enemy_that_acts->is_dead())
+	{
+		std::cout << " Error , el monstruo que debería actuar está muerto" << std::endl;
+		is_the_enemy_action_possible = false;
+	}
+	else
+	{
+		switch (action_to_be_checked)
 		{
-			std::cout << " Error , el monstruo que debería actuar está muerto" << std::endl;
-			is_the_enemy_action_possible = false;
-		}
-		else
-		{
-			switch (action_to_be_checked)
+		case Action_type::Move:
+			bool out_of_range;
+			my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
+
+			switch (my_direction)
 			{
-			case Action_type::Move:
-				bool out_of_range;
-				my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
+			case Direction_type::Left:
 
-				switch (my_direction)
-				{
-				case Direction_type::Left:
-
-						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-							is_the_enemy_action_possible = false;
-						else
-							is_the_enemy_action_possible = true;
-
-					break;
-
-				case Direction_type::Right:
-
-						if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-							is_the_enemy_action_possible = false;
-						else
-							is_the_enemy_action_possible = true;				
-					break;
-
-				case Direction_type::Jump_Straight: 
-
-				case Direction_type::Jump_Left:
-
-				case Direction_type::Jump_Right:
-					
-					break;
-
-				case Direction_type::None: //stay still was received
-					is_the_enemy_action_possible = true;
-					break;
-
-				default:
-					std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
-					break;
-				}
+					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
+						is_the_enemy_action_possible = false;
+					else
+						is_the_enemy_action_possible = true;
 
 				break;
 
-			case Action_type::Attack:
+			case Direction_type::Right:
 
-				if ((extern_destination.fil == the_enemy_that_acts->pos_x) && (extern_destination.col < the_enemy_that_acts->pos_y))
-					in_witch_direction_is_he_looking = Sense_type::Left;
-				else
-					in_witch_direction_is_he_looking = Sense_type::Right;
-
-
-				if (in_witch_direction_is_he_looking == Sense_type::Left) //Left
-				{
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
 						is_the_enemy_action_possible = false;
 					else
-						is_the_enemy_action_possible = true;
-				}
-				else  //Right
-				{
-					in_witch_direction_is_he_looking = Sense_type::Right;
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
-						is_the_enemy_action_possible = false;
-					else
-						is_the_enemy_action_possible = true;
-				}
+						is_the_enemy_action_possible = true;				
+				break;
 
+			case Direction_type::Jump_Straight: 
+
+			case Direction_type::Jump_Left:
+
+			case Direction_type::Jump_Right:
+					
+				break;
+
+			case Direction_type::None: //stay still was received
+				is_the_enemy_action_possible = true;
 				break;
 
 			default:
-				std::cout << "Error, Un EA con acción desconocida" << std::endl;
+				std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
 				break;
 			}
+
+			break;
+
+		case Action_type::Attack:
+
+			if ((extern_destination.fil == the_enemy_that_acts->pos_x) && (extern_destination.col < the_enemy_that_acts->pos_y))
+				in_witch_direction_is_he_looking = Sense_type::Left;
+			else
+				in_witch_direction_is_he_looking = Sense_type::Right;
+
+
+			if (in_witch_direction_is_he_looking == Sense_type::Left) //Left
+			{
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col - 1))
+					is_the_enemy_action_possible = false;
+				else
+					is_the_enemy_action_possible = true;
+			}
+			else  //Right
+			{
+				in_witch_direction_is_he_looking = Sense_type::Right;
+				if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col + 1))
+					is_the_enemy_action_possible = false;
+				else
+					is_the_enemy_action_possible = true;
+			}
+
+			break;
+
+		default:
+			std::cout << "Error, Un EA con acción desconocida" << std::endl;
+			break;
+		}
 		
 	}
 
@@ -760,15 +804,10 @@ bool Scene::check_if_has_to_fall(Character* charac) {
 	return has_to_fall;
 }
 
-bool Scene::check_position(Action_info position_info) {
-	return maps[actual_map]->cell_has_floor(position_info.final_pos_x, position_info.final_pos_y);
-}
 
 Player * Scene::get_player(Item_type player_to_be_found) {
 
 	Player * player_found = NULL;
-	//usar get_from_map()
-	//std::vector<Player*>* my_vector_of_players= maps[actual_map]->get_all_players();
 	Item_type player_name = (*curr_players)[0]->get_printable();
 	if (player_name == player_to_be_found)
 		player_found = (*curr_players)[0];
@@ -853,33 +892,21 @@ void Scene::control_all_actions() {
 		Player* curr_player = curr_players->at(i);
 		curr_player->ev_handler->handle_event();
 	}	
-	for(int i = 0; i < curr_proyectiles->size(); i++)
-		curr_proyectiles->at(i)->ev_handler->handle_event();
+	for (vector<Proyectile*>::iterator curr_proy = curr_proyectiles->begin();
+			curr_proy != curr_proyectiles->end(); ++curr_proy) {
+		(*curr_proy)->ev_handler->handle_event();
+		if ((*curr_proy)->has_disappeared()) {
+			maps[actual_map]->delete_from_map(*curr_proy);
+			delete *curr_proy;
+		}
+	}
 }
 
-//void Scene::control_proyectile_actions() {
-//
-//	ALLEGRO_EVENT allegroEvent;
-//	while (al_get_next_event(proyectile_actions_queue, &allegroEvent))
-//		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-//			Proyectile* wanted_proyectile = get_proyectile_to_act_on(allegroEvent.timer.source);
-//			//if (wanted_proyectile != NULL)
-//				//wanted_proyectile->act();			//aca en realidad deberia agregar un paquete!!
-//		}
-//}
 
 Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
 {
 	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
 		if ((*it)->get_acting_timer() == timer)
-			return (*it);
-
-	return NULL;
-}
-
-Proyectile * Scene::get_proyectile_to_act_on(ALLEGRO_TIMER *timer) {
-	for (std::vector<Proyectile*>::iterator it = curr_proyectiles->begin(); it != curr_proyectiles->end(); ++it)
-		if ((*it)->get_moving_timer() == timer)
 			return (*it);
 
 	return NULL;
