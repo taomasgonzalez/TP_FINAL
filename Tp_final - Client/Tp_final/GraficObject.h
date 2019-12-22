@@ -34,18 +34,20 @@ public:
 	void disactiveObj();
 	virtual void reset() = 0;
 	virtual bool secuenceOver() = 0;
+	bool half_way_jumped();	
 	virtual bool finished_drawing_step();
+
 protected:
 	double ID;							// identificador del objeto grafico
-//	ALLEGRO_BITMAP *** images = NULL;			// triple puntero porque por el bitmap ya tenes 1 y vas a tener varios arreglos para cada estado
 	unsigned int actualImage;			// te marca que posicion de arreglo estas para poder pasar a la siguiente
 	Direction dir;
 	POINT_ pos;
 	bool active;						// el objeto garfico va a estar activo cuando se halla iniciado su secuencia de dibujo
-	int velX;							// velocidad de desplazamiento horizontal (andando) (en pixeles/sec)
-	int velFall;						// velocidad de caida
+	float velX;							// velocidad de desplazamiento horizontal (andando) (en pixeles/sec)
+	float velFall;						// velocidad de caida
 	POINT_ InitalPos;					// posición inicial para saber cuando detener la animación, y pasivar el objeto
 	bool secuenceOver_;
+	bool half_way_jumped_;					// Esta variable indica cuando se llego a la mitad de un salto (cuando se desplazo de un bloque al siguiete), en caso que el objeto pueda saltar, en su defecto estara siempre en false
 
 	void notify_finished_drawing_step();
 	bool finished_step = false;

@@ -10,6 +10,7 @@ Obj_Graf::Obj_Graf(double ID)
 	this->ID = ID;
 	this->velFall = VEL_FALL;
 	this->secuenceOver_ = false;
+	this->half_way_jumped_ = false;
 //	this->InitalPos = InitialPos;
 }
 
@@ -52,10 +53,14 @@ void Obj_Graf::disactiveObj()
 	this->active = false;
 }
 
+bool Obj_Graf::half_way_jumped()
+{
+	return this->half_way_jumped_;
+}
+
 bool Obj_Graf::finished_drawing_step() {
 	return finished_step;
 }
-
 
 void Obj_Graf::notify_finished_drawing_step() {
 	finished_step = true;

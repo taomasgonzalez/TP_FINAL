@@ -1,12 +1,11 @@
 #pragma once
-#include "GraficObject.h"
+#include "Obj_Graf_Character.h"
 
-enum ENEMY_TYPE {PURPLE, FATTY, CRAZY};
+enum ENEMY_TYPE { PURPLE, FATTY, CRAZY };
 
-enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_JUMPING_FOWARD, enemy_IDLE, enemy_TRAPPED_1, enemy_TRAPPED_2, enemy_ATTACKING, enemy_FALLING, enemy_DYING, enemy_INBALL_IDLE, enemy_INBALL_MOVING, enemy_INBALL_PUSHING, enemy_INBALL_FALLING, enemy_INBALL_DESTRUCTION};				// algunos montruos no atacan
+enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_JUMPING_FOWARD, enemy_IDLE, enemy_TRAPPED_1, enemy_TRAPPED_2, enemy_ATTACKING, enemy_FALLING, enemy_DYING, enemy_INBALL_IDLE, enemy_INBALL_MOVING, enemy_INBALL_PUSHING, enemy_INBALL_FALLING, enemy_INBALL_DESTRUCTION };				// algunos montruos no atacan
 
-class Obj_Graf_Enemy :
-	public Obj_Graf
+class Obj_Graf_Enemy : public Obj_Graf_Character
 {
 public:
 	Obj_Graf_Enemy();
@@ -27,33 +26,18 @@ private:
 	unsigned int trap2ActualImage;
 	unsigned int trap1ticks;
 	unsigned int trap2ticks;
-	unsigned int attackActualImage;
-	unsigned int dieActualImage;
-	unsigned int idleActualImage;
-	unsigned int walkActualImage;
 	unsigned int actualImageInball;
 	unsigned int actualDestructionImage;
 
-	void handle_walking();
-	void handle_jumping();
-	void handle_jumping_forward();
-	void handle_iddle();
-	void handle_trapped(ENEMY_STATE trapped_state);			//ENEMY_STATE : enemy_TRAPPED_1 or enemy_TRAPPED_2
-	void handle_attacking();
-	void handle_falling();
-	void handle_dying();
+
+	void handle_trapped(ENEMY_TYPE, ENEMY_STATE trapped_state);			//ENEMY_STATE : enemy_TRAPPED_1 or enemy_TRAPPED_2
 	void handle_inball_iddle();						//INBALL pics are common to all enemies
 	void handle_inball_moving();
 	void handle_inball_pushing();
 	void handle_inball_falling();
 	void handle_inball_destruction();
 
-
 	void going_right();
 
-	int get_movement_delta();
-	ImageContainer::enemy_images * images;
-
-
+	ImageContainer::enemy_images * this_images = NULL;
 };
-
