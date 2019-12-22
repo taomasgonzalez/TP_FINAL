@@ -89,10 +89,23 @@ void ProyectilesActionsFSM::start_impacting() {
 
 void ProyectilesActionsFSM::process_logical_movement()
 {
-	if (!finished_logical_movement()) 
-		continue_logical_movement();
-	
-	end_if_should_end_movement();
+
+	bool can_perform = true;
+	if (!finished_logical_movement()) {			//do i have any more sub-movements to perform?
+
+												//can i perform this sub-movement? Do the game conditions enable me to do so?
+		if (!first_logical_movement())
+			can_perform = can_perform_logical_movement();
+
+		if (can_perform)
+			continue_logical_movement();		//if so, perform the movement.
+		else {
+			obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
+			notify_obs();
+			obs_info.interrupt_movement = false;
+		}
+	}
+
 }
 
 void ProyectilesActionsFSM::start_fsm()
@@ -158,4 +171,14 @@ void finished_impacting_r(void* data) {
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_moving();
+}
+bool ProyectilesActionsFSM::first_logical_movement() {
+	return (current_moving_vector->begin() == current_moving_iteration);
+}
+
+bool ProyectilesActionsFSM::can_perform_logical_movement() {
+	obs_questions.can_perform_movement = true;
+	notify_obs();				//ProyectilesSceneObserver
+	obs_questions.can_perform_movement = false;
+	return obs_answers.can_perform_movement;
 }

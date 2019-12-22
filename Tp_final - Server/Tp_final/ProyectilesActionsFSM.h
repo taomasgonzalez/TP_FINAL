@@ -61,5 +61,7 @@ private:
 	void continue_logical_movement();
 	bool finished_logical_movement();
 	void end_if_should_end_movement();
+	bool can_perform_logical_movement();
+	bool first_logical_movement();
 };
 
