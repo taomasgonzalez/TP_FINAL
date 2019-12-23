@@ -15,11 +15,9 @@ ProyectileSceneObserver::~ProyectileSceneObserver()
 }
 
 void ProyectileSceneObserver::update(){
-	if (fsm->obs_info.perform_logical_movement) 
-		perform_logical_movement();
 	if (fsm->obs_questions.can_perform_movement) {
 		Action_info info;
-		info.my_info_header = Action_info_id::MOVE;
+		info.my_info_header = Action_info_id::PROY_MOVE;
 		info.action = Action_type::Move;
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = proy->id;
@@ -27,9 +25,9 @@ void ProyectileSceneObserver::update(){
 		fsm->obs_answers.can_perform_movement = scenario->is_the_action_possible(&info, true);
 	}
 	if (fsm->obs_info.perform_logical_movement) {
-
-		MOVE_EventPackage ev_pack;
-		Action_info info = ev_pack.to_Action_info();
+		Action_info info;
+		info.my_info_header = Action_info_id::PROY_MOVE;
+		info.action = Action_type::Move;
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = proy->id;
 		direction_to_deltas(&info);

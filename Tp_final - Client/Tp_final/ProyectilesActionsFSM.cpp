@@ -52,6 +52,7 @@ void ProyectilesActionsFSM::set_states() {
 
 	moving_state->push_back({ Event_type::FINISHED_GRAPH_STEP, moving_state, check_move_and_move });
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, start_impacting_r });
+	moving_state->push_back({ Event_type::FINISHED_MOVEMENT, inactive_state, do_nothing_proy });
 	moving_state->push_back({ Event_type::END_OF_TABLE, moving_state, do_nothing_proy });
 
 	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting_r });
@@ -97,6 +98,12 @@ void ProyectilesActionsFSM::process_logical_movement()
 			can_perform = can_perform_logical_movement();
 
 		can_perform ? continue_logical_movement() : interrupt_move();
+	}
+
+	if (!finished_logical_movement()) {
+		obs_info.start_moving_graph = true;
+		notify_obs();								//ProyectilesActionsFSMDRAWObserver
+		obs_info.start_moving_graph = false;
 	}
 	else 
 		interrupt_move();
@@ -160,4 +167,14 @@ void ProyectilesActionsFSM::interrupt_move() {
 	obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
 	notify_obs();
 	obs_info.interrupt_movement = false;
+}
+
+
+void ProyectilesActionsFSM::print_curr_state() {
+	if (moving_state == actual_state)
+		cout << "moving_state" << endl;
+	else if (inactive_state == actual_state)
+		cout << "inactive_state" << endl;
+	else if (impact_state == actual_state)
+		cout << "impact_state" << endl;
 }

@@ -45,7 +45,6 @@ protected:
 	void set_states();
 	void set_processes();
 
-
 private:
 
 	Proyectile * proyectile = NULL;
@@ -58,5 +57,6 @@ private:
 	bool can_perform_logical_movement();
 	bool first_logical_movement();
 	void interrupt_move();
+	void print_curr_state();
 };
 
