@@ -92,11 +92,11 @@ void ProyectilesActionsFSM::process_logical_movement()
 		//can i perform this sub-movement? Do the game conditions enable me to do so?
 		if (!first_logical_movement())
 			can_perform = can_perform_logical_movement();
-
-		can_perform ? continue_logical_movement() : interrupt_move();
+		if (can_perform)
+			continue_logical_movement();
 	}
 
-	if (!finished_logical_movement()) {
+	if (can_perform && !finished_logical_movement()) {
 		obs_info.start_moving_graph = true;
 		notify_obs();								//ProyectilesActionsFSMDRAWObserver
 		obs_info.start_moving_graph = false;
