@@ -249,17 +249,17 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 	curr_map->move_map_thing(proy, action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
 
 	if (proy->is_fireball()) {
-		if (should_be_hit = curr_map->cell_has_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
-			vector<Enemy*> enemies = curr_map->get_cell_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
-			for (vector<Enemy*>::iterator enemy = enemies.begin(); enemy != enemies.end(); ++enemy)
-				(*enemy)->ev_handler->get_ev_gen()->append_new_event(new GOT_HIT_EventPackage(), 0);
-		}
-	}
-	else if (proy->is_snowball()) 
 		if (should_be_hit = curr_map->cell_has_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
 			vector<Player*> players = curr_map->get_cell_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
 			for (vector<Player*>::iterator player = players.begin(); player != players.end(); ++player)
 				(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+		}
+	}
+	else if (proy->is_snowball()) 
+		if (should_be_hit = curr_map->cell_has_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
+			vector<Enemy*> enemies = curr_map->get_cell_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
+			for (vector<Enemy*>::iterator enemy = enemies.begin(); enemy != enemies.end(); ++enemy)
+				(*enemy)->ev_handler->get_ev_gen()->append_new_event(new GOT_HIT_EventPackage(), 0);
 		}
 }
 
