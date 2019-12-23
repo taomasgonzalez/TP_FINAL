@@ -1,5 +1,5 @@
 #pragma once
-#include "GraficObject.h"
+#include "GraficObjectCharacter.h"
 
 enum ENEMY_TYPE {PURPLE, FATTY, CRAZY};
 

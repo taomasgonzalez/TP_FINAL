@@ -145,6 +145,7 @@
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="GraficObjectCharacter.cpp" />
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
@@ -208,6 +209,7 @@
     <ClInclude Include="Action_Info.h" />
     <ClInclude Include="AllegroClass.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="GraficObjectCharacter.h" />
     <ClInclude Include="ImageContainer.h" />
     <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="MapThingEventGenerator.h" />

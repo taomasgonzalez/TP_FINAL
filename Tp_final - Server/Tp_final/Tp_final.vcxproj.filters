@@ -157,9 +157,6 @@
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
     </ClCompile>
-    <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
-      <Filter>Source Files\Map_related</Filter>
-    </ClCompile>
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
@@ -181,6 +178,12 @@
     </ClCompile>
     <ClCompile Include="GraphicEventGenerator.cpp">
       <Filter>Source Files\Event_related\Graphic</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
+      <Filter>Source Files\Map_related\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="GraficObjectCharacter.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="ImageContainer.h">
       <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectCharacter.h">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
