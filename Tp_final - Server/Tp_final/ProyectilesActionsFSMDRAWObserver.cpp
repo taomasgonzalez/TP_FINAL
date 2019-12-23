@@ -27,7 +27,7 @@ void ProyectilesActionsFSMDRAWObserver::update() {
 		curr_state = proy_MOVING;
 	}
 	else if (fsm->obs_info.start_impacting_graph) {
-		drawer->startDraw(proy_IMPACT, proyectile->id, direction_translation(fsm->get_current_action_direction()), proyectile->pos_x, proyectile->pos_y);
+		drawer->startDraw(proy_IMPACT, proyectile->id, Direction::None, proyectile->pos_x, proyectile->pos_y);
 		curr_state = proy_IMPACT;
 	}
 	else if (fsm->obs_info.start_falling_graph) {
