@@ -182,6 +182,9 @@
     <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
       <Filter>Source Files\Map_related\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="GraficObjectCharacter.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -379,6 +382,9 @@
     </ClInclude>
     <ClInclude Include="ImageContainer.h">
       <Filter>Header Files\Graphics_related</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectCharacter.h">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

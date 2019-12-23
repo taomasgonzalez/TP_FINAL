@@ -1,5 +1,5 @@
 #pragma once
-#include "GraficObject.h"
+#include "GraficObjectCharacter.h"
 
 
 enum PLAYER_TYPE { TOM, NICK };
@@ -7,7 +7,7 @@ enum PLAYER_TYPE { TOM, NICK };
 enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, player_IDLE, player_ATTACKING, player_FALLING , player_PUSHING, player_DYING};
 
 
-class Obj_Graf_Player : public Obj_Graf
+class Obj_Graf_Player : public Obj_Graf_Character
 {
 public:
 	Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* container);		// se setea la velorcidad del player
@@ -22,21 +22,6 @@ public:
 private:
 	PLAYER_STATE state;
 	PLAYER_TYPE type;
-	unsigned int idleActualImage;
-	unsigned int attackActualImage;
-	unsigned int dieActualImage;
-	unsigned int walkActualImage;
 
-	void handle_walking();
-	void handle_jumping();
-	void handle_jumping_forward();
-	void handle_iddle();
-	void handle_attacking();
-	void handle_falling();
 	void handle_pushing();
-	void handle_dying();
-
-	int get_movement_delta();
-	bool notified_half_jump = false;
-	ImageContainer::character_images * images = NULL;
 };

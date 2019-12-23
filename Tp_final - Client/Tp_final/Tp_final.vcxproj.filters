@@ -184,6 +184,9 @@
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp">
       <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
+    <ClCompile Include="GraficObjectCharacter.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -386,6 +389,9 @@
     </ClInclude>
     <ClInclude Include="LogicFSMGraphicEventsObserver.h">
       <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
+    <ClInclude Include="GraficObjectCharacter.h">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
