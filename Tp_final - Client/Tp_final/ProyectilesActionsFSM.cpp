@@ -6,10 +6,6 @@ void start_moving_r(void* data);
 void check_move_and_move(void* data);
 
 void start_impacting_r(void* data);
-void finished_impacting_r(void* data);
-
-
-//void finish_falling_r(void* data);
 
 ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFSM(proyectile)
 {
@@ -55,7 +51,7 @@ void ProyectilesActionsFSM::set_states() {
 	moving_state->push_back({ Event_type::FINISHED_MOVEMENT, inactive_state, do_nothing_proy });
 	moving_state->push_back({ Event_type::END_OF_TABLE, moving_state, do_nothing_proy });
 
-	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting_r });
+	impact_state->push_back({Event_type::FINISHED_GRAPH_STEP, inactive_state, do_nothing_proy });
 	impact_state->push_back({ Event_type::END_OF_TABLE, impact_state, do_nothing_proy});
 
 	actual_state = moving_state;
@@ -123,11 +119,6 @@ bool ProyectilesActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
 
-void ProyectilesActionsFSM::finished_impacting() {
-	obs_info.interrupt_impact = true;
-	notify_obs();						//ProyectileActionsFSMDRAWObserver
-	obs_info.interrupt_impact = false;
-}
 
 void do_nothing_proy(void* data) {
 
@@ -139,10 +130,6 @@ void check_move_and_move(void* data) {
 void start_impacting_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_impacting();
-}
-void finished_impacting_r(void* data) {
-	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-	fsm->finished_impacting();
 }
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;

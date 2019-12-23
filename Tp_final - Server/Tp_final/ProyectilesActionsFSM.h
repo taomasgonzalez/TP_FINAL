@@ -30,8 +30,6 @@ public:
 	void start_impacting();
 	void start_moving();
 
-	void finished_impacting();
-
 	void process_logical_movement();
 
 	bool has_disappeared();

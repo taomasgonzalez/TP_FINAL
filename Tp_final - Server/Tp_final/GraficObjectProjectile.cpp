@@ -198,8 +198,11 @@ void Obj_Graf_Projectile::handle_impacting(PROYECTILE_TYPE type)
 	}
 	else
 	{
-		this->secuenceOver_ = true;
-		this->active = false;
+		if(!secuenceOver_){
+			secuenceOver_ = true;
+			active = false;
+			notify_finished_drawing_step();
+		}
 	}
 }
 
