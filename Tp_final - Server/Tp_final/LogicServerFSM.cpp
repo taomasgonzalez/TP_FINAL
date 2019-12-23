@@ -153,7 +153,7 @@ LogicServerFSM::~LogicServerFSM()
 
 void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
 	LogicFSM::run_fsm(ev_pack);
-	scenario->control_enemy_actions();
+	//scenario->control_enemy_actions();
 }
 
 

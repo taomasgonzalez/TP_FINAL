@@ -6,6 +6,8 @@ PurpleGuy::PurpleGuy(unsigned int id, Sense_type sense) :Enemy(id, sense)
 {
 	printable = Item_type::PURPLE_GUY;
 	staying_still_time = 0.3;
+	staying_still_timer = al_create_timer(staying_still_time);
+	al_register_event_source(enemy_timers, al_get_timer_event_source(staying_still_timer));
 	al_set_timer_speed(staying_still_timer, staying_still_time);
 }
 
