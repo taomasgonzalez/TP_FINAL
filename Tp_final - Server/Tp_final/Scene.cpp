@@ -892,13 +892,18 @@ void Scene::control_all_actions() {
 		Player* curr_player = curr_players->at(i);
 		curr_player->ev_handler->handle_event();
 	}	
-	for (vector<Proyectile*>::iterator curr_proy = curr_proyectiles->begin();
-			curr_proy != curr_proyectiles->end(); ++curr_proy) {
-		(*curr_proy)->ev_handler->handle_event();
-		if ((*curr_proy)->has_disappeared()) {
-			maps[actual_map]->delete_from_map(*curr_proy);
-			delete *curr_proy;
-		}
+
+	vector<Proyectile*> to_be_deleted;
+	for (int i = 0; i < curr_proyectiles->size(); i++) {
+		Proyectile* curr = curr_proyectiles->at(i);
+		curr->ev_handler->handle_event();
+		if (curr->has_disappeared())
+			to_be_deleted.push_back(curr);
+	}
+
+	for (vector<Proyectile*>::iterator it = to_be_deleted.begin(); it != to_be_deleted.end(); ++it) {
+		maps[actual_map]->delete_from_map(*it);
+		delete *it;
 	}
 }
 

@@ -14,7 +14,6 @@ MapThingFactory::MapThingFactory()
 	//cada vez que creo una instancia nueva, se reinicia la cuenta para la clase entera.
 	next_enemy_id = 0;
 	next_proyectile_id = MAX_NUMBER_OF_MONSTERS + MAX_NUMBER_OF_PLAYERS;
-
 }
 
 
@@ -118,7 +117,7 @@ unsigned int MapThingFactory::get_enemy_id()
 unsigned int MapThingFactory::get_proyectile_id()
 {
 	next_proyectile_id++;
-	return next_player_id - 1;
+	return next_proyectile_id - 1;
 }
 
 unsigned int MapThingFactory::get_nothing_id() {
