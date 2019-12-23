@@ -78,11 +78,6 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 	new_born->pos_x = fil;
 	new_born->pos_y = col;
 
-	if (new_born->is_enemy())
-		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(static_cast<Enemy*>(new_born)->get_acting_timer()));
-	else if (new_born->is_proyectile())
-		al_register_event_source(proyectiles_ev_queue, al_get_timer_event_source(((Proyectile*)new_born)->get_moving_timer()));
-
 	last_created_map_thing = new_born;
 	this->obs_info.new_map_thing = true;
 	notify_obs();
@@ -97,11 +92,6 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 }
 
 
-
-void MapThingFactory::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue)
-{
-	enemies_ev_queue = ev_queue;
-}
 
 void MapThingFactory::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * ev_queue)
 {

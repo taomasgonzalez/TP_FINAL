@@ -5,7 +5,8 @@ double PurpleGuy::moving_speed = 300;
 PurpleGuy::PurpleGuy(unsigned int id, Sense_type sense) :Enemy(id, sense)
 {
 	printable = Item_type::PURPLE_GUY;
-
+	staying_still_time = 0.3;
+	al_set_timer_speed(staying_still_timer, staying_still_time);
 }
 
 
@@ -28,37 +29,34 @@ PurpleGuy::~PurpleGuy()
 Action_info PurpleGuy::act(){
 
 	Action_info returnable_EA = Action_info();
-	//al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
-	double timer_speed;
 
 	while (!returnable_EA.valid){
 
-		if ((sample >= 0) && (sample <= 0.6)) {			//0.6 probability
-			//move_to_nearest_player(&returnable_EA);
+		if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
 			stay_still(&returnable_EA);
-			timer_speed = 1;
-		}
+		
 		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
 			sample = acting_probabilities(generator); 
 
 			while (!returnable_EA.valid) {
-				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 						//1/3 probability
-					jump(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //en ningún caso debería ser posible no saltar
-				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 			//1/3 probability
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.9;
+				if ((sample >= 0) && (sample <= 1.0 / 3.0)) { 						//1/3 probability
+					if (!jump(&returnable_EA))			//en ningún caso debería ser posible no saltar
+						sample = 0.5;
+				}
+				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {			//1/3 probability
+					if (!move_in_opposite_direction(&returnable_EA))
+						sample = 0.9;
+				}
 				else																//1/3 probability
-					move_in_same_direction(&returnable_EA) ? timer_speed = 1 : sample = 0.5; //moves in the other direction
+					if(!move_in_same_direction(&returnable_EA))
+						sample = 0.5; //moves in the other direction
 			}
 		}
-		else if ((sample >= 0.9) && (sample <= 1.0)) {		//0.1 probability
+		else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
 			stay_still(&returnable_EA);
-			timer_speed = 1;
-		}
+		
 	}
-
-	//al_set_timer_speed(acting_timer, timer_speed);
-	//al_start_timer(acting_timer);
 
 	return returnable_EA;
 }

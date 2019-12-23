@@ -5,6 +5,8 @@ double GreenFatty::moving_speed = 200;
 GreenFatty::GreenFatty(unsigned int id, Sense_type sense) : Enemy(id, sense)
 {
 	printable = Item_type::GREEN_FATTIE;
+	staying_still_time = 0.9;
+	al_set_timer_speed(staying_still_timer, staying_still_time);
 }
 
 
@@ -28,39 +30,32 @@ GreenFatty::~GreenFatty()
 Action_info GreenFatty::act() {
 
 	Action_info returnable_EA = Action_info();
-	//al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
-	double timer_speed;
 
 	while (! returnable_EA.valid) {
-		if ((sample >= 0) && (sample <= 0.3)) {			//0.3 probability
+		if ((sample >= 0) && (sample <= 0.3)) 		//0.3 probability
 			shoot_fireball(&returnable_EA);
-			timer_speed = 0;
+		else if ((sample >= 0.3) && (sample <= 0.9)) {		//0.6 probability
+			if (!move_in_same_direction(&returnable_EA))
+				sample = 0.95;
 		}
-
-		else if ((sample >= 0.3) && (sample <= 0.9)) 		//0.6 probability
-			move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.95;
-
 		else {												//0.1 probability
 			sample = acting_probabilities(generator);
 
 			while(!returnable_EA.valid)
-				if ((sample >= 0) && (sample <= 1.0 / 3.0)) 	//1/3 probability		
-					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
-
-				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0) )	//1/3 probability
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.9;
-
-				else {										//1/3 probability
-					stay_still(&returnable_EA);
-					timer_speed = 1.0 / 2;
+				if ((sample >= 0) && (sample <= 1.0 / 3.0)) {	//1/3 probability		
+					if (!jump(&returnable_EA))
+						sample = 0.5;
 				}
+				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {	//1/3 probability
+					if (!move_in_opposite_direction(&returnable_EA))
+						sample = 0.9;
+				}
+				else 										//1/3 probability
+					stay_still(&returnable_EA);
 			
 		}
 	}
-
-	//al_set_timer_speed(acting_timer, timer_speed);
-	//al_start_timer(acting_timer);
 
 	return returnable_EA;
 }
