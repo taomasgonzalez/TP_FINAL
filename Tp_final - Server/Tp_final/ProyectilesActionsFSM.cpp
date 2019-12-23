@@ -6,10 +6,6 @@ void start_moving_r(void* data);
 void check_move_and_move(void* data);
 
 void start_impacting_r(void* data);
-void finished_impacting_r(void* data);
-
-
-//void finish_falling_r(void* data);
 
 ProyectilesActionsFSM::ProyectilesActionsFSM(Proyectile* proyectile): MapThingFSM(proyectile)
 {
@@ -52,9 +48,10 @@ void ProyectilesActionsFSM::set_states() {
 
 	moving_state->push_back({ Event_type::FINISHED_GRAPH_STEP, moving_state, check_move_and_move });
 	moving_state->push_back({ Event_type::GOT_HIT, impact_state, start_impacting_r });
+	moving_state->push_back({ Event_type::FINISHED_MOVEMENT, inactive_state, do_nothing_proy });
 	moving_state->push_back({ Event_type::END_OF_TABLE, moving_state, do_nothing_proy });
 
-	impact_state->push_back({Event_type::DISAPPEARED, inactive_state, finished_impacting_r });
+	impact_state->push_back({Event_type::FINISHED_GRAPH_STEP, inactive_state, do_nothing_proy });
 	impact_state->push_back({ Event_type::END_OF_TABLE, impact_state, do_nothing_proy});
 
 	actual_state = moving_state;
@@ -89,26 +86,27 @@ void ProyectilesActionsFSM::start_impacting() {
 
 void ProyectilesActionsFSM::process_logical_movement()
 {
-	if (!finished_logical_movement()) 
-		continue_logical_movement();
-	
-	end_if_should_end_movement();
+	bool can_perform = true;
+	if (!finished_logical_movement()) {			//do i have any more sub-movements to perform?
+
+		//can i perform this sub-movement? Do the game conditions enable me to do so?
+		if (!first_logical_movement())
+			can_perform = can_perform_logical_movement();
+		if (can_perform)
+			continue_logical_movement();
+	}
+
+	if (can_perform && !finished_logical_movement()) {
+		obs_info.start_moving_graph = true;
+		notify_obs();								//ProyectilesActionsFSMDRAWObserver
+		obs_info.start_moving_graph = false;
+	}
+	else 
+		interrupt_move();
 }
 
-void ProyectilesActionsFSM::start_fsm()
-{
-	notify_obs();
-}
 
 
-ALLEGRO_TIMER * ProyectilesActionsFSM::get_moving_timer()
-{
-	return moving_timer;
-}
-ALLEGRO_TIMER * ProyectilesActionsFSM::get_impacting_timer()
-{
-	return impacting_timer;
-}
 void ProyectilesActionsFSM::continue_logical_movement()
 {
 	obs_info.perform_logical_movement = true;
@@ -121,24 +119,6 @@ bool ProyectilesActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
 
-void ProyectilesActionsFSM::end_if_should_end_movement()
-{
-#pragma message("En algun lado hay que chequear directamente si deberia caer inmediatamente cuando me puse en iddle")
-	obs_questions.should_interrupt_movement = true;
-	notify_obs();
-	obs_questions.should_interrupt_movement = false;
-	if (obs_answers.should_interrupt_movement) {
-		obs_info.interrupt_movement = true;
-		notify_obs();
-		obs_info.interrupt_movement = false;
-	}
-}
-
-void ProyectilesActionsFSM::finished_impacting() {
-	obs_info.interrupt_impact = true;
-	notify_obs();						//ProyectileActionsFSMDRAWObserver
-	obs_info.interrupt_impact = false;
-}
 
 void do_nothing_proy(void* data) {
 
@@ -151,11 +131,37 @@ void start_impacting_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_impacting();
 }
-void finished_impacting_r(void* data) {
-	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
-	fsm->finished_impacting();
-}
 void start_moving_r(void* data) {
 	ProyectilesActionsFSM* fsm = (ProyectilesActionsFSM*)data;
 	fsm->start_moving();
+}
+bool ProyectilesActionsFSM::first_logical_movement() {
+	return current_moving_vector->begin() == current_moving_iteration;
+}
+
+bool ProyectilesActionsFSM::can_perform_logical_movement() {
+	obs_questions.can_perform_movement = true;
+	notify_obs();				//ProyectilesSceneObserver
+	obs_questions.can_perform_movement = false;
+	return obs_answers.can_perform_movement;
+}
+
+bool ProyectilesActionsFSM::has_disappeared() {
+	return actual_state == inactive_state;
+}
+
+void ProyectilesActionsFSM::interrupt_move() {
+	obs_info.interrupt_movement = true;		//append a movement finished event to the queue.
+	notify_obs();
+	obs_info.interrupt_movement = false;
+}
+
+
+void ProyectilesActionsFSM::print_curr_state() {
+	if (moving_state == actual_state)
+		cout << "moving_state" << endl;
+	else if (inactive_state == actual_state)
+		cout << "inactive_state" << endl;
+	else if (impact_state == actual_state)
+		cout << "impact_state" << endl;
 }

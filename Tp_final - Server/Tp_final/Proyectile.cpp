@@ -4,7 +4,6 @@
 
 Proyectile::Proyectile(unsigned int id, Sense_type proyectile_sense) : MapThing(id, false, proyectile_sense)
 {
-	moving_timer = al_create_timer(1.0);
 	ProyectilesActionsFSM* fsm = new ProyectilesActionsFSM(this);
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new ProyectilesActionsFSMDRAWObserver(fsm, ev_gen, this));
@@ -15,6 +14,7 @@ Proyectile::Proyectile(unsigned int id, Sense_type proyectile_sense) : MapThing(
 
 Proyectile::~Proyectile()
 {
+	delete ev_handler;
 }
 
 bool Proyectile::is_proyectile() {
@@ -28,10 +28,11 @@ bool Proyectile::is_fireball() {
 	return false;
 }
 
-ALLEGRO_TIMER * Proyectile::get_moving_timer()
+bool Proyectile::has_disappeared()
 {
-	return moving_timer;
+	return static_cast<ProyectilesActionsFSM*>(ev_handler->get_fsm())->has_disappeared();
 }
+
 
 
 

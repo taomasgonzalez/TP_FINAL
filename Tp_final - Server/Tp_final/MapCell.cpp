@@ -7,6 +7,7 @@ MapCell::MapCell()
 
 MapCell::~MapCell()
 {
+	delete cell_things;
 }
 bool MapCell::has_enemies() {
 	return i_have_enemies;

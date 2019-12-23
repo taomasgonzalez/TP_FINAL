@@ -31,7 +31,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 
 Map::~Map()
 {
-	for (int i = 0; i < number_of_rows; ++i)
+	for (int i = 0; i < number_of_columns; ++i)
 		delete[] map_cells[i];
 	delete[] map_cells;
 
@@ -275,7 +275,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 {
 	bool appropiate_coordinates = false;
 
-	if ((coord_x <= 17) && (coord_x >= 0) && (coord_y <= 11) && (coord_y >= 0)) //check if they were send appropiate coordinates
+	if ((coord_x < number_of_columns) && (coord_x >= 0) && (coord_y < number_of_rows) && (coord_y >= 0)) //check if they were send appropiate coordinates
 		appropiate_coordinates = true;
 
 	if (appropiate_coordinates)
