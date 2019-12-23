@@ -35,9 +35,9 @@ public:
 	virtual void reset() = 0;
 	virtual bool secuenceOver() = 0;
 	virtual bool finished_drawing_step();
+
 protected:
 	double ID;							// identificador del objeto grafico
-//	ALLEGRO_BITMAP *** images = NULL;			// triple puntero porque por el bitmap ya tenes 1 y vas a tener varios arreglos para cada estado
 	unsigned int actualImage;			// te marca que posicion de arreglo estas para poder pasar a la siguiente
 	Direction dir;
 	POINT_ pos;
