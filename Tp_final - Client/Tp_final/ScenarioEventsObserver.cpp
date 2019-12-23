@@ -15,11 +15,11 @@ ScenarioEventsObserver::~ScenarioEventsObserver()
 
 void ScenarioEventsObserver::update() {
 
-	if (this->scenario->game_started){
+	if (scenario->game_started){
 		if (my_user_data->my_network_data.handshake) {
-			if (this->my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
+			if (my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
 				ev_gen->append_new_event(new START_COMMUNICATION_EventPackage(), (int)EventGenerator::LogicQueues::soft);
-			this->scenario->initializing = true;
+			scenario->initializing = true;
 		}
 	}
 

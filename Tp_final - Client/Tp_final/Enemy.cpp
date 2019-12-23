@@ -16,7 +16,6 @@ Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
 	ev_handler = new EventHandler(fsm, ev_gen);
 	enemy_timers = al_create_event_queue();
-	
 }
 
 
