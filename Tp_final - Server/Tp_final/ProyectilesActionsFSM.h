@@ -30,13 +30,9 @@ public:
 	void start_impacting();
 	void start_moving();
 
-	void finished_impacting();
-
 	void process_logical_movement();
-	void start_fsm();
-	ALLEGRO_TIMER* get_moving_timer();
-	ALLEGRO_TIMER* get_impacting_timer();
 
+	bool has_disappeared();
 protected:
 
 	std::vector<edge_t>* moving_state = NULL;
@@ -47,19 +43,18 @@ protected:
 	void set_states();
 	void set_processes();
 
-
 private:
 
 	Proyectile * proyectile = NULL;
-
-	ALLEGRO_TIMER* moving_timer = NULL;
-	ALLEGRO_TIMER* impacting_timer = NULL;
 
 	process_t moving_right_process;
 	process_t moving_left_process;
 
 	void continue_logical_movement();
 	bool finished_logical_movement();
-	void end_if_should_end_movement();
+	bool can_perform_logical_movement();
+	bool first_logical_movement();
+	void interrupt_move();
+	void print_curr_state();
 };
 

@@ -14,7 +14,6 @@ MapThingFactory::MapThingFactory()
 	//cada vez que creo una instancia nueva, se reinicia la cuenta para la clase entera.
 	next_enemy_id = 0;
 	next_proyectile_id = MAX_NUMBER_OF_MONSTERS + MAX_NUMBER_OF_PLAYERS;
-
 }
 
 
@@ -80,8 +79,6 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 
 	if (new_born->is_enemy())
 		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(static_cast<Enemy*>(new_born)->get_acting_timer()));
-	else if (new_born->is_proyectile())
-		al_register_event_source(proyectiles_ev_queue, al_get_timer_event_source(((Proyectile*)new_born)->get_moving_timer()));
 
 	last_created_map_thing = new_born;
 	this->obs_info.new_map_thing = true;
@@ -120,7 +117,7 @@ unsigned int MapThingFactory::get_enemy_id()
 unsigned int MapThingFactory::get_proyectile_id()
 {
 	next_proyectile_id++;
-	return next_player_id - 1;
+	return next_proyectile_id - 1;
 }
 
 unsigned int MapThingFactory::get_nothing_id() {

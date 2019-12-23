@@ -45,7 +45,6 @@ public:
 
 	//checkers
 	bool check_if_has_to_fall(Character* charac);
-	bool check_position(Action_info position_info);
 	void check_current_game_situation();
 	bool is_the_action_possible(Action_info * package_to_be_analyze, bool map_thing_check); //wrap for a clearer implementation of check_Action
 
@@ -65,7 +64,7 @@ public:
 	void load_new_graphic_level();
 	const char * give_me_the_map_info();
 
-	std::vector <Map*> maps;
+	vector <Map*> maps;
 	int actual_map;
 
 	void load_action_on_character(Action_info action);
@@ -103,6 +102,7 @@ private:
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range);
 	bool check_attack(Action_info * package_to_be_analyze, bool proj_check);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
+	bool check_proy_move(Action_info * Action_info_to_be_checked);
 
 /*******************************************************************************
 	CONTROLLER FUNCTIONS
@@ -113,6 +113,7 @@ private:
 	void execute_move(Action_info * move_to_be_executed, bool & should_die);
 	void execute_attack(Action_info * attack_to_be_executed);
 	void execute_enemy_action(Action_info * enemy_action_to_be_executed, bool & should_be_hit);
+	void execute_proy_move(Action_info * action_to_be_executed, bool & should_be_hit);
 
 	//EventPackage* action_from_allegro; //se lo guarda cuando se llama a draw, no esta chequeado. Se lo manda despues a ScenarioEventsObserver::update() para chquearlo
 	Action_info action_to_be_loaded;
@@ -133,7 +134,6 @@ private:
 	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = NULL;
 
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
-	Proyectile* get_proyectile_to_act_on(ALLEGRO_TIMER* timer);
 	Action_info enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
