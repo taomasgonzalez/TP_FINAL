@@ -131,5 +131,5 @@ private:
 	Player* find_nearest_player(int pos_x, int pos_y);
 
 	Userdata* data;
-
+	int curr_enemy_to_act_on = 0;
 };

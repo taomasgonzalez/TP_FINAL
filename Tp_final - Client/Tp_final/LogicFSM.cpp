@@ -301,8 +301,8 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 	if (valid_action) {
 		execute_extern_action();
 		received_ack_routine();
-		send_ack();
 	}
+	send_ack();
 }
 
 void LogicFSM::check_action() {
@@ -698,11 +698,9 @@ void LogicFSM::send_ack() {
 
 void LogicFSM::execute_action() {
 
-	if (valid_action) {		//if it´s valid, it should be executed
-		Action_info action = get_fsm_ev_pack()->to_Action_info();
-		if (action.action == Action_type::Move)
-			scenario->load_action_on_character(action);
-		else if (action.action == Action_type::Attack)
-			scenario->load_action_on_projectile(action);
-	}
+	Action_info action = get_fsm_ev_pack()->to_Action_info();
+	if (action.action == Action_type::Move)
+		scenario->load_action_on_character(action);
+	else if (action.action == Action_type::Attack)
+		scenario->load_action_on_projectile(action);
 }
