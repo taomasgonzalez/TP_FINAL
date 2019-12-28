@@ -284,11 +284,11 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	else
 	{	//I´m server, I´ve the map available
 		this->actual_map++;
-		//string map_string = give_me_the_CSV(actual_map);
-		//new_map->load_on_map(map_string.c_str(),this);
-		//new_map->load_checksum(make_checksum(map_string.c_str()));
-		new_map->load_on_map(the_map,this);
-		new_map->load_checksum(make_checksum(the_map));
+		string map_string = give_me_the_CSV(actual_map);
+		new_map->load_on_map(map_string.c_str(),this);
+		new_map->load_checksum(make_checksum(map_string.c_str()));
+		//new_map->load_on_map(the_map,this);
+		//new_map->load_checksum(make_checksum(the_map));
 	}
 
 	curr_enemies = new_map->get_all_enemies();
