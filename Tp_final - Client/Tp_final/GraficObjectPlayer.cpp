@@ -86,6 +86,7 @@ void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 
 void Obj_Graf_Player::destroy()
 {
+	this->~Obj_Graf_Player();
 }
 
 void Obj_Graf_Player::reset()

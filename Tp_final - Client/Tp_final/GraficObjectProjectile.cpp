@@ -64,6 +64,7 @@ void Obj_Graf_Projectile::startDraw(Direction dir, void *state, POINT_& pos)
 
 void Obj_Graf_Projectile::destroy()
 {
+	this->~Obj_Graf_Projectile();
 }
 
 void Obj_Graf_Projectile::reset()

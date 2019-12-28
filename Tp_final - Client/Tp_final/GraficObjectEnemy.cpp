@@ -134,6 +134,7 @@ void Obj_Graf_Enemy::startDraw(Direction dir, void *state, POINT_& pos)
 
 void Obj_Graf_Enemy::destroy()
 {
+	this->~Obj_Graf_Enemy();
 }
 
 void Obj_Graf_Enemy::reset()
