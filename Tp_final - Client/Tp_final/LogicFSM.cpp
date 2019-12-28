@@ -594,8 +594,11 @@ void LogicFSM::send_game_start() {
 	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 	//scene get´s noticed that the game has started, has to start executing actions
-	scenario->initializing = false; // ya se hace desde main
-
+	scenario->initializing = true; // ya se hace desde main
+	
+	start_game = true;
+	notify_obs();
+	start_game = false;
 }
 
 void LogicFSM::ask_for_name() {
@@ -679,10 +682,14 @@ void LogicFSM::load_action_and_send_it_back() {
 
 void LogicFSM::start_game_and_send_ack() {
 
-	scenario->initializing = false; // ya se hace desde main
+	scenario->initializing = true; // ya se hace desde main
 
 	execute_saved_enemy_actions();
 	send_ack();
+
+	start_game = true;
+	notify_obs();
+	start_game = false;
 }
 void LogicFSM::set_ack_time_out() {
 	//if (!(fsm->waiting_for_ack)){
