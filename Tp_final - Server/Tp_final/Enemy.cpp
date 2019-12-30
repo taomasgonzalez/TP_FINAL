@@ -178,7 +178,6 @@ Action_info Enemy::get_action_4_obs()
 void Enemy::set_action_4_obs(Action_info action) {
 
 	this->action_4_obs= action;
-
 }
 
 
