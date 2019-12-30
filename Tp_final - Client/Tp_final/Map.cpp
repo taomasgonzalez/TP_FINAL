@@ -6,6 +6,8 @@
 using namespace std;
 Sense_type get_random_sense(void);
 
+#define SAFE_MAP_LENGTH	(250)		//macro used to know the amount of memory to alloc for the map string length
+
 Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 {
 	this->number_of_rows = number_of_rows;
@@ -17,13 +19,14 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	map_cells = new MapCell*[number_of_columns];
 	for (int i = 0; i < number_of_columns; ++i)
 		map_cells[i] = new MapCell[number_of_rows];
-	original_distribution = "";
 
 	all_players = new std::vector<Player*>();
 	all_proyectiles = new std::vector<Proyectile*>();
 	all_enemies = new std::vector<Enemy*>();
 	map_filler = MapThingFactory();
 	map_filler.add_observer(new MapThingFactoryDRAWObserver(&map_filler));
+	this->original_distribution.reserve(SAFE_MAP_LENGTH);
+	original_distribution = "";
 
 	//dijkstra_manager = new MapDijkstraMachine(number_of_rows, number_of_columns);
 

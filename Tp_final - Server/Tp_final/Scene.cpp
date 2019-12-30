@@ -8,7 +8,8 @@
 
 #define AMOUNT_COLS	16
 #define AMOUNT_FILS	12
-#define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)			
+#define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)	
+#define SAFE_FILE_LENGTH (2*FILE_LENGHT)
 
 using namespace std;
 
@@ -51,6 +52,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	this->data = data;
 	this->other_player = his_player;
 	this->my_player = my_player;
+	this->map_string.reserve(SAFE_FILE_LENGTH);
 }
 
 
@@ -284,7 +286,13 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 	else
 	{	//I´m server, I´ve the map available
 		this->actual_map++;
-		string map_string = give_me_the_CSV(actual_map);
+		bool map_not_loaded = true;
+		while (map_not_loaded)
+		{
+			map_string = give_me_the_CSV(actual_map);
+			if (map_string.size() >= 1)
+				map_not_loaded = false;
+		}
 		new_map->load_on_map(map_string.c_str(),this);
 		new_map->load_checksum(make_checksum(map_string.c_str()));
 		//new_map->load_on_map(the_map,this);

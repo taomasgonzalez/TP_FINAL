@@ -133,6 +133,8 @@ private:
 	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = NULL;
 	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = NULL;
 
+	string map_string;
+
 	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Action_info enemy_action_info;
 

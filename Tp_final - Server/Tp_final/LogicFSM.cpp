@@ -594,7 +594,7 @@ void LogicFSM::send_game_start() {
 	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 	//scene get´s noticed that the game has started, has to start executing actions
-	scenario->initializing = true; // ya se hace desde main
+	scenario->initializing = false; // ya se hace desde main
 
 	start_game = true;
 	notify_obs();
