@@ -1,4 +1,7 @@
 #include "ScenarioEventsObserver.h"
+#include <iostream>
+#include <string.h>
+using namespace std;
 
 ScenarioEventsObserver::ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario,FSM * fsm, Userdata * data)
 {
@@ -36,7 +39,8 @@ void ScenarioEventsObserver::update() {
 	}
 	if (scenario->new_enemy_action) {
 		Action_info new_enemy_action = scenario->give_me_my_enemy_action(false);
-		ev_gen->append_new_event(new ENEMY_ACTION_EventPackage(&new_enemy_action), (int)EventGenerator::LogicQueues::soft);
+		ENEMY_ACTION_EventPackage* to_append = new ENEMY_ACTION_EventPackage(&new_enemy_action);
+		ev_gen->append_new_event(to_append, (int)EventGenerator::LogicQueues::soft);
 	}
 	
 }

@@ -11,7 +11,6 @@ Enemy::Enemy(unsigned  int id, Sense_type sense) : Character(id, sense)
 {
 
 	EnemyActionsFSM* fsm = new EnemyActionsFSM(this);
-	//en el momento en que necesite mas timers para EnemyActionsFSM, tendre que overridiear la funcion get_all_my_timers!
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new EnemyActionsFSMDRAWObserver(fsm, ev_gen, this));
 	ev_handler = new EventHandler(fsm, ev_gen);
@@ -125,6 +124,7 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->final_pos_x = pos_x;
 	next_enemy_action->final_pos_y = pos_y;
 	next_enemy_action->valid = true;
+	next_enemy_action->my_direction = Direction_type::None;
 
 }
 bool Enemy::can_make_movement()

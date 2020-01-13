@@ -345,6 +345,7 @@ private:
 	Action_type action;
 	char destination_row;
 	char destination_column;
+	Direction_type dir;
 };
 
 /******************************************************************************

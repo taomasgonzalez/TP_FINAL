@@ -470,6 +470,7 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_Mo
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->dir = dir;
 }
 
 ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
@@ -478,6 +479,7 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :Even
 	this->destination_row = ea_info->final_pos_x;
 	this->destination_column = ea_info->final_pos_y;
 	this->MonsterID = ea_info->id;
+	this->dir = ea_info->my_direction;
 }
 
 uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
@@ -506,6 +508,7 @@ Action_info ENEMY_ACTION_EventPackage::to_Action_info()
 	returnable_info.final_pos_x = give_me_the_destination_row();
 	returnable_info.final_pos_y = give_me_the_destination_column();
 	returnable_info.id = give_me_the_monsterID();
+	returnable_info.my_direction = this->dir;
 
 	return returnable_info;
 }

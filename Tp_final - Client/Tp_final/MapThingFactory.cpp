@@ -33,19 +33,19 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 			break;
 		case Item_type::CRAZY: {
 			Crazy* crazy = new Crazy(get_enemy_id(), direction);
-			crazy->add_observer(new EnemySceneObserver(crazy, scene));
+			crazy->ev_handler->get_fsm()->add_observer(new EnemySceneObserver(crazy, scene));
 			new_born = crazy;
 		}
 			break;
 		case Item_type::GREEN_FATTIE:{
 			GreenFatty * green_fatty = new GreenFatty(get_enemy_id(), direction);
-			green_fatty->add_observer(new EnemySceneObserver(green_fatty, scene));
+			green_fatty->ev_handler->get_fsm()->add_observer(new EnemySceneObserver(green_fatty, scene));
 			new_born = green_fatty;
 		}
 			break;
 		case Item_type::PURPLE_GUY: {
 			PurpleGuy * purple_guy = new PurpleGuy(get_enemy_id(), direction);
-			purple_guy->add_observer(new PurpleGuyScenarioObserver(purple_guy, scene));
+			purple_guy->ev_handler->get_fsm()->add_observer(new PurpleGuyScenarioObserver(purple_guy, scene));
 			new_born = purple_guy;
 		}
 			break;

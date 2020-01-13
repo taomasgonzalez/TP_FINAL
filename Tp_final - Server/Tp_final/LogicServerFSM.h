@@ -44,5 +44,10 @@ private:
 	std::vector<edge_t>* Waiting_if_the_client_wants_to_play_again = NULL;
 	std::vector<edge_t>* Waiting_if_the_server_wants_to_play_again = NULL;
 	std::vector<edge_t>* Waiting_if_the_user_wants_to_play_again = NULL;
+
+
+	//debug!
+	ALLEGRO_EVENT_QUEUE * control_ev_queue = NULL;
+	ALLEGRO_TIMER* control_timer = NULL;
 };
 

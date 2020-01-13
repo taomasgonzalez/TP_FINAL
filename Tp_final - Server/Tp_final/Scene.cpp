@@ -619,7 +619,6 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 	return my_direction;
 }
 
-
 bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_check) {
 
 	bool is_the_attack_possible;
@@ -797,7 +796,6 @@ bool Scene::check_if_has_to_fall(Character* charac) {
 	return has_to_fall;
 }
 
-
 Player * Scene::get_player(Item_type player_to_be_found) {
 
 	Player * player_found = NULL;
@@ -861,16 +859,21 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
+	static bool initialized = false;
+	if (!initialized) {
 
-	if (curr_enemy_to_act_on >= curr_enemies->size())
-		curr_enemy_to_act_on = 0;
-	Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on++);
+		if (curr_enemy_to_act_on >= curr_enemies->size())
+			curr_enemy_to_act_on = 0;
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on++);
 
-	if (curr_enemy->is_iddle()) {
-		enemy_action_info = curr_enemy->act();
-		new_enemy_action = true;
-		notify_obs();					//ScenarioEventsObserver
-		new_enemy_action = false;
+		if (curr_enemy->is_iddle()) {
+			enemy_action_info = curr_enemy->act();
+			new_enemy_action = true;
+			notify_obs();					//ScenarioEventsObserver
+			new_enemy_action = false;
+		}
+
+		initialized = true;
 	}
 	for(int i = 0; i < curr_enemies->size(); i++)
 		curr_enemies->at(i)->ev_handler->handle_event();

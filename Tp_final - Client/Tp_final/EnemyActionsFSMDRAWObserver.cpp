@@ -15,43 +15,53 @@ EnemyActionsFSMDRAWObserver::~EnemyActionsFSMDRAWObserver()
 }
 
 void EnemyActionsFSMDRAWObserver::update() {
-	Direction dir = get_character_graph_direction(enemy->get_sense());
+	Direction dir;
 
 	if (first_update) {
 		drawer->add_observer(enemy->id, this);
 		first_update = false;
 	}
 	if (fsm->obs_info.start_walking_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
+		enemy->set_sense(dir_to_sense(fsm->get_current_action_direction()));
 		drawer->startDraw(enemy_WALKING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_WALKING;
 	}
 
 	else if (fsm->obs_info.start_attacking_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(enemy_ATTACKING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_ATTACKING;
 	}
 
 	else if (fsm->obs_info.start_falling_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(enemy_FALLING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_FALLING;
 	}
 
 	else if (fsm->obs_info.start_jumping_graph) {
+		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(enemy_JUMPING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_JUMPING;
 	}
 
 	else if (fsm->obs_info.start_jumping_forward_graph) {
-		drawer->startDraw(enemy_JUMPING_FOWARD, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+		//dir = get_character_graph_direction(fsm->get_current_action_direction());
+		JUMPED_FORWARD_EventPackage* ev_pack = static_cast<JUMPED_FORWARD_EventPackage*>(fsm->get_fsm_ev_pack());
+		dir = get_character_graph_direction(ev_pack->jumping_direction);
+		drawer->startDraw(player_JUMPING_FOWARD, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_JUMPING_FOWARD;
 	}
 
 	else if (fsm->obs_info.dying_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_DYING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_DYING;
 	}
 
 	else if (fsm->obs_info.reset_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		curr_state = enemy_IDLE;
 	}
@@ -69,10 +79,31 @@ void EnemyActionsFSMDRAWObserver::update() {
 	else if (fsm->obs_info.interrupt_attack) {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
+	else if (drawer->finished_drawing_step(enemy->id)) {
+		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
+	}
 	else if (fsm->obs_info.disappear_graph) {
 		drawer->disactiveObj(enemy->id);
 	}
 
+}
+
+Direction EnemyActionsFSMDRAWObserver::get_character_graph_direction(Direction_type direction) {
+	Direction returnable = Direction::None;
+	switch (direction) {
+	case Direction_type::Left:
+	case Direction_type::Jump_Left:
+		returnable = Direction::Left;
+		break;
+	case Direction_type::Right:
+	case Direction_type::Jump_Right:
+		returnable = Direction::Right;
+		break;
+	default:
+		returnable = Direction::None;
+		break;
+	}
+	return returnable;
 }
 
 Direction EnemyActionsFSMDRAWObserver::get_character_graph_direction(Sense_type sense) {
@@ -86,6 +117,21 @@ Direction EnemyActionsFSMDRAWObserver::get_character_graph_direction(Sense_type 
 		break;
 	default:
 		returnable = Direction::None;
+		break;
+	}
+	return returnable;
+}
+Sense_type EnemyActionsFSMDRAWObserver::dir_to_sense(Direction_type sense) {
+	Sense_type returnable = Sense_type::None;
+	switch (sense) {
+	case Direction_type::Left:
+		returnable = Sense_type::Left;
+		break;
+	case Direction_type::Right:
+		returnable = Sense_type::Right;
+		break;
+	default:
+		returnable = Sense_type::None;
 		break;
 	}
 	return returnable;
