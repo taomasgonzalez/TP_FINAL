@@ -443,7 +443,6 @@ bool Scene::any_monsters_left()
 	return false;
 }
 
-
 bool Scene::game_is_finished() {
 	return game_finished;
 }
@@ -856,6 +855,10 @@ void Scene::control_enemy_actions()
 		curr_enemies->at(i)->ev_handler->handle_event();
 
 }
+void Scene::control_enemies() {
+	for (int i = 0; i < curr_enemies->size(); i++) 
+		curr_enemies->at(i)->ev_handler->handle_event();
+}
 void Scene::control_all_actions() {
 
 	//for (int i = 0; i < curr_players->size(); i++) {
@@ -915,20 +918,25 @@ Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 
 void Scene::load_action_on_character(Action_info action) {
 
-	//i am not certain that this line can be removed!! should check before doing so
-	action_to_be_loaded = action;
-
-	bool appended = false;
-	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		if((*it)->id == action.id){
-			(*it)->append_action_to_character(action_to_be_loaded);
-			appended = true;
-		}
-
-	if(!appended)
+	if (action.my_info_header == Action_info_id::ENEMY_ACTION) {
 		for (vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-			if ((*it)->id == action.id)
-				(*it)->append_action_to_character(action_to_be_loaded);
+			if ((*it)->id == action.id) {
+
+				if (!action.is_local) {
+					Position pos = { action.final_pos_y , action.final_pos_x };
+					bool out_of_range = false;
+					action.my_direction = load_direction(&pos, *it, &out_of_range);
+				}
+				(*it)->append_action_to_character(action);
+			}
+	}
+	else 
+		for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+			if((*it)->id == action.id)
+				(*it)->append_action_to_character(action);
+
+
+		
 }
 
 void Scene::load_action_on_projectile(Action_info action)

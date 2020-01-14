@@ -13,6 +13,8 @@ using namespace std;
 class Scene : public Observable
 {
 public:
+
+	void control_enemies();
 	Scene(Userdata* data, Item_type my_player, Item_type his_player);
 	~Scene();
 

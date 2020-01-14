@@ -149,8 +149,8 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	EA_info_common_filling(next_enemy_action);
 
 	next_enemy_action->action = Action_type::Move;
-	next_enemy_action->final_pos_x = pos_x - 1;
-	next_enemy_action->final_pos_y = pos_y;
+	next_enemy_action->final_pos_x = pos_x;
+	next_enemy_action->final_pos_y = pos_y - 2;
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
 	al_start_timer(staying_still_timer);
 	is_staying_still = true;
