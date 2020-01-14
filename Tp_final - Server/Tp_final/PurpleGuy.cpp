@@ -33,7 +33,7 @@ Action_info PurpleGuy::act(){
 	Action_info returnable_EA = Action_info();
 	double sample = acting_probabilities(generator);
 	returnable_EA.valid = true;
-	move_in_opposite_direction(&returnable_EA);
+	move_in_same_direction(&returnable_EA);
 
 	//while (!returnable_EA.valid){
 

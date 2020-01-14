@@ -464,12 +464,10 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map
 	switch (package_to_be_analyze->my_info_header)
 	{
 	case Action_info_id::MOVE:
-
-		is_the_action_possible=check_move(package_to_be_analyze, map_thing_check);
+		is_the_action_possible = check_move(package_to_be_analyze, map_thing_check);
 		break;
 
 	case Action_info_id::ATTACK:
-
 		is_the_action_possible = check_attack(package_to_be_analyze, map_thing_check);
 		break;
 
@@ -683,15 +681,12 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
 
-
-
-	the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
+	the_enemy_that_acts = static_cast<Enemy*>(maps[actual_map]->get_from_map(package_to_be_analyze->id));
 	package_to_be_analyze->id = the_enemy_that_acts->id;
 
-	extern_destination.fil = package_to_be_analyze->final_pos_x;
-	extern_destination.col = package_to_be_analyze->final_pos_y;
+	extern_destination.fil = package_to_be_analyze->final_pos_y;
+	extern_destination.col = package_to_be_analyze->final_pos_x;
 	action_to_be_checked = package_to_be_analyze->action;
-
 
 	if (the_enemy_that_acts->is_dead())
 	{
@@ -709,30 +704,12 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			switch (my_direction)
 			{
 			case Direction_type::Left:
-
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-						is_the_enemy_action_possible = false;
-					else
-						is_the_enemy_action_possible = true;
-
-				break;
-
 			case Direction_type::Right:
-
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-						is_the_enemy_action_possible = false;
-					else
-						is_the_enemy_action_possible = true;
-				break;
-
 			case Direction_type::Jump_Straight:
-
 			case Direction_type::Jump_Left:
-
 			case Direction_type::Jump_Right:
-
+				is_the_enemy_action_possible = maps[actual_map]->cell_has_floor(extern_destination.col, extern_destination.fil);
 				break;
-
 			case Direction_type::None: //stay still was received
 				is_the_enemy_action_possible = true;
 				break;
@@ -861,9 +838,9 @@ void Scene::control_enemy_actions()
 {
 	static bool initialized = false;
 	if (!initialized) {
-
-		if (curr_enemy_to_act_on >= curr_enemies->size())
-			curr_enemy_to_act_on = 0;
+		curr_enemy_to_act_on = 2;
+		//if (curr_enemy_to_act_on >= curr_enemies->size())
+		//	curr_enemy_to_act_on = 0;
 		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on++);
 
 		if (curr_enemy->is_iddle()) {

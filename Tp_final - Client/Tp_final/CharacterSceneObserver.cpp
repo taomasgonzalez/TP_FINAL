@@ -14,7 +14,6 @@ CharacterSceneObserver::~CharacterSceneObserver()
 {
 }
 
-
 void CharacterSceneObserver::update() {
 	if (fsm->obs_info.perform_logical_attack) {
 		Sense_type sense = character->get_sense();
@@ -23,7 +22,10 @@ void CharacterSceneObserver::update() {
 	}
 	if (fsm->obs_questions.can_perform_movement) {
 		Action_info info;
-		info.my_info_header = Action_info_id::MOVE;
+		if (character->get_map_thing_type() == Thing_Type::ENEMY)
+			info.my_info_header = Action_info_id::ENEMY_ACTION;
+		else
+			info.my_info_header = Action_info_id::MOVE;
 		info.action = Action_type::Move;
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
@@ -31,7 +33,6 @@ void CharacterSceneObserver::update() {
 		fsm->obs_answers.can_perform_movement = scenario->is_the_action_possible(&info, true);
 	}
 	if (fsm->obs_info.perform_logical_movement) {
-		
 		MOVE_EventPackage ev_pack;
 		Action_info info = ev_pack.to_Action_info();
 		info.my_direction = fsm->get_current_action_direction();
