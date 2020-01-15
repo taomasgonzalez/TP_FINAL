@@ -13,6 +13,8 @@ using namespace std;
 class Scene : public Observable
 {
 public:
+
+	void control_enemies();
 	Scene(Userdata* data, Item_type my_player, Item_type his_player);
 	~Scene();
 
@@ -24,8 +26,8 @@ public:
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
 	bool any_monsters_left();
-	bool did_we_win();  //I´m client, analyze if the game was won by the players
-	bool did_we_lose(); //I´m client, analyze if the game was lost by the players
+	bool did_we_win();  //Iï¿½m client, analyze if the game was won by the players
+	bool did_we_lose(); //Iï¿½m client, analyze if the game was lost by the players
 
 	bool game_is_finished();
 	void finish_game();			//ends the game
@@ -84,7 +86,7 @@ public:
 	bool load_graphic_level = false;
 
 	void append_new_auxilar_event(Action_info new_action_info);
-	
+
 	std::queue<Action_info>* assistant_queue;
 
 	void append_graphic_facility(void* drawer);
@@ -126,19 +128,10 @@ private:
 	vector<Enemy*>* curr_enemies;
 	vector<Proyectile*>* curr_proyectiles;
 
-	
-	/*nuevas funciones de timer para los enemies, agregadas por tommy
-	esto estaria bueno despues wrappearlo todo en allegroClass, pero por ahora SE QUEDA TODO ACA. 
-	*/
-	ALLEGRO_EVENT_QUEUE * enemy_actions_queue = NULL;
-	ALLEGRO_EVENT_QUEUE * proyectile_actions_queue = NULL;
-
-	Enemy* get_enemy_to_act_on(ALLEGRO_TIMER* timer);
 	Action_info enemy_action_info;
 
 	Player* find_nearest_player(int pos_x, int pos_y);
 
-	Userdata* data; 
-
+	Userdata* data;
+	int curr_enemy_to_act_on = 0;
 };
-

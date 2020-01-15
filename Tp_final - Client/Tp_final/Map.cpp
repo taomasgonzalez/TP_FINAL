@@ -679,34 +679,6 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 	else if (thing->is_player())
 		all_players->push_back((Player*)thing);
 }
-/*************************************************
-*************register_proyectiles_event_queue*****
-**************************************************
-*register_enemies_event_queue registers a event_queue to the map in which all the timer events corresponding to 
-*Enemy movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
-*every new Enemy that is created on the map will already be linked to that event_queue when created.
-*	INPUT:
-*		1)enemies_ev_queue : event queue for moving/acting Enemies.
-*	OUTPUT:
-*		void.
-*/
-void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
-	map_filler.register_enemies_event_queue(enemies_ev_queue);
-}
-/*************************************************
-*************register_proyectiles_event_queue*****
-**************************************************
-*register_proyectiles_event_queue registers a event_queue to the map in which all the timer events corresponding to 
-*proyectile movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
-*every new Proyectile that is created on the map will already be linked to that event_queue when created.
-*	INPUT:
-*		1)proyectiles_ev_queue : event queue for moving/acting proyectiles.
-*	OUTPUT:
-*		void.
-*/
-void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
-	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
-}
 
 /*************************************************
 *************get_initial_enemy_actions************

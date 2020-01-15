@@ -48,8 +48,6 @@ public:
 
 	//llamar despues de construir al mapa para cargar las cosas!!
 	void load_on_map(const char* map_string, void* scenario = NULL);
-	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue);
-	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue);
 
 	void load_checksum(unsigned char checksum);
 

@@ -5,6 +5,10 @@ double Crazy::moving_speed = 300;
 Crazy::Crazy(unsigned int id, Sense_type sense): Enemy(id, sense)
 {
 	printable = Item_type::CRAZY;
+	staying_still_time = 0.3;
+	staying_still_timer = al_create_timer(staying_still_time);
+	al_register_event_source(enemy_timers, al_get_timer_event_source(staying_still_timer));
+	al_set_timer_speed(staying_still_timer, staying_still_time);
 }
 
 
@@ -29,26 +33,25 @@ Action_info Crazy::act() {
 	Action_info returnable_EA;
 	//al_stop_timer(acting_timer);
 	double sample = acting_probabilities(generator);
-	double timer_speed;
 
-	while (!returnable_EA.valid) 
-		if (sample <= 0.75) 
-			move_in_same_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.8;
-
+	while (!returnable_EA.valid)
+		if (sample <= 0.75) {
+			if (!move_in_same_direction(&returnable_EA))
+				sample = 0.8;
+		}	
 		else {
 			sample = acting_probabilities(generator);
 
 			while (!returnable_EA.valid) {
-				if ((sample >= 0.0) && (sample <= 1.0 / 3.0)) 
-					move_in_opposite_direction(&returnable_EA) ? timer_speed = 0 : sample = 0.5;
-
-				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {
-					stay_still(&returnable_EA);
-					timer_speed = 0;
+				if ((sample >= 0.0) && (sample <= 1.0 / 3.0)) {
+					if (!move_in_opposite_direction(&returnable_EA)) 
+						sample = 0.5;
 				}
+				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) 
+					stay_still(&returnable_EA);
 				else 
-					jump(&returnable_EA) ? timer_speed = 0 : sample = 0.1;
-
+					if(!jump(&returnable_EA))
+						sample = 0.1;
 			}
 		}
 
