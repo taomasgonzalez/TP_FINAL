@@ -674,14 +674,13 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible = false;
-	Enemy * the_enemy_that_acts = NULL;
 	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
 
-	the_enemy_that_acts = static_cast<Enemy*>(maps[actual_map]->get_from_map(package_to_be_analyze->id));
-	package_to_be_analyze->id = the_enemy_that_acts->id;
+	searched_id = package_to_be_analyze->id;
+	Enemy* the_enemy_that_acts = *find_if(curr_enemies->begin(), curr_enemies->end(), char_meets_id);
 
 	extern_destination.fil = package_to_be_analyze->final_pos_y;
 	extern_destination.col = package_to_be_analyze->final_pos_x;
