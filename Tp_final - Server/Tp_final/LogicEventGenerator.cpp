@@ -37,9 +37,6 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_register_event_source(al_key_blocking_queue, al_get_timer_event_source(blocking_attacks_events_timer));
 
 
-	//al_stop_timer(blocking_movements_events_timer);
-	//al_set_timer_speed(blocking_movements_events_timer, double new_speed_secs)
-	//al_start_timer(blocking_movements_events_timer);
 
 	//time_out_timer = al->get_front_time_out_timer();
 	//time_out_count = 0;
@@ -224,20 +221,26 @@ void LogicEventGenerator::update_keyboard_state(EventPackage* ev_packs[LOGIC_EV_
 			this->side_move_dir = Direction_type::Left;
 			this->acting = true;
 
-			//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
-			al_set_timer_speed(blocking_movements_events_timer, 0.25);
-			al_start_timer(blocking_movements_events_timer);
-			this->blocked_movements = true;
+			if (!this->jumping) //If the user wants to move without jumping
+			{
+				//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
+				al_set_timer_speed(blocking_movements_events_timer, 0.25);
+				al_start_timer(blocking_movements_events_timer);
+				this->blocked_movements = true;
+			}
 		}
 		else if (al_key_down(&keystate, ALLEGRO_KEY_RIGHT)) //Check if moving to the right
 		{
 			this->side_move_dir = Direction_type::Right;
 			this->acting = true;
 
-			//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
-			al_set_timer_speed(blocking_movements_events_timer, 0.25);
-			al_start_timer(blocking_movements_events_timer);
-			this->blocked_movements = true;
+			if (!this->jumping) //If the user wants to move without jumping
+			{
+				//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
+				al_set_timer_speed(blocking_movements_events_timer, 0.25);
+				al_start_timer(blocking_movements_events_timer);
+				this->blocked_movements = true;
+			}
 		}
 	}
 
