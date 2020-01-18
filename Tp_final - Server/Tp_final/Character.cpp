@@ -29,7 +29,7 @@ bool Character::is_moving()
 bool Character::is_iddle()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
-	return char_fsm->is_iddle();
+	return char_fsm->is_iddle()|| char_fsm->is_finishing_the_movement();
 }
 bool Character::is_attacking() {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());

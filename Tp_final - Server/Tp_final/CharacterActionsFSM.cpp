@@ -134,6 +134,13 @@ bool CharacterActionsFSM::is_moving() {
 bool CharacterActionsFSM::is_iddle() {
 	return actual_state == iddle_state;
 }
+
+bool CharacterActionsFSM::is_finishing_the_movement() {
+
+	return actual_state == iddle_state;
+
+}
+
 bool CharacterActionsFSM::is_attacking() {
 	return actual_state == attacking_state;
 }

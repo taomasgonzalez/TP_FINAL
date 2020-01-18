@@ -535,8 +535,11 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
-	else if (!character_check && !the_one_that_moves->is_iddle()) 
+	else if (!character_check && !the_one_that_moves->is_iddle())
+	{
 		is_the_move_possible = false;
+		std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo" << std::endl;
+	}
 	else
 	{
 		int delta = 0;
@@ -585,7 +588,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 			break;
 		}
 	}
-	if (is_the_move_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage
+	if (is_the_move_possible && Action_info_to_be_checked->is_local) //load the destination column and row in the eventpackage to be send by networking
 	{
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;

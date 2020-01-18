@@ -124,6 +124,9 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		Event_type event1 = ev_pack->give_me_your_event_type();
 		if(event1 != Event_type::FPS_TICKED)
 			cout << "LLego un evento " << event_string[(int) event1] << endl;
+		else
+			cout << "LLego un evento de FPS_TICKED"<< endl;
+
 		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;

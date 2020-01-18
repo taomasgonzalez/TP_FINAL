@@ -1,0 +1,963 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Allegro" Collapsed="true">
+    <Position X="78.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABAFAAAAAAAQAAAEAMAAAAAAACAAAAIAA=</HashCode>
+      <FileName>AllegroClass.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obj_Graf_Character" Collapsed="true">
+    <Position X="5.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QASAIBAAoJAAZAACACAIAAAAAAAEMIEAAAAAAAAAYCI=</HashCode>
+      <FileName>GraficObjectCharacter.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="POINT_" Collapsed="true">
+    <Position X="80.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABAAAAAABAAAAAAAAAAIgAAAAAEAABgAAAAAAA=</HashCode>
+      <FileName>point.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Resources" Collapsed="true">
+    <Position X="82" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAQAAAJAQEAABAAAAAAgSgSwAAAgAAIAAAAAAAAAA=</HashCode>
+      <FileName>Resources.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkData" Collapsed="true">
+    <Position X="85.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAxBAAAAFAAAARgAAAAAAAhAQQAAAAAAAAgAAAQQQAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Userdata" Collapsed="true">
+    <Position X="83.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAYAQAAABgAAAAAAAAEAAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventGenerator" Collapsed="true">
+    <Position X="22.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CABAAEAAAAAAAADAAAFAAAAAAAAAAAAGAAAAAAAAACA=</HashCode>
+      <FileName>EventGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventHandler" Collapsed="true">
+    <Position X="82" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAgAAAAgAAAAAAAAgAAAAAAAAAAAAAAIAAAAAARAA=</HashCode>
+      <FileName>EventHandler.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventPackageFactory" Collapsed="true">
+    <Position X="83.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAQAAAAAAAQAAAAAAAAAA=</HashCode>
+      <FileName>EventPackageFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSMFactory" Collapsed="true">
+    <Position X="85.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAABAAAAAAAAAAgAAQAAAAAAAAAWAAAAAAA=</HashCode>
+      <FileName>FSMFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FSM" Collapsed="true">
+    <Position X="35" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACCSAAEAAAAACAgAAAAAAAAAAAAAACAAAAAAABgAAiA=</HashCode>
+      <FileName>FSM_Class.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EventPackage" Collapsed="true">
+    <Position X="37.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAABAAAQJAAACABAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Action_EventPackage" Collapsed="true">
+    <Position X="64.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAQAAAAAAAAAABAKCIAAgAQA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACK_EventPackage" Collapsed="true">
+    <Position X="31" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LOCAL_QUIT_EventPackage" Collapsed="true">
+    <Position X="37.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EXTERN_QUIT_EventPackage" Collapsed="true">
+    <Position X="44.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MOVE_EventPackage" Collapsed="true">
+    <Position X="37.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAABAAAAAAAAAAAABgAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ATTACK_EventPackage" Collapsed="true">
+    <Position X="34.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAAAABAABAAAAAAAAABAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACTION_REQUEST_EventPackage" Collapsed="true">
+    <Position X="40.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAAAABAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ERROR_EventPackage" Collapsed="true">
+    <Position X="71.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAgAAE=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NAME_EventPackage" Collapsed="true">
+    <Position X="6.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NAME_IS_EventPackage" Collapsed="true">
+    <Position X="13" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAhAAAAgQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MAP_IS_EventPackage" Collapsed="true">
+    <Position X="17.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAEAAAAAAAAAAAgAAAAAAAAAAAIAAAACAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ENEMY_ACTION_EventPackage" Collapsed="true">
+    <Position X="22" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAIAAABAAAAAAAAEAAAAAAAAAAABCAAAAAAAAg=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ENEMYS_LOADED_EventPackage" Collapsed="true">
+    <Position X="26.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GAME_START_EventPackage" Collapsed="true">
+    <Position X="33.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WE_WON_EventPackage" Collapsed="true">
+    <Position X="40" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAY_AGAIN_EventPackage" Collapsed="true">
+    <Position X="46.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GAME_OVER_EventPackage" Collapsed="true">
+    <Position X="53.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="START_COMMUNICATION_EventPackage" Collapsed="true">
+    <Position X="60.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FINISHED_LEVEL_EventPackage" Collapsed="true">
+    <Position X="67" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NO_EVENT_EventPackage" Collapsed="true">
+    <Position X="73.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="END_OF_TABLE_EventPackage" Collapsed="true">
+    <Position X="8.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FINISHED_MOVEMENT_EventPackage" Collapsed="true">
+    <Position X="15.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WALKED_EventPackage" Collapsed="true">
+    <Position X="19.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JUMPED_EventPackage" Collapsed="true">
+    <Position X="24.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="JUMPED_FORWARD_EventPackage" Collapsed="true">
+    <Position X="28.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAACAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DIED_EventPackage" Collapsed="true">
+    <Position X="35.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FELL_EventPackage" Collapsed="true">
+    <Position X="42.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FINISHED_ATTACK_EventPackage" Collapsed="true">
+    <Position X="49" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GOT_HIT_EventPackage" Collapsed="true">
+    <Position X="55.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PUSHED_EventPackage" Collapsed="true">
+    <Position X="62.5" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAACAAAAAIAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PARTIALLY_UNFROZE_EventPackage" Collapsed="true">
+    <Position X="69.25" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAIAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UNFROZE_EventPackage" Collapsed="true">
+    <Position X="76" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FINISHED_GRAPH_STEP_EventPackage" Collapsed="true">
+    <Position X="10.75" Y="2.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicEventGenerator" Collapsed="true">
+    <Position X="20.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAEAAAAAAAAoAIAAAAAAAAAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>GraphicEventGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GraphicGameFSM" Collapsed="true">
+    <Position X="29.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABBAAAAAIAAAAAAAAABAAAAAQEAAAAAAAAAhAAAAEA=</HashCode>
+      <FileName>GraphicGameFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicClientFSM" Collapsed="true">
+    <Position X="38.5" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAICAAAAQAAAAAAAAAGAAgAAAAAAAIAAAAAIAAgBAA=</HashCode>
+      <FileName>LogicClientFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicEventGenerator" Collapsed="true">
+    <Position X="22.75" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CgAAAACEACAAAABAEAEggIAAAQAABAADAAAgAACAAAA=</HashCode>
+      <FileName>LogicEventGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicFSM" Collapsed="true">
+    <Position X="39.5" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>C0CWBIYACQOaWCgEQqgEgYo2IVAEQLAEBQqcNwRC+AA=</HashCode>
+      <FileName>LogicFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicServerFSM" Collapsed="true">
+    <Position X="40.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIQIiIAAAUAQAIgAAAACQAgIAFAQAAAAAAAAIAAgBAA=</HashCode>
+      <FileName>LogicServerFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ImageContainer" Collapsed="true">
+    <Position X="78.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YAAABAAAAEAAgAAgAMAEBEAAAAkAAIAEAAAgQgAAgMQ=</HashCode>
+      <FileName>ImageContainer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DRAW" Collapsed="true">
+    <Position X="80.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAEAAEgAAAIVAAAQMIAACKUBEAAAAAAgAAAAAAAgA=</HashCode>
+      <FileName>DRAW.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obj_Graf" Collapsed="true">
+    <Position X="7" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ZABAEACEACAAoISAAAIAQNCAAAAAAAAAgAAgIAAACgA=</HashCode>
+      <FileName>GraficObject.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obj_Graf_Enemy" Collapsed="true">
+    <Position X="4.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IABEBAAEABAAABACAAIAAECAAEQDAAIEAgCAAAEEAAw=</HashCode>
+      <FileName>GraficObjectEnemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obj_Graf_Player" Collapsed="true">
+    <Position X="7" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAEAAABAQAAAAIAAECAAAABAAAEAAAAQAAAAAA=</HashCode>
+      <FileName>GraficObjectPlayer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Obj_Graf_Projectile" Collapsed="true">
+    <Position X="9.25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAEIAAAAAAAAAoAAECAECABIABUAAKAAAAAAEA=</HashCode>
+      <FileName>GraficObjectProjectile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapThingEventGenerator" Collapsed="true">
+    <Position X="25" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAACAAAAAA=</HashCode>
+      <FileName>MapThingEventGenerator.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapDijkstraMachine" Collapsed="true">
+    <Position X="83.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAiAAAAAAQBCABADADAAAAACAGAAAAAAAAgQABACAA=</HashCode>
+      <FileName>DijkstraMachine.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapThingFactory" Collapsed="true">
+    <Position X="11.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQAAAAAAAAgCAhBAAACAIEAgAAQgIAAABAIUAAAA=</HashCode>
+      <FileName>MapThingFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapThingFSM" Collapsed="true">
+    <Position X="34" Y="16.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ggAAAAAAAAAAAAAAAIAAAAAAgEAAAAAgAAEAQEAAQAE=</HashCode>
+      <FileName>MapThingFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Map" Collapsed="true">
+    <Position X="80.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFEEQEGBsFIA0AEQBAEiFAAAQBAIcgAIgAANAJBFgAA=</HashCode>
+      <FileName>Map.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapCell" Collapsed="true">
+    <Position X="82" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AFQAAgDCAAAAAEAQAAAAAACoUAAAAAAIBAQBABIAQEA=</HashCode>
+      <FileName>MapCell.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapThing" Collapsed="true">
+    <Position X="15.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIQABAAAIARAAAAgACIAAAAiAAAAAAAAAABEBAAAgA=</HashCode>
+      <FileName>MapThing.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Scene" Collapsed="true">
+    <Position X="27.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKCAMICQSESxDPCSgEhZowQGcUBQEShAQBxxAABEAAA=</HashCode>
+      <FileName>Scene.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MapThingFactoryDRAWObserver" Collapsed="true">
+    <Position X="7.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAACAAgAAAAAAAAAAAAAQAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>MapThingFactoryDRAWObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScenarioDRAWObserver" Collapsed="true">
+    <Position X="11.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAAAAAAAAAAAAAAAAgAAQAAAAAAAAAAAgAEAAA=</HashCode>
+      <FileName>ScenarioDRAWObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ScenarioEventsObserver" Collapsed="true">
+    <Position X="14" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAABAAAgAAAAAAAAAAAAAgAEAAgAEAAA=</HashCode>
+      <FileName>ScenarioEventsObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Character" Collapsed="true">
+    <Position X="15.5" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAASAAAAAAAAQQAAAAAAAAAAIICAAgAAAAKBA=</HashCode>
+      <FileName>Character.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharacterSceneObserver" Collapsed="true">
+    <Position X="17.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAKAAAAAAAAAAAAQAgAAAACAAAAAAAAAIAAEgAEACA=</HashCode>
+      <FileName>CharacterSceneObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CharacterActionsFSM" Collapsed="true">
+    <Position X="32.75" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AwBJSAABQQAxAOQQgCADACBBREAAEwKECAAIUkAIBTQ=</HashCode>
+      <FileName>CharacterActionsFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Enemy" Collapsed="true">
+    <Position X="17.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gwICQxAAAgAAQhACAAAAABAEAAQAAAAAQAAAKgACgAA=</HashCode>
+      <FileName>Enemy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyActionsFSM" Collapsed="true">
+    <Position X="31.75" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QEAAAxAAAAAAIAACAAAIAABQAEAAAAAAACwBQEDABAI=</HashCode>
+      <FileName>EnemyActionsFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Crazy" Collapsed="true">
+    <Position X="15.25" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAQEQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Crazy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PurpleGuyScenarioObserver" Collapsed="true">
+    <Position X="18.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAAAACAAAAAAAAAAAAAAgAEAAA=</HashCode>
+      <FileName>PurpleGuyScenarioObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PurpleGuy" Collapsed="true">
+    <Position X="17.5" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAYBAAAACAACAAAAAAgACAAAAAAAAAAAACAAABAAA=</HashCode>
+      <FileName>PurpleGuy.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GreenFatty" Collapsed="true">
+    <Position X="12.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAQQAAAAACAACAAAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>GreenFatty.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemyActionsFSMDRAWObserver" Collapsed="true">
+    <Position X="9.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAkAAAAAAAAAAEAAYgAAAAAAQAAAAAAAIAAAAAEAAI=</HashCode>
+      <FileName>EnemyActionsFSMDRAWObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnemySceneObserver" Collapsed="true">
+    <Position X="18.5" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAEAAAAAoACAAAAAAAAAAAAAAAEAAI=</HashCode>
+      <FileName>EnemySceneObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerActionsFSM" Collapsed="true">
+    <Position X="34" Y="19.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAgAAAQAAEAAAAAAAAEEAQAgBAAAAQEAAACA=</HashCode>
+      <FileName>PlayerActionsFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="14.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACABABCAEAAAAAAAAAIAAACAAAAAAQAAABA=</HashCode>
+      <FileName>Player.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerActionsFSMDRAWObserver" Collapsed="true">
+    <Position X="20.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIkAAAAAAAAAAEAAAgAAAAAAQIAAAABAIAAAAAEAAA=</HashCode>
+      <FileName>PlayerActionsFSMDRAWObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerSceneObserver" Collapsed="true">
+    <Position X="16.25" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAACAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PlayerSceneObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Fireball" Collapsed="true">
+    <Position X="2.25" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAACAAAAAABAAAAAAAAAAAAAAQAQAAAAA=</HashCode>
+      <FileName>Fireball.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectilesActionsFSM" Collapsed="true">
+    <Position X="36.25" Y="17.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAABAAEBFQAEEAgYAgAAQABEAAAwAAAAAAYEAAAAQ=</HashCode>
+      <FileName>ProyectilesActionsFSM.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectilesActionsFSMDRAWObserver" Collapsed="true">
+    <Position X="0.5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgABAAAAAAAAEAAAgAAAAAAQAAAAAAAIAAAAAkCAA=</HashCode>
+      <FileName>ProyectilesActionsFSMDRAWObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProyectileSceneObserver" Collapsed="true">
+    <Position X="2.75" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAggAABAAAAAAAAAQAgAAAACAAAAAAAAAIAAggAEAAA=</HashCode>
+      <FileName>ProyectileSceneObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Proyectile" Collapsed="true">
+    <Position X="3.25" Y="13.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAABAAAEQAAAAAAAQAAAAAAAAABAAAAAAAQAAAAA=</HashCode>
+      <FileName>Proyectile.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Snowball" Collapsed="true">
+    <Position X="4.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEBAAAAAAGAAAAAAAEAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Snowball.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Observable" Collapsed="true">
+    <Position X="20.5" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIIAAAAAAAAAQAABAAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Observable.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Observer" Collapsed="true">
+    <Position X="10.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAECAA=</HashCode>
+      <FileName>Observer.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Communication" Collapsed="true">
+    <Position X="43" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAQQAAAQQAABAAEYAAgAQAFAgQACCMAAAKJAAA=</HashCode>
+      <FileName>Communication.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Package" Collapsed="true">
+    <Position X="15.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAEAAQAAAAAAAAAAAAQAIAAAABAQAAAAAAgIAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACK_package" Collapsed="true">
+    <Position X="3" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NAME_package" Collapsed="true">
+    <Position X="7.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NAME_IS_package" Collapsed="true">
+    <Position X="12" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAhAAAAoQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MAP_IS_package" Collapsed="true">
+    <Position X="14.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAEAAAAEAAAAAAAAAAAoAAIAAAAAAAAIAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GAME_START_package" Collapsed="true">
+    <Position X="16.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MOVE_package" Collapsed="true">
+    <Position X="18.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAIAEAAAAAAAAAAAIAAAAAAAAAABCAAAAAAAAE=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ATTACK_package" Collapsed="true">
+    <Position X="21" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQIAAAIAAAAAAAAAAAABIAAAAAAAAAABCAAAAAAAAE=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACTION_REQUEST_package" Collapsed="true">
+    <Position X="23.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAIAAAAAAAAAAABAIAAAAAAAAAABCAAAAAAAAg=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ENEMY_ACTION_package" Collapsed="true">
+    <Position X="25.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAIAAAAAAAAAAAAEIAAAAAAAAAABCAAAAAAAAg=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="WE_WON_package" Collapsed="true">
+    <Position X="27.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PLAY_AGAIN_package" Collapsed="true">
+    <Position X="30" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GAME_OVER_package" Collapsed="true">
+    <Position X="0.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="QUIT_package" Collapsed="true">
+    <Position X="5.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ERROR_package" Collapsed="true">
+    <Position X="9.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PackageFactory" Collapsed="true">
+    <Position X="78.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAACAAAAAAEAACAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PackageFactory.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="LogicFSMGraphicEventsObserver" Collapsed="true">
+    <Position X="5" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAkgAA=</HashCode>
+      <FileName>LogicFSMGraphicEventsObserver.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="Action_info" Collapsed="true">
+    <Position X="78.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAAAACAAAAAAAAQAAAAAAAAgAAAAAQACMAAAAgQ=</HashCode>
+      <FileName>Action_Info.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="Position" Collapsed="true">
+    <Position X="80.25" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>general.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="edge" Collapsed="true">
+    <Position X="7.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAIAAAAAAAIA=</HashCode>
+      <FileName>FSM_Class.h</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Typedef Name="edge_t" Collapsed="true">
+    <Position X="4.5" Y="11.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FSM_Class.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="switch_t" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FSM_Class.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uint" Collapsed="true">
+    <Position X="80.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Typedef Name="uchar" Collapsed="true">
+    <Position X="78.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Typedef>
+  <Enum Name="Action_info_id" Collapsed="true">
+    <Position X="78.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAAAAAAAAAiAAAAAIAQAAAAAAAAAEAgIA=</HashCode>
+      <FileName>Action_Info.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Thing_Type" Collapsed="true">
+    <Position X="83.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAMAAAAAAAAAABAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Sense_type" Collapsed="true">
+    <Position X="82" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAEAAAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Direction_type" Collapsed="true">
+    <Position X="78.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AABAAAIAAAAAAAAAAAAAAgAAAAAAAAAACACAAAEBAAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Action_type" Collapsed="true">
+    <Position X="80.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Character_id" Collapsed="true">
+    <Position X="82" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Item_type" Collapsed="true">
+    <Position X="85.5" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAEAAAAAIAAAAAAAAAAAQAAAABEAAAAAAABAACAA=</HashCode>
+      <FileName>Userdata.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="__unnamed_enum_002b_1" Collapsed="true">
+    <Position X="0.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAgAAAAACAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>FSM_Class.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Event_type" Collapsed="true">
+    <Position X="83.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACVAASABEQBBIBDCIIABiQwBIMAAQAAQIQmAABgADMI=</HashCode>
+      <FileName>EventPackage.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="time_out_type" Collapsed="true">
+    <Position X="85.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABACCAAAAAAA=</HashCode>
+      <FileName>LogicFSM.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="menu_options" Collapsed="true">
+    <Position X="78.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraficInterface.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="messaje" Collapsed="true">
+    <Position X="80.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAABAAAAAIAACAAABAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>GraficInterface.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Direction" Collapsed="true">
+    <Position X="85.5" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACACAAAEAAAI=</HashCode>
+      <FileName>GraficObject.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ENEMY_TYPE" Collapsed="true">
+    <Position X="82" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BIAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraficObjectEnemy.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ENEMY_STATE" Collapsed="true">
+    <Position X="80.25" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAQACAhAAAAAAAAAECAAABAEAAAEAAAAAAACCAACA=</HashCode>
+      <FileName>GraficObjectEnemy.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PLAYER_TYPE" Collapsed="true">
+    <Position X="85.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>GraficObjectPlayer.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PLAYER_STATE" Collapsed="true">
+    <Position X="83.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAAAQAAQAAAAAAAAAAAACIgQAAAAAAAAAQAAAAA=</HashCode>
+      <FileName>GraficObjectPlayer.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PROYECTILE_TYPE" Collapsed="true">
+    <Position X="80.25" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAA=</HashCode>
+      <FileName>GraficObjectProjectile.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="PROYECTILE_STATE" Collapsed="true">
+    <Position X="78.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgRAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>GraficObjectProjectile.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Package_type" Collapsed="true">
+    <Position X="82" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAAABCAAABiQABAAAAQAAAAACBABAAAMA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Character_type" Collapsed="true">
+    <Position X="83.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Package.h</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

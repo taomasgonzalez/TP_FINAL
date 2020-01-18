@@ -195,6 +195,11 @@ void Communication::sendMessage(Package * package_received) {
 		cout << endl << "Error de com" << endl;
 		healthy_connection = false;
 	}
+	else //debug
+	{
+		if (package_received->get_package_header() == Package_type::ACK)
+			std:cout << "se envio ack n°" << this->ack_counter++ << std::endl;
+	}
 
 	delete package_received; //libero memoria del paquete después de mandarlo
 

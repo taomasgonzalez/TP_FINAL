@@ -4,6 +4,7 @@
 #include "DRAW.h"
 #include "Proyectile.h"
 
+//Functions as the connection between each proyectile and the FSM linked to its actions
 class ProyectilesActionsFSMDRAWObserver : public Observer
 {
 public:

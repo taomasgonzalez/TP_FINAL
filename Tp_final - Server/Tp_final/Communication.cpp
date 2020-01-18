@@ -321,9 +321,8 @@ Package* Communication::create_package(char* aux_buf){
 	switch (type)
 	{
 	case Package_type::ACK:
-		ack_quant++;
 		new_package = new ACK_package;
-		cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
+		cout << endl << "ack_quant: " << to_string(ack_quant++) << endl;
 		break;
 
 	case Package_type::NAME:

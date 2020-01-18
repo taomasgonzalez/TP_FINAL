@@ -90,6 +90,7 @@ PackageFactory::PackageFactory()
 	 {
 	 case Package_type::ACK:
 		 my_event_package = new ACK_EventPackage();
+		 std::cout << "Llego un ACK por networking" << std::endl;
 		 break;
 
 	 case Package_type::NAME:

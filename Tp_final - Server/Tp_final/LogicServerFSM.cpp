@@ -112,9 +112,12 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_quit_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing_r });
 
-	if(!data->my_network_data.handshake)
+	if (!data->my_network_data.handshake) //hardcodeo hasta que esté listo el handshake
+	{
 		actual_state = Playing_state;
-	else 	
+		event_gen->are_we_playing = true; //so we start fetching allegro events in playing mood
+	}
+	else
 		actual_state = Initial_state;
 
 }

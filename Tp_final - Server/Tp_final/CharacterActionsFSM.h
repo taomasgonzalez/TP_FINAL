@@ -53,6 +53,7 @@ public:
 	bool is_moving();
 
 	bool is_iddle();
+	bool is_finishing_the_movement();
 
 	bool is_attacking();
 

@@ -216,6 +216,7 @@ void send_enemy_action_r(void* data) {
 void send_game_start_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_game_start();
+	event_gen->are_we_playing = true; //so we start fetching allegro events in playing mood
 }
 void ask_for_name_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
