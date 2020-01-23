@@ -1,4 +1,5 @@
 #include "GraficObjectCharacter.h"
+#include "general.h"
 using namespace std;
 
 Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
@@ -38,18 +39,27 @@ void Obj_Graf_Character::handle_walking()
 
 	if (reached_final_pos)		//veo si ya llego a la pos final 
 	{
+		//Through the observer a FINISHED_GRAPH_STEP_EventPackage is appended to the Character´s FSM
 		if (!secuenceOver_)
 			notify_finished_drawing_step();
+
+		//So the FINISHED_GRAPH_STEP_EventPackage is appended only once
 		secuenceOver_ = true;
+
+		//The final position after the secuence is completed is set
 		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+
 		//actualImage = 0;
+#ifdef DEBUG
 		std::cout << "Se termino la secuencia" << std::endl;
+#endif
 
 		al_draw_scaled_bitmap(chara_images->walkImages[9], 0, 0, al_get_bitmap_height(chara_images->walkImages[9]), al_get_bitmap_width(chara_images->walkImages[9]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 	}
 	else
 	{
+		//The position regarding the current printed frame is set (velX)
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);		// muevo la posicion del dibujo
 
 

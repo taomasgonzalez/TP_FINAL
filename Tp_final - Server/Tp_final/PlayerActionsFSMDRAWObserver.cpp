@@ -72,12 +72,14 @@ void PlayerActionsFSMDRAWObserver::update() {
 	else if (fsm->obs_questions.should_interrupt_movement) {
 		fsm->obs_answers.should_interrupt_movement = drawer->secuenceOver(player->id);
 	}
+
 	else if (fsm->obs_questions.should_interrupt_attack) {
 		fsm->obs_answers.should_interrupt_attack = drawer->secuenceOver(player->id);
 	}
 	else if (fsm->obs_info.interrupt_movement) {
 		ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(), 0);
 	}
+
 	else if (fsm->obs_info.interrupt_attack) {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}

@@ -82,14 +82,26 @@ public:
 	bool new_enemy_action = false;
 	bool should_hit = false;
 	bool load_graphic_level = false;
+	bool load_saved_event = false;
+	bool finished_loading = false;
 
 	void append_new_auxilar_event(Action_info new_action_info);
+	bool appended_event = false;
 	
 	std::queue<Action_info>* assistant_queue;
+	std::queue<EventPackage*>* saved_events;
 
 	void append_graphic_facility(void* drawer);
 
+
+	void append_new_auxilar_event(EventPackage * event_to_be_saved);
+	EventPackage * front_auxiliar_event();
+	void load_saved_event_r();
+
+
 private:
+
+
 	void * graphics = NULL;
 
 	unsigned char make_checksum(const char * CSV_map_location);

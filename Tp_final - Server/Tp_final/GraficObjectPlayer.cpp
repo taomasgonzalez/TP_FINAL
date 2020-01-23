@@ -59,7 +59,7 @@ void Obj_Graf_Player::draw()
 		break;
 	case player_IDLE:
 		handle_iddle();
-		std::cout << "Se imprimió un iddle de un jugador" << std::endl;
+		//std::cout << "Se imprimió un iddle de un jugador" << std::endl;
 
 		break;
 	case player_JUMPING_FOWARD:

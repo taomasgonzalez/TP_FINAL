@@ -27,6 +27,7 @@ private:
 
 	Player* player = NULL;
 
+
 	process_t pushing_left_process;
 	process_t pushing_right_process;
 

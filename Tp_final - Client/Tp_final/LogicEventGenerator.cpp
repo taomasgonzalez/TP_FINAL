@@ -69,6 +69,9 @@ void LogicEventGenerator::update_from_allegro_keyboard_events() {
 		else if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
 			if (allegroEvent.timer.source == keyboard_events_timer) 
 				update_keyboard_state(ev_packs);
+
+			al_flush_event_queue(al_key_queue);
+
 		}
 	}
 
@@ -81,7 +84,13 @@ void LogicEventGenerator::update_keyboard_state(EventPackage* ev_packs[LOGIC_EV_
 	ALLEGRO_KEYBOARD_STATE keystate;
 	al_get_keyboard_state(&keystate);
 
+	//debugging
+	bool reset = false;
+
 	int actual_ev_pack = 0;
+
+	if (al_key_down(&keystate, ALLEGRO_KEY_R))
+		reset = true;
 
 	if (al_key_down(&keystate, ALLEGRO_KEY_LEFT))
 		side_move_dir = Direction_type::Left;
@@ -92,10 +101,14 @@ void LogicEventGenerator::update_keyboard_state(EventPackage* ev_packs[LOGIC_EV_
 
 	jumping = al_key_down(&keystate, ALLEGRO_KEY_UP);
 
+
 	ev_packs[actual_ev_pack++] = direction_to_event_package(Action_type::Move, side_move_dir);
 	
 	if (al_key_down(&keystate, ALLEGRO_KEY_SPACE))
 		ev_packs[actual_ev_pack++] = direction_to_event_package(Action_type::Attack, Direction_type::None);
+
+	if (reset)
+		ev_packs[0] = new RESET_EventPackage(true);
 
 }
 EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type dir) {

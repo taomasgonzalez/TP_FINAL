@@ -13,6 +13,7 @@ public:
 	bool is_dead();
 	bool is_moving();
 	bool is_iddle();
+	bool waiting_for_next_move();
 	bool is_attacking();
 
 	bool has_to_fall();

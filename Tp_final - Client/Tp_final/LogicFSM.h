@@ -124,6 +124,9 @@ public:
 	void load_enemy_action();
 	void save_enemy_action();
 
+	//debugging
+	void reset_game();
+
 protected:
 	virtual void print_curr_state();
 private:
@@ -140,6 +143,7 @@ private:
 
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
+void reset_game_r(void* data); //For debugging
 
 							  //analyze
 void analayze_error_r(void* data);

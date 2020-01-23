@@ -18,6 +18,8 @@ public:
 		bool dying_graph = false;
 		bool reset_graph = false;
 		bool disappear_graph = false;
+		bool keep_moving = false;
+		bool next_move_pending = false;
 
 		bool interrupt_movement = false;
 		bool interrupt_attack = false;
@@ -32,6 +34,7 @@ public:
 		bool can_perform_movement = false;
 		bool should_interrupt_movement = false;
 		bool should_interrupt_attack = false;
+		bool should_continue_moving = false;
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;

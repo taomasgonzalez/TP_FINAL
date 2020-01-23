@@ -9,7 +9,7 @@
 //
 //#define DISPLAY_H 1500
 //#define DISPLAY_W 1600
-#define BLOCK_SIZE (100)		// pixeles en X e Y que tiene un bloque de pantalla
+#define BLOCK_SIZE (50)		// pixeles en X e Y que tiene un bloque de pantalla
 #define SCREEN_H (16*BLOCK_SIZE)
 #define SCREEN_W (12*BLOCK_SIZE)
 #define DISPLAY_H SCREEN_W

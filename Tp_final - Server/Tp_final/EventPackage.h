@@ -18,6 +18,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//ACK:
 	ACK,
 
+
 	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
 	LOCAL_QUIT,
 
@@ -85,6 +86,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	FELL,
 	PUSHED,
 	FINISHED_MOVEMENT,
+	KEEP_MOVING,
 	FINISHED_ATTACK,
 	DIED,
 
@@ -102,7 +104,10 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	BOUNCE,
 	ROLLING,
 	CHARGING,
-	FINISHED_GRAPH_STEP
+	FINISHED_GRAPH_STEP,
+	//RESET
+	RESET,
+
 };
 
 
@@ -176,6 +181,19 @@ class EXTERN_QUIT_EventPackage : public EventPackage
 {
 public:
 	EXTERN_QUIT_EventPackage();
+
+};
+
+
+/******************************************************************************
+*******************************************************************************
+RESET_EventPackage CLASS
+*******************************************************************************
+*******************************************************************************/
+class RESET_EventPackage : public EventPackage
+{
+public:
+	RESET_EventPackage(bool is_local);
 
 };
 
@@ -259,7 +277,7 @@ ERROR_EventPackage CLASS
 class ERROR_EventPackage : public EventPackage
 {
 public:
-	ERROR_EventPackage(bool is_local);
+	ERROR_EventPackage(bool is_local=true);
 	bool is_this_a_local_error();
 
 private:

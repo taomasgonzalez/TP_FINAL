@@ -9,7 +9,6 @@ FSM::FSM() : Observable(){
 string event_string[] =  //Events that are usde by the internal function of the program 
 {
 	"END_OF_TABLE",
-
 	//ACK:
 	"ACK",
 
@@ -97,7 +96,12 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
-	"FINISHED_GRAPH_STEP"
+	//for debuggin purposes
+
+	"FINISHED_GRAPH_STEP",
+	"RESET"
+
+
 };
 
 /******************************************************************************
@@ -122,10 +126,11 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	if (ev_pack != NULL){
 
 		Event_type event1 = ev_pack->give_me_your_event_type();
-		if(event1 != Event_type::FPS_TICKED)
-			cout << "LLego un evento " << event_string[(int) event1] << endl;
+		if (event1 != Event_type::FPS_TICKED)
+			cout << "LLego un evento " << event_string[(int)event1] << endl;
 		else
-			cout << "LLego un evento de FPS_TICKED"<< endl;
+			//cout << "LLego un evento de FPS_TICKED"<< endl;
+			int i;
 
 		set_fsm_ev_pack(ev_pack);
 
@@ -175,7 +180,7 @@ EventPackage* FSM::get_fsm_ev_pack() {
 
 void FSM::set_fsm_ev_pack(EventPackage * new_ev_pack)
 {
-	if (new_ev_pack != my_ev_pack) {
+	if (new_ev_pack != my_ev_pack && new_ev_pack->give_me_your_event_type()!=Event_type::ACK) {
 		delete my_ev_pack;
 		my_ev_pack = new_ev_pack;
 	}

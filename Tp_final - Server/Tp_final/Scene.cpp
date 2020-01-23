@@ -45,6 +45,8 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
 	this->assistant_queue = new queue<Action_info>();
+	this->saved_events = new queue<EventPackage *>();
+
 	//this->action_from_allegro = NULL;
 	this->actual_map = -1;
 	enemy_action_info;
@@ -529,16 +531,29 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
+	
+
+	if (!character_check && !the_one_that_moves->is_iddle() && !the_one_that_moves->waiting_for_next_move())
+	{
+
+		if (saved_events->empty())
+		{
+			this->appended_event = true;
+#ifdef DEBUG
+			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
+#endif
+		}
+		else
+			std::cout << "Ya hay guardado un movimiento" << std::endl;
+
+	}
 
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
+#ifdef DEBUG
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
-	}
-	else if (!character_check && !the_one_that_moves->is_iddle())
-	{
-		is_the_move_possible = false;
-		std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo" << std::endl;
+#endif
 	}
 	else
 	{
@@ -570,7 +585,10 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 		case Direction_type::Left:
 		case Direction_type::Right:
-			delta = (my_direction == Direction_type::Left) ? -1 : 1;
+			if(this->appended_event)
+				delta = (my_direction == Direction_type::Left) ? -2 : 2;
+			else
+				delta = (my_direction == Direction_type::Left) ? -1 : 1;
 
 			is_the_move_possible = Action_info_to_be_checked->is_local ?
 				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
@@ -978,6 +996,25 @@ void Scene::load_action_on_projectile(Action_info action)
 	Player* curr_player = get_player(player_type);
 	Sense_type curr_sense = curr_player->get_sense();
 	maps[actual_map]->place_on_map(curr_player->pos_x, curr_player->pos_y, Item_type::SNOWBALL, curr_sense, this);
+}
+
+void Scene::append_new_auxilar_event(EventPackage * event_to_be_saved) {
+
+	saved_events->push(event_to_be_saved);
+
+}
+
+EventPackage * Scene::front_auxiliar_event() {
+
+	return saved_events->front();
+}
+
+void Scene::load_saved_event_r() {
+
+	load_saved_event = true;
+	notify_obs();
+	load_saved_event = false;
+
 }
 
 

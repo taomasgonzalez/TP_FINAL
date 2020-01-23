@@ -86,6 +86,14 @@ void Allegro :: stopMusic(void)
 	al_stop_samples();
 	al_destroy_sample(music);
 }
+
+void Allegro::clean_buffer(void)
+{
+	//while (keypressed()) // cycles until no keys are left and then moves on
+	//readkey(); // "gets" the keys as read thus emptying the buffer.
+	//clear_keybuf();
+}
+
 //
 //ALLEGRO_EVENT_QUEUE*  Allegro::get_al_queue() {
 //	return al_queue;

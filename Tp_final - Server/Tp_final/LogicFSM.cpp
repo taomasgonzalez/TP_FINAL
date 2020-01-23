@@ -11,6 +11,27 @@ LogicFSM::~LogicFSM() {
 
 }
 
+/******************************************
+***************start_playing************
+*******************************************
+*Setter: sets we_are_playing of LogicEventGenerator to true.
+*/
+void LogicFSM::start_playing() {
+
+	ev_gen->are_we_playing = true;
+}
+
+/******************************************
+***************finish_playing************
+*******************************************
+*Setter: sets we_are_playing to false.
+*/
+void LogicFSM::finish_playing() {
+
+	ev_gen->are_we_playing = false;
+
+}
+
 
 void LogicFSM::run_fsm(EventPackage * ev_pack) {
 	if(ev_pack != NULL)
@@ -148,6 +169,12 @@ void do_nothing_r(void* data)
 {
 
 }
+
+void reset_game_r(void* data)
+{
+	LogicFSM * fsm = (LogicFSM*)data;
+	fsm->reset_game();
+}
 void send_name_is_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_name_is();
@@ -173,6 +200,7 @@ void finish_game_r(void* data) {
 }
 void received_ack_routine_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
+
 	fsm->received_ack_routine();
 }
 void check_sum_and_send_ack_r(void* data) {
@@ -194,6 +222,7 @@ void save_enemy_action_and_send_it_r(void* data) {
 void execute_saved_enemy_actions_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->execute_saved_enemy_actions();
+	fsm->start_playing();
 }
 void execute_local_action_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -216,7 +245,6 @@ void send_enemy_action_r(void* data) {
 void send_game_start_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_game_start();
-	event_gen->are_we_playing = true; //so we start fetching allegro events in playing mood
 }
 void ask_for_name_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -264,22 +292,93 @@ void send_ack_r(void* data) {
 void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 
 	check_action();
+
+	
 	if (valid_action) {
 
-		execute_local_action();
-		send_action();
-		set_ack_time_out();
-		check_game_state();
+		//The action is valid so the fetching of allegro events must be blocked for a time gap
+		if (!scenario->finished_loading)
+		{
+			active_blocking_timers(get_fsm_ev_pack());
+
+		}
+		else
+		{
+			//turn_off_blocking_timers(get_fsm_ev_pack());
+			scenario->finished_loading = false;
+		}
+
+		//The action is not a future event so it must be executed immediately
+		if (!scenario->appended_event&&scenario->saved_events->empty()) 
+		{
+			//execute_local_action();
+			std::cout << "Se mando acción" << std::endl;
+			send_action();
+			set_ack_time_out();
+			//check_game_state();
+		}
+		//Is a future action so the FSM must not move to waiting_for_ACK state
+		else
+		{
+			std::cout << "Se guardo acción" << std::endl;
+			should_change_state = false;
+			scenario->appended_event = false;
+		}
+
+
+
 	}
 	else 
 		should_change_state = false;
 
 }
 
+void LogicFSM::active_blocking_timers(EventPackage * my_package) {
+	
+	std::cout << "Se activaron los timers" << std::endl;
+
+	if(my_package->give_me_your_event_type()==Event_type::MOVE)
+
+		if(((MOVE_EventPackage *)my_package)->give_me_your_direction()==Direction_type::Left || ((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Right)
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Walking);
+		else
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+	if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+	 if (((ATTACK_EventPackage *)my_package)->give_me_your_event_type() == Event_type::ATTACK)
+		this->ev_gen->active_blocking_timers(Blocking_timer_type::Attacking);
+
+	//else if (my_package->give_me_your_direction() == Direction_type::Jump_Left || my_package->give_me_your_direction() == Direction_type::Jump_Right || my_package->give_me_your_direction() == Direction_type::Jump_Straight)
+	//	this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+
+}
+
+void LogicFSM::turn_off_blocking_timers(EventPackage * my_package) {
+
+	std::cout << "Se apagaron los timers" << std::endl;
+
+	if (my_package->give_me_your_event_type() == Event_type::MOVE)
+
+		if (((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Left || ((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Right)
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Walking);
+		else
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Jumping);
+
+	if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+		if (((ATTACK_EventPackage *)my_package)->give_me_your_event_type() == Event_type::ATTACK)
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Attacking);
+
+	//else if (my_package->give_me_your_direction() == Direction_type::Jump_Left || my_package->give_me_your_direction() == Direction_type::Jump_Right || my_package->give_me_your_direction() == Direction_type::Jump_Straight)
+	//	this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+
+}
 void LogicFSM::send_action() {
 	//tengo que mandar una action(MOVE/ATTACK) LOCAL si soy servidor  (esta todo guardado en fsm->get_ev_pack())
 	EventPackage* info_to_be_send = get_fsm_ev_pack();
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	std::cout << "Se envio un MOVE" << std::endl;
 }
 
 void LogicFSM::execute_receive_action_request_send_action_and_send_ack() {
@@ -339,7 +438,24 @@ void LogicFSM::check_action() {
 	}
 
 	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
-		set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+		
+		//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
+		if (!scenario->appended_event && scenario->saved_events->empty())
+		{
+			set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+			std::cout << "Se metio evento en la FSM" << std::endl;
+		}
+		
+	//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
+		else if(scenario->saved_events->empty())
+		{
+			scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
+			std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+		}
+		else
+			std::cout << "No se guardo nada" << std::endl;
+
+
 }
 
 void LogicFSM::check_game_state() {
@@ -482,6 +598,20 @@ void LogicFSM::load_and_send_enemy_action() {
 	send_enemy_action();
 }
 
+void LogicFSM::reset_game() {
+
+	scenario->maps.clear();
+
+	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client(), new_map.c_str(), 18);
+	
+	//send RESET
+	if (get_fsm_ev_pack()->is_this_a_local_action())
+		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+}
+
 void LogicFSM::send_name_is() {
 	NAME_IS_EventPackage * info_to_be_send = new NAME_IS_EventPackage(true, (uchar)((user_data->my_network_data.give_me_my_name()).size()), (user_data->my_network_data.give_me_my_name()).c_str());
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
@@ -519,6 +649,14 @@ void LogicFSM::finish_game() {
 }
 
 void LogicFSM::received_ack_routine() {
+
+	std::cout << "Se ejecuto acción" << std::endl;
+
+	execute_local_action();
+	check_game_state();
+	//active_blocking_timers(get_fsm_ev_pack());
+
+
 	//allegro_container->dequeu_time_out_timer();		
 
 	//if (allegro_container->no_time_outs())		//me fijo si ya no toy esperando ningun ack mas
@@ -707,3 +845,4 @@ void LogicFSM::execute_action() {
 			scenario->load_action_on_projectile(action);
 	}
 }
+

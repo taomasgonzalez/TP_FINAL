@@ -96,6 +96,7 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
+	walking_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
@@ -216,14 +217,32 @@ void CharacterActionsFSM::continue_logical_movement(){
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){
+
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
 	if (obs_answers.should_interrupt_movement) {
-		obs_info.interrupt_movement = true;
-		notify_obs();				
-		obs_info.interrupt_movement = false;
+
+		//The FSM asks to the observer if there are pending packages to be executed
+		obs_questions.should_continue_moving = true;
+		notify_obs();						//PlayerActionsFSMDRAWObserver
+		obs_questions.should_continue_moving = false;
+
+		//To avoid going iddle when there´s another MOVE coming in, we append a new WALKED
+		if (obs_answers.should_continue_moving)
+		{
+			obs_info.keep_moving = true;
+			notify_obs();
+			obs_info.keep_moving = false;
+		}
+		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
+		else
+		{
+			obs_info.interrupt_movement = true;
+			notify_obs();
+			obs_info.interrupt_movement = false;
+		}
 	}
 }
 

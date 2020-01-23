@@ -31,6 +31,7 @@ public:
 
 	void loadPlayMusic();
 	void stopMusic();
+	void clean_buffer();
 
 	//ALLEGRO_EVENT_QUEUE*  get_al_queue();
 	//ALLEGRO_TIMER * get_front_time_out_timer();

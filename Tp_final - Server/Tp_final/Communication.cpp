@@ -316,13 +316,18 @@ bool Communication::is_the_connection_healthy()
 Package* Communication::create_package(char* aux_buf){
 	static int ack_quant = 0;
 	Package* new_package = NULL;
-	Package_type type = (Package_type)aux_buf[0];
+	Package_type type = (Package_type)(unsigned char)aux_buf[0];
 
 	switch (type)
 	{
 	case Package_type::ACK:
 		new_package = new ACK_package;
 		cout << endl << "ack_quant: " << to_string(ack_quant++) << endl;
+		break;
+
+	case Package_type::RESET:
+		new_package = new RESET_package;
+		cout << endl << "Llego un RESET perro" << endl;
 		break;
 
 	case Package_type::NAME:

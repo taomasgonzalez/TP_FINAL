@@ -102,7 +102,10 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	BOUNCE,
 	ROLLING,
 	CHARGING,
+	//RESET(DEBUGGING)
+	RESET,
 	FINISHED_GRAPH_STEP
+
 };
 
 
@@ -176,6 +179,18 @@ class EXTERN_QUIT_EventPackage : public EventPackage
 {
 public:
 	EXTERN_QUIT_EventPackage();
+
+};
+
+/******************************************************************************
+*******************************************************************************
+RESET_EventPackage CLASS
+*******************************************************************************
+*******************************************************************************/
+class RESET_EventPackage : public EventPackage
+{
+public:
+	RESET_EventPackage(bool is_local);
 
 };
 

@@ -10,6 +10,7 @@ string event_string[] =  //Events that are usde by the internal function of the 
 {
 	"END_OF_TABLE",
 
+
 	//ACK:
 	"ACK",
 
@@ -97,6 +98,8 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
+	//for debuggin purposes
+	"RESET",
 	"FINISHED_GRAPH_STEP"
 };
 

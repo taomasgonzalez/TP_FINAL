@@ -39,6 +39,10 @@ void CharacterSceneObserver::update() {
 		direction_to_deltas(&info);
 		perform_movement(info);
 	}
+	else if (fsm->obs_questions.should_continue_moving) {
+		fsm->obs_answers.should_continue_moving = !scenario->saved_events->empty();
+	}
+
 }
 
 void CharacterSceneObserver::kill_character() {

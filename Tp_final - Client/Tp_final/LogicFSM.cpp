@@ -148,6 +148,11 @@ void do_nothing_r(void* data)
 {
 
 }
+void reset_game_r(void* data){
+	LogicFSM * fsm = (LogicFSM*)data;
+	fsm->reset_game();
+}
+
 void send_name_is_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_name_is();
@@ -299,10 +304,12 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 
 	check_action();
 	if (valid_action) {
-		execute_extern_action();
-		received_ack_routine();
 		send_ack();
+		execute_extern_action();
+		//received_ack_routine();
 	}
+	else
+		std::cout << "La jugada no es válida, no se envío ACK" << std::endl;
 }
 
 void LogicFSM::check_action() {
@@ -479,6 +486,21 @@ void LogicFSM::send_play_again() {
 void LogicFSM::load_and_send_enemy_action() {
 	load_enemy_action();
 	send_enemy_action();
+}
+
+void LogicFSM::reset_game() {
+
+	scenario->maps.clear();
+
+	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client(), new_map.c_str(), 18);
+
+	//send RESET
+	if(get_fsm_ev_pack()->is_this_a_local_action())
+		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+
 }
 
 void LogicFSM::send_name_is() {
