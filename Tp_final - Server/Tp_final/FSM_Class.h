@@ -34,6 +34,8 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void set_fsm_ev_pack(EventPackage* new_ev_pack);
+
+
 	 std::vector<edge_t>* give_me_the_actual_state();
 
 protected:
@@ -44,7 +46,8 @@ protected:
 	void(*get_routine(std::vector<edge_t>* state, Event_type event1))(void*);
 	bool should_change_state = true;
 private:
-	EventPackage * my_ev_pack;
+	EventPackage * my_ev_pack=NULL;
+
 };
 
 

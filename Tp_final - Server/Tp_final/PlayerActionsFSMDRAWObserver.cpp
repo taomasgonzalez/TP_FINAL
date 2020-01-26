@@ -85,6 +85,7 @@ void PlayerActionsFSMDRAWObserver::update() {
 	}
 	else if (drawer->finished_drawing_step(player->id)) {
 		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
+
 	}
 	else if (fsm->obs_info.disappear_graph) {
 		drawer->disactiveObj(player->id);

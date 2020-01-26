@@ -23,6 +23,8 @@ public:
 		bool interrupt_attack = false;
 		bool perform_logical_movement = false;
 		bool perform_logical_attack = false;
+		bool keep_moving = false;
+		bool next_move_pending = false;
 
 	};
 
@@ -32,6 +34,7 @@ public:
 		bool can_perform_movement = false;
 		bool should_interrupt_movement = false;
 		bool should_interrupt_attack = false;
+		bool should_continue_moving = false;
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;

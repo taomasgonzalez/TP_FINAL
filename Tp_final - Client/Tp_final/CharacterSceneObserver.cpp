@@ -39,6 +39,19 @@ void CharacterSceneObserver::update() {
 		direction_to_deltas(&info);
 		perform_movement(info);
 	}
+	else if (fsm->obs_questions.should_continue_moving) {
+		//First is checked is checked is one key 
+		fsm->obs_answers.should_continue_moving = !scenario->saved_events->empty();
+		//scenario->logic_movements_block = false;
+		//std::cout << "Termino el bloqueo logico" << std::endl;
+	}
+	if (fsm->obs_info.keep_moving) {
+
+		//The saved event loaded previously is finally put into the FSM by ScenarioEventsObserver
+		scenario->load_saved_event_r();
+		fsm->obs_info.next_move_pending = true;
+		//ev_gen->append_new_event(new WALKED_EventPackage(scenario->assistant_queue->front().my_direction), 0);
+	}
 }
 
 void CharacterSceneObserver::kill_character() {

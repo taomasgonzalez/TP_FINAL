@@ -40,7 +40,10 @@ void CharacterSceneObserver::update() {
 		perform_movement(info);
 	}
 	else if (fsm->obs_questions.should_continue_moving) {
+		//First is checked is checked is one key 
 		fsm->obs_answers.should_continue_moving = !scenario->saved_events->empty();
+		//scenario->logic_movements_block = false;
+		//std::cout << "Termino el bloqueo logico" << std::endl;
 	}
 
 }

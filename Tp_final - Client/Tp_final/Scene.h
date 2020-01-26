@@ -82,10 +82,16 @@ public:
 	bool new_enemy_action = false;
 	bool should_hit = false;
 	bool load_graphic_level = false;
+	bool appended_event = false;
+	bool load_saved_event = false;
+
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	
 	std::queue<Action_info>* assistant_queue;
+	std::queue<EventPackage*>* saved_events;
+
+	void load_saved_event_r();
 
 	void append_graphic_facility(void* drawer);
 

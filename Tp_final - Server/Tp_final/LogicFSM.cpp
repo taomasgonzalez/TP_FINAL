@@ -296,35 +296,51 @@ void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 	
 	if (valid_action) {
 
-		//The action is valid so the fetching of allegro events must be blocked for a time gap
-		if (!scenario->finished_loading)
+		//send_action();
+		//std::cout << "Se mando acción" << std::endl;
+		//set_ack_time_out();
+		//should_change_state = true;
+
+		if (get_fsm_ev_pack()->give_me_your_event_type() == Event_type::MOVE)
 		{
 			active_blocking_timers(get_fsm_ev_pack());
+			//The action is valid so the fetching of allegro events must be blocked for a time gap
+			if (!scenario->finished_loading)
+			{
 
+			}
+			else
+			{
+				//turn_off_blocking_timers(get_fsm_ev_pack());
+				scenario->finished_loading = false;
+			}
+
+			//The action is not a future event so it must be executed immediately
+			if (!scenario->appended_event&&scenario->saved_events->empty())
+			{
+				//execute_local_action();
+				std::cout << "Se mando acción" << std::endl;
+				send_action();
+				set_ack_time_out();
+				should_change_state = true;
+
+				//check_game_state();
+			}
+			//Is a future action so the FSM must not move to waiting_for_ACK state
+			else
+			{
+				std::cout << "Se guardo acción" << std::endl;
+				should_change_state = false;
+				scenario->appended_event = false;
+			}
 		}
 		else
 		{
-			//turn_off_blocking_timers(get_fsm_ev_pack());
-			scenario->finished_loading = false;
-		}
-
-		//The action is not a future event so it must be executed immediately
-		if (!scenario->appended_event&&scenario->saved_events->empty()) 
-		{
-			//execute_local_action();
 			std::cout << "Se mando acción" << std::endl;
 			send_action();
 			set_ack_time_out();
-			//check_game_state();
+			should_change_state = true;
 		}
-		//Is a future action so the FSM must not move to waiting_for_ACK state
-		else
-		{
-			std::cout << "Se guardo acción" << std::endl;
-			should_change_state = false;
-			scenario->appended_event = false;
-		}
-
 
 
 	}
@@ -437,24 +453,30 @@ void LogicFSM::check_action() {
 	}
 	}
 
-	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
-		
-		//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
-		if (!scenario->appended_event && scenario->saved_events->empty())
-		{
-			set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
-			std::cout << "Se metio evento en la FSM" << std::endl;
-		}
-		
-	//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
-		else if(scenario->saved_events->empty())
-		{
-			scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
-			std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
-		}
-		else
-			std::cout << "No se guardo nada" << std::endl;
+	//if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
+	//	set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 
+	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
+	{
+		if (event_to_be_checked->give_me_your_event_type() == Event_type::MOVE)
+		{
+			//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
+			if (!scenario->appended_event && scenario->saved_events->empty())
+			{
+				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se metio evento en la FSM" << std::endl;
+			}
+
+			//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
+			else if (scenario->saved_events->empty())
+			{
+				scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+			}
+			else
+				std::cout << "No se guardo nada" << std::endl;
+		}
+	}
 
 }
 
@@ -601,7 +623,10 @@ void LogicFSM::load_and_send_enemy_action() {
 void LogicFSM::reset_game() {
 
 	scenario->maps.clear();
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
 
+	//scenario->logic_movements_block = false;
 	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 	scenario->actual_map = -1;
 	scenario->load_new_map(user_data->my_network_data.is_client(), new_map.c_str(), 18);
@@ -652,8 +677,10 @@ void LogicFSM::received_ack_routine() {
 
 	std::cout << "Se ejecuto acción" << std::endl;
 
-	execute_local_action();
 	check_game_state();
+	execute_local_action();
+
+
 	//active_blocking_timers(get_fsm_ev_pack());
 
 

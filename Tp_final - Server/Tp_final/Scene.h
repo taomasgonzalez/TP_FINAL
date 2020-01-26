@@ -84,6 +84,9 @@ public:
 	bool load_graphic_level = false;
 	bool load_saved_event = false;
 	bool finished_loading = false;
+	bool logic_movements_block = false;
+	bool last_action_was_a_move[2] = { false,false };
+
 
 	void append_new_auxilar_event(Action_info new_action_info);
 	bool appended_event = false;

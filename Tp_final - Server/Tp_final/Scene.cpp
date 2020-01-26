@@ -503,6 +503,8 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map
 		
 	}
 
+
+
 	return is_the_action_possible;
 }
 
@@ -611,6 +613,17 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
 	}
+
+	//if (logic_movements_block)
+	//{
+	//	is_the_move_possible = false;
+	//	cout << "Movimiento no valido, bloqueo logico en proceso" << endl;
+	//}
+	//else if (is_the_move_possible)
+	//{
+	//	logic_movements_block = true;
+	//	cout << "Movimiento valido, se activa bloqueo logico" << endl;
+	//}
 
 	return is_the_move_possible;
 }

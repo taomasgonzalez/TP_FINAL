@@ -51,6 +51,8 @@ private:
 	//Timer to prevent fetching too many attacks (TO BE IMPLEMENTED)
 	ALLEGRO_TIMER* blocking_attacks_events_timer = NULL;
 
+	//Timer to control the execution of the movements
+	ALLEGRO_TIMER* movements_tracking_timer = NULL;
 
 	bool key[6] = { false, false, false, false, false, false };
 
@@ -59,8 +61,9 @@ private:
 	EventPackage * direction_to_event_package(Action_type action,Direction_type direction = Direction_type::None);
 	void update_from_allegro_events();
 	void update_from_allegro_timer_events();
+	void load_events_from_keyboard();
 	void update_from_allegro_keyboard_events();
-	EventPackage * update_keyboard_state(EventPackage* ev_packs);
+	void update_key_state(ALLEGRO_EVENT allegroEvent);
 
 	//Pointers that allow the connection between the EventGenerator and Allego & Userdata
 	Allegro* al = NULL;

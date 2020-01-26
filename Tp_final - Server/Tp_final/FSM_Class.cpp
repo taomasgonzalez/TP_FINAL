@@ -9,8 +9,10 @@ FSM::FSM() : Observable(){
 string event_string[] =  //Events that are usde by the internal function of the program 
 {
 	"END_OF_TABLE",
+
 	//ACK:
 	"ACK",
+
 
 	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
 	"LOCAL_QUIT",
@@ -79,6 +81,7 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"FELL",
 	"PUSHED",
 	"FINISHED_MOVEMENT",
+	"KEEP_MOVING",
 	"FINISHED_ATTACK",
 	"DIED",
 
@@ -96,9 +99,8 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
-	//for debuggin purposes
-
 	"FINISHED_GRAPH_STEP",
+	//RESET
 	"RESET"
 
 
@@ -132,7 +134,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 			//cout << "LLego un evento de FPS_TICKED"<< endl;
 			int i;
 
-		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;
 		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
@@ -141,6 +142,8 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
 		if (((actual_state->at(event_pos)).event == Event_type::END_OF_TABLE))
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
+		else
+			set_fsm_ev_pack(ev_pack);
 		//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
 
 		//Runs the functions related to that event
@@ -185,6 +188,7 @@ void FSM::set_fsm_ev_pack(EventPackage * new_ev_pack)
 		my_ev_pack = new_ev_pack;
 	}
 }
+
 
 std::vector<edge_t>* FSM::give_me_the_actual_state() {
 

@@ -4,12 +4,11 @@
 #include "PlayerActionsFSM.h"
 #include "Player.h"
 #include "EventGenerator.h"
-#include "Scene.h"
 
 class PlayerActionsFSMDRAWObserver: public Observer
 {
 public:
-	PlayerActionsFSMDRAWObserver(PlayerActionsFSM* fsm, EventGenerator* ev_gen, Player* player);
+	PlayerActionsFSMDRAWObserver(PlayerActionsFSM* fsm, EventGenerator* ev_gen, Player* playe);
 
 	~PlayerActionsFSMDRAWObserver();
 
@@ -19,6 +18,7 @@ private:
 	DRAW* drawer = NULL;
 	Player* player = NULL;
 	EventGenerator* ev_gen = NULL;
+
 
 
 	Direction get_character_graph_direction(Sense_type sense);

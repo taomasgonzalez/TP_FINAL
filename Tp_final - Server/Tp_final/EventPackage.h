@@ -106,7 +106,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	CHARGING,
 	FINISHED_GRAPH_STEP,
 	//RESET
-	RESET,
+	RESET
 
 };
 

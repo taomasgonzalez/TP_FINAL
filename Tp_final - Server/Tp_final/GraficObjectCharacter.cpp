@@ -47,14 +47,20 @@ void Obj_Graf_Character::handle_walking()
 		secuenceOver_ = true;
 
 		//The final position after the secuence is completed is set
-		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+		//pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+		//pos.set_x_coord(pos.get_x_coord() + delta * velX/2);		// muevo la posicion del dibujo
+
+
 
 		//actualImage = 0;
 #ifdef DEBUG
 		std::cout << "Se termino la secuencia" << std::endl;
+		std::cout << pos.get_x_coord() << std::endl;
+		//cout << endl << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
 #endif
 
-		al_draw_scaled_bitmap(chara_images->walkImages[9], 0, 0, al_get_bitmap_height(chara_images->walkImages[9]), al_get_bitmap_width(chara_images->walkImages[9]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 
 	}
 	else
@@ -66,6 +72,7 @@ void Obj_Graf_Character::handle_walking()
 		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		cout << endl << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
 		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
+		std::cout << pos.get_x_coord() << std::endl;
 
 		//al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage]), al_get_bitmap_width(chara_images->walkImages[walkActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		//((walkActualImage+1) < walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia

@@ -209,14 +209,34 @@ void CharacterActionsFSM::continue_logical_movement(){
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){
+
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
 	if (obs_answers.should_interrupt_movement) {
-		obs_info.interrupt_movement = true;
-		notify_obs();				
-		obs_info.interrupt_movement = false;
+
+		//The FSM asks to the observer if there are pending packages to be executed
+		obs_questions.should_continue_moving = true;
+		notify_obs();						//PlayerActionsFSMDRAWObserver
+		obs_questions.should_continue_moving = false;
+
+		//To avoid going iddle when there´s another MOVE coming in, we append a new WALKED
+		if (obs_answers.should_continue_moving)
+		{
+			obs_info.keep_moving = true;
+			notify_obs();
+			obs_info.keep_moving = false;
+
+			obs_answers.should_continue_moving = false;
+		}
+		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
+		else
+		{
+			obs_info.interrupt_movement = true;
+			notify_obs();
+			obs_info.interrupt_movement = false;
+		}
 	}
 }
 

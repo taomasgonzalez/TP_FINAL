@@ -33,13 +33,16 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 
 	//every FPS the program looks for keyboard events
 	keyboard_events_timer = al_create_timer(1 / FPS);
+	movements_tracking_timer = al_create_timer(0.3);
+
+	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(movements_tracking_timer));
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(keyboard_events_timer));
 	al_start_timer(keyboard_events_timer);
 
 	//Set to random number, is not started until a blocking is needed and a new timer큦 speed is set
 	blocking_movements_events_timer = al_create_timer(1 / 30.0);
 	//block attacks for 200 ms so they do not overload
-	blocking_attacks_events_timer = al_create_timer(0.2);
+	blocking_attacks_events_timer = al_create_timer(0.1);
 
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_movements_events_timer));
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_attacks_events_timer));
@@ -75,7 +78,7 @@ EventPackage * LogicEventGenerator::fetch_event()
 *******************************************
 *update_from_allegro_events is an internal method that converts events inside an allegro event queue to
 *EventPackages that represent the Logic function of that allegro Event.
-*update_from_allegro_events does this by removign the allegro event from the allegro event queue.
+*update_from_allegro_events does this by removing the allegro event from the allegro event queue.
 *	INPUT:
 *		1) void.
 *	OUTPUT:
@@ -102,29 +105,34 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 
 	ALLEGRO_EVENT  allegroEvent;
 
-	if (al_get_next_event(al_key_timers_queue, &allegroEvent)) {			//fetch from the queue if it큦 not empty
+	while (al_get_next_event(al_key_timers_queue, &allegroEvent)) {			//fetch from the queue if it큦 not empty
 
 		if (this->are_we_playing) 
 		{
 			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
 			{
+
 				if (allegroEvent.timer.source == blocking_movements_events_timer)
 				{
 					this->blocked_movements = false; //the block  must finish, allowing new movements events to be fetched
-					al_stop_timer(blocking_movements_events_timer);
+					std::cout << "Termino el bloqueo por el movimiento" << std::endl;
+					al_stop_timer(blocking_movements_events_timer);//the timer is stopped
+
 				}
 
-				//else if (allegroEvent.timer.source == blocking_attacks_events_timer) //to be implemented
-				//{
-				//	this->blocked_attacks = false; //the block  must finish, allowing new attacking events to be fetched
-				//	al_stop_timer(blocking_attacks_events_timer);
-				//}
-
-				else if (allegroEvent.timer.source == keyboard_events_timer) {
-
+				else if (allegroEvent.timer.source == keyboard_events_timer) // FPS event, the state of the keys must be refresh
+				{
 					update_from_allegro_keyboard_events();
-
 				}
+
+				else if (allegroEvent.timer.source == blocking_attacks_events_timer) //to be implemented
+				{
+					this->blocked_attacks = false; //the block must finish, allowing new attacking events to be fetched
+					std::cout << "Termino el bloqueo de ataques" << std::endl;
+					al_stop_timer(blocking_attacks_events_timer);
+				}
+
+					load_events_from_keyboard(); 
 			}
 		}
 		else
@@ -150,123 +158,117 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 *		void.
 */
 void LogicEventGenerator::update_from_allegro_keyboard_events() {
+
 	ALLEGRO_EVENT  allegroEvent;
 	EventPackage * ev_packs=NULL;
 
-	if (al_get_next_event(al_key_queue, &allegroEvent)) {			//tomo de la cola en caso de que no este vacia
+	while (al_get_next_event(al_key_queue, &allegroEvent)) { //All the key events are fetched, all the keys� states are refreshed
 
 		if (allegroEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {	//debo mandar error porque cerraron la pantalla				
 			ev_packs = new ERROR_EventPackage();
+			break;
 		}
-		if (this->are_we_playing)
-		{
 
-			ev_packs=update_keyboard_state(ev_packs);
-
-				//The buffer of the allegro큦 keyboard is flushed due to possible unwanted duplicated events
-				//The buffer is cleaned every ALLEGRO_EVENT_TIMER that is linked with the refresh rate of fetching an allegro keyboard event
-				
-				al_flush_event_queue(al_key_queue);
-				fflush(stdin);
-
-				//al_clear_keyboard_state(NULL);
-				//while(keypressed()) // cycles until no keys are left and then moves on
-				//readkey(); // "gets" the keys as read thus emptying the buffer.
-				while (_kbhit()) _getch();
-
-		}
-		else
-			int i=0; 
-			//here we will put the fetching events when we are not playing, such as when we enter our username
-			//IP, etc
-		
-		
+		update_key_state(allegroEvent);
+			
 	}
-
-		if (ev_packs != NULL)
-			append_new_event(ev_packs, (int)LogicQueues::allegro);
-
 }
 
+
+
 /******************************************
-********update_keyboard_state*********
+********update_key_state*********
 *******************************************
-*update_keyboard_state is an internal method that fetchs keyboards events if there are not currently actived blocking process
+*update_keyboard_state is an internal method that updates the saved local state of a key
 *
 *	INPUT:
-*		1) Pointer to EventPackage to save the fetched events
+*		1) ALLEGRO_EVENT allegroEvent
 *	OUTPUT:
 *		void.
 */
-EventPackage* LogicEventGenerator::update_keyboard_state(EventPackage* ev_pack) {
-
-	ALLEGRO_EVENT  allegroEvent;
-	al_get_next_event(al_key_queue, &allegroEvent);
+void LogicEventGenerator::update_key_state(ALLEGRO_EVENT allegroEvent) {
 
 
-	if (!this->blocked_movements)
-	{
-
-		if (allegroEvent.type == ALLEGRO_EVENT_KEY_CHAR) {
+	//Checks is the keys are pressed
+	if (allegroEvent.type == ALLEGRO_EVENT_KEY_DOWN) {
 			switch (allegroEvent.keyboard.keycode) {
 			case ALLEGRO_KEY_UP:
 				
 				key[KEY_UP] = true;
-				ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
+				std::cout<<"Se apreto UP"<<std::endl;
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
 				//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
-				al_set_timer_speed(blocking_movements_events_timer, 1.15);
+				//al_set_timer_speed(blocking_movements_events_timer, 1.15);
 				break;
 
 			case ALLEGRO_KEY_DOWN:
 				key[KEY_DOWN] = true;
+				std::cout << "Se apreto DOWN" << std::endl;
 				break;
 
 			case ALLEGRO_KEY_LEFT:
 				key[KEY_LEFT] = true;
-				ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
-				al_set_timer_speed(blocking_movements_events_timer, 0.25);
+				std::cout << "Se apreto LEFT" << std::endl;
+
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
+				//al_set_timer_speed(blocking_movements_events_timer, 0.25);
 				break;
 
 			case ALLEGRO_KEY_RIGHT:
 				key[KEY_RIGHT] = true;
-				ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Right);
-				al_set_timer_speed(blocking_movements_events_timer, 0.25);
+				std::cout << "Se apreto RIGHT" << std::endl;
+
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Right);
+				//al_set_timer_speed(blocking_movements_events_timer, 0.25);
 				break;
 
 			case ALLEGRO_KEY_SPACE:
 				key[KEY_SPACE] = true;
+				std::cout << "Se apreto SPACE" << std::endl;
+
 				break;
 
 			case ALLEGRO_KEY_R:
 				key[KEY_R] = true;
-				ev_pack = new RESET_EventPackage(true);
+				std::cout << "Se apreto R" << std::endl;
+
+				//ev_pack = new RESET_EventPackage(true);
 				break;
 
 			default:
-				std::cout << "Not an expected key" << std::endl;
+				std::cout << "Not an expected key was pressed" << std::endl;
 			}
-		}
 	}
 
+	//Checks is the keys are released
 	if (allegroEvent.type == ALLEGRO_EVENT_KEY_UP) {
 		switch (allegroEvent.keyboard.keycode) {
+
 		case ALLEGRO_KEY_UP:
 			key[KEY_UP] = false;
+			std::cout << "Se solto UP" << std::endl;
+
 			break;
 
 		case ALLEGRO_KEY_DOWN:
 			key[KEY_DOWN] = false;
+			std::cout << "Se solto DOWN" << std::endl;
+
 			break;
 
 		case ALLEGRO_KEY_LEFT:
 			key[KEY_LEFT] = false;
+			std::cout << "Se solto LEFT" << std::endl;
+
 			break;
 
 		case ALLEGRO_KEY_RIGHT:
+			std::cout << "Se solto RIGHT" << std::endl;
 			key[KEY_RIGHT] = false;
 			break;
 
 		case ALLEGRO_KEY_SPACE:
+			std::cout << "Se solto SPACE" << std::endl;
 			key[KEY_SPACE] = false;
 			break;
 
@@ -275,93 +277,108 @@ EventPackage* LogicEventGenerator::update_keyboard_state(EventPackage* ev_pack) 
 			break;
 
 		default:
-			std::cout << "Not an expected key" << std::endl;
+			std::cout << "Not an expected key was released" << std::endl;
 		}
 	}
 
-	if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE && !this->blocked_attacks)
-	{
-		ev_pack = direction_to_event_package(Action_type::Attack);
-		//al_start_timer(blocking_attacks_events_timer);
-	}
+	//if (allegroEvent.keyboard.keycode == ALLEGRO_KEY_SPACE && !this->blocked_attacks)
+	//{
+	//	ev_pack = direction_to_event_package(Action_type::Attack);
+	//	//al_start_timer(blocking_attacks_events_timer);
+	//}
 
 
-	//Flags are cleaned
-	this->side_move_dir = Direction_type::None;
+	//return ev_pack;
 
-	return ev_pack;
-
-	{
-		////debugging
-		//bool reset = false;
-
-		//if (al_key_down(&keystate, ALLEGRO_KEY_R))
-		//	reset = true;
-
-		//if (!this->blocked_movements) 
-		//{
-		//	if (al_key_down(&keystate, ALLEGRO_KEY_UP)) //Check if jumping
-		//	{
-		//		this->jumping = true;
-		//		this->acting = true;
-		//		//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
-		//		al_set_timer_speed(blocking_movements_events_timer, 1.15);
-		//	}
-
-
-		//	if (al_key_down(&keystate, ALLEGRO_KEY_LEFT)) //Check if moving to the left
-		//	{
-		//		this->side_move_dir = Direction_type::Left;
-		//		this->acting = true;
-
-		//		if (!this->jumping) //If the user wants to move without jumping
-		//		{
-		//			//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
-		//			al_set_timer_speed(blocking_movements_events_timer, 0.25);
-		//		}
-		//	}
-		//	else if (al_key_down(&keystate, ALLEGRO_KEY_RIGHT)) //Check if moving to the right
-		//	{
-		//		this->side_move_dir = Direction_type::Right;
-		//		this->acting = true;
-		//		static int counter = 0;
-		//	std:cout << "Right " << counter++ << std::endl;
-		//		if (!this->jumping) //If the user wants to move without jumping
-		//		{
-		//			//A movement lasts 0.3s so we block the fetching of movements until 50ms before it큦 finished
-		//			al_set_timer_speed(blocking_movements_events_timer, 0.25);
-		//		}
-		//	}
-		//}
-
-		//if (al_key_down(&keystate, ALLEGRO_KEY_SPACE)	&&	!this->blocked_attacks) //Check if attacking
-		//{
-		//	this->attacking = true;
-		//	this->acting = true;
-
-		//}
-
-		//if (acting) //New movements should be appended to the array
-		//{
-		//	int actual_ev_pack = 0;
-
-		//	if(this->side_move_dir != Direction_type::None || this->jumping) //a movement is appended to the array
-		//		ev_packs[actual_ev_pack++] = direction_to_event_package(Action_type::Move);
-
-		//	if(attacking) //an attack is appended to the array
-		//		ev_packs[actual_ev_pack] = direction_to_event_package(Action_type::Attack);
-		//}
-
-		//if (reset)
-		//	ev_packs[0] = new RESET_EventPackage();
-
-		////Flags are cleaned
-		//this->side_move_dir = Direction_type::None;
-		//this->acting = false;
-		//this->attacking = false;
-		//this->jumping = false;
-	}
 }
+
+/******************************************
+********load_events_from_keyboard*********
+*******************************************
+*load_events_from_keyboard is an internal method that checks the actual state of the keys of the keyboard, so
+*in case that a move needs to be started/ continued(the key was never released) the correct event is appended
+*
+*	INPUT:
+*		void
+*	OUTPUT:
+*		void.
+*/
+void LogicEventGenerator::load_events_from_keyboard() {
+
+	EventPackage* ev_pack=NULL;
+
+
+	if (this->are_we_playing) //Events related to playing mode just as attacks and movements
+	{
+		if (!this->blocked_movements)
+		{
+			if (key[KEY_UP])
+			{
+				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight), (int)LogicQueues::allegro);
+				//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
+				al_set_timer_speed(blocking_movements_events_timer, 1.2);
+				std::cout << "Se mando un UP" << std::endl;
+
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
+			}
+
+			if (key[KEY_DOWN])
+			{
+				std::cout << "Se mando un DOWN" << std::endl;
+
+			}
+
+			if (key[KEY_LEFT])
+			{
+				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Left), (int)LogicQueues::allegro);
+				al_set_timer_speed(blocking_movements_events_timer, 0.3);
+				std::cout << "Se mando un LEFT" << std::endl;
+
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
+			}
+
+			if (key[KEY_RIGHT])
+			{
+				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Right), (int)LogicQueues::allegro);
+				al_set_timer_speed(blocking_movements_events_timer, 0.3);
+				std::cout << "Se mando un RIGHT" << std::endl;
+
+				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Right);
+			}
+		}
+		if (key[KEY_R])
+		{
+			append_new_event(new RESET_EventPackage(true), (int)LogicQueues::allegro);
+			std::cout << "Se mando un RESET" << std::endl;
+			key[0] = false;
+			key[1] = false;
+			key[2] = false;
+			key[3] = false;
+			key[4] = false;
+			key[5] = false;
+
+			//ev_pack = new RESET_EventPackage(true);
+		}
+
+		if(!this->blocked_attacks)
+			if (key[KEY_SPACE])
+			{
+				append_new_event(direction_to_event_package(Action_type::Attack, Direction_type::Right), (int)LogicQueues::allegro);
+				std::cout << "Se mando un ATTACK" << std::endl;
+				al_start_timer(blocking_attacks_events_timer);
+				this->blocked_attacks = true;
+				//ev_pack = direction_to_event_package(Action_type::Attack, Direction_type::None);
+			}
+	}
+	else //To load events related when the game is not currently playing
+		int i;
+
+
+	//if (ev_pack != NULL)
+	//	append_new_event(ev_pack, (int)LogicQueues::allegro);
+
+}
+
 
 /******************************************
 ********direction_to_event_package*********
@@ -444,8 +461,8 @@ void LogicEventGenerator::active_blocking_timers(Blocking_timer_type timer) {
 		break;
 
 	case Blocking_timer_type::Attacking:
-		//al_start_timer(blocking_attacks_events_timer);
-		//this->blocked_attacks=true;
+		al_start_timer(blocking_attacks_events_timer);
+		this->blocked_attacks=true;
 		break;
 
 	default:
@@ -480,8 +497,8 @@ void LogicEventGenerator::turn_off_blocking_timers(Blocking_timer_type timer) {
 		break;
 
 	case Blocking_timer_type::Attacking:
-		//al_stop_timer(blocking_attacks_events_timer);
-		//this->blocked_attacks=false;
+		al_stop_timer(blocking_attacks_events_timer);
+		this->blocked_attacks=false;
 		break;
 
 	default:

@@ -45,6 +45,9 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 	enemy_actions_queue = al_create_event_queue();
 	proyectile_actions_queue = al_create_event_queue();
 	this->assistant_queue = new queue<Action_info>();
+	this->saved_events = new queue<EventPackage *>();
+
+
 	//this->action_from_allegro = NULL;
 	this->actual_map = -1;
 	enemy_action_info;
@@ -530,13 +533,28 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 
+	if (!character_check && !the_one_that_moves->is_iddle() && !the_one_that_moves->waiting_for_next_move())
+	{
+
+		if (saved_events->empty())
+		{
+			this->appended_event = true;
+#ifdef DEBUG
+			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
+#endif
+		}
+		else
+			std::cout << "Ya hay guardado un movimiento" << std::endl;
+
+	}
+
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
-	else if (!character_check && !the_one_that_moves->is_iddle()) 
-		is_the_move_possible = false;
+//	else if (!character_check && !the_one_that_moves->is_iddle()) 
+//		is_the_move_possible = false;
 	else
 	{
 		int delta = 0;
@@ -592,6 +610,14 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	}
 
 	return is_the_move_possible;
+}
+
+void Scene::load_saved_event_r() {
+
+	load_saved_event = true;
+	notify_obs();
+	load_saved_event = false;
+
 }
 
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range) {

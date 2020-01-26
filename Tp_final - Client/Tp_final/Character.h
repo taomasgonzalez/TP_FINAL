@@ -18,6 +18,9 @@ public:
 	bool has_to_fall();
 	void dont_fall();
 
+	bool waiting_for_next_move();
+
+
 	void append_action_to_character(Action_info action);
 	EventHandler * ev_handler = NULL;
 

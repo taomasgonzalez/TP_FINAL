@@ -3,11 +3,13 @@
 #include "LogicEventGenerator.h"
 #include "Scene.h"
 #include "EventPackage.h"
+#include "LogicFSM.h"
+
 
 class ScenarioEventsObserver: public Observer
 {
 public:
-	ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario, FSM * fsm, Userdata * data);
+	ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario, LogicFSM * fsm, Userdata * data);
 	~ScenarioEventsObserver();
 
 	void update();
@@ -15,7 +17,7 @@ public:
 private:
 	LogicEventGenerator * ev_gen;
 	Scene * scenario;
-	FSM * my_fsm;
+	LogicFSM * my_fsm;
 	Userdata * my_user_data;
 };
 

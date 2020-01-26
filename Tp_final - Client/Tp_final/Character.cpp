@@ -31,6 +31,21 @@ bool Character::is_iddle()
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
 	return char_fsm->is_iddle();
 }
+
+bool Character::waiting_for_next_move()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
+	bool is_pending = char_fsm->obs_info.next_move_pending;
+
+	if (is_pending)
+	{
+		char_fsm->obs_info.next_move_pending = false;
+	}
+
+	return is_pending;
+}
+
 bool Character::is_attacking() {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
 	return char_fsm->is_attacking();

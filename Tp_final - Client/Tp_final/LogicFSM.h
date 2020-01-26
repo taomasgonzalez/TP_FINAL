@@ -88,6 +88,10 @@ public:
 	void send_action_request_and_set_ack_time_out(); //for client
 	void send_action();
 
+	//EventGenerator
+	void active_blocking_timers(EventPackage * my_eventpackage);
+	void turn_off_blocking_timers(EventPackage * my_eventpackage);
+
 	//UI
 	void tell_user_send_ack_and_finish_game(); //to do
 	void ask_the_user_if_wants_to_play_again(); //to do

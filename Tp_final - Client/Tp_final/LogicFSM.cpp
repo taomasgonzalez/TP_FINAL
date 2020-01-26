@@ -344,8 +344,73 @@ void LogicFSM::check_action() {
 	}
 	}
 
+	//if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
+	//	set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+
 	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
-		set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+	{
+		if (event_to_be_checked->give_me_your_event_type() == Event_type::MOVE)
+		{
+			//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
+			if (!scenario->appended_event && scenario->saved_events->empty())
+			{
+				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se metio evento en la FSM" << std::endl;
+			}
+
+			//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
+			else if (scenario->saved_events->empty())
+			{
+				scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+			}
+			else
+				std::cout << "No se guardo nada" << std::endl;
+		}
+	}
+}
+
+
+void LogicFSM::active_blocking_timers(EventPackage * my_package) {
+
+	std::cout << "Se activaron los timers" << std::endl;
+
+	if (my_package->give_me_your_event_type() == Event_type::MOVE)
+
+		if (((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Left || ((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Right)
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Walking);
+		else
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+	if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+		if (((ATTACK_EventPackage *)my_package)->give_me_your_event_type() == Event_type::ATTACK)
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Attacking);
+
+	//else if (my_package->give_me_your_direction() == Direction_type::Jump_Left || my_package->give_me_your_direction() == Direction_type::Jump_Right || my_package->give_me_your_direction() == Direction_type::Jump_Straight)
+	//	this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+
+}
+
+void LogicFSM::turn_off_blocking_timers(EventPackage * my_package) {
+
+	std::cout << "Se apagaron los timers" << std::endl;
+
+	if (my_package->give_me_your_event_type() == Event_type::MOVE)
+
+		if (((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Left || ((MOVE_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Right)
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Walking);
+		else
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Jumping);
+
+	if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+		if (((ATTACK_EventPackage *)my_package)->give_me_your_event_type() == Event_type::ATTACK)
+			this->ev_gen->turn_off_blocking_timers(Blocking_timer_type::Attacking);
+
+	//else if (my_package->give_me_your_direction() == Direction_type::Jump_Left || my_package->give_me_your_direction() == Direction_type::Jump_Right || my_package->give_me_your_direction() == Direction_type::Jump_Straight)
+	//	this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+
+
 }
 
 void LogicFSM::check_game_state() {

@@ -20,10 +20,7 @@ void PlayerSceneControllerObserver::update() {
 
 		//The saved event loaded previously is finally put into the FSM by ScenarioEventsObserver
 		scenario->load_saved_event_r();
-		scenario->finished_loading = true;
-
 		fsm->obs_info.next_move_pending = true;
-		
 		//ev_gen->append_new_event(new WALKED_EventPackage(scenario->assistant_queue->front().my_direction), 0);
-	}
+		}
 }

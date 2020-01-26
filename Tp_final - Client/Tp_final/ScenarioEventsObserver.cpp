@@ -1,6 +1,6 @@
 #include "ScenarioEventsObserver.h"
 
-ScenarioEventsObserver::ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario,FSM * fsm, Userdata * data)
+ScenarioEventsObserver::ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario,LogicFSM * fsm, Userdata * data)
 {
 	this->ev_gen = event_gen;
 	this->scenario = scenario;
@@ -38,5 +38,14 @@ void ScenarioEventsObserver::update() {
 		Action_info new_enemy_action = scenario->give_me_my_enemy_action(false);
 		ev_gen->append_new_event(new ENEMY_ACTION_EventPackage(&new_enemy_action), (int)EventGenerator::LogicQueues::soft);
 	}
-	
+	if (scenario->load_saved_event) {
+
+		EventPackage* saved_event = scenario->saved_events->front();
+		//Pruebo popear el evento de la cola dps de sacarlo
+		scenario->saved_events->pop();
+
+		ev_gen->append_new_event(saved_event, 0); //allegro
+		std::cout << "Se appendeo MOVE a la cola de eventos del programa" << std::endl;
+		my_fsm->active_blocking_timers(saved_event); //creo que al pedo porque se hace cuando se chequee
+	}
 }

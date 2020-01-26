@@ -235,6 +235,8 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			obs_info.keep_moving = true;
 			notify_obs();
 			obs_info.keep_moving = false;
+
+			obs_answers.should_continue_moving=false;
 		}
 		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
 		else

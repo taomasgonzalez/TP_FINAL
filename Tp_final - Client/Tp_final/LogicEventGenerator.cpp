@@ -2,6 +2,7 @@
 #include <iostream>
 
 
+
 LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGenerator()
 {
 	this->my_user_data = data;
@@ -39,6 +40,77 @@ EventPackage * LogicEventGenerator::fetch_event()
 {
 	update_from_allegro_events();
 	return EventGenerator::fetch_event();
+}
+
+
+/******************************************
+***************active_blocking_timers************
+*******************************************
+*Function used from the FSM to active a blocking timer when an action is checked as valid
+*
+*	INPUT:
+*		1) Blocking_timer_type timer - The timer to be active
+*	OUTPUT:
+*		void.
+*/
+void LogicEventGenerator::active_blocking_timers(Blocking_timer_type timer) {
+
+	switch (timer)
+	{
+	case Blocking_timer_type::Walking:
+		al_start_timer(blocking_movements_events_timer);
+		this->blocked_movements = true;
+		break;
+
+	case Blocking_timer_type::Jumping:
+		al_start_timer(blocking_movements_events_timer);
+		this->blocked_movements = true;
+		break;
+
+	case Blocking_timer_type::Attacking:
+		al_start_timer(blocking_attacks_events_timer);
+		this->blocked_attacks=true;
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+/******************************************
+***************turn_off_blocking_timers************
+*******************************************
+*Function used from the FSM to turn off a blocking timer
+*
+*	INPUT:
+*		void.
+*	OUTPUT:
+*		void.
+*/
+void LogicEventGenerator::turn_off_blocking_timers(Blocking_timer_type timer) {
+
+
+	switch (timer)
+	{
+	case Blocking_timer_type::Walking:
+		al_stop_timer(blocking_movements_events_timer);
+		this->blocked_movements = false;
+		break;
+
+	case Blocking_timer_type::Jumping:
+		al_stop_timer(blocking_movements_events_timer);
+		this->blocked_movements = false;
+		break;
+
+	case Blocking_timer_type::Attacking:
+		//al_stop_timer(blocking_attacks_events_timer);
+		//this->blocked_attacks=false;
+		break;
+
+	default:
+		break;
+	}
 }
 
 /******************************************

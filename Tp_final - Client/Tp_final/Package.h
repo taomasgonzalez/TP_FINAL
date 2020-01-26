@@ -103,7 +103,7 @@ class NAME_IS_package : public Package
 {
 public:
 	NAME_IS_package(uchar namelenght, std::string newname);
-	NAME_IS_package(uchar namelenght, unsigned char * newname);
+	NAME_IS_package(uchar namelenght, char * newname);
 
 	uchar get_name_lenght();
 	std::string give_me_your_name();
