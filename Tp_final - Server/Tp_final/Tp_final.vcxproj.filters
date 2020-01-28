@@ -74,16 +74,16 @@
       <Filter>Source Files\Net_related</Filter>
     </ClCompile>
     <ClCompile Include="LogicClientFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic\Logic</Filter>
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicEventGenerator.cpp">
-      <Filter>Source Files\Event_related\Graphic\Logic</Filter>
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic\Logic</Filter>
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="LogicServerFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic\Logic</Filter>
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="Resources.cpp">
       <Filter>Source Files</Filter>
@@ -387,13 +387,11 @@
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="GraficObjectCharacter.h">
-      <Filter>Header Files</Filter>
+      <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
-    <ClInclude Include="PlayerSceneControllerObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -462,6 +460,9 @@
     <Filter Include="Source Files\Event_related\Graphic">
       <UniqueIdentifier>{bf537947-3516-46e5-a61f-a9279074e633}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Event_related\Logic">
+      <UniqueIdentifier>{cd465320-f050-419a-8cfc-860e9626d836}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Event_related\Generic">
       <UniqueIdentifier>{c7c9b496-b170-4256-ac00-eae83d4805a1}</UniqueIdentifier>
     </Filter>
@@ -515,9 +516,6 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Proyectiles\Observers">
       <UniqueIdentifier>{b38043f4-caf4-487f-8672-337d0e80a075}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Event_related\Graphic\Logic">
-      <UniqueIdentifier>{cd465320-f050-419a-8cfc-860e9626d836}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
