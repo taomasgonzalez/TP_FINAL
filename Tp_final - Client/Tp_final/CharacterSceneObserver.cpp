@@ -45,13 +45,7 @@ void CharacterSceneObserver::update() {
 		//scenario->logic_movements_block = false;
 		//std::cout << "Termino el bloqueo logico" << std::endl;
 	}
-	if (fsm->obs_info.keep_moving) {
 
-		//The saved event loaded previously is finally put into the FSM by ScenarioEventsObserver
-		scenario->load_saved_event_r();
-		fsm->obs_info.next_move_pending = true;
-		//ev_gen->append_new_event(new WALKED_EventPackage(scenario->assistant_queue->front().my_direction), 0);
-	}
 }
 
 void CharacterSceneObserver::kill_character() {

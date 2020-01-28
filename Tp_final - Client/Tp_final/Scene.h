@@ -59,10 +59,10 @@ public:
 	OPERATING OVER MAPS
 ******************************************************************************/
 
-	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
-	bool is_the_map_okay(const char * the_map , char the_checksum );
+	void load_new_map(bool is_client, const unsigned char * the_map =NULL, unsigned char the_checksum=NULL );
+	bool is_the_map_okay(const unsigned char * the_map , unsigned char the_checksum );
 	void load_new_graphic_level();
-	const char * give_me_the_map_info();
+	const unsigned  char * give_me_the_map_info();
 
 	vector <Map*> maps;
 	int actual_map;
@@ -83,6 +83,9 @@ public:
 	bool should_hit = false;
 	bool load_graphic_level = false;
 	bool appended_event = false;
+	bool extern_future_event = false;
+	bool local_future_event = false;
+
 	bool load_saved_event = false;
 
 
@@ -98,10 +101,10 @@ public:
 private:
 	void * graphics = NULL;
 
-	unsigned char make_checksum(const char * CSV_map_location);
+	unsigned char make_checksum(const unsigned char * CSV_map_location);
 
 	//map information
-	const char * give_me_the_CSV(unsigned int actual_map);
+	const unsigned char * give_me_the_CSV(unsigned int actual_map);
 
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);

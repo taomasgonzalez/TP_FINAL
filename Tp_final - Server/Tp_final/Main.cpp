@@ -17,7 +17,7 @@ int main(void) {
 	my_resources.my_graphic_event_handler->get_ev_gen()->append_new_event(new GAME_START_EventPackage(), 0);
 
 	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
-	my_resources.my_scenario->load_new_map(false, new_map.c_str(), 18);
+	my_resources.my_scenario->load_new_map(false,(const unsigned char *) new_map.c_str(), 18);
 
 	while (my_resources.game_is_running()) {
 		my_resources.my_logic_event_handler->handle_event();

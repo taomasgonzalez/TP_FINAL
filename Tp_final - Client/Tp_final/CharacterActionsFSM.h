@@ -46,6 +46,8 @@ public:
 
 	void start_walking();
 	void start_jumping();
+	void append_walking();
+
 	void start_iddle();
 	void start_jumping_forward();
 	void start_attacking();
@@ -92,6 +94,9 @@ private:
 
 	ALLEGRO_TIMER * falling_timer = NULL;
 	ALLEGRO_EVENT_QUEUE* char_ev_queue = NULL;
+
+	std::queue<EventPackage*>* saved_character_events;
+
 
 	bool first_logical_movement();
 	bool finished_logical_movement();

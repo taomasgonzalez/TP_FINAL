@@ -46,6 +46,6 @@ void ScenarioEventsObserver::update() {
 
 		ev_gen->append_new_event(saved_event, 0); //allegro
 		std::cout << "Se appendeo MOVE a la cola de eventos del programa" << std::endl;
-		my_fsm->active_blocking_timers(saved_event); //creo que al pedo porque se hace cuando se chequee
+		//my_fsm->active_blocking_timers(saved_event); //creo que al pedo porque se hace cuando se chequee
 	}
 }

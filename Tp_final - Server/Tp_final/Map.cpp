@@ -96,9 +96,9 @@ std::vector<Player*>* Map::get_all_players()
 *		char pointer that contains a string (without the terminator) with the chars that 
 *		give the map the original level distribution. 
 */
-const char * Map::give_me_the_original_map() {
+const unsigned char * Map::give_me_the_original_map() {
 
-	return original_distribution.c_str();
+	return (const unsigned char *)original_distribution.c_str();
 }
 
 /******************************************	
@@ -610,8 +610,8 @@ int Map::get_max_number_of_floors() {
 *	OUTPUT:
 *		void.
 */
-void Map::load_on_map(const char* map_string, void* scenario) {
-	original_distribution = map_string;
+void Map::load_on_map(const unsigned char* map_string, void* scenario) {
+	original_distribution = (char*)map_string;
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int x = i % number_of_columns;			//version correcta en teoria
 		int y = i / number_of_columns;
@@ -638,7 +638,7 @@ void Map::load_checksum(unsigned char checksum) {
 void Map::reset_map()
 {
 	clear();
-	load_on_map(original_distribution.c_str());
+	load_on_map((const unsigned char*)original_distribution.c_str());
 }
 /*************************************************
 *************delete_from_map_thing_vectors********

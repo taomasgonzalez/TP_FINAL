@@ -24,7 +24,10 @@ public:
 
 	virtual void run_fsm(EventPackage * ev_pack);
 
-	
+	//setters
+	void start_playing();
+	void finish_playing();
+
 	//user decition flags
 	bool want_to_play_again = false;
 

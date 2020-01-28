@@ -47,7 +47,7 @@ public:
 	int get_max_number_of_floors();
 
 	//llamar despues de construir al mapa para cargar las cosas!!
-	void load_on_map(const char* map_string, void* scenario = NULL);
+	void load_on_map(const unsigned char* map_string, void* scenario = NULL);
 	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue);
 	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue);
 
@@ -57,7 +57,7 @@ public:
 
 	bool delete_from_map(unsigned int id);
 	bool delete_from_map(MapThing* thing);
-	const char * give_me_the_original_map();
+	const unsigned char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
 
 	Action_info get_initial_enemy_actions();

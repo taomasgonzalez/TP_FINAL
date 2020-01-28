@@ -7,6 +7,8 @@ void do_nothing_char(void* data);
 void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
+void append_walking_r(void* data);
+
 
 void start_jumping_r(void* data);
 void check_jumping_and_jump(void* data);
@@ -34,6 +36,9 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	set_processes();
 	create_all_timers();
 	char_ev_queue = al_create_event_queue();
+
+	this->saved_character_events = new queue<EventPackage *>();
+
 	al_register_event_source(char_ev_queue, al_get_timer_event_source(falling_timer));
 	actual_state = iddle_state;
 	al_start_timer(falling_timer);
@@ -96,6 +101,7 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
@@ -214,22 +220,22 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
+
 	if (obs_answers.should_interrupt_movement) {
 
-		//The FSM asks to the observer if there are pending packages to be executed
-		obs_questions.should_continue_moving = true;
-		notify_obs();						//PlayerActionsFSMDRAWObserver
-		obs_questions.should_continue_moving = false;
-
-		//To avoid going iddle when there´s another MOVE coming in, we append a new WALKED
-		if (obs_answers.should_continue_moving)
+		if (!this->saved_character_events->empty())
 		{
-			obs_info.keep_moving = true;
-			notify_obs();
-			obs_info.keep_moving = false;
+			EventPackage * saved_event = saved_character_events->front();
 
-			obs_answers.should_continue_moving = false;
+			if (saved_event->give_me_your_event_type() == Event_type::WALKED)
+			{
+				std::cout << "Se ejecuta un WALKED guardado" << std::endl;
+				set_fsm_ev_pack(saved_event);
+				start_walking();
+			}
+			saved_character_events->pop();
 		}
+
 		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
 		else
 		{
@@ -237,6 +243,21 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			notify_obs();
 			obs_info.interrupt_movement = false;
 		}
+
+		////The FSM asks to the observer if there are pending packages to be executed
+		//obs_questions.should_continue_moving = true;
+		//notify_obs();						//PlayerActionsFSMDRAWObserver
+		//obs_questions.should_continue_moving = false;
+
+		////To avoid going iddle when there´s another MOVE coming in, we append a new WALKED
+		//if (obs_answers.should_continue_moving)
+		//{
+		//	obs_info.keep_moving = true;
+		//	notify_obs();
+		//	obs_info.keep_moving = false;
+
+		//	obs_answers.should_continue_moving=false;
+		//}
 	}
 }
 
@@ -289,6 +310,26 @@ void start_walking_r(void* data) {
 	fsm->start_walking();
 }
 
+
+void append_walking_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_walking();
+}
+
+void CharacterActionsFSM::append_walking() {
+
+	//Only one event can be appended at the same time
+	if (this->saved_character_events->empty())
+	{
+		//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
+		this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
+		std::cout << "Se appendeo un WALKED" << std::endl;
+	}
+	else
+		std::cout << "Ya habia un evento guardado en la cola de CharacterActionsFSM, no se guarda evento" << std::endl;
+
+}
+
 void CharacterActionsFSM::start_walking() {
 	al_stop_timer(falling_timer);
 
@@ -303,6 +344,7 @@ void CharacterActionsFSM::start_walking() {
 	notify_obs();
 	obs_info.start_walking_graph = false;
 }
+
 void check_walking_and_walk(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 

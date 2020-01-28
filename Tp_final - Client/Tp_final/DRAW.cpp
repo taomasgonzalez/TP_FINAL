@@ -117,9 +117,9 @@ void DRAW::reset(unsigned int ID)
 	this->mapObjGraf[ID]->reset();
 }
 
-void DRAW::add_level(const char * level)
+void DRAW::add_level(const unsigned char * level)
 {
-	levels.push_back(std::string(level));
+	levels.push_back(std::string((char *)level));
 }
 
 void DRAW::drawLevel()

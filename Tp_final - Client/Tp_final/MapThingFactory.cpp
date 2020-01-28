@@ -4,6 +4,8 @@
 #include "PlayerSceneObserver.h"
 #include "PurpleGuyScenarioObserver.h"
 #include "ProyectileSceneObserver.h"
+#include "PlayerSceneControllerObserver.h"
+
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -53,11 +55,15 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 			Player * play;
 			play = new Player((unsigned int)Item_type::TOM, false, direction);
 			play->ev_handler->get_fsm()->add_observer(new PlayerSceneObserver(play, scene));
+			play->ev_handler->get_fsm()->add_observer(new PlayerSceneControllerObserver(scene, play));
+
 			new_born = play;
 			break;
 		case Item_type::NICK:
 			play = new Player((unsigned int)Item_type::NICK, true, direction);
 			play->ev_handler->get_fsm()->add_observer(new PlayerSceneObserver(play, scene));
+			play->ev_handler->get_fsm()->add_observer(new PlayerSceneControllerObserver(scene, play));
+
 			new_born = play;
 			break;
 		case Item_type::FIREBALL:

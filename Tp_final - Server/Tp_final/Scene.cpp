@@ -265,7 +265,7 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 		}
 }
 
-void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
+void Scene::load_new_map(bool is_client, const unsigned char * the_map, char the_checksum ) {
 
 	al_flush_event_queue(enemy_actions_queue);
 	al_flush_event_queue(proyectile_actions_queue);
@@ -309,7 +309,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 
 }
 
-unsigned char Scene::make_checksum(const char * CSV_map_location) {
+unsigned char Scene::make_checksum(const unsigned char * CSV_map_location) {
 
 	unsigned char local_checksum = 0; 
 
@@ -319,7 +319,7 @@ unsigned char Scene::make_checksum(const char * CSV_map_location) {
 	return local_checksum;
 }
 
-bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
+bool Scene::is_the_map_okay(const unsigned char * the_map , char the_checksum )
 {
 	return make_checksum(the_map) == the_checksum;
 }
@@ -392,7 +392,7 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	return map;
 }
 
-const char * Scene::give_me_the_map_info()
+const unsigned char * Scene::give_me_the_map_info()
 {
 	return maps[actual_map]->give_me_the_original_map();
 }
@@ -516,6 +516,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	cout << endl << "Entro CHECK" << endl;
 	bool is_the_move_possible;
 	Position local_destination;
+	local_future_event = false;
 
 	/*	if this particular scene is a client scene and the move comes from networking, then the character is
 		already specified in Action_info_to_be_checked.*/
@@ -535,18 +536,24 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 	
 
-	if (!character_check && !the_one_that_moves->is_iddle() && !the_one_that_moves->waiting_for_next_move())
+	if (!character_check && !the_one_that_moves->is_iddle())
 	{
 
-		if (saved_events->empty())
-		{
-			this->appended_event = true;
+//		if (saved_events->empty())
+//		{
+//			this->appended_event = true;
+//#ifdef DEBUG
+//			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
+//#endif
+//		}
+//		else
+//			std::cout << "Ya hay guardado un movimiento" << std::endl;
+
+			this->local_future_event = true;
 #ifdef DEBUG
-			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
+			std::cout << "Llego un evento mientras se está moviendo el personaje" << std::endl;
 #endif
-		}
-		else
-			std::cout << "Ya hay guardado un movimiento" << std::endl;
+
 
 	}
 
@@ -587,7 +594,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 		case Direction_type::Left:
 		case Direction_type::Right:
-			if(this->appended_event)
+			if(this->appended_event||this->local_future_event)
 				delta = (my_direction == Direction_type::Left) ? -2 : 2;
 			else
 				delta = (my_direction == Direction_type::Left) ? -1 : 1;

@@ -8,7 +8,7 @@
 #define PUSHING_PICS	(10)
 #define DYING_PICS		(10)
 
-#define MOVE_RATIO	(0.25)							// segundos que tarda el personaje en recorrer un bloque
+#define MOVE_RATIO	(0.3)							// segundos que tarda el personaje en recorrer un bloque
 #define VELOCITY_X (BLOCK_SIZE/(FPS*MOVE_RATIO))	// pixeles que va a recorrer el personaje por cada frame de refresco
 #define MOVE_RATIO_PUSHED	(1.0)
 #define VEL_PUSHED	(BLOCK_SIZE/(FPS*MOVE_RATIO_PUSHED))

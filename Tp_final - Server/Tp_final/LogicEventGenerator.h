@@ -32,6 +32,7 @@ public:
 	//It´s used to change the meaning of the keyboard events fetched
 	bool are_we_playing = false;
 
+	void flush_all_queues();
 private:
 	
 	//allegro queue for the timer to fetch keyboard events

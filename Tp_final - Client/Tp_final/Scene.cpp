@@ -147,6 +147,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 	Position extern_destination;
 	Direction_type my_direction;
 
+	std::cout << "Se ejecuto un MOVE" << std::endl;
 	extern_destination.fil = move_to_be_executed->final_pos_x;		//CAMBIO ACA
 	extern_destination.col = move_to_be_executed->final_pos_y;
 	my_direction = move_to_be_executed->my_direction;
@@ -266,7 +267,7 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 		}
 }
 
-void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum ) {
+void Scene::load_new_map(bool is_client, const unsigned char * the_map, unsigned char the_checksum ) {
 
 	al_flush_event_queue(enemy_actions_queue);
 	al_flush_event_queue(proyectile_actions_queue);
@@ -310,7 +311,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, char the_checksum
 
 }
 
-unsigned char Scene::make_checksum(const char * CSV_map_location) {
+unsigned char Scene::make_checksum(const unsigned char * CSV_map_location) {
 
 	unsigned char local_checksum = 0; 
 
@@ -320,7 +321,7 @@ unsigned char Scene::make_checksum(const char * CSV_map_location) {
 	return local_checksum;
 }
 
-bool Scene::is_the_map_okay(const char * the_map , char the_checksum )
+bool Scene::is_the_map_okay(const unsigned char * the_map , unsigned char the_checksum )
 {
 	return make_checksum(the_map) == the_checksum;
 }
@@ -333,12 +334,12 @@ void Scene::load_new_graphic_level()
 }
 
 //función que hacce guido, va al archivo, lo convierte a const char* y lo devuelve
-const char * Scene::give_me_the_CSV(unsigned int actual_map) {
+const unsigned char * Scene::give_me_the_CSV(unsigned int actual_map) {
 
 	ifstream myFile;
 	string mapFile = "levels/level " + to_string(actual_map+1) + ".csv";
 	myFile.open(mapFile.c_str());
-	char *map = new char[192];
+	unsigned char *map = new unsigned char[192];
 	int i = 0;
 	bool comaDelim = false;					// asumimos que el csv esta separado por ';'
 
@@ -393,7 +394,7 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 	return map;
 }
 
-const char * Scene::give_me_the_map_info()
+const unsigned char * Scene::give_me_the_map_info()
 {
 	return maps[actual_map]->give_me_the_original_map();
 }
@@ -515,6 +516,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	cout << endl << "Entro CHECK" << endl;
 	bool is_the_move_possible;
 	Position local_destination;
+	extern_future_event = false;
+	local_future_event = false;
 
 	/*	if this particular scene is a client scene and the move comes from networking, then the character is
 		already specified in Action_info_to_be_checked.*/
@@ -533,18 +536,27 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 
-	if (!character_check && !the_one_that_moves->is_iddle() && !the_one_that_moves->waiting_for_next_move())
+
+	//Es un MOVE que llego por networking, si ya me estoy moviendo significa que es un evento futuro a chequear
+	if(Action_info_to_be_checked->my_info_header==Action_info_id::MOVE && !the_one_that_moves->is_iddle())
+		this->extern_future_event = true;
+
+	//Es un ACTION_REQUEST, si ya me estoy moviendo significa que es un evento futuro a chequear
+	if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST && !the_one_that_moves->is_iddle())
+		this->local_future_event = true;
+
+	else if (!character_check && !the_one_that_moves->is_iddle())
 	{
 
-		if (saved_events->empty())
-		{
-			this->appended_event = true;
-#ifdef DEBUG
-			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
-#endif
-		}
-		else
-			std::cout << "Ya hay guardado un movimiento" << std::endl;
+//		if (saved_events->empty())
+//		{
+//			this->appended_event = true;
+//#ifdef DEBUG
+//			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
+//#endif
+//		}
+//		else
+//			std::cout << "Ya hay guardado un movimiento" << std::endl;
 
 	}
 
@@ -585,7 +597,10 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 		case Direction_type::Left:
 		case Direction_type::Right:
-			delta = (my_direction == Direction_type::Left) ? -1 : 1;
+			if (this->local_future_event||this->extern_future_event)
+				delta = (my_direction == Direction_type::Left) ? -2 : 2;
+			else
+				delta = (my_direction == Direction_type::Left) ? -1 : 1;
 
 			is_the_move_possible = Action_info_to_be_checked->is_local ?
 				maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
@@ -599,7 +614,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 			break;
 		default:
 			is_the_move_possible = false;
-			std::cout << " Error , no se recibió un MOVE para analizar" << std::endl;
+			std::cout << " Error , no se recibio un MOVE para analizar" << std::endl;
 			break;
 		}
 	}

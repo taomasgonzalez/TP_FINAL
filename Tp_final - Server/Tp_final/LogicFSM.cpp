@@ -327,11 +327,15 @@ void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 				//check_game_state();
 			}
 			//Is a future action so the FSM must not move to waiting_for_ACK state
-			else
+			else if(scenario->local_future_event)
 			{
-				std::cout << "Se guardo acción" << std::endl;
-				should_change_state = false;
-				scenario->appended_event = false;
+				std::cout << "Llego una acción mientras se está ejecutando otra, se la manda a chequear y luego se guarda" << std::endl;
+				send_action();
+				set_ack_time_out();
+				should_change_state = true;
+				//std::cout << "Se guardo acción" << std::endl;
+				//should_change_state = false;
+				//scenario->appended_event = false;
 			}
 		}
 		else
@@ -468,14 +472,29 @@ void LogicFSM::check_action() {
 			}
 
 			//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
-			else if (scenario->saved_events->empty())
+			else if (scenario->local_future_event)
 			{
-				scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
-				std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+				//scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
+				//std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se metio evento en la FSM" << std::endl;
+				scenario->local_future_event = false;
+
 			}
 			else
 				std::cout << "No se guardo nada" << std::endl;
 		}
+		else if (event_to_be_checked->give_me_your_event_type() == Event_type::ACTION_REQUEST)
+		{
+			set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+		}
+	}
+	else
+	{
+		std::cout << "Movimiento no válido, se vacia los saved_events" << std::endl;
+		scenario->appended_event = false;
+		while (!scenario->saved_events->empty())
+			scenario->saved_events->pop();
 	}
 
 }
@@ -623,13 +642,15 @@ void LogicFSM::load_and_send_enemy_action() {
 void LogicFSM::reset_game() {
 
 	scenario->maps.clear();
+	ev_gen->flush_all_queues();
+
 	while (!scenario->saved_events->empty())
 		scenario->saved_events->pop();
 
 	//scenario->logic_movements_block = false;
 	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
 	
 	//send RESET
 	if (get_fsm_ev_pack()->is_this_a_local_action())
@@ -826,7 +847,7 @@ void LogicFSM::load_action_and_send_it_back() {
 	check_action();
 	EventPackage* info_to_be_send = NULL;
 	if (valid_action) {
-		execute_extern_action();
+		//execute_extern_action();
 
 		//si soy servidor, tengo que convertir un AR del cliente en un MOVE/ATTACK  (esta todo guardado en fsm->get_ev_pack())
 		EventPackage * my_movement = get_fsm_ev_pack();   //AR externo que es como llega a la fsm

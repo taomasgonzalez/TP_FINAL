@@ -11,6 +11,25 @@ LogicFSM::~LogicFSM() {
 
 }
 
+/******************************************
+***************start_playing************
+*******************************************
+*Setter: sets we_are_playing of LogicEventGenerator to true.
+*/
+void LogicFSM::start_playing() {
+
+	ev_gen->are_we_playing = true;
+}
+/******************************************
+***************finish_playing************
+*******************************************
+*Setter: sets we_are_playing to false.
+*/
+void LogicFSM::finish_playing() {
+
+	ev_gen->are_we_playing = false;
+
+}
 
 void LogicFSM::run_fsm(EventPackage * ev_pack) {
 	if(ev_pack != NULL)
@@ -303,13 +322,67 @@ void LogicFSM::check_and_send_action_request() {
 void LogicFSM::execute_receive_action_and_send_ack() {
 
 	check_action();
+
 	if (valid_action) {
-		send_ack();
-		execute_extern_action();
-		//received_ack_routine();
+
+		//send_action();
+		//std::cout << "Se mando acción" << std::endl;
+		//set_ack_time_out();
+		//should_change_state = true;
+		Event_type event_type_to_be_executed = get_fsm_ev_pack()->give_me_your_event_type();
+
+		if (event_type_to_be_executed == Event_type::MOVE)
+		{
+		//A MOVE from the server is a valid action
+
+			//The action is not a future event so it must be executed immediately
+			if (!scenario->appended_event&&scenario->saved_events->empty())
+			{
+				std::cout << "Se ejecuto MOVE del SERVER" << std::endl;
+				execute_extern_action();
+				should_change_state = false;
+			}
+			else if (scenario->extern_future_event)
+			{
+				std::cout << "Llego un MOVE futuro del SERVER, se lo considero valido y se appendeo el WALKED correspondiente" << std::endl;
+				execute_extern_action();
+				scenario->extern_future_event = false;
+				should_change_state = false;
+			}
+			//Is a future action so the FSM must not move to waiting_for_ACK state
+			else
+			{
+				std::cout << "No se ejecuto nada" << std::endl;
+				should_change_state = false;
+				scenario->appended_event = false;
+			}
+			send_ack();
+		}
+		else if(event_type_to_be_executed == Event_type::ATTACK)
+		{
+			//A ATTACK from the server is a valid action
+
+			std::cout << "Se ejecuto attack del SERVER" << std::endl;
+			send_ack();
+			execute_extern_action();
+		}
+
+
+
 	}
 	else
 		std::cout << "La jugada no es válida, no se envío ACK" << std::endl;
+
+
+	//if (valid_action) {
+
+
+	//	send_ack();
+	//	execute_extern_action();
+	//	//received_ack_routine();
+	//}
+	//else
+	//	std::cout << "La jugada no es válida, no se envío ACK" << std::endl;
 }
 
 void LogicFSM::check_action() {
@@ -349,15 +422,19 @@ void LogicFSM::check_action() {
 
 	if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
 	{
-		if (event_to_be_checked->give_me_your_event_type() == Event_type::MOVE)
+		if (event_to_be_checked->give_me_your_event_type() == Event_type::MOVE )
 		{
 			//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
-			if (!scenario->appended_event && scenario->saved_events->empty())
+			if (scenario->saved_events->empty())
 			{
 				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 				std::cout << "Se metio evento en la FSM" << std::endl;
 			}
-
+			else if (scenario->extern_future_event)
+			{
+				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+				std::cout << "Se metio evento en la FSM" << std::endl;
+			}
 			//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
 			else if (scenario->saved_events->empty())
 			{
@@ -367,6 +444,9 @@ void LogicFSM::check_action() {
 			else
 				std::cout << "No se guardo nada" << std::endl;
 		}
+		if (event_to_be_checked->give_me_your_event_type() == Event_type::ACTION_REQUEST)
+			set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
+
 	}
 }
 
@@ -382,9 +462,19 @@ void LogicFSM::active_blocking_timers(EventPackage * my_package) {
 		else
 			this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
 
-	if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+	else if (my_package->give_me_your_event_type() == Event_type::ATTACK)
+	{
 		if (((ATTACK_EventPackage *)my_package)->give_me_your_event_type() == Event_type::ATTACK)
 			this->ev_gen->active_blocking_timers(Blocking_timer_type::Attacking);
+	}
+	else if (my_package->give_me_your_event_type() == Event_type::ACTION_REQUEST)
+	{
+		if (((ACTION_REQUEST_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Left || ((ACTION_REQUEST_EventPackage *)my_package)->give_me_your_direction() == Direction_type::Right)
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Walking);
+		else
+			this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
+	}
+
 
 	//else if (my_package->give_me_your_direction() == Direction_type::Jump_Left || my_package->give_me_your_direction() == Direction_type::Jump_Right || my_package->give_me_your_direction() == Direction_type::Jump_Straight)
 	//	this->ev_gen->active_blocking_timers(Blocking_timer_type::Jumping);
@@ -433,6 +523,7 @@ void LogicFSM::execute_action_and_send_ack() {
 void LogicFSM::send_action_request_and_set_ack_time_out() {
 	EventPackage* info_to_be_send = get_fsm_ev_pack(); //EA when playing
 
+	active_blocking_timers(get_fsm_ev_pack());
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	set_ack_time_out();
 }
@@ -555,16 +646,20 @@ void LogicFSM::load_and_send_enemy_action() {
 
 void LogicFSM::reset_game() {
 
-	scenario->maps.clear();
+	ev_gen->flush_all_queues();
 
+	scenario->maps.clear();
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
+
+	//scenario->logic_movements_block = false;
 	string new_map = "FEPEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEPEEEEEEEFFEEFFFFFFFFFFEEFFEEPEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(),(const unsigned char *) new_map.c_str(), 18);
 
 	//send RESET
-	if(get_fsm_ev_pack()->is_this_a_local_action())
+	if (get_fsm_ev_pack()->is_this_a_local_action())
 		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
-
 
 }
 
@@ -714,7 +809,7 @@ void LogicFSM::send_map_is() {
 	//i´m server, load the map from the txt
 	scenario->load_new_map(user_data->my_network_data.is_client());
 
-	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
+	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, (const unsigned char *)scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	set_ack_time_out();
 }

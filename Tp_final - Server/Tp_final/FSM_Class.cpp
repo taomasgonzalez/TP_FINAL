@@ -144,7 +144,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
 		else
 			set_fsm_ev_pack(ev_pack);
-		//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
 
 		//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);

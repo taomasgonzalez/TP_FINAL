@@ -471,6 +471,14 @@ void LogicEventGenerator::active_blocking_timers(Blocking_timer_type timer) {
 }
 
 
+void LogicEventGenerator::flush_all_queues() {
+
+	al_flush_event_queue(al_key_queue);
+	al_flush_event_queue(al_key_timers_queue);
+
+}
+
+
 /******************************************
 ***************turn_off_blocking_timers************
 *******************************************

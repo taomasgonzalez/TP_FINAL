@@ -194,6 +194,7 @@
     <ClCompile Include="CharacterActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSM.cpp" />
     <ClCompile Include="PlayerActionsFSMDRAWObserver.cpp" />
+    <ClCompile Include="PlayerSceneControllerObserver.cpp" />
     <ClCompile Include="PlayerSceneObserver.cpp" />
     <ClCompile Include="point.cpp" />
     <ClCompile Include="Proyectile.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="PlayerActionsFSM.h" />
     <ClInclude Include="PlayerActionsFSMDRAWObserver.h" />
     <ClInclude Include="PlayerDefines.h" />
+    <ClInclude Include="PlayerSceneControllerObserver.h" />
     <ClInclude Include="PlayerSceneObserver.h" />
     <ClInclude Include="point.h" />
     <ClInclude Include="ProjectileDefine.h" />
