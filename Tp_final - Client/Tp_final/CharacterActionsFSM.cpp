@@ -144,6 +144,17 @@ bool CharacterActionsFSM::is_attacking() {
 	return actual_state == attacking_state;
 }
 
+/*
+Reminder:
+Por como está codeado el primer movimiento no lo chequea como válido, porque asume que ya se chequeo
+previamente en check_action(). Se chequea recién el segundo process, que si llega a estar mal es un problema
+porque dicho chequeo sucede después de haber ejecutado el process gráfico.
+Caso Salto:
+En salto no chequea el primer process porque ya lo chequeo check_move() pero recien hace el primer chequeo
+al terminar el segundo process por lo que en el caso de un salto "corto" lo hace en medio de un bloque ya.
+Cosa que está mal. Se debería chequear antes de realizar el procedimiento lógico. Se va a implementar sólo
+para el caso del salto por miedo a cagarla en otros casos, pero tener en cuenta.
+*/
 void CharacterActionsFSM::process_logical_movement()
 {
 	bool can_perform = true;
@@ -152,6 +163,13 @@ void CharacterActionsFSM::process_logical_movement()
 		//can i perform this sub-movement? Do the game conditions enable me to do so?
 		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
+
+		//Chequeo para salto "corto" o "largo"
+		if (actual_state == jumping_state)
+		{
+			continue_logical_movement();		//if so, perform the movement.
+			can_perform = can_perform_logical_movement();
+		}
 
 		if (can_perform)
 			continue_logical_movement();		//if so, perform the movement.
