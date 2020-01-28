@@ -139,11 +139,11 @@ public:
 
 protected:
 	virtual void print_curr_state();
-private:
-	Userdata * user_data = NULL;
-	LogicEventGenerator * ev_gen = NULL;
 	Scene* scenario = NULL;
 	Communication* com = NULL;
+	Userdata * user_data = NULL;
+	LogicEventGenerator * ev_gen = NULL;
+private:
 
 
 

@@ -19,8 +19,9 @@ private:
 	Enemy* enemy = NULL;
 	DRAW* drawer = NULL;
 
+	Direction get_character_graph_direction(Direction_type direction);
 	Direction get_character_graph_direction(Sense_type sense);
-
+	Sense_type dir_to_sense(Direction_type sense);
 	ENEMY_STATE curr_state;
 	bool first_update = true;
 };

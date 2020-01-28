@@ -12,7 +12,7 @@ public:
 	virtual void die();
 	bool is_dead();
 	bool is_moving();
-	bool is_iddle();
+	virtual bool is_iddle();
 	bool is_attacking();
 
 	bool has_to_fall();

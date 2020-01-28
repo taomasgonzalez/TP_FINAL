@@ -8,7 +8,7 @@
 
 #define AMOUNT_COLS	16
 #define AMOUNT_FILS	12
-#define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)			
+#define FILE_LENGHT (AMOUNT_COLS*AMOUNT_FILS)
 
 using namespace std;
 
@@ -26,9 +26,9 @@ static const unsigned char checksum_table[256] = { 98, 6, 85, 150, 36, 23, 112, 
 													39, 158, 178, 187, 131, 136, 1, 49, 50, 17, 141, 91, 47, 129, 60, 99,
 													154, 35, 86, 171, 105, 34, 38, 200, 147, 58, 77, 118, 173, 246, 76, 254,
 													133, 232, 196, 144, 198, 124, 53, 4, 108, 74, 223, 234, 134, 230, 157, 139,
-													189, 205, 199, 128, 176, 19, 211, 236, 127, 192, 231, 70, 233, 88, 146, 44, 
+													189, 205, 199, 128, 176, 19, 211, 236, 127, 192, 231, 70, 233, 88, 146, 44,
 													183, 201, 22, 83, 13, 214, 116, 109, 159, 32, 95, 226, 140, 220, 57, 12,
-													221, 31, 209, 182, 143, 92, 149, 184, 148, 62, 113, 65, 37, 27, 106, 166, 
+													221, 31, 209, 182, 143, 92, 149, 184, 148, 62, 113, 65, 37, 27, 106, 166,
 													3, 14, 204, 72, 21, 41, 56, 66, 28, 193, 40, 217, 25, 54, 179, 117,
 													238, 87, 240, 155, 180, 170, 242, 212, 191, 163, 78, 218, 137, 194, 175, 110,
 													43, 119, 224, 71, 122, 142, 42, 160, 104, 48, 247, 103, 15, 11, 138, 239 };
@@ -42,8 +42,6 @@ static bool char_meets_id(Character* charac) {
 
 Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observable()
 {
-	enemy_actions_queue = al_create_event_queue();
-	proyectile_actions_queue = al_create_event_queue();
 	this->assistant_queue = new queue<Action_info>();
 	this->saved_events = new queue<EventPackage *>();
 
@@ -99,7 +97,7 @@ void Scene::execute_action(Action_info * action_to_be_executed, bool & should_be
 }
 
 void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& should_be_hit) {
-	
+
 	Proyectile * my_projectile = (Proyectile *)maps[actual_map]->get_from_map(proyectile_to_be_executed->id);
 
 	if (proyectile_to_be_executed->is_fireball())
@@ -109,7 +107,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 			vector<Player*> my_vector_of_players = maps[actual_map]->get_cell_players(proyectile_to_be_executed->pos_x, proyectile_to_be_executed->pos_y);
 			for (int i = 0; i < (int) my_vector_of_players.size(); i++)
 			{
-				
+
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
 				should_hit = true;
@@ -161,7 +159,7 @@ void Scene::execute_move(Action_info * move_to_be_executed, bool & should_die) {
 		{
 			Enemy* curr_enemy = (my_vector_of_enemys)[i];
 			if (curr_enemy->is_moving() || curr_enemy->is_iddle())
-			{					
+			{
 				should_die = true;
 				move_succesful = false;
 				break;
@@ -259,7 +257,7 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 				(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
 		}
 	}
-	else if (proy->is_snowball()) 
+	else if (proy->is_snowball())
 		if (should_be_hit = curr_map->cell_has_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
 			vector<Enemy*> enemies = curr_map->get_cell_enemies(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
 			for (vector<Enemy*>::iterator enemy = enemies.begin(); enemy != enemies.end(); ++enemy)
@@ -269,21 +267,16 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 
 void Scene::load_new_map(bool is_client, const unsigned char * the_map, unsigned char the_checksum ) {
 
-	al_flush_event_queue(enemy_actions_queue);
-	al_flush_event_queue(proyectile_actions_queue);
-
 	Map * new_map = new Map(12, 16, data);
-	new_map->register_enemies_event_queue(enemy_actions_queue);
-	new_map->register_proyectiles_event_queue(proyectile_actions_queue);
 	new_map->append_graphic_facility(graphics);
-	
+
 	if (is_client) //The map came by networking
-	{	
+	{
 		//if (actual_map == -1)
 		//	actual_map++;
 		new_map->load_on_map(the_map, this);
 		new_map->load_checksum(the_checksum);
-		this->actual_map++;		
+		this->actual_map++;
 	}
 	else
 	{	//I´m server, I´ve the map available
@@ -313,11 +306,11 @@ void Scene::load_new_map(bool is_client, const unsigned char * the_map, unsigned
 
 unsigned char Scene::make_checksum(const unsigned char * CSV_map_location) {
 
-	unsigned char local_checksum = 0; 
+	unsigned char local_checksum = 0;
 
 	for (int i = 0; i < FILE_LENGHT; i++)
 		local_checksum = checksum_table[local_checksum^CSV_map_location[i]];
-	
+
 	return local_checksum;
 }
 
@@ -400,7 +393,7 @@ const unsigned char * Scene::give_me_the_map_info()
 }
 
 Action_info Scene::give_me_my_enemy_action(bool is_initializing){
-	
+
 	if(is_initializing){
 		enemy_action_info = maps[actual_map]->get_initial_enemy_actions();
 
@@ -411,13 +404,13 @@ Action_info Scene::give_me_my_enemy_action(bool is_initializing){
 			enemys_ready = false;
 		}
 	}
-	//si no esta inicializado directamente ya esta cargado cuando llega su turno de ser pedido, 
+	//si no esta inicializado directamente ya esta cargado cuando llega su turno de ser pedido,
 	//unicamente lo van a llamar los observer con is_initializing= false
 	return enemy_action_info;
 
 }
 
-void Scene::gameInit() {	
+void Scene::gameInit() {
 
 	game_started = true;	//indica que todo inicializo correctamente y entonces debe empezar a funcionar la FSM.
 	notify_obs();
@@ -438,7 +431,7 @@ Item_type Scene::give_the_other_player() {
 bool Scene::both_players_dead()
 {
 	for(vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		if (!(*it)->is_dead()) 
+		if (!(*it)->is_dead())
 			return false;
 
 	return true;
@@ -453,7 +446,6 @@ bool Scene::any_monsters_left()
 
 	return false;
 }
-
 
 bool Scene::game_is_finished() {
 	return game_finished;
@@ -475,12 +467,10 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map
 	switch (package_to_be_analyze->my_info_header)
 	{
 	case Action_info_id::MOVE:
-
-		is_the_action_possible=check_move(package_to_be_analyze, map_thing_check);
+		is_the_action_possible = check_move(package_to_be_analyze, map_thing_check);
 		break;
 
 	case Action_info_id::ATTACK:
-
 		is_the_action_possible = check_attack(package_to_be_analyze, map_thing_check);
 		break;
 
@@ -502,7 +492,7 @@ bool Scene::is_the_action_possible(Action_info * package_to_be_analyze, bool map
 	default:
 		cout << "Acción no analizable" << endl;
 		break;
-		
+
 	}
 
 	return is_the_action_possible;
@@ -527,7 +517,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 	Player * the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
-	if (!Action_info_to_be_checked->is_local){	
+	if (!Action_info_to_be_checked->is_local){
 		bool out_of_range = false;
 		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves, &out_of_range);
@@ -585,7 +575,7 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		case Direction_type::Jump_Right:
 
 			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
-			
+
 			if (Action_info_to_be_checked->is_local) {
 				local_destination.fil = the_one_that_moves->pos_x + delta;
 				local_destination.col = the_one_that_moves->pos_y - 2;
@@ -667,7 +657,6 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 	return my_direction;
 }
 
-
 bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_check) {
 
 	bool is_the_attack_possible;
@@ -713,7 +702,7 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 				else
 					Action_info_to_be_checked->final_pos_x = future_move;
 			}
-			else 
+			else
 				Action_info_to_be_checked->final_pos_x = the_one_that_attacks->pos_x + delta;
 
 			Action_info_to_be_checked->my_direction = (proj_sense == Sense_type::Left) ? Direction_type::Left : Direction_type::Right;
@@ -726,21 +715,17 @@ bool Scene::check_attack(Action_info * Action_info_to_be_checked, bool proj_chec
 bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 
 	bool is_the_enemy_action_possible = false;
-	Enemy * the_enemy_that_acts = NULL;
 	Sense_type in_witch_direction_is_he_looking;
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
-	
 
+	searched_id = package_to_be_analyze->id;
+	Enemy* the_enemy_that_acts = *find_if(curr_enemies->begin(), curr_enemies->end(), char_meets_id);
 
-	the_enemy_that_acts =(Enemy *) maps[actual_map]->get_from_map(package_to_be_analyze->id);
-	package_to_be_analyze->id = the_enemy_that_acts->id;
-
-	extern_destination.fil = package_to_be_analyze->final_pos_x;
-	extern_destination.col = package_to_be_analyze->final_pos_y;
+	extern_destination.fil = package_to_be_analyze->final_pos_y;
+	extern_destination.col = package_to_be_analyze->final_pos_x;
 	action_to_be_checked = package_to_be_analyze->action;
-
 
 	if (the_enemy_that_acts->is_dead())
 	{
@@ -758,30 +743,12 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			switch (my_direction)
 			{
 			case Direction_type::Left:
-
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-						is_the_enemy_action_possible = false;
-					else
-						is_the_enemy_action_possible = true;
-
-				break;
-
 			case Direction_type::Right:
-
-					if (maps[actual_map]->cell_has_floor(extern_destination.fil, extern_destination.col))
-						is_the_enemy_action_possible = false;
-					else
-						is_the_enemy_action_possible = true;				
-				break;
-
-			case Direction_type::Jump_Straight: 
-
+			case Direction_type::Jump_Straight:
 			case Direction_type::Jump_Left:
-
 			case Direction_type::Jump_Right:
-					
+				is_the_enemy_action_possible = maps[actual_map]->cell_has_floor(extern_destination.col, extern_destination.fil);
 				break;
-
 			case Direction_type::None: //stay still was received
 				is_the_enemy_action_possible = true;
 				break;
@@ -823,7 +790,7 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			std::cout << "Error, Un EA con acción desconocida" << std::endl;
 			break;
 		}
-		
+
 	}
 
 	return is_the_enemy_action_possible;
@@ -844,7 +811,6 @@ bool Scene::check_if_has_to_fall(Character* charac) {
 
 	return has_to_fall;
 }
-
 
 Player * Scene::get_player(Item_type player_to_be_found) {
 
@@ -887,7 +853,7 @@ bool Scene::did_we_lose()
 	return we_lost;
 }
 
-//For server´s 
+//For server´s
 void Scene::check_current_game_situation() {
 
 	if (both_players_dead()){
@@ -909,17 +875,25 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
-	ALLEGRO_EVENT allegroEvent;
-	while (al_get_next_event(enemy_actions_queue, &allegroEvent)) 
-		if (allegroEvent.type == ALLEGRO_EVENT_TIMER) {
-			Enemy* wanted_enemy = get_enemy_to_act_on(allegroEvent.timer.source);
-			if (wanted_enemy != NULL) {
-				enemy_action_info = wanted_enemy->act();
-				new_enemy_action = true;
-				notify_obs();					//ScenarioEventsObserver
-				new_enemy_action = false;
-			}
-		}
+	if (curr_enemy_to_act_on >= curr_enemies->size())
+		curr_enemy_to_act_on = 0;
+
+	Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on++);
+
+	if (curr_enemy->is_iddle()) {
+		enemy_action_info = curr_enemy->act();
+		new_enemy_action = true;
+		notify_obs();					//ScenarioEventsObserver
+		new_enemy_action = false;
+	}
+	
+	for(int i = 0; i < curr_enemies->size(); i++)
+		curr_enemies->at(i)->ev_handler->handle_event();
+
+}
+void Scene::control_enemies() {
+	for (int i = 0; i < curr_enemies->size(); i++) 
+		curr_enemies->at(i)->ev_handler->handle_event();
 }
 void Scene::control_all_actions() {
 
@@ -932,7 +906,7 @@ void Scene::control_all_actions() {
 	for (int i = 0; i < curr_players->size(); i++) {
 		Player* curr_player = curr_players->at(i);
 		curr_player->ev_handler->handle_event();
-	}	
+	}
 
 	vector<Proyectile*> to_be_deleted;
 	for (int i = 0; i < curr_proyectiles->size(); i++) {
@@ -948,15 +922,6 @@ void Scene::control_all_actions() {
 	}
 }
 
-
-Enemy * Scene::get_enemy_to_act_on(ALLEGRO_TIMER *timer)
-{
-	for (std::vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-		if ((*it)->get_acting_timer() == timer)
-			return (*it);
-
-	return NULL;
-}
 
 Position Scene::shortest_movement_2_nearest_player(PurpleGuy* purple_guy) {
 	Player* nearest_player = find_nearest_player(purple_guy->pos_x, purple_guy->pos_y);
@@ -975,7 +940,6 @@ Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 	Player* nearest_player = NULL;
 
 	for(std::vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it){
-
 		Player* curr_player = (*it);
 		int taxi_distance = abs(curr_player->pos_x - pos_x) + abs(curr_player->pos_y - pos_y);		//function abs returns an int type
 
@@ -990,20 +954,25 @@ Player* Scene::find_nearest_player(int pos_x, int pos_y) {
 
 void Scene::load_action_on_character(Action_info action) {
 
-	//i am not certain that this line can be removed!! should check before doing so
-	action_to_be_loaded = action;		
-
-	bool appended = false;
-	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
-		if((*it)->id == action.id){
-			(*it)->append_action_to_character(action_to_be_loaded);
-			appended = true;
-		}
-	
-	if(!appended)
+	if (action.my_info_header == Action_info_id::ENEMY_ACTION) {
 		for (vector<Enemy*>::iterator it = curr_enemies->begin(); it != curr_enemies->end(); ++it)
-			if ((*it)->id == action.id)
-				(*it)->append_action_to_character(action_to_be_loaded);
+			if ((*it)->id == action.id) {
+
+				if (!action.is_local) {
+					Position pos = { action.final_pos_y , action.final_pos_x };
+					bool out_of_range = false;
+					action.my_direction = load_direction(&pos, *it, &out_of_range);
+				}
+				(*it)->append_action_to_character(action);
+			}
+	}
+	else 
+		for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+			if((*it)->id == action.id)
+				(*it)->append_action_to_character(action);
+
+
+		
 }
 
 void Scene::load_action_on_projectile(Action_info action)
@@ -1012,11 +981,8 @@ void Scene::load_action_on_projectile(Action_info action)
 
 	if(action.is_local)		player_type = my_player;
 	else	player_type = action.my_character;
-		
+
 	Player* curr_player = get_player(player_type);
 	Sense_type curr_sense = curr_player->get_sense();
 	maps[actual_map]->place_on_map(curr_player->pos_x, curr_player->pos_y, Item_type::SNOWBALL, curr_sense, this);
 }
-
-
-

@@ -117,6 +117,10 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	else 	
 		actual_state = Initial_state;
 
+	control_ev_queue = al_create_event_queue();
+	control_timer = al_create_timer(3);
+	al_register_event_source(control_ev_queue, al_get_timer_event_source(control_timer));
+	al_start_timer(control_timer);
 }
 
 
@@ -152,9 +156,21 @@ LogicServerFSM::~LogicServerFSM()
 
 
 void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
-	LogicFSM::run_fsm(ev_pack);
+	static bool may_control_enemies = false;
 
-	//scenario->control_enemy_actions();
+	if (!may_control_enemies) {
+		ALLEGRO_EVENT al_event;
+		if (al_get_next_event(control_ev_queue, &al_event)) {
+			al_stop_timer(control_timer);
+			while (al_get_next_event(control_ev_queue, &al_event));
+			may_control_enemies = true;
+		}
+
+	}
+	
+	LogicFSM::run_fsm(ev_pack);
+	if(may_control_enemies)
+		scenario->control_enemy_actions();
 }
 
 

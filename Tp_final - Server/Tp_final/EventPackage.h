@@ -363,6 +363,7 @@ private:
 	Action_type action;
 	unsigned char destination_row;
 	unsigned char destination_column;
+	Direction_type dir;
 };
 
 /******************************************************************************

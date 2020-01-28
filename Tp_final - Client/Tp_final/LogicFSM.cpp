@@ -115,14 +115,14 @@ void send_we_won_r(void* data) {
 	fsm->send_we_won();
 }
 
-// Action routine for the client when it´s received an WE_WON package from the server
+// Action routine for the client when itï¿½s received an WE_WON package from the server
 void analyze_we_won_r(void* data) {
 
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->analyze_we_won();
 }
 
-// Action routine for the client when it´s received an GAME_OVER package from the server
+// Action routine for the client when itï¿½s received an GAME_OVER package from the server
 void analyze_we_lost_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->analyze_we_lost();
@@ -146,7 +146,7 @@ void tell_user_send_ack_and_finish_game_r(void* data) {
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->tell_user_send_ack_and_finish_game();
 }
-void send_we_lost_r(void* data) { //el servidor le avisa a client que se perdió
+void send_we_lost_r(void* data) { //el servidor le avisa a client que se perdiï¿½
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->send_we_lost();
 }
@@ -190,7 +190,7 @@ void analayze_error_r(void* data)
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->analayze_error();
 }
-//Se sale del programa sin avisar, rutina de acción del evento ERROR1
+//Se sale del programa sin avisar, rutina de acciï¿½n del evento ERROR1
 void finish_game_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->finish_game();
@@ -326,7 +326,7 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 	if (valid_action) {
 
 		//send_action();
-		//std::cout << "Se mando acción" << std::endl;
+		//std::cout << "Se mando acciï¿½n" << std::endl;
 		//set_ack_time_out();
 		//should_change_state = true;
 		Event_type event_type_to_be_executed = get_fsm_ev_pack()->give_me_your_event_type();
@@ -371,7 +371,7 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 
 	}
 	else
-		std::cout << "La jugada no es válida, no se envío ACK" << std::endl;
+		std::cout << "La jugada no es vï¿½lida, no se envï¿½o ACK" << std::endl;
 
 
 	//if (valid_action) {
@@ -382,40 +382,12 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 	//	//received_ack_routine();
 	//}
 	//else
-	//	std::cout << "La jugada no es válida, no se envío ACK" << std::endl;
+	//	std::cout << "La jugada no es vï¿½lida, no se envï¿½o ACK" << std::endl;
 }
 
 void LogicFSM::check_action() {
 	EventPackage* event_to_be_checked = get_fsm_ev_pack();
-	Action_info acting_information;
-
-	switch (event_to_be_checked->give_me_your_event_type())
-	{
-	case Event_type::MOVE:
-	{
-		MOVE_EventPackage * info_mo = static_cast<MOVE_EventPackage*>(event_to_be_checked);
-		acting_information = info_mo->to_Action_info();
-		break;
-	}
-	case Event_type::ATTACK:
-	{
-		ATTACK_EventPackage * info_attack = static_cast<ATTACK_EventPackage*>(event_to_be_checked);
-		acting_information = info_attack->to_Action_info();
-		break;
-	}
-	case Event_type::ACTION_REQUEST:
-	{
-		ACTION_REQUEST_EventPackage * info_actrequest = static_cast<ACTION_REQUEST_EventPackage*>(event_to_be_checked);
-		acting_information = info_actrequest->to_Action_info();
-		break;
-	}
-	case Event_type::ENEMY_ACTION:
-	{
-		ENEMY_ACTION_EventPackage * info_enemyact = static_cast<ENEMY_ACTION_EventPackage*>(event_to_be_checked);
-		acting_information = info_enemyact->to_Action_info();
-		break;
-	}
-	}
+	Action_info acting_information = event_to_be_checked->to_Action_info();
 
 	//if (valid_action = scenario->is_the_action_possible(&acting_information, false))  //mando a analizar el EventPackage 
 	//	set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
@@ -424,7 +396,7 @@ void LogicFSM::check_action() {
 	{
 		if (event_to_be_checked->give_me_your_event_type() == Event_type::MOVE )
 		{
-			//If it´s an event that should be executed ASAP, is set as an fsm eventpackage
+			//If itï¿½s an event that should be executed ASAP, is set as an fsm eventpackage
 			if (scenario->saved_events->empty())
 			{
 				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
@@ -435,11 +407,11 @@ void LogicFSM::check_action() {
 				set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 				std::cout << "Se metio evento en la FSM" << std::endl;
 			}
-			//If it´s an event that was fetched during another process, it´s saved in a queue to be fetched and excuted later
+			//If itï¿½s an event that was fetched during another process, itï¿½s saved in a queue to be fetched and excuted later
 			else if (scenario->saved_events->empty())
 			{
 				scenario->saved_events->push(ev_pack_factory.create_event_package(&acting_information));
-				std::cout << "Se guardo evento en cola para ejecutar más tarde" << std::endl;
+				std::cout << "Se guardo evento en cola para ejecutar mï¿½s tarde" << std::endl;
 			}
 			else
 				std::cout << "No se guardo nada" << std::endl;
@@ -541,7 +513,7 @@ void LogicFSM::send_we_won() {
 	com->sendMessage(pack_factory.event_package_2_package(new WE_WON_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 
-// Action routine for the client when it´s received an WE_WON package from the server
+// Action routine for the client when itï¿½s received an WE_WON package from the server
 void LogicFSM::analyze_we_won() {
 
 	EventPackage* event_to_be_checked = get_fsm_ev_pack();
@@ -549,7 +521,7 @@ void LogicFSM::analyze_we_won() {
 	if (!scenario->did_we_win())
 	{
 		ev_gen->empty_all_queues();
-		error_ocurred = true; //so the program won´t ask the user if he wants to play again
+		error_ocurred = true; //so the program wonï¿½t ask the user if he wants to play again
 		ev_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR 
 	}
 
@@ -560,7 +532,7 @@ void LogicFSM::analyze_we_won() {
 	}
 }
 
-// Action routine for the client when it´s received an GAME_OVER package from the server
+// Action routine for the client when itï¿½s received an GAME_OVER package from the server
 void LogicFSM::analyze_we_lost() {
 
 	EventPackage* event_to_be_checked = get_fsm_ev_pack();
@@ -621,13 +593,13 @@ void LogicFSM::ask_user_being_server_and_send_decition() {
 void LogicFSM::tell_user_send_ack_and_finish_game() {
 
 	/*
-	ALLEGRO INTERFACE TO TELL THE USER THE OTHER COMPUTER DOESN´T WANT TO PLAY AGAIN
+	ALLEGRO INTERFACE TO TELL THE USER THE OTHER COMPUTER DOESNï¿½T WANT TO PLAY AGAIN
 	*/
 	send_ack();
 	finish_game();
 }
 
-void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdió
+void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdiï¿½
 	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 void LogicFSM::send_game_over() {
@@ -679,7 +651,7 @@ void LogicFSM::send_quit() {
 //se devuelve un ACK con ID 0 para la otra compu, se sale
 void LogicFSM::send_ack_and_quit() {
 
-	//Interfaz del usuario avisando la situación
+	//Interfaz del usuario avisando la situaciï¿½n
 	send_ack();
 	finish_game();
 }
@@ -692,7 +664,7 @@ void LogicFSM::analayze_error()
 		finish_game();
 }
 
-//Se sale del programa sin avisar, rutina de acción del evento ERROR1
+//Se sale del programa sin avisar, rutina de acciï¿½n del evento ERROR1
 void LogicFSM::finish_game() {
 
 	scenario->finish_game();
@@ -749,7 +721,7 @@ void LogicFSM::execute_extern_action() {
 }
 
 void LogicFSM::save_enemy_action() {
-	//I´m the server, EA generated before send it during initialization
+	//Iï¿½m the server, EA generated before send it during initialization
 	Action_info my_enemy_action_struct = scenario->give_me_my_enemy_action(true); 
 
 	if (!my_enemy_action_struct.finished_loading)
@@ -775,7 +747,7 @@ void LogicFSM::send_game_start() {
 	scenario->initializing = false; //Initialization has ended, not more Enemy Actions to be loaded
 	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
-	//scene get´s noticed that the game has started, has to start executing actions
+	//scene getï¿½s noticed that the game has started, has to start executing actions
 	scenario->initializing = false; // ya se hace desde main
 
 }
@@ -804,9 +776,9 @@ void LogicFSM::check_map_and_save_send_ack() {
 		send_ack();
 }
 
-//solo pasará si soy server
+//solo pasarï¿½ si soy server
 void LogicFSM::send_map_is() {
-	//i´m server, load the map from the txt
+	//iï¿½m server, load the map from the txt
 	scenario->load_new_map(user_data->my_network_data.is_client());
 
 	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, (const unsigned char *)scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
@@ -827,7 +799,7 @@ void LogicFSM::load_enemy_action_and_send_ack() {
 }
 
 void LogicFSM::load_enemy_action() {
-	//I´m the client, an EA arrived during initialization by networking, I must save it to run it later
+	//Iï¿½m the client, an EA arrived during initialization by networking, I must save it to run it later
 	if (error_ocurred)
 		execute_extern_action();
 	else
@@ -880,11 +852,9 @@ void LogicFSM::send_ack() {
 
 void LogicFSM::execute_action() {
 
-	if (valid_action) {		//if it´s valid, it should be executed
-		Action_info action = get_fsm_ev_pack()->to_Action_info();
-		if (action.action == Action_type::Move)
-			scenario->load_action_on_character(action);
-		else if (action.action == Action_type::Attack)
-			scenario->load_action_on_projectile(action);
-	}
+	Action_info action = get_fsm_ev_pack()->to_Action_info();
+	if (action.action == Action_type::Move)
+		scenario->load_action_on_character(action);
+	else if (action.action == Action_type::Attack)
+		scenario->load_action_on_projectile(action);
 }

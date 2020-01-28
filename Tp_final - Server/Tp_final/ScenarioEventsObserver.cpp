@@ -1,4 +1,7 @@
 #include "ScenarioEventsObserver.h"
+#include <iostream>
+#include <string.h>
+using namespace std;
 
 ScenarioEventsObserver::ScenarioEventsObserver(LogicEventGenerator * event_gen, Scene * scenario, LogicFSM * fsm, Userdata * data)
 {
@@ -15,11 +18,11 @@ ScenarioEventsObserver::~ScenarioEventsObserver()
 
 void ScenarioEventsObserver::update() {
 
-	if (this->scenario->game_started){
+	if (scenario->game_started){
 		if (my_user_data->my_network_data.handshake) {
-			if (this->my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
+			if (my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
 				ev_gen->append_new_event(new START_COMMUNICATION_EventPackage(), (int)EventGenerator::LogicQueues::soft);
-			this->scenario->initializing = true;
+			scenario->initializing = true;
 		}
 	}
 
@@ -36,7 +39,8 @@ void ScenarioEventsObserver::update() {
 	}
 	if (scenario->new_enemy_action) {
 		Action_info new_enemy_action = scenario->give_me_my_enemy_action(false);
-		ev_gen->append_new_event(new ENEMY_ACTION_EventPackage(&new_enemy_action), (int)EventGenerator::LogicQueues::soft);
+		ENEMY_ACTION_EventPackage* to_append = new ENEMY_ACTION_EventPackage(&new_enemy_action);
+		ev_gen->append_new_event(to_append, (int)EventGenerator::LogicQueues::soft);
 	}
 	if (scenario->load_saved_event) {
 

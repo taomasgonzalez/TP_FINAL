@@ -83,5 +83,7 @@ void Character::append_action_to_character(Action_info action) {
 			break;
 		}
 	}
-	ev_handler->get_ev_gen()->append_new_event(ev_pack, 0);
+
+	if(ev_pack != NULL)
+		ev_handler->get_ev_gen()->append_new_event(ev_pack, 0);
 }

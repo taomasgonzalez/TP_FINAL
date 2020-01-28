@@ -6,7 +6,7 @@ class LogicClientFSM: public LogicFSM
 public:
 	LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
 	~LogicClientFSM();
-
+	void run_fsm(EventPackage * ev_pack);
 protected:
 	virtual void print_curr_state();
 private:
