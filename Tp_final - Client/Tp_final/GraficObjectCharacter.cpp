@@ -71,7 +71,7 @@ void Obj_Graf_Character::handle_walking()
 
 
 		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-		std::cout << "Se imprimio el frame de Walk n°" << walkActualImage << std::endl;
+		//std::cout << "Se imprimio el frame de Walk n°" << walkActualImage << std::endl;
 		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 		std::cout << pos.get_x_coord() << std::endl;
 

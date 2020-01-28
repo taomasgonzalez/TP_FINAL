@@ -564,8 +564,19 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 				local_destination.fil = the_one_that_moves->pos_x;
 				local_destination.col = the_one_that_moves->pos_y - 1;
 			}
-			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1);
-
+			
+			if (character_check)
+			{
+				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1);
+				std::cout << "Chequeo de jump desde character" << std::endl;
+				std::cout << "Altura del player: " << the_one_that_moves->pos_y << std::endl;
+			}
+			else
+			{
+				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 2);
+				std::cout << "Chequeo de jump desde fsm" << std::endl;
+				std::cout << "Altura del player: "<< the_one_that_moves->pos_y << std::endl;
+			}
 			break;
 
 		case Direction_type::Jump_Left:
@@ -897,12 +908,12 @@ void Scene::control_enemies() {
 }
 void Scene::control_all_actions() {
 
-	//for (int i = 0; i < curr_players->size(); i++) {
-	//	Player* curr_player = curr_players->at(i);
-	//	if (check_if_has_to_fall(curr_player))
-	//		curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
-	//	curr_player->ev_handler->handle_event();
-	//}
+	for (int i = 0; i < curr_players->size(); i++) {
+		Player* curr_player = curr_players->at(i);
+		if (check_if_has_to_fall(curr_player))
+			curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+		curr_player->ev_handler->handle_event();
+	}
 	for (int i = 0; i < curr_players->size(); i++) {
 		Player* curr_player = curr_players->at(i);
 		curr_player->ev_handler->handle_event();

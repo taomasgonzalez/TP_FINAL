@@ -137,5 +137,5 @@ void LogicClientFSM::print_curr_state()
 
 void LogicClientFSM::run_fsm(EventPackage * ev_pack) {
 	LogicFSM::run_fsm(ev_pack);
-	scenario->control_enemies();
+	//scenario->control_enemies();
 }
