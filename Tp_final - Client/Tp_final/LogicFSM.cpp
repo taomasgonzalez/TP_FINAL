@@ -366,7 +366,13 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 			send_ack();
 			execute_extern_action();
 		}
-
+		else if (event_type_to_be_executed == Event_type::ENEMY_ACTION)
+		{
+			std::cout << "Se ejecuto ENEMY_ACTION del SERVER" << std::endl;
+			execute_extern_action();
+			received_ack_routine();
+			send_ack();
+		}
 
 
 	}

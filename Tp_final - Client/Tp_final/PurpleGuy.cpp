@@ -35,32 +35,32 @@ Action_info PurpleGuy::act(){
 	returnable_EA.valid = true;
 	move_in_same_direction(&returnable_EA);
 
-	//while (!returnable_EA.valid){
+	while (!returnable_EA.valid){
 
-	//	if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
-	//		stay_still(&returnable_EA);
-	//	
-	//	else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
-	//		sample = acting_probabilities(generator); 
-
-	//		while (!returnable_EA.valid) {
-	//			if ((sample >= 0) && (sample <= 1.0 / 3.0)) { 						//1/3 probability
-	//				if (!jump(&returnable_EA))			//en ningún caso debería ser posible no saltar
-	//					sample = 0.5;
-	//			}
-	//			else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {			//1/3 probability
-	//				if (!move_in_opposite_direction(&returnable_EA))
-	//					sample = 0.9;
-	//			}
-	//			else																//1/3 probability
-	//				if(!move_in_same_direction(&returnable_EA))
-	//					sample = 0.5; //moves in the other direction
-	//		}
-	//	}
-	//	else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
-	//		stay_still(&returnable_EA);
+		if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
+			stay_still(&returnable_EA);
 		
-	//}
+		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
+			sample = acting_probabilities(generator); 
+
+			while (!returnable_EA.valid) {
+				if ((sample >= 0) && (sample <= 1.0 / 3.0)) { 						//1/3 probability
+					if (!jump(&returnable_EA))			//en ningún caso debería ser posible no saltar
+						sample = 0.5;
+				}
+				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {			//1/3 probability
+					if (!move_in_opposite_direction(&returnable_EA))
+						sample = 0.9;
+				}
+				else																//1/3 probability
+					if(!move_in_same_direction(&returnable_EA))
+						sample = 0.5; //moves in the other direction
+			}
+		}
+		else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
+			stay_still(&returnable_EA);
+		
+	}
 
 	return returnable_EA;
 }

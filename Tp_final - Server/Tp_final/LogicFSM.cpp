@@ -694,7 +694,11 @@ void LogicFSM::send_error_and_finish_game() {
 }
 
 void LogicFSM::execute_and_send_enemy_action() {
+
+	valid_action = true;
 	execute_action();
+	valid_action = false;
+
 	send_enemy_action();
 	set_ack_time_out();
 	check_game_state();
@@ -859,6 +863,7 @@ void LogicFSM::send_ack() {
 
 void LogicFSM::execute_action() {
 
+	
 	if (valid_action) {		//if it�s valid, it should be executed
 		Action_info action = get_fsm_ev_pack()->to_Action_info();
 		if (action.action == Action_type::Move)
