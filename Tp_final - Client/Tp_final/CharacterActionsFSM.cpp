@@ -99,10 +99,10 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
-
+	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
@@ -248,7 +248,7 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 	obs_questions.should_interrupt_movement = false;
 
 
-	if (actual_state == falling_state || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
+	if (actual_state == falling_state || actual_state == walking_state || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
 	{
 		obs_questions.should_keep_falling = true;
 		notify_obs();						//PlayerActionsFSMDRAWObserver

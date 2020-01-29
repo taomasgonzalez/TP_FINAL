@@ -32,7 +32,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	al_key_timers_queue = al_create_event_queue();
 
 	//every FPS the program looks for keyboard events
-	keyboard_events_timer = al_create_timer(1 / FPS);
+	keyboard_events_timer = al_create_timer(2 / FPS);
 	movements_tracking_timer = al_create_timer(0.3);
 
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(movements_tracking_timer));
@@ -314,21 +314,39 @@ void LogicEventGenerator::load_events_from_keyboard() {
 		{
 			if (key[KEY_UP])
 			{
-				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight), (int)LogicQueues::allegro);
-				//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
-				al_set_timer_speed(blocking_movements_events_timer, 1.2);
-				std::cout << "Se mando un UP" << std::endl;
+				if (key[KEY_LEFT])
+				{
+					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Left), (int)LogicQueues::allegro);
+					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
+					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					std::cout << "Se mando un JUMP LEFT" << std::endl;
 
-				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
+				}
+				else if (key[KEY_RIGHT])
+				{
+					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Right), (int)LogicQueues::allegro);
+					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
+					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					std::cout << "Se mando un JUMP RIGHT" << std::endl;
+				}
+				else
+				{
+					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight), (int)LogicQueues::allegro);
+					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it큦 finished
+					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					std::cout << "Se mando un UP" << std::endl;
+
+					//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
+				}
 			}
 
-			if (key[KEY_DOWN])
+			else if (key[KEY_DOWN])
 			{
 				std::cout << "Se mando un DOWN" << std::endl;
 
 			}
 
-			if (key[KEY_LEFT])
+			else if (key[KEY_LEFT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Left), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
@@ -337,7 +355,7 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
 			}
 
-			if (key[KEY_RIGHT])
+			else if (key[KEY_RIGHT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Right), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
