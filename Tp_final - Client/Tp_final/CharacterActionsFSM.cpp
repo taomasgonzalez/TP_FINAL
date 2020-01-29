@@ -105,6 +105,7 @@ void CharacterActionsFSM::set_states() {
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
+	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
 	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
@@ -241,14 +242,18 @@ void CharacterActionsFSM::continue_logical_movement(){
 
 void CharacterActionsFSM::end_if_should_end_movement(){
 
-	if (actual_state == falling_state)
-		obs_questions.should_keep_falling = true;
 
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
-	obs_questions.should_keep_falling = false;
 
+
+	if (actual_state == falling_state || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
+	{
+		obs_questions.should_keep_falling = true;
+		notify_obs();						//PlayerActionsFSMDRAWObserver
+		obs_questions.should_keep_falling = false;
+	}
 
 	if (obs_answers.should_interrupt_movement) {
 

@@ -103,11 +103,13 @@ void Obj_Graf_Character::handle_jumping()
 		}														// muevo la posicion del dibujo
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
 
 	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->jumpImages[actualImage]), al_get_bitmap_width(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
@@ -209,13 +211,15 @@ void Obj_Graf_Character::handle_falling()
 		pos.set_y_coord(pos.get_y_coord() + velFall);															// muevo la posicion del dibujo
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
 
-	std::cout << "Se imprimio un falling" << std::endl;
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	//std::cout << "Se imprimio un falling" << std::endl;
 
 	al_draw_scaled_bitmap(chara_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(chara_images->fallImages[this->actualImage]), al_get_bitmap_width(chara_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
