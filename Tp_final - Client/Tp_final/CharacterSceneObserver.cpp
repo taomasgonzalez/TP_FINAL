@@ -46,6 +46,12 @@ void CharacterSceneObserver::update() {
 		//scenario->logic_movements_block = false;
 		//std::cout << "Termino el bloqueo logico" << std::endl;
 	}
+	//Cheque si el jugador tiene que seguir cayendo y appende directamente el fall así no pasa por iddle
+	else if (fsm->obs_questions.should_keep_falling) {
+
+		fsm->obs_answers.should_keep_falling = scenario->check_if_has_to_fall(character, true);
+
+	}
 
 }
 

@@ -26,6 +26,12 @@ bool Character::is_moving()
 	return char_fsm->is_moving();
 }
 
+bool Character::is_falling()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+	return char_fsm->is_falling();
+}
+
 bool Character::is_iddle()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());

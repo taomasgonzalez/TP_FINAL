@@ -808,18 +808,49 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	return is_the_enemy_action_possible;
 }
 
-bool Scene::check_if_has_to_fall(Character* charac) {
+bool Scene::check_if_has_to_fall(Character* charac, bool map_thing_check) {
 
 	bool has_to_fall = false;
 
-	if (charac->has_to_fall()) {
+	if (map_thing_check)//Called from CharacterActionFSM
+	{
 		if (charac->pos_y < 10 &&
-				maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+			maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 			has_to_fall = true;
 		}
-		else
-			charac->dont_fall();
+
 	}
+	else //Called from LogicFSM
+	{
+		// Only should be checked if the player is not falling already, if it is the Character´s FSM will be in charge of this check
+		if (!charac->is_falling())
+			if (charac->has_to_fall()) 
+			{
+				if (charac->pos_y < 10 &&
+					maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+					has_to_fall = true;
+				}
+				else
+					charac->dont_fall();
+			}
+	}
+
+	//if (charac->is_falling()) 
+	//{
+	////Ya está cayendo, no se debe apendear FELL_EventPackage, se hace desde CharacterSceneObserver asi no se va a 
+	////iddle el programa
+
+	//	has_to_fall = false;
+	//	this->already_falling = false;
+	//}
+	//else if (charac->has_to_fall()) {
+	//	if (charac->pos_y < 10 &&
+	//			maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+	//		has_to_fall = true;
+	//	}
+	//	else
+	//		charac->dont_fall();
+	//}
 
 	return has_to_fall;
 }
@@ -911,7 +942,7 @@ void Scene::control_all_actions() {
 
 	for (int i = 0; i < curr_players->size(); i++) {
 		Player* curr_player = curr_players->at(i);
-		if (check_if_has_to_fall(curr_player))
+		if (check_if_has_to_fall(curr_player,false))
 			curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
 		curr_player->ev_handler->handle_event();
 	}

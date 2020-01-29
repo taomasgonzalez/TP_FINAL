@@ -99,6 +99,7 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
+
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
@@ -112,6 +113,7 @@ void CharacterActionsFSM::set_states() {
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
+	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
 	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char });
@@ -137,6 +139,11 @@ void CharacterActionsFSM::disappear_char() {
 bool CharacterActionsFSM::is_moving() {
 	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
 }
+
+bool CharacterActionsFSM::is_falling() {
+	return actual_state == falling_state;
+}
+
 bool CharacterActionsFSM::is_iddle() {
 	return actual_state == iddle_state;
 }
@@ -234,14 +241,27 @@ void CharacterActionsFSM::continue_logical_movement(){
 
 void CharacterActionsFSM::end_if_should_end_movement(){
 
+	if (actual_state == falling_state)
+		obs_questions.should_keep_falling = true;
+
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
+	obs_questions.should_keep_falling = false;
 
 
 	if (obs_answers.should_interrupt_movement) {
 
-		if (!this->saved_character_events->empty())
+
+		//Estoy en medio de una caida y tengo que seguir cayendo
+		if (obs_answers.should_keep_falling)
+		{
+			std::cout << "Se sigue cayendo, se appendea un FELL" << std::endl;
+			character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+			start_falling();
+		}
+		//Chequeo si hay algun evento guardado que tenga que ser appendeado
+		else if (!this->saved_character_events->empty())
 		{
 			EventPackage * saved_event = saved_character_events->front();
 
@@ -253,7 +273,6 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			}
 			saved_character_events->pop();
 		}
-
 		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
 		else
 		{

@@ -36,6 +36,7 @@ public:
 		bool should_interrupt_movement = false;
 		bool should_interrupt_attack = false;
 		bool should_continue_moving = false;
+		bool should_keep_falling = false;
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;
@@ -57,6 +58,8 @@ public:
 	void disappear_char();
 
 	bool is_moving();
+	bool is_falling();
+
 
 	bool is_iddle();
 	bool is_finishing_the_movement();
