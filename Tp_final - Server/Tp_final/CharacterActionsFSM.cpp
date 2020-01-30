@@ -101,6 +101,7 @@ void CharacterActionsFSM::set_states() {
 
 	walking_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
 	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
+	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
@@ -281,9 +282,25 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 
 			if (saved_event->give_me_your_event_type() == Event_type::WALKED)
 			{
-				std::cout << "Se ejecuta un WALKED guardado"<<std::endl;
-				set_fsm_ev_pack(saved_event);
-				start_walking();
+				//CAPAZ QUE SE PUEDE HACER UN SOLO CHEQUEO SIEMPRE HABER SI TENGO QUE CAER, CHEQUEAR QUE NO SE ROMPA
+				//caso excepción mitad del salto en un salto largo
+				//Check if should fall instead of walk again
+				obs_questions.should_keep_falling = true;
+				notify_obs();						//PlayerActionsFSMDRAWObserver
+				obs_questions.should_keep_falling = false;
+
+				if (obs_answers.should_keep_falling)
+				{
+					std::cout << "Hay que caer no caminar, se appendea un FELL,vacio la cola de eventos" << std::endl;
+					character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+					start_falling();
+				}
+				else
+				{
+					std::cout << "Se ejecuta un WALKED guardado" << std::endl;
+					set_fsm_ev_pack(saved_event);
+					start_walking();
+				}
 			}
 			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED)
 			{
