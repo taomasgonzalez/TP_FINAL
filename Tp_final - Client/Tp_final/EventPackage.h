@@ -507,6 +507,7 @@ public:
 class JUMPED_EventPackage : public EventPackage {
 public:
 	JUMPED_EventPackage();
+	JUMPED_EventPackage(const JUMPED_EventPackage* walked);
 
 private:
 };
@@ -514,6 +515,8 @@ private:
 class JUMPED_FORWARD_EventPackage : public EventPackage {
 public:
 	JUMPED_FORWARD_EventPackage(Direction_type dir);
+	JUMPED_FORWARD_EventPackage(const JUMPED_FORWARD_EventPackage* walked);
+
 	Direction_type jumping_direction;
 };
 

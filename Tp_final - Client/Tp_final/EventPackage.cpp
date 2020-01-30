@@ -660,12 +660,21 @@ WALKED_EventPackage::WALKED_EventPackage(const WALKED_EventPackage* walked) : Ev
 }
 
 
-JUMPED_EventPackage::JUMPED_EventPackage(): EventPackage(Event_type::JUMPED, true){
+JUMPED_EventPackage::JUMPED_EventPackage() : EventPackage(Event_type::JUMPED, true) {
 
 }
+JUMPED_EventPackage::JUMPED_EventPackage(const JUMPED_EventPackage* walked) : EventPackage(Event_type::JUMPED, true) {
+}
+
+
 JUMPED_FORWARD_EventPackage::JUMPED_FORWARD_EventPackage(Direction_type dir) : EventPackage(Event_type::JUMPED_FORWARD, true) {
 	jumping_direction = dir;
 }
+JUMPED_FORWARD_EventPackage::JUMPED_FORWARD_EventPackage(const JUMPED_FORWARD_EventPackage* walked) : EventPackage(Event_type::JUMPED_FORWARD, true) {
+}
+
+
+
 
 DIED_EventPackage::DIED_EventPackage() : EventPackage(Event_type::DIED, true) {
 

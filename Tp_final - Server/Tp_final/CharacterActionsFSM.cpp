@@ -7,7 +7,8 @@ void do_nothing_char(void* data);
 void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
-void append_walking_r(void* data);
+void append_action_r(void* data);
+
 
 
 void start_jumping_r(void* data);
@@ -104,9 +105,10 @@ void CharacterActionsFSM::set_states() {
 	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
+	jumping_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
@@ -117,6 +119,7 @@ void CharacterActionsFSM::set_states() {
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
+	falling_state->push_back({ Event_type::JUMPED, falling_state, append_action_r });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
@@ -274,6 +277,11 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			std::cout << "Se sigue cayendo, se appendea un FELL" << std::endl;
 			character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
 			start_falling();
+
+			//The pending actions are erased because the player has to fall
+			if(!saved_character_events->empty())
+				saved_character_events->pop();
+
 		}
 		//Chequeo si hay algun evento guardado que tenga que ser appendeado
 		else if (!this->saved_character_events->empty())
@@ -304,9 +312,29 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			}
 			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED)
 			{
-				std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
-				set_fsm_ev_pack(saved_event);
-				start_jumping();
+				//CAPAZ QUE SE PUEDE HACER UN SOLO CHEQUEO SIEMPRE HABER SI TENGO QUE CAER, CHEQUEAR QUE NO SE ROMPA
+				//caso excepción mitad del salto en un salto largo
+				//Check if should fall instead of walk again
+				obs_questions.should_keep_falling = true;
+				notify_obs();						//PlayerActionsFSMDRAWObserver
+				obs_questions.should_keep_falling = false;
+
+				if (obs_answers.should_keep_falling)
+				{
+					std::cout << "Hay que caer no caminar, se appendea un FELL,vacio la cola de eventos" << std::endl;
+					character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+					start_falling();
+				}
+				else
+				{
+					std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
+					set_fsm_ev_pack(saved_event);
+					start_jumping();
+				}
+
+				//std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
+				//set_fsm_ev_pack(saved_event);
+				//start_jumping();
 			}
 			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED_FORWARD)
 			{
@@ -315,7 +343,8 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 				start_jumping_forward();
 			}
 
-			saved_character_events->pop();
+			if (!saved_character_events->empty())
+				saved_character_events->pop();
 		}
 		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
 		else
@@ -382,32 +411,56 @@ void CharacterActionsFSM::attack() {
 	attacked = true;
 }
 
-void do_nothing_char(void * data) {
-
-}
-
-void append_walking_r(void* data) {
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->append_walking();
-}
-
-void CharacterActionsFSM::append_walking() {
+void CharacterActionsFSM::append_action() {
 
 	//Only one event can be appended at the same time
 	if (this->saved_character_events->empty())
 	{
-		//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
-		this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
-		std::cout << "Se appendeo un WALKED" << std::endl;
+		Event_type event_to_be_appended = get_fsm_ev_pack()->give_me_your_event_type();
+
+		switch (event_to_be_appended)
+		{
+		case Event_type::WALKED:
+			//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
+			this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un WALKED" << std::endl;
+			break;
+
+		case Event_type::JUMPED:
+			//Se llama a constructor copiador para evitar que se pierda el JUMPED a guardar
+			this->saved_character_events->push(new JUMPED_EventPackage((JUMPED_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un JUMPED" << std::endl;
+			break;
+
+		case Event_type::JUMPED_FORWARD:
+			//Se llama a constructor copiador para evitar que se pierda el JUMPED_FORWARD a guardar
+			this->saved_character_events->push(new JUMPED_FORWARD_EventPackage((JUMPED_FORWARD_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un JUMPED_FORWARD" << std::endl;
+			break;
+
+		default:
+			break;
+
+		}
 	}
 	else
 		std::cout << "Ya habia un evento guardado en la cola de CharacterActionsFSM, no se guarda evento" << std::endl;
 
 }
 
+void do_nothing_char(void * data) {
+
+}
+
+
 void start_walking_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
 	fsm->start_walking();
+}
+
+void append_action_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_action();
 }
 
 

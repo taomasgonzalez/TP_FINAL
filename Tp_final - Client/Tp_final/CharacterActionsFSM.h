@@ -48,7 +48,8 @@ public:
 
 	void start_walking();
 	void start_jumping();
-	void append_walking();
+	void append_action();
+
 
 	void start_iddle();
 	void start_jumping_forward();
