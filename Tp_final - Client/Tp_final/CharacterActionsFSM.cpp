@@ -99,6 +99,8 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
+	walking_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
+	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
 	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
@@ -275,6 +277,18 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 				std::cout << "Se ejecuta un WALKED guardado" << std::endl;
 				set_fsm_ev_pack(saved_event);
 				start_walking();
+			}
+			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED)
+			{
+				std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
+				set_fsm_ev_pack(saved_event);
+				start_jumping();
+			}
+			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED_FORWARD)
+			{
+				std::cout << "Se ejecuta un JUMPED_FORWARD guardado" << std::endl;
+				set_fsm_ev_pack(saved_event);
+				start_jumping_forward();
 			}
 			saved_character_events->pop();
 		}

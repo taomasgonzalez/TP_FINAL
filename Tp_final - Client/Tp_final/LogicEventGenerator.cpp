@@ -340,13 +340,13 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				}
 			}
 
-			if (key[KEY_DOWN])
+			else if (key[KEY_DOWN])
 			{
 				std::cout << "Se mando un DOWN" << std::endl;
 
 			}
 
-			if (key[KEY_LEFT])
+			else if (key[KEY_LEFT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Left), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
@@ -355,7 +355,7 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
 			}
 
-			if (key[KEY_RIGHT])
+			else if (key[KEY_RIGHT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Right), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
