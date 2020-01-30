@@ -178,7 +178,7 @@ void CharacterActionsFSM::process_logical_movement()
 			can_perform = can_perform_logical_movement();
 		
 		//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
-		if (actual_state == jumping_state)
+		if (actual_state == jumping_state || actual_state == jumping_forward_state)
 		{
 			continue_logical_movement();		//if so, perform the movement.
 			can_perform = can_perform_logical_movement();

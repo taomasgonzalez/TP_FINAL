@@ -586,17 +586,34 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		case Direction_type::Jump_Left:
 		case Direction_type::Jump_Right:
 
+
 			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
 
 			if (Action_info_to_be_checked->is_local) {
 				local_destination.fil = the_one_that_moves->pos_x + delta;
 				local_destination.col = the_one_that_moves->pos_y - 2;
 			}
-			if (!character_check)	delta = 0;
-			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
+
+			if (character_check)
+			{
+				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
+				std::cout << "Chequeo de jump foward desde character" << std::endl;
+				std::cout << "Altura del player: " << the_one_that_moves->pos_y << std::endl;
+			}
+			else
+			{
+
+				if (!(is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 2)))
+					is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1);
+				std::cout << "Chequeo de jump foward desde fsm" << std::endl;
+				std::cout << "Altura del player: " << the_one_that_moves->pos_y << std::endl;
+			}
+
+			//if (!character_check)	
+			//	delta = 0;
+			//is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
 
 			break;
-
 		case Direction_type::Left:
 		case Direction_type::Right:
 			if (this->local_future_event||this->extern_future_event)
