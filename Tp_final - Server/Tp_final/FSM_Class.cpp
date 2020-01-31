@@ -13,6 +13,7 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	//ACK:
 	"ACK",
 
+
 	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
 	"LOCAL_QUIT",
 
@@ -80,6 +81,7 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"FELL",
 	"PUSHED",
 	"FINISHED_MOVEMENT",
+	"KEEP_MOVING",
 	"FINISHED_ATTACK",
 	"DIED",
 
@@ -97,7 +99,11 @@ string event_string[] =  //Events that are usde by the internal function of the 
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
-	"FINISHED_GRAPH_STEP"
+	"FINISHED_GRAPH_STEP",
+	//RESET
+	"RESET"
+
+
 };
 
 /******************************************************************************
@@ -122,9 +128,12 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 	if (ev_pack != NULL){
 
 		Event_type event1 = ev_pack->give_me_your_event_type();
-		if(event1 != Event_type::FPS_TICKED)
-			cout << "LLego un evento " << event_string[(int) event1] << endl;
-		set_fsm_ev_pack(ev_pack);
+		if (event1 != Event_type::FPS_TICKED)
+			cout << "LLego un evento " << event_string[(int)event1] << endl;
+		else
+			//cout << "LLego un evento de FPS_TICKED"<< endl;
+			int i;
+
 
 		int event_pos = 0;
 		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
@@ -133,7 +142,8 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
 		if (((actual_state->at(event_pos)).event == Event_type::END_OF_TABLE))
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
-		//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
+		else
+			set_fsm_ev_pack(ev_pack);
 
 		//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);
@@ -172,11 +182,12 @@ EventPackage* FSM::get_fsm_ev_pack() {
 
 void FSM::set_fsm_ev_pack(EventPackage * new_ev_pack)
 {
-	if (new_ev_pack != my_ev_pack) {
+	if (new_ev_pack != my_ev_pack && new_ev_pack->give_me_your_event_type()!=Event_type::ACK) {
 		delete my_ev_pack;
 		my_ev_pack = new_ev_pack;
 	}
 }
+
 
 std::vector<edge_t>* FSM::give_me_the_actual_state() {
 

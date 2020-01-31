@@ -16,6 +16,8 @@ enum class time_out_type {
 
 };
 
+
+
 class LogicFSM : public FSM
 {
 public:
@@ -24,7 +26,10 @@ public:
 
 	virtual void run_fsm(EventPackage * ev_pack);
 
-	
+	//setters
+	void start_playing();
+	void finish_playing();
+
 	//user decition flags
 	bool want_to_play_again = false;
 
@@ -94,6 +99,11 @@ public:
 	void ask_user_being_client_and_send_decition(); //to do
 	void ask_user_being_server_and_send_decition();
 
+	//EventGenerator
+	void active_blocking_timers(EventPackage * my_eventpackage );
+	void turn_off_blocking_timers(EventPackage * my_eventpackage);
+
+
 	//execute
 	void execute_receive_action_and_send_ack(); //for client
 	void execute_action_send_it_and_set_ack_time_out(); //for server
@@ -124,13 +134,18 @@ public:
 	void load_enemy_action();
 	void save_enemy_action();
 
+	//debugging
+	void reset_game();
+
 protected:
 	virtual void print_curr_state();
-private:
-	Userdata * user_data = NULL;
-	LogicEventGenerator * ev_gen = NULL;
 	Scene* scenario = NULL;
 	Communication* com = NULL;
+	Userdata * user_data = NULL;
+	LogicEventGenerator * ev_gen = NULL;
+private:
+
+
 
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
@@ -141,6 +156,8 @@ private:
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
 
+//Debugging
+void reset_game_r(void* data);
 							  //analyze
 void analayze_error_r(void* data);
 void analyze_we_won_r(void* data); //to do

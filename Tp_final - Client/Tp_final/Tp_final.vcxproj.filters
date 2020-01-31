@@ -187,6 +187,9 @@
     <ClCompile Include="GraficObjectCharacter.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerSceneControllerObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">

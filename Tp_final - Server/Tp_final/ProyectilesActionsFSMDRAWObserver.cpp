@@ -6,7 +6,7 @@ ProyectilesActionsFSMDRAWObserver::ProyectilesActionsFSMDRAWObserver(Proyectiles
 {
 	this->proyectile = proyectile;
 	this->fsm = fsm;
-	this->drawer = Userdata::drawer;
+ 	this->drawer = Userdata::drawer;
 	this->ev_gen = ev_gen;
 }
 

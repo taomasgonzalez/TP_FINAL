@@ -1,6 +1,6 @@
 #include "GraficObjectCharacter.h"
-
-
+#include "general.h"
+using namespace std;
 
 Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
 {
@@ -30,25 +30,55 @@ void Obj_Graf_Character::handle_walking()
 	else if (dir == Direction::Right)
 		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 
+		int flip;
+		if (is_fatty)
+			flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+		else
+			flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+
+
 	if (reached_final_pos)		//veo si ya llego a la pos final 
 	{
+		//Through the observer a FINISHED_GRAPH_STEP_EventPackage is appended to the Character´s FSM
 		if (!secuenceOver_)
 			notify_finished_drawing_step();
+
+		//So the FINISHED_GRAPH_STEP_EventPackage is appended only once
 		secuenceOver_ = true;
-		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
-		actualImage = 0;
+
+		//The final position after the secuence is completed is set
+		//pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+		pos.set_x_coord(pos.get_x_coord() + delta * velX/2);		// muevo la posicion del dibujo
+
+
+
+		//actualImage = 0;
+#ifdef DEBUG
+		std::cout << "Se termino la secuencia" << std::endl;
+		std::cout << pos.get_x_coord() << std::endl;
+		//cout << endl << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
+#endif
+
+		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
+
 	}
 	else
+	{
+		//The position regarding the current printed frame is set (velX)
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);		// muevo la posicion del dibujo
 
-	int flip;
-	if(is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
-	al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-	((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
+		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		//cout << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
+		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
+		std::cout << pos.get_x_coord() << std::endl;
+
+		//al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage]), al_get_bitmap_width(chara_images->walkImages[walkActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		//((walkActualImage+1) < walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
+
+	}
+
 }
 
 void Obj_Graf_Character::handle_jumping()
@@ -73,11 +103,13 @@ void Obj_Graf_Character::handle_jumping()
 		}														// muevo la posicion del dibujo
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
 
 	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->jumpImages[actualImage]), al_get_bitmap_width(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
@@ -140,6 +172,7 @@ void Obj_Graf_Character::handle_iddle()
 
 	al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 	((idleActualImage + 1) < 2 * iddle_pics) ? idleActualImage++ : idleActualImage = 0;
+
 }
 
 void Obj_Graf_Character::handle_attacking()
@@ -178,11 +211,15 @@ void Obj_Graf_Character::handle_falling()
 		pos.set_y_coord(pos.get_y_coord() + velFall);															// muevo la posicion del dibujo
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	//std::cout << "Se imprimio un falling" << std::endl;
 
 	al_draw_scaled_bitmap(chara_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(chara_images->fallImages[this->actualImage]), al_get_bitmap_width(chara_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 

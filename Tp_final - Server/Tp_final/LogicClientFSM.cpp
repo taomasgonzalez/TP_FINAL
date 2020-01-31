@@ -114,3 +114,7 @@ void LogicClientFSM::print_curr_state()
 		cout << "Waiting_for_ACK_quit_state" << endl;
 }
 
+void LogicClientFSM::run_fsm(EventPackage * ev_pack) {
+	LogicFSM::run_fsm(ev_pack);
+	scenario->control_enemies();
+}

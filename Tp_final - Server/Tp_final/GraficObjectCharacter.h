@@ -35,5 +35,8 @@ protected:
 
 	ImageContainer::character_images * chara_images = NULL;
 	bool is_fatty;												// Las imagenes de fatty estan espejadas (caso especial)
+
+	//debug
+	int counter = 0;
 };
 

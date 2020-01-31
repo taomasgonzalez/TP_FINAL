@@ -27,7 +27,7 @@ public:
 	void destroyObj(unsigned int ID);
 	void destroyAll();														// destruye todos los objetos graficos
 	void setLevel(unsigned int level);
-	void add_level(const char* level);
+	void add_level(const unsigned char* level);
 	bool secuenceOver(unsigned int ID);
 	void reset(unsigned int ID);
 	void activeObj(unsigned int ID);

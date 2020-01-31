@@ -158,6 +158,18 @@ EXTERN_QUIT_EventPackage::EXTERN_QUIT_EventPackage() :EventPackage(Event_type::E
 
 }
 
+/******************************************************************************
+*******************************************************************************
+RESET_EventPackage METHODS DEFINITIONS
+*******************************************************************************
+*******************************************************************************/
+/**************************************************************
+RESET_EventPackage CONSTRUCTOR
+**************************************************************/
+RESET_EventPackage::RESET_EventPackage(bool is_local) :EventPackage(Event_type::RESET,is_local) {
+
+}
+
 
 /******************************************************************************
 *******************************************************************************
@@ -316,7 +328,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action,
 /**************************************************************
 ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de) { //extern ACTION_REQUEST
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned char col_de) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de) { //extern ACTION_REQUEST
 
 	this->action = the_action;
 }
@@ -438,13 +450,13 @@ MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
 MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, unsigned char checksum) :EventPackage(Event_type::MAP_IS, is_local) {
 
-	this->map =(char *) themap;
+	this->map = themap;
 	this->Checksum = checksum;
 }
 /**************************************************************
 					GIVE_ME_THE_MAP
 **************************************************************/
-char * MAP_IS_EventPackage::give_me_the_map() {
+unsigned const char * MAP_IS_EventPackage::give_me_the_map() {
 	return this->map;
 }
 /**************************************************************
@@ -463,13 +475,14 @@ ENEMY_ACTION_EventPackage METHODS DEFINITIONS
 /**************************************************************
 ENEMY_ACTION_EventPackage CONSTRUCTOR
 **************************************************************/
-ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de)
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de)
 	:EventPackage(Event_type::ENEMY_ACTION, is_local) {
 
 	this->MonsterID = the_MonsterID;
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->dir = dir;
 }
 
 ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
@@ -478,6 +491,7 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :Even
 	this->destination_row = ea_info->final_pos_x;
 	this->destination_column = ea_info->final_pos_y;
 	this->MonsterID = ea_info->id;
+	this->dir = ea_info->my_direction;
 }
 
 uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
@@ -488,24 +502,25 @@ Action_type ENEMY_ACTION_EventPackage::give_me_the_action() {
 	return this->action;
 }
 
-char ENEMY_ACTION_EventPackage::give_me_the_destination_row() {
+unsigned char ENEMY_ACTION_EventPackage::give_me_the_destination_row() {
 	return this->destination_row;
 
 }
-char ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
+unsigned char ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
 	return this->destination_column;
 
 }
 
-//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 Action_info ENEMY_ACTION_EventPackage::to_Action_info()
 {
 	Action_info returnable_info = EventPackage::to_Action_info();
 
+	returnable_info.my_info_header = Action_info_id::ENEMY_ACTION;
 	returnable_info.action = give_me_the_action();
 	returnable_info.final_pos_x = give_me_the_destination_row();
 	returnable_info.final_pos_y = give_me_the_destination_column();
 	returnable_info.id = give_me_the_monsterID();
+	returnable_info.my_direction = this->dir;
 
 	return returnable_info;
 }
@@ -639,6 +654,11 @@ FINISHED_MOVEMENT_EventPackage::FINISHED_MOVEMENT_EventPackage() : EventPackage(
 WALKED_EventPackage::WALKED_EventPackage(Direction_type dir): EventPackage(Event_type::WALKED, true){
 	walking_direction = dir;
 }
+
+WALKED_EventPackage::WALKED_EventPackage(const WALKED_EventPackage* walked) : EventPackage(Event_type::WALKED, true) {
+	walking_direction = walked->walking_direction;
+}
+
 
 JUMPED_EventPackage::JUMPED_EventPackage(): EventPackage(Event_type::JUMPED, true){
 

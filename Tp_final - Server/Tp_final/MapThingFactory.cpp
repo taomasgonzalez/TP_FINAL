@@ -4,6 +4,8 @@
 #include "PlayerSceneObserver.h"
 #include "PurpleGuyScenarioObserver.h"
 #include "ProyectileSceneObserver.h"
+#include "PlayerSceneControllerObserver.h"
+
 
 #define MAX_NUMBER_OF_MONSTERS 256
 #define MAX_NUMBER_OF_PLAYERS 2
@@ -33,19 +35,25 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 			break;
 		case Item_type::CRAZY: {
 			Crazy* crazy = new Crazy(get_enemy_id(), direction);
-			crazy->add_observer(new EnemySceneObserver(crazy, scene));
+			EnemySceneObserver* enemy_obs = new EnemySceneObserver(crazy, scene);
+			crazy->ev_handler->get_fsm()->add_observer(enemy_obs);
+			crazy->add_observer(enemy_obs);
 			new_born = crazy;
 		}
 			break;
 		case Item_type::GREEN_FATTIE:{
 			GreenFatty * green_fatty = new GreenFatty(get_enemy_id(), direction);
-			green_fatty->add_observer(new EnemySceneObserver(green_fatty, scene));
+			EnemySceneObserver* enemy_obs = new EnemySceneObserver(green_fatty, scene);
+			green_fatty->ev_handler->get_fsm()->add_observer(enemy_obs);
+			green_fatty->add_observer(enemy_obs);
 			new_born = green_fatty;
 		}
 			break;
 		case Item_type::PURPLE_GUY: {
 			PurpleGuy * purple_guy = new PurpleGuy(get_enemy_id(), direction);
-			purple_guy->add_observer(new PurpleGuyScenarioObserver(purple_guy, scene));
+			PurpleGuyScenarioObserver* enemy_obs = new PurpleGuyScenarioObserver(purple_guy, scene);
+			purple_guy->ev_handler->get_fsm()->add_observer(enemy_obs);
+			purple_guy->add_observer(enemy_obs);
 			new_born = purple_guy;
 		}
 			break;
@@ -53,11 +61,15 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 			Player * play;
 			play = new Player((unsigned int)Item_type::TOM, false, direction);
 			play->ev_handler->get_fsm()->add_observer(new PlayerSceneObserver(play, scene));
+			play->ev_handler->get_fsm()->add_observer(new PlayerSceneControllerObserver(scene, play));
+
 			new_born = play;
 			break;
 		case Item_type::NICK:
 			play = new Player((unsigned int)Item_type::NICK, true, direction);
 			play->ev_handler->get_fsm()->add_observer(new PlayerSceneObserver(play, scene));
+			play->ev_handler->get_fsm()->add_observer(new PlayerSceneControllerObserver(scene, play));
+
 			new_born = play;
 			break;
 		case Item_type::FIREBALL:
@@ -77,9 +89,6 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 	new_born->pos_x = fil;
 	new_born->pos_y = col;
 
-	if (new_born->is_enemy())
-		al_register_event_source(enemies_ev_queue, al_get_timer_event_source(static_cast<Enemy*>(new_born)->get_acting_timer()));
-
 	last_created_map_thing = new_born;
 	this->obs_info.new_map_thing = true;
 	notify_obs();
@@ -95,11 +104,6 @@ MapThing* MapThingFactory::create_map_thing(int fil, int col, Item_type identify
 
 
 
-void MapThingFactory::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE* ev_queue)
-{
-	enemies_ev_queue = ev_queue;
-}
-
 void MapThingFactory::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * ev_queue)
 {
 	proyectiles_ev_queue = ev_queue;
@@ -110,7 +114,7 @@ unsigned int MapThingFactory::get_enemy_id()
 {
 	if (next_enemy_id == (unsigned int)Item_type::TOM || next_enemy_id == (unsigned int)Item_type::NICK)
 		next_enemy_id++;
-			
+
 	return next_enemy_id++;
 }
 

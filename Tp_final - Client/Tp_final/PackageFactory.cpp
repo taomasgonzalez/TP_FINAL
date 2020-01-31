@@ -13,6 +13,10 @@ PackageFactory::PackageFactory()
 			pac = new ACK_package();
 			break;
 
+		case Event_type::RESET:
+			pac = new RESET_package();
+			break;
+
 		case Event_type::NAME:
 			pac = new NAME_package();
 			break;
@@ -90,6 +94,11 @@ PackageFactory::PackageFactory()
 	 {
 	 case Package_type::ACK:
 		 my_event_package = new ACK_EventPackage();
+		 break;
+
+	 case Package_type::RESET:
+		 my_event_package = new RESET_EventPackage(false);
+
 		 break;
 
 	 case Package_type::NAME:

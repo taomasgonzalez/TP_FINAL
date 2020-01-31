@@ -17,7 +17,7 @@ Map::Map(int number_of_rows, int number_of_columns, Userdata* data)
 	//for (int i = 0; i < number_of_rows; ++i)
 	//	map_cells[i] = new MapCell[number_of_columns];
 	map_cells = new MapCell*[number_of_columns];
-	for (int i = 0; i < number_of_columns; ++i)
+	for (unsigned int i = 0; i < number_of_columns; ++i)
 		map_cells[i] = new MapCell[number_of_rows];
 
 	all_players = new std::vector<Player*>();
@@ -99,9 +99,9 @@ std::vector<Player*>* Map::get_all_players()
 *		char pointer that contains a string (without the terminator) with the chars that 
 *		give the map the original level distribution. 
 */
-const char * Map::give_me_the_original_map() {
+const unsigned char * Map::give_me_the_original_map() {
 
-	return original_distribution.c_str();
+	return (const unsigned char *)original_distribution.c_str();
 }
 
 /******************************************	
@@ -175,7 +175,7 @@ bool Map::cell_has_enemies(int coord_x, int coord_y) {
 *	OUTPUT:
 *		a MapCell with the characteristics mentioned in the method description.
 */
-MapCell* Map::get_cell(int coord_x, int coord_y) {
+MapCell* Map::get_cell(unsigned int coord_x, unsigned int coord_y) {
 	return &map_cells[coord_x][coord_y];
 }
 /******************************************
@@ -361,7 +361,7 @@ MapThing * Map::get_from_map(unsigned int id) {
 *	OUTPUT:
 *
 */
-MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
+MapThing * Map::get_from_map(unsigned int coord_x, unsigned int coord_y, unsigned int coord_z)
 {
 	return get_cell(coord_x, coord_y)->get_floor(coord_z);
 }
@@ -377,8 +377,8 @@ MapThing * Map::get_from_map(int coord_x, int coord_y, int coord_z)
 */
 bool Map::delete_from_map(unsigned int id) {
 
-	for (int i = 0; i < number_of_columns; i++)
-		for (int j = 0; j < number_of_rows; j++){
+	for (unsigned int i = 0; i < number_of_columns; i++)
+		for (unsigned int j = 0; j < number_of_rows; j++){
 			MapThing* thing = get_cell(i, j)->get_id(id);
 			if(thing != NULL)
 				return delete_from_map(thing);
@@ -532,7 +532,7 @@ bool Map::move_map_thing(MapThing * thing, int final_x, int final_y)
 *	OUTPUT:
 *		void.
 */
-void Map::place_on_map(int coord_x, int coord_y, MapThing* thing) {
+void Map::place_on_map(unsigned int coord_x, unsigned int coord_y, MapThing* thing) {
 
 	map_cells[coord_x][coord_y].place_on_cell(thing);
 	thing->pos_x = coord_x;
@@ -613,8 +613,8 @@ int Map::get_max_number_of_floors() {
 *	OUTPUT:
 *		void.
 */
-void Map::load_on_map(const char* map_string, void* scenario) {
-	original_distribution = map_string;
+void Map::load_on_map(const unsigned char* map_string, void* scenario) {
+	original_distribution = (char *)map_string;
 	for (int i = 0; i < number_of_columns*number_of_rows; i++) {
 		int x = i % number_of_columns;			//version correcta en teoria
 		int y = i / number_of_columns;
@@ -641,7 +641,7 @@ void Map::load_checksum(unsigned char checksum) {
 void Map::reset_map()
 {
 	clear();
-	load_on_map(original_distribution.c_str());
+	load_on_map((const unsigned char *)original_distribution.c_str());
 }
 /*************************************************
 *************delete_from_map_thing_vectors********
@@ -681,34 +681,6 @@ void Map::place_on_map_thing_vectors(MapThing* thing) {
 		all_enemies->push_back((Enemy*)thing);
 	else if (thing->is_player())
 		all_players->push_back((Player*)thing);
-}
-/*************************************************
-*************register_proyectiles_event_queue*****
-**************************************************
-*register_enemies_event_queue registers a event_queue to the map in which all the timer events corresponding to 
-*Enemy movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
-*every new Enemy that is created on the map will already be linked to that event_queue when created.
-*	INPUT:
-*		1)enemies_ev_queue : event queue for moving/acting Enemies.
-*	OUTPUT:
-*		void.
-*/
-void Map::register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue) {
-	map_filler.register_enemies_event_queue(enemies_ev_queue);
-}
-/*************************************************
-*************register_proyectiles_event_queue*****
-**************************************************
-*register_proyectiles_event_queue registers a event_queue to the map in which all the timer events corresponding to 
-*proyectile movements will be appended to. The event_queue will be appended to the MapThingFactory that the map contains so that
-*every new Proyectile that is created on the map will already be linked to that event_queue when created.
-*	INPUT:
-*		1)proyectiles_ev_queue : event queue for moving/acting proyectiles.
-*	OUTPUT:
-*		void.
-*/
-void Map::register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue) {
-	map_filler.register_proyectiles_event_queue(proyectiles_ev_queue);
 }
 
 /*************************************************

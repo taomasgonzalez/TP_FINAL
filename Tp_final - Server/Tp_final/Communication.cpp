@@ -184,7 +184,7 @@ OUTPUT:
 void Communication::sendMessage(Package * package_received) {
 
 
-	char buf[1000];	
+	unsigned char buf[1000];
 	copy_message(package_received, buf);
 	size_t len;
 	boost::system::error_code error;
@@ -200,7 +200,7 @@ void Communication::sendMessage(Package * package_received) {
 
 }
 
-void Communication::copy_message(Package * package_received, char *buf) {
+void Communication::copy_message(Package * package_received, unsigned char *buf) {
 	std::string info_2_b_send2 = package_received->get_sendable_info();
 	char* info_2_b_send = (char *)info_2_b_send2.c_str();
 
@@ -224,7 +224,7 @@ Package * Communication::receiveMessage() {
 	boost::system::error_code error;	
 
 	
-	char buf[COM_BUFFER_LEN];		// por donde recibire el input
+	unsigned char buf[COM_BUFFER_LEN];		// por donde recibire el input
 	for (int i = 0; i < COM_BUFFER_LEN; i++)
 		buf[i] = 'í';
 	size_t len = 0;
@@ -313,17 +313,21 @@ bool Communication::is_the_connection_healthy()
 }
 
 
-Package* Communication::create_package(char* aux_buf){
+Package* Communication::create_package(unsigned char* aux_buf){
 	static int ack_quant = 0;
 	Package* new_package = NULL;
-	Package_type type = (Package_type)aux_buf[0];
+	Package_type type = (Package_type)(unsigned char)aux_buf[0];
 
 	switch (type)
 	{
 	case Package_type::ACK:
-		ack_quant++;
 		new_package = new ACK_package;
-		cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
+		cout << endl << "ack_quant: " << to_string(ack_quant++) << endl;
+		break;
+
+	case Package_type::RESET:
+		new_package = new RESET_package;
+		cout << endl << "Llego un RESET perro" << endl;
 		break;
 
 	case Package_type::NAME:

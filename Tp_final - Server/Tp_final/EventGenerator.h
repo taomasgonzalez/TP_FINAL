@@ -11,6 +11,7 @@ class EventGenerator : public Observable
 public:
 	enum class LogicQueues { allegro, net, soft, TOTAL_QUEUES };
 	enum class GraphicQueues {TOTAL_QUEUES };
+
 	EventGenerator();
 	~EventGenerator();
 	

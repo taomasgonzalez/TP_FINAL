@@ -24,7 +24,10 @@ public:
 
 	virtual void run_fsm(EventPackage * ev_pack);
 
-	
+	//setters
+	void start_playing();
+	void finish_playing();
+
 	//user decition flags
 	bool want_to_play_again = false;
 
@@ -88,6 +91,10 @@ public:
 	void send_action_request_and_set_ack_time_out(); //for client
 	void send_action();
 
+	//EventGenerator
+	void active_blocking_timers(EventPackage * my_eventpackage);
+	void turn_off_blocking_timers(EventPackage * my_eventpackage);
+
 	//UI
 	void tell_user_send_ack_and_finish_game(); //to do
 	void ask_the_user_if_wants_to_play_again(); //to do
@@ -124,13 +131,16 @@ public:
 	void load_enemy_action();
 	void save_enemy_action();
 
+	//debugging
+	void reset_game();
+
 protected:
 	virtual void print_curr_state();
-private:
-	Userdata * user_data = NULL;
-	LogicEventGenerator * ev_gen = NULL;
 	Scene* scenario = NULL;
 	Communication* com = NULL;
+	Userdata * user_data = NULL;
+	LogicEventGenerator * ev_gen = NULL;
+private:
 
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
@@ -140,6 +150,7 @@ private:
 
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
+void reset_game_r(void* data); //For debugging
 
 							  //analyze
 void analayze_error_r(void* data);

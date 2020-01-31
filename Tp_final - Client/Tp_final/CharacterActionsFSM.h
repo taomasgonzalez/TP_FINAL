@@ -23,6 +23,8 @@ public:
 		bool interrupt_attack = false;
 		bool perform_logical_movement = false;
 		bool perform_logical_attack = false;
+		bool keep_moving = false;
+		bool next_move_pending = false;
 
 	};
 
@@ -32,6 +34,9 @@ public:
 		bool can_perform_movement = false;
 		bool should_interrupt_movement = false;
 		bool should_interrupt_attack = false;
+		bool should_continue_moving = false;
+		bool should_keep_falling = false;
+
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;
@@ -43,6 +48,8 @@ public:
 
 	void start_walking();
 	void start_jumping();
+	void append_walking();
+
 	void start_iddle();
 	void start_jumping_forward();
 	void start_attacking();
@@ -51,6 +58,7 @@ public:
 	void disappear_char();
 
 	bool is_moving();
+	bool is_falling();
 
 	bool is_iddle();
 
@@ -89,6 +97,9 @@ private:
 
 	ALLEGRO_TIMER * falling_timer = NULL;
 	ALLEGRO_EVENT_QUEUE* char_ev_queue = NULL;
+
+	std::queue<EventPackage*>* saved_character_events;
+
 
 	bool first_logical_movement();
 	bool finished_logical_movement();

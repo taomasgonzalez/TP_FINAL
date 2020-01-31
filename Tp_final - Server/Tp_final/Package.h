@@ -18,7 +18,7 @@ typedef unsigned char uchar;
 ************************************************************************************************************************/
 enum class Package_type {
 	ACK = 0x01, NAME = 0x10, NAME_IS = 0x11, MAP_IS = 0x12, GAME_START = 0x20, MOVE = 0x31, ATTACK = 0x32
-	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF
+	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF, RESET=0xFD
 };
 
 enum class Character_type { TOM = 'T', NICK = 'N' };
@@ -36,13 +36,13 @@ public:
 	Package_type get_package_header();
 	virtual ~Package();
 	virtual std::string get_sendable_info();
-	int get_info_length();
+	unsigned int get_info_length();
 	std::string enum_to_string(Package_type package_to_be_translate);
 
 
 protected:
-	char* info_to_be_send; //for Communication::SendMessage()
-	int info_length = 1;//for Communication::SendMessage()
+	unsigned char* info_to_be_send; //for Communication::SendMessage()
+	unsigned int info_length = 1;//for Communication::SendMessage()
 	Package_type header;
 
 };
@@ -58,6 +58,20 @@ class ACK_package : public Package
 {
 public:
 	ACK_package();
+
+private:
+
+};
+
+/******************************************************************************
+*******************************************************************************
+							RESET_package CLASS
+*******************************************************************************
+*******************************************************************************/
+class RESET_package : public Package
+{
+public:
+	RESET_package();
 
 private:
 
@@ -88,7 +102,7 @@ class NAME_IS_package : public Package
 {
 public:
 	NAME_IS_package(uchar namelenght, std::string newname);
-	NAME_IS_package(uchar namelenght, char * newname);
+	NAME_IS_package(uchar namelenght, unsigned char * newname);
 
 	uchar get_name_lenght();
 	std::string give_me_your_name();
@@ -144,17 +158,17 @@ private:
 class MOVE_package : public Package
 {
 public:
-	MOVE_package(Item_type the_one_that_moves, char fil_de, char col_de);
+	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de);
 	Item_type give_me_the_character();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
+	unsigned char give_me_the_destination_row();
+	unsigned char give_me_the_destination_column();
 	std::string get_sendable_info();
 
 
 private:
 	Item_type character;
-	char destination_row;
-	char destination_column;
+	unsigned char destination_row;
+	unsigned char destination_column;
 
 };
 
@@ -167,17 +181,17 @@ private:
 class ATTACK_package : public Package
 {
 public:
-	ATTACK_package(Item_type the_one_that_attacks, char fil_de, char col_de);
+	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de);
 	Item_type give_me_the_character();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
+	unsigned char give_me_the_destination_row();
+	unsigned char give_me_the_destination_column();
 	std::string get_sendable_info();
 
 
 private:
 	Item_type character;
-	char destination_row;
-	char destination_column;
+	unsigned char destination_row;
+	unsigned char destination_column;
 
 };
 
@@ -191,17 +205,17 @@ private:
 class ACTION_REQUEST_package : public Package
 {
 public:
-	ACTION_REQUEST_package(Action_type the_action, char fil_de, char col_de);
+	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de,unsigned char col_de);
 	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
+	unsigned char give_me_the_destination_row();
+	unsigned char give_me_the_destination_column();
 	std::string get_sendable_info();
 
 
 private:
 	Action_type action;
-	char destination_row;
-	char destination_column;
+	unsigned char destination_row;
+	unsigned char destination_column;
 
 };
 
@@ -214,19 +228,19 @@ private:
 class ENEMY_ACTION_package : public Package
 {
 public:
-	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
+	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
+	unsigned char give_me_the_destination_row();
+	unsigned char give_me_the_destination_column();
 	std::string get_sendable_info();
 
 
 private:
 	uchar MonsterID;
 	Action_type action;
-	char destination_row;
-	char destination_column;
+	unsigned char destination_row;
+	unsigned char destination_column;
 
 };
 

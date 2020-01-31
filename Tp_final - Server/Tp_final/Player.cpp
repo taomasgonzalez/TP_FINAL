@@ -3,6 +3,8 @@
 #include "PlayerActionsFSMDRAWObserver.h"
 #include "CharacterSceneObserver.h"
 #include "MapThingEventGenerator.h"
+#include "PlayerSceneControllerObserver.h"
+
 
 //agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
 
@@ -16,6 +18,7 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
+
 	
 	ev_handler = new EventHandler(fsm, ev_gen);
 }

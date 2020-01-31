@@ -102,7 +102,10 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	BOUNCE,
 	ROLLING,
 	CHARGING,
+	//RESET(DEBUGGING)
+	RESET,
 	FINISHED_GRAPH_STEP
+
 };
 
 
@@ -181,6 +184,18 @@ public:
 
 /******************************************************************************
 *******************************************************************************
+RESET_EventPackage CLASS
+*******************************************************************************
+*******************************************************************************/
+class RESET_EventPackage : public EventPackage
+{
+public:
+	RESET_EventPackage(bool is_local);
+
+};
+
+/******************************************************************************
+*******************************************************************************
 MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
@@ -239,7 +254,7 @@ class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPack
 {
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
-	ACTION_REQUEST_EventPackage(Action_type the_action, char fil_de, char col_de); //extern ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned  char col_de); //extern ACTION_REQUEST
 	ACTION_REQUEST_EventPackage(Action_info* my_info);
 
 	Action_type give_me_the_action();
@@ -259,7 +274,7 @@ ERROR_EventPackage CLASS
 class ERROR_EventPackage : public EventPackage
 {
 public:
-	ERROR_EventPackage(bool is_local);
+	ERROR_EventPackage(bool is_local=true);
 	bool is_this_a_local_error();
 
 private:
@@ -329,13 +344,13 @@ private:
 class ENEMY_ACTION_EventPackage : public EventPackage
 {
 public:
-	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, char fil_de, char col_de);
+	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de);
 	ENEMY_ACTION_EventPackage(Action_info * ea_info);
 
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
-	char give_me_the_destination_row();
-	char give_me_the_destination_column();
+	unsigned char give_me_the_destination_row();
+	unsigned char give_me_the_destination_column();
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
@@ -343,8 +358,9 @@ public:
 private:
 	uchar MonsterID;
 	Action_type action;
-	char destination_row;
-	char destination_column;
+	unsigned char destination_row;
+	unsigned char destination_column;
+	Direction_type dir;
 };
 
 /******************************************************************************
@@ -483,6 +499,8 @@ private:
 class WALKED_EventPackage : public EventPackage{
 public:
 	WALKED_EventPackage(Direction_type dir);
+	WALKED_EventPackage(const WALKED_EventPackage* walked);
+
 	Direction_type walking_direction;
 };
 

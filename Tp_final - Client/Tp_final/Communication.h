@@ -75,10 +75,12 @@ private:
 	uint32_t expected_ack_id;
 
 
-	void copy_message(Package * package_received, char *buf);
-	Package* create_package(char* aux_buf);
+	void copy_message(Package * package_received, unsigned char *buf);
+	Package* create_package(unsigned char* aux_buf);
 	Package * received = NULL;
 	queue<Package*> packages_queue;
 
+	//debug
+	int ack_counter = 0;
 };
 

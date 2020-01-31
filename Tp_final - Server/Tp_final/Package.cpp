@@ -47,7 +47,7 @@ std::string Package::enum_to_string(Package_type package_to_be_translate){
 Package::Package(Package_type type)
 {
 	this->header = type;
-	this->info_to_be_send = (char *)&(this->header);
+	this->info_to_be_send = (unsigned char *)&(this->header);
 }
 Package::~Package(){
 
@@ -84,7 +84,7 @@ Package_type Package::get_package_header()
 */
 std::string Package::get_sendable_info() {
 
-	std::string info = this->info_to_be_send;
+	std::string info = (char *)this->info_to_be_send;
 	return info;
 }
 
@@ -101,7 +101,7 @@ std::string Package::get_sendable_info() {
 *OUTPUT:
 *The lenght of the information to be send by networking.
 */
-int Package::get_info_length() {
+unsigned int Package::get_info_length() {
 
 	return this->info_length;
 }
@@ -116,6 +116,20 @@ int Package::get_info_length() {
 			ACK_PACKAGE_CONSTRUCTOR
 **************************************************************/
 ACK_package::ACK_package() :Package(Package_type::ACK) {
+
+
+}
+
+
+/******************************************************************************
+*******************************************************************************
+			RESET_package METHODS DEFINITIONS
+*******************************************************************************
+*******************************************************************************/
+/**************************************************************
+			RESET_PACKAGE_CONSTRUCTOR
+**************************************************************/
+RESET_package::RESET_package() :Package(Package_type::RESET) {
 
 
 }
@@ -150,11 +164,11 @@ NAME_IS_package::NAME_IS_package(uchar namelenght,std::string newname) :Package(
 /**************************************************************
 			NAME_IS_PACKAGE_CONSTRUCTOR
 **************************************************************/
-NAME_IS_package::NAME_IS_package(uchar namelenght, char * newname) :Package(Package_type::NAME_IS) {
+NAME_IS_package::NAME_IS_package(uchar namelenght, unsigned char * newname) :Package(Package_type::NAME_IS) {
 
 	newname[namelenght] = '\0';
 	this->count = namelenght;
-	this->Name = newname;
+	this->Name = (char *)newname;
 	this->info_length = 2 + this->count;
 
 }
@@ -215,7 +229,7 @@ MAP_IS_package::MAP_IS_package(const char * themap, unsigned char my_checksum) :
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	unsigned int qblocks = 192; //lo cambio por una variable porque a veces,  desconozco el motivo, tirar error el new de abajo
-	this->map = new char[qblocks];
+	this->map = new unsigned char[qblocks];
 	this->Checksum = my_checksum;
 	memcpy(this->map, themap, (size_t)qblocks);
 	this->info_length = 2 + qblocks;
@@ -225,7 +239,7 @@ MAP_IS_package::MAP_IS_package(const char * themap, unsigned char my_checksum) :
 /**************************************************************
 					GIVE_ME_THE_MAP
 **************************************************************/
-char * MAP_IS_package::give_me_the_map() {
+unsigned char * MAP_IS_package::give_me_the_map() {
 	return this->map;
 }
 /**************************************************************
@@ -249,7 +263,7 @@ unsigned char MAP_IS_package::give_me_the_checksum() {
 std::string MAP_IS_package::get_sendable_info() {
 
 	std::string info(enum_to_string(this->header));
-	std::string info1(map, 192);
+	std::string info1((char *)map, 192);
 	std::string info2(1, Checksum);
 	//std::string info2((const char*)this->Checksum,1);
 	std::string info3 = info + info1 + info2;
@@ -277,7 +291,7 @@ GAME_START_package::GAME_START_package() :Package(Package_type::GAME_START) {
 /**************************************************************
 			MOVE_PACKAGE_CONSTRUCTOR
 **************************************************************/
-MOVE_package::MOVE_package(Item_type the_one_that_moves, char fil_de, char col_de) : Package(Package_type::MOVE) {
+MOVE_package::MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de) : Package(Package_type::MOVE) {
 
 	character = the_one_that_moves;
 	destination_row = fil_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
@@ -313,11 +327,11 @@ Item_type MOVE_package::give_me_the_character() {
 	return character;
 }
 
-char MOVE_package::give_me_the_destination_row() {
+unsigned char MOVE_package::give_me_the_destination_row() {
 	return destination_row;
 
 }
-char MOVE_package::give_me_the_destination_column() {
+unsigned char MOVE_package::give_me_the_destination_column() {
 	return destination_column;
 
 }
@@ -330,7 +344,7 @@ char MOVE_package::give_me_the_destination_column() {
 /**************************************************************
 			ATTACK_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, char fil_de, char col_de) :Package(Package_type::ATTACK) {
+ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ATTACK) {
 
 	this->character = the_one_that_attacks;
 	this->destination_row = fil_de ; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
@@ -367,11 +381,11 @@ Item_type ATTACK_package::give_me_the_character() {
 	return this->character;
 }
 
-char ATTACK_package::give_me_the_destination_row() {
+unsigned char ATTACK_package::give_me_the_destination_row() {
 	return this->destination_row;
 
 }
-char ATTACK_package::give_me_the_destination_column() {
+unsigned char ATTACK_package::give_me_the_destination_column() {
 	return this->destination_column;
 
 }
@@ -384,7 +398,7 @@ char ATTACK_package::give_me_the_destination_column() {
 /**************************************************************
 			ACTION_REQUEST_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, char fil_de, char col_de) :Package(Package_type::ACTION_REQUEST) {
+ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ACTION_REQUEST) {
 
 	this->action = the_action;
 	this->destination_row = fil_de;
@@ -421,11 +435,11 @@ Action_type ACTION_REQUEST_package::give_me_the_action() {
 	return this->action;
 }
 
-char ACTION_REQUEST_package::give_me_the_destination_row() {
+unsigned char ACTION_REQUEST_package::give_me_the_destination_row() {
 	return this->destination_row;
 
 }
-char ACTION_REQUEST_package::give_me_the_destination_column() {
+unsigned char ACTION_REQUEST_package::give_me_the_destination_column() {
 	return this->destination_column;
 
 }
@@ -438,7 +452,7 @@ char ACTION_REQUEST_package::give_me_the_destination_column() {
 /**************************************************************
 			ENEMY_ACTION_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, char fil_de, char col_de) :Package(Package_type::ENEMY_ACTION) {
+ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ENEMY_ACTION) {
 
 	this->MonsterID = the_MonsterID;
 	this->action = the_action;
@@ -464,7 +478,7 @@ std::string ENEMY_ACTION_package::get_sendable_info() {
 	std::string info(enum_to_string(this->header));
 	std::string info1(1,this->MonsterID+48); //para evitar tener un terminador que cropee el string
 	std::string info2(1,(char)this->action);
-	std::string info3(1,this->destination_row+48);//cuidado porque a partir de columna/fila 10 ya no vas a tener un ascii número
+	std::string info3(1,this->destination_row+48);//cuidado porque a partir de columna/fila 10 ya no vas a tener un ascii nï¿½mero
 	std::string info4(1,this->destination_column+48);
 
 	std::string info5 = info + info1 + info2 + info3 + info4;
@@ -480,11 +494,11 @@ Action_type ENEMY_ACTION_package::give_me_the_action() {
 	return this->action;
 }
 
-char ENEMY_ACTION_package::give_me_the_destination_row() {
+unsigned char ENEMY_ACTION_package::give_me_the_destination_row() {
 	return this->destination_row;
 
 }
-char ENEMY_ACTION_package::give_me_the_destination_column() {
+unsigned char ENEMY_ACTION_package::give_me_the_destination_column() {
 	return this->destination_column;
 
 }

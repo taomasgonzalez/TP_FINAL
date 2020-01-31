@@ -13,6 +13,10 @@ PackageFactory::PackageFactory()
 			pac = new ACK_package();
 			break;
 
+		case Event_type::RESET:
+			pac = new RESET_package();
+			break;
+
 		case Event_type::NAME:
 			pac = new NAME_package();
 			break;
@@ -86,10 +90,18 @@ PackageFactory::PackageFactory()
  
  EventPackage * PackageFactory::package_2_event_package(Package * package_recieved)
  {
+	 static int ack_num = 0; //debug
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:
 		 my_event_package = new ACK_EventPackage();
+		 std::cout << "Llego un ACK por networking" << ack_num++ << std::endl;
+		 break;
+
+	 case Package_type::RESET:
+		 my_event_package = new RESET_EventPackage(false);
+		 std::cout << "Llego un RESET" << std::endl;
+
 		 break;
 
 	 case Package_type::NAME:

@@ -14,7 +14,6 @@ CharacterSceneObserver::~CharacterSceneObserver()
 {
 }
 
-
 void CharacterSceneObserver::update() {
 	if (fsm->obs_info.perform_logical_attack) {
 		Sense_type sense = character->get_sense();
@@ -23,7 +22,10 @@ void CharacterSceneObserver::update() {
 	}
 	if (fsm->obs_questions.can_perform_movement) {
 		Action_info info;
-		info.my_info_header = Action_info_id::MOVE;
+		if (character->get_map_thing_type() == Thing_Type::ENEMY)
+			info.my_info_header = Action_info_id::ENEMY_ACTION;
+		else
+			info.my_info_header = Action_info_id::MOVE;
 		info.action = Action_type::Move;
 		info.my_direction = fsm->get_current_action_direction();
 		info.id = character->id;
@@ -31,7 +33,6 @@ void CharacterSceneObserver::update() {
 		fsm->obs_answers.can_perform_movement = scenario->is_the_action_possible(&info, true);
 	}
 	if (fsm->obs_info.perform_logical_movement) {
-		
 		MOVE_EventPackage ev_pack;
 		Action_info info = ev_pack.to_Action_info();
 		info.my_direction = fsm->get_current_action_direction();
@@ -39,6 +40,19 @@ void CharacterSceneObserver::update() {
 		direction_to_deltas(&info);
 		perform_movement(info);
 	}
+	else if (fsm->obs_questions.should_continue_moving) {
+		//First is checked is checked is one key 
+		fsm->obs_answers.should_continue_moving = !scenario->saved_events->empty();
+		//scenario->logic_movements_block = false;
+		//std::cout << "Termino el bloqueo logico" << std::endl;
+	}
+	//Cheque si el jugador tiene que seguir cayendo y appende directamente el fall así no pasa por iddle
+	else if (fsm->obs_questions.should_keep_falling) {
+
+		fsm->obs_answers.should_keep_falling = scenario->check_if_has_to_fall(character, true);
+
+	}
+
 }
 
 void CharacterSceneObserver::kill_character() {

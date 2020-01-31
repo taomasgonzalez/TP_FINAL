@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterSceneObserver.h"
+
 class PlayerSceneObserver : public CharacterSceneObserver
 {
 public:
@@ -9,5 +10,6 @@ public:
 	void perform_movement(Action_info action);
 
 private:
+
 };
 

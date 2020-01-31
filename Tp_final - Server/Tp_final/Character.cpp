@@ -26,11 +26,20 @@ bool Character::is_moving()
 	return char_fsm->is_moving();
 }
 
+bool Character::is_falling()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+	return char_fsm->is_falling();
+}
+
 bool Character::is_iddle()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
 	return char_fsm->is_iddle();
 }
+
+
 bool Character::is_attacking() {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
 	return char_fsm->is_attacking();
@@ -67,5 +76,7 @@ void Character::append_action_to_character(Action_info action) {
 			break;
 		}
 	}
-	ev_handler->get_ev_gen()->append_new_event(ev_pack, 0);
+
+	if(ev_pack != NULL)
+		ev_handler->get_ev_gen()->append_new_event(ev_pack, 0);
 }

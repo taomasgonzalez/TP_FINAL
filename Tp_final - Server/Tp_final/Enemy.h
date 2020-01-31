@@ -23,9 +23,6 @@ public:
 	virtual void unfreeze();
 	//falta implementar
 	virtual void be_hit();
-
-
-	ALLEGRO_TIMER * get_acting_timer();
 	
 	struct obs_info {
 		bool can_make_movement = false;
@@ -39,13 +36,12 @@ public:
 	Action_info get_action_4_obs();
 	void set_action_4_obs(Action_info action);
 
+	virtual bool is_iddle();
 
 protected:
 	//frozen_timer;
 	//falta implementar
 	void freeze();
-
-	ALLEGRO_TIMER * acting_timer;
 
 	static std::uniform_real_distribution<double> acting_probabilities;
 	static unsigned seed;
@@ -63,5 +59,10 @@ protected:
 
 	Action_info action_4_obs;
 
+	bool is_staying_still = false;
+	double staying_still_time;
+
+	ALLEGRO_TIMER * staying_still_timer = NULL;
+	ALLEGRO_EVENT_QUEUE* enemy_timers = NULL;
 };
 

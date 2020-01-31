@@ -13,7 +13,7 @@ using namespace std;
 class Map
 {
 public:
-	Map(int number_of_rows, int number_of_columns, Userdata* data);
+	Map(unsigned int number_of_rows, unsigned int number_of_columns, Userdata* data);
 	~Map();
 
 
@@ -47,9 +47,7 @@ public:
 	int get_max_number_of_floors();
 
 	//llamar despues de construir al mapa para cargar las cosas!!
-	void load_on_map(const char* map_string, void* scenario = NULL);
-	void register_enemies_event_queue(ALLEGRO_EVENT_QUEUE * enemies_ev_queue);
-	void register_proyectiles_event_queue(ALLEGRO_EVENT_QUEUE * proyectiles_ev_queue);
+	void load_on_map(const unsigned char* map_string, void* scenario = NULL);
 
 	void load_checksum(unsigned char checksum);
 
@@ -57,7 +55,7 @@ public:
 
 	bool delete_from_map(unsigned int id);
 	bool delete_from_map(MapThing* thing);
-	const char * give_me_the_original_map();
+	const unsigned char * give_me_the_original_map();
 	unsigned char give_me_the_checksum();
 
 	Action_info get_initial_enemy_actions();
@@ -73,18 +71,18 @@ public:
 
 	void append_graphic_facility(void* drawer);
 private:
-	MapCell* get_cell(int coord_x, int coord_y);
+	MapCell* get_cell(unsigned int coord_x, unsigned int coord_y);
 	MapCell ** map_cells;
 
-	int number_of_rows;
-	int number_of_columns;
+	unsigned int number_of_rows;
+	unsigned int number_of_columns;
 	unsigned char my_checksum;
 
 
 	string original_distribution;
-	MapThing* get_from_map(int coord_x, int coord_y, int coord_z);
+	MapThing* get_from_map(unsigned int coord_x, unsigned int coord_y, unsigned int coord_z);
 
-	void place_on_map(int coord_x, int coord_y, MapThing* thing);
+	void place_on_map(unsigned int coord_x, unsigned int coord_y, MapThing* thing);
 	
 	void clear();
 

@@ -7,6 +7,8 @@ void do_nothing_char(void* data);
 void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
+void append_walking_r(void* data);
+
 
 void start_jumping_r(void* data);
 void check_jumping_and_jump(void* data);
@@ -34,6 +36,9 @@ CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(ch
 	set_processes();
 	create_all_timers();
 	char_ev_queue = al_create_event_queue();
+
+	this->saved_character_events = new queue<EventPackage *>();
+
 	al_register_event_source(char_ev_queue, al_get_timer_event_source(falling_timer));
 	actual_state = iddle_state;
 	al_start_timer(falling_timer);
@@ -94,10 +99,13 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
+	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
+	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
 	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
@@ -106,6 +114,7 @@ void CharacterActionsFSM::set_states() {
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
+	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
 	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char });
@@ -131,6 +140,11 @@ void CharacterActionsFSM::disappear_char() {
 bool CharacterActionsFSM::is_moving() {
 	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
 }
+
+bool CharacterActionsFSM::is_falling() {
+	return actual_state == falling_state;
+}
+
 bool CharacterActionsFSM::is_iddle() {
 	return actual_state == iddle_state;
 }
@@ -138,6 +152,17 @@ bool CharacterActionsFSM::is_attacking() {
 	return actual_state == attacking_state;
 }
 
+/*
+Reminder:
+Por como está codeado el primer movimiento no lo chequea como válido, porque asume que ya se chequeo
+previamente en check_action(). Se chequea recién el segundo process, que si llega a estar mal es un problema
+porque dicho chequeo sucede después de haber ejecutado el process gráfico.
+Caso Salto:
+En salto no chequea el primer process porque ya lo chequeo check_move() pero recien hace el primer chequeo
+al terminar el segundo process por lo que en el caso de un salto "corto" lo hace en medio de un bloque ya.
+Cosa que está mal. Se debería chequear antes de realizar el procedimiento lógico. Se va a implementar sólo
+para el caso del salto por miedo a cagarla en otros casos, pero tener en cuenta.
+*/
 void CharacterActionsFSM::process_logical_movement()
 {
 	bool can_perform = true;
@@ -146,6 +171,13 @@ void CharacterActionsFSM::process_logical_movement()
 		//can i perform this sub-movement? Do the game conditions enable me to do so?
 		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
+
+		//Chequeo para salto "corto" o "largo"
+		if (actual_state == jumping_state)
+		{
+			continue_logical_movement();		//if so, perform the movement.
+			can_perform = can_perform_logical_movement();
+		}
 
 		if (can_perform)
 			continue_logical_movement();		//if so, perform the movement.
@@ -209,14 +241,65 @@ void CharacterActionsFSM::continue_logical_movement(){
 }
 
 void CharacterActionsFSM::end_if_should_end_movement(){
+
+
 	obs_questions.should_interrupt_movement = true;
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
+
+	if (actual_state == falling_state || actual_state == walking_state || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
+	{
+		obs_questions.should_keep_falling = true;
+		notify_obs();						//PlayerActionsFSMDRAWObserver
+		obs_questions.should_keep_falling = false;
+	}
+
 	if (obs_answers.should_interrupt_movement) {
-		obs_info.interrupt_movement = true;
-		notify_obs();				
-		obs_info.interrupt_movement = false;
+
+
+		//Estoy en medio de una caida y tengo que seguir cayendo
+		if (obs_answers.should_keep_falling)
+		{
+			std::cout << "Se sigue cayendo, se appendea un FELL" << std::endl;
+			character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+			start_falling();
+		}
+		//Chequeo si hay algun evento guardado que tenga que ser appendeado
+		else if (!this->saved_character_events->empty())
+		{
+			EventPackage * saved_event = saved_character_events->front();
+
+			if (saved_event->give_me_your_event_type() == Event_type::WALKED)
+			{
+				std::cout << "Se ejecuta un WALKED guardado" << std::endl;
+				set_fsm_ev_pack(saved_event);
+				start_walking();
+			}
+			saved_character_events->pop();
+		}
+		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
+		else
+		{
+			obs_info.interrupt_movement = true;
+			notify_obs();
+			obs_info.interrupt_movement = false;
+		}
+
+		////The FSM asks to the observer if there are pending packages to be executed
+		//obs_questions.should_continue_moving = true;
+		//notify_obs();						//PlayerActionsFSMDRAWObserver
+		//obs_questions.should_continue_moving = false;
+
+		////To avoid going iddle when there´s another MOVE coming in, we append a new WALKED
+		//if (obs_answers.should_continue_moving)
+		//{
+		//	obs_info.keep_moving = true;
+		//	notify_obs();
+		//	obs_info.keep_moving = false;
+
+		//	obs_answers.should_continue_moving=false;
+		//}
 	}
 }
 
@@ -269,6 +352,26 @@ void start_walking_r(void* data) {
 	fsm->start_walking();
 }
 
+
+void append_walking_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_walking();
+}
+
+void CharacterActionsFSM::append_walking() {
+
+	//Only one event can be appended at the same time
+	if (this->saved_character_events->empty())
+	{
+		//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
+		this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
+		std::cout << "Se appendeo un WALKED" << std::endl;
+	}
+	else
+		std::cout << "Ya habia un evento guardado en la cola de CharacterActionsFSM, no se guarda evento" << std::endl;
+
+}
+
 void CharacterActionsFSM::start_walking() {
 	al_stop_timer(falling_timer);
 
@@ -283,6 +386,7 @@ void CharacterActionsFSM::start_walking() {
 	notify_obs();
 	obs_info.start_walking_graph = false;
 }
+
 void check_walking_and_walk(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 
