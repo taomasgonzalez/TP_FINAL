@@ -110,15 +110,15 @@ private:
 class MAP_IS_package : public Package
 {
 public:
-	MAP_IS_package(const char * themap,char my_checksum);
+	MAP_IS_package(const char * themap,unsigned char my_checksum);
 	char * give_me_the_map();
-	char give_me_the_checksum();
+	unsigned char give_me_the_checksum();
 	std::string get_sendable_info();
 
 
 private:
 	char * map;
-	char Checksum;
+	unsigned char Checksum;
 };
 
 /******************************************************************************

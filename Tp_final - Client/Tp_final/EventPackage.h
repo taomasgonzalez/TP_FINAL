@@ -311,13 +311,13 @@ private:
 class MAP_IS_EventPackage : public EventPackage
 {
 public:
-	MAP_IS_EventPackage(bool is_local, const char * themap, char checksum);
+	MAP_IS_EventPackage(bool is_local, const char * themap, unsigned char checksum);
 	char * give_me_the_map();
-	char give_me_the_checksum();
+	unsigned char give_me_the_checksum();
 
 private:
 	char * map;
-	char Checksum;
+	unsigned char Checksum;
 };
 
 /******************************************************************************

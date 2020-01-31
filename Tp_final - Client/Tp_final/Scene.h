@@ -59,8 +59,8 @@ public:
 	OPERATING OVER MAPS
 ******************************************************************************/
 
-	void load_new_map(bool is_client, const char * the_map =NULL, char the_checksum=NULL );
-	bool is_the_map_okay(const char * the_map , char the_checksum );
+	void load_new_map(bool is_client, const char * the_map =NULL, unsigned char the_checksum=NULL );
+	bool is_the_map_okay(const char * the_map , unsigned char the_checksum );
 	void load_new_graphic_level();
 	const char * give_me_the_map_info();
 

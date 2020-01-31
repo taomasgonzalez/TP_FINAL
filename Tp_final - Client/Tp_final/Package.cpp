@@ -211,7 +211,7 @@ std::string NAME_IS_package::get_sendable_info() {
 /**************************************************************
 			MAP_IS_PACKAGE_CONSTRUCTOR
 **************************************************************/
-MAP_IS_package::MAP_IS_package(const char * themap, char my_checksum) :Package(Package_type::MAP_IS) {
+MAP_IS_package::MAP_IS_package(const char * themap, unsigned char my_checksum) :Package(Package_type::MAP_IS) {
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	unsigned int qblocks = 192; //lo cambio por una variable porque a veces,  desconozco el motivo, tirar error el new de abajo
@@ -231,7 +231,7 @@ char * MAP_IS_package::give_me_the_map() {
 /**************************************************************
 					GIVE_ME_THE_CHECKSUM
 **************************************************************/
-char MAP_IS_package::give_me_the_checksum() {
+unsigned char MAP_IS_package::give_me_the_checksum() {
 	return this->Checksum;
 }
 /**************************************************************
