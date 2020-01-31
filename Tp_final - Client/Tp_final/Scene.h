@@ -143,4 +143,6 @@ private:
 
 	Userdata* data;
 	int curr_enemy_to_act_on = 0;
+
+	string map_string;
 };
