@@ -638,9 +638,21 @@ void LogicFSM::reset_game() {
 	scenario->actual_map = -1;
 	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
 	
+	saved_EventPackages.clear();
+
 	//send RESET
 	if (get_fsm_ev_pack()->is_this_a_local_action())
 		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+}
+
+EventPackage * LogicFSM::give_me_the_saved_EventPackage(unsigned int ID) {
+
+
+}
+
+void LogicFSM::saved_an_EventPackage(EventPackage * package_to_be_saved) {
+
 
 }
 

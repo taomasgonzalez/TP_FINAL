@@ -508,6 +508,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Position local_destination;
 	extern_future_event = false;
 	local_future_event = false;
+	int delta = 0;
+
 
 	/*	if this particular scene is a client scene and the move comes from networking, then the character is
 		already specified in Action_info_to_be_checked.*/
@@ -517,15 +519,43 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 	Player * the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
+
+	//if (the_one_that_moves->is_walking())
+	//{
+	//		the_one_that_moves->pos_x = the_one_that_moves->saved_x;
+	//		the_one_that_moves->pos_y = the_one_that_moves->saved_y;
+	//}
+
+
 	if (!Action_info_to_be_checked->is_local){
 		bool out_of_range = false;
 		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves, &out_of_range);
 	}
+	else
+	{
+		std::cout << "Según load direction:(acción local) " << std::endl;
+
+		std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y << std::endl;
+		std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x << std::endl;
+	}
+
 
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 
+	//if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST&&!the_one_that_moves->is_walking())
+	//{	
+	//	if (my_direction == Direction_type::Left)
+	//	{
+	//		the_one_that_moves->saved_x = the_one_that_moves->pos_x - 1;
+	//	}
+	//	else if(my_direction == Direction_type::Right)
+	//	{
+	//		the_one_that_moves->saved_x = the_one_that_moves->pos_x + 1;
+	//	}
+	//		the_one_that_moves->saved_y = the_one_that_moves->pos_y;
+	//}
 
 	//Es un MOVE que llego por networking, si ya me estoy moviendo significa que es un evento futuro a chequear
 	if(Action_info_to_be_checked->my_info_header==Action_info_id::MOVE && !the_one_that_moves->is_iddle())
@@ -535,31 +565,15 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST && !the_one_that_moves->is_iddle())
 		this->local_future_event = true;
 
-	else if (!character_check && !the_one_that_moves->is_iddle())
-	{
 
-//		if (saved_events->empty())
-//		{
-//			this->appended_event = true;
-//#ifdef DEBUG
-//			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
-//#endif
-//		}
-//		else
-//			std::cout << "Ya hay guardado un movimiento" << std::endl;
-
-	}
 
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
-//	else if (!character_check && !the_one_that_moves->is_iddle()) 
-//		is_the_move_possible = false;
 	else
 	{
-		int delta = 0;
 		switch (my_direction)
 		{
 		case Direction_type::Jump_Straight:
@@ -616,6 +630,9 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 			break;
 		case Direction_type::Left:
 		case Direction_type::Right:
+
+			//is_the_move_possible = check_walk(my_direction);
+
 			if (this->local_future_event||this->extern_future_event)
 				delta = (my_direction == Direction_type::Left) ? -2 : 2;
 			else
@@ -641,10 +658,55 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	{
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
+		std::cout << "Posicion externa Y " << Action_info_to_be_checked->final_pos_y << std::endl;
+		std::cout << "Posicion externa X " << Action_info_to_be_checked->final_pos_x << std::endl;
 	}
 
 	return is_the_move_possible;
 }
+
+//
+//bool Scene::check_walk(Direction_type walk_direction) {
+//
+//	extern_future_event = false;
+//	local_future_event = false;
+//
+//	//Es un MOVE que llego por networking, si ya me estoy moviendo significa que es un evento futuro a chequear
+//	if (Action_info_to_be_checked->my_info_header == Action_info_id::MOVE && !the_one_that_moves->is_iddle())
+//		this->extern_future_event = true;
+//
+//	//Es un ACTION_REQUEST, si ya me estoy moviendo significa que es un evento futuro a chequear
+//	if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST && !the_one_that_moves->is_iddle())
+//		this->local_future_event = true;
+//
+//	if (this->local_future_event || this->extern_future_event)
+//		delta = (my_direction == Direction_type::Left) ? -2 : 2;
+//	else
+//		delta = (my_direction == Direction_type::Left) ? -1 : 1;
+//
+//	is_the_move_possible = Action_info_to_be_checked->is_local ?
+//		maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
+//		maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
+//	if (Action_info_to_be_checked->is_local)
+//	{
+//		local_destination.fil = the_one_that_moves->pos_x + delta;
+//		local_destination.col = the_one_that_moves->pos_y;
+//	}
+//
+//
+//}
+
+//bool Scene::check_jump(Direction_type walk_direction) {
+//
+//}
+//
+//bool Scene::check_straight_jump() {
+//
+//}
+//
+//bool Scene::check_foward_jump() {
+//
+//}
 
 void Scene::load_saved_event_r() {
 
@@ -657,6 +719,11 @@ void Scene::load_saved_event_r() {
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range) {
 
 	Direction_type my_direction;
+	std::cout << "Según load direction:(acción externa) "<< std::endl;
+	std::cout << "Posicion externa Y " << extern_destination->fil << std::endl;
+	std::cout << "Posicion externa X " << extern_destination->col << std::endl;
+	std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y << std::endl;
+	std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x << std::endl;
 
 	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Left
 		my_direction = Direction_type::Left;

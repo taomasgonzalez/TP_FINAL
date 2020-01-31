@@ -137,6 +137,10 @@ public:
 	//debugging
 	void reset_game();
 
+	//saved_EventPackages
+	EventPackage * give_me_the_saved_EventPackage(unsigned int ID);
+	void saved_an_EventPackage(EventPackage * package_to_be_saved);
+
 protected:
 	virtual void print_curr_state();
 	Scene* scenario = NULL;
@@ -145,7 +149,7 @@ protected:
 	LogicEventGenerator * ev_gen = NULL;
 private:
 
-
+	map<unsigned int, EventPackage*> saved_EventPackages;						// map of saved eventpackages
 
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;

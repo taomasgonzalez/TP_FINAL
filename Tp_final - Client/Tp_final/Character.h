@@ -14,7 +14,11 @@ public:
 	bool is_moving();
 	bool is_falling();
 	virtual bool is_iddle();
+	virtual bool is_walking();
+
 	bool is_attacking();
+	Direction_type in_wich_direction_is_the_character_walking();
+
 
 	bool has_to_fall();
 	void dont_fall();

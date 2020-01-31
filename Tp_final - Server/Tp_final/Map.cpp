@@ -494,6 +494,12 @@ Position Map::find_next_movement_4_shortest_path(int from_x, int from_y, int to_
 bool Map::move_id(unsigned int id, int final_x, int final_y) {
 	bool moved = false;
 	MapThing * thingy = NULL;
+
+	std::cout << "Se movio el id (seteo logico) (desde execute_move() CharacterActionFSM) " << id<<std::endl;
+	std::cout << "final Y " << final_y << std::endl;
+	std::cout << "final Y " << final_x << std::endl;
+
+
 	if ((thingy = get_from_map(id)) != NULL)
 		if (delete_from_map(id)) {
 			place_on_map(final_x, final_y, thingy);

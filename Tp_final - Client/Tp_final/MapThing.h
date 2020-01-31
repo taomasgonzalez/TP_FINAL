@@ -28,6 +28,9 @@ public:
 	int pos_x;
 	int pos_y;
 
+	int saved_x;
+	int saved_y;
+
 	
 protected:
 	Item_type printable;

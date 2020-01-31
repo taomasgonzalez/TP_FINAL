@@ -314,6 +314,8 @@ bool Communication::is_the_connection_healthy()
 
 
 Package* Communication::create_package(unsigned char* aux_buf){
+	//ATENCION
+	//Variable que puede servir para cuando maando, no para cuando recibo
 	static int ack_quant = 0;
 	Package* new_package = NULL;
 	Package_type type = (Package_type)(unsigned char)aux_buf[0];
@@ -321,7 +323,8 @@ Package* Communication::create_package(unsigned char* aux_buf){
 	switch (type)
 	{
 	case Package_type::ACK:
-		new_package = new ACK_package;
+		//chequear
+		new_package = new ACK_package((uint16_t)aux_buf[1]);
 		cout << endl << "ack_quant: " << to_string(ack_quant++) << endl;
 		break;
 

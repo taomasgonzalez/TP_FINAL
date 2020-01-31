@@ -8,6 +8,7 @@ void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
 void append_action_r(void* data);
+void append_action_moving_state_r(void* data);
 
 
 
@@ -100,26 +101,33 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
-	walking_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
-	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
+	walking_state->push_back({ Event_type::JUMPED, jumping_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	jumping_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
 	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
 	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
 
 	jumping_forward_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	jumping_forward_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_forward_state, check_jumping_forward_and_jump });
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
-	falling_state->push_back({ Event_type::JUMPED, falling_state, append_action_r });
+	falling_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	falling_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	falling_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
@@ -154,6 +162,10 @@ bool CharacterActionsFSM::is_iddle() {
 	return actual_state == iddle_state;
 }
 
+bool CharacterActionsFSM::is_walking() {
+	return actual_state == walking_state;
+}
+
 
 
 bool CharacterActionsFSM::is_attacking() {
@@ -180,11 +192,15 @@ void CharacterActionsFSM::process_logical_movement()
 		if (!first_logical_movement())
 			can_perform = can_perform_logical_movement();
 
-		//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
-		if (actual_state == jumping_state || actual_state == jumping_forward_state)
+		if (!moving_between_states)
 		{
-			continue_logical_movement();		//if so, perform the movement.
-			can_perform = can_perform_logical_movement();
+			//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
+			if (actual_state == jumping_state || actual_state == jumping_forward_state)
+			{
+				continue_logical_movement();		//if so, perform the movement.
+				can_perform = can_perform_logical_movement();
+			}
+			moving_between_states = false;
 		}
 
 
@@ -386,6 +402,29 @@ bool CharacterActionsFSM::finished_logical_movement() {
 bool CharacterActionsFSM::first_logical_movement() {
 	return (current_moving_vector->begin() == current_moving_iteration);
 }
+
+Direction_type CharacterActionsFSM::in_wich_direction_is_the_character_walking() {
+	Direction_type character_dir;
+
+	if (current_moving_vector == &walking_right_process)
+	{
+		std::cout << "El character esta ejecutando un proceso de movimiento hacia la izquierda" << std::endl;
+		character_dir = Direction_type::Right;
+	}
+	else if (current_moving_vector == &walking_left_process)
+	{
+		std::cout << "El character esta ejecutando un proceso de movimiento hacia la derecha" << std::endl;
+		character_dir = Direction_type::Left;
+	}
+	else
+	{
+		std::cout << "El character no esta ejecutando un proceso de movimiento" << std::endl;
+		character_dir = Direction_type::None;
+	}
+
+	return character_dir;
+}
+
 bool CharacterActionsFSM::can_perform_logical_movement() {
 
 	obs_questions.can_perform_movement = true;
@@ -456,6 +495,12 @@ void start_walking_r(void* data) {
 
 void append_action_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_action();
+}
+
+void append_action_moving_state_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->moving_between_states = true;
 	fsm->append_action();
 }
 

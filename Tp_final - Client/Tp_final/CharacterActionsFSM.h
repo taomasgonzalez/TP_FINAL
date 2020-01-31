@@ -46,6 +46,7 @@ public:
 	void process_logical_movement();
 	void process_logical_attack();
 
+	Direction_type in_wich_direction_is_the_character_walking();
 	void start_walking();
 	void start_jumping();
 	void append_action();
@@ -62,6 +63,7 @@ public:
 	bool is_falling();
 
 	bool is_iddle();
+	bool is_walking();
 
 	bool is_attacking();
 
@@ -69,6 +71,8 @@ public:
 
 	bool has_to_fall();
 	void dont_fall();
+
+	bool moving_between_states = false;
 
 protected:
 

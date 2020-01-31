@@ -38,7 +38,6 @@ private:
 
 	std::vector<edge_t>* Waiting_for_ACK_quit_state = NULL;
 
-	std::vector<edge_t>* Waiting_for_ACK_playing_state = NULL;
 	std::vector<edge_t>* Waiting_for_servers_response_state = NULL;
 
 	std::vector<edge_t>* Waiting_if_the_client_wants_to_play_again = NULL;

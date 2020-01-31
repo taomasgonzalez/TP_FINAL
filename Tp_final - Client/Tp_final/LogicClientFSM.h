@@ -20,10 +20,8 @@ private:
 
 	std::vector<edge_t>* Waiting_for_map_state;
 	std::vector<edge_t>* Waiting_for_enemy_actions_state;
-	std::vector<edge_t>* Waiting_for_servers_response_state;
 
 	std::vector<edge_t>* Playing_state;
-	std::vector<edge_t>* Waiting_for_movement_state;
 
 
 	std::vector<edge_t>* Waiting_for_ACK_quit_state;

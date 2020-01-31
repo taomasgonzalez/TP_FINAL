@@ -15,6 +15,7 @@ public:
 	bool is_falling();
 
 	virtual bool is_iddle();
+	virtual bool is_walking();
 	bool is_attacking();
 
 	bool has_to_fall();

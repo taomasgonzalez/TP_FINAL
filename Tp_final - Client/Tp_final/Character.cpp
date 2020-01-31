@@ -38,6 +38,20 @@ bool Character::is_iddle()
 	return char_fsm->is_iddle();
 }
 
+bool Character::is_walking()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
+	return char_fsm->is_walking();
+}
+
+Direction_type Character::in_wich_direction_is_the_character_walking()
+{
+	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
+	return char_fsm->in_wich_direction_is_the_character_walking();
+}
+
 bool Character::waiting_for_next_move()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());

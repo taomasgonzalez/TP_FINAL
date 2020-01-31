@@ -110,6 +110,11 @@ private:
 
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);
+	//bool check_walk(Direction_type walk_direction);
+	//bool check_jump(Direction_type walk_direction);
+	//bool check_straight_jump();
+	//bool check_foward_jump();
+
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range);
 	bool check_attack(Action_info * package_to_be_analyze, bool proj_check);
 	bool check_enemy_action(Action_info * package_to_be_analyze);

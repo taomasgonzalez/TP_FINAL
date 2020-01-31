@@ -8,6 +8,8 @@ void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
 void append_action_r(void* data);
+void append_action_moving_state_r(void* data);
+
 
 
 
@@ -93,6 +95,8 @@ void CharacterActionsFSM::set_states() {
 
 	dead_state = new std::vector<edge_t>();
 
+	//Tengo que validar lo chequeos logicos de cada uno de estos casos para cada estado
+	//recién ahí el juego va a andar bien y fluido
 	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
@@ -100,26 +104,35 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
-	walking_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
-	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
+	//CAMBIAR::Cada movimiento distinto al de su propio estado debe ir al estado asociado a dicho movimiento
+	//y appendearse al saved_events(append_action_r) asi se levanta cuando termine dicho movimiento
+	walking_state->push_back({ Event_type::JUMPED, jumping_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
 
 	jumping_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	jumping_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
 	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
 	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
 
 	jumping_forward_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	jumping_forward_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_forward_state, check_jumping_forward_and_jump });
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
 	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
 
-	falling_state->push_back({ Event_type::JUMPED, falling_state, append_action_r });
+	falling_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	falling_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	falling_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
 	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
@@ -145,6 +158,10 @@ void CharacterActionsFSM::disappear_char() {
 
 bool CharacterActionsFSM::is_moving() {
 	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
+}
+
+bool CharacterActionsFSM::is_walking() {
+	return actual_state == walking_state;
 }
 
 bool CharacterActionsFSM::is_falling() {
@@ -184,13 +201,17 @@ void CharacterActionsFSM::process_logical_movement()
 		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
 		
-		//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
-		if (actual_state == jumping_state || actual_state == jumping_forward_state)
-		{
-			continue_logical_movement();		//if so, perform the movement.
-			can_perform = can_perform_logical_movement();
-		}
 
+		if (!moving_between_states)
+		{
+			//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
+			if (actual_state == jumping_state || actual_state == jumping_forward_state)
+			{
+				continue_logical_movement();		//if so, perform the movement.
+				can_perform = can_perform_logical_movement();
+			}
+			moving_between_states = false;
+		}
 
 		if (can_perform)
 			continue_logical_movement();		//if so, perform the movement.
@@ -382,7 +403,9 @@ void CharacterActionsFSM::end_if_should_end_attack(){
 		obs_info.interrupt_attack = false;
 	}
 }
-
+//Checks if the iterator is pointing to the "past-the-end" element, known as the next element from the last element
+//in the queue. 
+//Will return true after the last call to continue_logical_movement()
 bool CharacterActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
@@ -460,6 +483,12 @@ void start_walking_r(void* data) {
 
 void append_action_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_action();
+}
+
+void append_action_moving_state_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->moving_between_states = true;
 	fsm->append_action();
 }
 

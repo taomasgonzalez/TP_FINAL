@@ -340,14 +340,14 @@ void LogicFSM::execute_receive_action_and_send_ack() {
 			{
 				std::cout << "Se ejecuto MOVE del SERVER" << std::endl;
 				execute_extern_action();
-				should_change_state = false;
+				should_change_state = true;
 			}
 			else if (scenario->extern_future_event)
 			{
 				std::cout << "Llego un MOVE futuro del SERVER, se lo considero valido y se appendeo el WALKED correspondiente" << std::endl;
 				execute_extern_action();
 				scenario->extern_future_event = false;
-				should_change_state = false;
+				should_change_state = true;
 			}
 			//Is a future action so the FSM must not move to waiting_for_ACK state
 			else
@@ -643,12 +643,33 @@ void LogicFSM::reset_game() {
 	//mapa con un purple
 	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 
+	saved_EventPackages.clear();
+
 	scenario->actual_map = -1;
 	scenario->load_new_map(user_data->my_network_data.is_client(),(const unsigned char *) new_map.c_str(), 18);
 
 	//send RESET
 	if (get_fsm_ev_pack()->is_this_a_local_action())
 		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+}
+
+EventPackage * LogicFSM::give_me_the_saved_EventPackage(unsigned int ID) {
+
+	EventPackage * my_saved_EventPackage = NULL;
+
+	my_saved_EventPackage = saved_EventPackages[ID];
+
+	if (my_saved_EventPackage == NULL)
+		std::cout << "Error, couldn´t fetch any saved event from the map" << std::endl;
+	else //free the memory
+		saved_EventPackages.erase(ID);
+
+	return my_saved_EventPackage;
+}
+
+void LogicFSM::saved_an_EventPackage(EventPackage * package_to_be_saved) {
+
 
 }
 

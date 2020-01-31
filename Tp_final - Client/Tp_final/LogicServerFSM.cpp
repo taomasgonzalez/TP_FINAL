@@ -147,7 +147,6 @@ LogicServerFSM::~LogicServerFSM()
 	delete Waiting_for_ACK_quit_state;
 
 	delete Waiting_for_ACK_playing_state;
-	delete Waiting_for_servers_response_state;
 
 	delete Waiting_if_the_client_wants_to_play_again;
 	delete Waiting_if_the_server_wants_to_play_again;

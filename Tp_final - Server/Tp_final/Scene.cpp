@@ -521,6 +521,12 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves, &out_of_range);
 	}
+	else
+	{
+		std::cout << "Según check_move:(acción local) " << std::endl;
+		std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y << std::endl;
+		std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x << std::endl;
+	}
 
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
@@ -546,7 +552,10 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 
 	}
+	//if (the_one_that_moves->is_walking())
+	//{
 
+	//}
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
@@ -638,6 +647,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	{
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
+		std::cout << "Posicion externa Y " << Action_info_to_be_checked->final_pos_y << std::endl;
+		std::cout << "Posicion externa X " << Action_info_to_be_checked->final_pos_x << std::endl;
 	}
 
 	//if (logic_movements_block)
@@ -657,6 +668,12 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range) {
 
 	Direction_type my_direction;
+	std::cout << "Según load direction:(acción externa) " << std::endl;
+
+	std::cout << "Posicion externa Y "<< extern_destination->fil << std::endl;
+	std::cout << "Posicion externa X " << extern_destination->col<< std::endl;
+	std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y <<std::endl;
+	std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x <<std::endl;
 
 	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Left
 		my_direction = Direction_type::Left;

@@ -68,14 +68,20 @@ Action_EventPackage METHODS DEFINITIONS
 /**************************************************************
 Action_EventPackage CONSTRUCTOR
 **************************************************************/
-Action_EventPackage::Action_EventPackage(unsigned char fil_de = NULL, unsigned char col_de = NULL) {
+//Action_EventPackage::Action_EventPackage(unsigned char fil_de = NULL, unsigned char col_de = NULL, unsigned int ID, Direction_type dir = Direction_type::None) {
+
+Action_EventPackage::Action_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID, Direction_type dir= Direction_type::None) {
 
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
+	this->my_direction = dir;
+	this->package_ID = ID;
 }
 
-Action_EventPackage::Action_EventPackage(Direction_type direction_type) {
+Action_EventPackage::Action_EventPackage(Direction_type direction_type, unsigned int ID) {
 	this->my_direction = direction_type;
+	this->package_ID = ID;
+
 }
 
 
@@ -121,6 +127,16 @@ void Action_EventPackage::set_direction(Direction_type new_direction) {
 	this->my_direction = new_direction;
 
 }
+
+/**************************************************************
+give_me_your_package_ID
+**************************************************************/
+unsigned int Action_EventPackage::give_me_your_package_ID() {
+
+	return package_ID;
+
+}
+
 /******************************************************************************
 *******************************************************************************
 ACK_EventPackage METHODS DEFINITIONS
@@ -129,8 +145,17 @@ ACK_EventPackage METHODS DEFINITIONS
 /**************************************************************
 ACK_EventPackage_CONSTRUCTOR
 **************************************************************/
-ACK_EventPackage::ACK_EventPackage() :EventPackage(Event_type::ACK) {
+ACK_EventPackage::ACK_EventPackage(unsigned int ID) :EventPackage(Event_type::ACK) {
 
+	this->package_ID = ID;
+}
+
+/**************************************************************
+give_me_your_package_ID
+**************************************************************/
+unsigned int ACK_EventPackage::give_me_your_package_ID() {
+
+	return package_ID;
 
 }
 
@@ -179,20 +204,20 @@ MOVE_EventPackage METHODS DEFINITIONS
 /**************************************************************
 MOVE_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type) :EventPackage(Event_type::MOVE, true), Action_EventPackage(direction_type) { //LOCAL MOVE
+MOVE_EventPackage::MOVE_EventPackage(Direction_type direction_type, unsigned int ID) :EventPackage(Event_type::MOVE, true), Action_EventPackage(direction_type,ID) { //LOCAL MOVE
 
 }
 /**************************************************************
 MOVE_EventPackage CONSTRUCTOR (EXTERN)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::MOVE, false), Action_EventPackage(fil_de, col_de) {			//EXTERN MOVE
+MOVE_EventPackage::MOVE_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID) :EventPackage(Event_type::MOVE, false), Action_EventPackage(fil_de, col_de, ID) {			//EXTERN MOVE
 
 
 }
 /**************************************************************
 MOVE_EventPackage CONSTRUCTOR (MADE FROM AN AR)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::MOVE, false), Action_EventPackage(fil_de, col_de) {			//EXTERN MOVE
+MOVE_EventPackage::MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, unsigned int ID) :EventPackage(Event_type::MOVE, false), Action_EventPackage(fil_de, col_de, ID) {			//EXTERN MOVE
 
 	this->character = my_character;
 
@@ -200,14 +225,15 @@ MOVE_EventPackage::MOVE_EventPackage(Item_type my_character, unsigned char fil_d
 /**************************************************************
 MOVE_EventPackage CONSTRUCTOR (MADE FROM AN Action_type)
 **************************************************************/
-MOVE_EventPackage::MOVE_EventPackage(Action_info * my_info) :EventPackage(Event_type::MOVE, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+MOVE_EventPackage::MOVE_EventPackage(Action_info * my_info, unsigned int ID) :EventPackage(Event_type::MOVE, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y,ID) {
 
 	this->character = my_info->my_character;
 	this->set_direction(my_info->my_direction);
 
 }
 
-MOVE_EventPackage::MOVE_EventPackage():EventPackage(Event_type::MOVE, true)
+//Chequear uso de este constructor
+MOVE_EventPackage::MOVE_EventPackage():EventPackage(Event_type::MOVE, true), Action_EventPackage(Direction_type::None,0)
 {
 
 }
@@ -252,21 +278,21 @@ ATTACK_EventPackage METHODS DEFINITIONS
 /**************************************************************
 ATTACK_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage() :EventPackage(Event_type::ATTACK, true), Action_EventPackage(Direction_type::None) {
+ATTACK_EventPackage::ATTACK_EventPackage() :EventPackage(Event_type::ATTACK, true), Action_EventPackage(Direction_type::None,0) {
 
 
 }
 /**************************************************************
 ATTACK_EventPackage CONSTRUCTOR (EXTERN)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false), Action_EventPackage(fil_de, col_de) {
+ATTACK_EventPackage::ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID) :EventPackage(Event_type::ATTACK, false), Action_EventPackage(fil_de, col_de, ID) {
 
 
 }
 /**************************************************************
 ATTACK_EventPackage CONSTRUCTOR (MADE FROM AN AR)
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de) :EventPackage(Event_type::ATTACK, false), Action_EventPackage(fil_de, col_de) {
+ATTACK_EventPackage::ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, unsigned int ID) :EventPackage(Event_type::ATTACK, false), Action_EventPackage(fil_de, col_de,ID) {
 
 	this->character = my_character;
 
@@ -274,7 +300,7 @@ ATTACK_EventPackage::ATTACK_EventPackage(Item_type my_character, unsigned char f
 /**************************************************************
 ATTACK_EventPackage CONSTRUCTOR 
 **************************************************************/
-ATTACK_EventPackage::ATTACK_EventPackage(Action_info * my_info) :EventPackage(Event_type::ATTACK, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+ATTACK_EventPackage::ATTACK_EventPackage(Action_info * my_info, unsigned int ID) :EventPackage(Event_type::ATTACK, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y,ID) {
 
 	this->character = my_info->my_character;
 	this->set_direction(my_info->my_direction);
@@ -321,14 +347,14 @@ ACTION_REQUEST_EventPackage METHODS DEFINITIONS
 /**************************************************************
 ACTION_REQUEST_EventPackage CONSTRUCTOR (LOCAL)
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction) : EventPackage(Event_type::ACTION_REQUEST, true), Action_EventPackage(direction) { //local ACTION_REQUEST
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction, unsigned int ID) : EventPackage(Event_type::ACTION_REQUEST, true), Action_EventPackage(direction,ID) { //local ACTION_REQUEST
 
 	this->action = the_action;
 }
 /**************************************************************
 ACTION_REQUEST_EventPackage CONSTRUCTOR (EXTERN)
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned char col_de) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de) { //extern ACTION_REQUEST
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned char col_de, unsigned int ID) : EventPackage(Event_type::ACTION_REQUEST, false), Action_EventPackage(fil_de, col_de, ID) { //extern ACTION_REQUEST
 
 	this->action = the_action;
 }
@@ -336,7 +362,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_type the_action,
 /**************************************************************
 ACTION_REQUEST_EventPackage CONSTRUCTOR 
 **************************************************************/
-ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y) {
+ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(Action_info* my_info, unsigned int ID) : EventPackage(Event_type::ACTION_REQUEST, my_info->is_local), Action_EventPackage(my_info->final_pos_x, my_info->final_pos_y,ID) {
 	
 	action = my_info->action;
 	set_direction(my_info->my_direction);
@@ -475,23 +501,17 @@ ENEMY_ACTION_EventPackage METHODS DEFINITIONS
 /**************************************************************
 ENEMY_ACTION_EventPackage CONSTRUCTOR
 **************************************************************/
-ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de)
-	:EventPackage(Event_type::ENEMY_ACTION, is_local) {
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, unsigned int ID)
+	:EventPackage(Event_type::ENEMY_ACTION, is_local), Action_EventPackage(fil_de,col_de,ID) {
 
 	this->MonsterID = the_MonsterID;
 	this->action = the_action;
-	this->destination_row = fil_de;
-	this->destination_column = col_de;
-	this->dir = dir;
 }
 
-ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local) {
+ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info, unsigned int ID) :EventPackage(Event_type::ENEMY_ACTION, ea_info->is_local), Action_EventPackage(ea_info->final_pos_y, ea_info->final_pos_x,ID) {
 
 	this->action = ea_info->action;
-	this->destination_row = ea_info->final_pos_x;
-	this->destination_column = ea_info->final_pos_y;
 	this->MonsterID = ea_info->id;
-	this->dir = ea_info->my_direction;
 }
 
 uchar ENEMY_ACTION_EventPackage::give_me_the_monsterID() {
@@ -502,14 +522,7 @@ Action_type ENEMY_ACTION_EventPackage::give_me_the_action() {
 	return this->action;
 }
 
-unsigned char ENEMY_ACTION_EventPackage::give_me_the_destination_row() {
-	return this->destination_row;
 
-}
-unsigned char ENEMY_ACTION_EventPackage::give_me_the_destination_column() {
-	return this->destination_column;
-
-}
 
 Action_info ENEMY_ACTION_EventPackage::to_Action_info()
 {
@@ -517,10 +530,10 @@ Action_info ENEMY_ACTION_EventPackage::to_Action_info()
 
 	returnable_info.my_info_header = Action_info_id::ENEMY_ACTION;
 	returnable_info.action = give_me_the_action();
-	returnable_info.final_pos_x = give_me_the_destination_row();
-	returnable_info.final_pos_y = give_me_the_destination_column();
+	returnable_info.final_pos_x = give_me_your_destination_row();
+	returnable_info.final_pos_y = give_me_your_destination_column();
 	returnable_info.id = give_me_the_monsterID();
-	returnable_info.my_direction = this->dir;
+	returnable_info.my_direction = give_me_your_direction();
 
 	return returnable_info;
 }

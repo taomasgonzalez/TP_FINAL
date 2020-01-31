@@ -47,6 +47,22 @@ protected:
 
 };
 
+/******************************************************************************
+*******************************************************************************
+								NUMBERED_PACKAGE CLASS
+*******************************************************************************
+*******************************************************************************/
+class Numbered_package
+{
+public:
+	Numbered_package(uint16_t ID);
+
+	uint16_t give_me_your_ID();
+
+private:
+	uint16_t package_ID=0;
+
+};
 
 
 /******************************************************************************
@@ -54,10 +70,10 @@ protected:
 							ACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_package : public Package
+class ACK_package : public Package, Numbered_package
 {
 public:
-	ACK_package();
+	ACK_package(uint16_t ID);
 
 private:
 
@@ -155,10 +171,10 @@ private:
 							MOVE_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_package : public Package
+class MOVE_package : public Package, Numbered_package
 {
 public:
-	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de);
+	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	Item_type give_me_the_character();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -178,10 +194,10 @@ private:
 							ATTACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_package : public Package
+class ATTACK_package : public Package, Numbered_package
 {
 public:
-	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de);
+	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	Item_type give_me_the_character();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -202,10 +218,10 @@ private:
 							ACTION_REQUEST_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_package : public Package
+class ACTION_REQUEST_package : public Package, Numbered_package
 {
 public:
-	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de,unsigned char col_de);
+	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de,unsigned char col_de, uint16_t ID);
 	Action_type give_me_the_action();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -225,10 +241,10 @@ private:
 							ENEMY_ACTION_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ENEMY_ACTION_package : public Package
+class ENEMY_ACTION_package : public Package, Numbered_package
 {
 public:
-	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de);
+	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	unsigned char give_me_the_destination_row();

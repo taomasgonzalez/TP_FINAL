@@ -48,6 +48,7 @@ Package::Package(Package_type type)
 {
 	this->header = type;
 	this->info_to_be_send = (unsigned char *)&(this->header);
+
 }
 Package::~Package(){
 
@@ -107,6 +108,38 @@ unsigned int Package::get_info_length() {
 }
 
 
+
+/******************************************************************************
+*******************************************************************************
+			NUMBERED_PACKAGE METHODS DEFINITIONS
+*******************************************************************************
+*******************************************************************************/
+/**************************************************************
+			NUMBERED_PACKAGE_CONSTRUCTOR
+**************************************************************/
+Numbered_package::Numbered_package(uint16_t ID) {
+
+	this->package_ID = ID;
+}
+
+/**************************************************************
+				give_me_your_ID
+**************************************************************/
+/*
+*GETTER.This function returns the ID of the current package
+*
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The lenght of the information to be send by networking.
+*/
+uint16_t Numbered_package::give_me_your_ID() {
+
+	return this->package_ID;
+}
+
 /******************************************************************************
 *******************************************************************************
 			ACK_PACKAGE METHODS DEFINITIONS
@@ -115,9 +148,9 @@ unsigned int Package::get_info_length() {
 /**************************************************************
 			ACK_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ACK_package::ACK_package() :Package(Package_type::ACK) {
+ACK_package::ACK_package(uint16_t ID) :Package(Package_type::ACK),Numbered_package(ID) {
 
-
+	this->info_length = 3; //Header (1 byte) + ID (2 bytes)
 }
 
 
@@ -291,12 +324,12 @@ GAME_START_package::GAME_START_package() :Package(Package_type::GAME_START) {
 /**************************************************************
 			MOVE_PACKAGE_CONSTRUCTOR
 **************************************************************/
-MOVE_package::MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de) : Package(Package_type::MOVE) {
+MOVE_package::MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de, uint16_t ID) : Package(Package_type::MOVE),Numbered_package(ID) {
 
 	character = the_one_that_moves;
 	destination_row = fil_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	destination_column = col_de ;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	info_length = 4;
+	this->info_length = 6; //Header (1 byte) + ID (2 bytes) + Player (1 byte) + Fil_de (1 byte) + 1 Col_de (1 byte)
 
 
 }
@@ -344,12 +377,12 @@ unsigned char MOVE_package::give_me_the_destination_column() {
 /**************************************************************
 			ATTACK_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ATTACK) {
+ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de, uint16_t ID) :Package(Package_type::ATTACK),Numbered_package(ID) {
 
 	this->character = the_one_that_attacks;
 	this->destination_row = fil_de ; //elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
 	this->destination_column = col_de;//elimino el desfasaje generado al enviar el string para evitar un posible terminador no deseado
-	this->info_length = 4;
+	this->info_length = 6; //Header (1 byte) + ID (2 bytes) + Player (1 byte) + Fil_de (1 byte) + 1 Col_de (1 byte)
 
 }
 /**************************************************************
@@ -398,12 +431,12 @@ unsigned char ATTACK_package::give_me_the_destination_column() {
 /**************************************************************
 			ACTION_REQUEST_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ACTION_REQUEST) {
+ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID) :Package(Package_type::ACTION_REQUEST), Numbered_package(ID) {
 
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
-	this->info_length = 4;
+	this->info_length = 6; //Header (1 byte) + ID (2 bytes) + Action (1 byte) + Fil_de (1 byte) + 1 Col_de (1 byte)
 
 }
 /**************************************************************
@@ -452,13 +485,13 @@ unsigned char ACTION_REQUEST_package::give_me_the_destination_column() {
 /**************************************************************
 			ENEMY_ACTION_PACKAGE_CONSTRUCTOR
 **************************************************************/
-ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de) :Package(Package_type::ENEMY_ACTION) {
+ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID) :Package(Package_type::ENEMY_ACTION), Numbered_package(ID) {
 
 	this->MonsterID = the_MonsterID;
 	this->action = the_action;
 	this->destination_row = fil_de;
 	this->destination_column = col_de;
-	this->info_length = 5;
+	this->info_length = 7; //Header (1 byte) + ID (2 bytes) + Monster´s ID (1 byte) + Action (1 byte) + Fil_de (1 byte) + 1 Col_de (1 byte)
 }
 
 /**************************************************************

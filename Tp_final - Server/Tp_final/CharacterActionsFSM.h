@@ -59,6 +59,7 @@ public:
 	void disappear_char();
 
 	bool is_moving();
+	bool is_walking();
 	bool is_falling();
 
 
@@ -71,6 +72,9 @@ public:
 
 	bool has_to_fall();
 	void dont_fall();
+
+	bool moving_between_states = false;
+
 
 protected:
 
