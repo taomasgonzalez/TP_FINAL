@@ -65,7 +65,7 @@ void Character::append_action_to_character(Action_info action) {
 
 	EventPackage* ev_pack = NULL;
 	if (action.action == Action_type::Attack)
-		ev_pack = new ATTACK_EventPackage();
+		ev_pack = new ATTACKED_EventPackage();
 
 	else if (action.action == Action_type::Move) {
 		switch (action.my_direction) {

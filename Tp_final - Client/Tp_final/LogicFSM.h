@@ -127,7 +127,7 @@ public:
 	void reset_game();
 
 	//saved_EventPackages
-	EventPackage * give_me_the_saved_EventPackage(unsigned int ID);
+	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
 	void saved_an_EventPackage(EventPackage * package_to_be_saved);
 
 protected:

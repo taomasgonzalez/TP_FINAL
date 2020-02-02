@@ -49,6 +49,15 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 
 
 	append_all_queues((int)LogicQueues::TOTAL_QUEUES);
+
+	//If the current sesion has a client role, the first package to be generated will have an ID equals to START_POINT_PACKAGE_ID_FOR_CLIENT
+	if (my_user_data->my_network_data.is_client())
+		package_ID_counter = START_POINT_PACKAGE_ID_FOR_CLIENT;
+	//If the current sesion has a client role, the first package to be generated will have an ID equals to 0
+	else
+		package_ID_counter = START_POINT_PACKAGE_ID_FOR_SERVER;
+
+
 }
 
 
@@ -392,8 +401,16 @@ void LogicEventGenerator::load_events_from_keyboard() {
 		int i;
 
 
-	//if (ev_pack != NULL)
-	//	append_new_event(ev_pack, (int)LogicQueues::allegro);
+	if (my_user_data->my_network_data.is_client())
+	{
+		if (package_ID_counter == FINISH_POINT_PACKAGE_ID_FOR_CLIENT)
+			package_ID_counter = START_POINT_PACKAGE_ID_FOR_CLIENT;
+	}
+	else
+	{
+		if (package_ID_counter == FINISH_POINT_PACKAGE_ID_FOR_SERVER)
+			package_ID_counter = START_POINT_PACKAGE_ID_FOR_SERVER;
+	}
 
 }
 
@@ -412,27 +429,18 @@ void LogicEventGenerator::load_events_from_keyboard() {
 EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type direction) {
 	EventPackage* ev_pack = NULL;
 
-	//Doesn´t make sense with the new implementation
-	//if (action == Action_type::Move && this->jumping) {
-	//	//the player is jumping in one direction, so should first convert to the suited Direction_type
-	//	if (this->side_move_dir != Direction_type::None)
-	//		this->side_move_dir = (this->side_move_dir == Direction_type::Left) ? Direction_type::Jump_Left : Direction_type::Jump_Right;
-	//	else
-	//		this->side_move_dir = Direction_type::Jump_Straight;
-	//}
-
 	if (!my_user_data->my_network_data.is_client()) {
 		if (action == Action_type::Attack)
-			ev_pack = new ATTACK_EventPackage();
+			ev_pack = new ATTACK_EventPackage(this->package_ID_counter);
 		else  if (action == Action_type::Move && direction != Direction_type::None)
-			ev_pack = new MOVE_EventPackage(direction);
+			ev_pack = new MOVE_EventPackage(direction,package_ID_counter);
 	}
 	else
 	{
 		if (action == Action_type::Attack)
-		ev_pack = new ACTION_REQUEST_EventPackage(action, direction);
+		ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter);
 		else if (action == Action_type::Move && direction != Direction_type::None)
-		ev_pack = new ACTION_REQUEST_EventPackage(action, direction);
+		ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter);
 	}
 
 	return ev_pack;

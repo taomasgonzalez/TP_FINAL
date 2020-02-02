@@ -97,7 +97,7 @@ void CharacterActionsFSM::set_states() {
 
 	//Tengo que validar lo chequeos logicos de cada uno de estos casos para cada estado
 	//recién ahí el juego va a andar bien y fluido
-	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
+	iddle_state->push_back({ Event_type::ATTACKED, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });

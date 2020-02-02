@@ -35,6 +35,7 @@ private:
 	std::vector<edge_t>* Waiting_for_ACK_game_start_state = NULL;
 
 	std::vector<edge_t>* Playing_state = NULL;
+	std::vector<edge_t>* Waiting_for_ACK_playing_state = NULL;
 
 	std::vector<edge_t>* Waiting_for_ACK_quit_state = NULL;
 

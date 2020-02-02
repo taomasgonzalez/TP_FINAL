@@ -1,6 +1,11 @@
 #pragma once
 #include "EventGenerator.h"
 
+#define START_POINT_PACKAGE_ID_FOR_CLIENT (35255)
+#define FINISH_POINT_PACKAGE_ID_FOR_CLIENT (65535)
+
+#define START_POINT_PACKAGE_ID_FOR_SERVER (0)
+#define FINISH_POINT_PACKAGE_ID_FOR_SERVER (35254)
 
 enum class Blocking_timer_type { Walking, Jumping, Attacking };
 
@@ -82,6 +87,8 @@ private:
 
 	//Flag so the program knows if a new movement should be fetched
 	bool blocked_attacks = false;
+
+	uint16_t package_ID_counter;
 
 };
 

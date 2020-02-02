@@ -82,6 +82,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	JUMPED,
 	JUMPED_FORWARD,
 	WALKED,
+	ATTACKED,
 	FELL,
 	PUSHED,
 	FINISHED_MOVEMENT,
@@ -129,23 +130,42 @@ protected:
 class Action_EventPackage
 {
 public:
-	Action_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID, Direction_type direction_type);
-	Action_EventPackage(Direction_type direction_type, unsigned int ID);
+	Action_EventPackage(unsigned char fil_de, unsigned char col_de, Direction_type direction_type);
+	Action_EventPackage(Direction_type direction_type);
 
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
+
 	void set_destination_row(unsigned char my_destination_row);
 	void set_destination_column(unsigned char my_destination_column);
+
+	Item_type give_me_the_character();
+	void set_character(Item_type the_one_that_moves);
+
 	Direction_type give_me_your_direction();
 	void set_direction(Direction_type new_direction = Direction_type::None);
 
-	uint16_t give_me_your_package_ID();
 
 private:
 	unsigned char destination_row;
 	unsigned char destination_column;
 	Direction_type my_direction = Direction_type::None;
+	Item_type character;
+};
+
+
+class Numbered_EventPackage
+{
+public:
+	Numbered_EventPackage(uint16_t ID);
+
+	uint16_t give_me_your_package_ID();
+	void set_your_package_ID(uint16_t ID);
+
+
+private:
 	uint16_t package_ID = 0;
+
 };
 
 /******************************************************************************
@@ -153,15 +173,12 @@ private:
 ACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_EventPackage : public EventPackage
+class ACK_EventPackage : public EventPackage,public Numbered_EventPackage
 {
 public:
-	ACK_EventPackage(unsigned int ID);
-	unsigned int give_me_your_package_ID();
-
+	ACK_EventPackage(uint16_t ID);
 
 private:
-	unsigned short int package_ID = 0;
 
 };
 
@@ -206,24 +223,24 @@ public:
 MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_EventPackage : public EventPackage, public Action_EventPackage
+
+
+class MOVE_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
 {
 public:
-	MOVE_EventPackage(Direction_type direction_type, unsigned int ID); //local MOVE
-	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID);			//extern MOVE
-	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, unsigned int ID);		//MOVE to be send by networking made from an AR
-	MOVE_EventPackage(Action_info * my_info, unsigned int ID);
+	MOVE_EventPackage(Direction_type direction_type, uint16_t ID); //local MOVE
+	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern MOVE
+	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//MOVE to be send by networking made from an AR
+	MOVE_EventPackage(Action_info * my_info);
+	MOVE_EventPackage(MOVE_EventPackage* moved);
+
 	//to be completed when neeeded!!
 	MOVE_EventPackage();
-
-	Item_type give_me_the_character();
-	void set_character(Item_type the_one_that_moves);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
 
 private:
-	Item_type character;
 };
 
 /******************************************************************************
@@ -231,23 +248,19 @@ private:
 ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_EventPackage : public EventPackage, public Action_EventPackage
+class ATTACK_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
 {
 public:
-	ATTACK_EventPackage(); // local ATTACK
-	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de, unsigned int ID);			//extern ATTACK
-	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, unsigned int ID);		//ATTACK to be send by networking made from an AR
-	ATTACK_EventPackage(Action_info * mmy_info, unsigned int ID);
-
-	Item_type give_me_the_character();
-	void set_character(Item_type the_one_that_moves);
+	ATTACK_EventPackage(uint16_t ID); // local ATTACK
+	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern ATTACK
+	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//ATTACK to be send by networking made from an AR
+	ATTACK_EventPackage(Action_info * mmy_info);
+	ATTACK_EventPackage(ATTACK_EventPackage* moved);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
 
 private:
-	Item_type character;
-
 
 };
 
@@ -257,12 +270,13 @@ private:
 ACTION_REQUEST_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage
+class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
 {
 public:
-	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction, unsigned int ID); //local ACTION_REQUEST
-	ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned  char col_de, unsigned int ID); //extern ACTION_REQUEST
-	ACTION_REQUEST_EventPackage(Action_info* my_info, unsigned int ID);
+	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction, uint16_t ID); //local ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned  char col_de, uint16_t ID); //extern ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_info* my_info);
+	ACTION_REQUEST_EventPackage(ACTION_REQUEST_EventPackage* moved);
 
 	Action_type give_me_the_action();
 	virtual Action_info to_Action_info();
@@ -348,11 +362,13 @@ private:
 *******************************************************************************
 *******************************************************************************/
 
-class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackage
+class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
 {
 public:
-	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, unsigned int ID);
-	ENEMY_ACTION_EventPackage(Action_info * ea_info, unsigned int ID);
+	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
+	ENEMY_ACTION_EventPackage(Action_info * ea_info);
+	ENEMY_ACTION_EventPackage(ENEMY_ACTION_EventPackage* enemy_action);
+
 
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
@@ -504,6 +520,13 @@ public:
 	WALKED_EventPackage(const WALKED_EventPackage* walked);
 
 	Direction_type walking_direction;
+};
+
+class ATTACKED_EventPackage : public EventPackage {
+public:
+	ATTACKED_EventPackage();
+
+	~ATTACKED_EventPackage();
 };
 
 class JUMPED_EventPackage : public EventPackage {

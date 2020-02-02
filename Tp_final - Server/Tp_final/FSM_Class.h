@@ -9,6 +9,7 @@
 #include <vector>
 #include <iostream>
 #include <string>
+#include "general.h"
 
 using namespace std;
 //changing fsm class!

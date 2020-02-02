@@ -361,25 +361,25 @@ Package* Communication::create_package(unsigned char* aux_buf){
 
 	case Package_type::MOVE:
 
-		new_package = new MOVE_package((Item_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48); //sacando el desfasaje hecho para evitar null terminator en buffer
+		new_package = new MOVE_package((Item_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48, (uint16_t)aux_buf[2]); //sacando el desfasaje hecho para evitar null terminator en buffer
 
 		break;
 
 	case Package_type::ATTACK:
 
-		new_package = new ATTACK_package((Item_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
+		new_package = new ATTACK_package((Item_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48, (uint16_t)aux_buf[2]);
 
 		break;
 
 	case Package_type::ACTION_REQUEST:
 
-		new_package = new ACTION_REQUEST_package((Action_type)aux_buf[1], aux_buf[2] - 48, aux_buf[3] - 48);
+		new_package = new ACTION_REQUEST_package((Action_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48, (uint16_t)aux_buf[2]);
 
 		break;
 
 	case Package_type::ENEMY_ACTION:
 
-		new_package = new ENEMY_ACTION_package(aux_buf[1] - 48, (Action_type)aux_buf[2], aux_buf[3] - 48, aux_buf[4] - 48);
+		new_package = new ENEMY_ACTION_package(aux_buf[1] - 48, (Action_type)aux_buf[4], aux_buf[5] - 48, aux_buf[4] - 48, (uint16_t)aux_buf[2]);
 
 		break;
 

@@ -70,7 +70,7 @@ private:
 							ACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_package : public Package, Numbered_package
+class ACK_package : public Package, public Numbered_package
 {
 public:
 	ACK_package(uint16_t ID);
@@ -171,7 +171,7 @@ private:
 							MOVE_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_package : public Package, Numbered_package
+class MOVE_package : public Package, public Numbered_package
 {
 public:
 	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de, uint16_t ID);
@@ -194,7 +194,7 @@ private:
 							ATTACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_package : public Package, Numbered_package
+class ATTACK_package : public Package,public Numbered_package
 {
 public:
 	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de, uint16_t ID);
@@ -218,7 +218,7 @@ private:
 							ACTION_REQUEST_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_package : public Package, Numbered_package
+class ACTION_REQUEST_package : public Package, public Numbered_package
 {
 public:
 	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de,unsigned char col_de, uint16_t ID);
@@ -241,7 +241,7 @@ private:
 							ENEMY_ACTION_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ENEMY_ACTION_package : public Package, Numbered_package
+class ENEMY_ACTION_package : public Package, public Numbered_package
 {
 public:
 	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
