@@ -1,6 +1,9 @@
 #include "LogicFSM.h"
 
 
+
+
+
 LogicFSM::LogicFSM(Userdata* data, LogicEventGenerator *event_gen, Scene* scene, Communication* com):FSM() {
 	user_data = data;
 	ev_gen = event_gen;

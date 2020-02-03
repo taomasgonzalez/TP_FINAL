@@ -3,6 +3,7 @@
 #include "EventHandler.h"
 
 
+
 class Character: public MapThing
 {
 public:

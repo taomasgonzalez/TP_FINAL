@@ -1,5 +1,8 @@
+#pragma once
 #include "Character.h"
 #include "CharacterActionsFSM.h"
+
+
 Character::Character(unsigned int id, Sense_type sense) : MapThing(id, false, sense)
 {
 
