@@ -6,6 +6,7 @@ extern "C" {
 #include "Userdata.h"
 #include <string>
 #include <sstream>
+#include "intrin.h"
 
 typedef unsigned int uint;
 typedef unsigned char uchar;

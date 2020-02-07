@@ -12,24 +12,13 @@
 
 using namespace std;
 //changing fsm class!
-/*****************************************************
-*          DEFINITION OF EDGE
-* **************************************************/
-typedef struct edge edge_t;
-struct edge
-{
-	Event_type event;
-	std::vector<edge_t>* nextstate;
-	void(*fun_trans)(void*);
-};
 
-std::string event_string[] =  //Events that are usde by the internal function of the program 
+std::string event_string[46] =  //Events that are usde by the internal function of the program 
 {
 	"END_OF_TABLE",
 
 	//ACK:
 	"ACK",
-
 
 	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
 	"LOCAL_QUIT",
@@ -99,7 +88,6 @@ std::string event_string[] =  //Events that are usde by the internal function of
 	"FELL",
 	"PUSHED",
 	"FINISHED_MOVEMENT",
-	"KEEP_MOVING",
 	"FINISHED_ATTACK",
 	"DIED",
 
@@ -117,13 +105,23 @@ std::string event_string[] =  //Events that are usde by the internal function of
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
-	"FINISHED_GRAPH_STEP",
-	//RESET
-	"RESET"
-
+	//RESET(DEBUGGING)
+	"RESET",
+	"FINISHED_GRAPH_STEP"
 
 };
 
+
+/*****************************************************
+*          DEFINITION OF EDGE
+* **************************************************/
+typedef struct edge edge_t;
+struct edge
+{
+	Event_type event;
+	std::vector<edge_t>* nextstate;
+	void(*fun_trans)(void*);
+};
 
 
 /*******************************************************************************
@@ -147,6 +145,11 @@ protected:
 	void change_action_routine(std::vector<edge_t>* state_to_be_changed, Event_type event1, void(*new_routine)(void*));
 	void(*get_routine(std::vector<edge_t>* state, Event_type event1))(void*);
 	bool should_change_state = true;
+
+
+
+
+
 private:
 	EventPackage * my_ev_pack=NULL;
 

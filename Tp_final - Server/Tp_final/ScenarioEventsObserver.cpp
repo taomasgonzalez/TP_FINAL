@@ -31,11 +31,11 @@ void ScenarioEventsObserver::update() {
 	
 	if (this->scenario->we_won){
 		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
-			ev_gen->append_new_event(new WE_WON_EventPackage(), (int)EventGenerator::LogicQueues::soft);
+			ev_gen->append_new_event(new WE_WON_EventPackage(true), (int)EventGenerator::LogicQueues::soft);
 	}
 	if (scenario->we_lost){
 		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
-			ev_gen->append_new_event(new GAME_OVER_EventPackage(), (int)EventGenerator::LogicQueues::soft);
+			ev_gen->append_new_event(new GAME_OVER_EventPackage(true), (int)EventGenerator::LogicQueues::soft);
 	}
 	if (scenario->new_enemy_action) {
 		Action_info new_enemy_action = scenario->give_me_my_enemy_action(false);

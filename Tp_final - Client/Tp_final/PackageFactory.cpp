@@ -98,7 +98,7 @@ EventPackage * PackageFactory::package_2_event_package(Package * package_recieve
 	case Package_type::ACK:
 	{
 		ACK_package* ack_pack = static_cast<ACK_package*>(package_recieved);
-		my_event_package = new ACK_EventPackage(ack_pack->give_me_your_ID());
+		my_event_package = new ACK_EventPackage(ack_pack->give_me_your_ID(),false);
 		std::cout << "Llego un ACK por networking, ID:" << ack_pack->give_me_your_ID() << std::endl;
 	}
 	break;
@@ -113,7 +113,7 @@ EventPackage * PackageFactory::package_2_event_package(Package * package_recieve
 	case Package_type::NAME:
 	{
 		std::cout << "me llego un NAME" << std::endl;
-		my_event_package = new NAME_EventPackage();
+		my_event_package = new NAME_EventPackage(false);
 	}
 	break;
 
@@ -130,7 +130,7 @@ EventPackage * PackageFactory::package_2_event_package(Package * package_recieve
 							   break;
 
 	case Package_type::GAME_START:
-		my_event_package = new GAME_START_EventPackage();
+		my_event_package = new GAME_START_EventPackage(false);
 		break;
 
 	case Package_type::MOVE: {  //soy cliente y me llega un MOVE del servidor
@@ -158,15 +158,15 @@ EventPackage * PackageFactory::package_2_event_package(Package * package_recieve
 									 break;
 
 	case Package_type::WE_WON:
-		my_event_package = new WE_WON_EventPackage();
+		my_event_package = new WE_WON_EventPackage(false);
 		break;
 
 	case Package_type::PLAY_AGAIN:
-		my_event_package = new PLAY_AGAIN_EventPackage();
+		my_event_package = new PLAY_AGAIN_EventPackage(false);
 		break;
 
 	case Package_type::GAME_OVER:
-		my_event_package = new GAME_OVER_EventPackage();
+		my_event_package = new GAME_OVER_EventPackage(false);
 		break;
 
 	case Package_type::ERROR1:

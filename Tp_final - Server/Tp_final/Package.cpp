@@ -347,12 +347,16 @@ MOVE_package::MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, u
 */
 std::string MOVE_package::get_sendable_info() {
 
+	uint16_t ID = give_me_your_ID();
+
 	std::string info(enum_to_string(header));
 	std::string info1(1,(char)character);
 	std::string info2(1, destination_row+48);
 	std::string info3(1, destination_column+48);
+	std::string info5((const char *)&ID,2);
 
-	std::string info4 = info + info1 + info2+ info3;
+
+	std::string info4 = info + info5 + info1 + info2+ info3;
 
 	return info4;
 }
@@ -399,13 +403,16 @@ ATTACK_package::ATTACK_package(Item_type the_one_that_attacks, unsigned char fil
 */
 std::string ATTACK_package::get_sendable_info() {
 
+	uint16_t ID = give_me_your_ID();
 
 	std::string info(enum_to_string(this->header));
 	std::string info1(1,(char)this->character);
 	std::string info2(1,this->destination_row+48);
 	std::string info3(1,this->destination_column+48);
+	std::string info5((const char *)&ID, 2);
 
-	std::string info4 = info + info1 + info2 + info3;
+	std::string info4 = info + info5 + info1 + info2 + info3;
+
 
 	return info4.c_str();
 }
@@ -453,12 +460,17 @@ ACTION_REQUEST_package::ACTION_REQUEST_package(Action_type the_action, unsigned 
 */
 std::string ACTION_REQUEST_package::get_sendable_info() {
 
+	uint16_t ID = give_me_your_ID();
+
+
 	std::string info(enum_to_string(this->header));
 	std::string info1(1,(char)this->action);
 	std::string info2(1,this->destination_row+48);
 	std::string info3(1,this->destination_column+48);
+	std::string info5((const char *)&ID, 2);
 
-	std::string info4 = info + info1 + info2 + info3;
+
+	std::string info4 = info+ info5 + info1 + info2 + info3;
 
 	return info4;
 }
@@ -508,13 +520,17 @@ ENEMY_ACTION_package::ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_
 */
 std::string ENEMY_ACTION_package::get_sendable_info() {
 
+	uint16_t ID = give_me_your_ID();
+
 	std::string info(enum_to_string(this->header));
 	std::string info1(1,this->MonsterID+48); //para evitar tener un terminador que cropee el string
 	std::string info2(1,(char)this->action);
 	std::string info3(1,this->destination_row+48);//cuidado porque a partir de columna/fila 10 ya no vas a tener un ascii número
 	std::string info4(1,this->destination_column+48);
+	std::string info6((const char *)&ID, 2);
 
-	std::string info5 = info + info1 + info2 + info3 + info4;
+
+	std::string info5 = info + info6 + info1 + info2 + info3 + info4;
 
 	return info5;
 }

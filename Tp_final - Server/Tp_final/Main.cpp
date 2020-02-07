@@ -14,7 +14,7 @@ int main(void) {
 		return 0;
 	}
 
-	my_resources.my_graphic_event_handler->get_ev_gen()->append_new_event(new GAME_START_EventPackage(), 0);
+	my_resources.my_graphic_event_handler->get_ev_gen()->append_new_event(new GAME_START_EventPackage(true), 0);
 
 
 	//mapa para caida libre

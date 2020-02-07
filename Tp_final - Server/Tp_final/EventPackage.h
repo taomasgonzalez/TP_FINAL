@@ -109,11 +109,24 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 
 };
 
-
-class EventPackage
+class Numbered_EventPackage
 {
 public:
-	EventPackage(Event_type event, bool is_local = NULL);
+	Numbered_EventPackage(uint16_t ID);
+
+	uint16_t give_me_your_package_ID();
+	void set_your_package_ID(uint16_t ID);
+
+
+private:
+	uint16_t package_ID = 0;
+
+};
+
+class EventPackage: public Numbered_EventPackage
+{
+public:
+	EventPackage(Event_type event, uint16_t ID, bool is_local );
 	EventPackage(Action_info * info_checked);
 	virtual ~EventPackage();
 
@@ -123,7 +136,7 @@ public:
 
 protected:
 	Event_type my_internal_event;
-	bool local_action;
+	bool local_action = true;
 
 };
 
@@ -154,29 +167,17 @@ private:
 };
 
 
-class Numbered_EventPackage
-{
-public:
-	Numbered_EventPackage(uint16_t ID);
 
-	uint16_t give_me_your_package_ID();
-	void set_your_package_ID(uint16_t ID);
-
-
-private:
-	uint16_t package_ID = 0;
-
-};
 
 /******************************************************************************
 *******************************************************************************
 ACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_EventPackage : public EventPackage,public Numbered_EventPackage
+class ACK_EventPackage : public EventPackage 
 {
 public:
-	ACK_EventPackage(uint16_t ID);
+	ACK_EventPackage(uint16_t ID, bool is_local);
 
 private:
 
@@ -225,7 +226,7 @@ MOVE_EventPackage CLASS
 *******************************************************************************/
 
 
-class MOVE_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
+class MOVE_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	MOVE_EventPackage(Direction_type direction_type, uint16_t ID); //local MOVE
@@ -248,7 +249,7 @@ private:
 ATTACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
+class ATTACK_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	ATTACK_EventPackage(uint16_t ID); // local ATTACK
@@ -270,7 +271,7 @@ private:
 ACTION_REQUEST_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
+class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction, uint16_t ID); //local ACTION_REQUEST
@@ -296,10 +297,8 @@ class ERROR_EventPackage : public EventPackage
 {
 public:
 	ERROR_EventPackage(bool is_local = true);
-	bool is_this_a_local_error();
 
 private:
-	bool local_error;  //For the FSM recogniztion analyze_error() function
 
 };
 
@@ -313,7 +312,7 @@ NAME_EventPackage CLASS
 class NAME_EventPackage : public EventPackage
 {
 public:
-	NAME_EventPackage();
+	NAME_EventPackage(bool is_local);
 
 };
 
@@ -362,7 +361,7 @@ private:
 *******************************************************************************
 *******************************************************************************/
 
-class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackage, public Numbered_EventPackage
+class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
@@ -403,7 +402,7 @@ GAME_START_EventPackage CLASS
 class GAME_START_EventPackage : public EventPackage
 {
 public:
-	GAME_START_EventPackage();
+	GAME_START_EventPackage(bool is_local);
 
 private:
 
@@ -418,7 +417,7 @@ WE_WON_EventPackage CLASS
 class WE_WON_EventPackage : public EventPackage
 {
 public:
-	WE_WON_EventPackage();
+	WE_WON_EventPackage(bool is_local);
 
 private:
 
@@ -432,7 +431,7 @@ PLAY_AGAIN_EventPackage CLASS
 class PLAY_AGAIN_EventPackage : public EventPackage
 {
 public:
-	PLAY_AGAIN_EventPackage();
+	PLAY_AGAIN_EventPackage(bool is_local);
 
 private:
 
@@ -446,7 +445,7 @@ GAME_OVER_EventPackage CLASS
 class GAME_OVER_EventPackage : public EventPackage
 {
 public:
-	GAME_OVER_EventPackage();
+	GAME_OVER_EventPackage(bool is_local);
 
 private:
 
@@ -480,19 +479,6 @@ private:
 
 };
 
-/******************************************************************************
-*******************************************************************************
-NO_EVENT_EventPackage CLASS
-*******************************************************************************
-*******************************************************************************/
-class NO_EVENT_EventPackage : public EventPackage
-{
-public:
-	NO_EVENT_EventPackage();
-
-private:
-
-};
 
 /******************************************************************************
 *******************************************************************************

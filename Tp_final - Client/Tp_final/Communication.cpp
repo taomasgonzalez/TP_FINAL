@@ -321,14 +321,14 @@ bool Communication::is_the_connection_healthy()
 Package* Communication::create_package(unsigned char* aux_buf){
 	static int ack_quant = 0;
 	Package* new_package = NULL;
+	uint16_t* ID_ptr = NULL;
 	Package_type type = (Package_type)(unsigned char)aux_buf[0];
 
 	switch (type)
 	{
 	case Package_type::ACK:
-		ack_quant++;
-		new_package = new ACK_package((uint16_t)aux_buf[1]);  //The constructor receives the ID that came trough networking
-		cout << endl << "ack_quant: " << to_string(ack_quant) << endl;
+		ID_ptr = (uint16_t*)(&aux_buf[1]);
+		new_package = new ACK_package(*ID_ptr);  //The constructor receives the ID that came trough networking
 		break;
 
 	case Package_type::RESET:
@@ -364,25 +364,26 @@ Package* Communication::create_package(unsigned char* aux_buf){
 
 	case Package_type::MOVE:
 
-		new_package = new MOVE_package((Item_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48,(uint16_t)aux_buf[2]); //sacando el desfasaje hecho para evitar null terminator en buffer
+		ID_ptr = (uint16_t*)(&aux_buf[1]);
+		new_package = new MOVE_package((Item_type)aux_buf[3], aux_buf[4] - 48, aux_buf[5] - 48,*ID_ptr); //sacando el desfasaje hecho para evitar null terminator en buffer
 
 		break;
 
 	case Package_type::ATTACK:
-
-		new_package = new ATTACK_package((Item_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48,(uint16_t)aux_buf[2]);
+		ID_ptr = (uint16_t*)(&aux_buf[1]);
+		new_package = new ATTACK_package((Item_type)aux_buf[3], aux_buf[4] - 48, aux_buf[5] - 48, *ID_ptr);
 
 		break;
 
 	case Package_type::ACTION_REQUEST:
-
-		new_package = new ACTION_REQUEST_package((Action_type)aux_buf[1], aux_buf[4] - 48, aux_buf[5] - 48, (uint16_t)aux_buf[2]);
+		ID_ptr = (uint16_t*)(&aux_buf[1]);
+		new_package = new ACTION_REQUEST_package((Action_type)aux_buf[3], aux_buf[4] - 48, aux_buf[5] - 48, *ID_ptr);
 
 		break;
 
 	case Package_type::ENEMY_ACTION:
-
-		new_package = new ENEMY_ACTION_package(aux_buf[1] - 48, (Action_type)aux_buf[4], aux_buf[5] - 48, aux_buf[4] - 48, (uint16_t)aux_buf[2]);
+		ID_ptr = (uint16_t*)(&aux_buf[1]);
+		new_package = new ENEMY_ACTION_package(aux_buf[3] - 48, (Action_type)aux_buf[4], aux_buf[5] - 48, aux_buf[6] - 48, *ID_ptr);
 
 		break;
 

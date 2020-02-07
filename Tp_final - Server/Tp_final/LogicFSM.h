@@ -19,6 +19,7 @@ enum class time_out_type {
 
 
 
+
 class LogicFSM : public FSM
 {
 public:
@@ -140,7 +141,7 @@ public:
 
 	//saved_EventPackages
 	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
-	void saved_an_EventPackage(EventPackage * package_to_be_saved);
+	void save_an_EventPackage(EventPackage * package_to_be_saved);
 
 protected:
 	virtual void print_curr_state();

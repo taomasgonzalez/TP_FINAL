@@ -313,7 +313,7 @@ void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 				//The MOVE_EventPackage is copied so the memory is reserved and FSM can still use his EventPackage * my_ev_pack without risks
 				MOVE_EventPackage * move_action_to_be_saved = (MOVE_EventPackage *)get_fsm_ev_pack();
 
-				saved_an_EventPackage(new MOVE_EventPackage(move_action_to_be_saved));
+				save_an_EventPackage(new MOVE_EventPackage(move_action_to_be_saved));
 
 
 				send_action();
@@ -341,7 +341,7 @@ void LogicFSM::execute_action_send_it_and_set_ack_time_out() {
 			//The ATTACK_EventPackage is copied so the memory is reserved and FSM can still use his EventPackage * my_ev_pack without risks
 			ATTACK_EventPackage * attack_action_to_be_saved = (ATTACK_EventPackage *)get_fsm_ev_pack();
 
-			saved_an_EventPackage(new ATTACK_EventPackage(attack_action_to_be_saved));
+			save_an_EventPackage(new ATTACK_EventPackage(attack_action_to_be_saved));
 
 			send_action();
 			set_ack_time_out();
@@ -375,7 +375,7 @@ void LogicFSM::check_and_send_action_request() {
 		send_action_request_and_set_ack_time_out();
 
 		//The enemy action is saved in a map so it´s executed when the corresponding ACK arrives
-		saved_an_EventPackage(get_fsm_ev_pack());
+		save_an_EventPackage(get_fsm_ev_pack());
 	}
 }
 
@@ -572,7 +572,7 @@ void LogicFSM::send_next_map() {
 }
 
 void LogicFSM::send_we_won() {
-	com->sendMessage(pack_factory.event_package_2_package(new WE_WON_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	com->sendMessage(pack_factory.event_package_2_package(new WE_WON_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 
 // Action routine for the client when it�s received an WE_WON package from the server
@@ -634,7 +634,7 @@ void LogicFSM::ask_user_being_client_and_send_decition() {
 	if (want_to_play_again)
 		send_play_again();
 	else
-		com->sendMessage(pack_factory.event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+		com->sendMessage(pack_factory.event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	
 	want_to_play_again = false;
 
@@ -645,9 +645,9 @@ void LogicFSM::ask_user_being_server_and_send_decition() {
 	ask_the_user_if_wants_to_play_again(); //By an Allegro interface
 
 	if (want_to_play_again)
-		ev_gen->append_new_event(new PLAY_AGAIN_EventPackage(), (int)LogicEventGenerator::LogicQueues::soft);
+		ev_gen->append_new_event(new PLAY_AGAIN_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft);
 	else
-		ev_gen->append_new_event(new GAME_OVER_EventPackage(), (int)LogicEventGenerator::LogicQueues::soft);
+		ev_gen->append_new_event(new GAME_OVER_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft);
 
 	want_to_play_again = false;
 
@@ -662,15 +662,15 @@ void LogicFSM::tell_user_send_ack_and_finish_game() {
 }
 
 void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdi�
-	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 void LogicFSM::send_game_over() {
-	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 
 void LogicFSM::send_play_again() {
 	//tengo que mandar paquete PLAY_AGAIN!
-	com->sendMessage(pack_factory.event_package_2_package(new PLAY_AGAIN_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	com->sendMessage(pack_factory.event_package_2_package(new PLAY_AGAIN_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 
 void LogicFSM::load_and_send_enemy_action() {
@@ -717,7 +717,7 @@ EventPackage * LogicFSM::give_me_the_saved_EventPackage(uint16_t ID) {
 	my_saved_EventPackage = saved_EventPackages[ID];
 
 	if (my_saved_EventPackage == NULL)
-		std::cout << "Error, couldn´t fetch any saved event from the map, ID " << ID << "must be incorrect" << std::endl;
+		std::cout << "Error, couldn´t fetch any saved event from the map, ID " << ID << std::endl;
 	else //free the memory
 	{
 		saved_EventPackages.erase(ID);
@@ -730,17 +730,17 @@ EventPackage * LogicFSM::give_me_the_saved_EventPackage(uint16_t ID) {
 }
 
 
-void LogicFSM::saved_an_EventPackage(EventPackage * package_to_be_saved) {
+void LogicFSM::save_an_EventPackage(EventPackage * package_to_be_saved) {
 
 	Event_type my_event = package_to_be_saved->give_me_your_event_type();
 
 	//The ID from the ACK is extracted to search for the action to be executed
-	uint16_t ID_package_to_be_extracted = ((Numbered_EventPackage *)package_to_be_saved)->give_me_your_package_ID();
+	uint16_t ID_package_to_be_saved = package_to_be_saved->give_me_your_package_ID();
 
-	cout << "Se guardo un evento " << event_string[(int)my_event] << "con ID:" << ID_package_to_be_extracted << endl;
+	cout << "Se guardo un evento " << event_string[(int)my_event] << "con ID:" << ID_package_to_be_saved << endl;
 
 
-	saved_EventPackages[ID_package_to_be_extracted] = package_to_be_saved;
+	saved_EventPackages[ID_package_to_be_saved] = package_to_be_saved;
 }
 
 void LogicFSM::send_name_is() {
@@ -853,7 +853,7 @@ void LogicFSM::send_enemy_action() {
 void LogicFSM::send_game_start() {
 	//tengo que mandar paquete GAME_START!
 	scenario->initializing = false; //Initialization has ended, not more Enemy Actions to be loaded
-	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 	//scene get�s noticed that the game has started, has to start executing actions
 	scenario->initializing = false; // ya se hace desde main
@@ -861,7 +861,7 @@ void LogicFSM::send_game_start() {
 }
 
 void LogicFSM::ask_for_name() {
-	NAME_EventPackage* info_to_be_send = new NAME_EventPackage();
+	NAME_EventPackage* info_to_be_send = new NAME_EventPackage(true);
 	com->sendMessage((new PackageFactory())->event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 void LogicFSM::check_map_and_save_send_ack() {
@@ -937,7 +937,7 @@ void LogicFSM::load_action_and_send_it_back() {
 			info_to_be_send = new MOVE_EventPackage(scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_package_ID());
 
 			//The program saves the MOVE_EventPackage so when his current ACK(identified by the same ID) arrived, the saved action is executed
-			saved_an_EventPackage(info_to_be_send);
+			save_an_EventPackage(info_to_be_send);
 
 		}
 		else
@@ -946,7 +946,7 @@ void LogicFSM::load_action_and_send_it_back() {
 			info_to_be_send = new ATTACK_EventPackage(scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_package_ID());
 
 			//The program saves the ATTACK_EventPackage so when his current ACK(identified by the same ID) arrived, the saved action is executed
-			saved_an_EventPackage(info_to_be_send);
+			save_an_EventPackage(info_to_be_send);
 
 		}
 
@@ -980,27 +980,80 @@ void LogicFSM::send_ack() {
 	if (last_event_received == Event_type::MOVE || last_event_received == Event_type::ATTACK || last_event_received == Event_type::ENEMY_ACTION)
 	{
 		uint16_t ACK_ID = ((Numbered_EventPackage *)get_fsm_ev_pack())->give_me_your_package_ID();
-		com->sendMessage(pack_factory.event_package_2_package(new ACK_EventPackage(ACK_ID))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+		com->sendMessage(pack_factory.event_package_2_package(new ACK_EventPackage(ACK_ID,true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	}
 	//The other kind of events doesn´t require an identified ID
 	else 
 	{
-		com->sendMessage(pack_factory.event_package_2_package(new ACK_EventPackage(0))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+		com->sendMessage(pack_factory.event_package_2_package(new ACK_EventPackage(0,true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	}
 }
 
-
 void LogicFSM::execute_action() {
 
-	//The ID from the ACK is extracted to search for the action to be executed
+	//The ID from the ACK/MOVE/ATTACK/EA is extracted to search for the action to be executed
 	uint16_t ID_package_to_be_extracted = ((Numbered_EventPackage *)get_fsm_ev_pack())->give_me_your_package_ID();
+	Event_type my_event_type;
+	EventPackage* event_package_to_be_executed = NULL;
+	Action_info action;
+
+	bool ID_error = false;
+
 
 	if (valid_action) {		//if it�s valid, it should be executed
-		Action_info action = give_me_the_saved_EventPackage(ID_package_to_be_extracted)->to_Action_info();
-		if (action.action == Action_type::Move)
-			scenario->load_action_on_character(action);
-		else if (action.action == Action_type::Attack)
-			scenario->load_action_on_projectile(action);
+
+	//Returns NULL if the action is not saved in the map
+	event_package_to_be_executed = give_me_the_saved_EventPackage(ID_package_to_be_extracted);
+
+		//Client´s version
+		if (user_data->my_network_data.is_client())
+		{
+			if (event_package_to_be_executed == NULL)
+				//This action is server made, can be a MOVE or ATTACK of the server´s player or an ENEMY_ACTION
+				//because of that the action never came through the client, so it is not saved in the map.
+				//Must be executed because is valid	(already checked)
+			{
+				event_package_to_be_executed = get_fsm_ev_pack(); //Has to executed the  last arrived package from the server
+
+				//Check wich to_Action_info() is called, father or child (if father´s cast must be done)
+				action = event_package_to_be_executed->to_Action_info();
+
+			}
+				//This action was originally produce by the client by an ACTION_REQUEST, so it´s saved in the map by it´s
+				// corresponding ID.
+				//Must be executed because is valid	(already checked)
+			else
+			{
+				action = event_package_to_be_executed->to_Action_info();
+			}
+
+		}
+
+		//Server´s version
+		else
+		{
+			if (event_package_to_be_executed == NULL)
+				//The only way the server executes an action is through the corresponding ACK of the client, that means the play has been validated.
+				//The action has been saved in the map at some point realted to that ID, so it should be fetched by that ID(that came in the ACK package).
+			{
+				std::cout << "Error, couldn´t fetch any saved event from the map, ID "<< std::endl;
+				ID_error = true;
+			}
+			else
+			{
+				action = event_package_to_be_executed->to_Action_info();
+			}
+
+		}
+
+		if (!ID_error)
+		{
+			//Current execution process
+			if (action.action == Action_type::Move)
+				scenario->load_action_on_character(action);
+			else if (action.action == Action_type::Attack)
+				scenario->load_action_on_projectile(action);
+		}
 	}
 
 }
