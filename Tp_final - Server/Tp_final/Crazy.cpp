@@ -59,6 +59,7 @@ Action_info Crazy::act() {
 		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
 	
 	returnable_EA.ID = EA_package_ID++;
+	//std::swap(returnable_EA.final_pos_x, returnable_EA.final_pos_y);
 
 
 	//al_set_timer_speed(acting_timer, timer_speed);
