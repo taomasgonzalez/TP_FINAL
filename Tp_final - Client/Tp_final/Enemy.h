@@ -8,6 +8,9 @@
 #include "Action_Info.h"
 #include "EventHandler.h"
 
+#define START_POINT_PACKAGE_ID_FOR_EA (40001)
+#define FINISH_POINT_PACKAGE_ID_FOR_EA (65535)
+
 class Enemy: public Character, public Observable
 {
 public:
@@ -64,5 +67,8 @@ protected:
 
 	ALLEGRO_TIMER * staying_still_timer = NULL;
 	ALLEGRO_EVENT_QUEUE* enemy_timers = NULL;
+
+	uint16_t EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
+
 };
 

@@ -55,6 +55,12 @@ Action_info Crazy::act() {
 			}
 		}
 
+	if (EA_package_ID == FINISH_POINT_PACKAGE_ID_FOR_EA)
+		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
+	
+	returnable_EA.ID = EA_package_ID++;
+
+
 	//al_set_timer_speed(acting_timer, timer_speed);
 	//al_start_timer(acting_timer);
 

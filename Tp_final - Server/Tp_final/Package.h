@@ -75,6 +75,8 @@ class ACK_package : public Package, public Numbered_package
 {
 public:
 	ACK_package(uint16_t ID);
+	std::string get_sendable_info();
+
 
 private:
 

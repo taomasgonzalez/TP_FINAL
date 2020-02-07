@@ -7,6 +7,9 @@ std::string Package::enum_to_string(Package_type package_to_be_translate) {
 	case Package_type::ACTION_REQUEST:
 		return std::string("\x33");
 
+	case Package_type::ACK:
+		return std::string("\x01");
+
 	case Package_type::ATTACK:
 		return std::string("\x32");
 
@@ -153,6 +156,30 @@ ACK_package::ACK_package(uint16_t ID) :Package(Package_type::ACK), Numbered_pack
 	this->info_length = 3; //Header (1 byte) + ID (2 bytes)
 }
 
+/**************************************************************
+				GET_SENDABLE_INFO
+**************************************************************/
+/*
+*GETTER.This function returns the information to be send by networking.
+*
+*INPUT:
+*Void
+*
+*OUTPUT:
+*The information to be send by networking
+*/
+std::string ACK_package::get_sendable_info() {
+
+	uint16_t ID = give_me_your_ID();
+
+	std::string info(enum_to_string(header));
+	std::string info5((const char *)&ID, 2);
+
+
+	std::string info4 = info + info5;
+
+	return info4;
+}
 
 /******************************************************************************
 *******************************************************************************

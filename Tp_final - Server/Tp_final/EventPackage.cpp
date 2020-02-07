@@ -563,7 +563,8 @@ Action_info ENEMY_ACTION_EventPackage::to_Action_info()
 
 	returnable_info.my_info_header = Action_info_id::ENEMY_ACTION;
 	returnable_info.action = give_me_the_action();
-
+	returnable_info.final_pos_x = give_me_your_destination_row();
+	returnable_info.final_pos_y = give_me_your_destination_column();
 	returnable_info.id = give_me_the_monsterID();
 	returnable_info.my_direction = give_me_your_direction();
 
