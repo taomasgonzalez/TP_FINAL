@@ -406,6 +406,7 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(ACTION_REQUEST_EventPac
 
 	this->set_character(action_request->give_me_the_character());
 	this->set_direction(action_request->give_me_your_direction());
+	action=action_request->give_me_the_action();
 
 }
 

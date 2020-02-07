@@ -424,8 +424,18 @@ void LogicFSM::check_and_send_action_request() {
 	check_action();
 
 	if (valid_action)  //The action request was valid
+	{
 		send_action_request_and_set_ack_time_out();
+
+		//The action request is saved in a map so it´s executed when the corresponding ACK arrives
+		//The ACTION_REQUEST_EventPackage is copied so the memory is reserved and FSM can still use his EventPackage * my_ev_pack without risks
+		ACTION_REQUEST_EventPackage * ar_action_to_be_saved = (ACTION_REQUEST_EventPackage *)get_fsm_ev_pack();
+
+		save_an_EventPackage(new ACTION_REQUEST_EventPackage(ar_action_to_be_saved));
+
+	}
 }
+
 
 void LogicFSM::execute_receive_action_and_send_ack() {
 
@@ -687,8 +697,8 @@ void LogicFSM::save_an_EventPackage(EventPackage * package_to_be_saved) {
 
 	cout << "Se guardo un evento " << event_string[(int)my_event] <<"con ID:"<< ID_package_to_be_saved << endl;
 
+	saved_EventPackages.insert(std::pair<uint16_t, EventPackage*>(ID_package_to_be_saved, package_to_be_saved));
 
-	saved_EventPackages[ID_package_to_be_saved] = package_to_be_saved;
 }
 
 void LogicFSM::send_name_is() {
@@ -893,6 +903,8 @@ void LogicFSM::load_action_and_send_it_back() {
 	check_action();
 
 	EventPackage* info_to_be_send = NULL;
+	EventPackage* info_to_be_saved = NULL;
+
 
 	if (valid_action) {
 		//execute_extern_action();
@@ -905,8 +917,11 @@ void LogicFSM::load_action_and_send_it_back() {
 			//The package inherits de ID of the ACTION_REQUEST_EventPackage
 			info_to_be_send = new MOVE_EventPackage(scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_package_ID());
 
-			//The program saves the MOVE_EventPackage so when his current ACK(identified by the same ID) arrived, the saved action is executed
-			save_an_EventPackage(info_to_be_send);
+			//The action request is saved in a map so it´s executed when the corresponding ACK arrives
+			//The ACTION_REQUEST_EventPackage is copied so the memory is reserved and FSM can still use his EventPackage * my_ev_pack without risks
+			info_to_be_saved = new ACTION_REQUEST_EventPackage((ACTION_REQUEST_EventPackage*)my_movement);
+
+			save_an_EventPackage(info_to_be_saved);
 
 		}
 		else
@@ -914,9 +929,11 @@ void LogicFSM::load_action_and_send_it_back() {
 			//The package inherits de ID of the ACTION_REQUEST_EventPackage
 			info_to_be_send = new ATTACK_EventPackage(scenario->give_the_other_player(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_row(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_destination_column(), ((ACTION_REQUEST_EventPackage *)my_movement)->give_me_your_package_ID());
 
-			//The program saves the ATTACK_EventPackage so when his current ACK(identified by the same ID) arrived, the saved action is executed
-			save_an_EventPackage(info_to_be_send);
+			//The action request is saved in a map so it´s executed when the corresponding ACK arrives
+			//The ACTION_REQUEST_EventPackage is copied so the memory is reserved and FSM can still use his EventPackage * my_ev_pack without risks
+			info_to_be_saved = new ACTION_REQUEST_EventPackage((ACTION_REQUEST_EventPackage*)my_movement);
 
+			save_an_EventPackage(info_to_be_saved);
 		}
 
 		com->sendMessage((new PackageFactory())->event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda

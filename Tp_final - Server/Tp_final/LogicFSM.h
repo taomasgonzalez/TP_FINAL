@@ -152,7 +152,6 @@ protected:
 private:
 
 	map<uint16_t, EventPackage*> saved_EventPackages;						// map of saved eventpackages
-
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
 	void execute_action();

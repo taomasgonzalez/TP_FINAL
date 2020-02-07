@@ -430,16 +430,16 @@ EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action
 
 	if (!my_user_data->my_network_data.is_client()) {
 		if (action == Action_type::Attack)
-			ev_pack = new ATTACK_EventPackage(this->package_ID_counter);
+			ev_pack = new ATTACK_EventPackage(this->package_ID_counter++);
 		else  if (action == Action_type::Move && direction != Direction_type::None)
-			ev_pack = new MOVE_EventPackage(direction, package_ID_counter);
+			ev_pack = new MOVE_EventPackage(direction, package_ID_counter++);
 	}
 	else
 	{
 		if (action == Action_type::Attack)
-			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter);
+			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter++);
 		else if (action == Action_type::Move && direction != Direction_type::None)
-			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter);
+			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter++);
 	}
 
 	return ev_pack;

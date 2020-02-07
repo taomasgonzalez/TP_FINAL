@@ -406,6 +406,8 @@ ACTION_REQUEST_EventPackage::ACTION_REQUEST_EventPackage(ACTION_REQUEST_EventPac
 
 	this->set_character(action_request->give_me_the_character());
 	this->set_direction(action_request->give_me_your_direction());
+	action = action_request->give_me_the_action();
+
 
 }
 
@@ -534,6 +536,8 @@ ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(Action_info* ea_info) :Even
 
 	this->action = ea_info->action;
 	this->MonsterID = ea_info->id;
+	this->set_direction (ea_info->my_direction);
+
 }
 
 ENEMY_ACTION_EventPackage::ENEMY_ACTION_EventPackage(ENEMY_ACTION_EventPackage* enemy_action) :EventPackage(Event_type::ENEMY_ACTION, enemy_action->give_me_your_package_ID(), enemy_action->is_this_a_local_action()), Action_EventPackage(enemy_action->give_me_your_destination_column(), enemy_action->give_me_your_destination_row()) {
