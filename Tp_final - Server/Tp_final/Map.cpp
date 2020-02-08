@@ -275,7 +275,7 @@ bool Map::cell_has_floor(int coord_x, int coord_y)
 {
 	bool appropiate_coordinates = false;
 
-	if ((coord_x < number_of_columns) && (coord_x >= 0) && (coord_y < number_of_rows) && (coord_y >= 0)) 
+	if ((coord_x < number_of_columns) && (coord_x >= 0) && (coord_y < number_of_rows) && (coord_y >= 0)) //check if they were send appropiate coordinates
 		appropiate_coordinates = true;
 
 	if (appropiate_coordinates)
