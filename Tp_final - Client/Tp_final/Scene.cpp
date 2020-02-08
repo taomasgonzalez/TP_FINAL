@@ -1014,8 +1014,7 @@ void Scene::control_enemy_actions()
 		new_enemy_action = false;
 	}
 	
-	for(int i = 0; i < curr_enemies->size(); i++)
-		curr_enemies->at(i)->ev_handler->handle_event();
+	control_enemies();
 
 }
 void Scene::control_enemies() {
