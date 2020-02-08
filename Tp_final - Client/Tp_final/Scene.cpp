@@ -836,6 +836,9 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 			bool out_of_range;
 			my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
 
+			if (out_of_range)
+				return false;
+
 			switch (my_direction)
 			{
 			case Direction_type::Left:
