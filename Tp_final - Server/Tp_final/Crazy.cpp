@@ -54,6 +54,7 @@ Action_info Crazy::act() {
 						sample = 0.1;
 			}
 		}
+<<<<<<< HEAD
 
 	if (EA_package_ID == FINISH_POINT_PACKAGE_ID_FOR_EA)
 		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
@@ -61,6 +62,8 @@ Action_info Crazy::act() {
 	returnable_EA.ID = EA_package_ID++;
 	//std::swap(returnable_EA.final_pos_x, returnable_EA.final_pos_y);
 
+=======
+>>>>>>> parent of 8a83454... changes copied into server
 
 	//al_set_timer_speed(acting_timer, timer_speed);
 	//al_start_timer(acting_timer);

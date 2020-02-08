@@ -58,6 +58,7 @@ Action_info GreenFatty::act() {
 			
 		}
 	}
+<<<<<<< HEAD
 
 	if (EA_package_ID == FINISH_POINT_PACKAGE_ID_FOR_EA)
 		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
@@ -65,6 +66,8 @@ Action_info GreenFatty::act() {
 	returnable_EA.ID = EA_package_ID++;
 	//std::swap(returnable_EA.final_pos_x, returnable_EA.final_pos_y);
 
+=======
+>>>>>>> parent of 8a83454... changes copied into server
 
 	return returnable_EA;
 }
