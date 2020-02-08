@@ -60,19 +60,24 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 
 	next_enemy_action->action = Action_type::Move;
 
-	if (my_sense == Sense_type::Left){
+	if (my_sense == Sense_type::Left) {
 		next_enemy_action->final_pos_y = pos_y;
 		next_enemy_action->final_pos_x = pos_x - 1;
 		next_enemy_action->my_direction = Direction_type::Left;
 	}
-	else if (my_sense == Sense_type::Right){
+	else if (my_sense == Sense_type::Right) {
 		next_enemy_action->final_pos_y = pos_y;
 		next_enemy_action->final_pos_x = pos_x + 1;
 		next_enemy_action->my_direction = Direction_type::Right;
 	}
 	set_action_4_obs(*next_enemy_action);
 
-	return (next_enemy_action->valid = can_make_movement());
+	if (next_enemy_action->valid = can_make_movement()) {
+		is_staying_still = true;
+		al_start_timer(staying_still_timer);
+	}
+
+	return next_enemy_action->valid;
 }
 /******************************************
 ***********move_in_opposite_direction******
@@ -104,7 +109,12 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 
 	}
 
-	return (next_enemy_action->valid = can_make_movement());
+	if (next_enemy_action->valid = can_make_movement()) {
+		is_staying_still = true;
+		al_start_timer(staying_still_timer);
+	}
+
+	return next_enemy_action->valid;
 
 }
 /******************************************
@@ -126,6 +136,8 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->valid = true;
 	next_enemy_action->my_direction = Direction_type::None;
 
+	is_staying_still = true;
+	al_start_timer(staying_still_timer);
 }
 bool Enemy::can_make_movement()
 {
@@ -152,9 +164,12 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	next_enemy_action->final_pos_x = pos_x;
 	next_enemy_action->final_pos_y = pos_y - 2;
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
-	al_start_timer(staying_still_timer);
-	is_staying_still = true;
-	return (next_enemy_action->valid = can_make_movement());
+
+	if (next_enemy_action->valid = can_make_movement()) {
+		is_staying_still = true;
+		al_start_timer(staying_still_timer);
+	}
+	return next_enemy_action->valid;
 }
 
 Action_info Enemy::get_action_4_obs()
@@ -164,7 +179,7 @@ Action_info Enemy::get_action_4_obs()
 
 void Enemy::set_action_4_obs(Action_info action) {
 
-	this->action_4_obs= action;
+	this->action_4_obs = action;
 
 }
 
