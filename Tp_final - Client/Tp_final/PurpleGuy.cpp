@@ -32,35 +32,32 @@ Action_info PurpleGuy::act(){
 
 	Action_info returnable_EA = Action_info();
 	double sample = acting_probabilities(generator);
-	returnable_EA.valid = true;
+	returnable_EA.valid = false;
 	move_in_same_direction(&returnable_EA);
 
-	while (!returnable_EA.valid){
+	if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
+		stay_still(&returnable_EA);
 
-		if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
-			stay_still(&returnable_EA);
-		
-		else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
-			sample = acting_probabilities(generator); 
+	else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
+		sample = acting_probabilities(generator);
 
-			while (!returnable_EA.valid) {
-				if ((sample >= 0) && (sample <= 1.0 / 3.0)) { 						//1/3 probability
-					if (!jump(&returnable_EA))			//en ningún caso debería ser posible no saltar
-						sample = 0.5;
-				}
-				else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {			//1/3 probability
-					if (!move_in_opposite_direction(&returnable_EA))
-						sample = 0.9;
-				}
-				else																//1/3 probability
-					if(!move_in_same_direction(&returnable_EA))
-						sample = 0.5; //moves in the other direction
-			}
+		if ((sample >= 0) && (sample <= 1.0 / 3.0)) { 						//1/3 probability
+			if (!jump(&returnable_EA))			//en ningï¿½n caso deberï¿½a ser posible no saltar
+				sample = 0.5;
 		}
-		else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
-			stay_still(&returnable_EA);
-		
+		else if ((sample >= 1.0 / 3.0) && (sample <= 2.0 / 3.0)) {			//1/3 probability
+			if (!move_in_opposite_direction(&returnable_EA))
+				sample = 0.9;
+		}
+		else																//1/3 probability
+			if(!move_in_same_direction(&returnable_EA))
+				sample = 0.5; //moves in the other direction
 	}
+	else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
+		stay_still(&returnable_EA);
+
+	if(!returnable_EA.valid)
+		stay_still(&returnable_EA);
 
 	if (EA_package_ID == FINISH_POINT_PACKAGE_ID_FOR_EA)
 		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
@@ -107,4 +104,3 @@ void PurpleGuy::move_to_nearest_player(Action_info * next_enemy_action) { //NOTE
 void PurpleGuy::set_next_movement_2_nearest_player(Position final_pos) {
 	this->next_movement_2_nearest_player = final_pos;
 }
-
