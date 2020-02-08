@@ -99,6 +99,7 @@ void EnemyActionsFSM::got_hit() {
 void EnemyActionsFSM::start_got_hit() {
 
 	start_freezing_timer();
+
 }
 
 void EnemyActionsFSM::start_freezing_timer()

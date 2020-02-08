@@ -73,7 +73,7 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 	set_action_4_obs(*next_enemy_action);
 
 	if (next_enemy_action->valid = can_make_movement()) {
-		is_staying_still = true;
+		blocked_enemy_movement = true;
 		al_start_timer(staying_still_timer);
 	}
 
@@ -110,7 +110,7 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 	}
 
 	if (next_enemy_action->valid = can_make_movement()) {
-		is_staying_still = true;
+		blocked_enemy_movement = true;
 		al_start_timer(staying_still_timer);
 	}
 
@@ -136,7 +136,7 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->valid = true;
 	next_enemy_action->my_direction = Direction_type::None;
 
-	is_staying_still = true;
+	blocked_enemy_movement = true;
 	al_start_timer(staying_still_timer);
 }
 bool Enemy::can_make_movement()
@@ -166,7 +166,7 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
 
 	if (next_enemy_action->valid = can_make_movement()) {
-		is_staying_still = true;
+		blocked_enemy_movement = true;
 		al_start_timer(staying_still_timer);
 	}
 	return next_enemy_action->valid;
@@ -205,19 +205,20 @@ void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 
 
 bool Enemy::is_iddle() {
-	bool returnable = true;
+
+	bool returnable = false;
 	ALLEGRO_EVENT al_event;
 
-	if (!is_staying_still)
+	if (!blocked_enemy_movement)
 		returnable = Character::is_iddle();
 	else {
 		if (al_get_next_event(enemy_timers, &al_event))
 			if (al_event.type == ALLEGRO_EVENT_TIMER)
 				if (al_event.timer.source == staying_still_timer) {
 					al_stop_timer(staying_still_timer);
-					is_staying_still = false;
+					blocked_enemy_movement = false;
+					returnable = true;
 				}
-		returnable = is_staying_still;
 	}
 
 	return returnable;

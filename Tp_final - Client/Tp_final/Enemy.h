@@ -62,7 +62,7 @@ protected:
 
 	Action_info action_4_obs;
 
-	bool is_staying_still = false;
+	bool blocked_enemy_movement = false;
 	double staying_still_time;
 
 	ALLEGRO_TIMER * staying_still_timer = NULL;
