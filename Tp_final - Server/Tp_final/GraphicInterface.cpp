@@ -317,15 +317,15 @@ void GraphicInterface::print_messaje(messaje msj)
 	float x_CONN_LOST = DISPLAY_W / 2;
 	float y_CONN_LOST = DISPLAY_H / 3;
 
-	float x_INTRO_1 = DISPLAY_W / 6;
+	float x_INTRO_1 = DISPLAY_W / 10;
 	float y_INTRO_1 = DISPLAY_H / 6;
-	float x_PROFES = DISPLAY_W / 6;
+	float x_PROFES = DISPLAY_W / 10;
 	float y_PROFES = 1.5 * DISPLAY_H / 6;
 	float x_AGUS = DISPLAY_W / 6;
 	float y_AGUS = 3 * DISPLAY_H / 6;
-	float x_MARK = DISPLAY_W / 6;
+	float x_MARK = DISPLAY_W / 6	;
 	float y_MARK = 4 * DISPLAY_H / 6;
-	float x_INTRO_2 = DISPLAY_W / 6;
+	float x_INTRO_2 = DISPLAY_W / 10;
 	float y_INTRO_2 = 1.5 * DISPLAY_H / 6;
 	float x_GUIDO = DISPLAY_W / 6;
 	float y_GUIDO = 1.5 * DISPLAY_H;
