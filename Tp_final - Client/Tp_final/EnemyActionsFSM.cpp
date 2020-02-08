@@ -32,6 +32,10 @@ EnemyActionsFSM::~EnemyActionsFSM()
 void EnemyActionsFSM::set_states()
 {
 
+
+	freezing_state = new std::vector<edge_t>();
+	frozen_state = new std::vector<edge_t>();
+
 	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r });
@@ -46,10 +50,6 @@ void EnemyActionsFSM::set_states()
 	expand_state(attacking_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
 	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACIÓN DISTINTA A LA de morir, hay dos formas de morir
 	//una siendo aplastado por una bola que salís volando y otra desaparecer con la bola, que no es una animación de muerte, sólo desapareces vos con la bola
-
-
-	freezing_state = new std::vector<edge_t>();
-	frozen_state = new std::vector<edge_t>();
 
 
 	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r});
