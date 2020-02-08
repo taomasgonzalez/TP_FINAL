@@ -58,6 +58,12 @@ Action_info Crazy::act() {
 	if (!returnable_EA.valid)
 		stay_still(&returnable_EA);
 
+
+	if (EA_package_ID == FINISH_POINT_PACKAGE_ID_FOR_EA)
+		EA_package_ID = START_POINT_PACKAGE_ID_FOR_EA;
+
+	returnable_EA.ID = EA_package_ID++;
+
 	return returnable_EA;
 }
 
