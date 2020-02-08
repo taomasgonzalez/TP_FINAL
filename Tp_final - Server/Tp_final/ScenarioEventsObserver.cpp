@@ -22,7 +22,7 @@ void ScenarioEventsObserver::update() {
 		if (my_user_data->my_network_data.handshake) {
 			if (my_user_data->my_network_data.is_client() == false)  //si es cliente carga el paquete que inicia la fsm
 				ev_gen->append_new_event(new START_COMMUNICATION_EventPackage(), (int)EventGenerator::LogicQueues::soft);
-			scenario->initializing = true;
+			//scenario->initializing = true;
 		}
 	}
 

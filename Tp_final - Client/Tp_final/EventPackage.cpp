@@ -448,15 +448,15 @@ MAP_IS_EventPackage METHODS DEFINITIONS
 /**************************************************************
 MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const char * themap, unsigned char checksum) :EventPackage(Event_type::MAP_IS, is_local) {
+MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local, const unsigned char * themap, unsigned char checksum) :EventPackage(Event_type::MAP_IS, is_local) {
 
-	this->map = themap;
+	this->map = (char *)themap;
 	this->Checksum = checksum;
 }
 /**************************************************************
 					GIVE_ME_THE_MAP
 **************************************************************/
-const unsigned char * MAP_IS_EventPackage::give_me_the_map() {
+char * MAP_IS_EventPackage::give_me_the_map() {
 	return this->map;
 }
 /**************************************************************

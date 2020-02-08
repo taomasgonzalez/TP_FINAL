@@ -45,6 +45,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 {
 	this->assistant_queue = new queue<Action_info>();
 	this->saved_events = new queue<EventPackage *>();
+	this->my_graphic_interface = new GraphicInterface();
 
 	//this->action_from_allegro = NULL;
 	this->actual_map = -1;
@@ -275,7 +276,7 @@ void Scene::load_new_map(bool is_client, const char * the_map, unsigned char the
 	{
 		//if (actual_map == -1)
 		//	actual_map++;
-		new_map->load_on_map(the_map, this);
+		new_map->load_on_map((const unsigned char*)the_map, this);
 		new_map->load_checksum(the_checksum);
 		this->actual_map++;
 	}
@@ -289,8 +290,8 @@ void Scene::load_new_map(bool is_client, const char * the_map, unsigned char the
 			if (map_string.size() >= 1)
 				map_not_loaded = false;
 		}
-		new_map->load_on_map(map_string.c_str(),this);
-		new_map->load_checksum(make_checksum(map_string.c_str()));
+		new_map->load_on_map((const unsigned char *)map_string.c_str(),this);
+		new_map->load_checksum(make_checksum((const unsigned char*)map_string.c_str()));
 		//new_map->load_on_map(the_map,this);
 		//new_map->load_checksum(make_checksum(the_map));
 	}
@@ -321,7 +322,7 @@ unsigned char Scene::make_checksum(const unsigned char * CSV_map_location) {
 	return local_checksum;
 }
 
-bool Scene::is_the_map_okay(const char * the_map , unsigned char the_checksum )
+bool Scene::is_the_map_okay(const unsigned char * the_map , unsigned char the_checksum )
 {
 	return make_checksum(the_map) == the_checksum;
 }
@@ -349,7 +350,7 @@ const char * Scene::give_me_the_CSV(unsigned int actual_map) {
 		getline(myFile, line, ';');
 		if (line.length() > 5) {
 			comaDelim = true;			// si la linea es muy larga el csv esta separado por ','
-			myFile.close();
+//			myFile.close();
 			break;
 		}
 		else
@@ -650,27 +651,27 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 
 	Direction_type my_direction;
 
-	if ((extern_destination->col == the_one_that_moves->pos_y) && (extern_destination->fil < the_one_that_moves->pos_x)) { //Left
+	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Left
 		my_direction = Direction_type::Left;
-		*out_of_range = (the_one_that_moves->pos_y - extern_destination->col) > 1;
+		*out_of_range = (the_one_that_moves->pos_x - extern_destination->col) > 1;
 	}
-	else if ((extern_destination->col == the_one_that_moves->pos_y) && (extern_destination->fil > the_one_that_moves->pos_x)) { //Right
+	else if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) { //Right
 		my_direction = Direction_type::Right;
-		*out_of_range = (extern_destination->col - the_one_that_moves->pos_y) > 1;
+		*out_of_range = (extern_destination->col - the_one_that_moves->pos_x) > 1;
 	}
-	else if ((extern_destination->col < the_one_that_moves->pos_y) && (extern_destination->fil == the_one_that_moves->pos_x)) { //Jump_Straight
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) { //Jump_Straight
 		my_direction = Direction_type::Jump_Straight;
 		*out_of_range = (the_one_that_moves->pos_x - extern_destination->fil) != 2;
 	}
-	else if ((extern_destination->col < the_one_that_moves->pos_y) && (extern_destination->fil < the_one_that_moves->pos_x)) { //Jump_Left
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Jump_Left
 		my_direction = Direction_type::Jump_Left;
-		*out_of_range = ((the_one_that_moves->pos_y - extern_destination->col) > 1) ||
-			((the_one_that_moves->pos_x - extern_destination->fil) != 2);
+		*out_of_range = ((the_one_that_moves->pos_x - extern_destination->fil) > 1) ||
+			((the_one_that_moves->pos_y - extern_destination->col) != 2);
 	}
-	else if ((extern_destination->col < the_one_that_moves->pos_y) && (extern_destination->fil > the_one_that_moves->pos_x)) { //Jump_Right
+	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col > the_one_that_moves->pos_x)) { //Jump_Right
 		my_direction = Direction_type::Jump_Right;
-		*out_of_range = ((extern_destination->col - the_one_that_moves->pos_y) > 1) ||
-			((the_one_that_moves->pos_x - extern_destination->fil) != 2);
+		*out_of_range = ((the_one_that_moves->pos_x - extern_destination->col) > 1) ||
+			((the_one_that_moves->pos_y - extern_destination->fil) != 2);
 	}
 	else
 		my_direction = Direction_type::None;  //a stay still was received
@@ -944,8 +945,10 @@ void Scene::control_enemy_actions()
 
 }
 void Scene::control_enemies() {
-	for (int i = 0; i < curr_enemies->size(); i++) 
-		curr_enemies->at(i)->ev_handler->handle_event();
+	if(initializing){
+		for (int i = 0; i < curr_enemies->size(); i++) 
+			curr_enemies->at(i)->ev_handler->handle_event();
+	}
 }
 void Scene::control_all_actions() {
 	
@@ -957,10 +960,10 @@ void Scene::control_all_actions() {
 				curr_player->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
 			curr_player->ev_handler->handle_event();
 		}
-		for (int i = 0; i < curr_players->size(); i++) {
-			Player* curr_player = curr_players->at(i);
-			curr_player->ev_handler->handle_event();
-		}
+//		for (int i = 0; i < curr_players->size(); i++) {
+//			Player* curr_player = curr_players->at(i);
+//			curr_player->ev_handler->handle_event();
+//		}
 	}
 
 		if (curr_proyectiles != NULL)	//same as for the curr_proyectiles

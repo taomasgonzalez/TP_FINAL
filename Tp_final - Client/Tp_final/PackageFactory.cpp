@@ -114,7 +114,7 @@ PackageFactory::PackageFactory()
 
 	 case Package_type::MAP_IS: {
 		 MAP_IS_package* mi_pack = static_cast<MAP_IS_package*>(package_recieved);
-		 my_event_package = new MAP_IS_EventPackage(false, mi_pack->give_me_the_map(), mi_pack->give_me_the_checksum());
+		 my_event_package = new MAP_IS_EventPackage(false, (const unsigned char*)mi_pack->give_me_the_map(), mi_pack->give_me_the_checksum());
 	 }
 		break;
 

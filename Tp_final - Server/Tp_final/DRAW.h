@@ -2,6 +2,7 @@
 #include "GraficObjectPlayer.h"
 #include "GraficObjectEnemy.h"
 #include "GraficObjectProjectile.h"
+#include "PointsContainer.h"
 #include <iostream>
 #include <map>
 #include <vector>
@@ -34,16 +35,35 @@ public:
 	void disactiveObj(unsigned int ID);
 	bool finished_drawing_step(unsigned int ID);
 	void add_observer(unsigned int ID, Observer* observers);
+	void play_main_song(void);
+	void stop_main_song(void);
 
 private:
 	map<unsigned int, Obj_Graf*> mapObjGraf;									// mapa de objetos graficos
-	ALLEGRO_BITMAP * floor = NULL;
-	ALLEGRO_BITMAP * empty = NULL;
-	ALLEGRO_BITMAP ** backgrounds = NULL;
+	//bitmaps for map drawing
+	ALLEGRO_BITMAP* floor_bottom = NULL;
+	ALLEGRO_BITMAP* floor_top = NULL;
+	ALLEGRO_BITMAP* floor_corner_right = NULL;
+	ALLEGRO_BITMAP* floor_corner_left = NULL;
+	ALLEGRO_BITMAP** backgrounds = NULL;
+	ALLEGRO_BITMAP* sub_bitmap = NULL;
+	void load_scenario_bitmaps(void);
+	void load_score_font(void);
+
+	//font for score screen write
+	ALLEGRO_FONT* score_font = 0;
+
 	vector<string> levels;
 	unsigned int level;
+	unsigned int screen_w;
+	unsigned int screen_h;
+	unsigned int step_background;	//used for a dynamic background
 	void drawLevel();
+	void draw_dynamic_background();
+	void draw_game_score();
 	ImageContainer* images = NULL;
+	AudioContainer* audio = NULL;
+	PointsContainer game_points;
 };
 
 

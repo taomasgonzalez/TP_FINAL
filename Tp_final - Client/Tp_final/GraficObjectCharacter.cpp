@@ -1,5 +1,6 @@
 #include "GraficObjectCharacter.h"
-
+#include "general.h"
+using namespace std;
 
 
 Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
@@ -11,15 +12,16 @@ Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
 	attacking_pics = 0;
 	falling_pics = 0;
 	dying_pics = 0;
-
-	is_fatty = false;
+	jump_ticks = 0;
+	fall_ticks = 0;
+	walking_sample_id = new ALLEGRO_SAMPLE_ID;
 }
 
 
 Obj_Graf_Character::~Obj_Graf_Character()
 {
+	delete walking_sample_id;
 }
-
 
 void Obj_Graf_Character::handle_walking()
 {
@@ -32,11 +34,10 @@ void Obj_Graf_Character::handle_walking()
 		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 
 	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
+	if(pos.get_x_coord() == InitalPos.get_x_coord())		//If the animation just started the sample is played
+		al_play_sample(chara_samples->walk_soundEffect, 2.0, 0, 1.0, ALLEGRO_PLAYMODE_LOOP, walking_sample_id);
 
 	if (reached_final_pos)		//veo si ya llego a la pos final 
 	{
@@ -49,9 +50,9 @@ void Obj_Graf_Character::handle_walking()
 
 		//The final position after the secuence is completed is set
 		//pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
-		//pos.set_x_coord(pos.get_x_coord() + delta * velX/2);		// muevo la posicion del dibujo
+		pos.set_x_coord(pos.get_x_coord() + delta * velX/2);		// muevo la posicion del dibujo
 
-
+		al_stop_sample(walking_sample_id);
 
 		//actualImage = 0;
 #ifdef DEBUG
@@ -60,7 +61,7 @@ void Obj_Graf_Character::handle_walking()
 		//cout << endl << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
 #endif
 
-		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 
 	}
@@ -70,12 +71,12 @@ void Obj_Graf_Character::handle_walking()
 		pos.set_x_coord(pos.get_x_coord() + delta * velX);		// muevo la posicion del dibujo
 
 
-		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-		//std::cout << "Se imprimio el frame de Walk n°" << walkActualImage << std::endl;
+		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		//cout << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
 		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 		std::cout << pos.get_x_coord() << std::endl;
 
-		//al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage], 0, 0, al_get_bitmap_height(chara_images->walkImages[walkActualImage]), al_get_bitmap_width(chara_images->walkImages[walkActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		//al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage]), al_get_bitmap_height(chara_images->walkImages[walkActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		//((walkActualImage+1) < walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
 
 	}
@@ -84,7 +85,7 @@ void Obj_Graf_Character::handle_walking()
 
 void Obj_Graf_Character::handle_jumping()
 {
-	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+	if ((pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE)) || jump_ticks == JUMP_TICKS)		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
 		if (!secuenceOver_) {
 			secuenceOver_ = true;
@@ -92,25 +93,30 @@ void Obj_Graf_Character::handle_jumping()
 			notified_half_jump = false;
 			pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 			actualImage = 0;
+			jump_ticks = 0;
 		}
 	}
 	else
 	{
+		if(jump_ticks == 0)														//the music effect must only be set at the start of the jump
+			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
-		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
+		pos.set_y_coord(pos.get_y_coord() - (INITIAL_VEL_JUMP - ACELERTION * ++jump_ticks));															// muevo la posicion del dibujo
 		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
 			notify_finished_drawing_step();
 			notified_half_jump = true;
 		}														// muevo la posicion del dibujo
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
 
-	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->jumpImages[actualImage]), al_get_bitmap_width(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_width(chara_images->jumpImages[actualImage]), al_get_bitmap_height(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 
@@ -119,7 +125,7 @@ void Obj_Graf_Character::handle_jumping_forward()
 	int delta = get_movement_delta();
 	bool reached_final_pos = false;
 
-	if (pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
+	if ((pos.get_y_coord() < (InitalPos.get_y_coord() - 2 * BLOCK_SIZE) || jump_ticks == JUMP_TICKS))		// se desplaza a la izquierda, veo si ya llego a la pos final 
 	{
 		if (!secuenceOver_) {
 			secuenceOver_ = true;
@@ -127,12 +133,15 @@ void Obj_Graf_Character::handle_jumping_forward()
 			notified_half_jump = false;
 			pos.set_y_coord(InitalPos.get_y_coord() - 2 * BLOCK_SIZE);
 			actualImage = 0;
+			jump_ticks = 0;
 		}
 	}
 	else
 	{
+		if (jump_ticks == 0)														//the music effect must only be set at the start of the jump
+			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
-		pos.set_y_coord(pos.get_y_coord() - velFall);															// muevo la posicion del dibujo
+		pos.set_y_coord(pos.get_y_coord() - (INITIAL_VEL_JUMP - ACELERTION * ++jump_ticks));															// muevo la posicion del dibujo
 		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
 			notify_finished_drawing_step();
 			notified_half_jump = true;
@@ -144,19 +153,18 @@ void Obj_Graf_Character::handle_jumping_forward()
 	else if (dir == Direction::Right)
 		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 
-
-	if (reached_final_pos)
-		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
-	else
-		pos.set_x_coord(pos.get_x_coord() + delta * velX / 2);	// muevo la posicion del dibujo
+	if (InitalPos.get_x_coord() > BLOCK_SIZE && InitalPos.get_x_coord() < (DISPLAY_W - BLOCK_SIZE))
+	{
+		if (reached_final_pos)
+			pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
+		else
+			pos.set_x_coord(pos.get_x_coord() + delta * (INITIAL_VEL_JUMP - ACELERTION * jump_ticks) / 2);	// muevo la posicion del dibujo
+	}
 
 	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
-	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->jumpImages[actualImage]), al_get_bitmap_width(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_width(chara_images->jumpImages[actualImage]), al_get_bitmap_height(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 }
 
 void Obj_Graf_Character::handle_iddle()
@@ -164,17 +172,17 @@ void Obj_Graf_Character::handle_iddle()
 	actualImage = 0;
 
 	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
-	al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 	((idleActualImage + 1) < 2 * iddle_pics) ? idleActualImage++ : idleActualImage = 0;
+
 }
 
 void Obj_Graf_Character::handle_attacking()
 {
+	if(attackActualImage == 0)
+		al_play_sample(chara_samples->shot_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 	if ((this->attackActualImage + 1) < 2 * attacking_pics)
 		this->attackActualImage++;																									// termino la secuencia de disparo
 	else
@@ -184,12 +192,9 @@ void Obj_Graf_Character::handle_attacking()
 	}
 
 	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
-	al_draw_scaled_bitmap(chara_images->attackImages[attackActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->attackImages[attackActualImage / 2]), al_get_bitmap_width(chara_images->attackImages[attackActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(chara_images->attackImages[attackActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->attackImages[attackActualImage / 2]), al_get_bitmap_height(chara_images->attackImages[attackActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 }
 
 void Obj_Graf_Character::handle_falling()
@@ -205,31 +210,33 @@ void Obj_Graf_Character::handle_falling()
 	}
 	else
 	{
-		(actualImage < (FALLING_PICS - 1)) ? actualImage++ : actualImage = 0;																									// ubico el siguiente frame
-		pos.set_y_coord(pos.get_y_coord() + velFall);															// muevo la posicion del dibujo
+		(actualImage < (FALLING_PICS - 1)) ? actualImage++ : actualImage = 0;	
+		pos.set_y_coord(pos.get_y_coord() + (ACELERTION * ++fall_ticks));			// muevo la posicion del dibujo								
 	}
 
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//int flip;
+	//if (is_fatty)
+	//	flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	//else
+	//	flip = (dir == Direction::Left) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
 
-	std::cout << "Se imprimio un falling" << std::endl;
-	al_draw_scaled_bitmap(chara_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(chara_images->fallImages[this->actualImage]), al_get_bitmap_width(chara_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	int flip = (dir == Direction::Right) ? NULL : ALLEGRO_FLIP_HORIZONTAL;
+
+	//std::cout << "Se imprimio un falling" << std::endl;
+
+	al_draw_scaled_bitmap(chara_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(chara_images->fallImages[this->actualImage]), al_get_bitmap_height(chara_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 
 void Obj_Graf_Character::handle_dying()
 {
+	if(dieActualImage == 0)
+		al_play_sample(chara_samples->death_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 	if (this->dieActualImage < 2 * dying_pics)
 	{
 
 		int flip;
-		if (is_fatty)
-			flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-		else
-			flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 		al_draw_scaled_bitmap(chara_images->dieImages[dieActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->dieImages[dieActualImage / 2]), al_get_bitmap_height(chara_images->dieImages[dieActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		dieActualImage++;
 	}
@@ -240,6 +247,11 @@ void Obj_Graf_Character::handle_dying()
 		secuenceOver_ = true;
 		dieActualImage = 0;
 	}
+}
+
+void Obj_Graf_Character::stop_fall_aceleration()
+{
+	fall_ticks = 0;
 }
 
 int Obj_Graf_Character::get_movement_delta()

@@ -21,6 +21,21 @@ void NetworkData::tell_me_his_name(std::string  his_name)
 	 this->his_name = his_name;  //como viene sin /n tomo los primero namelength chars 
 }
 
+void NetworkData::my_name_is(std::string my_name)
+{
+	this->my_name = my_name;
+}
+
+void NetworkData::tell_me_his_ip(std::string his_ip)
+{
+	this->his_ip = his_ip;
+}
+
+void NetworkData::my_ip_is(std::string my_ip)
+{
+	this->my_ip = my_ip;
+}
+
 
 std::string NetworkData::give_me_my_ip()
 {

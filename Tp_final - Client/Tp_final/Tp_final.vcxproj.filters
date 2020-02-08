@@ -190,6 +190,11 @@
     <ClCompile Include="PlayerSceneControllerObserver.cpp">
       <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicInterface.cpp" />
+    <ClCompile Include="PointsContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioContainer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -396,6 +401,11 @@
     <ClInclude Include="GraficObjectCharacter.h">
       <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
+    <ClInclude Include="GraphicInterface.h" />
+    <ClInclude Include="PointsContainer.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AudioContainer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

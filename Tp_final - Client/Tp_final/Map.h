@@ -47,7 +47,7 @@ public:
 	int get_max_number_of_floors();
 
 	//llamar despues de construir al mapa para cargar las cosas!!
-	void load_on_map(const unsigned char* map_string, void* scenario = NULL);
+	void load_on_map( unsigned char* map_string, void* scenario = NULL);
 
 	void load_checksum(unsigned char checksum);
 

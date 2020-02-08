@@ -37,13 +37,16 @@ public:
 	std::string give_me_his_ip();
 
 	std::string give_me_my_name();
-	void tell_me_his_name(std::string  his_name);
 	bool get_should_check_for_new_messages();
 	bool has_new_info();
 	bool is_client();
 
 	//setters
 	void set_client(bool is_client);
+	void tell_me_his_name(std::string  his_name);
+	void my_name_is(std::string  my_name);
+	void tell_me_his_ip(std::string  his_ip);
+	void my_ip_is(std::string  my_ip);
 	void set_should_check_for_new_messages(bool should_check);
 	bool handshake = true;
 
@@ -54,8 +57,8 @@ private:
 	bool client_mode;		//By default we try to connect as a client
 	bool new_info = false;
 	bool check_for_new_messages;
-	std::string my_name = "Eberto"; //must have terminator
-	std::string his_name = "Juacho"; //must have terminator
+	std::string my_name; //must have terminator
+	std::string his_name; //must have terminator
 };
 
 

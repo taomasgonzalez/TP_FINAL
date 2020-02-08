@@ -272,6 +272,7 @@ void load_action_and_send_it_back_r(void* data) {
 void start_game_and_send_ack_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->start_game_and_send_ack();
+	fsm->start_playing();
 }
 void set_ack_time_out(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -560,15 +561,7 @@ void LogicFSM::analyze_we_lost() {
 
 void LogicFSM::ask_the_user_if_wants_to_play_again() {
 
-	/*
-	if(ALLEGRO INTERFACE)
-	{
-	fsm->want_to_play_again = true;
-	}
-	else
-	fsm->want_to_play_again = false;
-
-	*/
+	want_to_play_again = scenario->my_graphic_interface->request_2_play_again();
 }
 
 void LogicFSM::ask_user_being_client_and_send_decition() {
@@ -578,9 +571,10 @@ void LogicFSM::ask_user_being_client_and_send_decition() {
 	if (want_to_play_again)
 		send_play_again();
 	else
+	{
 		com->sendMessage(pack_factory.event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
-	
-	want_to_play_again = false;
+		scenario->my_graphic_interface->print_messaje(GAME_OVER);
+	}
 
 }
 
@@ -644,7 +638,7 @@ void LogicFSM::reset_game() {
 	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
 
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(),(const unsigned char *) new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(),( unsigned char *) new_map.c_str(), 18);
 
 	//send RESET
 	if (get_fsm_ev_pack()->is_this_a_local_action())
@@ -765,7 +759,8 @@ void LogicFSM::send_game_start() {
 	com->sendMessage(pack_factory.event_package_2_package(new GAME_START_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 
 	//scene get�s noticed that the game has started, has to start executing actions
-	scenario->initializing = false; // ya se hace desde main
+	scenario->initializing = true; // ya se hace desde main
+
 	
 	start_game = true;
 	notify_obs();
@@ -788,7 +783,7 @@ void LogicFSM::check_map_and_save_send_ack() {
 	}
 	else
 	{
-		scenario->load_new_map(user_data->my_network_data.is_client(), map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()); //If the map is okay, the program proceeds to load it
+		scenario->load_new_map(user_data->my_network_data.is_client(), ( unsigned char*)map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()); //If the map is okay, the program proceeds to load it
 		error_ocurred = false;
 	}
 

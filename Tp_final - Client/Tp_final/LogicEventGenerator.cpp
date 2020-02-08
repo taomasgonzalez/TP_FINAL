@@ -107,6 +107,7 @@ void LogicEventGenerator::update_from_allegro_timer_events() {
 
 	while (al_get_next_event(al_key_timers_queue, &allegroEvent)) {			//fetch from the queue if it´s not empty
 
+
 		if (this->are_we_playing)
 		{
 			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)

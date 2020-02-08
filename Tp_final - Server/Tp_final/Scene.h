@@ -1,6 +1,7 @@
 #pragma once
 #include "Userdata.h"
 #include "Allegroclass.h"
+#include "GraphicInterface.h"
 #include "general.h"
 #include "Observable.h"
 #include "Map.h"
@@ -62,7 +63,7 @@ public:
 ******************************************************************************/
 
 	void load_new_map(bool is_client, const char * the_map =NULL, unsigned char the_checksum=NULL );
-	bool is_the_map_okay(const char * the_map , unsigned char the_checksum );
+	bool is_the_map_okay(const unsigned char * the_map , unsigned char the_checksum );
 	void load_new_graphic_level();
 	const unsigned char * give_me_the_map_info();
 
@@ -102,9 +103,12 @@ public:
 	EventPackage * front_auxiliar_event();
 	void load_saved_event_r();
 
+/*******************************************************************************
+	MESSAGES PRINTED ON SCREEN
+******************************************************************************/
+	GraphicInterface* my_graphic_interface = NULL; //Pointer to manage de graphic interface
 
 private:
-
 
 	void * graphics = NULL;
 

@@ -1,14 +1,17 @@
 #pragma once
 
 #include "ImageContainer.h"
+#include "AudioContainer.h"
 #include "general.h"
 #include "Observable.h"
 
 #define COLS (16)
 #define ROWS (12)
 
-#define JUMP_TIME (1.2)			// tiempo de salto -> 1.2s			(lo que tarda en llegar 2 bloques mas arriba)
-
+#define JUMP_TIME (0.6)									// tiempo de salto			(lo que tarda en llegar 2 bloques mas arriba)
+#define JUMP_TICKS (JUMP_TIME*FPS)						// cantidad de frames que dura el salto	
+#define INITIAL_VEL_JUMP (2*(2.0*BLOCK_SIZE)/JUMP_TICKS)	// velocidad inicial del salto
+#define ACELERTION (INITIAL_VEL_JUMP/JUMP_TICKS)		// aceleration conviniently setted
 #define MOVE_RATIO_FALL	(0.3)											// velocidad de caida (300ms/bloque)
 #define VEL_FALL	(BLOCK_SIZE/(FPS*MOVE_RATIO_FALL))
 

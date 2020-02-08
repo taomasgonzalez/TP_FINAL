@@ -6,7 +6,7 @@ using namespace std;
 
 
 
-Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* container)
+Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer)
 {
 	velX = VELOCITY_X;					// se setea la velocidad de desplazamiento de los jugadores
 	this->type = type;
@@ -19,10 +19,12 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* co
 	switch (type)
 	{
 	case NICK:
-		chara_images = &container->my_character_images_container.nick;
+		chara_images = &imageContainer->my_character_images_container.nick;
+		chara_samples = &audioContainer->my_character_samples_container.nick;
 		break;
 	case TOM:
-		chara_images = &container->my_character_images_container.tom;
+		chara_images = &imageContainer->my_character_images_container.tom;
+		chara_samples = &audioContainer->my_character_samples_container.tom;
 		break;
 	}
 
@@ -43,6 +45,9 @@ Obj_Graf_Player::~Obj_Graf_Player()
 
 void Obj_Graf_Player::draw()
 {
+	if (state != player_FALLING)
+		stop_fall_aceleration();
+
 	switch (this->state)
 	{
 	case player_WALKING:
@@ -59,6 +64,8 @@ void Obj_Graf_Player::draw()
 		break;
 	case player_IDLE:
 		handle_iddle();
+		//std::cout << "Se imprimió un iddle de un jugador" << std::endl;
+
 		break;
 	case player_JUMPING_FOWARD:
 		handle_jumping_forward();
@@ -75,7 +82,8 @@ void Obj_Graf_Player::draw()
 void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 {
 	active = true;
-	this->dir = dir;
+	if(dir != Direction::None)
+		this->dir = dir;
 	this->pos = pos;
 	InitalPos = pos;
 	this->state = *(PLAYER_STATE *)state;
@@ -118,11 +126,11 @@ void Obj_Graf_Player::handle_pushing() {
 	{
 		secuenceOver_ = true;
 		pos.set_x_coord(InitalPos.get_x_coord() + delta * BLOCK_SIZE);
-		al_draw_scaled_bitmap(chara_images->pushImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->pushImages[actualImage]), al_get_bitmap_width(chara_images->pushImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(chara_images->pushImages[actualImage], 0, 0, al_get_bitmap_width(chara_images->pushImages[actualImage]), al_get_bitmap_height(chara_images->pushImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 	}
 	else
 	{
-		al_draw_scaled_bitmap(chara_images->pushImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->pushImages[actualImage]), al_get_bitmap_width(chara_images->pushImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(chara_images->pushImages[actualImage], 0, 0, al_get_bitmap_width(chara_images->pushImages[actualImage]), al_get_bitmap_height(chara_images->pushImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		pos.set_x_coord(pos.get_x_coord() + delta * VEL_PUSHED);
 		((actualImage + 1) < PUSHING_PICS) ? actualImage++ : actualImage = 0;
 	}

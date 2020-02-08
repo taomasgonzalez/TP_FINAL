@@ -7,7 +7,7 @@ Obj_Graf_Enemy::Obj_Graf_Enemy()
 {
 }
 
-Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* container)
+Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer)
 {
 	actualImage = 0;
 	attackActualImage = 0;
@@ -34,8 +34,10 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		falling_pics = FALLING_PICS_PURPLE;
 		dying_pics = DYING_PICS_PURPLE;
 
-		chara_images = &container->my_character_images_container.purple;
-		this_images = &container->my_enemy_images_container.purple;
+		chara_images = &imageContainer->my_character_images_container.purple;
+		this_images = &imageContainer->my_enemy_images_container.purple;
+		chara_samples = &audioContainer->my_character_samples_container.purple;
+		this_samples = &audioContainer->my_ball_samples;
 		break;
 	case FATTY:
 		velX = VEL_FATTY;
@@ -47,10 +49,10 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		falling_pics = FALLING_PICS_FATTY;
 		dying_pics = DYING_PICS_FATTY;
 
-		chara_images = &container->my_character_images_container.fatty;
-		this_images = &container->my_enemy_images_container.fatty;
-
-		is_fatty = true;
+		chara_images = &imageContainer->my_character_images_container.fatty;
+		this_images = &imageContainer->my_enemy_images_container.fatty;
+		chara_samples = &audioContainer->my_character_samples_container.fatty;
+		this_samples = &audioContainer->my_ball_samples;
 		break;
 	case CRAZY:
 		velX = VEL_CRAZY;
@@ -62,8 +64,10 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		falling_pics = FALLING_PICS_CRAZY;
 		dying_pics = DYING_PICS_CRAZY;
 
-		chara_images = &container->my_character_images_container.crazy;
-		this_images = &container->my_enemy_images_container.crazy;
+		chara_images = &imageContainer->my_character_images_container.crazy;
+		this_images = &imageContainer->my_enemy_images_container.crazy;
+		chara_samples = &audioContainer->my_character_samples_container.crazy;
+		this_samples = &audioContainer->my_ball_samples;
 		break;
 	}
 }
@@ -75,6 +79,9 @@ Obj_Graf_Enemy::~Obj_Graf_Enemy()
 
 void Obj_Graf_Enemy::draw()
 {
+	if (state != enemy_FALLING)
+		stop_fall_aceleration();
+
 	switch (this->state) {
 	case enemy_WALKING:
 		handle_walking();			//checked
@@ -122,7 +129,8 @@ void Obj_Graf_Enemy::draw()
 void Obj_Graf_Enemy::startDraw(Direction dir, void *state, POINT_& pos)
 {
 	this->active = true;
-	this->dir = dir;
+	if (dir != Direction::None)
+		this->dir = dir;
 	this->pos.set_x_coord(pos.get_x_coord());
 	this->pos.set_y_coord(pos.get_y_coord());
 	this->InitalPos = pos;
@@ -183,7 +191,7 @@ void Obj_Graf_Enemy::handle_trapped(ENEMY_TYPE type, ENEMY_STATE trapped_state) 
 	//ENEMY_STATE : enemy_TRAPPED_1 or enemy_TRAPPED_2
 	if (trapped_state == enemy_TRAPPED_1) {
 		trap1ActualImage = (trap1ticks % (pics_quantity_1 * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
-		al_draw_scaled_bitmap(this_images->trap1Images[trap1ActualImage], 0, 0, al_get_bitmap_height(this_images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(this_images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(this_images->trap1Images[trap1ActualImage], 0, 0, al_get_bitmap_width(this_images->trap1Images[this->trap1ActualImage]), al_get_bitmap_height(this_images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 		if (++trap1ticks > TICKS_TRAPPED)
 		{
@@ -193,7 +201,7 @@ void Obj_Graf_Enemy::handle_trapped(ENEMY_TYPE type, ENEMY_STATE trapped_state) 
 	}
 	else if (trapped_state == enemy_TRAPPED_2) {
 		trap2ActualImage = (trap2ticks % (pics_quantity_2 * 2)) / 2;
-		al_draw_scaled_bitmap(this_images->trap2Images[trap2ActualImage], 0, 0, al_get_bitmap_height(this_images->trap2Images[this->trap2ActualImage]),
+		al_draw_scaled_bitmap(this_images->trap2Images[trap2ActualImage], 0, 0, al_get_bitmap_width(this_images->trap2Images[this->trap2ActualImage]),
 			al_get_bitmap_width(this_images->trap2Images[trap2ActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		trap2ticks++;
 
@@ -209,7 +217,7 @@ void Obj_Graf_Enemy::handle_trapped(ENEMY_TYPE type, ENEMY_STATE trapped_state) 
 void Obj_Graf_Enemy::handle_inball_iddle() {
 	int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
-	al_draw_scaled_bitmap(this_images->inballIdleImages[actualImageInball], 0, 0, al_get_bitmap_height(this_images->inballIdleImages[actualImageInball]),
+	al_draw_scaled_bitmap(this_images->inballIdleImages[actualImageInball], 0, 0, al_get_bitmap_width(this_images->inballIdleImages[actualImageInball]),
 		al_get_bitmap_width(this_images->inballIdleImages[actualImageInball]),
 		pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 	((actualImageInball + 1) < IDLE_PICS_BALL) ? actualImageInball++ : actualImageInball = 0;
@@ -225,6 +233,9 @@ void Obj_Graf_Enemy::handle_inball_moving() {
 	else if (dir == Direction::Right)
 		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 
+	if(actualImageInball == 0)
+		al_play_sample(this_samples->move_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+
 
 	if (reached_final_pos)
 	{
@@ -239,7 +250,7 @@ void Obj_Graf_Enemy::handle_inball_moving() {
 	//should flip the image when going left
 
 	int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(this_images->inballMoveImages[actualImageInball], 0, 0, al_get_bitmap_height(this_images->inballMoveImages[actualImageInball]), al_get_bitmap_width(this_images->inballMoveImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(this_images->inballMoveImages[actualImageInball], 0, 0, al_get_bitmap_width(this_images->inballMoveImages[actualImageInball]), al_get_bitmap_height(this_images->inballMoveImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 	// se pasa al siguiente sprite
 	((actualImageInball + 1) < MOVING_PICS_BALL) ? actualImageInball++ : actualImageInball = 0;
@@ -266,7 +277,7 @@ void Obj_Graf_Enemy::handle_inball_moving() {
 	}
 
 	int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(this_images->inballMoveImages[actualImageInball], 0, 0, al_get_bitmap_height(this_images->inballMoveImages[actualImageInball]), al_get_bitmap_width(this_images->inballMoveImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(this_images->inballMoveImages[actualImageInball], 0, 0, al_get_bitmap_width(this_images->inballMoveImages[actualImageInball]), al_get_bitmap_height(this_images->inballMoveImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 	*/
 }
 
@@ -292,7 +303,7 @@ void Obj_Graf_Enemy::handle_inball_pushing() {
 	}
 
 	int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(this_images->inballPushImages[actualImageInball / 2], 0, 0, al_get_bitmap_height(this_images->inballPushImages[actualImageInball / 2]), al_get_bitmap_width(this_images->inballPushImages[actualImageInball / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(this_images->inballPushImages[actualImageInball / 2], 0, 0, al_get_bitmap_width(this_images->inballPushImages[actualImageInball / 2]), al_get_bitmap_height(this_images->inballPushImages[actualImageInball / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 }
 
 void Obj_Graf_Enemy::handle_inball_falling() {
@@ -310,20 +321,24 @@ void Obj_Graf_Enemy::handle_inball_falling() {
 	}
 
 	int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(this_images->inballFallImages[actualImageInball], 0, 0, al_get_bitmap_height(this_images->inballFallImages[actualImageInball]), al_get_bitmap_width(this_images->inballFallImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(this_images->inballFallImages[actualImageInball], 0, 0, al_get_bitmap_width(this_images->inballFallImages[actualImageInball]), al_get_bitmap_height(this_images->inballFallImages[actualImageInball]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 
 void Obj_Graf_Enemy::handle_inball_destruction() {
 
+	if(actualDestructionImage == 0)
+		al_play_sample(this_samples->impact_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+
 	if (actualDestructionImage < DESTRUCTION_PICS_BALL)															// si todavia no termino la secuancia que siga
 	{
 		int flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-		al_draw_scaled_bitmap(this_images->inballDestructiontImages[actualDestructionImage], 0, 0, al_get_bitmap_height(this_images->inballDestructiontImages[actualDestructionImage]), al_get_bitmap_width(this_images->inballDestructiontImages[actualDestructionImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(this_images->inballDestructiontImages[actualDestructionImage], 0, 0, al_get_bitmap_width(this_images->inballDestructiontImages[actualDestructionImage]), al_get_bitmap_height(this_images->inballDestructiontImages[actualDestructionImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		actualDestructionImage++;
 	}
 	else
 	{
+		actualDestructionImage = 0;
 		active = false;
 		secuenceOver_ = true;
 	}
@@ -355,7 +370,7 @@ void Obj_Graf_Enemy::going_right() {
 		}
 		else
 			this->pos.set_x_coord(this->pos.get_x_coord() + (this->velX) / 2);				// se divide por 2 la velocidad ya que debera recorrer en x la 
-		al_draw_scaled_bitmap(this_images->jumpImages[this->actualImage], 0, 0, al_get_bitmap_height(this_images->jumpImages[this->actualImage]), al_get_bitmap_width(this_images->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+		al_draw_scaled_bitmap(this_images->jumpImages[this->actualImage], 0, 0, al_get_bitmap_width(this_images->jumpImages[this->actualImage]), al_get_bitmap_height(this_images->jumpImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 		break;
 	case enemy_FALLING:
 		if (this->pos.get_y_coord() > (this->InitalPos.get_y_coord() + BLOCK_SIZE))		// se desplaza a la izquierda, veo si ya llego a la pos final 
@@ -372,11 +387,11 @@ void Obj_Graf_Enemy::going_right() {
 			(this->actualImage < (FALLING_PICS_PURPLE - 1)) ? this->actualImage++ : this->actualImage = 0;																									// ubico el siguiente frame
 			this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 		}
-		al_draw_scaled_bitmap(this_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(this_images->fallImages[this->actualImage]), al_get_bitmap_width(this_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+		al_draw_scaled_bitmap(this_images->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(this_images->fallImages[this->actualImage]), al_get_bitmap_height(this_images->fallImages[this->actualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 		break;
 	case enemy_TRAPPED_1:
 		this->trap1ActualImage = (this->trap1ticks % (TRAPPED_1_PICS_PURPLE * 2)) / 2;		// multiplico y divido por 2 para que sea mas lenta la enimacion
-		al_draw_scaled_bitmap(this_images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_height(this_images->trap1Images[this->trap1ActualImage]), al_get_bitmap_width(this_images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+		al_draw_scaled_bitmap(this_images->trap1Images[this->trap1ActualImage], 0, 0, al_get_bitmap_width(this_images->trap1Images[this->trap1ActualImage]), al_get_bitmap_height(this_images->trap1Images[this->trap1ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 		//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 		this->trap1ticks++;
 		if (this->trap1ticks > TICKS_TRAPPED)
@@ -387,7 +402,7 @@ void Obj_Graf_Enemy::going_right() {
 		break;
 	case enemy_TRAPPED_2:
 		this->trap2ActualImage = (this->trap2ticks % (TRAPPED_2_PICS_PURPLE * 2)) / 2;
-		al_draw_scaled_bitmap(this_images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_height(this_images->trap2Images[this->trap2ActualImage]), al_get_bitmap_width(this_images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
+		al_draw_scaled_bitmap(this_images->trap2Images[this->trap2ActualImage], 0, 0, al_get_bitmap_width(this_images->trap2Images[this->trap2ActualImage]), al_get_bitmap_height(this_images->trap2Images[this->trap2ActualImage]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, NULL);
 		//al_draw_bitmap(this->trapImages[this->actualImage], this->pos.get_x_coord(), this->pos.get_y_coord(), NULL);
 		this->trap2ticks++;
 		if (this->trap1ticks > TICKS_TRAPPED)
@@ -410,7 +425,7 @@ void Obj_Graf_Enemy::going_right() {
 			this->pos.set_x_coord(this->pos.get_x_coord() + this->velX);
 			((this->actualImageInball + 1) < MOVING_PICS_BALL) ? this->actualImageInball++ : this->actualImageInball = 0;
 		}
-		al_draw_scaled_bitmap(this_images->inballMoveImages[this->actualImageInball], 0, 0, al_get_bitmap_height(this_images->inballMoveImages[this->actualImageInball]), al_get_bitmap_width(this_images->inballMoveImages[this->actualImageInball]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+		al_draw_scaled_bitmap(this_images->inballMoveImages[this->actualImageInball], 0, 0, al_get_bitmap_width(this_images->inballMoveImages[this->actualImageInball]), al_get_bitmap_height(this_images->inballMoveImages[this->actualImageInball]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 		break;
 	case enemy_INBALL_PUSHING:
 		if (this->pos.get_x_coord() > (this->InitalPos.get_x_coord() + BLOCK_SIZE))						// BLOCK_SIZE / 2 para que no atraviese el piso
@@ -424,7 +439,7 @@ void Obj_Graf_Enemy::going_right() {
 			this->pos.set_x_coord(this->pos.get_x_coord() + VEL_PUSHED_INBALL);
 			((this->actualImageInball + 1) < PUSHING_PICS_BALL * 2) ? this->actualImageInball++ : this->actualImageInball = 0;
 		}
-		al_draw_scaled_bitmap(this_images->inballPushImages[this->actualImageInball / 2], 0, 0, al_get_bitmap_height(this_images->inballPushImages[this->actualImageInball / 2]), al_get_bitmap_width(this_images->inballPushImages[this->actualImageInball / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
+		al_draw_scaled_bitmap(this_images->inballPushImages[this->actualImageInball / 2], 0, 0, al_get_bitmap_width(this_images->inballPushImages[this->actualImageInball / 2]), al_get_bitmap_height(this_images->inballPushImages[this->actualImageInball / 2]), this->pos.get_x_coord(), this->pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, ALLEGRO_FLIP_HORIZONTAL);
 		break;
 
 	}

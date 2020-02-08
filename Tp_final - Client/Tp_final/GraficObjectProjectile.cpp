@@ -7,7 +7,7 @@ Obj_Graf_Projectile::Obj_Graf_Projectile()
 }
 
 
-Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* container) : Obj_Graf(ID)
+Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer) : Obj_Graf(ID)
 {
 	actualImage = 0;
 	actualImpactImage = 0;
@@ -17,16 +17,18 @@ Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageC
 	{
 	case SNOW:
 		velX = VEL_SNOW;
-		images = &container->my_projectile_images_container.snowball;
+		images = &imageContainer->my_projectile_images_container.snowball;
+		samples = &audioContainer->my_proyectile_samples_container.snow;
 		break;
 	case FIRE:
 		velX = VEL_FIRE;
-		images = &container->my_projectile_images_container.fire;
+		images = &imageContainer->my_projectile_images_container.fire;
+		samples = &audioContainer->my_proyectile_samples_container.fire;
 		break;
 	}
 
-	
-}
+	al_play_sample(samples->move_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);	//the move SE will be play right when the object is created
+}																						//being asumed that the will be moving when created
 
 Obj_Graf_Projectile::~Obj_Graf_Projectile()
 {
@@ -54,7 +56,8 @@ void Obj_Graf_Projectile::draw()
 void Obj_Graf_Projectile::startDraw(Direction dir, void *state, POINT_& pos)
 {
 	active = true;
-	this->dir = dir;
+	if (dir != Direction::None)
+		this->dir = dir;
 	this->pos = pos;
 	InitalPos = pos;
 	this->state = *(PROYECTILE_STATE *)state;
@@ -147,7 +150,7 @@ void Obj_Graf_Projectile::handle_falling(PROYECTILE_TYPE type)
 		this->pos.set_y_coord(this->pos.get_y_coord() + this->velFall);															// muevo la posicion del dibujo
 	}
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_height(images->fallImages[this->actualImage]), al_get_bitmap_width(images->fallImages[this->actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	al_draw_scaled_bitmap(images->fallImages[this->actualImage], 0, 0, al_get_bitmap_width(images->fallImages[this->actualImage]), al_get_bitmap_height(images->fallImages[this->actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 
 }
 
@@ -190,6 +193,9 @@ void Obj_Graf_Projectile::handle_impacting(PROYECTILE_TYPE type)
 		pics_quantity = IMPACT_PICS_FIRE;
 		break;
 	}
+
+	if(actualImpactImage == 0)
+		al_play_sample(samples->impact_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 
 	int flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 	if (this->actualImpactImage < pics_quantity)															// si todavia no termino la secuancia que siga

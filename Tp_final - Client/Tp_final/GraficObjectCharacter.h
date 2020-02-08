@@ -17,10 +17,14 @@ protected:
 	unsigned int falling_pics;
 	unsigned int dying_pics;
 
+	unsigned int jump_ticks;		//ticks to manage the MRUV of the jumps
+	unsigned int fall_ticks;		//ticks to manage the MRUV of the falls
+
 	unsigned int idleActualImage;
 	unsigned int attackActualImage;
 	unsigned int dieActualImage;
 	unsigned int walkActualImage;
+
 
 	void handle_walking();
 	void handle_jumping();
@@ -30,10 +34,17 @@ protected:
 	void handle_falling();
 	void handle_dying();
 
+	void stop_fall_aceleration();	//this function will be call in each draw() call, it controls the variables for a more dinamic drawing
+
 	int get_movement_delta();
 	bool notified_half_jump = false;
 
 	ImageContainer::character_images * chara_images = NULL;
-	bool is_fatty;												// Las imagenes de fatty estan espejadas (caso especial)
+	AudioContainer::character_samples * chara_samples = NULL;
+
+	ALLEGRO_SAMPLE_ID* walking_sample_id;
+
+	//debug
+	int counter = 0;
 };
 

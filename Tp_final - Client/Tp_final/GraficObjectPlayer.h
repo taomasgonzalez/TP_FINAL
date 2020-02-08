@@ -10,7 +10,7 @@ enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, playe
 class Obj_Graf_Player : public Obj_Graf_Character
 {
 public:
-	Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* container);		// se setea la velorcidad del player
+	Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer);		// se setea la velorcidad del player
 	~Obj_Graf_Player();
 
 	void draw();

@@ -24,29 +24,29 @@
 #define TICKS_MARK (30)
 
 
-void update_display(string str, const float screen_w, const float screen_h);
+void update_display(string str);
 
-string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h, const char * text);
+string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const char * text);
 
-string request_user_name(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h)
+string request_user_name(ALLEGRO_EVENT_QUEUE * event_queue)
 {
 	string name;
 
-	name = make_request(event_queue, SCREEN_W, SCREEN_H, REQUEST_USER_NAME_TEXT);
+	name = make_request(event_queue, REQUEST_USER_NAME_TEXT);
 
 	return name;
 }
 
-string request_user_IP(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h)
+string request_user_IP(ALLEGRO_EVENT_QUEUE * event_queue)
 {
 	string ID;
 
-	ID = make_request(event_queue, SCREEN_W, SCREEN_H, REQUEST_USER_ID_TEXT);
+	ID = make_request(event_queue, REQUEST_USER_ID_TEXT);
 
 	return ID;
 }
 
-bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h)
+bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue)
 {
 	bool playAgain;
 
@@ -127,7 +127,7 @@ bool request_2_play_again(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_
 }
 
 
-void print_messaje(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, messaje msj, const float screen_w, const float screen_h)
+void print_messaje(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, messaje msj)
 {
 	ALLEGRO_FONT * font1 = NULL;
 	ALLEGRO_FONT * font2 = NULL;
@@ -367,7 +367,7 @@ void print_messaje(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, messaj
 	}
 }
 
-menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps, const float screen_w, const float screen_h)
+menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIMER *fps)
 {
 	ALLEGRO_FONT * font = NULL;
 	ALLEGRO_BITMAP  *image = NULL;
@@ -461,7 +461,7 @@ menu_options start_game_scenario(ALLEGRO_EVENT_QUEUE * event_queue, ALLEGRO_TIME
 
 
 
-string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, const float screen_h, const char * text)
+string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const char * text)
 {
 	string name;
 
@@ -614,7 +614,7 @@ string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, con
 				default:
 					break;
 				}
-				update_display(name, SCREEN_W, SCREEN_H);
+				update_display(name);
 			}
 		}
 	}
@@ -622,7 +622,7 @@ string make_request(ALLEGRO_EVENT_QUEUE * event_queue, const float screen_w, con
 	return name;
 }
 
-void update_display(string name, const float screen_w, const float screen_h)
+void update_display(string name)
 {
 	ALLEGRO_FONT * font = NULL;
 

@@ -326,7 +326,7 @@ private:
 class MAP_IS_EventPackage : public EventPackage
 {
 public:
-	MAP_IS_EventPackage(bool is_local, const char * themap, unsigned char checksum);
+	MAP_IS_EventPackage(bool is_local, const unsigned char * themap, unsigned char checksum);
 	char * give_me_the_map();
 	unsigned char give_me_the_checksum();
 

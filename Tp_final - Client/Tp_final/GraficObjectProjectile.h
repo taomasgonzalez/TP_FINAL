@@ -11,7 +11,7 @@ class Obj_Graf_Projectile :
 {
 public:
 	Obj_Graf_Projectile();
-	Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* container);
+	Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer);
 	~Obj_Graf_Projectile();
 
 	void draw();
@@ -34,5 +34,6 @@ private:
 
 	int get_movement_delta();
 	ImageContainer::projectile_images * images;
+	AudioContainer::proyectile_samples* samples = NULL;
 };
 

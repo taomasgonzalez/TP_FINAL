@@ -1,6 +1,7 @@
 #pragma once
 #include "Userdata.h"
 #include "Allegroclass.h"
+#include "GraphicInterface.h"
 #include "general.h"
 #include "Observable.h"
 #include "Map.h"
@@ -61,7 +62,7 @@ public:
 	OPERATING OVER MAPS
 ******************************************************************************/
 
-	void load_new_map(bool is_client, const char * the_map =NULL, unsigned char the_checksum=NULL );
+	void load_new_map(bool is_client,  unsigned char * the_map =NULL, unsigned char the_checksum=NULL );
 	bool is_the_map_okay(const char * the_map , unsigned char the_checksum );
 	void load_new_graphic_level();
 	const unsigned  char * give_me_the_map_info();
@@ -100,13 +101,19 @@ public:
 
 	void append_graphic_facility(void* drawer);
 
+/*******************************************************************************
+	MESSAGES PRINTED ON SCREEN
+******************************************************************************/
+	GraphicInterface* my_graphic_interface = NULL; //Pointer to manage de graphic interface
+
 private:
+
 	void * graphics = NULL;
 
-	unsigned char make_checksum(const unsigned char * CSV_map_location);
+	unsigned char make_checksum( unsigned char * CSV_map_location);
 
 	//map information
-	const unsigned char * give_me_the_CSV(unsigned int actual_map);
+	unsigned char * give_me_the_CSV(unsigned int actual_map);
 
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);

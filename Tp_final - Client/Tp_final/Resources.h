@@ -20,6 +20,7 @@
 #include "Allegroclass.h"
 #include "general.h"
 #include "EventHandler.h"
+#include "GraphicInterface.h"
 
 
 class Resources
@@ -32,6 +33,8 @@ public:
 	Userdata* my_user_data;			//Pointer to manage the user data
 
 	Allegro * my_allegro_container = NULL;	//Pointer to manage allegro
+
+	GraphicInterface* my_graphic_interface = NULL; //Pointer to manage de graphic interface
 
 	//My Controllers
 	EventHandler * my_logic_event_handler = NULL;
@@ -60,8 +63,5 @@ private:
 
 	//Methods
 	void add_all_observers();
-
+	void set_myUserData();
 };					
-
-
-

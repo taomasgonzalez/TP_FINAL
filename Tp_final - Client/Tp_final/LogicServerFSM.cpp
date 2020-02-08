@@ -156,21 +156,21 @@ LogicServerFSM::~LogicServerFSM()
 
 
 void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
-	static bool may_control_enemies = false;
+	//static bool may_control_enemies = false;
 
-	if (!may_control_enemies) {
-		ALLEGRO_EVENT al_event;
-		if (al_get_next_event(control_ev_queue, &al_event)) {
-			al_stop_timer(control_timer);
-			while (al_get_next_event(control_ev_queue, &al_event));
-			may_control_enemies = true;
-		}
+	//if (!may_control_enemies) {
+	//	ALLEGRO_EVENT al_event;
+	//	if (al_get_next_event(control_ev_queue, &al_event)) {
+	//		al_stop_timer(control_timer);
+	//		while (al_get_next_event(control_ev_queue, &al_event));
+	//		may_control_enemies = true;
+	//	}
 
-	}
+	//}
 	
 	LogicFSM::run_fsm(ev_pack);
-	if(may_control_enemies)
-		scenario->control_enemy_actions();
+	//if(may_control_enemies)
+	//	scenario->control_enemy_actions();
 }
 
 

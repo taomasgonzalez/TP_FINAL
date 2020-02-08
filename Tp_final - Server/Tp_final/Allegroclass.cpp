@@ -22,22 +22,29 @@ Allegro::~Allegro()
 bool Allegro::Init(Userdata& Userdata) {
 	bool ret = false;
 
+	al_init_font_addon();
+	al_init_ttf_addon();
+
 	if (al_init()) {
 		if (al_init_image_addon()) {
-			if (al_install_keyboard()) {
-				if (this->Display = al_create_display(DISPLAY_W, DISPLAY_H)) {
-					if (this->al_queue = al_create_event_queue()) {
-						if (this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()) {
-							ret = true;
+			if(al_install_audio()){
+				if(al_init_acodec_addon()){
+					if (al_install_keyboard()) {
+						if (this->Display = al_create_display(DISPLAY_W, DISPLAY_H)) {
+							if (this->al_queue = al_create_event_queue()) {
+								if (this->time_out_timers_queue = new std::queue<ALLEGRO_TIMER*>()) {
+									ret = true;
+								}
+								else {
+									al_destroy_display(this->Display);
+									al_destroy_event_queue(this->al_queue);
+								}
+							}
+							else {
+								al_destroy_display(this->Display);
+								al_destroy_event_queue(this->al_queue);
+							}
 						}
-						else {
-							al_destroy_display(this->Display);
-							al_destroy_event_queue(this->al_queue);
-						}
-					}
-					else {
-						al_destroy_display(this->Display);
-						al_destroy_event_queue(this->al_queue);
 					}
 				}
 			}

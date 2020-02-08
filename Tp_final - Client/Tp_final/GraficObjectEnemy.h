@@ -9,7 +9,7 @@ class Obj_Graf_Enemy : public Obj_Graf_Character
 {
 public:
 	Obj_Graf_Enemy();
-	Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* container);		// luego tengo que ver como arreglo que me entrenen con un ENEMY_TYPE
+	Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* imageContainer, AudioContainer* audioContainer);		// luego tengo que ver como arreglo que me entrenen con un ENEMY_TYPE
 	~Obj_Graf_Enemy();
 
 	void draw();
@@ -40,4 +40,5 @@ private:
 	void going_right();
 
 	ImageContainer::enemy_images * this_images = NULL;
+	AudioContainer::ball_samples* this_samples = NULL;
 };

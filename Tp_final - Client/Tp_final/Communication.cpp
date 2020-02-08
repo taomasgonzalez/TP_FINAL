@@ -351,7 +351,7 @@ Package* Communication::create_package(unsigned char* aux_buf){
 
 	case Package_type::MAP_IS:
 
-		new_package = new MAP_IS_package(&aux_buf[1], aux_buf[193]);
+		new_package = new MAP_IS_package((const char* )&aux_buf[1], aux_buf[193]);
 		std::cout << new_package->get_sendable_info();
 
 		break;

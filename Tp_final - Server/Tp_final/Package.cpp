@@ -205,7 +205,7 @@ std::string NAME_IS_package::get_sendable_info() {
 	std::string info2;
 	std::stringstream ss;
 	ss << enum_to_string(this->header);
-	ss << (count+48); //corrimiento para evitar un 0 que sea funcione como un terminador no deseado
+	ss << (char)(count+48); //corrimiento para evitar un 0 que sea funcione como un terminador no deseado
 	ss << this->Name;
 	ss >> info2;
 	/*
@@ -229,7 +229,7 @@ MAP_IS_package::MAP_IS_package(const char * themap, unsigned char my_checksum) :
 
 	//FALTA CALCULAR CHECKSUM (IF CHECKSUM !=0) LO TENGO QUE HACER, SINO SOY CLIENTE Y SE CHEQUEA DESPUES
 	unsigned int qblocks = 192; //lo cambio por una variable porque a veces,  desconozco el motivo, tirar error el new de abajo
-	this->map = new unsigned char[qblocks];
+	this->map = new char[qblocks];
 	this->Checksum = my_checksum;
 	memcpy(this->map, themap, (size_t)qblocks);
 	this->info_length = 2 + qblocks;
@@ -239,7 +239,7 @@ MAP_IS_package::MAP_IS_package(const char * themap, unsigned char my_checksum) :
 /**************************************************************
 					GIVE_ME_THE_MAP
 **************************************************************/
-unsigned char * MAP_IS_package::give_me_the_map() {
+char * MAP_IS_package::give_me_the_map() {
 	return this->map;
 }
 /**************************************************************
