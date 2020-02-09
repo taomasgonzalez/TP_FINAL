@@ -6,7 +6,7 @@
 
 //agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
 
-Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, sense)
+Player::Player(unsigned int id, bool is_nick, Sense_type sense) :Character(id, sense)
 {
 	if (is_nick)
 		printable = Item_type::NICK;
@@ -16,7 +16,7 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 	PlayerActionsFSM* fsm = new PlayerActionsFSM(this);
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
-	
+
 	ev_handler = new EventHandler(fsm, ev_gen);
 }
 
@@ -29,7 +29,7 @@ bool Player::is_player() {
 	return true;
 }
 void Player::revive() {
-	if(lives > 0)
+	if (lives > 0)
 		dead = false;
 }
 
@@ -39,11 +39,20 @@ void Player::die()
 	lose_life();
 	dead = true;
 }
+
 void Player::lose_life()
 {
 	if (lives > 0)
 		lives--;
-	
+
+	if (lives == 0)
+		run_out_of_lives = true;
+
+}
+
+bool Player::has_lives() {
+
+	return !run_out_of_lives;
 }
 
 
