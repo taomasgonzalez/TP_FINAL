@@ -25,6 +25,8 @@ public:
 ******************************************************************************/
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
+	bool both_players_run_out_of_lives();
+
 	bool any_monsters_left();
 	bool did_we_win();  //I�m client, analyze if the game was won by the players
 	bool did_we_lose(); //I�m client, analyze if the game was lost by the players

@@ -73,6 +73,8 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 	set_action_4_obs(*next_enemy_action);
 
 	if (next_enemy_action->valid = can_make_movement()) {
+		std::cout << "Se prendio el bloqueo de EAs desde move in same direction" << std::endl;
+
 		blocked_enemy_movement = true;
 	}
 
@@ -109,6 +111,8 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 	}
 
 	if (next_enemy_action->valid = can_make_movement()) {
+		std::cout << "Se prendio el bloqueo de EAs desde move in opposite direction" << std::endl;
+
 		blocked_enemy_movement = true;
 	}
 
@@ -135,6 +139,8 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->my_direction = Direction_type::None;
 
 	blocked_enemy_movement = true;
+	std::cout << "Se prendio el bloqueo de EAs desde stay_still" << std::endl;
+
 	al_start_timer(staying_still_timer);
 }
 bool Enemy::can_make_movement()
@@ -164,6 +170,8 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
 
 	if (next_enemy_action->valid = can_make_movement()) {
+		std::cout << "Se prendio el bloqueo de EAs desde jump" << std::endl;
+
 		blocked_enemy_movement = true;
 	}
 	return next_enemy_action->valid;
@@ -219,6 +227,7 @@ bool Enemy::is_iddle() {
 			if (al_event.type == ALLEGRO_EVENT_TIMER)
 				if (al_event.timer.source == staying_still_timer) {
 					al_stop_timer(staying_still_timer);
+					std::cout << "Se apago el bloqueo de EAs por timer" << std::endl;
 					blocked_enemy_movement = false;
 					returnable = true;
 				}

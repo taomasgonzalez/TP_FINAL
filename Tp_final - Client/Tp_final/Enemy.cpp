@@ -74,6 +74,8 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
+		std::cout << "Se prendio el bloqueo de EAs desde move in same dir" << std::endl;
+
 	}
 
 	return next_enemy_action->valid;
@@ -110,6 +112,8 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
+		std::cout << "Se prendio el bloqueo de EAs desde move in oppos dir" << std::endl;
+
 	}
 
 	return next_enemy_action->valid;
@@ -135,6 +139,8 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->my_direction = Direction_type::None;
 
 	blocked_enemy_movement = true;
+	std::cout << "Se prendio el bloqueo de EAs desde stay still" << std::endl;
+
 }
 bool Enemy::can_make_movement()
 {
@@ -164,6 +170,8 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
+		std::cout << "Se prendio el bloqueo de EAs desde jump" << std::endl;
+
 	}
 	return next_enemy_action->valid;
 }
@@ -218,6 +226,8 @@ bool Enemy::is_iddle() {
 				if (al_event.timer.source == staying_still_timer) {
 					al_stop_timer(staying_still_timer);
 					blocked_enemy_movement = false;
+					std::cout << "Se apago el bloqueo de EAs por timer" << std::endl;
+
 					returnable = true;
 				}
 

@@ -16,6 +16,7 @@ public:
 
 	void revive_player();
 	void start_pushing();
+	void kill_player();
 
 protected:
 	void set_states();

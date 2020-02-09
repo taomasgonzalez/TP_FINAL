@@ -554,8 +554,10 @@ void CharacterActionsFSM::start_iddle() {
 	obs_info.reset_graph = false;
 
 	if (character->get_map_thing_type() == Thing_Type::ENEMY)
+	{
 		((Enemy *)character)->set_blocked_enemy_movements(false);
-
+		std::cout << "Se apago el bloqueo de EAs porque empezo el graph start_iddle" << std::endl;
+	}
 	al_start_timer(falling_timer);
 }
 void check_jumping_and_jump(void* data) {

@@ -39,11 +39,20 @@ void Player::die()
 	lose_life();
 	dead = true;
 }
+
 void Player::lose_life()
 {
 	if (lives > 0)
 		lives--;
-	
+
+	if (lives == 0)
+		run_out_of_lives = true;
+
+}
+
+bool Player::has_lives() {
+
+	return !run_out_of_lives;
 }
 
 

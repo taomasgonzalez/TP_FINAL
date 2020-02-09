@@ -36,6 +36,12 @@ void Player::revive() {
 		dead = false;
 }
 
+bool Player::has_lives() {
+
+	return !run_out_of_lives;
+}
+
+
 
 void Player::die()
 {
@@ -46,6 +52,9 @@ void Player::lose_life()
 {
 	if (lives > 0)
 		lives--;
+
+	if (lives == 0)
+		run_out_of_lives = true;
 	
 }
 

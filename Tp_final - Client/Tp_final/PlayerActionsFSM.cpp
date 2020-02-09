@@ -84,14 +84,22 @@ void player_revive(void* data) {
 	iddle_graph_player(data);
 	fsm->revive_player();
 }
+
 void player_die(void* data) {
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->obs_info.dying_graph = true;
-	fsm->notify_obs();
-	fsm->obs_info.dying_graph = false;
-	fsm->kill_character();
+
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	fsm->kill_player();
+
 }
 
+void PlayerActionsFSM::kill_player() {
+
+	obs_info.dying_graph = true;
+	notify_obs();
+	obs_info.dying_graph = false;
+
+	player->die();
+}
 void start_pushing_r(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
 	fsm->start_pushing();

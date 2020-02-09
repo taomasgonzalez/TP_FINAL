@@ -455,6 +455,17 @@ Item_type Scene::give_the_other_player() {
 	return other_player;
 }
 
+bool Scene::both_players_run_out_of_lives(){
+
+
+	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		if ((*it)->has_lives())
+			return false;
+
+	return true;
+
+}
+
 bool Scene::both_players_dead()
 {
 	for(vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
@@ -967,7 +978,7 @@ bool Scene::did_we_lose()
 //For server´s
 void Scene::check_current_game_situation() {
 
-	if (both_players_dead()){
+	if (both_players_run_out_of_lives()){
 		we_lost = true;
 		notify_obs();
 		we_lost = false;

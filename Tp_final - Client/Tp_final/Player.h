@@ -15,8 +15,10 @@ public:
 	void attack();
 	void die();
 	void revive();
+	bool has_lives();
 
 private:
 	void lose_life();
+	bool run_out_of_lives = false;
 };
 
