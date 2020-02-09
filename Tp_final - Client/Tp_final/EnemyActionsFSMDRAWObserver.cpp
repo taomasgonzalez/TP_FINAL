@@ -86,6 +86,24 @@ void EnemyActionsFSMDRAWObserver::update() {
 		drawer->disactiveObj(enemy->id);
 	}
 
+	//enemy_got_hit related
+	else if (fsm->enemyObs_info.start_freezing_state1_graph){
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_TRAPPED_1, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+		}
+	else if (fsm->enemyObs_info.start_freezing_state2_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+	else if (fsm->enemyObs_info.start_freezing_state3_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+	else if (fsm->enemyObs_info.start_fozen_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_INBALL_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+
 }
 
 Direction EnemyActionsFSMDRAWObserver::get_character_graph_direction(Direction_type direction) {

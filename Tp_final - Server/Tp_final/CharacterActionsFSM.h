@@ -26,7 +26,6 @@ public:
 		bool interrupt_attack = false;
 		bool perform_logical_movement = false;
 		bool perform_logical_attack = false;
-
 	};
 
 	observer_info obs_info;

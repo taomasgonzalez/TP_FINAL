@@ -768,6 +768,19 @@ UNFROZE_EventPackage::~UNFROZE_EventPackage() {
 
 }
 
+FROZE_EventPackage::FROZE_EventPackage() :EventPackage(Event_type::FROZE, 0, true) {
+
+}
+FROZE_EventPackage::~FROZE_EventPackage() {
+
+}
+
+UNFREEZE_EventPackage::UNFREEZE_EventPackage() :EventPackage(Event_type::UNFREEZE, 0, true) {
+
+}
+UNFREEZE_EventPackage::~UNFREEZE_EventPackage() {
+
+}
 
 FINISHED_GRAPH_STEP_EventPackage::FINISHED_GRAPH_STEP_EventPackage() : EventPackage(Event_type::FINISHED_GRAPH_STEP, 0,true) {
 
