@@ -5,10 +5,7 @@ double GreenFatty::moving_speed = 200;
 GreenFatty::GreenFatty(unsigned int id, Sense_type sense) : Enemy(id, sense)
 {
 	printable = Item_type::GREEN_FATTIE;
-	staying_still_time = 0.9;
-	staying_still_timer = al_create_timer(staying_still_time);
-	al_register_event_source(enemy_timers, al_get_timer_event_source(staying_still_timer));
-	al_set_timer_speed(staying_still_timer, staying_still_time);
+
 }
 
 

@@ -540,6 +540,10 @@ void CharacterActionsFSM::start_iddle() {
 	obs_info.reset_graph = true;
 	notify_obs();
 	obs_info.reset_graph = false;
+
+	if (character->get_map_thing_type() == Thing_Type::ENEMY)
+		((Enemy *)character)->set_blocked_enemy_movements(false);
+
 	al_start_timer(falling_timer);
 }
 void check_jumping_and_jump(void* data) {
@@ -610,6 +614,7 @@ void iddle_graph(void * data)
 {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->start_iddle();
+
 }
 
 

@@ -35,7 +35,7 @@ Action_info PurpleGuy::act(){
 	returnable_EA.valid = false;
 
 	if ((sample >= 0) && (sample <= 0.6)) 			//0.6 probability
-		stay_still(&returnable_EA);
+		move_in_same_direction(&returnable_EA);
 
 	else if ((sample >= 0.6) && (sample <= 0.9)) {							//0.3 probability
 		sample = acting_probabilities(generator);

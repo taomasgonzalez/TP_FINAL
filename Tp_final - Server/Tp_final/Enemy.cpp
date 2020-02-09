@@ -74,7 +74,6 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
-		al_start_timer(staying_still_timer);
 	}
 
 	return next_enemy_action->valid;
@@ -111,7 +110,6 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
-		al_start_timer(staying_still_timer);
 	}
 
 	return next_enemy_action->valid;
@@ -167,7 +165,6 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
-		al_start_timer(staying_still_timer);
 	}
 	return next_enemy_action->valid;
 }
@@ -187,6 +184,12 @@ void Enemy::set_action_4_obs(Action_info action) {
 void Enemy::freeze()
 {
 }
+
+void Enemy::set_blocked_enemy_movements(bool blocked_value) {
+
+	blocked_enemy_movement = blocked_value;
+}
+
 
 /******************************************
 ***********EA_info_common_filling**********

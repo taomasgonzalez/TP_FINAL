@@ -482,7 +482,7 @@ void LogicFSM::check_action() {
 			else
 				std::cout << "No se guardo nada" << std::endl;
 		}
-		if (event_to_be_checked->give_me_your_event_type() == Event_type::ACTION_REQUEST)
+		else if (event_to_be_checked->give_me_your_event_type() == Event_type::ACTION_REQUEST)
 			set_fsm_ev_pack(ev_pack_factory.create_event_package(&acting_information));
 
 	}
@@ -1004,7 +1004,6 @@ void LogicFSM::execute_action() {
 
 	//The ID from the ACK/MOVE/ATTACK/EA is extracted to search for the action to be executed
 	uint16_t ID_package_to_be_extracted = ((Numbered_EventPackage *)get_fsm_ev_pack())->give_me_your_package_ID();
-	Event_type my_event_type;
 	EventPackage* event_package_to_be_executed = NULL;
 	Action_info action;
 

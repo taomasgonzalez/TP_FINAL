@@ -765,6 +765,8 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
+	bool out_of_range = false;
+
 
 	searched_id = package_to_be_analyze->id;
 	Enemy* the_enemy_that_acts = *find_if(curr_enemies->begin(), curr_enemies->end(), char_meets_id);
@@ -973,8 +975,15 @@ void Scene::control_enemy_actions()
 
 }
 void Scene::control_enemies() {
-	for (int i = 0; i < curr_enemies->size(); i++) 
+	for (int i = 0; i < curr_enemies->size(); i++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(i);
+
+		if (check_if_has_to_fall(curr_enemy, false))
+			curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+
 		curr_enemies->at(i)->ev_handler->handle_event();
+	}
 }
 void Scene::control_all_actions() {
 
