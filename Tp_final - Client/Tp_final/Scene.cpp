@@ -1045,6 +1045,7 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
+	int curr_enemy_to_act_on;
 
 	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
 	{
@@ -1059,6 +1060,20 @@ void Scene::control_enemy_actions()
 	}
 	
 	control_enemies();
+
+}
+
+void Scene::restart_enemies() {
+
+	int curr_enemy_to_act_on;
+
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+
+		curr_enemy->set_blocked_enemy_movements(false);
+
+	}
 
 }
 void Scene::control_enemies() {

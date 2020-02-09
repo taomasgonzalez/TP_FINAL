@@ -702,10 +702,10 @@ void LogicFSM::received_ack_routine() {
 
 	//std::cout << "Se ejecuto acci�n" << std::endl;
 
-	check_game_state();
 	valid_action = true;
 	execute_local_action();
 	valid_action = false;
+	check_game_state();
 
 
 	//active_blocking_timers(get_fsm_ev_pack());

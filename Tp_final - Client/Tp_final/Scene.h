@@ -59,6 +59,7 @@ public:
 
 	void control_enemy_actions();
 	void control_all_actions();
+	void restart_enemies();
 /*******************************************************************************
 	OPERATING OVER MAPS
 ******************************************************************************/
@@ -154,5 +155,4 @@ private:
 	Player* find_nearest_player(int pos_x, int pos_y);
 
 	Userdata* data;
-	int curr_enemy_to_act_on = 0;
 };

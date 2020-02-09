@@ -32,7 +32,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		Event_type event1 = ev_pack->give_me_your_event_type();
 		if(event1 != Event_type::FPS_TICKED)
 			cout << "LLego un evento " << event_string[(int) event1] << endl;
-		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;
 		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
@@ -41,7 +40,8 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
 		if (((actual_state->at(event_pos)).event == Event_type::END_OF_TABLE))
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
-		//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
+		else
+			set_fsm_ev_pack(ev_pack);
 
 		//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);

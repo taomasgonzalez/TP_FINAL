@@ -466,6 +466,21 @@ bool Scene::both_players_run_out_of_lives(){
 
 }
 
+
+void Scene::restart_enemies() {
+
+	int curr_enemy_to_act_on;
+
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+
+		curr_enemy->set_blocked_enemy_movements(false);
+
+	}
+
+}
+
 bool Scene::both_players_dead()
 {
 	for(vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)

@@ -45,6 +45,11 @@ void Player::lose_life()
 	if (lives > 0)
 		lives--;
 
+	if (printable == Item_type::TOM)
+		std::cout << "TOM perdio una vida, le quedan: " << lives << std::endl;
+	else
+		std::cout << "NICK perdio una vida, le quedan: " << lives << std::endl;
+
 	if (lives == 0)
 		run_out_of_lives = true;
 

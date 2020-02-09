@@ -39,7 +39,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 			//cout << "LLego un evento de FPS_TICKED"<< endl;
 			int i;
 
-
 		int event_pos = 0;
 		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
 			event_pos++;
@@ -49,6 +48,8 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
 		else
 			set_fsm_ev_pack(ev_pack);
+
+
 
 		//Runs the functions related to that event
 		((actual_state->at(event_pos)).fun_trans)(this);
@@ -87,7 +88,7 @@ EventPackage* FSM::get_fsm_ev_pack() {
 
 void FSM::set_fsm_ev_pack(EventPackage * new_ev_pack)
 {
-	if (new_ev_pack != my_ev_pack && new_ev_pack->give_me_your_event_type()!=Event_type::ACK) {
+	if (new_ev_pack != my_ev_pack) {
 		delete my_ev_pack;
 		my_ev_pack = new_ev_pack;
 	}
