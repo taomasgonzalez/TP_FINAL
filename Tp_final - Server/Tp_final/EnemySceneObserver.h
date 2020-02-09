@@ -3,6 +3,7 @@
 #include "Scene.h"
 #include "Enemy.h"
 #include "CharacterSceneObserver.h"
+#include "EnemyActionsFSM.h"
 
 class EnemySceneObserver : public CharacterSceneObserver
 {
@@ -17,5 +18,6 @@ protected:
 	Scene * scene;
 private:
 	Enemy * enemy;
+	EnemyActionsFSM* fsm = NULL;
 };
 

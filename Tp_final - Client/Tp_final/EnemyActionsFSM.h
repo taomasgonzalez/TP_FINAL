@@ -2,17 +2,38 @@
 #include "CharacterActionsFSM.h"
 #include "Enemy.h"
 
+
 class EnemyActionsFSM : public CharacterActionsFSM
 {
 public:
 	EnemyActionsFSM(Enemy* enemy);
 	~EnemyActionsFSM();
 
+	struct Enemyobserver_info {
+		bool start_freezing_state1_graph = false;
+		bool start_freezing_state2_graph = false;
+		bool start_freezing_state3_graph = false;
+		bool start_fozen_graph = false;
+		bool start_ballRolling_graph = false;
+		bool start_ballPushing_graph = false;
+		bool start_ballexplotion_graph = false;
+	};
+
+	Enemyobserver_info enemyObs_info;
+
+	struct Enemyobserver_QA {
+		bool should_start_defrost = false;
+		bool should_unfreeze = false;
+	};
+	Enemyobserver_QA enemyObs_questions;
+	Enemyobserver_QA enemyObs_answers;
+
 	ALLEGRO_TIMER* get_frozen_timer();
 	ALLEGRO_TIMER* get_freezing_timer();
 
 	void got_hit();
 	void start_got_hit();
+	void partially_unfroze();
 
 protected:
 	void start_freezing_timer();
@@ -38,6 +59,8 @@ private:
 	ALLEGRO_TIMER* freezing_timer = NULL;
 
 	unsigned int amount_of_walls_hit = 0;
+
+	void hit_taken();
 
 	Enemy * enemy = NULL;
 };

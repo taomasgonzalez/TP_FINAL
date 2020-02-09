@@ -41,6 +41,8 @@ void Enemy::unfreeze()
 
 void Enemy::be_hit()
 {
+	if (amount_of_hits_taken >= 0 && amount_of_hits_taken <= 4)
+		amount_of_hits_taken++;
 }
 
 

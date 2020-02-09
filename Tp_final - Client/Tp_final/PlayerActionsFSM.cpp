@@ -14,7 +14,12 @@ void do_nothing_player_r(void* data) {
 }
 
 
-PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
+void do_nothing_player_r(void* data) {
+
+}
+
+
+PlayerActionsFSM::PlayerActionsFSM(Player* player) : CharacterActionsFSM(player)
 {
 	this->player = player;
 
@@ -70,11 +75,11 @@ void PlayerActionsFSM::start_pushing() {
 	notify_obs();
 	obs_info.start_pushing_graph = false;
 
-	PUSHED_EventPackage * curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
+	PUSHED_EventPackage* curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
 
-	if (curr_push->pushing_direction == Direction_type::Jump_Right) 
+	if (curr_push->pushing_direction == Direction_type::Jump_Right)
 		set_curr_process(&pushing_right_process);
-	else if (curr_push->pushing_direction == Direction_type::Jump_Left) 
+	else if (curr_push->pushing_direction == Direction_type::Jump_Left)
 		set_curr_process(&pushing_left_process);
 
 }
@@ -107,18 +112,15 @@ void start_pushing_r(void* data) {
 
 void check_push_and_push(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
-	
+
 }
 void reset_push(void* data) {
 	iddle_graph_player(data);
 }
 
-void iddle_graph_player(void *data) {
+void iddle_graph_player(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
 	fsm->obs_info.reset_graph = true;
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
 }
-
-
-

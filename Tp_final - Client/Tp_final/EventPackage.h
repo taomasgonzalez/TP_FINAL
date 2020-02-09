@@ -123,10 +123,10 @@ private:
 
 };
 
-class EventPackage : public Numbered_EventPackage
+class EventPackage: public Numbered_EventPackage
 {
 public:
-	EventPackage(Event_type event, uint16_t ID, bool is_local);
+	EventPackage(Event_type event, uint16_t ID, bool is_local );
 	EventPackage(Action_info * info_checked);
 	virtual ~EventPackage();
 
@@ -174,7 +174,7 @@ private:
 ACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_EventPackage : public EventPackage
+class ACK_EventPackage : public EventPackage 
 {
 public:
 	ACK_EventPackage(uint16_t ID, bool is_local);
@@ -297,10 +297,8 @@ class ERROR_EventPackage : public EventPackage
 {
 public:
 	ERROR_EventPackage(bool is_local = true);
-	bool is_this_a_local_error();
 
 private:
-	bool local_error;  //For the FSM recogniztion analyze_error() function
 
 };
 
@@ -574,6 +572,12 @@ class UNFROZE_EventPackage : public EventPackage {
 public:
 	UNFROZE_EventPackage();
 	~UNFROZE_EventPackage();
+};
+
+class FROZE_EventPackage : public EventPackage {
+public:
+	FROZE_EventPackage();
+	~FROZE_EventPackage();
 };
 
 class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {

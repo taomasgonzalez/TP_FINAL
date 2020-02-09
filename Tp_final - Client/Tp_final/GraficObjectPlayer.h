@@ -4,7 +4,7 @@
 
 enum PLAYER_TYPE { TOM, NICK };
 
-enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, player_IDLE, player_ATTACKING, player_FALLING , player_PUSHING, player_DYING};
+enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, player_IDLE, player_ATTACKING, player_FALLING , player_PUSHING, player_DYING, player_RESPAWN};
 
 
 class Obj_Graf_Player : public Obj_Graf_Character
@@ -24,4 +24,5 @@ private:
 	PLAYER_TYPE type;
 
 	void handle_pushing();
+	void handle_respawn();
 };

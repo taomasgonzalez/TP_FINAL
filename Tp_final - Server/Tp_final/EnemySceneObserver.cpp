@@ -6,11 +6,14 @@ EnemySceneObserver::EnemySceneObserver(Enemy* enemy, Scene * scene) : CharacterS
 {
 	this->enemy = enemy;
 	this->scene = scene;
+	this->fsm = static_cast<EnemyActionsFSM*>(enemy->ev_handler->get_fsm());
+	this->ev_gen = enemy->ev_handler->get_ev_gen();
 }
 
 EnemySceneObserver::~EnemySceneObserver()
 {
 }
+
 void EnemySceneObserver::update() {
 
 	if (!scenario->avoid_character_scene_obs)
@@ -19,6 +22,36 @@ void EnemySceneObserver::update() {
 	Action_info act_info = enemy->get_action_4_obs();
 	if(enemy->enemy_questions_4_observer.can_make_movement)
 		enemy->enemy_answers_4_observable.can_make_movement = scene->is_the_action_possible(&act_info, true);
+	if(fsm->enemyObs_info.start_freezing_state1_graph)
+		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
+	if (fsm->enemyObs_info.start_freezing_state2_graph)
+		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
+	if (fsm->enemyObs_info.start_freezing_state3_graph)
+		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
+	if (fsm->enemyObs_info.start_fozen_graph)
+		ev_gen->append_new_event(new FROZE_EventPackage(), 0);
+	if (fsm->enemyObs_info.start_ballCharging_graph)
+		ev_gen->append_new_event(new CHARGING_EventPackage(), 0);
+	/*
+	if (fsm->enemyObs_questions.should_unfreeze)
+	{
+		fsm->enemyObs_answers.should_unfreeze = false;
+		ALLEGRO_EVENT  allegroEvent;
+		if (al_get_next_event(freezing_queue, &allegroEvent)) {
+			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
+				fsm->enemyObs_answers.should_unfreeze = true;
+		}
+	}	
+	if (fsm->enemyObs_questions.should_start_defrost)
+	{
+		fsm->enemyObs_answers.should_start_defrost = false;
+		ALLEGRO_EVENT  allegroEvent;
+		if (al_get_next_event(froze_queue, &allegroEvent)) {
+			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
+				fsm->enemyObs_answers.should_start_defrost = true;
+		}
+	}
+	*/
 }
 
 void EnemySceneObserver::perform_movement(Action_info action) {

@@ -560,6 +560,13 @@ public:
 	Direction_type pushing_direction;
 };
 
+class CHARGING_EventPackage : public EventPackage {
+public:
+	CHARGING_EventPackage();
+	~CHARGING_EventPackage();
+
+};
+
 
 class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
 public:
@@ -572,6 +579,12 @@ class UNFROZE_EventPackage : public EventPackage {
 public:
 	UNFROZE_EventPackage();
 	~UNFROZE_EventPackage();
+};
+
+class FROZE_EventPackage : public EventPackage {
+public:
+	FROZE_EventPackage();
+	~FROZE_EventPackage();
 };
 
 class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {

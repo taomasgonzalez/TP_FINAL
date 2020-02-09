@@ -736,10 +736,12 @@ void LogicFSM::send_ack_and_quit() {
 
 void LogicFSM::analayze_error()
 {
+	/*
 	if (((ERROR_EventPackage *)get_fsm_ev_pack())->is_this_a_local_error())
 		send_error_and_finish_game();
 	else
 		finish_game();
+	*/
 }
 
 //Se sale del programa sin avisar, rutina de acci�n del evento ERROR1

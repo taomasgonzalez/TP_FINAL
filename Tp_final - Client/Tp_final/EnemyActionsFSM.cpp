@@ -1,5 +1,7 @@
 #include "EnemyActionsFSM.h"
 
+#define FREEZING_TIME (10.0)
+#define FROZEN_TIME (30.0)
 
 void do_nothing_enemy_r(void* data);
 void check_got_hit_and_get_hit_r(void* data);
@@ -78,7 +80,49 @@ void EnemyActionsFSM::set_processes() {
 }
 
 void EnemyActionsFSM::create_all_timers() {
+	freezing_timer = al_create_timer(FREEZING_TIME);
+	frozen_timer = al_create_timer(FROZEN_TIME);
+}
 
+void EnemyActionsFSM::hit_taken()
+{
+
+}
+
+void EnemyActionsFSM::partially_unfroze()
+{
+	al_stop_timer(freezing_timer);
+
+	switch (enemy->amount_of_hits_taken)
+	{
+	case 1:
+		enemyObs_info.start_freezing_state1_graph = true;
+		notify_obs();
+		enemyObs_info.start_freezing_state1_graph = false;
+		break;
+	case 2:
+		enemyObs_info.start_freezing_state2_graph = true;
+		notify_obs();
+		enemyObs_info.start_freezing_state2_graph = false;
+		break;
+	case 3:
+		enemyObs_info.start_freezing_state3_graph = true;
+		notify_obs();
+		enemyObs_info.start_freezing_state3_graph = false;
+		break;
+	case 4:
+		enemyObs_info.start_fozen_graph = true;
+		notify_obs();
+		enemyObs_info.start_fozen_graph = false;
+		break;
+	default:
+		enemyObs_info.start_freezing_state3_graph = true;
+		notify_obs();
+		enemyObs_info.start_freezing_state3_graph = false;
+		break;
+	}
+
+	al_start_timer(freezing_timer);
 }
 
 ALLEGRO_TIMER * EnemyActionsFSM::get_frozen_timer()
@@ -92,9 +136,8 @@ ALLEGRO_TIMER * EnemyActionsFSM::get_freezing_timer()
 }
 
 void EnemyActionsFSM::got_hit() {
-	
 	enemy->be_hit();
-
+	partially_unfroze();
 }
 void EnemyActionsFSM::start_got_hit() {
 
@@ -103,10 +146,12 @@ void EnemyActionsFSM::start_got_hit() {
 
 void EnemyActionsFSM::start_freezing_timer()
 {
+	al_start_timer(freezing_timer);
 }
 
 void EnemyActionsFSM::start_frozen_timer()
 {
+	al_start_timer(frozen_timer);
 }
 
 void do_nothing_enemy_r(void* data) {
@@ -130,7 +175,8 @@ void fall_and_start_got_hit_r(void*data) {
 
 
 void partially_unfroze_r(void* data){
-
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->partially_unfroze();
 }
 void freeze_r(void* data){
 

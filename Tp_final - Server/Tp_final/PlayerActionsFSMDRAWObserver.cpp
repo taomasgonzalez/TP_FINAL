@@ -59,6 +59,12 @@ void PlayerActionsFSMDRAWObserver::update() {
 		curr_state = player_DYING;
 	}
 
+	else if (fsm->obs_info.respawn_graph) {
+		dir = get_character_graph_direction(player->get_sense());
+		drawer->startDraw(player_RESPAWN, player->id, dir, player->pos_x, player->pos_y);
+		curr_state = player_RESPAWN;
+	}
+
 	else if (fsm->obs_info.reset_graph) {
 		dir = get_character_graph_direction(player->get_sense());
 		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
