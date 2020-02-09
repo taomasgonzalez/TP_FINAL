@@ -125,7 +125,7 @@ public:
 	void save_enemy_action();
 
 	//debugging
-	void reset_game();
+
 
 	//saved_EventPackages
 	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
@@ -137,13 +137,12 @@ protected:
 	Communication* com = NULL;
 	Userdata * user_data = NULL;
 	LogicEventGenerator * ev_gen = NULL;
-private:
-
 	map<unsigned int, EventPackage*> saved_EventPackages;						// map of saved eventpackages
-
 
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
+private:
+
 	void execute_action();
 
 };

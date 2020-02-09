@@ -1,5 +1,16 @@
 #include "LogicClientFSM.h"
 
+
+void reset_game_r(void* data);
+
+
+void reset_game_r(void* data)
+{
+	LogicClientFSM * fsm = (LogicClientFSM*)data;
+	fsm->reset_game();
+}
+
+
 LogicClientFSM::LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com): LogicFSM(data, event_gen, scene, com){
 
 	Initial_state = new std::vector<edge_t>();
@@ -134,3 +145,41 @@ void LogicClientFSM::run_fsm(EventPackage * ev_pack) {
 	LogicFSM::run_fsm(ev_pack);
 	scenario->control_enemies();
 }
+
+
+
+void LogicClientFSM::reset_game() {
+
+	scenario->maps.clear();
+	ev_gen->flush_all_queues();
+
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
+
+
+
+	//mapa para caida libre
+	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";
+
+	//mapa para salto corto y largo
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEFFFFFFFFFFFFEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	//mapa sin enemigos
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+	//mapa con un purple
+	string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+
+	saved_EventPackages.clear();
+	actual_state = Playing_state;
+	//send RESET
+	if (get_fsm_ev_pack()->is_this_a_local_action())
+		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+}
+

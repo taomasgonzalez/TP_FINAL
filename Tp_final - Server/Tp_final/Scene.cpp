@@ -143,6 +143,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 				should_hit = true;
 				notify_obs();
 				should_hit = false;
+
 			}
 		}
 

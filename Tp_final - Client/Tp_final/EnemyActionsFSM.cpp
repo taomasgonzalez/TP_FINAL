@@ -31,6 +31,8 @@ EnemyActionsFSM::~EnemyActionsFSM()
 
 void EnemyActionsFSM::set_states()
 {
+	freezing_state = new std::vector<edge_t>();
+	frozen_state = new std::vector<edge_t>();
 
 	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
@@ -48,8 +50,6 @@ void EnemyActionsFSM::set_states()
 	//una siendo aplastado por una bola que salís volando y otra desaparecer con la bola, que no es una animación de muerte, sólo desapareces vos con la bola
 
 
-	freezing_state = new std::vector<edge_t>();
-	frozen_state = new std::vector<edge_t>();
 
 
 	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r});

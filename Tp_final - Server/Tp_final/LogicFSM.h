@@ -137,7 +137,7 @@ public:
 	void save_enemy_action();
 
 	//debugging
-	void reset_game();
+
 
 	//saved_EventPackages
 	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
@@ -149,11 +149,12 @@ protected:
 	Communication* com = NULL;
 	Userdata * user_data = NULL;
 	LogicEventGenerator * ev_gen = NULL;
-private:
-
 	map<uint16_t, EventPackage*> saved_EventPackages;						// map of saved eventpackages
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
+
+private:
+
 	void execute_action();
 
 };
@@ -161,8 +162,6 @@ private:
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
 
-//Debugging
-void reset_game_r(void* data);
 							  //analyze
 void analayze_error_r(void* data);
 void analyze_we_won_r(void* data); //to do

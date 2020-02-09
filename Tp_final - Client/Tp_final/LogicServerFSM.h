@@ -7,6 +7,8 @@ public:
 	LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
 	~LogicServerFSM();
 
+	void reset_game();
+
 	bool control_enemies = false;
 protected:
 	void print_curr_state();

@@ -170,10 +170,7 @@ void do_nothing_r(void* data)
 {
 
 }
-void reset_game_r(void* data){
-	LogicFSM * fsm = (LogicFSM*)data;
-	fsm->reset_game();
-}
+
 
 void send_name_is_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -680,38 +677,6 @@ void LogicFSM::send_play_again() {
 void LogicFSM::load_and_send_enemy_action() {
 	load_enemy_action();
 	send_enemy_action();
-}
-
-void LogicFSM::reset_game() {
-
-	ev_gen->flush_all_queues();
-
-	scenario->maps.clear();
-	while (!scenario->saved_events->empty())
-		scenario->saved_events->pop();
-
-	//mapa para caida libre
-	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";
-
-	//mapa para salto corto y largo
-	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEFFFFFFFFFFFFEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
-
-
-	//mapa sin enemigos
-	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
-
-	//mapa con un purple
-	string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
-
-	saved_EventPackages.clear();
-
-	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(),(const unsigned char *) new_map.c_str(), 18);
-
-	//send RESET
-	if (get_fsm_ev_pack()->is_this_a_local_action())
-		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
-
 }
 
 EventPackage * LogicFSM::give_me_the_saved_EventPackage(uint16_t ID) {
