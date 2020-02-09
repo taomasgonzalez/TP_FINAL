@@ -1012,7 +1012,8 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
-
+	//First is called control_enemies() if we have to fall
+	control_enemies();
 
 	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
 	{
@@ -1026,7 +1027,6 @@ void Scene::control_enemy_actions()
 		}
 	}
 	
-	control_enemies();
 
 }
 void Scene::control_enemies() {
@@ -1035,7 +1035,10 @@ void Scene::control_enemies() {
 		Enemy* curr_enemy = curr_enemies->at(i);
 
 		if (check_if_has_to_fall(curr_enemy, false))
+		{
 			curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+			curr_enemy->set_blocked_enemy_movements(true); //If server the program blocks the generation of EA until the enemy stops falling
+		}
 
 		curr_enemies->at(i)->ev_handler->handle_event();
 	}

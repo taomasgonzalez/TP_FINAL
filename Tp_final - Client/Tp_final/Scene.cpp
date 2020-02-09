@@ -1082,7 +1082,11 @@ void Scene::control_enemies() {
 		Enemy* curr_enemy = curr_enemies->at(i);
 
 		if (check_if_has_to_fall(curr_enemy, false))
+		{
 			curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+			curr_enemy->set_blocked_enemy_movements(true); //If server the program blocks the generation of EA until the enemy stops falling
+
+		}
 
 		curr_enemies->at(i)->ev_handler->handle_event();
 	}

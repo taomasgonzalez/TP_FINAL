@@ -198,7 +198,7 @@ void Communication::sendMessage(Package * package_received) {
 	else //debug
 	{
 		if (package_received->get_package_header() == Package_type::ACK)
-			std::cout << "se envio ack n°" << this->ack_counter++ << std::endl;
+			std::cout << "se envio ack con ID: " << ((Numbered_package*)package_received)->give_me_your_ID() << std::endl;
 	}
 
 	delete package_received; //libero memoria del paquete después de mandarlo
