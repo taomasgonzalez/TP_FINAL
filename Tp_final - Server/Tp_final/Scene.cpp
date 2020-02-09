@@ -934,9 +934,11 @@ bool Scene::did_we_lose()
 void Scene::check_current_game_situation() {
 
 	if (both_players_dead()){
+		/*
 		we_lost = true;
 		notify_obs();
 		we_lost = false;
+		*/
 	}
 	else if ((!any_monsters_left()) && (actual_map == 10)){
 		we_won = true;

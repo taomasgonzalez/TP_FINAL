@@ -20,7 +20,7 @@ public:
 		bool start_freezing_state2_graph = false;
 		bool start_freezing_state3_graph = false;
 		bool start_fozen_graph = false;
-		bool start_ballRolling_graph = false;
+		bool start_ballCharging_graph = false;
 		bool start_ballPushing_graph = false;
 		bool start_ballexplotion_graph = false;
 	};
@@ -43,6 +43,7 @@ public:
 	void unfroze();
 	void unfreeze();
 	void froze();
+	void start_moving_snowball();
 
 protected:
 	void start_freezing_timer();
@@ -67,7 +68,10 @@ private:
 	ALLEGRO_TIMER* frozen_timer = NULL;
 	ALLEGRO_TIMER* freezing_timer = NULL;
 
+	ALLEGRO_EVENT_QUEUE* defrost_queue = 0;	//will get events from the timers of the enemies
+
 	unsigned int amount_of_walls_hit = 0;
+	void handle_hits(void);
 
 	Enemy * enemy = NULL;
 };

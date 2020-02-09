@@ -17,8 +17,6 @@ public:
 protected:
 	Scene * scene;
 private:
-	ALLEGRO_EVENT_QUEUE* freezing_queue = 0;	//will get events from the timers of the enemies
-	ALLEGRO_EVENT_QUEUE* froze_queue = 0;
 	Enemy * enemy;
 	EnemyActionsFSM* fsm = NULL;
 };

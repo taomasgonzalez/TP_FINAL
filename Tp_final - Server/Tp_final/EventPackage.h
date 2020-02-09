@@ -99,7 +99,6 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//enemy events
 	FROZE,
 	UNFROZE,
-	UNFREEZE,
 	PARTIALLY_UNFROZE,
 	BOUNCE,
 	ROLLING,
@@ -561,6 +560,13 @@ public:
 	Direction_type pushing_direction;
 };
 
+class CHARGING_EventPackage : public EventPackage {
+public:
+	CHARGING_EventPackage();
+	~CHARGING_EventPackage();
+
+};
+
 
 class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
 public:
@@ -579,12 +585,6 @@ class FROZE_EventPackage : public EventPackage {
 public:
 	FROZE_EventPackage();
 	~FROZE_EventPackage();
-};
-
-class UNFREEZE_EventPackage : public EventPackage {
-public:
-	UNFREEZE_EventPackage();
-	~UNFREEZE_EventPackage();
 };
 
 class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {

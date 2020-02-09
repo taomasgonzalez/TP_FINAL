@@ -7,7 +7,7 @@ Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
 	walking_pics = 0;								//This variables must be inited with their respective value
 	jumping_pics = 0;								//on the derived class
 	jumping_forw_pics = 0;
-	iddle_pics = 0;
+	idle_pics = 0;
 	attacking_pics = 0;
 	falling_pics = 0;
 	dying_pics = 0;
@@ -160,7 +160,7 @@ void Obj_Graf_Character::handle_jumping_forward()
 	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_height(chara_images->jumpImages[actualImage]), al_get_bitmap_width(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 }
 
-void Obj_Graf_Character::handle_iddle()
+void Obj_Graf_Character::handle_idle()
 {
 	actualImage = 0;
 
@@ -171,7 +171,7 @@ void Obj_Graf_Character::handle_iddle()
 		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
 	al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-	((idleActualImage + 1) < 2 * iddle_pics) ? idleActualImage++ : idleActualImage = 0;
+	((idleActualImage + 1) < 2 * idle_pics) ? idleActualImage++ : idleActualImage = 0;
 
 }
 

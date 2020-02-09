@@ -6,6 +6,7 @@ void start_pushing_r(void* data);
 void check_push_and_push(void* data);
 void reset_push(void* data);
 void iddle_graph_player(void* data);
+void respawn_graph_player(void* data);
 void player_die(void*data);
 
 PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
@@ -102,6 +103,14 @@ void iddle_graph_player(void *data) {
 	fsm->obs_info.reset_graph = true;
 	fsm->notify_obs();
 	fsm->obs_info.reset_graph = false;
+}
+
+void respawn_graph_player(void* data)
+{
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	fsm->obs_info.respawn_graph = true;
+	fsm->notify_obs();
+	fsm->obs_info.respawn_graph = false;
 }
 
 

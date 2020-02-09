@@ -87,6 +87,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 	}
 
 	//enemy_got_hit related
+	/*
 	else if (fsm->enemyObs_answers.should_unfreeze) {
 		enemy->amount_of_hits_taken--;
 		if (enemy->amount_of_hits_taken == 0) {
@@ -101,7 +102,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 		ev_gen->append_new_event(new UNFROZE_EventPackage(), 0);
-	}
+	}*/
 	else if (fsm->enemyObs_info.start_freezing_state1_graph){
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_TRAPPED_1, enemy->id, dir, enemy->pos_x, enemy->pos_y);
@@ -112,11 +113,20 @@ void EnemyActionsFSMDRAWObserver::update() {
 	}
 	else if (fsm->enemyObs_info.start_freezing_state3_graph) {
 		dir = get_character_graph_direction(enemy->get_sense());
-		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+		drawer->startDraw(enemy_TRAPPED_3, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
 	else if (fsm->enemyObs_info.start_fozen_graph) {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_INBALL_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+	else if (fsm->enemyObs_info.start_ballCharging_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_INBALL_MOVING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+	else
+	{
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
 
 }
