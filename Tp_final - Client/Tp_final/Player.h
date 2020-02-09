@@ -2,7 +2,7 @@
 #include "Character.h"
 #include "EventHandler.h"
 
-class Player: public Character
+class Player : public Character
 {
 public:
 	Player(unsigned int id, bool is_nick, Sense_type sense);
@@ -15,8 +15,9 @@ public:
 	void attack();
 	void die();
 	void revive();
+	bool has_lives();
 
 private:
 	void lose_life();
+	bool run_out_of_lives = false;
 };
-
