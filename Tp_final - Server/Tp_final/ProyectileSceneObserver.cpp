@@ -61,6 +61,7 @@ void ProyectileSceneObserver::direction_to_deltas(Action_info* action) {
 void ProyectileSceneObserver::perform_movement(Action_info action) {
 	bool should_be_hit = false;
 	scenario->execute_action(&action, should_be_hit);
-	if (should_be_hit)
-		ev_gen->append_new_event(new GOT_HIT_EventPackage(), 0);
+
+	//if (should_be_hit) //ya se appendea desde execute_proy_move
+	//	ev_gen->append_new_event(new GOT_HIT_EventPackage(), 0);
 }
