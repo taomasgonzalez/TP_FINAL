@@ -577,11 +577,10 @@ void LogicFSM::ask_user_being_server_and_send_decition() {
 
 }
 void LogicFSM::tell_user_send_ack_and_finish_game() {
-
-	want_to_play_again = scenario->my_graphic_interface->request_2_play_again();
-
 	send_ack();
 	finish_game();
+
+	scenario->my_graphic_interface->print_messaje(GAME_OVER);
 }
 
 void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdi�
