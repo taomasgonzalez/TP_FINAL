@@ -31,4 +31,3 @@ private:
 	process_t pushing_right_process;
 
 };
-

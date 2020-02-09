@@ -29,7 +29,7 @@ Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* co
 	walking_pics = WALKING_PICS;
 	jumping_pics = JUMPING_PICS;
 	jumping_forw_pics = JUMPING_PICS;
-	iddle_pics = IDLE_PICS;
+	idle_pics = IDLE_PICS;
 	attacking_pics = ATTACKING_PICS;
 	falling_pics = FALLING_PICS;
 	dying_pics = DYING_PICS;
@@ -58,7 +58,9 @@ void Obj_Graf_Player::draw()
 		handle_falling();
 		break;
 	case player_IDLE:
-		handle_iddle();
+		handle_idle();
+		//std::cout << "Se imprimió un iddle de un jugador" << std::endl;
+
 		break;
 	case player_JUMPING_FOWARD:
 		handle_jumping_forward();
@@ -68,6 +70,9 @@ void Obj_Graf_Player::draw()
 		break;
 	case player_DYING:
 		handle_dying();
+		break;
+	case player_RESPAWN:
+		handle_respawn();
 		break;
 	}
 }
@@ -99,6 +104,21 @@ void Obj_Graf_Player::reset()
 bool Obj_Graf_Player::secuenceOver()
 {
 	return secuenceOver_;
+}
+
+void Obj_Graf_Player::handle_respawn()
+{
+	actualImage = 0;
+
+	int flip;
+	if (is_fatty)
+		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+	else
+		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
+
+	if((idleActualImage % 2) == 0)
+		al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+	((idleActualImage + 1) < 2 * idle_pics) ? idleActualImage++ : idleActualImage = 0;
 }
 
 void Obj_Graf_Player::handle_pushing() {
