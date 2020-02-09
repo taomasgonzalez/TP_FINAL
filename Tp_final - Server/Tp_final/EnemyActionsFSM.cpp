@@ -25,11 +25,39 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 	actual_state = iddle_state;
 }
 
+void EnemyActionsFSM::run_fsm(EventPackage * ev_pack) {
+
+	update_from_allegro_timers();
+
+	FSM::run_fsm(ev_pack);
+}
 
 EnemyActionsFSM::~EnemyActionsFSM()
 {
 	delete freezing_state;
 	delete frozen_state;
+}
+
+void EnemyActionsFSM::update_from_allegro_timers() {
+
+	//move toda la info de los timers aca, sacalas del observer
+
+
+	//guido acá levantas los eventos, hace una sola cola si total no te
+	ALLEGRO_EVENT  allegroEvent;
+
+	while (al_get_next_event(freezing_queue, &allegroEvent)) 			/
+	{
+
+	}
+
+	//una vez que terminas lo appendeas
+	//ev_gen->append_new_event(event, (int)EventGenerator::LogicQueues::soft);
+
+	//entonces entrás al run_fsm original con el envento cargado ya que lo vas agarrar recien en el siguiente ciclo porque ya paso el fetch_event
+}
+
+
 }
 
 void EnemyActionsFSM::set_states()

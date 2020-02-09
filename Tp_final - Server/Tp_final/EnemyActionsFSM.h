@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterActionsFSM.h"
+#include "Allegroclass.h"
 #include "Enemy.h"
 
 
@@ -8,6 +9,11 @@ class EnemyActionsFSM : public CharacterActionsFSM
 public:
 	EnemyActionsFSM(Enemy* enemy);
 	~EnemyActionsFSM();
+
+	void run_fsm(EventPackage * ev_pack);
+	void update_from_allegro_timers();
+
+
 
 	struct Enemyobserver_info {
 		bool start_freezing_state1_graph = false;
