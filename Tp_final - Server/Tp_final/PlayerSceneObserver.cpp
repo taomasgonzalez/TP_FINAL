@@ -13,6 +13,8 @@ PlayerSceneObserver::~PlayerSceneObserver()
 
 void PlayerSceneObserver::update()
 {
+	if (!scenario->avoid_character_scene_obs)
+		CharacterSceneObserver::update();
 
 	if (scenario->should_tom_die)
 		if (character->get_printable() == Item_type::TOM)
