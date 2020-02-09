@@ -224,9 +224,23 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 			{
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
-				should_hit = true;
-				notify_obs();
-				should_hit = false;
+
+				if (action_to_be_loaded.id == 84) //tom should die
+				{
+					should_tom_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_tom_die = false;
+				}
+				else if (action_to_be_loaded.id == 78)  //nick should die
+				{
+					should_nick_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_nick_die = false;
+				}
 
 			}
 		}

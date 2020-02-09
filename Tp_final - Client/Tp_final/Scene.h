@@ -83,6 +83,11 @@ public:
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
 	bool should_hit = false;
+	bool should_tom_die = false;
+	bool should_nick_die = false;
+
+	bool avoid_character_scene_obs = false; //para evitar el loop infinito
+
 	bool load_graphic_level = false;
 	bool appended_event = false;
 	bool extern_future_event = false;

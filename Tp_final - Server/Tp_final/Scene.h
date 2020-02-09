@@ -89,6 +89,9 @@ public:
 	bool logic_movements_block = false;
 	bool appended_event = false;
 	bool local_future_event = false;
+	bool should_tom_die = false;
+	bool should_nick_die = false;
+	bool avoid_character_scene_obs = false;
 
 	void append_new_auxilar_event(Action_info new_action_info);
 
