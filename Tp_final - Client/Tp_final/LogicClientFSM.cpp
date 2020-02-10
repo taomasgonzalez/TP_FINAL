@@ -59,6 +59,7 @@ LogicClientFSM::LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Playing_state->push_back({ Event_type::GAME_OVER, this->Waiting_if_the_server_wants_to_play_again, analyze_we_lost_r });	// GAME_OVER from the server, must be analyzed
 	Playing_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
 	Playing_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
+	Playing_state->push_back({ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack_r });
 	Playing_state->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing_r });
 
 	Waiting_for_movement_state->push_back({ Event_type::MOVE, this->Playing_state, execute_receive_action_and_send_ack_r }); //extern MOVE that arrives through networking , has to be checked

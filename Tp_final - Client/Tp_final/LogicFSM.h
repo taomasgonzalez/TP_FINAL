@@ -36,6 +36,7 @@ public:
 	bool valid_action = false;
 	bool we_won = false;
 	bool we_lost = false;
+	bool finished_level = false;
 
 	bool waiting_for_ack = false;
 	bool reset_ack_timer = false;

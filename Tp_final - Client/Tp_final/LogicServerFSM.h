@@ -1,10 +1,10 @@
 #pragma once
 #include "LogicFSM.h"
 
-class LogicServerFSM: public LogicFSM
+class LogicServerFSM : public LogicFSM
 {
 public:
-	LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
+	LogicServerFSM(Userdata* data, LogicEventGenerator* event_gen, Scene* scene, Communication* com);
 	~LogicServerFSM();
 
 	bool control_enemies = false;
@@ -16,7 +16,7 @@ private:
 	states
 	******************************/
 
-	virtual void run_fsm(EventPackage * ev_pack);
+	virtual void run_fsm(EventPackage* ev_pack);
 
 	std::vector<edge_t>* Initial_state = NULL;
 
@@ -47,7 +47,7 @@ private:
 
 
 	//debug!
-	ALLEGRO_EVENT_QUEUE * control_ev_queue = NULL;
+	ALLEGRO_EVENT_QUEUE* control_ev_queue = NULL;
 	ALLEGRO_TIMER* control_timer = NULL;
 };
 

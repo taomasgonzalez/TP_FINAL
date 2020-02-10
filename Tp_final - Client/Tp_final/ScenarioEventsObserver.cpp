@@ -33,6 +33,10 @@ void ScenarioEventsObserver::update() {
 		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
 			ev_gen->append_new_event(new WE_WON_EventPackage(), (int)EventGenerator::LogicQueues::soft);
 	}
+	else if(this->scenario->level_finished) {
+		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
+			ev_gen->append_new_event(new FINISHED_LEVEL_EventPackage(), (int)EventGenerator::LogicQueues::soft);
+	}
 	if (scenario->we_lost){
 		if (!my_user_data->my_network_data.is_client()) //we do this ckeck here because in scene we don´t have that info
 			ev_gen->append_new_event(new GAME_OVER_EventPackage(), (int)EventGenerator::LogicQueues::soft);

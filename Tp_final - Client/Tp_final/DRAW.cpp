@@ -97,7 +97,6 @@ void DRAW::destroyAll()
 void DRAW::setLevel(unsigned int level)
 {
 	this->level = level;
-//	this->level = level + 1;
 	this->screen_w = al_get_bitmap_width(backgrounds[level - 1]);
 	this->screen_h = al_get_bitmap_height(backgrounds[level - 1]);
 }

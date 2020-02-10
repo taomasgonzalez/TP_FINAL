@@ -584,6 +584,11 @@ FINISHED_LEVEL_EventPackage::FINISHED_LEVEL_EventPackage() :EventPackage(Event_t
 
 }
 
+CHANGE_LEVEL_EventPackage::CHANGE_LEVEL_EventPackage() : EventPackage(Event_type::CHANGE_LEVEL) {
+
+
+}
+
 /**************************************************************
 NO_EVENT_EventPackage CONSTRUCTOR
 **************************************************************/

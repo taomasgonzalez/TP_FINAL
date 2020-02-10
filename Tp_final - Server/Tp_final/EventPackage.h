@@ -465,6 +465,15 @@ private:
 
 };
 
+class CHANGE_LEVEL_EventPackage : public EventPackage
+{
+public:
+	CHANGE_LEVEL_EventPackage();
+
+private:
+
+};
+
 /******************************************************************************
 *******************************************************************************
 NO_EVENT_EventPackage CLASS

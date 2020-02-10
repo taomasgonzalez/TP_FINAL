@@ -16,4 +16,6 @@ LogicFSMGraphicEventsObserver::~LogicFSMGraphicEventsObserver()
 void LogicFSMGraphicEventsObserver::update() {
 	if (logic->start_game) 
 		graphic->append_new_event(new GAME_START_EventPackage(), 0);
+	else if (logic->finished_level)
+		graphic->append_new_event(new CHANGE_LEVEL_EventPackage(), 0);
 }

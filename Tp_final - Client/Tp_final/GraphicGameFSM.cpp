@@ -6,6 +6,8 @@ void draw(void * data);
 void start_game_r(void* data);
 void change_level_r(void* data);
 
+#define FIRST_LEVEL (1)
+
 GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
 {
 	this->drawer = drawer;
@@ -35,7 +37,8 @@ GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
 	playing_state->push_back({Event_type::END_OF_TABLE, playing_state, do_nothing_graphic });
 
 	actual_state = iddle_state;
-	this->level = 1;
+	graphics_inited = false;
+	this->level = FIRST_LEVEL;
 }
 
 
@@ -49,20 +52,20 @@ GraphicGameFSM::~GraphicGameFSM()
 void GraphicGameFSM::start_game() {
 	//should start the graphic timer for fps events!!
 	drawer->setLevel(level);
-//	drawer->start_main_song();
 	Userdata::generating_graphic_events = true;
 
 	//drawer->draw();
 }
 
 void GraphicGameFSM::draw_tick() {
-	drawer->draw();
+		drawer->draw();
 }
 
 void GraphicGameFSM::change_level() {
 
 	level++;
 	drawer->setLevel(level);
+	graphics_inited = true;
 
 }
 

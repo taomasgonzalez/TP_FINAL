@@ -795,6 +795,10 @@ void LogicFSM::check_map_and_save_send_ack() {
 void LogicFSM::send_map_is() {
 	//i�m server, load the map from the txt
 	scenario->load_new_map(user_data->my_network_data.is_client());
+	finished_level = true;
+	notify_obs();
+	finished_level = false;
+	//	ev_gen->append_new_event(new CHANGE_LEVEL_EventPackage(), 0);
 
 	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, ( char*)scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda

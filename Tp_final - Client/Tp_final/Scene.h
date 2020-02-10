@@ -81,6 +81,7 @@ public:
 	bool enemys_ready = false;
 	bool we_lost = false;
 	bool we_won = false;
+	bool level_finished = false;
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
 	bool should_hit = false;

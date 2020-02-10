@@ -919,6 +919,11 @@ void Scene::check_current_game_situation() {
 		notify_obs();
 		we_won = false;
 	}
+	else if ((!any_monsters_left()) && (actual_map < 10)) {
+		level_finished = true;
+		notify_obs();
+		level_finished = false;
+	}
 }
 
 void Scene::append_new_auxilar_event(Action_info new_action_info) {

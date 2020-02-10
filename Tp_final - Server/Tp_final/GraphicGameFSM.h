@@ -21,5 +21,7 @@ private:
 
 	unsigned int level;
 	DRAW* drawer = NULL;
+
+	bool graphics_inited;
 };
 
