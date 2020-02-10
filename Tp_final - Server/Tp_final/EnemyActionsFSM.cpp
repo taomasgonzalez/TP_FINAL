@@ -157,33 +157,7 @@ void EnemyActionsFSM::partially_unfroze()
 void EnemyActionsFSM::unfreeze()
 {
 	al_stop_timer(freezing_timer);
-	/*
-	switch (enemy->amount_of_hits_taken)
-	{
-	case 1:
-		enemy->amount_of_hits_taken--;
-		enemy->ev_handler->get_ev_gen()->append_new_event(new UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft 0);
-	case 2:
-		enemy->amount_of_hits_taken--;
-		enemyObs_info.start_freezing_state1_graph = true;
-		notify_obs();
-		enemyObs_info.start_freezing_state1_graph = false;
-	case 3:
-		enemy->amount_of_hits_taken--;
-		enemyObs_info.start_freezing_state2_graph = true;
-		notify_obs();
-		enemyObs_info.start_freezing_state2_graph = false;
-	case 4:
-		enemy->amount_of_hits_taken--;
-		enemyObs_info.start_freezing_state3_graph = true;
-		notify_obs();
-		enemyObs_info.start_freezing_state3_graph = false;
-	default:
-		break;
-	}
-	al_start_timer(freezing_timer);
-	*/
-//	enemyObs_questions.should_unfreeze = false;
+
 }
 
 void EnemyActionsFSM::froze()

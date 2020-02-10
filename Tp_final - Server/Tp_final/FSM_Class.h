@@ -13,8 +13,9 @@
 using namespace std;
 //changing fsm class!
 
-std::string event_string[46] =  //Events that are usde by the internal function of the program 
+std::string event_string[] =  //Events that are usde by the internal function of the program 
 {
+
 	"END_OF_TABLE",
 
 	//ACK:
@@ -93,6 +94,7 @@ std::string event_string[46] =  //Events that are usde by the internal function 
 
 	//player events
 	"REVIVED",
+	"STOP_INMUNITY",
 
 	//enemy and proyectiles events
 	"GOT_HIT",
@@ -110,6 +112,7 @@ std::string event_string[46] =  //Events that are usde by the internal function 
 	"FINISHED_GRAPH_STEP"
 
 };
+
 
 
 /*****************************************************

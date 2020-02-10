@@ -6,6 +6,7 @@
 #include "Fireball.h"
 #include "Player.h"
 
+
 class MapThingFactory : public Observable
 {
 public:

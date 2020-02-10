@@ -29,7 +29,7 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		walking_pics = WALKING_PICS_PURPLE;
 		jumping_pics = JUMPING_PICS_PURPLE;
 		jumping_forw_pics = JUMPING_PICS_PURPLE;
-		iddle_pics = IDLE_PICS_PURPLE;
+		idle_pics = IDLE_PICS_PURPLE;
 		attacking_pics = ATTACKING_PICS_PURPLE;
 		falling_pics = FALLING_PICS_PURPLE;
 		dying_pics = DYING_PICS_PURPLE;
@@ -42,7 +42,7 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		walking_pics = WALKING_PICS_FATTY;
 		jumping_pics = JUMPING_PICS_FATTY;
 		jumping_forw_pics = JUMPING_PICS_FATTY;
-		iddle_pics = IDLE_PICS_FATTY;
+		idle_pics = IDLE_PICS_FATTY;
 		attacking_pics = ATTACKING_PICS_FATTY;
 		falling_pics = FALLING_PICS_FATTY;
 		dying_pics = DYING_PICS_FATTY;
@@ -57,7 +57,7 @@ Obj_Graf_Enemy::Obj_Graf_Enemy(double ID, ENEMY_TYPE type, ImageContainer* conta
 		walking_pics = WALKING_PICS_CRAZY;
 		jumping_pics = JUMPING_PICS_CRAZY;
 		jumping_forw_pics = JUMPING_PICS_CRAZY;
-		iddle_pics = IDLE_PICS_CRAZY;
+		idle_pics = IDLE_PICS_CRAZY;
 		attacking_pics = 0;
 		falling_pics = FALLING_PICS_CRAZY;
 		dying_pics = DYING_PICS_CRAZY;
@@ -98,7 +98,7 @@ void Obj_Graf_Enemy::draw()
 		handle_dying();				//checked
 		break;
 	case enemy_IDLE:
-		handle_iddle();				//checked
+		handle_idle();				//checked
 		break;
 	case enemy_INBALL_IDLE:
 		handle_inball_iddle();		//checked

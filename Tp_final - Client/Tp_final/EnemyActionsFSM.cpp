@@ -6,7 +6,8 @@
 void do_nothing_enemy_r(void* data);
 void check_got_hit_and_get_hit_r(void* data);
 void partially_unfroze_r(void* data);
-void freeze_r(void* data);
+void froze_r(void* data);
+void unfreeze_r(void* data);
 void unfroze_r(void* data);
 void start_moving_snowball_r(void* data);
 void snowball_move_r(void* data);
@@ -14,15 +15,14 @@ void enemy_die_r(void* data);
 void start_got_hit_r(void*data);
 void fall_and_start_got_hit_r(void* data);
 
-EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
+EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy) : CharacterActionsFSM(enemy)
 {
 	this->enemy = enemy;
 
 	set_states();
 	set_processes();
-	create_all_timers();
 	actual_state = iddle_state;
-
+	create_all_timers();
 
 	this->defrost_queue = al_create_event_queue();
 
@@ -30,18 +30,17 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 	al_register_event_source(this->defrost_queue, al_get_timer_event_source(this->frozen_timer));
 }
 
-
-EnemyActionsFSM::~EnemyActionsFSM()
-{
-	delete freezing_state;
-	delete frozen_state;
-}
-
 void EnemyActionsFSM::run_fsm(EventPackage * ev_pack) {
 
 	update_from_allegro_timers_for_enemy();
 
 	FSM::run_fsm(ev_pack);
+}
+
+EnemyActionsFSM::~EnemyActionsFSM()
+{
+	delete freezing_state;
+	delete frozen_state;
 }
 
 void EnemyActionsFSM::update_from_allegro_timers_for_enemy() {
@@ -81,22 +80,24 @@ void EnemyActionsFSM::set_states()
 	expand_state(jumping_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
 	expand_state(jumping_forward_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
 	expand_state(attacking_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
-	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACIÓN DISTINTA A LA de morir, hay dos formas de morir
-	//una siendo aplastado por una bola que salís volando y otra desaparecer con la bola, que no es una animación de muerte, sólo desapareces vos con la bola
+	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACI�N DISTINTA A LA de morir, hay dos formas de morir
+	//una siendo aplastado por una bola que sal�s volando y otra desaparecer con la bola, que no es una animaci�n de muerte, s�lo desapareces vos con la bola
 
 
 
 
-	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r});
-	freezing_state->push_back({ Event_type::FROZE, frozen_state, freeze_r });
+	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r });
+	freezing_state->push_back({ Event_type::FROZE, frozen_state, froze_r });
 	freezing_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
-	freezing_state->push_back({ Event_type::UNFROZE, iddle_state, unfroze_r });
+	freezing_state->push_back({ Event_type::UNFROZE, iddle_state, unfreeze_r });
 	freezing_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_enemy_r });
 
+	frozen_state->push_back({ Event_type::UNFROZE, freezing_state, unfroze_r });
+	frozen_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
 	frozen_state->push_back({ Event_type::GOT_HIT, frozen_state, start_moving_snowball_r });
 	frozen_state->push_back({ Event_type::BOUNCE, frozen_state, start_moving_snowball_r });
-	frozen_state->push_back({ Event_type::CHARGING, frozen_state, snowball_move_r }); 
-	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //lo cambie porque se mueve a velocidad más lenta que un MOVE, me pareció más claro
+	frozen_state->push_back({ Event_type::CHARGING, frozen_state, snowball_move_r });
+	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //lo cambie porque se mueve a velocidad m�s lenta que un MOVE, me pareci� m�s claro
 	frozen_state->push_back({ Event_type::DIED, dead_state, enemy_die_r });
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
 
@@ -117,17 +118,14 @@ void EnemyActionsFSM::create_all_timers() {
 	frozen_timer = al_create_timer(FROZEN_TIME);
 }
 
-void EnemyActionsFSM::hit_taken()
-{
-
-}
-
 void EnemyActionsFSM::partially_unfroze()
 {
-	al_stop_timer(freezing_timer);
-
 	switch (enemy->amount_of_hits_taken)
 	{
+	case 0:
+		enemy->ev_handler->get_ev_gen()->append_new_event(new UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+		notify_obs();
+		break;
 	case 1:
 		enemyObs_info.start_freezing_state1_graph = true;
 		notify_obs();
@@ -154,8 +152,37 @@ void EnemyActionsFSM::partially_unfroze()
 		enemyObs_info.start_freezing_state3_graph = false;
 		break;
 	}
+}
 
-	al_start_timer(freezing_timer);
+void EnemyActionsFSM::unfreeze()
+{
+	al_stop_timer(freezing_timer);
+
+}
+
+void EnemyActionsFSM::froze()
+{
+	start_frozen_timer();
+	//	enemyObs_questions.should_unfreeze = false;
+	//	enemyObs_questions.should_start_defrost = true;
+}
+
+void EnemyActionsFSM::start_moving_snowball()
+{
+	enemyObs_info.start_ballCharging_graph = true;
+	notify_obs();
+	enemyObs_info.start_ballCharging_graph = false;
+}
+
+
+void EnemyActionsFSM::unfroze()
+{
+	al_stop_timer(frozen_timer);
+	enemy->amount_of_hits_taken = 3;
+	enemyObs_info.start_freezing_state3_graph = true;
+	notify_obs();
+	enemyObs_info.start_freezing_state3_graph = false;
+	//	enemyObs_questions.should_start_defrost = false;
 }
 
 ALLEGRO_TIMER * EnemyActionsFSM::get_frozen_timer()
@@ -169,12 +196,14 @@ ALLEGRO_TIMER * EnemyActionsFSM::get_freezing_timer()
 }
 
 void EnemyActionsFSM::got_hit() {
+
 	enemy->be_hit();
 	partially_unfroze();
+	start_freezing_timer();
 }
 void EnemyActionsFSM::start_got_hit() {
 
-	start_freezing_timer();
+	got_hit();
 }
 
 void EnemyActionsFSM::start_freezing_timer()
@@ -191,7 +220,7 @@ void do_nothing_enemy_r(void* data) {
 
 }
 void check_got_hit_and_get_hit_r(void* data) {
-	EnemyActionsFSM* fsm = (EnemyActionsFSM*) data;
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->got_hit();
 }
 
@@ -200,27 +229,45 @@ void start_got_hit_r(void*data) {
 	fsm->start_got_hit();
 }
 
+void unfreeze_r(void* data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->unfreeze();
+}
+
 
 void fall_and_start_got_hit_r(void*data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->start_got_hit();
 }
 
+void EnemyActionsFSM::handle_hits(void)
+{
+	if (enemy->amount_of_hits_taken == 4)
+		unfroze();
+	else if (enemy->amount_of_hits_taken > 0 && enemy->amount_of_hits_taken <= 3)
+		enemy->amount_of_hits_taken--;
+	enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 
-void partially_unfroze_r(void* data){
+}
+
+
+void partially_unfroze_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->partially_unfroze();
 }
-void freeze_r(void* data){
-
+void froze_r(void* data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->froze();
 }
-void unfroze_r(void* data){
-
+void unfroze_r(void* data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->unfroze();
 }
-void start_moving_snowball_r(void* data){
-
+void start_moving_snowball_r(void* data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->start_moving_snowball();
 }
-void snowball_move_r(void* data){
+void snowball_move_r(void* data) {
 
 }
 

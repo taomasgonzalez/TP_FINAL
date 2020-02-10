@@ -1,5 +1,6 @@
 #pragma once
 #include "CharacterActionsFSM.h"
+#include "Allegroclass.h"
 #include "Enemy.h"
 
 
@@ -12,24 +13,20 @@ public:
 	void run_fsm(EventPackage * ev_pack);
 	void update_from_allegro_timers_for_enemy();
 
+
+
 	struct Enemyobserver_info {
 		bool start_freezing_state1_graph = false;
 		bool start_freezing_state2_graph = false;
 		bool start_freezing_state3_graph = false;
 		bool start_fozen_graph = false;
-		bool start_ballRolling_graph = false;
+		bool start_ballCharging_graph = false;
 		bool start_ballPushing_graph = false;
 		bool start_ballexplotion_graph = false;
 	};
 
 	Enemyobserver_info enemyObs_info;
 
-	struct Enemyobserver_QA {
-		bool should_start_defrost = false;
-		bool should_unfreeze = false;
-	};
-	Enemyobserver_QA enemyObs_questions;
-	Enemyobserver_QA enemyObs_answers;
 
 	ALLEGRO_TIMER* get_frozen_timer();
 	ALLEGRO_TIMER* get_freezing_timer();
@@ -37,6 +34,10 @@ public:
 	void got_hit();
 	void start_got_hit();
 	void partially_unfroze();
+	void unfroze();
+	void unfreeze();
+	void froze();
+	void start_moving_snowball();
 
 protected:
 	void start_freezing_timer();
@@ -65,8 +66,6 @@ private:
 
 	unsigned int amount_of_walls_hit = 0;
 	void handle_hits(void);
-
-	void hit_taken();
 
 	Enemy * enemy = NULL;
 };

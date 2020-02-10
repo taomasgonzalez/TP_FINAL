@@ -27,13 +27,6 @@ public:
 
 	Enemyobserver_info enemyObs_info;
 
-	struct Enemyobserver_QA {
-		bool should_start_defrost = false;
-		bool should_unfreeze = false;
-	};
-	Enemyobserver_QA enemyObs_questions;
-	Enemyobserver_QA enemyObs_answers;
-
 	ALLEGRO_TIMER* get_frozen_timer();
 	ALLEGRO_TIMER* get_freezing_timer();
 

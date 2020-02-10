@@ -32,26 +32,6 @@ void EnemySceneObserver::update() {
 		ev_gen->append_new_event(new FROZE_EventPackage(), 0);
 	if (fsm->enemyObs_info.start_ballCharging_graph)
 		ev_gen->append_new_event(new CHARGING_EventPackage(), 0);
-	/*
-	if (fsm->enemyObs_questions.should_unfreeze)
-	{
-		fsm->enemyObs_answers.should_unfreeze = false;
-		ALLEGRO_EVENT  allegroEvent;
-		if (al_get_next_event(freezing_queue, &allegroEvent)) {
-			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
-				fsm->enemyObs_answers.should_unfreeze = true;
-		}
-	}	
-	if (fsm->enemyObs_questions.should_start_defrost)
-	{
-		fsm->enemyObs_answers.should_start_defrost = false;
-		ALLEGRO_EVENT  allegroEvent;
-		if (al_get_next_event(froze_queue, &allegroEvent)) {
-			if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
-				fsm->enemyObs_answers.should_start_defrost = true;
-		}
-	}
-	*/
 }
 
 void EnemySceneObserver::perform_movement(Action_info action) {

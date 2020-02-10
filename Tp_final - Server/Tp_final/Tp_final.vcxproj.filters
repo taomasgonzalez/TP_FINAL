@@ -31,10 +31,10 @@
     <ClCompile Include="GraficObjectProjectile.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="EventPackageFactory.cpp">
-      <Filter>Source Files\Event_related\Generic</Filter>
+    <ClCompile Include="GraphicEventGenerator.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="FSM_Class.cpp">
+    <ClCompile Include="EventPackageFactory.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
     <ClCompile Include="EventHandler.cpp">
@@ -103,6 +103,9 @@
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="GraphicGameFSM.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
+    </ClCompile>
     <ClCompile Include="Observable.cpp">
       <Filter>Source Files\Observers</Filter>
     </ClCompile>
@@ -151,11 +154,17 @@
     <ClCompile Include="MapThingFSM.cpp">
       <Filter>Source Files\Map_related</Filter>
     </ClCompile>
+    <ClCompile Include="CharacterSceneObserver.cpp">
+      <Filter>Source Files\PJ_related\Characters\Observers</Filter>
+    </ClCompile>
     <ClCompile Include="ProyectileSceneObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
     </ClCompile>
     <ClCompile Include="ProyectilesActionsFSMDRAWObserver.cpp">
       <Filter>Source Files\PJ_related\Proyectiles\Observers</Filter>
+    </ClCompile>
+    <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
+      <Filter>Source Files\Map_related</Filter>
     </ClCompile>
     <ClCompile Include="MapThingEventGenerator.cpp">
       <Filter>Source Files\Map_related</Filter>
@@ -163,31 +172,22 @@
     <ClCompile Include="EventGenerator.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
-    <ClCompile Include="GraphicGameFSM.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
-    </ClCompile>
-    <ClCompile Include="CharacterSceneObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageContainer.cpp">
-      <Filter>Source Files\Graphics_related</Filter>
+    <ClCompile Include="FSM_Class.cpp">
+      <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
     <ClCompile Include="EventPackage.cpp">
       <Filter>Source Files\Event_related\Generic</Filter>
     </ClCompile>
-    <ClCompile Include="GraphicEventGenerator.cpp">
-      <Filter>Source Files\Event_related\Graphic</Filter>
+    <ClCompile Include="ImageContainer.cpp">
+      <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="MapThingFactoryDRAWObserver.cpp">
-      <Filter>Source Files\Map_related\Observers</Filter>
+    <ClCompile Include="LogicFSMGraphicEventsObserver.cpp">
+      <Filter>Source Files\Event_related\Logic</Filter>
     </ClCompile>
     <ClCompile Include="GraficObjectCharacter.cpp">
       <Filter>Source Files\Graphics_related</Filter>
     </ClCompile>
-    <ClCompile Include="PlayerSceneControllerObserver.cpp">
-      <Filter>Source Files\PJ_related\Characters\Players\Observers</Filter>
-    </ClCompile>
+    <ClCompile Include="PlayerSceneControllerObserver.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Character.h">
@@ -289,6 +289,9 @@
     <ClInclude Include="Proyectile.h">
       <Filter>Header Files\PJ_related\Proyectiles</Filter>
     </ClInclude>
+    <ClInclude Include="CommunicationEventsObserver.h">
+      <Filter>Header Files\Net_related</Filter>
+    </ClInclude>
     <ClInclude Include="Package.h">
       <Filter>Header Files\Net_related</Filter>
     </ClInclude>
@@ -379,19 +382,23 @@
     <ClInclude Include="MapThingEventGenerator.h">
       <Filter>Header Files\Map_related</Filter>
     </ClInclude>
-    <ClInclude Include="LogicFSMGraphicEventsObserver.h" />
     <ClInclude Include="GraphicGameFSM.h">
-      <Filter>Header Files\Event_related\Graphic</Filter>
+      <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
     <ClInclude Include="ImageContainer.h">
       <Filter>Header Files\Graphics_related</Filter>
     </ClInclude>
+    <ClInclude Include="LogicFSMGraphicEventsObserver.h">
+      <Filter>Header Files\Event_related\Logic</Filter>
+    </ClInclude>
     <ClInclude Include="GraficObjectCharacter.h">
       <Filter>Source Files\Graphics_related</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerSceneControllerObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+    <None Include="ClassDiagram3.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
@@ -513,6 +520,9 @@
     </Filter>
     <Filter Include="Source Files\PJ_related\Characters\Players\Observers">
       <UniqueIdentifier>{66535075-048e-428c-9ce9-9c15465b760d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PJ_related\Characters\Observers">
+      <UniqueIdentifier>{c34821c3-3136-4bad-b3e8-a6ad8ca2ddc0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\PJ_related\Proyectiles\Observers">
       <UniqueIdentifier>{b38043f4-caf4-487f-8672-337d0e80a075}</UniqueIdentifier>
@@ -835,6 +845,9 @@
     </ClInclude>
     <ClInclude Include="EventPackageFactory.h">
       <Filter>Header Files\Event_related\Generic</Filter>
+    </ClInclude>
+    <ClInclude Include="CommunicationEventsObserver.h">
+      <Filter>Header Files\Observers\Logic</Filter>
     </ClInclude>
     <ClInclude Include="CharacterSceneObserver.h">
       <Filter>Header Files\Observers\Logic</Filter>
