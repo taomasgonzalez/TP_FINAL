@@ -30,7 +30,9 @@ bool Player::is_player() {
 }
 void Player::revive() {
 	if (lives > 0)
+	{
 		dead = false;
+	}
 }
 
 bool Player::has_lives() {
@@ -38,6 +40,15 @@ bool Player::has_lives() {
 	return !run_out_of_lives;
 }
 
+bool Player::is_inmune() {
+
+	return being_inmuned;
+}
+
+void Player::set_the_player_inmunity(bool is_inmuned) {
+
+	being_inmuned = is_inmuned;
+}
 
 
 void Player::die()

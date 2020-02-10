@@ -17,6 +17,8 @@ public:
 		bool start_attacking_graph = false;
 		bool dying_graph = false;
 		bool reset_graph = false;
+		bool respawn_graph = false;
+		bool stop_inmunity_graph = false;
 		bool player_respawn_graph = false;
 		bool disappear_graph = false;
 

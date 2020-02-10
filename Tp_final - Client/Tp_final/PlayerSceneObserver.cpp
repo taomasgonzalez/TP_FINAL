@@ -32,7 +32,7 @@ void PlayerSceneObserver::perform_movement(Action_info action) {
 	action.my_character = character->get_printable();
 	scenario->execute_action(&action, should_die);
 
-	if (should_die) 
+	if (should_die && (!((Player *)character)->is_inmune()))
 		ev_gen->append_new_event(new DIED_EventPackage(), 0);
 	
 }

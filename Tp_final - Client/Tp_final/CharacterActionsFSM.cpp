@@ -93,7 +93,8 @@ void CharacterActionsFSM::set_states() {
 	attacking_state = new std::vector<edge_t>();
 
 	dead_state = new std::vector<edge_t>();
-
+	//Tengo que validar lo chequeos logicos de cada uno de estos casos para cada estado
+	//recién ahí el juego va a andar bien y fluido
 	iddle_state->push_back({ Event_type::ATTACKED, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
@@ -101,6 +102,8 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
 	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
 
+	//CAMBIAR::Cada movimiento distinto al de su propio estado debe ir al estado asociado a dicho movimiento
+	//y appendearse al saved_events(append_action_r) asi se levanta cuando termine dicho movimiento
 	walking_state->push_back({ Event_type::JUMPED, jumping_state, append_action_moving_state_r });
 	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_moving_state_r });
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
@@ -137,8 +140,10 @@ void CharacterActionsFSM::set_states() {
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
 	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char });
 
+
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
 	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
+
 
 }
 

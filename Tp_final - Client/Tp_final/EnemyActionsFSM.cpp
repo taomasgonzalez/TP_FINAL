@@ -1,4 +1,4 @@
-#include "EnemyActionsFSM.h"
+ï»¿#include "EnemyActionsFSM.h"
 
 #define FREEZING_TIME (10.0)
 #define FROZEN_TIME (30.0)
@@ -22,6 +22,12 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 	set_processes();
 	create_all_timers();
 	actual_state = iddle_state;
+
+
+	this->defrost_queue = al_create_event_queue();
+
+	al_register_event_source(this->defrost_queue, al_get_timer_event_source(this->freezing_timer));
+	al_register_event_source(this->defrost_queue, al_get_timer_event_source(this->frozen_timer));
 }
 
 
@@ -29,6 +35,33 @@ EnemyActionsFSM::~EnemyActionsFSM()
 {
 	delete freezing_state;
 	delete frozen_state;
+}
+
+void EnemyActionsFSM::run_fsm(EventPackage * ev_pack) {
+
+	update_from_allegro_timers_for_enemy();
+
+	FSM::run_fsm(ev_pack);
+}
+
+void EnemyActionsFSM::update_from_allegro_timers_for_enemy() {
+
+	//move toda la info de los timers aca, sacalas del observer
+
+
+	//guido acï¿½ levantas los eventos, hace una sola cola si total no te
+	ALLEGRO_EVENT  allegroEvent;
+
+	while (al_get_next_event(defrost_queue, &allegroEvent))
+	{
+		if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
+			handle_hits();
+	}
+
+	//una vez que terminas lo appendeas
+	//ev_gen->append_new_event(event, (int)EventGenerator::LogicQueues::soft);
+
+	//entonces entrï¿½s al run_fsm original con el envento cargado ya que lo vas agarrar recien en el siguiente ciclo porque ya paso el fetch_event
 }
 
 void EnemyActionsFSM::set_states()
@@ -48,8 +81,8 @@ void EnemyActionsFSM::set_states()
 	expand_state(jumping_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
 	expand_state(jumping_forward_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
 	expand_state(attacking_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
-	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACIÓN DISTINTA A LA de morir, hay dos formas de morir
-	//una siendo aplastado por una bola que salís volando y otra desaparecer con la bola, que no es una animación de muerte, sólo desapareces vos con la bola
+	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACIÃ“N DISTINTA A LA de morir, hay dos formas de morir
+	//una siendo aplastado por una bola que salÃ­s volando y otra desaparecer con la bola, que no es una animaciÃ³n de muerte, sÃ³lo desapareces vos con la bola
 
 
 
@@ -63,7 +96,7 @@ void EnemyActionsFSM::set_states()
 	frozen_state->push_back({ Event_type::GOT_HIT, frozen_state, start_moving_snowball_r });
 	frozen_state->push_back({ Event_type::BOUNCE, frozen_state, start_moving_snowball_r });
 	frozen_state->push_back({ Event_type::CHARGING, frozen_state, snowball_move_r }); 
-	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //lo cambie porque se mueve a velocidad más lenta que un MOVE, me pareció más claro
+	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //lo cambie porque se mueve a velocidad mÃ¡s lenta que un MOVE, me pareciÃ³ mÃ¡s claro
 	frozen_state->push_back({ Event_type::DIED, dead_state, enemy_die_r });
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
 

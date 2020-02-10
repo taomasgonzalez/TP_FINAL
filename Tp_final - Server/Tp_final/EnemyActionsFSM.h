@@ -11,7 +11,7 @@ public:
 	~EnemyActionsFSM();
 
 	void run_fsm(EventPackage * ev_pack);
-	void update_from_allegro_timers();
+	void update_from_allegro_timers_for_enemy();
 
 
 

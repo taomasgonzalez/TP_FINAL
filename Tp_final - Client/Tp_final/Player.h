@@ -17,7 +17,13 @@ public:
 	void revive();
 	bool has_lives();
 
+	bool is_inmune();
+	void set_the_player_inmunity(bool is_inmuned);
+
 private:
+
+	bool being_inmuned = false;
+
 	void lose_life();
 	bool run_out_of_lives = false;
 };

@@ -91,6 +91,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 
 	//player events
 	REVIVED,
+	STOP_INMUNITY,
 
 	//enemy and proyectiles events
 	GOT_HIT,
@@ -591,4 +592,16 @@ class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {
 public:
 	FINISHED_GRAPH_STEP_EventPackage();
 	~FINISHED_GRAPH_STEP_EventPackage();
+};
+
+class REVIVE_EventPackage : public EventPackage {
+public:
+	REVIVE_EventPackage();
+	~REVIVE_EventPackage();
+};
+
+class STOP_INMUNITY_EventPackage : public EventPackage {
+public:
+	STOP_INMUNITY_EventPackage();
+	~STOP_INMUNITY_EventPackage();
 };

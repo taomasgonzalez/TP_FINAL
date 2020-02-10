@@ -2,11 +2,21 @@
 #include "Player.h"
 #include "CharacterActionsFSM.h"
 
+#define RESPAWN_TIME 3
+#define INMUNE_TIME 5
+
+
 class PlayerActionsFSM : public CharacterActionsFSM
 {
 public:
 	PlayerActionsFSM(Player* player);
 	~PlayerActionsFSM();
+	void run_fsm(EventPackage * ev_pack);
+
+	void update_from_allegro_timers_for_player();
+	void stop_inmunity();
+
+
 
 	struct observer_playerFSM_related {
 		bool finished_pushing = false;
@@ -26,8 +36,12 @@ protected:
 private:
 	std::vector<edge_t>* pushing_state = NULL;
 
-	Player* player = NULL;
+	ALLEGRO_TIMER * respawn_timer = NULL;
+	ALLEGRO_TIMER * inmune_timer = NULL;
 
+	ALLEGRO_EVENT_QUEUE* player_ev_queue = NULL;
+
+	Player* player = NULL;
 
 	process_t pushing_left_process;
 	process_t pushing_right_process;

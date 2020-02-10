@@ -9,6 +9,9 @@ public:
 	EnemyActionsFSM(Enemy* enemy);
 	~EnemyActionsFSM();
 
+	void run_fsm(EventPackage * ev_pack);
+	void update_from_allegro_timers_for_enemy();
+
 	struct Enemyobserver_info {
 		bool start_freezing_state1_graph = false;
 		bool start_freezing_state2_graph = false;
@@ -58,7 +61,10 @@ private:
 	ALLEGRO_TIMER* frozen_timer = NULL;
 	ALLEGRO_TIMER* freezing_timer = NULL;
 
+	ALLEGRO_EVENT_QUEUE* defrost_queue = 0;	//will get events from the timers of the enemies
+
 	unsigned int amount_of_walls_hit = 0;
+	void handle_hits(void);
 
 	void hit_taken();
 

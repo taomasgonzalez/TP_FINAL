@@ -84,6 +84,16 @@ void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 	this->pos = pos;
 	InitalPos = pos;
 	this->state = *(PLAYER_STATE *)state;
+
+	if (*(PLAYER_STATE *)state == PLAYER_STATE::player_RESPAWN)
+		set_inmunity(true);
+
+	else if (*(PLAYER_STATE *)state == PLAYER_STATE::player_STOP_INMUNITY)
+		set_inmunity(false);
+
+	else
+		this->state = *(PLAYER_STATE *)state;
+
 	actualImage = 0;								// comienza con la primera imagen
 	secuenceOver_ = false;
 	notified_half_jump = false;
@@ -105,6 +115,13 @@ bool Obj_Graf_Player::secuenceOver()
 {
 	return secuenceOver_;
 }
+
+void Obj_Graf_Player::set_inmunity(bool inmunity)
+{
+	has_inmunity = inmunity;
+}
+
+
 
 void Obj_Graf_Player::handle_respawn()
 {

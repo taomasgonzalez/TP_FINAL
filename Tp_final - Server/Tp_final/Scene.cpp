@@ -110,7 +110,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
 
-				if (action_to_be_loaded.id == 84) //tom should die
+				if (action_to_be_loaded.id == 84 && (!my_vector_of_players[i]->is_inmune()) ) //tom should die
 				{
 					should_tom_die = true;
 					avoid_character_scene_obs = true;
@@ -118,7 +118,7 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 					avoid_character_scene_obs = false;
 					should_tom_die = false;
 				}
-				else if (action_to_be_loaded.id == 78)  //nick should die
+				else if (action_to_be_loaded.id == 78 && (!my_vector_of_players[i]->is_inmune()))  //nick should die
 				{
 					should_nick_die = true;
 					avoid_character_scene_obs = true;
@@ -238,7 +238,7 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
 
-				if (action_to_be_loaded.id == 84) //tom should die
+				if (action_to_be_loaded.id == 84 && (!my_vector_of_players[i]->is_inmune())) //tom should die
 				{
 					should_tom_die = true;
 					avoid_character_scene_obs = true;
@@ -246,7 +246,7 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 					avoid_character_scene_obs = false;
 					should_tom_die = false;
 				}
-				else if (action_to_be_loaded.id == 78)  //nick should die
+				else if (action_to_be_loaded.id == 78 && (!my_vector_of_players[i]->is_inmune()))  //nick should die
 				{
 					should_nick_die = true;
 					avoid_character_scene_obs = true;
@@ -281,7 +281,10 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 		if (should_be_hit = curr_map->cell_has_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
 			vector<Player*> players = curr_map->get_cell_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
 			for (vector<Player*>::iterator player = players.begin(); player != players.end(); ++player)
-				(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+			{
+				if(!(*player)->is_inmune())
+					(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+			}
 		}
 	}
 	else if (proy->is_snowball())

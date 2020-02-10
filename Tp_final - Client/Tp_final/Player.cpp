@@ -60,6 +60,16 @@ bool Player::has_lives() {
 	return !run_out_of_lives;
 }
 
+bool Player::is_inmune() {
+
+	return being_inmuned;
+}
+
+void Player::set_the_player_inmunity(bool is_inmuned) {
+
+	being_inmuned = is_inmuned;
+}
+
 
 void add_observer_to_fsm(Observer* observer) {
 

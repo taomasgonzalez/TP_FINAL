@@ -21,8 +21,9 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 
 	set_states();
 	set_processes();
-	create_all_timers();
 	actual_state = iddle_state;
+	create_all_timers();
+
 	this->defrost_queue = al_create_event_queue();
 
 	al_register_event_source(this->defrost_queue, al_get_timer_event_source(this->freezing_timer));
@@ -31,7 +32,7 @@ EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 
 void EnemyActionsFSM::run_fsm(EventPackage * ev_pack) {
 
-	update_from_allegro_timers();
+	update_from_allegro_timers_for_enemy();
 
 	FSM::run_fsm(ev_pack);
 }
@@ -42,7 +43,7 @@ EnemyActionsFSM::~EnemyActionsFSM()
 	delete frozen_state;
 }
 
-void EnemyActionsFSM::update_from_allegro_timers() {
+void EnemyActionsFSM::update_from_allegro_timers_for_enemy() {
 
 	//move toda la info de los timers aca, sacalas del observer
 

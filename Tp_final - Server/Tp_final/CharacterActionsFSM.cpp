@@ -142,6 +142,7 @@ void CharacterActionsFSM::set_states() {
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
 	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char });
 
+
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
 	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
 	

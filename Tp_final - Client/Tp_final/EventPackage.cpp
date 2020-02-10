@@ -782,3 +782,19 @@ FINISHED_GRAPH_STEP_EventPackage::~FINISHED_GRAPH_STEP_EventPackage() {
 
 }
 
+
+REVIVE_EventPackage::REVIVE_EventPackage() : EventPackage(Event_type::REVIVED, 0, true) {
+
+}
+REVIVE_EventPackage::~REVIVE_EventPackage() {
+
+}
+
+STOP_INMUNITY_EventPackage::STOP_INMUNITY_EventPackage() : EventPackage(Event_type::STOP_INMUNITY, 0, true) {
+
+}
+STOP_INMUNITY_EventPackage::~STOP_INMUNITY_EventPackage() {
+
+}
+
+
