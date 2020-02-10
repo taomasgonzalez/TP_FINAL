@@ -112,6 +112,9 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 
 	}
 
+	set_action_4_obs(*next_enemy_action);
+
+
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;
 		std::cout << "Se prendio el bloqueo de EAs desde move in oppos dir" << std::endl;
@@ -169,6 +172,9 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 	next_enemy_action->final_pos_x = pos_x;
 	next_enemy_action->final_pos_y = pos_y - 2;
 	next_enemy_action->my_direction = Direction_type::Jump_Straight;
+
+	set_action_4_obs(*next_enemy_action);
+
 
 	if (next_enemy_action->valid = can_make_movement()) {
 		blocked_enemy_movement = true;

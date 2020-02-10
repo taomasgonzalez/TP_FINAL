@@ -743,7 +743,7 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 	}
 	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) { //Jump_Straight
 		my_direction = Direction_type::Jump_Straight;
-		*out_of_range = (the_one_that_moves->pos_x - extern_destination->fil) != 2;
+		*out_of_range = (the_one_that_moves->pos_y - extern_destination->fil) > 2;
 	}
 	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Jump_Left
 		my_direction = Direction_type::Jump_Left;
@@ -843,7 +843,6 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 		switch (action_to_be_checked)
 		{
 		case Action_type::Move:
-			bool out_of_range;
 			my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
 
 			if (out_of_range)
@@ -911,8 +910,7 @@ bool Scene::check_if_has_to_fall(Character* charac, bool map_thing_check) {
 
 	if (map_thing_check)//Called from CharacterActionFSM
 	{
-		if (charac->pos_y < 10 &&
-			maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+		if (maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 			has_to_fall = true;
 		}
 
@@ -923,8 +921,7 @@ bool Scene::check_if_has_to_fall(Character* charac, bool map_thing_check) {
 		if (!charac->is_falling())
 			if (charac->has_to_fall()) 
 			{
-				if (charac->pos_y < 10 &&
-					maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+				if (maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 					has_to_fall = true;
 				}
 				else

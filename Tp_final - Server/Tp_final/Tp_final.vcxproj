@@ -23,7 +23,7 @@
     <ProjectGuid>{BBC52453-4074-4C21-B221-1BBAF440FDE5}</ProjectGuid>
     <RootNamespace>Tpfinal</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
-    <ProjectName>Tp_final_Client</ProjectName>
+    <ProjectName>Tp_final_Server</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -147,12 +147,11 @@
   <ItemGroup>
     <ClCompile Include="Allegroclass.cpp" />
     <ClCompile Include="Character.cpp" />
-    <ClCompile Include="FSM_Class.cpp" />
+    <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="GraficObjectCharacter.cpp" />
     <ClCompile Include="ImageContainer.cpp" />
     <ClCompile Include="LogicFSMGraphicEventsObserver.cpp" />
     <ClCompile Include="MapThingEventGenerator.cpp" />
-    <ClCompile Include="CharacterSceneObserver.cpp" />
     <ClCompile Include="Communication.cpp" />
     <ClCompile Include="Crazy.cpp" />
     <ClCompile Include="DijkstraMachine.cpp" />
@@ -165,6 +164,7 @@
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="EventPackageFactory.cpp" />
     <ClCompile Include="Fireball.cpp" />
+    <ClCompile Include="FSM_Class.cpp" />
     <ClCompile Include="GraficInterface.cpp" />
     <ClCompile Include="GraficObject.cpp" />
     <ClCompile Include="GraficObjectEnemy.cpp" />
@@ -230,7 +230,6 @@
     <ClInclude Include="EventGenerator.h" />
     <ClInclude Include="EventHandler.h" />
     <ClInclude Include="EventPackageFactory.h" />
-    <ClInclude Include="CommunicationEventsObserver.h" />
     <ClInclude Include="Fireball.h" />
     <ClInclude Include="FSMFactory.h" />
     <ClInclude Include="FSM_Class.h" />
@@ -281,7 +280,6 @@
     <ClInclude Include="Userdata.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram3.cd" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

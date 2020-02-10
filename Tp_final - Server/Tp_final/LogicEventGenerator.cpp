@@ -42,7 +42,7 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	//Set to random number, is not started until a blocking is needed and a new timer´s speed is set
 	blocking_movements_events_timer = al_create_timer(1 / 30.0);
 	//block attacks for 200 ms so they do not overload
-	blocking_attacks_events_timer = al_create_timer(0.1);
+	blocking_attacks_events_timer = al_create_timer(0.2);
 
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_movements_events_timer));
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_attacks_events_timer));

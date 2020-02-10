@@ -123,11 +123,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_INBALL_MOVING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
-	else
-	{
-		dir = get_character_graph_direction(enemy->get_sense());
-		drawer->startDraw(enemy_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-	}
+
 
 }
 

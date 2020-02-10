@@ -177,9 +177,12 @@ void LogicClientFSM::reset_game() {
 
 	saved_EventPackages.clear();
 	actual_state = Playing_state;
+
 	//send RESET
 	if (get_fsm_ev_pack()->is_this_a_local_action())
 		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+	scenario->restart_enemies();
 
 }
 
