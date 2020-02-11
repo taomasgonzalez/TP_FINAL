@@ -2,6 +2,11 @@
 #include "Character.h"
 #include "MapThingFSM.h"
 
+#define HITS_RESISTANCE 3
+
+void disappear_char_r(void* data);
+void do_nothing_char_r(void* data);
+
 
 class CharacterActionsFSM : public MapThingFSM
 {
@@ -21,6 +26,9 @@ public:
 		bool respawn_graph = false;
 		bool stop_inmunity_graph = false;
 		bool disappear_graph = false;
+		bool bounce_graph = false;
+		bool charging_snowball_graph = false;
+
 		bool keep_moving = false;
 		bool next_move_pending = false;
 
@@ -58,6 +66,9 @@ public:
 	void start_falling();
 
 	void disappear_char();
+	void bounce_and_increment_counter();
+	void charging_snowball();
+	void check_rolling_movement();
 
 	bool is_moving();
 	bool is_walking();
@@ -86,6 +97,8 @@ protected:
 	std::vector<edge_t>* attacking_state = NULL;
 	std::vector<edge_t>* falling_state = NULL;
 	std::vector<edge_t>* dead_state = NULL;
+	std::vector<edge_t>* snowballed_state = NULL;
+
 
 	void set_processes();
 	void create_all_timers();
@@ -121,6 +134,9 @@ private:
 
 	//flags
 	bool attacked = false;
+
+	unsigned int amount_of_walls_hit = 0;
+
 
 };
 

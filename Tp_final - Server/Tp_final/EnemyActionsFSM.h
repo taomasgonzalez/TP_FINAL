@@ -63,7 +63,6 @@ private:
 
 	ALLEGRO_EVENT_QUEUE* defrost_queue = 0;	//will get events from the timers of the enemies
 
-	unsigned int amount_of_walls_hit = 0;
 	void handle_hits(void);
 
 	Enemy * enemy = NULL;

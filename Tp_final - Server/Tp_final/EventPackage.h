@@ -104,6 +104,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	BOUNCE,
 	ROLLING,
 	CHARGING,
+	SNOWBALL_BREAKDOWN,
 	//RESET(DEBUGGING)
 	RESET,
 	FINISHED_GRAPH_STEP
@@ -604,4 +605,10 @@ class STOP_INMUNITY_EventPackage : public EventPackage {
 public:
 	STOP_INMUNITY_EventPackage();
 	~STOP_INMUNITY_EventPackage();
+};
+
+class SNOWBALL_BREAKDOWN_EventPackage : public EventPackage {
+public:
+	SNOWBALL_BREAKDOWN_EventPackage();
+	~SNOWBALL_BREAKDOWN_EventPackage();
 };

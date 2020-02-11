@@ -86,23 +86,16 @@ void EnemyActionsFSMDRAWObserver::update() {
 		drawer->disactiveObj(enemy->id);
 	}
 
-	//enemy_got_hit related
-	/*
-	else if (fsm->enemyObs_answers.should_unfreeze) {
-		enemy->amount_of_hits_taken--;
-		if (enemy->amount_of_hits_taken == 0) {
-			dir = get_character_graph_direction(enemy->get_sense());
-			drawer->startDraw(enemy_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-			ev_gen->append_new_event(new UNFREEZE_EventPackage(), 0);
-		}
+	//to do
+	else if (fsm->obs_info.bounce_graph) {
+		drawer->disactiveObj(enemy->id);
 	}
-	else if (fsm->enemyObs_answers.should_start_defrost) {
-		fsm->enemyObs_answers.should_start_defrost = false;
-		enemy->amount_of_hits_taken = 3;
-		dir = get_character_graph_direction(enemy->get_sense());
-		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
-		ev_gen->append_new_event(new UNFROZE_EventPackage(), 0);
-	}*/
+	else if (fsm->obs_info.charging_snowball_graph) {
+		drawer->disactiveObj(enemy->id);
+	}
+
+
+	//
 	else if (fsm->enemyObs_info.start_freezing_state1_graph){
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_TRAPPED_1, enemy->id, dir, enemy->pos_x, enemy->pos_y);

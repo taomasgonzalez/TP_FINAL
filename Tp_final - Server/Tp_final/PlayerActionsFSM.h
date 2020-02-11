@@ -36,6 +36,7 @@ protected:
 private:
 	std::vector<edge_t>* pushing_state = NULL;
 
+
 	ALLEGRO_TIMER * respawn_timer = NULL;
 	ALLEGRO_TIMER * inmune_timer = NULL;
 

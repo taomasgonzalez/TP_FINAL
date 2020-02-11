@@ -14,6 +14,7 @@ void snowball_move_r(void* data);
 void enemy_die_r(void* data);
 void start_got_hit_r(void*data);
 void fall_and_start_got_hit_r(void* data);
+void renew_hits_r(void* data);
 
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
@@ -75,31 +76,33 @@ void EnemyActionsFSM::set_states()
 	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(falling_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r });
 
-	expand_state(iddle_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
-	expand_state(walking_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
-	expand_state(jumping_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
-	expand_state(jumping_forward_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r });
-	expand_state(attacking_state, { Event_type::GOT_SMASHED, dead_state, start_got_hit_r });
-	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, fall_and_start_got_hit_r }); //PRODUCE UNA ANIMACI�N DISTINTA A LA de morir, hay dos formas de morir
+
+	//Eventually we can do two different enemy_die_r, one for GOT_SMAHED and other for SNOWBALL_BREAKDOWN
+	expand_state(iddle_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r });
+	expand_state(walking_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r });
+	expand_state(jumping_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r });
+	expand_state(jumping_forward_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r });
+	expand_state(attacking_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r });
+	expand_state(falling_state, { Event_type::GOT_SMASHED, dead_state, enemy_die_r }); //PRODUCE UNA ANIMACI�N DISTINTA A LA de morir, hay dos formas de morir
 	//una siendo aplastado por una bola que sal�s volando y otra desaparecer con la bola, que no es una animaci�n de muerte, s�lo desapareces vos con la bola
 
-
+	expand_state(snowballed_state, { Event_type::SNOWBALL_BREAKDOWN, dead_state, enemy_die_r });
 
 
 	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, check_got_hit_and_get_hit_r});
 	freezing_state->push_back({ Event_type::FROZE, frozen_state, froze_r });
 	freezing_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
 	freezing_state->push_back({ Event_type::UNFROZE, iddle_state, unfreeze_r });
-	freezing_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_enemy_r });
+	freezing_state->push_back({ Event_type::END_OF_TABLE, freezing_state, do_nothing_enemy_r });
 
+	//diferencia entre los dos primeros????
 	frozen_state->push_back({ Event_type::UNFROZE, freezing_state, unfroze_r });
 	frozen_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
-	frozen_state->push_back({ Event_type::GOT_HIT, frozen_state, start_moving_snowball_r });
-	frozen_state->push_back({ Event_type::BOUNCE, frozen_state, start_moving_snowball_r });
-	frozen_state->push_back({ Event_type::CHARGING, frozen_state, snowball_move_r }); 
+	frozen_state->push_back({ Event_type::GOT_HIT, frozen_state, renew_hits_r });
+	frozen_state->push_back({ Event_type::CHARGING, snowballed_state, start_moving_snowball_r });
 	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //lo cambie porque se mueve a velocidad m�s lenta que un MOVE, me pareci� m�s claro
-	frozen_state->push_back({ Event_type::DIED, dead_state, enemy_die_r });
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
+
 
 	actual_state = iddle_state;
 }
@@ -239,6 +242,12 @@ void fall_and_start_got_hit_r(void*data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->start_got_hit();
 }
+
+void renew_hits_r(void*data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->got_hit();
+}
+
 
 void EnemyActionsFSM::handle_hits(void)
 {

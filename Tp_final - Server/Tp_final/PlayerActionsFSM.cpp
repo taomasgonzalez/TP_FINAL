@@ -3,7 +3,7 @@
 void player_revive(void* data);
 void start_pushing_r(void* data);
 
-void check_push_and_push(void* data);
+void check_push_and_push_r(void* data);
 void reset_push(void* data);
 void iddle_graph_player(void* data);
 void stop_inmunity_graph_player(void *data);
@@ -14,17 +14,10 @@ void player_die(void*data);
 void do_nothing_player_r(void* data);
 void stop_inmunity_r(void* data);
 
-void do_nothing_player_r(void* data) {
-
-}
+void reset_player_after_rolling_r(void* data);
 
 
-void stop_inmunity_r(void* data) {
-	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
 
-	stop_inmunity_graph_player(data);
-	fsm->stop_inmunity();
-}
 
 
 PlayerActionsFSM::PlayerActionsFSM(Player* player): CharacterActionsFSM(player)
@@ -110,6 +103,7 @@ void PlayerActionsFSM::set_states() {
 
 	pushing_state = new std::vector<edge_t>();
 
+
 	expand_state(iddle_state, { Event_type::PUSHED, pushing_state, start_pushing_r });
 	expand_state(iddle_state, { Event_type::DIED, dead_state, player_die });
 
@@ -119,6 +113,14 @@ void PlayerActionsFSM::set_states() {
 	expand_state(falling_state, { Event_type::DIED, dead_state, player_die });
 	expand_state(attacking_state, { Event_type::DIED, dead_state, player_die });
 
+	expand_state(walking_state, { Event_type::GOT_SMASHED, snowballed_state, disappear_char_r });
+	expand_state(jumping_state, { Event_type::GOT_SMASHED, snowballed_state, disappear_char_r });
+	expand_state(jumping_forward_state, { Event_type::GOT_SMASHED, snowballed_state, disappear_char_r });
+	expand_state(falling_state, { Event_type::GOT_SMASHED, snowballed_state, disappear_char_r });
+	expand_state(attacking_state, { Event_type::GOT_SMASHED, snowballed_state, disappear_char_r });
+
+	expand_state(snowballed_state, { Event_type::SNOWBALL_BREAKDOWN, iddle_state, reset_player_after_rolling_r });
+
 	expand_state(walking_state, { Event_type::STOP_INMUNITY, walking_state, stop_inmunity_r });
 	expand_state(jumping_state, { Event_type::STOP_INMUNITY, jumping_state, stop_inmunity_r });
 	expand_state(jumping_forward_state, { Event_type::STOP_INMUNITY, jumping_forward_state, stop_inmunity_r });
@@ -127,10 +129,12 @@ void PlayerActionsFSM::set_states() {
 	expand_state(iddle_state, { Event_type::STOP_INMUNITY, iddle_state, stop_inmunity_r });
 
 
-	pushing_state->push_back({ Event_type::MOVE, pushing_state, check_push_and_push });
-	pushing_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_push });
-	pushing_state->push_back({ Event_type::DIED, dead_state, get_routine(iddle_state,Event_type::DIED) });
+	pushing_state->push_back({ Event_type::PUSHED, pushing_state, check_push_and_push });
+	pushing_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
+	pushing_state->push_back({ Event_type::DIED, dead_state, player_die });
 	pushing_state->push_back({ Event_type::STOP_INMUNITY, pushing_state, stop_inmunity_r });
+	pushing_state->push_back({ Event_type::FINISHED_GRAPH_STEP, pushing_state, check_push_and_push_r });
+	pushing_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_push });
 	pushing_state->push_back({ Event_type::END_OF_TABLE, pushing_state, do_nothing_player_r });
 
 
@@ -199,6 +203,9 @@ void start_pushing_r(void* data) {
 
 void check_push_and_push(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+
+	//check if can push, theres not a wall in front of the ball
+	//fsm->start_pushing();
 	
 }
 void reset_push(void* data) {
@@ -226,6 +233,29 @@ void stop_inmunity_graph_player(void *data) {
 	fsm->obs_info.stop_inmunity_graph = false;
 }
 
+void do_nothing_player_r(void* data) {
+
+}
+
+void stop_inmunity_r(void* data) {
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+
+	stop_inmunity_graph_player(data);
+	fsm->stop_inmunity();
+}
+
+
+void reset_player_after_rolling_r(void* data) {
+
+	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
+	fsm->start_iddle();
+
+}
+
+void check_stop_push_and_stop_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->process_logical_movement();
+}
 
 
 

@@ -2,7 +2,6 @@
 #include "Player.h"
 #include "Enemy.h"
 
-void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
@@ -31,6 +30,7 @@ void reset_attack(void* data);
 
 void iddle_graph(void* data);
 void disappear_graph_r(void* data);
+void bounce_and_increment_counter_r(void * data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
@@ -94,6 +94,7 @@ void CharacterActionsFSM::set_states() {
 	attacking_state = new std::vector<edge_t>();
 
 	dead_state = new std::vector<edge_t>();
+	snowballed_state = new std::vector<edge_t>();
 
 	//Tengo que validar lo chequeos logicos de cada uno de estos casos para cada estado
 	//recién ahí el juego va a andar bien y fluido
@@ -102,49 +103,54 @@ void CharacterActionsFSM::set_states() {
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
-	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
+	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char_r });
 
 	//CAMBIAR::Cada movimiento distinto al de su propio estado debe ir al estado asociado a dicho movimiento
 	//y appendearse al saved_events(append_action_r) asi se levanta cuando termine dicho movimiento
 	walking_state->push_back({ Event_type::JUMPED, jumping_state, append_action_moving_state_r });
 	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_moving_state_r });
 	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
-	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
+	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char_r });
 
 	jumping_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	jumping_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
-	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
-	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
+	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char_r });
 
-	jumping_forward_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	jumping_forward_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	jumping_forward_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_forward_state, check_jumping_forward_and_jump });
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
-	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
+	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char_r });
 
 	falling_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	falling_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
 	falling_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
-	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
-	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char });
+	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char_r });
 
 	attacking_state->push_back({ Event_type::ATTACK, attacking_state, check_attack_and_attack });
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
-	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char });
+	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char_r });
 
+	snowballed_state->push_back({ Event_type::FELL, snowballed_state, do_nothing_char_r });
+	snowballed_state->push_back({ Event_type::BOUNCE, snowballed_state, bounce_and_increment_counter_r });
+	snowballed_state->push_back({ Event_type::CHARGING, snowballed_state, charging_snowball_r });
+	snowballed_state->push_back({ Event_type::FINISHED_GRAPH_STEP, snowballed_state, check_rolling_movement_r });
+	snowballed_state->push_back({ Event_type::END_OF_TABLE, snowballed_state, do_nothing_char_r });
 
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
-	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
+	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char_r });
 	
 }
 
@@ -156,6 +162,42 @@ void CharacterActionsFSM::disappear_char() {
 	notify_obs();
 	obs_info.disappear_graph = false;
 }
+
+//Como un rolling pero que rebote al lado que apunta y salga con aceleracion
+void CharacterActionsFSM::bounce_and_increment_counter() {
+
+	//Por ahora es un roll normal en la otra dirección
+	obs_info.bounce_graph = true;
+	notify_obs();
+	obs_info.bounce_graph = false;
+
+	amount_of_walls_hit++;
+
+}
+
+
+void CharacterActionsFSM::charging_snowball() {
+
+	//Hecho, ver función guido
+	obs_info.charging_snowball_graph = true;
+	notify_obs();
+	obs_info.charging_snowball_graph = false;
+
+}
+
+void CharacterActionsFSM::check_rolling_movement() {
+
+	//chek roll and brek if should break
+	//if(amount_of_walls_hit== HITS_RESISTANCE)
+	//append SNOWBALL_BREAKDOWN
+
+	//should bounce
+		//append BOUNCE
+
+	//should keep charging
+		//append CHARGING
+}
+
 
 bool CharacterActionsFSM::is_moving() {
 	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
@@ -473,7 +515,7 @@ void CharacterActionsFSM::append_action() {
 
 }
 
-void do_nothing_char(void * data) {
+void do_nothing_char_r(void * data) {
 
 }
 
@@ -493,6 +535,14 @@ void append_action_moving_state_r(void* data) {
 	fsm->moving_between_states = true;
 	fsm->append_action();
 }
+
+void disappear_char_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+
+	//will be kept "invisible", the enemies will be the ball
+	fsm->disappear_char();
+}
+
 
 
 void CharacterActionsFSM::start_walking() {
@@ -545,22 +595,8 @@ void CharacterActionsFSM::start_iddle() {
 
 	if (character->get_map_thing_type() == Thing_Type::ENEMY)
 	{
-		//obs_questions.should_keep_falling = true;
-		//notify_obs();						//PlayerActionsFSMDRAWObserver
-		//obs_questions.should_keep_falling = false;
-
-		//if (obs_answers.should_keep_falling)
-		//{
-		//	std::cout << "El enemigo tiene que caer, no saco el bloqueo asi no se generan EA" << std::endl;
-		//	character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
-
-		//}
-		//else
-		//{
 			((Enemy *)character)->set_blocked_enemy_movements(false);
 			std::cout << "Se apago el bloqueo de EAs porque empezo el graph start_iddle" << std::endl;
-		//}
-
 	}
 
 	al_start_timer(falling_timer);
@@ -595,6 +631,7 @@ void check_jumping_forward_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->process_logical_movement();
 }
+
 void reset_jumping_forward(void* data) {
 	iddle_graph(data);
 }
@@ -640,4 +677,19 @@ void iddle_graph(void * data)
 void disappear_graph_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->disappear_char();
+}
+
+void bounce_and_increment_counter_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->bounce_and_increment_counter();
+}
+
+void charging_snowball_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->charging_snowball();
+}
+
+void check_rolling_movement_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->check_rolling_movement();
 }

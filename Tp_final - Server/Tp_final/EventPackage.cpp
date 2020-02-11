@@ -803,4 +803,10 @@ STOP_INMUNITY_EventPackage::~STOP_INMUNITY_EventPackage() {
 
 }
 
+SNOWBALL_BREAKDOWN_EventPackage::SNOWBALL_BREAKDOWN_EventPackage() : EventPackage(Event_type::SNOWBALL_BREAKDOWN, 0, true) {
+
+}
+SNOWBALL_BREAKDOWN_EventPackage::~SNOWBALL_BREAKDOWN_EventPackage() {
+
+}
 
