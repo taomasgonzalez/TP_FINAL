@@ -3,7 +3,6 @@
 void player_revive(void* data);
 void start_pushing_r(void* data);
 
-void start_pushing_r(void* data);
 void check_push_and_push_r(void* data);
 void reset_push(void* data);
 void iddle_graph_player(void* data);
@@ -189,10 +188,6 @@ void PlayerActionsFSM::kill_player() {
 
 }
 
-void start_pushing_r(void* data) {
-	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
-	fsm->start_pushing();
-}
 
 void check_push_and_push_r(void* data) {
 

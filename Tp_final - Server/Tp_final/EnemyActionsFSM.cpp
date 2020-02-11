@@ -290,7 +290,11 @@ void EnemyActionsFSM::start_got_hit() {
 }
 
 void EnemyActionsFSM::renew_frosting() {
+	std::cout << "Se resetea el timer, se vuelve a congelar por 40 segundos" << std::endl;
+	al_stop_timer(frozen_timer);
 	al_start_timer(frozen_timer);
+	al_stop_timer(freezing_timer);
+
 }
 
 void EnemyActionsFSM::handle_timer_unfreezing(ALLEGRO_EVENT all_ev)
@@ -298,7 +302,8 @@ void EnemyActionsFSM::handle_timer_unfreezing(ALLEGRO_EVENT all_ev)
 	if (all_ev.timer.source == frozen_timer)
 	{
 		timer_unfroze();
-		al_start_timer(freezing_timer);
+		al_stop_timer(freezing_timer);
+		al_start_timer(freezing_timer); //reset
 	}
 
 	else if (all_ev.timer.source == freezing_timer)
@@ -318,16 +323,19 @@ void EnemyActionsFSM::timer_unfreeze()
 		break;
 
 	case 1: 
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
 	case 2:
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
 	case 3:
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;

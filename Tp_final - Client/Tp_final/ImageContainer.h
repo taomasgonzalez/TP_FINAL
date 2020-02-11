@@ -30,6 +30,7 @@ public:
 		ALLEGRO_BITMAP ** fallImages = NULL;
 		ALLEGRO_BITMAP ** trap1Images = NULL;
 		ALLEGRO_BITMAP ** trap2Images = NULL;
+		ALLEGRO_BITMAP ** trap3Images = NULL;
 		ALLEGRO_BITMAP ** dieImages = NULL;
 
 		//ball images

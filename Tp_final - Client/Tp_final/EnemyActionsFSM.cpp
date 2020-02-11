@@ -15,7 +15,7 @@ void fall_and_start_got_hit_r(void* data);
 void renew_hits_r(void* data);
 void start_got_hit_r(void* data);
 
-EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
+EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy) : CharacterActionsFSM(enemy)
 {
 	this->enemy = enemy;
 
@@ -60,10 +60,10 @@ void EnemyActionsFSM::set_states()
 	freezing_state = new std::vector<edge_t>();
 	frozen_state = new std::vector<edge_t>();
 
-	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r }); 
+	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //CHEQUEAR CON GUIDO QUE NO SEAN CASOS !=
-	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); 
+	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r });
 	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(falling_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 
@@ -119,7 +119,7 @@ void EnemyActionsFSM::partially_unfroze()
 		break;
 	case 1:
 		enemyObs_info.start_freezing_state1_graph = true;
-   		notify_obs();
+		notify_obs();
 		enemyObs_info.start_freezing_state1_graph = false;
 		break;
 	case 2:
@@ -206,7 +206,7 @@ ALLEGRO_TIMER * EnemyActionsFSM::get_freezing_timer()
 }
 
 void EnemyActionsFSM::got_hit() {
-	
+
 	enemy->be_hit();
 
 	switch (enemy->amount_of_hits_taken)
@@ -253,13 +253,13 @@ void do_nothing_enemy_r(void* data) {
 
 }
 void got_hit_r(void* data) {
-	EnemyActionsFSM* fsm = (EnemyActionsFSM*) data;
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->got_hit();
 }
 
 
 
-void unfreeze_r(void* data){
+void unfreeze_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->unfreeze();
 }
@@ -290,7 +290,11 @@ void EnemyActionsFSM::start_got_hit() {
 }
 
 void EnemyActionsFSM::renew_frosting() {
+	std::cout << "Se resetea el timer, se vuelve a congelar por 40 segundos" << std::endl;
+	al_stop_timer(frozen_timer);
 	al_start_timer(frozen_timer);
+	al_stop_timer(freezing_timer);
+
 }
 
 void EnemyActionsFSM::handle_timer_unfreezing(ALLEGRO_EVENT all_ev)
@@ -298,7 +302,8 @@ void EnemyActionsFSM::handle_timer_unfreezing(ALLEGRO_EVENT all_ev)
 	if (all_ev.timer.source == frozen_timer)
 	{
 		timer_unfroze();
-		al_start_timer(freezing_timer);
+		al_stop_timer(freezing_timer);
+		al_start_timer(freezing_timer); //reset
 	}
 
 	else if (all_ev.timer.source == freezing_timer)
@@ -317,17 +322,20 @@ void EnemyActionsFSM::timer_unfreeze()
 		enemy->ev_handler->get_ev_gen()->append_new_event(new UNFREEZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
-	case 1: 
+	case 1:
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
 	case 2:
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
 	case 3:
+		al_stop_timer(freezing_timer); //reset
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
@@ -341,23 +349,23 @@ void EnemyActionsFSM::timer_unfreeze()
 
 
 
-void partially_unfroze_r(void* data){
+void partially_unfroze_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->partially_unfroze();
 }
-void froze_r(void* data){
+void froze_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->froze();
 }
-void unfroze_r(void* data){
+void unfroze_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->unfroze();
 }
-void start_charging_r(void* data){
+void start_charging_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->start_charging();
 }
-void snowball_move_r(void* data){
+void snowball_move_r(void* data) {
 
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
 	fsm->snowball_move();

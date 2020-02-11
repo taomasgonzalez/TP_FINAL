@@ -8,7 +8,8 @@ void check_walking_and_walk(void* data);
 void reset_walking(void* data);
 void append_action_r(void* data);
 void append_action_moving_state_r(void* data);
-
+void charging_snowball_r(void * data);
+void check_rolling_movement_r(void * data);
 
 
 
