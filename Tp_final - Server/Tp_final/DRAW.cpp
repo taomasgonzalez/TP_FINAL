@@ -164,7 +164,7 @@ void DRAW::load_scenario_bitmaps(void)
 
 void DRAW::load_score_font(void)
 {
-	score_font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 20 + DISPLAY_H / 20, 0);
+	score_font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 50 + DISPLAY_H / 50, 0);
 	if (!score_font)
 	{
 		cout << "ERROR: score font unable to load" << endl;
@@ -201,7 +201,7 @@ void DRAW::drawLevel()
 				al_draw_scaled_bitmap(floor_bottom, 0, 0, bottom_w, bottom_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 		}
 	}
-//	draw_game_score();
+	//draw_game_score();
 }
 
 void DRAW::draw_dynamic_background()
