@@ -100,7 +100,9 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//enemy events
 	FROZE,
 	UNFROZE,
+	UNFREEZE,
 	PARTIALLY_UNFROZE,
+	PARTIALLY_FROZE,
 	BOUNCE,
 	ROLLING,
 	CHARGING,
@@ -574,6 +576,13 @@ class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
 public:
 	PARTIALLY_UNFROZE_EventPackage();
 	~PARTIALLY_UNFROZE_EventPackage();
+
+};
+
+class PARTIALLY_FROZE_EventPackage : public EventPackage {
+public:
+	PARTIALLY_FROZE_EventPackage();
+	~PARTIALLY_FROZE_EventPackage();
 
 };
 

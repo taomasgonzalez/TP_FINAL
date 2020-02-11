@@ -57,6 +57,17 @@ bool Character::has_to_fall()
 	return static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->has_to_fall();
 }
 
+void Character::set_rolling(bool can_roll)
+{
+	this->snoballed = can_roll;
+}
+
+bool Character::can_the_enemy_roll()
+{
+	return snoballed;
+}
+
+
 void Character::dont_fall()
 {
 	static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->dont_fall();

@@ -761,6 +761,13 @@ PARTIALLY_UNFROZE_EventPackage::~PARTIALLY_UNFROZE_EventPackage() {
 
 }
 
+PARTIALLY_FROZE_EventPackage::PARTIALLY_FROZE_EventPackage() : EventPackage(Event_type::PARTIALLY_FROZE, 0, true) {
+
+}
+PARTIALLY_FROZE_EventPackage::~PARTIALLY_FROZE_EventPackage() {
+
+}
+
 CHARGING_EventPackage::CHARGING_EventPackage() : EventPackage(Event_type::CHARGING, 0, true) {
 
 }
@@ -772,6 +779,13 @@ UNFROZE_EventPackage::UNFROZE_EventPackage() :EventPackage(Event_type::UNFROZE, 
 
 }
 UNFROZE_EventPackage::~UNFROZE_EventPackage() {
+
+}
+
+UNFREEZE_EventPackage::UNFREEZE_EventPackage() :EventPackage(Event_type::UNFREEZE, 0, true) {
+
+}
+UNFREEZE_EventPackage::~UNFREEZE_EventPackage() {
 
 }
 

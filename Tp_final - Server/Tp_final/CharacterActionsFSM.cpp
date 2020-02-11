@@ -143,10 +143,10 @@ void CharacterActionsFSM::set_states() {
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
 	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char_r });
 
-	snowballed_state->push_back({ Event_type::FELL, snowballed_state, do_nothing_char_r });
-	snowballed_state->push_back({ Event_type::BOUNCE, snowballed_state, bounce_and_increment_counter_r });
-	snowballed_state->push_back({ Event_type::CHARGING, snowballed_state, charging_snowball_r });
-	snowballed_state->push_back({ Event_type::FINISHED_GRAPH_STEP, snowballed_state, check_rolling_movement_r });
+	snowballed_state->push_back({ Event_type::FELL, snowballed_state, do_nothing_char_r }); //NORMAL PERO BOLA
+	snowballed_state->push_back({ Event_type::BOUNCE, snowballed_state, bounce_and_increment_counter_r }); //FALTA
+	snowballed_state->push_back({ Event_type::CHARGING, snowballed_state, charging_snowball_r }); //FALTA
+	snowballed_state->push_back({ Event_type::FINISHED_GRAPH_STEP, snowballed_state, check_rolling_movement_r }); //FALTA, CHEQUEO LOGICO
 	snowballed_state->push_back({ Event_type::END_OF_TABLE, snowballed_state, do_nothing_char_r });
 
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });

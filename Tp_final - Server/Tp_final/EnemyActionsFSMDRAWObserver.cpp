@@ -86,7 +86,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 		drawer->disactiveObj(enemy->id);
 	}
 
-	//to do
+	//to do ,PONER TAMBIEN EN PLAYERACTIONSDRAWOBS (en realidad no, que lo maneje todo el enemigo)
 	else if (fsm->obs_info.bounce_graph) {
 		drawer->disactiveObj(enemy->id);
 	}
@@ -108,7 +108,7 @@ void EnemyActionsFSMDRAWObserver::update() {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_TRAPPED_3, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
-	else if (fsm->enemyObs_info.start_fozen_graph) {
+	else if (fsm->enemyObs_info.start_frozen_graph) {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_INBALL_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}

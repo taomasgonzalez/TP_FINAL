@@ -3,6 +3,8 @@
 #include "Allegroclass.h"
 #include "Enemy.h"
 
+#define FREEZING_TIME (10.0)
+#define FROZEN_TIME (30.0)
 
 class EnemyActionsFSM : public CharacterActionsFSM
 {
@@ -19,7 +21,7 @@ public:
 		bool start_freezing_state1_graph = false;
 		bool start_freezing_state2_graph = false;
 		bool start_freezing_state3_graph = false;
-		bool start_fozen_graph = false;
+		bool start_frozen_graph = false;
 		bool start_ballCharging_graph = false;
 		bool start_ballPushing_graph = false;
 		bool start_ballexplotion_graph = false;
@@ -34,6 +36,8 @@ public:
 	void start_got_hit();
 	void partially_unfroze();
 	void unfroze();
+	void timer_unfroze();
+
 	void unfreeze();
 	void froze();
 	void start_moving_snowball();
@@ -63,8 +67,9 @@ private:
 
 	ALLEGRO_EVENT_QUEUE* defrost_queue = 0;	//will get events from the timers of the enemies
 
-	void handle_hits(void);
+	void handle_hits(ALLEGRO_EVENT all_ev);
 
 	Enemy * enemy = NULL;
+	bool can_roll = false;
 };
 
