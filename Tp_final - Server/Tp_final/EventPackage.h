@@ -592,6 +592,12 @@ public:
 	~UNFROZE_EventPackage();
 };
 
+class UNFREEZE_EventPackage : public EventPackage {
+public:
+	UNFREEZE_EventPackage();
+	~UNFREEZE_EventPackage();
+};
+
 class FROZE_EventPackage : public EventPackage {
 public:
 	FROZE_EventPackage();

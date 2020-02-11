@@ -22,16 +22,7 @@ void EnemySceneObserver::update() {
 	Action_info act_info = enemy->get_action_4_obs();
 	if(enemy->enemy_questions_4_observer.can_make_movement)
 		enemy->enemy_answers_4_observable.can_make_movement = scene->is_the_action_possible(&act_info, true);
-	if(fsm->enemyObs_info.start_freezing_state1_graph)
-		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
-	if (fsm->enemyObs_info.start_freezing_state2_graph)
-		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
-	if (fsm->enemyObs_info.start_freezing_state3_graph)
-		ev_gen->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), 0);
-	if (fsm->enemyObs_info.start_fozen_graph)
-		ev_gen->append_new_event(new FROZE_EventPackage(), 0);
-	if (fsm->enemyObs_info.start_ballCharging_graph)
-		ev_gen->append_new_event(new CHARGING_EventPackage(), 0);
+
 }
 
 void EnemySceneObserver::perform_movement(Action_info action) {

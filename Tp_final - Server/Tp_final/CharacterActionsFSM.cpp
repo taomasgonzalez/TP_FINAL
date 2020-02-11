@@ -57,6 +57,7 @@ CharacterActionsFSM::~CharacterActionsFSM()
 	delete attacking_state;
 	delete falling_state;
 	delete dead_state;
+	delete snowballed_state;
 }
 
 

@@ -41,7 +41,7 @@ void Enemy::unfreeze()
 
 void Enemy::be_hit()
 {
-	if (amount_of_hits_taken >= 0 && amount_of_hits_taken <= 3)
+	if (amount_of_hits_taken >= 0 && amount_of_hits_taken < 3)
 		amount_of_hits_taken++;
 }
 
@@ -208,15 +208,6 @@ void Enemy::set_blocked_enemy_movements(bool blocked_value) {
 	blocked_enemy_movement = blocked_value;
 }
 
-void Enemy::set_rolling(bool can_roll)
-{
-	this->can_roll = can_roll;
-}
-
-bool Enemy::can_the_enemy_roll()
-{
-	return can_roll;
-}
 
 
 /******************************************

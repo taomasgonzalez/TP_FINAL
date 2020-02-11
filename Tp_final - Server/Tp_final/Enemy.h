@@ -43,7 +43,6 @@ public:
 	virtual bool is_iddle();
 
 	void set_blocked_enemy_movements(bool blocked_value);
-
 protected:
 	//frozen_timer;
 	//falta implementar
@@ -72,5 +71,7 @@ protected:
 	ALLEGRO_TIMER * staying_still_timer = NULL;
 
 	uint16_t EA_package_ID= START_POINT_PACKAGE_ID_FOR_EA;
+
+private:
 };
 

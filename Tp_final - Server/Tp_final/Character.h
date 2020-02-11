@@ -24,9 +24,12 @@ public:
 
 	void append_action_to_character(Action_info action);
 	EventHandler * ev_handler = NULL;
+	void set_rolling(bool can_roll);
+	bool can_the_enemy_roll();
 
 protected:
 	bool dead = false;
+	bool snoballed = false;
 
 
 };

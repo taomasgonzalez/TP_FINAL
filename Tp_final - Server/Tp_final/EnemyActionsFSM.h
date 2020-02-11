@@ -37,10 +37,12 @@ public:
 	void partially_unfroze();
 	void unfroze();
 	void timer_unfroze();
+	void timer_unfreeze();
+	void renew_frosting();
 
 	void unfreeze();
 	void froze();
-	void start_moving_snowball();
+	void start_charging();
 
 protected:
 	void start_freezing_timer();
@@ -57,6 +59,7 @@ protected:
 	void set_processes();
 	void create_all_timers();
 
+
 private:
 
 	process_t rolling_left_process;
@@ -67,9 +70,9 @@ private:
 
 	ALLEGRO_EVENT_QUEUE* defrost_queue = 0;	//will get events from the timers of the enemies
 
-	void handle_hits(ALLEGRO_EVENT all_ev);
+	void handle_timer_unfreezing(ALLEGRO_EVENT all_ev);
 
 	Enemy * enemy = NULL;
-	bool can_roll = false;
+
 };
 

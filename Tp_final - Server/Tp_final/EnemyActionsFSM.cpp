@@ -11,7 +11,6 @@ void unfroze_r(void* data);
 void start_charging_r(void* data);
 void snowball_move_r(void* data);
 void enemy_die_r(void* data);
-void start_got_hit_r(void*data);
 void fall_and_start_got_hit_r(void* data);
 void renew_hits_r(void* data);
 
@@ -50,13 +49,9 @@ void EnemyActionsFSM::update_from_allegro_timers_for_enemy() {
 	while (al_get_next_event(defrost_queue, &allegroEvent))
 	{
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER)
-			handle_hits(allegroEvent);
+			handle_timer_unfreezing(allegroEvent);
 	}
 
-	//una vez que terminas lo appendeas
-	//ev_gen->append_new_event(event, (int)EventGenerator::LogicQueues::soft);
-
-	//entonces entr�s al run_fsm original con el envento cargado ya que lo vas agarrar recien en el siguiente ciclo porque ya paso el fetch_event
 }
 
 void EnemyActionsFSM::set_states()
@@ -64,12 +59,12 @@ void EnemyActionsFSM::set_states()
 	freezing_state = new std::vector<edge_t>();
 	frozen_state = new std::vector<edge_t>();
 
-	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
-	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
-	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
-	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
-	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
-	expand_state(falling_state, { Event_type::GOT_HIT, freezing_state, got_hit_r });
+	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r }); //BLOQUEAR MOVIMIENOTS DE EA
+	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
+	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO,  ES TE HICISTE BOLA Y SE TE BLOQUEARON LOS MOV, CREO QUE NO VA APARTE
+	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO
+	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO
+	expand_state(falling_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 
 
 	//Eventually we can do two different enemy_die_r, one for GOT_SMAHED and other for SNOWBALL_BREAKDOWN
@@ -92,7 +87,7 @@ void EnemyActionsFSM::set_states()
 
 	frozen_state->push_back({ Event_type::UNFROZE, freezing_state, unfroze_r });
 	frozen_state->push_back({ Event_type::GOT_HIT, frozen_state, renew_hits_r });
-	frozen_state->push_back({ Event_type::CHARGING, snowballed_state, start_charging_r });
+	frozen_state->push_back({ Event_type::CHARGING, snowballed_state, start_charging_r }); //FALTA
 	frozen_state->push_back({ Event_type::ROLLING, frozen_state, snowball_move_r }); //FALTA
 	frozen_state->push_back({ Event_type::END_OF_TABLE, frozen_state, do_nothing_enemy_r });
 
@@ -130,6 +125,12 @@ void EnemyActionsFSM::partially_unfroze()
 		enemyObs_info.start_freezing_state2_graph = true;
 		notify_obs();
 		enemyObs_info.start_freezing_state2_graph = false;
+		break;
+
+	case 3:
+		enemyObs_info.start_freezing_state3_graph = true;
+		notify_obs();
+		enemyObs_info.start_freezing_state3_graph = false;
 		break;
 
 	default:
@@ -172,12 +173,12 @@ void EnemyActionsFSM::timer_unfroze()
 
 void EnemyActionsFSM::unfroze()
 {
-	enemy->amount_of_hits_taken = 2;
+	enemy->amount_of_hits_taken = 3;
 	enemy->set_rolling(false);
 
-	enemyObs_info.start_freezing_state2_graph = true;
+	enemyObs_info.start_freezing_state3_graph = true;
 	notify_obs();
-	enemyObs_info.start_freezing_state2_graph = false;
+	enemyObs_info.start_freezing_state3_graph = false;
 }
 
 
@@ -214,19 +215,17 @@ void EnemyActionsFSM::got_hit() {
 		enemy->ev_handler->get_ev_gen()->append_new_event(new FROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
 
+	case 4:
+		enemy->ev_handler->get_ev_gen()->append_new_event(new FROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+		break;
+
 	default:
 		std::cout << "EnemyActionsFSM::got_hit() Awkward amount of hits, CHECK" << std::endl;
 		break;
 	}
 
 }
-void EnemyActionsFSM::start_got_hit() {
 
-	enemy->be_hit();
-	enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_FROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
-
-
-}
 
 void EnemyActionsFSM::start_freezing_timer()
 {
@@ -246,10 +245,7 @@ void got_hit_r(void* data) {
 	fsm->got_hit();
 }
 
-void start_got_hit_r(void*data) {
-	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
-	fsm->start_got_hit();
-}
+
 
 void unfreeze_r(void* data){
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
@@ -271,7 +267,7 @@ void EnemyActionsFSM::renew_frosting() {
 	al_start_timer(frozen_timer);
 }
 
-void EnemyActionsFSM::handle_hits(ALLEGRO_EVENT all_ev)
+void EnemyActionsFSM::handle_timer_unfreezing(ALLEGRO_EVENT all_ev)
 {
 	if (all_ev.timer.source == frozen_timer)
 	{
@@ -301,6 +297,11 @@ void EnemyActionsFSM::timer_unfreeze()
 		break;
 
 	case 2:
+		al_start_timer(freezing_timer);
+		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+		break;
+
+	case 3:
 		al_start_timer(freezing_timer);
 		enemy->ev_handler->get_ev_gen()->append_new_event(new PARTIALLY_UNFROZE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 		break;
