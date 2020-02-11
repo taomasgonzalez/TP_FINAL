@@ -60,6 +60,7 @@ public:
 	void control_enemy_actions();
 	void control_all_actions();
 	void restart_enemies();
+	void stop_all_enemies();
 /*******************************************************************************
 	OPERATING OVER MAPS
 ******************************************************************************/

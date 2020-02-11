@@ -220,6 +220,11 @@ void LogicServerFSM::reset_game() {
 	while (!scenario->saved_events->empty())
 		scenario->saved_events->pop();
 
+	reset_graphic = true;
+	notify_obs(); //To erase all the pending FPS
+	reset_graphic = false;
+
+
 
 
 	//mapa para caida libre

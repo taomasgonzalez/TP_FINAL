@@ -999,7 +999,7 @@ bool Scene::did_we_win()
 {
 	bool we_won;
 
-	if ((!this->both_players_dead()) && (!this->any_monsters_left()) && (this->actual_map == 10))
+	if ((!this->both_players_run_out_of_lives()) && (!this->any_monsters_left()) && (this->actual_map == 10))
 	{
 		we_won = true;
 
@@ -1014,7 +1014,7 @@ bool Scene::did_we_lose()
 {
 	bool we_lost;
 
-	if (this->both_players_dead())
+	if (this->both_players_run_out_of_lives())
 	{
 		we_lost = true;
 	}
@@ -1073,6 +1073,21 @@ void Scene::restart_enemies() {
 		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
 
 		curr_enemy->set_blocked_enemy_movements(false);
+
+	}
+
+}
+
+
+void Scene::stop_all_enemies() {
+
+	int curr_enemy_to_act_on;
+
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+
+		curr_enemy->set_blocked_enemy_movements(true);
 
 	}
 

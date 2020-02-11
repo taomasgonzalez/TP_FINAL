@@ -157,6 +157,9 @@ void LogicClientFSM::reset_game() {
 		scenario->saved_events->pop();
 
 
+	reset_graphic = true;
+	notify_obs(); //To erase all the pending FPS
+	reset_graphic = false;
 
 	//mapa para caida libre
 	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";

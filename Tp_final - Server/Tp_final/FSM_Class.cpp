@@ -47,16 +47,16 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		if (((actual_state->at(event_pos)).event == Event_type::END_OF_TABLE))
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
 		else
+		{
 			set_fsm_ev_pack(ev_pack);
 
-
-
-		//Runs the functions related to that event
-		((actual_state->at(event_pos)).fun_trans)(this);
-		if (should_change_state)
-			actual_state = ((actual_state->at(event_pos)).nextstate);
-		else
-			should_change_state = true;
+			//Runs the functions related to that event
+			((actual_state->at(event_pos)).fun_trans)(this);
+			if (should_change_state)
+				actual_state = ((actual_state->at(event_pos)).nextstate);
+			else
+				should_change_state = true;
+		}
 	}
 }
 

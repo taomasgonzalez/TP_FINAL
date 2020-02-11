@@ -43,6 +43,7 @@ public:
 	bool control_enemies = false;
 
 	bool start_game = false;
+	bool reset_graphic = false;
 
 	//check flags
 	bool check_map = false;

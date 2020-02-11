@@ -151,6 +151,8 @@ void tell_user_send_ack_and_finish_game_r(void* data) {
 void send_we_lost_r(void* data) { //el servidor le avisa a client que se perdi�
 	LogicFSM* fsm = (LogicFSM*)data;
 	fsm->send_we_lost();
+
+
 }
 void send_game_over_r(void* data) {
 
@@ -559,6 +561,7 @@ void LogicFSM::analyze_we_lost() {
 
 	if (!error_ocurred)
 	{
+		finish_game();
 		ask_user_being_client_and_send_decition(); //By an Allegro interface
 		error_ocurred = false;
 	}
@@ -608,11 +611,20 @@ void LogicFSM::tell_user_send_ack_and_finish_game() {
 	/*
 	ALLEGRO INTERFACE TO TELL THE USER THE OTHER COMPUTER DOESN�T WANT TO PLAY AGAIN
 	*/
-	send_ack();
 	finish_game();
 }
 
 void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdi�
+
+	saved_EventPackages.clear();
+
+	ev_gen->flush_all_queues();
+
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
+
+	scenario->stop_all_enemies();
+
 	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 }
 void LogicFSM::send_game_over() {

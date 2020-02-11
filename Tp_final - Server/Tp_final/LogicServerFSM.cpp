@@ -228,6 +228,7 @@ void LogicServerFSM::print_curr_state()
 
 void LogicServerFSM::reset_game() {
 
+
 	scenario->maps.clear();
 	ev_gen->flush_all_queues();
 
@@ -235,6 +236,9 @@ void LogicServerFSM::reset_game() {
 		scenario->saved_events->pop();
 
 
+	reset_graphic = true;
+	notify_obs(); //To erase all the pending FPS
+	reset_graphic = false;
 
 	//mapa para caida libre
 	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";

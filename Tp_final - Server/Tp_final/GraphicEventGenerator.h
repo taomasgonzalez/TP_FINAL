@@ -9,6 +9,7 @@ public:
 	~GraphicEventGenerator();
 	EventPackage * fetch_event();
 
+	void flush_all_queues();
 private:
 	void update_allegro_timer_events();
 	ALLEGRO_TIMER * fps_timer;

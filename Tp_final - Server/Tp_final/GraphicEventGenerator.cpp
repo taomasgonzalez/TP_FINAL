@@ -35,3 +35,8 @@ void GraphicEventGenerator::update_allegro_timer_events() {
 			append_new_event(new ERROR_EventPackage(true),(int) LogicQueues::allegro); //LO CAMBIE POR ERROR, porque si es LOCAL_QUIT tiene que esperar el ACK de la otra compu, y eso no nunca va a llegar porque cerraste la pantalla
 		}
 }
+void GraphicEventGenerator::flush_all_queues() {
+
+	al_flush_event_queue(drawing_event_queue);
+
+}
