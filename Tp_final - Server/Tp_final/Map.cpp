@@ -497,7 +497,7 @@ bool Map::move_id(unsigned int id, int final_x, int final_y) {
 
 	std::cout << "Se movio el id (seteo logico) (desde execute_move() CharacterActionFSM) " << id<<std::endl;
 	std::cout << "final Y " << final_y << std::endl;
-	std::cout << "final Y " << final_x << std::endl;
+	std::cout << "final X " << final_x << std::endl;
 
 
 	if ((thingy = get_from_map(id)) != NULL)

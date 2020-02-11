@@ -277,8 +277,9 @@ void CharacterActionsFSM::end_if_should_end_movement() {
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
+	if (obs_answers.should_interrupt_movement) 
 
-	if (actual_state == falling_state || (actual_state == jumping_forward_state && obs_answers.should_interrupt_movement) || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
+	//if (actual_state == falling_state || (actual_state == jumping_forward_state && obs_answers.should_interrupt_movement) || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
 	{
 		obs_questions.should_keep_falling = true;
 		notify_obs();						//PlayerActionsFSMDRAWObserver
@@ -560,8 +561,21 @@ void CharacterActionsFSM::start_iddle() {
 
 	if (character->get_map_thing_type() == Thing_Type::ENEMY)
 	{
-		((Enemy *)character)->set_blocked_enemy_movements(false);
-		std::cout << "Se apago el bloqueo de EAs porque empezo el graph start_iddle" << std::endl;
+		//obs_questions.should_keep_falling = true;
+		//notify_obs();						//PlayerActionsFSMDRAWObserver
+		//obs_questions.should_keep_falling = false;
+
+		//if (obs_answers.should_keep_falling)
+		//{
+		//	std::cout << "El enemigo tiene que caer, no saco el bloqueo asi no se generan EA" << std::endl;
+		//	//character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+
+		//}
+		//else
+		//{
+			((Enemy *)character)->set_blocked_enemy_movements(false);
+			std::cout << "Se apago el bloqueo de EAs porque empezo el graph start_iddle" << std::endl;
+		//}
 	}
 	al_start_timer(falling_timer);
 }

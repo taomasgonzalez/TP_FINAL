@@ -139,9 +139,12 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	next_enemy_action->action = Action_type::Move;
 	next_enemy_action->final_pos_x = pos_x;
 	next_enemy_action->final_pos_y = pos_y;
-	next_enemy_action->valid = true;
 	next_enemy_action->my_direction = Direction_type::None;
 
+	//Sets the movement as invalid so the server doesn´t send a "void" move that actually does nothing and could make the program malfunction
+	next_enemy_action->valid = false;
+
+	//The blocked is turn on so the program waits until it can make a new EA
 	blocked_enemy_movement = true;
 	std::cout << "Se prendio el bloqueo de EAs desde stay_still" << std::endl;
 

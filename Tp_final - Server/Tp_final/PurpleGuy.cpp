@@ -5,7 +5,7 @@ double PurpleGuy::moving_speed = 300;
 PurpleGuy::PurpleGuy(unsigned int id, Sense_type sense) :Enemy(id, sense)
 {
 	printable = Item_type::PURPLE_GUY;
-	staying_still_time = 0.3;
+	staying_still_time = 2;
 	staying_still_timer = al_create_timer(staying_still_time);
 	al_register_event_source(enemy_timers, al_get_timer_event_source(staying_still_timer));
 	al_set_timer_speed(staying_still_timer, staying_still_time);
@@ -55,6 +55,7 @@ Action_info PurpleGuy::act(){
 	else if ((sample >= 0.9) && (sample <= 1.0)) 		//0.1 probability
 		stay_still(&returnable_EA);
 
+	//activo el timer de
 	if (!returnable_EA.valid)
 		stay_still(&returnable_EA);
 

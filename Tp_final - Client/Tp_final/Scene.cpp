@@ -1054,9 +1054,13 @@ void Scene::control_enemy_actions()
 
 		if (curr_enemy->is_iddle()) {
 			enemy_action_info = curr_enemy->act();
-			new_enemy_action = true;
-			notify_obs();					//ScenarioEventsObserver
-			new_enemy_action = false;
+
+			if (enemy_action_info.valid) //So we don´t send a stay still
+			{
+				new_enemy_action = true;
+				notify_obs();					//ScenarioEventsObserver
+				new_enemy_action = false;
+			}
 		}
 	}
 	
