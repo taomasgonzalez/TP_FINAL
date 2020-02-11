@@ -13,6 +13,7 @@ void snowball_move_r(void* data);
 void enemy_die_r(void* data);
 void fall_and_start_got_hit_r(void* data);
 void renew_hits_r(void* data);
+void start_got_hit_r(void* data);
 
 EnemyActionsFSM::EnemyActionsFSM(Enemy* enemy): CharacterActionsFSM(enemy)
 {
@@ -59,11 +60,11 @@ void EnemyActionsFSM::set_states()
 	freezing_state = new std::vector<edge_t>();
 	frozen_state = new std::vector<edge_t>();
 
-	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r }); //BLOQUEAR MOVIMIENOTS DE EA
+	expand_state(iddle_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r }); 
 	expand_state(walking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
-	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO,  ES TE HICISTE BOLA Y SE TE BLOQUEARON LOS MOV, CREO QUE NO VA APARTE
-	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO
-	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //TO DO
+	expand_state(jumping_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); //CHEQUEAR CON GUIDO QUE NO SEAN CASOS !=
+	expand_state(jumping_forward_state, { Event_type::GOT_HIT, freezing_state, fall_and_start_got_hit_r }); 
+	expand_state(attacking_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 	expand_state(falling_state, { Event_type::GOT_HIT, freezing_state, start_got_hit_r });
 
 
@@ -142,24 +143,35 @@ void EnemyActionsFSM::partially_unfroze()
 void EnemyActionsFSM::unfreeze()
 {
 	start_iddle();
+	enemy->set_blocked_enemy_movements(false);
+	std::cout << "Se descongelo el enemigo, se vuelven a generar EAs" << std::endl;
+
 }
 
 void EnemyActionsFSM::froze()
 {
 	start_frozen_timer();
-
+	std::cout << "Se congelo el enemigo por completo" << std::endl;
+	enemyObs_info.start_frozen_graph = true;
+	notify_obs();
+	enemyObs_info.start_frozen_graph = false;
 }
 
 void EnemyActionsFSM::start_charging()
 {
-
-	enemy->ev_handler->get_ev_gen()->append_new_event(new CHARGING_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 
 	enemyObs_info.start_ballCharging_graph = true;
 	notify_obs();
 	enemyObs_info.start_ballCharging_graph = false;
 }
 
+void EnemyActionsFSM::snowball_move()
+{
+
+	enemyObs_info.start_ballPushing_graph = true;
+	notify_obs();
+	enemyObs_info.start_ballPushing_graph = false;
+}
 
 void EnemyActionsFSM::timer_unfroze()
 {
@@ -263,6 +275,20 @@ void renew_hits_r(void*data) {
 	fsm->renew_frosting();
 }
 
+void start_got_hit_r(void*data) {
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->start_got_hit();
+}
+
+void EnemyActionsFSM::start_got_hit() {
+
+	//bloqueo la producción de EAs, apago el timer
+	std::cout << "Se freezea el enemigo, se cancela la generación de EAs" << std::endl;
+	enemy->set_blocked_enemy_movements(true);
+	enemy->stop_staying_still_timer();
+	got_hit();
+}
+
 void EnemyActionsFSM::renew_frosting() {
 	al_start_timer(frozen_timer);
 }
@@ -333,13 +359,21 @@ void start_charging_r(void* data){
 }
 void snowball_move_r(void* data){
 
+	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+	fsm->snowball_move();
 }
 
 void enemy_die_r(void* data) {
 	EnemyActionsFSM* fsm = (EnemyActionsFSM*)data;
+
+	std::cout << "El enemigo murio al romperse la bola" << std::endl;
+
 	fsm->obs_info.dying_graph = true;
+	fsm->enemyObs_info.start_ballexplotion_graph = true;
 	fsm->notify_obs();
 	fsm->obs_info.dying_graph = false;
+	fsm->enemyObs_info.start_ballexplotion_graph = false;
+
 	fsm->kill_character();
 }
 

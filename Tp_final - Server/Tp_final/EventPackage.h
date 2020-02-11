@@ -564,6 +564,16 @@ public:
 	Direction_type pushing_direction;
 };
 
+class BOUNCE_EventPackage : public EventPackage {
+public:
+	BOUNCE_EventPackage(Direction_type dir);
+	BOUNCE_EventPackage();
+
+	~BOUNCE_EventPackage();
+	Direction_type pushing_direction;
+};
+
+
 class CHARGING_EventPackage : public EventPackage {
 public:
 	CHARGING_EventPackage();

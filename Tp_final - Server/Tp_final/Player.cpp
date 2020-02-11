@@ -33,6 +33,8 @@ void Player::revive() {
 	{
 		dead = false;
 	}
+	else
+		std::cout << "El jugador no puede revivir, no tiene vidas" << std::endl;
 }
 
 bool Player::has_lives() {

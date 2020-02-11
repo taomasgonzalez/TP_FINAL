@@ -43,6 +43,10 @@ public:
 	virtual bool is_iddle();
 
 	void set_blocked_enemy_movements(bool blocked_value);
+	void stop_staying_still_timer();
+	void stop_start_still_timer();
+
+
 protected:
 	//frozen_timer;
 	//falta implementar

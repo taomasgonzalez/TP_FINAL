@@ -754,6 +754,19 @@ PUSHED_EventPackage::~PUSHED_EventPackage()
 {
 }
 
+BOUNCE_EventPackage::BOUNCE_EventPackage(Direction_type dir) : EventPackage(Event_type::BOUNCE, 0, true)
+{
+	this->pushing_direction = dir;
+}
+
+BOUNCE_EventPackage::BOUNCE_EventPackage() : EventPackage(Event_type::BOUNCE, 0, true)
+{
+}
+
+BOUNCE_EventPackage::~BOUNCE_EventPackage()
+{
+}
+
 PARTIALLY_UNFROZE_EventPackage::PARTIALLY_UNFROZE_EventPackage() : EventPackage(Event_type::PARTIALLY_UNFROZE, 0,true) {
 
 }
@@ -761,10 +774,31 @@ PARTIALLY_UNFROZE_EventPackage::~PARTIALLY_UNFROZE_EventPackage() {
 
 }
 
+PARTIALLY_FROZE_EventPackage::PARTIALLY_FROZE_EventPackage() : EventPackage(Event_type::PARTIALLY_FROZE, 0, true) {
+
+}
+PARTIALLY_FROZE_EventPackage::~PARTIALLY_FROZE_EventPackage() {
+
+}
+
+CHARGING_EventPackage::CHARGING_EventPackage() : EventPackage(Event_type::CHARGING, 0, true) {
+
+}
+CHARGING_EventPackage::~CHARGING_EventPackage() {
+
+}
+
 UNFROZE_EventPackage::UNFROZE_EventPackage() :EventPackage(Event_type::UNFROZE, 0,true) {
 
 }
 UNFROZE_EventPackage::~UNFROZE_EventPackage() {
+
+}
+
+UNFREEZE_EventPackage::UNFREEZE_EventPackage() :EventPackage(Event_type::UNFREEZE, 0, true) {
+
+}
+UNFREEZE_EventPackage::~UNFREEZE_EventPackage() {
 
 }
 
@@ -782,7 +816,6 @@ FINISHED_GRAPH_STEP_EventPackage::~FINISHED_GRAPH_STEP_EventPackage() {
 
 }
 
-
 REVIVE_EventPackage::REVIVE_EventPackage() : EventPackage(Event_type::REVIVED, 0, true) {
 
 }
@@ -797,4 +830,10 @@ STOP_INMUNITY_EventPackage::~STOP_INMUNITY_EventPackage() {
 
 }
 
+SNOWBALL_BREAKDOWN_EventPackage::SNOWBALL_BREAKDOWN_EventPackage() : EventPackage(Event_type::SNOWBALL_BREAKDOWN, 0, true) {
+
+}
+SNOWBALL_BREAKDOWN_EventPackage::~SNOWBALL_BREAKDOWN_EventPackage() {
+
+}
 

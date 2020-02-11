@@ -208,6 +208,17 @@ void Enemy::set_blocked_enemy_movements(bool blocked_value) {
 	blocked_enemy_movement = blocked_value;
 }
 
+void Enemy::stop_staying_still_timer() {
+
+	al_stop_timer(staying_still_timer);
+}
+
+void Enemy::start_staying_still_timer() {
+
+	al_start_timer(staying_still_timer);
+}
+
+
 
 
 /******************************************

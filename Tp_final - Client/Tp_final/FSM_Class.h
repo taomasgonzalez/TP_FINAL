@@ -9,24 +9,12 @@
 #include <vector>
 #include <iostream>
 #include <string>
-#include "general.h"
 
 using namespace std;
 //changing fsm class!
-/*****************************************************
-*          DEFINITION OF EDGE
-* **************************************************/
-typedef struct edge edge_t;
-struct edge
-{
-	Event_type event;
-	std::vector<edge_t>* nextstate;
-	void(*fun_trans)(void*);
-};
 
 std::string event_string[] =  //Events that are usde by the internal function of the program 
-{ 
-	
+{
 	"END_OF_TABLE",
 
 	//ACK:
@@ -114,15 +102,32 @@ std::string event_string[] =  //Events that are usde by the internal function of
 	//enemy events
 	"FROZE",
 	"UNFROZE",
+	"UNFREEZE",
 	"PARTIALLY_UNFROZE",
+	"PARTIALLY_FROZE",
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
+	"SNOWBALL_BREAKDOWN",
 	//RESET(DEBUGGING)
 	"RESET",
 	"FINISHED_GRAPH_STEP"
 
 };
+
+
+
+/*****************************************************
+*          DEFINITION OF EDGE
+* **************************************************/
+typedef struct edge edge_t;
+struct edge
+{
+	Event_type event;
+	std::vector<edge_t>* nextstate;
+	void(*fun_trans)(void*);
+};
+
 
 /*******************************************************************************
 							CLASE FSM
@@ -134,6 +139,8 @@ public:
 		
 	 EventPackage* get_fsm_ev_pack();
 	 void set_fsm_ev_pack(EventPackage* new_ev_pack);
+
+
 	 std::vector<edge_t>* give_me_the_actual_state();
 
 protected:
@@ -143,8 +150,14 @@ protected:
 	void change_action_routine(std::vector<edge_t>* state_to_be_changed, Event_type event1, void(*new_routine)(void*));
 	void(*get_routine(std::vector<edge_t>* state, Event_type event1))(void*);
 	bool should_change_state = true;
+
+
+
+
+
 private:
-	EventPackage * my_ev_pack;
+	EventPackage * my_ev_pack=NULL;
+
 };
 
 

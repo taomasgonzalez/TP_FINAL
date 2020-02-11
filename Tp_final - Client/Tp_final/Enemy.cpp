@@ -41,7 +41,7 @@ void Enemy::unfreeze()
 
 void Enemy::be_hit()
 {
-	if (amount_of_hits_taken >= 0 && amount_of_hits_taken <= 4)
+	if (amount_of_hits_taken >= 0 && amount_of_hits_taken < 3)
 		amount_of_hits_taken++;
 }
 
@@ -75,9 +75,9 @@ bool Enemy::move_in_same_direction(Action_info * next_enemy_action)
 	set_action_4_obs(*next_enemy_action);
 
 	if (next_enemy_action->valid = can_make_movement()) {
-		blocked_enemy_movement = true;
-		std::cout << "Se prendio el bloqueo de EAs desde move in same dir" << std::endl;
+		std::cout << "Se prendio el bloqueo de EAs desde move in same direction" << std::endl;
 
+		blocked_enemy_movement = true;
 	}
 
 	return next_enemy_action->valid;
@@ -114,11 +114,10 @@ bool Enemy::move_in_opposite_direction(Action_info * next_enemy_action)
 
 	set_action_4_obs(*next_enemy_action);
 
-
 	if (next_enemy_action->valid = can_make_movement()) {
-		blocked_enemy_movement = true;
-		std::cout << "Se prendio el bloqueo de EAs desde move in oppos dir" << std::endl;
+		std::cout << "Se prendio el bloqueo de EAs desde move in opposite direction" << std::endl;
 
+		blocked_enemy_movement = true;
 	}
 
 	return next_enemy_action->valid;
@@ -145,9 +144,11 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	//Sets the movement as invalid so the server doesn´t send a "void" move that actually does nothing and could make the program malfunction
 	next_enemy_action->valid = false;
 
+	//The blocked is turn on so the program waits until it can make a new EA
 	blocked_enemy_movement = true;
-	std::cout << "Se prendio el bloqueo de EAs desde stay still" << std::endl;
+	std::cout << "Se prendio el bloqueo de EAs desde stay_still" << std::endl;
 
+	al_start_timer(staying_still_timer);
 }
 bool Enemy::can_make_movement()
 {
@@ -179,9 +180,9 @@ bool Enemy::jump(Action_info * next_enemy_action) {
 
 
 	if (next_enemy_action->valid = can_make_movement()) {
-		blocked_enemy_movement = true;
 		std::cout << "Se prendio el bloqueo de EAs desde jump" << std::endl;
 
+		blocked_enemy_movement = true;
 	}
 	return next_enemy_action->valid;
 }
@@ -207,6 +208,18 @@ void Enemy::set_blocked_enemy_movements(bool blocked_value) {
 	blocked_enemy_movement = blocked_value;
 }
 
+void Enemy::stop_staying_still_timer() {
+
+	al_stop_timer(staying_still_timer);
+}
+
+void Enemy::start_staying_still_timer() {
+
+	al_start_timer(staying_still_timer);
+}
+
+
+
 
 /******************************************
 ***********EA_info_common_filling**********
@@ -225,6 +238,7 @@ void Enemy::EA_info_common_filling(Action_info * next_enemy_action) {
 
 
 bool Enemy::is_iddle() {
+
 	bool returnable = false;
 	ALLEGRO_EVENT al_event;
 
@@ -235,13 +249,12 @@ bool Enemy::is_iddle() {
 			if (al_event.type == ALLEGRO_EVENT_TIMER)
 				if (al_event.timer.source == staying_still_timer) {
 					al_stop_timer(staying_still_timer);
-					blocked_enemy_movement = false;
 					std::cout << "Se apago el bloqueo de EAs por timer" << std::endl;
-
+					blocked_enemy_movement = false;
 					returnable = true;
 				}
-
 	}
+
 	return returnable;
 }
 

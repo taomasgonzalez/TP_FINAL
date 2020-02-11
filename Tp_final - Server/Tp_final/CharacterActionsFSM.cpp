@@ -188,15 +188,22 @@ void CharacterActionsFSM::charging_snowball() {
 
 void CharacterActionsFSM::check_rolling_movement() {
 
+	obs_questions.should_bounce = true;
+	obs_questions.should_keep_charging = true;
+	notify_obs();
+	obs_questions.should_bounce = false;
+	obs_questions.should_keep_charging = false;
+
 	//chek roll and brek if should break
-	//if(amount_of_walls_hit== HITS_RESISTANCE)
-	//append SNOWBALL_BREAKDOWN
+	if(amount_of_walls_hit== HITS_RESISTANCE)
+		character->ev_handler->get_ev_gen()->append_new_event(new SNOWBALL_BREAKDOWN_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 
-	//should bounce
-		//append BOUNCE
+	else if(obs_answers.should_bounce)
+		character->ev_handler->get_ev_gen()->append_new_event(new BOUNCE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
 
-	//should keep charging
-		//append CHARGING
+	else if(obs_answers.should_keep_charging)
+		character->ev_handler->get_ev_gen()->append_new_event(new CHARGING_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+
 }
 
 

@@ -86,7 +86,16 @@ void EnemyActionsFSMDRAWObserver::update() {
 		drawer->disactiveObj(enemy->id);
 	}
 
-	//enemy_got_hit related
+	//to do ,PONER TAMBIEN EN PLAYERACTIONSDRAWOBS (en realidad no, que lo maneje todo el enemigo)
+	else if (fsm->obs_info.bounce_graph) {
+		drawer->disactiveObj(enemy->id);
+	}
+	else if (fsm->obs_info.charging_snowball_graph) {
+		drawer->disactiveObj(enemy->id);
+	}
+
+
+	//
 	else if (fsm->enemyObs_info.start_freezing_state1_graph){
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_TRAPPED_1, enemy->id, dir, enemy->pos_x, enemy->pos_y);
@@ -97,12 +106,17 @@ void EnemyActionsFSMDRAWObserver::update() {
 	}
 	else if (fsm->enemyObs_info.start_freezing_state3_graph) {
 		dir = get_character_graph_direction(enemy->get_sense());
-		drawer->startDraw(enemy_TRAPPED_2, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+		drawer->startDraw(enemy_TRAPPED_3, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
-	else if (fsm->enemyObs_info.start_fozen_graph) {
+	else if (fsm->enemyObs_info.start_frozen_graph) {
 		dir = get_character_graph_direction(enemy->get_sense());
 		drawer->startDraw(enemy_INBALL_IDLE, enemy->id, dir, enemy->pos_x, enemy->pos_y);
 	}
+	else if (fsm->enemyObs_info.start_ballCharging_graph) {
+		dir = get_character_graph_direction(enemy->get_sense());
+		drawer->startDraw(enemy_INBALL_MOVING, enemy->id, dir, enemy->pos_x, enemy->pos_y);
+	}
+
 
 }
 

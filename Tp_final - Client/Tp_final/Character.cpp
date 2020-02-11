@@ -1,7 +1,5 @@
-#pragma once
 #include "Character.h"
 #include "CharacterActionsFSM.h"
-
 
 Character::Character(unsigned int id, Sense_type sense) : MapThing(id, false, sense)
 {
@@ -38,6 +36,7 @@ bool Character::is_falling()
 bool Character::is_iddle()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
 	return char_fsm->is_iddle();
 }
 
@@ -46,27 +45,6 @@ bool Character::is_walking()
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
 
 	return char_fsm->is_walking();
-}
-
-Direction_type Character::in_wich_direction_is_the_character_walking()
-{
-	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
-
-	return char_fsm->in_wich_direction_is_the_character_walking();
-}
-
-bool Character::waiting_for_next_move()
-{
-	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
-
-	bool is_pending = char_fsm->obs_info.next_move_pending;
-
-	if (is_pending)
-	{
-		char_fsm->obs_info.next_move_pending = false;
-	}
-
-	return is_pending;
 }
 
 bool Character::is_attacking() {
@@ -78,6 +56,17 @@ bool Character::has_to_fall()
 {
 	return static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->has_to_fall();
 }
+
+void Character::set_rolling(bool can_roll)
+{
+	this->snoballed = can_roll;
+}
+
+bool Character::can_the_enemy_roll()
+{
+	return snoballed;
+}
+
 
 void Character::dont_fall()
 {

@@ -2,7 +2,7 @@
 #include "Character.h"
 #include "EventHandler.h"
 
-class Player : public Character
+class Player: public Character
 {
 public:
 	Player(unsigned int id, bool is_nick, Sense_type sense);
@@ -21,7 +21,6 @@ public:
 	void set_the_player_inmunity(bool is_inmuned);
 
 private:
-
 	bool being_inmuned = false;
 
 	void lose_life();

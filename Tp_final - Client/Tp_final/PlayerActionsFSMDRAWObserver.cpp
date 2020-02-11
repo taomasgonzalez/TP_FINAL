@@ -58,6 +58,7 @@ void PlayerActionsFSMDRAWObserver::update() {
 		drawer->startDraw(player_DYING, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_DYING;
 	}
+
 	else if (fsm->obs_info.respawn_graph) {
 		dir = get_character_graph_direction(player->get_sense());
 		drawer->startDraw(player_RESPAWN, player->id, dir, player->pos_x, player->pos_y);
@@ -73,6 +74,7 @@ void PlayerActionsFSMDRAWObserver::update() {
 		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_IDLE;
 	}
+
 	else if (fsm->obs_info.start_pushing_graph) {
 		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_PUSHING, player->id, dir, player->pos_x, player->pos_y);
@@ -81,17 +83,20 @@ void PlayerActionsFSMDRAWObserver::update() {
 	else if (fsm->obs_questions.should_interrupt_movement) {
 		fsm->obs_answers.should_interrupt_movement = drawer->secuenceOver(player->id);
 	}
+
 	else if (fsm->obs_questions.should_interrupt_attack) {
 		fsm->obs_answers.should_interrupt_attack = drawer->secuenceOver(player->id);
 	}
 	else if (fsm->obs_info.interrupt_movement) {
 		ev_gen->append_new_event(new FINISHED_MOVEMENT_EventPackage(), 0);
 	}
+
 	else if (fsm->obs_info.interrupt_attack) {
 		ev_gen->append_new_event(new FINISHED_ATTACK_EventPackage(), 0);
 	}
 	else if (drawer->finished_drawing_step(player->id)) {
 		ev_gen->append_new_event(new FINISHED_GRAPH_STEP_EventPackage(), 0);
+
 	}
 	else if (fsm->obs_info.disappear_graph) {
 		drawer->disactiveObj(player->id);

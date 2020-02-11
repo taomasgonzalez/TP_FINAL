@@ -3,6 +3,7 @@
 void player_revive(void* data);
 void start_pushing_r(void* data);
 
+void start_pushing_r(void* data);
 void check_push_and_push_r(void* data);
 void reset_push(void* data);
 void iddle_graph_player(void* data);
@@ -53,10 +54,6 @@ void PlayerActionsFSM::run_fsm(EventPackage * ev_pack) {
 
 void PlayerActionsFSM::update_from_allegro_timers_for_player() {
 
-	//move toda la info de los timers aca, sacalas del observer
-
-
-	//guido ac� levantas los eventos, hace una sola cola si total no te
 	ALLEGRO_EVENT  allegroEvent;
 
 	while (al_get_next_event(player_ev_queue, &allegroEvent))
@@ -82,10 +79,6 @@ void PlayerActionsFSM::update_from_allegro_timers_for_player() {
 		}
 	}
 
-	//una vez que terminas lo appendeas
-	//ev_gen->append_new_event(event, (int)EventGenerator::LogicQueues::soft);
-
-	//entonces entr�s al run_fsm original con el envento cargado ya que lo vas agarrar recien en el siguiente ciclo porque ya paso el fetch_event
 }
 
 void PlayerActionsFSM::revive_player() {
@@ -129,7 +122,7 @@ void PlayerActionsFSM::set_states() {
 	expand_state(iddle_state, { Event_type::STOP_INMUNITY, iddle_state, stop_inmunity_r });
 
 
-	pushing_state->push_back({ Event_type::PUSHED, pushing_state, check_push_and_push });
+	pushing_state->push_back({ Event_type::PUSHED, pushing_state, start_pushing_r });
 	pushing_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	pushing_state->push_back({ Event_type::DIED, dead_state, player_die });
 	pushing_state->push_back({ Event_type::STOP_INMUNITY, pushing_state, stop_inmunity_r });
@@ -154,16 +147,16 @@ void PlayerActionsFSM::set_processes() {
 
 
 void PlayerActionsFSM::start_pushing() {
+	PUSHED_EventPackage * curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
+
+	if (curr_push->pushing_direction == Direction_type::Right) 
+		set_curr_process(&pushing_right_process);
+	else if (curr_push->pushing_direction == Direction_type::Left) 
+		set_curr_process(&pushing_left_process);
+
 	obs_info.start_pushing_graph = true;
 	notify_obs();
 	obs_info.start_pushing_graph = false;
-
-	PUSHED_EventPackage * curr_push = (PUSHED_EventPackage*)get_fsm_ev_pack();
-
-	if (curr_push->pushing_direction == Direction_type::Jump_Right) 
-		set_curr_process(&pushing_right_process);
-	else if (curr_push->pushing_direction == Direction_type::Jump_Left) 
-		set_curr_process(&pushing_left_process);
 
 }
 
@@ -201,13 +194,20 @@ void start_pushing_r(void* data) {
 	fsm->start_pushing();
 }
 
-void check_push_and_push(void* data) {
+void check_push_and_push_r(void* data) {
+
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->process_logical_movement();
+}
+
+void start_pushing_r(void* data) {
 	PlayerActionsFSM* fsm = (PlayerActionsFSM*)data;
 
-	//check if can push, theres not a wall in front of the ball
-	//fsm->start_pushing();
-	
+	//check if can push, theres not a wall in front of the ball, to do in check move
+	fsm->start_pushing();
+
 }
+
 void reset_push(void* data) {
 	iddle_graph_player(data);
 }

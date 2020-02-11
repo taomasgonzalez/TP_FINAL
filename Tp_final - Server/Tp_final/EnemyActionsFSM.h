@@ -43,6 +43,7 @@ public:
 	void unfreeze();
 	void froze();
 	void start_charging();
+	void snowball_move();
 
 protected:
 	void start_freezing_timer();

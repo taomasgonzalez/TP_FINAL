@@ -15,7 +15,6 @@ using namespace std;
 
 std::string event_string[] =  //Events that are usde by the internal function of the program 
 {
-
 	"END_OF_TABLE",
 
 	//ACK:
@@ -103,10 +102,13 @@ std::string event_string[] =  //Events that are usde by the internal function of
 	//enemy events
 	"FROZE",
 	"UNFROZE",
+	"UNFREEZE",
 	"PARTIALLY_UNFROZE",
+	"PARTIALLY_FROZE",
 	"BOUNCE",
 	"ROLLING",
 	"CHARGING",
+	"SNOWBALL_BREAKDOWN",
 	//RESET(DEBUGGING)
 	"RESET",
 	"FINISHED_GRAPH_STEP"

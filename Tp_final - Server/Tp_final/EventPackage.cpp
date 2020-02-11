@@ -754,6 +754,19 @@ PUSHED_EventPackage::~PUSHED_EventPackage()
 {
 }
 
+BOUNCE_EventPackage::BOUNCE_EventPackage(Direction_type dir) : EventPackage(Event_type::BOUNCE, 0, true)
+{
+	this->pushing_direction = dir;
+}
+
+BOUNCE_EventPackage::BOUNCE_EventPackage() : EventPackage(Event_type::BOUNCE, 0, true)
+{
+}
+
+BOUNCE_EventPackage::~BOUNCE_EventPackage()
+{
+}
+
 PARTIALLY_UNFROZE_EventPackage::PARTIALLY_UNFROZE_EventPackage() : EventPackage(Event_type::PARTIALLY_UNFROZE, 0,true) {
 
 }

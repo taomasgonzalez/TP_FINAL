@@ -100,10 +100,13 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	//enemy events
 	FROZE,
 	UNFROZE,
+	UNFREEZE,
 	PARTIALLY_UNFROZE,
+	PARTIALLY_FROZE,
 	BOUNCE,
 	ROLLING,
 	CHARGING,
+	SNOWBALL_BREAKDOWN,
 	//RESET(DEBUGGING)
 	RESET,
 	FINISHED_GRAPH_STEP
@@ -561,6 +564,23 @@ public:
 	Direction_type pushing_direction;
 };
 
+class BOUNCE_EventPackage : public EventPackage {
+public:
+	BOUNCE_EventPackage(Direction_type dir);
+	BOUNCE_EventPackage();
+
+	~BOUNCE_EventPackage();
+	Direction_type pushing_direction;
+};
+
+
+class CHARGING_EventPackage : public EventPackage {
+public:
+	CHARGING_EventPackage();
+	~CHARGING_EventPackage();
+
+};
+
 
 class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
 public:
@@ -569,10 +589,23 @@ public:
 
 };
 
+class PARTIALLY_FROZE_EventPackage : public EventPackage {
+public:
+	PARTIALLY_FROZE_EventPackage();
+	~PARTIALLY_FROZE_EventPackage();
+
+};
+
 class UNFROZE_EventPackage : public EventPackage {
 public:
 	UNFROZE_EventPackage();
 	~UNFROZE_EventPackage();
+};
+
+class UNFREEZE_EventPackage : public EventPackage {
+public:
+	UNFREEZE_EventPackage();
+	~UNFREEZE_EventPackage();
 };
 
 class FROZE_EventPackage : public EventPackage {
@@ -597,4 +630,10 @@ class STOP_INMUNITY_EventPackage : public EventPackage {
 public:
 	STOP_INMUNITY_EventPackage();
 	~STOP_INMUNITY_EventPackage();
+};
+
+class SNOWBALL_BREAKDOWN_EventPackage : public EventPackage {
+public:
+	SNOWBALL_BREAKDOWN_EventPackage();
+	~SNOWBALL_BREAKDOWN_EventPackage();
 };
