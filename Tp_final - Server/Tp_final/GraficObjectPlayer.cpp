@@ -2,9 +2,9 @@
 #include <iostream>
 #include "PlayerActionsFSMDRAWObserver.h"
 
+#define FPS_4_INMUNITY_TOGGLE (4)
+
 using namespace std;
-
-
 
 Obj_Graf_Player::Obj_Graf_Player(double ID, PLAYER_TYPE type, ImageContainer* container)
 {
@@ -43,37 +43,36 @@ Obj_Graf_Player::~Obj_Graf_Player()
 
 void Obj_Graf_Player::draw()
 {
-	switch (this->state)
-	{
-	case player_WALKING:
-		handle_walking();
-		break;
-	case player_JUMPING:
-		handle_jumping();
-		break;
-	case player_ATTACKING:
-		handle_attacking();
-		break;
-	case player_FALLING:
-		handle_falling();
-		break;
-	case player_IDLE:
-		handle_idle();
-		//std::cout << "Se imprimió un iddle de un jugador" << std::endl;
+	if (!must_not_draw_player()) {
+		switch (this->state)
+		{
+		case player_WALKING:
+			handle_walking();
+			break;
+		case player_JUMPING:
+			handle_jumping();
+			break;
+		case player_ATTACKING:
+			handle_attacking();
+			break;
+		case player_FALLING:
+			handle_falling();
+			break;
+		case player_IDLE:
+			handle_idle();
+			//std::cout << "Se imprimió un iddle de un jugador" << std::endl;
 
-		break;
-	case player_JUMPING_FOWARD:
-		handle_jumping_forward();
-		break;
-	case player_PUSHING:
-		handle_pushing();
-		break;
-	case player_DYING:
-		handle_dying();
-		break;
-	case player_RESPAWN:
-		handle_respawn();
-		break;
+			break;
+		case player_JUMPING_FOWARD:
+			handle_jumping_forward();
+			break;
+		case player_PUSHING:
+			handle_pushing();
+			break;
+		case player_DYING:
+			handle_dying();
+			break;
+		}
 	}
 }
 
@@ -83,7 +82,6 @@ void Obj_Graf_Player::startDraw(Direction dir, void *state, POINT_& pos)
 	this->dir = dir;
 	this->pos = pos;
 	InitalPos = pos;
-	this->state = *(PLAYER_STATE *)state;
 
 	if (*(PLAYER_STATE *)state == PLAYER_STATE::player_RESPAWN)
 		set_inmunity(true);
@@ -122,20 +120,16 @@ void Obj_Graf_Player::set_inmunity(bool inmunity)
 }
 
 
-
-void Obj_Graf_Player::handle_respawn()
+bool Obj_Graf_Player::must_not_draw_player()
 {
-	actualImage = 0;
-
-	int flip;
-	if (is_fatty)
-		flip = (dir == Direction::Right) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-	else
-		flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
-
-	if((idleActualImage % 2) == 0)
-		al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-	((idleActualImage + 1) < 2 * idle_pics) ? idleActualImage++ : idleActualImage = 0;
+	bool ret = false;
+	if (this->has_inmunity) {
+		if (toggle_sprites < FPS_4_INMUNITY_TOGGLE)
+			ret = true;
+		toggle_sprites++;
+		toggle_sprites %= 2 * FPS_4_INMUNITY_TOGGLE;
+	}
+	return ret;
 }
 
 void Obj_Graf_Player::handle_pushing() {

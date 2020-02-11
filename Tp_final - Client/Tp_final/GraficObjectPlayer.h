@@ -26,7 +26,9 @@ private:
 	PLAYER_TYPE type;
 
 	void handle_pushing();
-	void handle_respawn();
+
+	bool must_not_draw_player();
 
 	bool has_inmunity;
+	unsigned int toggle_sprites;
 };

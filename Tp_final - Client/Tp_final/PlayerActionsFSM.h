@@ -2,8 +2,8 @@
 #include "Player.h"
 #include "CharacterActionsFSM.h"
 
-#define RESPAWN_TIME 3
-#define INMUNE_TIME 5
+#define RESPAWN_TIME 5
+#define INMUNE_TIME 3
 
 
 class PlayerActionsFSM : public CharacterActionsFSM

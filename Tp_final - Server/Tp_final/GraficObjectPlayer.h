@@ -4,7 +4,7 @@
 
 enum PLAYER_TYPE { TOM, NICK };
 
-enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, player_IDLE, player_ATTACKING, player_FALLING , player_PUSHING, player_DYING, player_RESPAWN, player_STOP_INMUNITY};
+enum PLAYER_STATE { player_WALKING, player_JUMPING, player_JUMPING_FOWARD, player_IDLE, player_ATTACKING, player_FALLING, player_PUSHING, player_DYING, player_RESPAWN, player_STOP_INMUNITY };
 
 
 class Obj_Graf_Player : public Obj_Graf_Character
@@ -18,15 +18,17 @@ public:
 	void destroy();
 	void reset();
 	bool secuenceOver();
-	 
 	void set_inmunity(bool inmunity);
+
 
 private:
 	PLAYER_STATE state;
 	PLAYER_TYPE type;
 
 	void handle_pushing();
-	void handle_respawn();
+
+	bool must_not_draw_player();
 
 	bool has_inmunity;
+	unsigned int toggle_sprites;
 };
