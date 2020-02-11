@@ -704,6 +704,11 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		std::cout << "Posicion externa X " << Action_info_to_be_checked->final_pos_x << std::endl;
 	}
 
+
+	//Matando el predictivo porque se rompe en algunos casos hasta que ande
+	if (!the_one_that_moves->is_iddle() && !character_check)
+		is_the_move_possible = false;
+
 	return is_the_move_possible;
 }
 

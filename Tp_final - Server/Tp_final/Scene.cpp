@@ -734,6 +734,10 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	//	cout << "Movimiento valido, se activa bloqueo logico" << endl;
 	//}
 
+	//Matando el predictivo porque se rompe en algunos casos hasta que ande
+	if (!the_one_that_moves->is_iddle() && !character_check)
+		is_the_move_possible = false;
+
 	return is_the_move_possible;
 }
 
