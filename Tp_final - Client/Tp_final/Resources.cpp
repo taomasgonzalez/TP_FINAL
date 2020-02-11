@@ -29,7 +29,7 @@ bool Resources::initialize_all_the_resources() {
 	healthy_initialization = my_allegro_container->Init(*my_user_data);  //se puede ver de pedirla por allegro, el tema es que no estaría iniciado todavía
 
 	my_graphic_interface->Init();
-	my_graphic_interface->print_messaje(INTRO);
+//	my_graphic_interface->print_messaje(INTRO);
 	set_myUserData();
 
 	if (healthy_initialization)
@@ -64,8 +64,8 @@ bool Resources::initialize_all_the_resources() {
 		my_scenario->gameInit();
 	}
 
-	if(healthy_initialization)
-		my_graphic_interface->start_game_scenario_alt();
+//	if(healthy_initialization)
+//		my_graphic_interface->start_game_scenario_alt();
 	return healthy_initialization;
 }
 
@@ -124,8 +124,9 @@ void Resources::add_all_observers() {
 void Resources::set_myUserData()
 {
 	string my_name;
-	my_name = my_graphic_interface->request_user_name();
-	my_user_data->my_network_data.my_name_is(my_name);
+	my_name = "halo";
+	//my_name = my_graphic_interface->request_user_name();
+	//my_user_data->my_network_data.my_name_is(my_name);
 
 	/*
 	string my_ip;
@@ -133,8 +134,8 @@ void Resources::set_myUserData()
 	my_user_data->my_network_data.my_name_is(my_ip);
 	*/
 
-	al_clear_to_color(al_map_rgb(0, 0, 0));
-	al_flip_display();
+	//al_clear_to_color(al_map_rgb(0, 0, 0));
+	//al_flip_display();
 }
 
 bool Resources::game_is_running() {

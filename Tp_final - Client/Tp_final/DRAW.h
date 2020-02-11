@@ -57,6 +57,14 @@ private:
 	unsigned int level;
 	unsigned int screen_w;
 	unsigned int screen_h;
+	unsigned int corner_right_h;
+	unsigned int corner_right_w;
+	unsigned int corner_left_h;
+	unsigned int corner_left_w;
+	unsigned int top_h;
+	unsigned int top_w;
+	unsigned int bottom_h;
+	unsigned int bottom_w;
 	unsigned int step_background;	//used for a dynamic background
 	void drawLevel();
 	void draw_dynamic_background();

@@ -64,6 +64,7 @@ Obj_Graf_Projectile* DRAW::createObjGraf(unsigned int ID, PROYECTILE_TYPE type)
 
 void DRAW::draw()		
 {
+
 	drawLevel();
 
 	vector<unsigned int> keys;
@@ -150,11 +151,20 @@ void DRAW::load_scenario_bitmaps(void)
 
 	if (!floor_bottom || !floor_top)
 		cout << "ERROR: could not load scenario !" << endl;
+
+	bottom_w = al_get_bitmap_width(floor_bottom);
+	bottom_h = al_get_bitmap_height(floor_bottom);
+	corner_left_w = al_get_bitmap_width(floor_corner_left);
+	corner_left_h = al_get_bitmap_height(floor_corner_left);
+	corner_right_w = al_get_bitmap_width(floor_corner_right);
+	corner_right_h = al_get_bitmap_height(floor_corner_right);
+	top_w = al_get_bitmap_width(floor_top);
+	top_h = al_get_bitmap_height(floor_top);
 }
 
 void DRAW::load_score_font(void)
 {
-	score_font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 50 + DISPLAY_H / 50, 0);
+	score_font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 20 + DISPLAY_H / 20, 0);
 	if (!score_font)
 	{
 		cout << "ERROR: score font unable to load" << endl;
@@ -179,19 +189,19 @@ void DRAW::drawLevel()
 				char right_block_type = levels[level - 1].c_str()[(i) * 16 + j + 1];
 
 				if(upper_block_type == 'F')
-					al_draw_scaled_bitmap(floor_bottom, 0, 0, al_get_bitmap_width(floor_bottom), al_get_bitmap_height(floor_bottom), BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					al_draw_scaled_bitmap(floor_bottom, 0, 0, bottom_w, bottom_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				else if(left_block_type != 'F')
-					al_draw_scaled_bitmap(floor_corner_left, 0, 0, al_get_bitmap_width(floor_corner_left), al_get_bitmap_height(floor_corner_left), BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					al_draw_scaled_bitmap(floor_corner_left, 0, 0, corner_left_w, corner_left_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				else if (right_block_type != 'F')
-					al_draw_scaled_bitmap(floor_corner_right, 0, 0, al_get_bitmap_width(floor_corner_right), al_get_bitmap_height(floor_corner_right), BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					al_draw_scaled_bitmap(floor_corner_right, 0, 0, corner_right_w, corner_right_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 				else
-					al_draw_scaled_bitmap(floor_top, 0, 0, al_get_bitmap_width(floor_top), al_get_bitmap_height(floor_top), BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
+					al_draw_scaled_bitmap(floor_top, 0, 0, top_w, top_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 			}
 			else if(block_type == 'F')
-				al_draw_scaled_bitmap(floor_bottom, 0, 0, al_get_bitmap_width(floor_bottom), al_get_bitmap_height(floor_bottom), BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
+				al_draw_scaled_bitmap(floor_bottom, 0, 0, bottom_w, bottom_h, BLOCK_SIZE * j, BLOCK_SIZE * i, BLOCK_SIZE, BLOCK_SIZE, 0);
 		}
 	}
-	draw_game_score();
+//	draw_game_score();
 }
 
 void DRAW::draw_dynamic_background()
