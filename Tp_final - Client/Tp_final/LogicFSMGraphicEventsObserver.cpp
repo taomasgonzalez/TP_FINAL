@@ -18,4 +18,6 @@ void LogicFSMGraphicEventsObserver::update() {
 		graphic->append_new_event(new GAME_START_EventPackage(), 0);
 	else if(logic->finished_level)
 		graphic->append_new_event(new CHANGE_LEVEL_EventPackage(), 0);
+	else if (logic->reset_graphic)
+		graphic->flush_all_queues();
 }

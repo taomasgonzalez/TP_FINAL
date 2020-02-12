@@ -81,6 +81,5 @@ private:
 	queue<Package*> packages_queue;
 
 	//debug
-	int ack_counter = 0;
 };
 

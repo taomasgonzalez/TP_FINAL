@@ -3,12 +3,10 @@
 #include "PlayerActionsFSMDRAWObserver.h"
 #include "CharacterSceneObserver.h"
 #include "MapThingEventGenerator.h"
-#include "PlayerSceneControllerObserver.h"
 
+//agrï¿½go un bool para saber, desde scene que tiene el dato si es tom o nick
 
-//agrégo un bool para saber, desde scene que tiene el dato si es tom o nick
-
-Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, sense)
+Player::Player(unsigned int id, bool is_nick, Sense_type sense) :Character(id, sense)
 {
 	if (is_nick)
 		printable = Item_type::NICK;
@@ -19,7 +17,6 @@ Player::Player(unsigned int id,bool is_nick, Sense_type sense) :Character(id, se
 	MapThingEventGenerator* ev_gen = new MapThingEventGenerator();
 	fsm->add_observer(new PlayerActionsFSMDRAWObserver(fsm, ev_gen, this));
 
-	
 	ev_handler = new EventHandler(fsm, ev_gen);
 }
 
@@ -32,8 +29,27 @@ bool Player::is_player() {
 	return true;
 }
 void Player::revive() {
-	if(lives > 0)
+	if (lives > 0)
+	{
 		dead = false;
+	}
+	else
+		std::cout << "El jugador no puede revivir, no tiene vidas" << std::endl;
+}
+
+bool Player::has_lives() {
+
+	return !run_out_of_lives;
+}
+
+bool Player::is_inmune() {
+
+	return being_inmuned;
+}
+
+void Player::set_the_player_inmunity(bool is_inmuned) {
+
+	being_inmuned = is_inmuned;
 }
 
 
@@ -42,10 +58,19 @@ void Player::die()
 	lose_life();
 	dead = true;
 }
+
 void Player::lose_life()
 {
 	if (lives > 0)
 		lives--;
+
+	if (printable == Item_type::TOM)
+		std::cout << "TOM perdio una vida, le quedan: " << lives << std::endl;
+	else
+		std::cout << "NICK perdio una vida, le quedan: " << lives << std::endl;
+
+	if (lives == 0)
+		run_out_of_lives = true;
 	
 }
 

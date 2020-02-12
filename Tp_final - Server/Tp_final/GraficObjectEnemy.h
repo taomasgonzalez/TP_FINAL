@@ -3,7 +3,7 @@
 
 enum ENEMY_TYPE {PURPLE, FATTY, CRAZY};
 
-enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_JUMPING_FOWARD, enemy_IDLE, enemy_TRAPPED_1, enemy_TRAPPED_2, enemy_ATTACKING, enemy_FALLING, enemy_DYING, enemy_INBALL_IDLE, enemy_INBALL_MOVING, enemy_INBALL_PUSHING, enemy_INBALL_FALLING, enemy_INBALL_DESTRUCTION};				// algunos montruos no atacan
+enum ENEMY_STATE { enemy_WALKING, enemy_JUMPING, enemy_JUMPING_FOWARD, enemy_IDLE, enemy_TRAPPED_1, enemy_TRAPPED_2, enemy_TRAPPED_3, enemy_ATTACKING, enemy_FALLING, enemy_DYING, enemy_INBALL_IDLE, enemy_INBALL_MOVING, enemy_INBALL_PUSHING, enemy_INBALL_FALLING, enemy_INBALL_DESTRUCTION};				// algunos montruos no atacan
 
 class Obj_Graf_Enemy : public Obj_Graf_Character
 {
@@ -24,9 +24,12 @@ private:
 	float vel_x_inball;
 	unsigned int trap1ActualImage;
 	unsigned int trap2ActualImage;
+	unsigned int trap3ActualImage;
 	unsigned int trap1ticks;
 	unsigned int trap2ticks;
-	unsigned int actualImageInball;
+	unsigned int trap3ticks;
+	unsigned int actualImageInball_idle;
+	unsigned int actualImageInball_moving;
 	unsigned int actualDestructionImage;
 
 

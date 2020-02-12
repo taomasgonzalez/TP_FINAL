@@ -113,9 +113,23 @@ void Scene::execute_proyectile(Proyectile* proyectile_to_be_executed, bool& shou
 
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
-				should_hit = true;
-				notify_obs();
-				should_hit = false;
+
+				if (action_to_be_loaded.id == 84 && (!my_vector_of_players[i]->is_inmune())) //tom should die
+				{
+					should_tom_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_tom_die = false;
+				}
+				else if (action_to_be_loaded.id == 78 && (!my_vector_of_players[i]->is_inmune()))  //nick should die
+				{
+					should_nick_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_nick_die = false;
+				}
 
 			}
 		}
@@ -227,9 +241,23 @@ void Scene::execute_enemy_action(Action_info * enemy_action_to_be_executed, bool
 			{
 				action_to_be_loaded.my_info_header = Action_info_id::DIE;
 				action_to_be_loaded.id = my_vector_of_players[i]->id;
-				should_hit = true;
-				notify_obs();
-				should_hit = false;
+
+				if (action_to_be_loaded.id == 84 && (!my_vector_of_players[i]->is_inmune())) //tom should die
+				{
+					should_tom_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_tom_die = false;
+				}
+				else if (action_to_be_loaded.id == 78 && (!my_vector_of_players[i]->is_inmune()))  //nick should die
+				{
+					should_nick_die = true;
+					avoid_character_scene_obs = true;
+					notify_obs();
+					avoid_character_scene_obs = false;
+					should_nick_die = false;
+				}
 
 			}
 		}
@@ -257,7 +285,10 @@ void Scene::execute_proy_move(Action_info * action_to_be_executed, bool & should
 		if (should_be_hit = curr_map->cell_has_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y)) {
 			vector<Player*> players = curr_map->get_cell_players(action_to_be_executed->final_pos_x, action_to_be_executed->final_pos_y);
 			for (vector<Player*>::iterator player = players.begin(); player != players.end(); ++player)
-				(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+			{
+				if(!(*player)->is_inmune())
+					(*player)->ev_handler->get_ev_gen()->append_new_event(new DIED_EventPackage(), 0);
+			}
 		}
 	}
 	else if (proy->is_snowball())
@@ -438,6 +469,17 @@ Item_type Scene::give_the_other_player() {
 	return other_player;
 }
 
+bool Scene::both_players_run_out_of_lives() {
+
+
+	for (vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
+		if ((*it)->has_lives())
+			return false;
+
+	return true;
+
+}
+
 bool Scene::both_players_dead()
 {
 	for(vector<Player*>::iterator it = curr_players->begin(); it != curr_players->end(); ++it)
@@ -518,6 +560,8 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	Position local_destination;
 	extern_future_event = false;
 	local_future_event = false;
+	int delta = 0;
+
 
 	/*	if this particular scene is a client scene and the move comes from networking, then the character is
 		already specified in Action_info_to_be_checked.*/
@@ -527,15 +571,43 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 
 	Player * the_one_that_moves = get_player(Action_info_to_be_checked->my_character);
 
+
+	//if (the_one_that_moves->is_walking())
+	//{
+	//		the_one_that_moves->pos_x = the_one_that_moves->saved_x;
+	//		the_one_that_moves->pos_y = the_one_that_moves->saved_y;
+	//}
+
+
 	if (!Action_info_to_be_checked->is_local){
 		bool out_of_range = false;
 		Position extern_destination = { Action_info_to_be_checked->final_pos_y, Action_info_to_be_checked->final_pos_x };
 		Action_info_to_be_checked->my_direction = load_direction(&extern_destination, the_one_that_moves, &out_of_range);
 	}
+	else
+	{
+		std::cout << "Según load direction:(acción local) " << std::endl;
+
+		std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y << std::endl;
+		std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x << std::endl;
+	}
+
 
 	Action_info_to_be_checked->id = the_one_that_moves->id;
 	Direction_type my_direction = Action_info_to_be_checked->my_direction;
 
+	//if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST&&!the_one_that_moves->is_walking())
+	//{	
+	//	if (my_direction == Direction_type::Left)
+	//	{
+	//		the_one_that_moves->saved_x = the_one_that_moves->pos_x - 1;
+	//	}
+	//	else if(my_direction == Direction_type::Right)
+	//	{
+	//		the_one_that_moves->saved_x = the_one_that_moves->pos_x + 1;
+	//	}
+	//		the_one_that_moves->saved_y = the_one_that_moves->pos_y;
+	//}
 
 	//Es un MOVE que llego por networking, si ya me estoy moviendo significa que es un evento futuro a chequear
 	if(Action_info_to_be_checked->my_info_header==Action_info_id::MOVE && !the_one_that_moves->is_iddle())
@@ -545,31 +617,15 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST && !the_one_that_moves->is_iddle())
 		this->local_future_event = true;
 
-	else if (!character_check && !the_one_that_moves->is_iddle())
-	{
 
-//		if (saved_events->empty())
-//		{
-//			this->appended_event = true;
-//#ifdef DEBUG
-//			std::cout << "No se puede ejecutar el movimiento, el jugador ya se esta moviendo, se guarda el evento para más tarde" << std::endl;
-//#endif
-//		}
-//		else
-//			std::cout << "Ya hay guardado un movimiento" << std::endl;
-
-	}
 
 	if (the_one_that_moves->is_dead())
 	{
 		is_the_move_possible = false;
 		std::cout << " Error , el jugador que debería moverse está muerto" << std::endl;
 	}
-//	else if (!character_check && !the_one_that_moves->is_iddle()) 
-//		is_the_move_possible = false;
 	else
 	{
-		int delta = 0;
 		switch (my_direction)
 		{
 		case Direction_type::Jump_Straight:
@@ -596,19 +652,39 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 		case Direction_type::Jump_Left:
 		case Direction_type::Jump_Right:
 
+
 			delta = (my_direction == Direction_type::Jump_Left) ? -1 : 1;
 
 			if (Action_info_to_be_checked->is_local) {
 				local_destination.fil = the_one_that_moves->pos_x + delta;
 				local_destination.col = the_one_that_moves->pos_y - 2;
 			}
-			if (!character_check)	delta = 0;
-			is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
+
+			if (character_check)
+			{
+				is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
+				std::cout << "Chequeo de jump foward desde character" << std::endl;
+				std::cout << "Altura del player: " << the_one_that_moves->pos_y << std::endl;
+			}
+			else
+			{
+
+				if (!(is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 2)))
+					is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x, the_one_that_moves->pos_y - 1);
+				std::cout << "Chequeo de jump foward desde fsm" << std::endl;
+				std::cout << "Altura del player: " << the_one_that_moves->pos_y << std::endl;
+			}
+
+			//if (!character_check)	
+			//	delta = 0;
+			//is_the_move_possible = maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y - 1);
 
 			break;
-
 		case Direction_type::Left:
 		case Direction_type::Right:
+
+			//is_the_move_possible = check_walk(my_direction);
+
 			if (this->local_future_event||this->extern_future_event)
 				delta = (my_direction == Direction_type::Left) ? -2 : 2;
 			else
@@ -634,10 +710,60 @@ bool Scene::check_move(Action_info * Action_info_to_be_checked, bool character_c
 	{
 		Action_info_to_be_checked->final_pos_x = local_destination.fil;
 		Action_info_to_be_checked->final_pos_y = local_destination.col;
+		std::cout << "Posicion externa Y " << Action_info_to_be_checked->final_pos_y << std::endl;
+		std::cout << "Posicion externa X " << Action_info_to_be_checked->final_pos_x << std::endl;
 	}
+
+
+	//Matando el predictivo porque se rompe en algunos casos hasta que ande
+	if (!the_one_that_moves->is_iddle() && !character_check)
+		is_the_move_possible = false;
 
 	return is_the_move_possible;
 }
+
+//
+//bool Scene::check_walk(Direction_type walk_direction) {
+//
+//	extern_future_event = false;
+//	local_future_event = false;
+//
+//	//Es un MOVE que llego por networking, si ya me estoy moviendo significa que es un evento futuro a chequear
+//	if (Action_info_to_be_checked->my_info_header == Action_info_id::MOVE && !the_one_that_moves->is_iddle())
+//		this->extern_future_event = true;
+//
+//	//Es un ACTION_REQUEST, si ya me estoy moviendo significa que es un evento futuro a chequear
+//	if (Action_info_to_be_checked->my_info_header == Action_info_id::ACTION_REQUEST && !the_one_that_moves->is_iddle())
+//		this->local_future_event = true;
+//
+//	if (this->local_future_event || this->extern_future_event)
+//		delta = (my_direction == Direction_type::Left) ? -2 : 2;
+//	else
+//		delta = (my_direction == Direction_type::Left) ? -1 : 1;
+//
+//	is_the_move_possible = Action_info_to_be_checked->is_local ?
+//		maps[actual_map]->cell_has_floor(the_one_that_moves->pos_x + delta, the_one_that_moves->pos_y) :
+//		maps[actual_map]->cell_has_floor(Action_info_to_be_checked->final_pos_x, Action_info_to_be_checked->final_pos_y);
+//	if (Action_info_to_be_checked->is_local)
+//	{
+//		local_destination.fil = the_one_that_moves->pos_x + delta;
+//		local_destination.col = the_one_that_moves->pos_y;
+//	}
+//
+//
+//}
+
+//bool Scene::check_jump(Direction_type walk_direction) {
+//
+//}
+//
+//bool Scene::check_straight_jump() {
+//
+//}
+//
+//bool Scene::check_foward_jump() {
+//
+//}
 
 void Scene::load_saved_event_r() {
 
@@ -650,6 +776,11 @@ void Scene::load_saved_event_r() {
 Direction_type Scene::load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range) {
 
 	Direction_type my_direction;
+	std::cout << "Según load direction:(acción externa) "<< std::endl;
+	std::cout << "Posicion externa Y " << extern_destination->fil << std::endl;
+	std::cout << "Posicion externa X " << extern_destination->col << std::endl;
+	std::cout << "Posicion actual Y del char " << the_one_that_moves->pos_y << std::endl;
+	std::cout << "Posicion actual X del char " << the_one_that_moves->pos_x << std::endl;
 
 	if ((extern_destination->fil == the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Left
 		my_direction = Direction_type::Left;
@@ -661,7 +792,7 @@ Direction_type Scene::load_direction(Position * extern_destination, Character* t
 	}
 	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col == the_one_that_moves->pos_x)) { //Jump_Straight
 		my_direction = Direction_type::Jump_Straight;
-		*out_of_range = (the_one_that_moves->pos_x - extern_destination->fil) != 2;
+		*out_of_range = (the_one_that_moves->pos_y - extern_destination->fil) > 2;
 	}
 	else if ((extern_destination->fil < the_one_that_moves->pos_y) && (extern_destination->col < the_one_that_moves->pos_x)) { //Jump_Left
 		my_direction = Direction_type::Jump_Left;
@@ -741,6 +872,8 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 	Position extern_destination;
 	Action_type action_to_be_checked;
 	Direction_type my_direction;
+	bool out_of_range = false;
+
 
 	searched_id = package_to_be_analyze->id;
 	Enemy* the_enemy_that_acts = *find_if(curr_enemies->begin(), curr_enemies->end(), char_meets_id);
@@ -759,8 +892,10 @@ bool Scene::check_enemy_action(Action_info * package_to_be_analyze) {
 		switch (action_to_be_checked)
 		{
 		case Action_type::Move:
-			bool out_of_range;
 			my_direction = load_direction(&extern_destination, the_enemy_that_acts, &out_of_range);
+
+			if (out_of_range)
+				return false;
 
 			switch (my_direction)
 			{
@@ -824,8 +959,7 @@ bool Scene::check_if_has_to_fall(Character* charac, bool map_thing_check) {
 
 	if (map_thing_check)//Called from CharacterActionFSM
 	{
-		if (charac->pos_y < 10 &&
-			maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+		if (maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 			has_to_fall = true;
 		}
 
@@ -836,8 +970,7 @@ bool Scene::check_if_has_to_fall(Character* charac, bool map_thing_check) {
 		if (!charac->is_falling())
 			if (charac->has_to_fall())
 			{
-				if (charac->pos_y < 10 &&
-					maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
+				if (maps[actual_map]->cell_has_floor(charac->pos_x, charac->pos_y + 1)) {
 					has_to_fall = true;
 				}
 				else
@@ -881,7 +1014,7 @@ bool Scene::did_we_win()
 {
 	bool we_won;
 
-	if ((!this->both_players_dead()) && (!this->any_monsters_left()) && (this->actual_map == 10))
+	if ((!this->both_players_run_out_of_lives()) && (!this->any_monsters_left()) && (this->actual_map == 10))
 	{
 		we_won = true;
 
@@ -896,7 +1029,7 @@ bool Scene::did_we_lose()
 {
 	bool we_lost;
 
-	if (this->both_players_dead())
+	if (this->both_players_run_out_of_lives())
 	{
 		we_lost = true;
 	}
@@ -909,7 +1042,7 @@ bool Scene::did_we_lose()
 //For server´s
 void Scene::check_current_game_situation() {
 
-	if (both_players_dead()){
+	if (both_players_run_out_of_lives()){
 		we_lost = true;
 		notify_obs();
 		we_lost = false;
@@ -933,26 +1066,71 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 //esta funcion solo tiene que ser llamada por el server!!!!
 void Scene::control_enemy_actions()
 {
-	if (curr_enemy_to_act_on >= curr_enemies->size())
-		curr_enemy_to_act_on = 0;
+	int curr_enemy_to_act_on;
 
-	Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on++);
+	control_enemies();
+	
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
 
-	if (curr_enemy->is_iddle()) {
-		enemy_action_info = curr_enemy->act();
-		new_enemy_action = true;
-		notify_obs();					//ScenarioEventsObserver
-		new_enemy_action = false;
+		if (curr_enemy->is_iddle()) {
+			enemy_action_info = curr_enemy->act();
+
+			if (enemy_action_info.valid) //So we don´t send a stay still
+			{
+				new_enemy_action = true;
+				notify_obs();					//ScenarioEventsObserver
+				new_enemy_action = false;
+			}
+		}
 	}
 	
-	for(int i = 0; i < curr_enemies->size(); i++)
-		curr_enemies->at(i)->ev_handler->handle_event();
+
+
+}
+
+void Scene::restart_enemies() {
+
+	int curr_enemy_to_act_on;
+
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+
+		curr_enemy->set_blocked_enemy_movements(false);
+
+	}
+
+}
+
+
+void Scene::stop_all_enemies() {
+
+	int curr_enemy_to_act_on;
+
+	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+
+		curr_enemy->set_blocked_enemy_movements(true);
+
+	}
 
 }
 void Scene::control_enemies() {
-	if (initializing) {
-		for (int i = 0; i < curr_enemies->size(); i++) 
-			curr_enemies->at(i)->ev_handler->handle_event();
+	for (int i = 0; i < curr_enemies->size(); i++)
+	{
+		Enemy* curr_enemy = curr_enemies->at(i);
+
+		if (check_if_has_to_fall(curr_enemy, false))
+		{
+			curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+			curr_enemy->set_blocked_enemy_movements(true); //If server the program blocks the generation of EA until the enemy stops falling
+
+		}
+
+		curr_enemies->at(i)->ev_handler->handle_event();
 	}
 }
 void Scene::control_all_actions() {

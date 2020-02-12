@@ -42,13 +42,20 @@ LogicEventGenerator::LogicEventGenerator(Allegro * al, Userdata* data) : EventGe
 	//Set to random number, is not started until a blocking is needed and a new timer´s speed is set
 	blocking_movements_events_timer = al_create_timer(1 / 30.0);
 	//block attacks for 200 ms so they do not overload
-	blocking_attacks_events_timer = al_create_timer(0.1);
+	blocking_attacks_events_timer = al_create_timer(0.2);
 
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_movements_events_timer));
 	al_register_event_source(al_key_timers_queue, al_get_timer_event_source(blocking_attacks_events_timer));
 
 
 	append_all_queues((int)LogicQueues::TOTAL_QUEUES);
+
+	//If the current sesion has a client role, the first package to be generated will have an ID equals to START_POINT_PACKAGE_ID_FOR_CLIENT
+	if (my_user_data->my_network_data.is_client())
+		package_ID_counter = START_POINT_PACKAGE_ID_FOR_CLIENT;
+	//If the current sesion has a client role, the first package to be generated will have an ID equals to START_POINT_PACKAGE_ID_FOR_SERVER
+	else
+		package_ID_counter = START_POINT_PACKAGE_ID_FOR_SERVER;
 }
 
 
@@ -70,6 +77,7 @@ LogicEventGenerator::~LogicEventGenerator()
 EventPackage * LogicEventGenerator::fetch_event()
 {
 	update_from_allegro_events();
+
 	return EventGenerator::fetch_event();
 }
 
@@ -319,7 +327,7 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				{
 					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Left), (int)LogicQueues::allegro);
 					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it´s finished
-					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					al_set_timer_speed(blocking_movements_events_timer, 0.7);
 					std::cout << "Se mando un JUMP LEFT" << std::endl;
 
 				}
@@ -327,27 +335,27 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				{
 					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Right), (int)LogicQueues::allegro);
 					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it´s finished
-					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					al_set_timer_speed(blocking_movements_events_timer,0.7);
 					std::cout << "Se mando un JUMP RIGHT" << std::endl;
 				}
 				else
 				{
 					append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight), (int)LogicQueues::allegro);
 					//A jump movement lasts 1.2s so we block the fetching of movements until 50ms before it´s finished
-					al_set_timer_speed(blocking_movements_events_timer, 1.2);
+					al_set_timer_speed(blocking_movements_events_timer, 0.7);
 					std::cout << "Se mando un UP" << std::endl;
 
 					//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Jump_Straight);
 				}
 			}
 
-			if (key[KEY_DOWN])
+			else if (key[KEY_DOWN])
 			{
 				std::cout << "Se mando un DOWN" << std::endl;
 
 			}
 
-			if (key[KEY_LEFT])
+			else if (key[KEY_LEFT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Left), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
@@ -356,7 +364,7 @@ void LogicEventGenerator::load_events_from_keyboard() {
 				//ev_pack = direction_to_event_package(Action_type::Move, Direction_type::Left);
 			}
 
-			if (key[KEY_RIGHT])
+			else if (key[KEY_RIGHT])
 			{
 				append_new_event(direction_to_event_package(Action_type::Move, Direction_type::Right), (int)LogicQueues::allegro);
 				al_set_timer_speed(blocking_movements_events_timer, 0.3);
@@ -393,8 +401,16 @@ void LogicEventGenerator::load_events_from_keyboard() {
 		int i;
 
 
-	//if (ev_pack != NULL)
-	//	append_new_event(ev_pack, (int)LogicQueues::allegro);
+	if (my_user_data->my_network_data.is_client())
+	{
+		if (package_ID_counter == FINISH_POINT_PACKAGE_ID_FOR_CLIENT)
+			package_ID_counter = START_POINT_PACKAGE_ID_FOR_CLIENT;
+	}
+	else
+	{
+		if (package_ID_counter == FINISH_POINT_PACKAGE_ID_FOR_SERVER)
+			package_ID_counter = START_POINT_PACKAGE_ID_FOR_SERVER;
+	}
 
 }
 
@@ -413,31 +429,24 @@ void LogicEventGenerator::load_events_from_keyboard() {
 EventPackage* LogicEventGenerator::direction_to_event_package(Action_type action, Direction_type direction) {
 	EventPackage* ev_pack = NULL;
 
-	//Doesn´t make sense with the new implementation
-	//if (action == Action_type::Move && this->jumping) {
-	//	//the player is jumping in one direction, so should first convert to the suited Direction_type
-	//	if (this->side_move_dir != Direction_type::None)
-	//		this->side_move_dir = (this->side_move_dir == Direction_type::Left) ? Direction_type::Jump_Left : Direction_type::Jump_Right;
-	//	else
-	//		this->side_move_dir = Direction_type::Jump_Straight;
-	//}
-
 	if (!my_user_data->my_network_data.is_client()) {
 		if (action == Action_type::Attack)
-			ev_pack = new ATTACK_EventPackage();
+			ev_pack = new ATTACK_EventPackage(this->package_ID_counter++);
 		else  if (action == Action_type::Move && direction != Direction_type::None)
-			ev_pack = new MOVE_EventPackage(direction);
+			ev_pack = new MOVE_EventPackage(direction, package_ID_counter++);
 	}
 	else
 	{
 		if (action == Action_type::Attack)
-			ev_pack = new ACTION_REQUEST_EventPackage(action, direction);
+			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter++);
 		else if (action == Action_type::Move && direction != Direction_type::None)
-			ev_pack = new ACTION_REQUEST_EventPackage(action, direction);
+			ev_pack = new ACTION_REQUEST_EventPackage(action, direction, this->package_ID_counter++);
 	}
 
 	return ev_pack;
 }
+
+
 
 
 /******************************************

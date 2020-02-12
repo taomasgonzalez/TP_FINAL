@@ -1,5 +1,6 @@
 #include "Character.h"
 #include "CharacterActionsFSM.h"
+
 Character::Character(unsigned int id, Sense_type sense) : MapThing(id, false, sense)
 {
 
@@ -35,21 +36,15 @@ bool Character::is_falling()
 bool Character::is_iddle()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
+
 	return char_fsm->is_iddle();
 }
 
-bool Character::waiting_for_next_move()
+bool Character::is_walking()
 {
 	CharacterActionsFSM* char_fsm = static_cast<CharacterActionsFSM*>(ev_handler->get_fsm());
 
-	bool is_pending = char_fsm->obs_info.next_move_pending;
-
-	if (is_pending)
-	{
-		char_fsm->obs_info.next_move_pending = false;
-	}
-
-	return is_pending;
+	return char_fsm->is_walking();
 }
 
 bool Character::is_attacking() {
@@ -62,6 +57,17 @@ bool Character::has_to_fall()
 	return static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->has_to_fall();
 }
 
+void Character::set_rolling(bool can_roll)
+{
+	this->snoballed = can_roll;
+}
+
+bool Character::can_the_enemy_roll()
+{
+	return snoballed;
+}
+
+
 void Character::dont_fall()
 {
 	static_cast<CharacterActionsFSM*>(ev_handler->get_fsm())->dont_fall();
@@ -71,7 +77,7 @@ void Character::append_action_to_character(Action_info action) {
 
 	EventPackage* ev_pack = NULL;
 	if (action.action == Action_type::Attack)
-		ev_pack = new ATTACK_EventPackage();
+		ev_pack = new ATTACKED_EventPackage();
 
 	else if (action.action == Action_type::Move) {
 		switch (action.my_direction) {

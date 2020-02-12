@@ -12,7 +12,7 @@ protected:
 	unsigned int walking_pics;
 	unsigned int jumping_pics;
 	unsigned int jumping_forw_pics;
-	unsigned int iddle_pics;
+	unsigned int idle_pics;
 	unsigned int attacking_pics;
 	unsigned int falling_pics;
 	unsigned int dying_pics;
@@ -29,7 +29,7 @@ protected:
 	void handle_walking();
 	void handle_jumping();
 	void handle_jumping_forward();
-	void handle_iddle();
+	void handle_idle();
 	void handle_attacking();
 	void handle_falling();
 	void handle_dying();

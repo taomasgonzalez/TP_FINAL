@@ -24,6 +24,7 @@ void ImageContainer::load_purple_bitmaps() {
 
 	fill_bitmap(&my_enemy_images_container.purple.trap1Images, FOLDER_ENEMY, FOLDER_TRAPPED_1, FILE_PURPLE_TRAPPED_1, TRAPPED_1_PICS_PURPLE, FOLDER_PURPLE);
 	fill_bitmap(&my_enemy_images_container.purple.trap2Images, FOLDER_ENEMY, FOLDER_TRAPPED_2, FILE_PURPLE_TRAPPED_2, TRAPPED_2_PICS_PURPLE, FOLDER_PURPLE);
+	fill_bitmap(&my_enemy_images_container.purple.trap3Images, FOLDER_ENEMY, FOLDER_TRAPPED_3, FILE_PURPLE_TRAPPED_3, TRAPPED_3_PICS_PURPLE, FOLDER_PURPLE);
 
 	// se cargan las imagenes de los enemigos en la bola
 	fill_bitmap(&my_enemy_images_container.purple.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);
@@ -38,6 +39,7 @@ void ImageContainer::load_fatty_bitmaps()
 {
 	fill_bitmap(&my_enemy_images_container.fatty.trap1Images, FOLDER_ENEMY, FOLDER_TRAPPED_1, FILE_FATTY_TRAPPED_1, TRAPPED_1_PICS_FATTY, FOLDER_FATTY);
 	fill_bitmap(&my_enemy_images_container.fatty.trap2Images, FOLDER_ENEMY, FOLDER_TRAPPED_2, FILE_FATTY_TRAPPED_2, TRAPPED_2_PICS_FATTY, FOLDER_FATTY);
+	fill_bitmap(&my_enemy_images_container.fatty.trap3Images, FOLDER_ENEMY, FOLDER_TRAPPED_3, FILE_FATTY_TRAPPED_3, TRAPPED_3_PICS_FATTY, FOLDER_FATTY);
 
 	// se cargan las imagenes de los enemigos en la bola
 	fill_bitmap(&my_enemy_images_container.fatty.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);
@@ -52,6 +54,7 @@ void ImageContainer::load_crazy_bitmaps()
 {
 	fill_bitmap(&my_enemy_images_container.crazy.trap1Images, FOLDER_ENEMY, FOLDER_TRAPPED_1, FILE_CRAZY_TRAPPED_1, TRAPPED_1_PICS_CRAZY, FOLDER_CRAZY);
 	fill_bitmap(&my_enemy_images_container.crazy.trap2Images, FOLDER_ENEMY, FOLDER_TRAPPED_2, FILE_CRAZY_TRAPPED_2, TRAPPED_2_PICS_CRAZY, FOLDER_CRAZY);
+	fill_bitmap(&my_enemy_images_container.crazy.trap3Images, FOLDER_ENEMY, FOLDER_TRAPPED_3, FILE_CRAZY_TRAPPED_3, TRAPPED_3_PICS_CRAZY, FOLDER_CRAZY);
 
 	// se cargan las imagenes de los enemigos en la bola
 	fill_bitmap(&my_enemy_images_container.crazy.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);

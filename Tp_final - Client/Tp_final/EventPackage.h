@@ -82,6 +82,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	JUMPED,
 	JUMPED_FORWARD,
 	WALKED,
+	ATTACKED,
 	FELL,
 	PUSHED,
 	FINISHED_MOVEMENT,
@@ -90,29 +91,46 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 
 	//player events
 	REVIVED,
+	STOP_INMUNITY,
 
 	//enemy and proyectiles events
-	GOT_HIT, 
+	GOT_HIT,
 	GOT_SMASHED,
 
 	//enemy events
 	FROZE,
 	UNFROZE,
+	UNFREEZE,
 	PARTIALLY_UNFROZE,
+	PARTIALLY_FROZE,
 	BOUNCE,
 	ROLLING,
 	CHARGING,
+	SNOWBALL_BREAKDOWN,
 	//RESET(DEBUGGING)
 	RESET,
 	FINISHED_GRAPH_STEP
 
 };
 
-
-class EventPackage
+class Numbered_EventPackage
 {
 public:
-	EventPackage(Event_type event, bool is_local = NULL);
+	Numbered_EventPackage(uint16_t ID);
+
+	uint16_t give_me_your_package_ID();
+	void set_your_package_ID(uint16_t ID);
+
+
+private:
+	uint16_t package_ID = 0;
+
+};
+
+class EventPackage: public Numbered_EventPackage
+{
+public:
+	EventPackage(Event_type event, uint16_t ID, bool is_local );
 	EventPackage(Action_info * info_checked);
 	virtual ~EventPackage();
 
@@ -122,39 +140,50 @@ public:
 
 protected:
 	Event_type my_internal_event;
-	bool local_action;
+	bool local_action = true;
 
 };
 
 class Action_EventPackage
 {
 public:
-	Action_EventPackage(unsigned char fil_de, unsigned char col_de);
+	Action_EventPackage(unsigned char fil_de, unsigned char col_de, Direction_type direction_type);
 	Action_EventPackage(Direction_type direction_type);
 
 	unsigned char give_me_your_destination_row();
 	unsigned char give_me_your_destination_column();
+
 	void set_destination_row(unsigned char my_destination_row);
 	void set_destination_column(unsigned char my_destination_column);
+
+	Item_type give_me_the_character();
+	void set_character(Item_type the_one_that_moves);
+
 	Direction_type give_me_your_direction();
 	void set_direction(Direction_type new_direction = Direction_type::None);
-	
+
 
 private:
 	unsigned char destination_row;
 	unsigned char destination_column;
-	Direction_type my_direction;
+	Direction_type my_direction = Direction_type::None;
+	Item_type character;
 };
+
+
+
 
 /******************************************************************************
 *******************************************************************************
 ACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_EventPackage : public EventPackage
+class ACK_EventPackage : public EventPackage 
 {
 public:
-	ACK_EventPackage();
+	ACK_EventPackage(uint16_t ID, bool is_local);
+
+private:
 
 };
 
@@ -199,24 +228,24 @@ public:
 MOVE_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
+
+
 class MOVE_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	MOVE_EventPackage(Direction_type direction_type); //local MOVE
-	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern MOVE
-	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//MOVE to be send by networking made from an AR
+	MOVE_EventPackage(Direction_type direction_type, uint16_t ID); //local MOVE
+	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern MOVE
+	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//MOVE to be send by networking made from an AR
 	MOVE_EventPackage(Action_info * my_info);
+	MOVE_EventPackage(MOVE_EventPackage* moved);
+
 	//to be completed when neeeded!!
 	MOVE_EventPackage();
-
-	Item_type give_me_the_character();
-	void set_character(Item_type the_one_that_moves);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
 
 private:
-	Item_type character;
 };
 
 /******************************************************************************
@@ -227,20 +256,16 @@ ATTACK_EventPackage CLASS
 class ATTACK_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	ATTACK_EventPackage(); // local ATTACK
-	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de);			//extern ATTACK
-	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de);		//ATTACK to be send by networking made from an AR
+	ATTACK_EventPackage(uint16_t ID); // local ATTACK
+	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern ATTACK
+	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//ATTACK to be send by networking made from an AR
 	ATTACK_EventPackage(Action_info * mmy_info);
-
-	Item_type give_me_the_character();
-	void set_character(Item_type the_one_that_moves);
+	ATTACK_EventPackage(ATTACK_EventPackage* moved);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
 
 private:
-	Item_type character;
-
 
 };
 
@@ -253,9 +278,10 @@ ACTION_REQUEST_EventPackage CLASS
 class ACTION_REQUEST_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction); //local ACTION_REQUEST
-	ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned  char col_de); //extern ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_type the_action, Direction_type direction, uint16_t ID); //local ACTION_REQUEST
+	ACTION_REQUEST_EventPackage(Action_type the_action, unsigned char fil_de, unsigned  char col_de, uint16_t ID); //extern ACTION_REQUEST
 	ACTION_REQUEST_EventPackage(Action_info* my_info);
+	ACTION_REQUEST_EventPackage(ACTION_REQUEST_EventPackage* moved);
 
 	Action_type give_me_the_action();
 	virtual Action_info to_Action_info();
@@ -274,11 +300,9 @@ ERROR_EventPackage CLASS
 class ERROR_EventPackage : public EventPackage
 {
 public:
-	ERROR_EventPackage(bool is_local=true);
-	bool is_this_a_local_error();
+	ERROR_EventPackage(bool is_local = true);
 
 private:
-	bool local_error;  //For the FSM recogniztion analyze_error() function
 
 };
 
@@ -292,7 +316,7 @@ NAME_EventPackage CLASS
 class NAME_EventPackage : public EventPackage
 {
 public:
-	NAME_EventPackage();
+	NAME_EventPackage(bool is_local);
 
 };
 
@@ -341,16 +365,16 @@ private:
 *******************************************************************************
 *******************************************************************************/
 
-class ENEMY_ACTION_EventPackage : public EventPackage
+class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackage
 {
 public:
-	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de);
+	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	ENEMY_ACTION_EventPackage(Action_info * ea_info);
+	ENEMY_ACTION_EventPackage(ENEMY_ACTION_EventPackage* enemy_action);
+
 
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
-	unsigned char give_me_the_destination_row();
-	unsigned char give_me_the_destination_column();
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
 	virtual Action_info to_Action_info();
@@ -358,9 +382,6 @@ public:
 private:
 	uchar MonsterID;
 	Action_type action;
-	unsigned char destination_row;
-	unsigned char destination_column;
-	Direction_type dir;
 };
 
 /******************************************************************************
@@ -385,7 +406,7 @@ GAME_START_EventPackage CLASS
 class GAME_START_EventPackage : public EventPackage
 {
 public:
-	GAME_START_EventPackage();
+	GAME_START_EventPackage(bool is_local);
 
 private:
 
@@ -400,7 +421,7 @@ WE_WON_EventPackage CLASS
 class WE_WON_EventPackage : public EventPackage
 {
 public:
-	WE_WON_EventPackage();
+	WE_WON_EventPackage(bool is_local);
 
 private:
 
@@ -414,7 +435,7 @@ PLAY_AGAIN_EventPackage CLASS
 class PLAY_AGAIN_EventPackage : public EventPackage
 {
 public:
-	PLAY_AGAIN_EventPackage();
+	PLAY_AGAIN_EventPackage(bool is_local);
 
 private:
 
@@ -428,7 +449,7 @@ GAME_OVER_EventPackage CLASS
 class GAME_OVER_EventPackage : public EventPackage
 {
 public:
-	GAME_OVER_EventPackage();
+	GAME_OVER_EventPackage(bool is_local);
 
 private:
 
@@ -506,7 +527,7 @@ public:
 private:
 };
 
-class WALKED_EventPackage : public EventPackage{
+class WALKED_EventPackage : public EventPackage {
 public:
 	WALKED_EventPackage(Direction_type dir);
 	WALKED_EventPackage(const WALKED_EventPackage* walked);
@@ -514,9 +535,17 @@ public:
 	Direction_type walking_direction;
 };
 
+class ATTACKED_EventPackage : public EventPackage {
+public:
+	ATTACKED_EventPackage();
+
+	~ATTACKED_EventPackage();
+};
+
 class JUMPED_EventPackage : public EventPackage {
 public:
 	JUMPED_EventPackage();
+	JUMPED_EventPackage(const JUMPED_EventPackage* walked);
 
 private:
 };
@@ -524,6 +553,8 @@ private:
 class JUMPED_FORWARD_EventPackage : public EventPackage {
 public:
 	JUMPED_FORWARD_EventPackage(Direction_type dir);
+	JUMPED_FORWARD_EventPackage(const JUMPED_FORWARD_EventPackage* walked);
+
 	Direction_type jumping_direction;
 };
 
@@ -556,11 +587,35 @@ public:
 	Direction_type pushing_direction;
 };
 
+class BOUNCE_EventPackage : public EventPackage {
+public:
+	BOUNCE_EventPackage(Direction_type dir);
+	BOUNCE_EventPackage();
+
+	~BOUNCE_EventPackage();
+	Direction_type pushing_direction;
+};
+
+
+class CHARGING_EventPackage : public EventPackage {
+public:
+	CHARGING_EventPackage();
+	~CHARGING_EventPackage();
+
+};
+
 
 class PARTIALLY_UNFROZE_EventPackage : public EventPackage {
 public:
 	PARTIALLY_UNFROZE_EventPackage();
 	~PARTIALLY_UNFROZE_EventPackage();
+
+};
+
+class PARTIALLY_FROZE_EventPackage : public EventPackage {
+public:
+	PARTIALLY_FROZE_EventPackage();
+	~PARTIALLY_FROZE_EventPackage();
 
 };
 
@@ -570,8 +625,38 @@ public:
 	~UNFROZE_EventPackage();
 };
 
+class UNFREEZE_EventPackage : public EventPackage {
+public:
+	UNFREEZE_EventPackage();
+	~UNFREEZE_EventPackage();
+};
+
+class FROZE_EventPackage : public EventPackage {
+public:
+	FROZE_EventPackage();
+	~FROZE_EventPackage();
+};
+
 class FINISHED_GRAPH_STEP_EventPackage : public EventPackage {
 public:
 	FINISHED_GRAPH_STEP_EventPackage();
 	~FINISHED_GRAPH_STEP_EventPackage();
+};
+
+class REVIVE_EventPackage : public EventPackage {
+public:
+	REVIVE_EventPackage();
+	~REVIVE_EventPackage();
+};
+
+class STOP_INMUNITY_EventPackage : public EventPackage {
+public:
+	STOP_INMUNITY_EventPackage();
+	~STOP_INMUNITY_EventPackage();
+};
+
+class SNOWBALL_BREAKDOWN_EventPackage : public EventPackage {
+public:
+	SNOWBALL_BREAKDOWN_EventPackage();
+	~SNOWBALL_BREAKDOWN_EventPackage();
 };

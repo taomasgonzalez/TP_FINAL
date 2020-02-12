@@ -7,6 +7,10 @@ public:
 	PlayerSceneObserver(Player* player, Scene * scene);
 	~PlayerSceneObserver();
 
+	void update();
+
+
+
 	void perform_movement(Action_info action);
 
 private:

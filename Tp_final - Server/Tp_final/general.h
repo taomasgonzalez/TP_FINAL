@@ -56,4 +56,3 @@ struct Position {
 	unsigned int fil;
 	unsigned int col;
 };
-

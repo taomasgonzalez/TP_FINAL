@@ -15,5 +15,6 @@ private:
 
 	EventPackage * my_event_package;
 	Package * pac;
+	uint16_t ACK_ID=0;
 };
 

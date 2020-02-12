@@ -6,102 +6,7 @@ using namespace std;
 FSM::FSM() : Observable(){
 
 }
-string event_string[] =  //Events that are usde by the internal function of the program 
-{
-	"END_OF_TABLE",
 
-
-	//ACK:
-	"ACK",
-
-	//LOCAL_QUIT:Evento de allegro de quit, tiene que ser enviado por networking al otro usuario
-	"LOCAL_QUIT",
-
-	//EXTERN_QUIT:Evento de networking de quit
-	"EXTERN_QUIT",
-
-	//LOCAL_ACTION: Evento generado por allegro pero no ejecutado por la maquina,falta analizar
-	"MOVE",
-
-	//EXTERN_ACTION   Es un MOVE/ATTACK del servidor que llega por networking siendo cliente
-	"ATTACK",
-
-	//ACTION_REQUEST   //action request generado por el cliente que no fue chequeado
-	"ACTION_REQUEST",
-
-	//ERROR: Evento de software cuando se produce un error interno, diversos origenes
-	"ERROR1",
-
-	//NAME_IS: 
-	"NAME_IS",
-
-	//NAME:
-	"NAME",
-
-	//MAP_IS:
-	"MAP_IS",
-
-	//ENEMY_ACTION: El servidor crea una enemy action
-	"ENEMY_ACTION",
-
-	//ENEMYS_LOADED: Recibi todos los enemy  action como para poder empezar el juego
-	"ENEMYS_LOADED",
-
-	//GAME_START:
-	"GAME_START",
-
-	//WE_WON
-	"WE_WON",
-
-	//PLAY_AGAIN
-	"PLAY_AGAIN",
-
-	//FINISHED_LEVEL
-	"FINISHED_LEVEL",
-
-	//GAME_OVER
-	"GAME_OVER",
-
-	//START_COMMUNICATION: Evento de software generado cuando se inicilizo todo correctamente, el servidor esta listo para inicilizar
-	"START_COMMUNICATION",
-
-	"NO_EVENT",
-
-	//graphic events
-	"FPS_TICKED",
-	"APPEARED",
-	"DISAPPEARED",
-	"FINISHED_DRAWING",
-	"CHANGE_LEVEL",
-
-	//character events
-	"JUMPED",
-	"JUMPED_FORWARD",
-	"WALKED",
-	"FELL",
-	"PUSHED",
-	"FINISHED_MOVEMENT",
-	"FINISHED_ATTACK",
-	"DIED",
-
-	//player events
-	"REVIVED",
-
-	//enemy and proyectiles events
-	"GOT_HIT",
-	"GOT_SMASHED",
-
-	//enemy events
-	"FROZE",
-	"UNFROZE",
-	"PARTIALLY_UNFROZE",
-	"BOUNCE",
-	"ROLLING",
-	"CHARGING",
-	//for debuggin purposes
-	"RESET",
-	"FINISHED_GRAPH_STEP"
-};
 
 /******************************************************************************
 *******************************************************************************
@@ -127,7 +32,6 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		Event_type event1 = ev_pack->give_me_your_event_type();
 		if(event1 != Event_type::FPS_TICKED)
 			cout << "LLego un evento " << event_string[(int) event1] << endl;
-		set_fsm_ev_pack(ev_pack);
 
 		int event_pos = 0;
 		while ( ((actual_state->at(event_pos)).event != event1) && (((actual_state->at(event_pos)).event) != Event_type::END_OF_TABLE) )
@@ -136,14 +40,17 @@ void FSM:: run_fsm(EventPackage * ev_pack)
 		//genera evento de software en caso de haber encontrado un evento que no debería ocurrir en ese estado.s MANDAR ERROR, NO PUEDE LLEGAR UN MOVE AL PRINICIPIO XEJ
 		if (((actual_state->at(event_pos)).event == Event_type::END_OF_TABLE))
 			std::cout << "ERROR, EVENTO RECIBIDO NO PERTENECE AL ESTADO" << std::endl;
-		//	this->check_for_incorrect_event(event1);	AGREGAR DPS CARGAR ERROR SI ME LLEGA UN END_OF_TABLE QUE IMPLICA QUE EL EVENTO RECIBIDO NO PERTENECE AL ESTADO		
-
-		//Runs the functions related to that event
-		((actual_state->at(event_pos)).fun_trans)(this);
-		if (should_change_state)
-			actual_state = ((actual_state->at(event_pos)).nextstate);
 		else
-			should_change_state = true;
+		{
+			set_fsm_ev_pack(ev_pack);
+
+			//Runs the functions related to that event
+			((actual_state->at(event_pos)).fun_trans)(this);
+			if (should_change_state)
+				actual_state = ((actual_state->at(event_pos)).nextstate);
+			else
+				should_change_state = true;
+		}
 	}
 }
 

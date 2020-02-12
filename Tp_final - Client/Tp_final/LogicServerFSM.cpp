@@ -1,5 +1,13 @@
 #include "LogicServerFSM.h"
 
+void reset_game_r(void* data);
+
+
+void reset_game_r(void* data)
+{
+	LogicServerFSM * fsm = (LogicServerFSM*)data;
+	fsm->reset_game();
+}
 
 LogicServerFSM::LogicServerFSM(Userdata* data, LogicEventGenerator* event_gen, Scene* scene, Communication* com) : LogicFSM(data, event_gen, scene, com)
 {
@@ -162,7 +170,6 @@ LogicServerFSM::~LogicServerFSM()
 	delete Waiting_for_ACK_quit_state;
 
 	delete Waiting_for_ACK_playing_state;
-	delete Waiting_for_servers_response_state;
 
 	delete Waiting_if_the_client_wants_to_play_again;
 	delete Waiting_if_the_server_wants_to_play_again;
@@ -216,4 +223,46 @@ void LogicServerFSM::print_curr_state()
 		cout << "Waiting_if_the_user_wants_to_play_again" << endl;
 	else if (Waiting_for_ACK_quit_state == actual_state)
 		cout << "Waiting_for_ACK_quit_state" << endl;
+}
+
+
+
+void LogicServerFSM::reset_game() {
+
+	scenario->maps.clear();
+	ev_gen->flush_all_queues();
+
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
+
+	reset_graphic = true;
+	notify_obs(); //To erase all the pending FPS
+	reset_graphic = false;
+
+
+
+
+	//mapa para caida libre
+	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";
+
+	//mapa para salto corto y largo
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEFFFFFFFFFFFFEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	//mapa sin enemigos
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+	//mapa con un purple
+	string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+
+	saved_EventPackages.clear();
+	actual_state = Playing_state;
+	//send RESET
+	if (get_fsm_ev_pack()->is_this_a_local_action())
+		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
 }

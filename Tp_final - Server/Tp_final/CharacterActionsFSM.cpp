@@ -2,12 +2,18 @@
 #include "Player.h"
 #include "Enemy.h"
 
-void do_nothing_char(void* data);
 
 void start_walking_r(void* data);
 void check_walking_and_walk(void* data);
 void reset_walking(void* data);
-void append_walking_r(void* data);
+void append_action_r(void* data);
+void append_action_moving_state_r(void* data);
+void charging_snowball_r(void * data);
+void check_rolling_movement_r(void * data);
+
+
+
+
 
 
 void start_jumping_r(void* data);
@@ -28,6 +34,7 @@ void reset_attack(void* data);
 
 void iddle_graph(void* data);
 void disappear_graph_r(void* data);
+void bounce_and_increment_counter_r(void * data);
 
 CharacterActionsFSM::CharacterActionsFSM(Character * character) : MapThingFSM(character)
 {
@@ -54,6 +61,7 @@ CharacterActionsFSM::~CharacterActionsFSM()
 	delete attacking_state;
 	delete falling_state;
 	delete dead_state;
+	delete snowballed_state;
 }
 
 
@@ -91,39 +99,63 @@ void CharacterActionsFSM::set_states() {
 	attacking_state = new std::vector<edge_t>();
 
 	dead_state = new std::vector<edge_t>();
+	snowballed_state = new std::vector<edge_t>();
 
-	iddle_state->push_back({ Event_type::ATTACK, attacking_state, start_attacking_r });
+	//Tengo que validar lo chequeos logicos de cada uno de estos casos para cada estado
+	//recién ahí el juego va a andar bien y fluido
+	iddle_state->push_back({ Event_type::ATTACKED, attacking_state, start_attacking_r });
 	iddle_state->push_back({ Event_type::WALKED, walking_state, start_walking_r });
 	iddle_state->push_back({ Event_type::JUMPED, jumping_state, start_jumping_r });
 	iddle_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, start_jumping_forward_r });
 	iddle_state->push_back({ Event_type::FELL, falling_state, start_falling_r });
-	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char });
+	iddle_state->push_back({ Event_type::END_OF_TABLE, iddle_state, do_nothing_char_r });
 
+	//CAMBIAR::Cada movimiento distinto al de su propio estado debe ir al estado asociado a dicho movimiento
+	//y appendearse al saved_events(append_action_r) asi se levanta cuando termine dicho movimiento
+	walking_state->push_back({ Event_type::JUMPED, jumping_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_moving_state_r });
+	walking_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	walking_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	walking_state->push_back({ Event_type::FINISHED_GRAPH_STEP, walking_state, check_walking_and_walk });
 	walking_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_walking });
-	walking_state->push_back({ Event_type::WALKED, walking_state, append_walking_r });
-	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char });
+	walking_state->push_back({ Event_type::END_OF_TABLE, walking_state, do_nothing_char_r });
 
-	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
+	jumping_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	jumping_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	jumping_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	jumping_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_state, check_jumping_and_jump });
 	jumping_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping });
-	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char });
+	jumping_state->push_back({ Event_type::END_OF_TABLE, jumping_state, do_nothing_char_r });
 
+	jumping_forward_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
+	jumping_forward_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	jumping_forward_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
 	jumping_forward_state->push_back({ Event_type::FINISHED_GRAPH_STEP, jumping_forward_state, check_jumping_forward_and_jump });
 	jumping_forward_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_jumping_forward });
-	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char });
+	jumping_forward_state->push_back({ Event_type::END_OF_TABLE, jumping_forward_state, do_nothing_char_r });
 
+	falling_state->push_back({ Event_type::JUMPED, jumping_state, append_action_r });
+	falling_state->push_back({ Event_type::WALKED, walking_state, append_action_r });
+	falling_state->push_back({ Event_type::JUMPED_FORWARD, jumping_forward_state, append_action_r });
+	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char_r });
 	falling_state->push_back({ Event_type::FINISHED_GRAPH_STEP, falling_state, check_fall_and_fall });
-	falling_state->push_back({ Event_type::FELL, falling_state, do_nothing_char });
 	falling_state->push_back({ Event_type::FINISHED_MOVEMENT, iddle_state, reset_fall });
-	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char });
+	falling_state->push_back({ Event_type::END_OF_TABLE, falling_state, do_nothing_char_r });
 
 	attacking_state->push_back({ Event_type::ATTACK, attacking_state, check_attack_and_attack });
 	attacking_state->push_back({ Event_type::FINISHED_ATTACK, iddle_state, reset_attack });
-	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char });
+	attacking_state->push_back({ Event_type::END_OF_TABLE, attacking_state, do_nothing_char_r });
+
+	snowballed_state->push_back({ Event_type::FELL, snowballed_state, do_nothing_char_r }); //NORMAL PERO BOLA
+	snowballed_state->push_back({ Event_type::BOUNCE, snowballed_state, bounce_and_increment_counter_r }); //FALTA
+	snowballed_state->push_back({ Event_type::CHARGING, snowballed_state, charging_snowball_r }); //FALTA
+	snowballed_state->push_back({ Event_type::FINISHED_GRAPH_STEP, snowballed_state, check_rolling_movement_r }); //FALTA, CHEQUEO LOGICO
+	snowballed_state->push_back({ Event_type::END_OF_TABLE, snowballed_state, do_nothing_char_r });
 
 	dead_state->push_back({ Event_type::FINISHED_GRAPH_STEP, dead_state, disappear_graph_r });
-	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char });
+	dead_state->push_back({ Event_type::END_OF_TABLE, dead_state, do_nothing_char_r });
 	
 }
 
@@ -136,8 +168,55 @@ void CharacterActionsFSM::disappear_char() {
 	obs_info.disappear_graph = false;
 }
 
+//Como un rolling pero que rebote al lado que apunta y salga con aceleracion
+void CharacterActionsFSM::bounce_and_increment_counter() {
+
+	//Por ahora es un roll normal en la otra dirección
+	obs_info.bounce_graph = true;
+	notify_obs();
+	obs_info.bounce_graph = false;
+
+	amount_of_walls_hit++;
+
+}
+
+
+void CharacterActionsFSM::charging_snowball() {
+
+	//Hecho, ver función guido
+	obs_info.charging_snowball_graph = true;
+	notify_obs();
+	obs_info.charging_snowball_graph = false;
+
+}
+
+void CharacterActionsFSM::check_rolling_movement() {
+
+	obs_questions.should_bounce = true;
+	obs_questions.should_keep_charging = true;
+	notify_obs();
+	obs_questions.should_bounce = false;
+	obs_questions.should_keep_charging = false;
+
+	//chek roll and brek if should break
+	if(amount_of_walls_hit== HITS_RESISTANCE)
+		character->ev_handler->get_ev_gen()->append_new_event(new SNOWBALL_BREAKDOWN_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+
+	else if(obs_answers.should_bounce)
+		character->ev_handler->get_ev_gen()->append_new_event(new BOUNCE_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+
+	else if(obs_answers.should_keep_charging)
+		character->ev_handler->get_ev_gen()->append_new_event(new CHARGING_EventPackage(), /*(int)EventGenerator::LogicQueues::soft*/ 0);
+
+}
+
+
 bool CharacterActionsFSM::is_moving() {
 	return actual_state == walking_state || actual_state == jumping_forward_state || actual_state == jumping_state;
+}
+
+bool CharacterActionsFSM::is_walking() {
+	return actual_state == walking_state;
 }
 
 bool CharacterActionsFSM::is_falling() {
@@ -177,13 +256,17 @@ void CharacterActionsFSM::process_logical_movement()
 		if(!first_logical_movement())
 			can_perform = can_perform_logical_movement();
 		
-		//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
-		if (actual_state == jumping_state)
-		{
-			continue_logical_movement();		//if so, perform the movement.
-			can_perform = can_perform_logical_movement();
-		}
 
+		if (!moving_between_states)
+		{
+			//Chequeo para salto "corto" o "largo", se harcodeo para chequear el primer salto por si es "corto"
+			if (actual_state == jumping_state || actual_state == jumping_forward_state)
+			{
+				continue_logical_movement();		//if so, perform the movement.
+				can_perform = can_perform_logical_movement();
+			}
+			moving_between_states = false;
+		}
 
 		if (can_perform)
 			continue_logical_movement();		//if so, perform the movement.
@@ -253,8 +336,9 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 	notify_obs();						//PlayerActionsFSMDRAWObserver
 	obs_questions.should_interrupt_movement = false;
 
+	if (obs_answers.should_interrupt_movement)
 
-	if (actual_state == falling_state || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
+	//if (actual_state == falling_state || (actual_state == jumping_forward_state && obs_answers.should_interrupt_movement) || (actual_state == jumping_state && obs_answers.should_interrupt_movement))
 	{
 		obs_questions.should_keep_falling = true;
 		notify_obs();						//PlayerActionsFSMDRAWObserver
@@ -270,6 +354,11 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 			std::cout << "Se sigue cayendo, se appendea un FELL" << std::endl;
 			character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
 			start_falling();
+
+			//The pending actions are erased because the player has to fall
+			if(!saved_character_events->empty())
+				saved_character_events->pop();
+
 		}
 		//Chequeo si hay algun evento guardado que tenga que ser appendeado
 		else if (!this->saved_character_events->empty())
@@ -278,11 +367,61 @@ void CharacterActionsFSM::end_if_should_end_movement(){
 
 			if (saved_event->give_me_your_event_type() == Event_type::WALKED)
 			{
-				std::cout << "Se ejecuta un WALKED guardado"<<std::endl;
-				set_fsm_ev_pack(saved_event);
-				start_walking();
+				//CAPAZ QUE SE PUEDE HACER UN SOLO CHEQUEO SIEMPRE HABER SI TENGO QUE CAER, CHEQUEAR QUE NO SE ROMPA
+				//caso excepción mitad del salto en un salto largo
+				//Check if should fall instead of walk again
+				obs_questions.should_keep_falling = true;
+				notify_obs();						//PlayerActionsFSMDRAWObserver
+				obs_questions.should_keep_falling = false;
+
+				if (obs_answers.should_keep_falling)
+				{
+					std::cout << "Hay que caer no caminar, se appendea un FELL,vacio la cola de eventos" << std::endl;
+					character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+					start_falling();
+				}
+				else
+				{
+					std::cout << "Se ejecuta un WALKED guardado" << std::endl;
+					set_fsm_ev_pack(saved_event);
+					start_walking();
+				}
 			}
-			saved_character_events->pop();
+			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED)
+			{
+				//CAPAZ QUE SE PUEDE HACER UN SOLO CHEQUEO SIEMPRE HABER SI TENGO QUE CAER, CHEQUEAR QUE NO SE ROMPA
+				//caso excepción mitad del salto en un salto largo
+				//Check if should fall instead of walk again
+				obs_questions.should_keep_falling = true;
+				notify_obs();						//PlayerActionsFSMDRAWObserver
+				obs_questions.should_keep_falling = false;
+
+				if (obs_answers.should_keep_falling)
+				{
+					std::cout << "Hay que caer no caminar, se appendea un FELL,vacio la cola de eventos" << std::endl;
+					character->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+					start_falling();
+				}
+				else
+				{
+					std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
+					set_fsm_ev_pack(saved_event);
+					start_jumping();
+				}
+
+				//std::cout << "Se ejecuta un JUMPED guardado" << std::endl;
+				//set_fsm_ev_pack(saved_event);
+				//start_jumping();
+			}
+			else if (saved_event->give_me_your_event_type() == Event_type::JUMPED_FORWARD)
+			{
+				std::cout << "Se ejecuta un JUMPED_FORWARD guardado" << std::endl;
+				set_fsm_ev_pack(saved_event);
+				start_jumping_forward();
+			}
+
+			if (!saved_character_events->empty())
+				saved_character_events->pop();
 		}
 		//If there´s not any event pending, we append a FINISHED_MOVEMENT and the FSM goes to iddle state
 		else
@@ -320,7 +459,9 @@ void CharacterActionsFSM::end_if_should_end_attack(){
 		obs_info.interrupt_attack = false;
 	}
 }
-
+//Checks if the iterator is pointing to the "past-the-end" element, known as the next element from the last element
+//in the queue. 
+//Will return true after the last call to continue_logical_movement()
 bool CharacterActionsFSM::finished_logical_movement() {
 	return (current_moving_vector->end() == current_moving_iteration);
 }
@@ -349,33 +490,71 @@ void CharacterActionsFSM::attack() {
 	attacked = true;
 }
 
-void do_nothing_char(void * data) {
-
-}
-
-void append_walking_r(void* data) {
-	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
-	fsm->append_walking();
-}
-
-void CharacterActionsFSM::append_walking() {
+void CharacterActionsFSM::append_action() {
 
 	//Only one event can be appended at the same time
 	if (this->saved_character_events->empty())
 	{
-		//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
-		this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
-		std::cout << "Se appendeo un WALKED" << std::endl;
+		Event_type event_to_be_appended = get_fsm_ev_pack()->give_me_your_event_type();
+
+		switch (event_to_be_appended)
+		{
+		case Event_type::WALKED:
+			//Se llama a constructor copiador para evitar que se pierda el WALKED a guardar
+			this->saved_character_events->push(new WALKED_EventPackage((WALKED_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un WALKED" << std::endl;
+			break;
+
+		case Event_type::JUMPED:
+			//Se llama a constructor copiador para evitar que se pierda el JUMPED a guardar
+			this->saved_character_events->push(new JUMPED_EventPackage((JUMPED_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un JUMPED" << std::endl;
+			break;
+
+		case Event_type::JUMPED_FORWARD:
+			//Se llama a constructor copiador para evitar que se pierda el JUMPED_FORWARD a guardar
+			this->saved_character_events->push(new JUMPED_FORWARD_EventPackage((JUMPED_FORWARD_EventPackage *)get_fsm_ev_pack()));
+			std::cout << "Se appendeo un JUMPED_FORWARD" << std::endl;
+			break;
+
+		default:
+			break;
+
+		}
 	}
 	else
 		std::cout << "Ya habia un evento guardado en la cola de CharacterActionsFSM, no se guarda evento" << std::endl;
 
 }
 
+void do_nothing_char_r(void * data) {
+
+}
+
+
 void start_walking_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*) data;
 	fsm->start_walking();
 }
+
+void append_action_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->append_action();
+}
+
+void append_action_moving_state_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->moving_between_states = true;
+	fsm->append_action();
+}
+
+void disappear_char_r(void* data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+
+	//will be kept "invisible", the enemies will be the ball
+	fsm->disappear_char();
+}
+
 
 
 void CharacterActionsFSM::start_walking() {
@@ -425,6 +604,13 @@ void CharacterActionsFSM::start_iddle() {
 	obs_info.reset_graph = true;
 	notify_obs();
 	obs_info.reset_graph = false;
+
+	if (character->get_map_thing_type() == Thing_Type::ENEMY)
+	{
+			((Enemy *)character)->set_blocked_enemy_movements(false);
+			std::cout << "Se apago el bloqueo de EAs porque empezo el graph start_iddle" << std::endl;
+	}
+
 	al_start_timer(falling_timer);
 }
 void check_jumping_and_jump(void* data) {
@@ -457,6 +643,7 @@ void check_jumping_forward_and_jump(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->process_logical_movement();
 }
+
 void reset_jumping_forward(void* data) {
 	iddle_graph(data);
 }
@@ -495,10 +682,26 @@ void iddle_graph(void * data)
 {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->start_iddle();
+
 }
 
 
 void disappear_graph_r(void* data) {
 	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
 	fsm->disappear_char();
+}
+
+void bounce_and_increment_counter_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->bounce_and_increment_counter();
+}
+
+void charging_snowball_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->charging_snowball();
+}
+
+void check_rolling_movement_r(void * data) {
+	CharacterActionsFSM* fsm = (CharacterActionsFSM*)data;
+	fsm->check_rolling_movement();
 }

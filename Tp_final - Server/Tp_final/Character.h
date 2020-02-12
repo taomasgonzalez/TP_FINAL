@@ -3,6 +3,7 @@
 #include "EventHandler.h"
 
 
+
 class Character: public MapThing
 {
 public:
@@ -15,6 +16,7 @@ public:
 	bool is_falling();
 
 	virtual bool is_iddle();
+	virtual bool is_walking();
 	bool is_attacking();
 
 	bool has_to_fall();
@@ -22,9 +24,12 @@ public:
 
 	void append_action_to_character(Action_info action);
 	EventHandler * ev_handler = NULL;
+	void set_rolling(bool can_roll);
+	bool can_the_enemy_roll();
 
 protected:
 	bool dead = false;
+	bool snoballed = false;
 
 
 };

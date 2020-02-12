@@ -10,7 +10,10 @@ PackageFactory::PackageFactory()
 	switch (info_received->give_me_your_event_type())
 	{
 		case Event_type::ACK:
-			pac = new ACK_package();
+		{
+			ACK_EventPackage * info_ack_ = static_cast<ACK_EventPackage *>(info_received);
+			pac = new ACK_package(info_ack_->give_me_your_package_ID());
+		}
 			break;
 
 		case Event_type::RESET:
@@ -38,25 +41,25 @@ PackageFactory::PackageFactory()
 
 		case Event_type::MOVE: {
 			MOVE_EventPackage * info_mo = static_cast<MOVE_EventPackage*>(info_received);
-			pac = new MOVE_package(info_mo->give_me_the_character(), info_mo->give_me_your_destination_row(), info_mo->give_me_your_destination_column());
+			pac = new MOVE_package(info_mo->give_me_the_character(), info_mo->give_me_your_destination_row(), info_mo->give_me_your_destination_column(), info_mo->give_me_your_package_ID());
 		}
 			break;
 
 		case Event_type::ATTACK: {
 			ATTACK_EventPackage * info_a = static_cast<ATTACK_EventPackage*>(info_received);
-			pac = new ATTACK_package((Item_type)info_a->give_me_the_character(), info_a->give_me_your_destination_row(), info_a->give_me_your_destination_column());
+			pac = new ATTACK_package((Item_type)info_a->give_me_the_character(), info_a->give_me_your_destination_row(), info_a->give_me_your_destination_column(), info_a->give_me_your_package_ID());
 		}
 			break;
 
 		case Event_type::ACTION_REQUEST:{
 			ACTION_REQUEST_EventPackage * info_ar = static_cast<ACTION_REQUEST_EventPackage*>(info_received);
-			pac = new ACTION_REQUEST_package(info_ar->give_me_the_action(), info_ar->give_me_your_destination_row(), info_ar->give_me_your_destination_column());
+			pac = new ACTION_REQUEST_package(info_ar->give_me_the_action(), info_ar->give_me_your_destination_row(), info_ar->give_me_your_destination_column(), info_ar->give_me_your_package_ID());
 		}
 			break;
 
 		case Event_type::ENEMY_ACTION: {
 			ENEMY_ACTION_EventPackage * info_ea = static_cast<ENEMY_ACTION_EventPackage*>(info_received);
-			pac = new ENEMY_ACTION_package(info_ea->give_me_the_monsterID(), info_ea->give_me_the_action(), info_ea->give_me_the_destination_row(), info_ea->give_me_the_destination_column());
+			pac = new ENEMY_ACTION_package(info_ea->give_me_the_monsterID(), info_ea->give_me_the_action(), info_ea->give_me_your_destination_row(), info_ea->give_me_your_destination_column(), info_ea->give_me_your_package_ID());
 		}
 			break;
 		case Event_type::WE_WON:
@@ -90,23 +93,28 @@ PackageFactory::PackageFactory()
  
  EventPackage * PackageFactory::package_2_event_package(Package * package_recieved)
  {
-	 static int ack_num = 0; //debug
 	 switch (package_recieved->get_package_header()) //COMPROBAR QUE FUNCIONA 
 	 {
 	 case Package_type::ACK:
-		 my_event_package = new ACK_EventPackage();
-		 std::cout << "Llego un ACK por networking" << ack_num++ << std::endl;
-		 break;
+	 {
+		 ACK_package* ack_pack = static_cast<ACK_package*>(package_recieved);
+		 my_event_package = new ACK_EventPackage(ack_pack->give_me_your_ID(),false);
+		 std::cout << "Llego un ACK por networking, ID:" << ack_pack->give_me_your_ID() << std::endl;
+	 }
+	 break;
 
 	 case Package_type::RESET:
+	 {
 		 my_event_package = new RESET_EventPackage(false);
 		 std::cout << "Llego un RESET" << std::endl;
-
-		 break;
+	 }
+	 break;
 
 	 case Package_type::NAME:
+	{
 		 std::cout << "me llego un NAME" << std::endl;
-		 my_event_package = new NAME_EventPackage();
+		 my_event_package = new NAME_EventPackage(false);
+	 }
 		 break;
 
 	 case Package_type::NAME_IS: {
@@ -122,43 +130,43 @@ PackageFactory::PackageFactory()
 		break;
 
 	 case Package_type::GAME_START:
-		 my_event_package = new GAME_START_EventPackage();
+		 my_event_package = new GAME_START_EventPackage(false);
 		 break;
 
 	 case Package_type::MOVE: {  //soy cliente y me llega un MOVE del servidor
 		 MOVE_package * mo_pack = static_cast<MOVE_package*>(package_recieved);
-		 my_event_package = new MOVE_EventPackage(mo_pack->give_me_the_character(), mo_pack->give_me_the_destination_row(), mo_pack->give_me_the_destination_column());
+		 my_event_package = new MOVE_EventPackage(mo_pack->give_me_the_character(), mo_pack->give_me_the_destination_row(), mo_pack->give_me_the_destination_column(),mo_pack->give_me_your_ID());
 	 }
 	 break;
 
 	 case Package_type::ATTACK: { //soy cliente y me llega un ATTACK del servidor
 		 ATTACK_package * a_pack = static_cast<ATTACK_package*>(package_recieved);
-		 my_event_package = new ATTACK_EventPackage(a_pack->give_me_the_character(), a_pack->give_me_the_destination_row(), a_pack->give_me_the_destination_column());
+		 my_event_package = new ATTACK_EventPackage(a_pack->give_me_the_character(), a_pack->give_me_the_destination_row(), a_pack->give_me_the_destination_column(), a_pack->give_me_your_ID());
 	}
 		break;
 
 	 case Package_type::ACTION_REQUEST: {  //soy servidor y me llega un ACTION_REQUEST del cliente
 		 ACTION_REQUEST_package * ar_pack = static_cast<ACTION_REQUEST_package*>(package_recieved);
-		 my_event_package = new ACTION_REQUEST_EventPackage(ar_pack->give_me_the_action(), ar_pack->give_me_the_destination_row(), ar_pack->give_me_the_destination_column());
+		 my_event_package = new ACTION_REQUEST_EventPackage(ar_pack->give_me_the_action(), ar_pack->give_me_the_destination_row(), ar_pack->give_me_the_destination_column(), ar_pack->give_me_your_ID());
 	 }
 		break;
 
 	 case Package_type::ENEMY_ACTION: {
 		 ENEMY_ACTION_package * ea_pack = static_cast<ENEMY_ACTION_package*>(package_recieved);
-		 my_event_package = new ENEMY_ACTION_EventPackage(false, ea_pack->give_me_the_monsterID(), ea_pack->give_me_the_action(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_row(), ((ENEMY_ACTION_package *)package_recieved)->give_me_the_destination_column());
+		 my_event_package = new ENEMY_ACTION_EventPackage(false, ea_pack->give_me_the_monsterID(), ea_pack->give_me_the_action(), ea_pack->give_me_the_destination_row(), ea_pack->give_me_the_destination_column(),ea_pack->give_me_your_ID() );
 	 }
 		 break;
 
 	 case Package_type::WE_WON:
-		 my_event_package = new WE_WON_EventPackage();
+		 my_event_package = new WE_WON_EventPackage(false);
 		 break;
 
 	 case Package_type::PLAY_AGAIN:
-		 my_event_package = new PLAY_AGAIN_EventPackage();
+		 my_event_package = new PLAY_AGAIN_EventPackage(false);
 		 break;
 
 	 case Package_type::GAME_OVER:
-		 my_event_package = new GAME_OVER_EventPackage();
+		 my_event_package = new GAME_OVER_EventPackage(false);
 		 break;
 
 	 case Package_type::ERROR1:

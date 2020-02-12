@@ -1,6 +1,15 @@
 #include "LogicServerFSM.h"
 
 
+void reset_game_r(void* data);
+
+
+void reset_game_r(void* data)
+{
+	LogicServerFSM * fsm = (LogicServerFSM*)data;
+	fsm->reset_game();
+}
+
 LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com) : LogicFSM(data, event_gen, scene, com)
 {
 	Initial_state = new std::vector<edge_t>();
@@ -10,9 +19,9 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_quit_state = new std::vector<edge_t>();
 	Waiting_for_ACK_map_state = new std::vector<edge_t>();
 	Waiting_for_ACK_enemy_actions_state = new std::vector<edge_t>();
-	Waiting_for_ACK_playing_state = new std::vector<edge_t>();
 	Waiting_for_ACK_game_start_state = new std::vector<edge_t>();
 	Playing_state = new std::vector<edge_t>();
+	Waiting_for_ACK_playing_state = new std::vector<edge_t>();
 	Waiting_if_the_client_wants_to_play_again = new std::vector<edge_t>();
 	Waiting_if_the_user_wants_to_play_again = new std::vector<edge_t>();
 
@@ -21,7 +30,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Initial_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Initial_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r });  //se recibe un quit por networking,
 	Initial_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r }); 
-	Initial_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Initial_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Initial_state->push_back({ Event_type::END_OF_TABLE, this->Initial_state, do_nothing_r });
 
 	//Naming_him_state
@@ -29,7 +38,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Naming_him_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Naming_him_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Naming_him_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Naming_him_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Naming_him_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Naming_him_state->push_back({ Event_type::END_OF_TABLE, this->Naming_him_state, do_nothing_r });
 
 	//Naming_me_state
@@ -37,7 +46,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Naming_me_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Naming_me_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Naming_me_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Naming_me_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Naming_me_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Naming_me_state->push_back({ Event_type::END_OF_TABLE, this->Naming_me_state, do_nothing_r });
 
 	//Waiting_for_ACK_name_state
@@ -45,7 +54,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_name_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_name_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r });					//se recibe un quit por networking,
 	Waiting_for_ACK_name_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_name_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_name_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_name_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_name_state, do_nothing_r });
 
 	//Waiting_for_ACK_map_state
@@ -53,7 +62,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_map_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_map_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_for_ACK_map_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_map_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_map_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_map_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_map_state, do_nothing_r });
 
 	//Waiting_for_ACK_enemy_actions_state
@@ -63,7 +72,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_enemy_actions_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_enemy_actions_state, do_nothing_r });
 
 	//Waiting_for_ACK_game_start_state
@@ -71,29 +80,29 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_game_start_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_game_start_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_for_ACK_game_start_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_game_start_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_game_start_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_game_start_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_game_start_state, do_nothing_r });
 
 	//Playing_state
-	Playing_state->push_back({ Event_type::ENEMY_ACTION, this->Waiting_for_ACK_playing_state, execute_and_send_enemy_action_r }); //local ENEMY_ACTION evento software already loaded, only has to be sent
-	Playing_state->push_back({ Event_type::MOVE, this->Waiting_for_ACK_playing_state, execute_action_send_it_and_set_ack_time_out_r }); //MOVE local generado desde allegro, has to be send to the client if valid
-	Playing_state->push_back({ Event_type::ATTACK, this->Waiting_for_ACK_playing_state, execute_action_send_it_and_set_ack_time_out_r }); //ATTACK local generado desde allegro, has to be send to the client if valir
-	Playing_state->push_back({ Event_type::ACTION_REQUEST, this->Waiting_for_ACK_playing_state, load_action_and_send_it_back_r });   //AR del cliente
+	Playing_state->push_back({ Event_type::ENEMY_ACTION, this->Playing_state, execute_and_send_enemy_action_r }); //local ENEMY_ACTION evento software already loaded, only has to be sent
+	Playing_state->push_back({ Event_type::MOVE, this->Playing_state, execute_action_send_it_and_set_ack_time_out_r }); //MOVE local generado desde allegro, has to be send to the client if valid
+	Playing_state->push_back({ Event_type::ATTACK, this->Playing_state, execute_action_send_it_and_set_ack_time_out_r }); //ATTACK local generado desde allegro, has to be send to the client if valir
+	Playing_state->push_back({ Event_type::ACTION_REQUEST, this->Playing_state, load_action_and_send_it_back_r });   //AR del cliente
+	Playing_state->push_back({ Event_type::ACK, this->Playing_state, received_ack_routine_r }); //Se recibe un ACK del clinte de un MOVE/ATTACK enviado
 	Playing_state->push_back({ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_map_is_r });		//evento de software que se termino el nivel
 	Playing_state->push_back({ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won_r }); //we_won local generado por soft, le aviso a client que ganamos
 	Playing_state->push_back({ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost_r });  //game_over local generado por soft, le aviso a client que perdimos
 	Playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Playing_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Playing_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Playing_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Playing_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Playing_state->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing_r });
 
 	//Waiting_for_ACK_playing_state
-	Waiting_for_ACK_playing_state->push_back({ Event_type::ACK, this->Playing_state, received_ack_routine_r }); //Se recibe un ACK del clinte de un MOVE/ATTACK enviado
 	Waiting_for_ACK_playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_playing_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_for_ACK_playing_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_playing_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_playing_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_playing_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_playing_state, do_nothing_r });
 
 	//Waiting_if_the_client_wants_to_play_again
@@ -103,7 +112,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_client_wants_to_play_again, do_nothing_r });
 
 	//Waiting_if_the_user_wants_to_play_again
@@ -113,7 +122,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_user_wants_to_play_again, do_nothing_r });
 
 	//Waiting_for_ACK_quit_state
@@ -121,7 +130,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_ACK_quit_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_for_ACK_quit_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Waiting_for_ACK_quit_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
-	Waiting_for_ACK_quit_state->push_back({ Event_type::RESET, Playing_state, reset_game_r });
+	Waiting_for_ACK_quit_state->push_back({ Event_type::RESET, this->Playing_state, reset_game_r });
 	Waiting_for_ACK_quit_state->push_back({ Event_type::END_OF_TABLE, this->Waiting_for_ACK_quit_state, do_nothing_r });
 
 	if (!data->my_network_data.handshake) //hardcodeo hasta que esté listo el handshake
@@ -161,7 +170,6 @@ LogicServerFSM::~LogicServerFSM()
 
 	delete Waiting_for_ACK_quit_state;
 
-	delete Waiting_for_ACK_playing_state;
 	delete Waiting_for_servers_response_state;
 
 	delete Waiting_if_the_client_wants_to_play_again;
@@ -171,21 +179,22 @@ LogicServerFSM::~LogicServerFSM()
 
 
 void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
-	//static bool may_control_enemies = false;
+	static bool may_control_enemies = false;
 
-	//if (!may_control_enemies) {
-	//	ALLEGRO_EVENT al_event;
-	//	if (al_get_next_event(control_ev_queue, &al_event)) {
-	//		al_stop_timer(control_timer);
-	//		while (al_get_next_event(control_ev_queue, &al_event));
-	//		may_control_enemies = true;
-	//	}
+	if (!may_control_enemies) {
+		ALLEGRO_EVENT al_event;
+		if (al_get_next_event(control_ev_queue, &al_event)) {
+			al_stop_timer(control_timer);
+			while (al_get_next_event(control_ev_queue, &al_event));
+			may_control_enemies = true;
+		}
 
-	//}
+	}
 	
 	LogicFSM::run_fsm(ev_pack);
-	//if(may_control_enemies)
-	//	scenario->control_enemy_actions();
+
+	if(may_control_enemies)
+		scenario->control_enemy_actions();
 }
 
 
@@ -206,8 +215,6 @@ void LogicServerFSM::print_curr_state()
 		cout << "Waiting_for_ACK_enemy_actions_state" << endl;
 	else if (Playing_state == actual_state)
 		cout << "Playing_state" << endl;
-	else if (Waiting_for_ACK_playing_state == actual_state)
-		cout << "Waiting_for_ACK_playing_state" << endl;
 	else if (Waiting_for_ACK_game_start_state == actual_state)
 		cout << "Waiting_for_ACK_game_start_state" << endl;
 	else if (Waiting_if_the_client_wants_to_play_again == actual_state)
@@ -216,4 +223,47 @@ void LogicServerFSM::print_curr_state()
 		cout << "Waiting_if_the_user_wants_to_play_again" << endl;
 	else if (Waiting_for_ACK_quit_state == actual_state)
 		cout << "Waiting_for_ACK_quit_state" << endl;
+}
+
+
+void LogicServerFSM::reset_game() {
+
+
+	scenario->maps.clear();
+	ev_gen->flush_all_queues();
+
+	while (!scenario->saved_events->empty())
+		scenario->saved_events->pop();
+
+
+	reset_graphic = true;
+	notify_obs(); //To erase all the pending FPS
+	reset_graphic = false;
+
+	//mapa para caida libre
+	//string new_map = "FEEEEENTEEEEEEEFFEFFFFFFFFFFFFEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFFFFFFFFFFFF";
+
+	//mapa para salto corto y largo
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEFFFFFFFFFFFFEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	//mapa sin enemigos
+	//string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEEEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+	//mapa con un purple
+	string new_map = "FEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFEEEEEEEEEEEPEEFFFFFFEEEEEEFFFFFFEEEEEEEEEEEEEEFFEEFFFFFFFFFFEEFFETEEEEEEEEENEEFFFFFFFFFFFFFFFFF";
+
+
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+
+	saved_EventPackages.clear();
+	actual_state = Playing_state;
+	//send RESET
+	if (get_fsm_ev_pack()->is_this_a_local_action())
+		com->sendMessage(pack_factory.event_package_2_package(get_fsm_ev_pack())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+
+	scenario->restart_enemies();
+
+
 }

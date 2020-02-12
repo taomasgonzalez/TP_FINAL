@@ -29,9 +29,15 @@ void GraphicEventGenerator::update_allegro_timer_events() {
 	if (al_get_next_event(drawing_event_queue, &allegroEvent)) 
 		if (allegroEvent.type == ALLEGRO_EVENT_TIMER){
 			if (allegroEvent.timer.source == fps_timer) 
-				append_new_event(new EventPackage(Event_type::FPS_TICKED, true), 0);
+				append_new_event(new EventPackage(Event_type::FPS_TICKED,0, true), 0);
 		}
 		else if (allegroEvent.type == ALLEGRO_EVENT_DISPLAY_CLOSE) {
 			append_new_event(new ERROR_EventPackage(true),(int) LogicQueues::allegro); //LO CAMBIE POR ERROR, porque si es LOCAL_QUIT tiene que esperar el ACK de la otra compu, y eso no nunca va a llegar porque cerraste la pantalla
 		}
+}
+
+void GraphicEventGenerator::flush_all_queues() {
+
+	al_flush_event_queue(drawing_event_queue);
+
 }

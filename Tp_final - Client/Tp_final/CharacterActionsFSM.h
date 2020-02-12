@@ -2,6 +2,12 @@
 #include "Character.h"
 #include "MapThingFSM.h"
 
+#define HITS_RESISTANCE 3
+
+void disappear_char_r(void* data);
+void do_nothing_char_r(void* data);
+
+
 class CharacterActionsFSM : public MapThingFSM
 {
 public:
@@ -17,15 +23,20 @@ public:
 		bool start_attacking_graph = false;
 		bool dying_graph = false;
 		bool reset_graph = false;
+		bool respawn_graph = false;
+		bool stop_inmunity_graph = false;
 		bool disappear_graph = false;
+		bool bounce_graph = false;
+		bool charging_snowball_graph = false;
+
+		bool keep_moving = false;
+		bool next_move_pending = false;
+
 
 		bool interrupt_movement = false;
 		bool interrupt_attack = false;
 		bool perform_logical_movement = false;
 		bool perform_logical_attack = false;
-		bool keep_moving = false;
-		bool next_move_pending = false;
-
 	};
 
 	observer_info obs_info;
@@ -36,7 +47,8 @@ public:
 		bool should_interrupt_attack = false;
 		bool should_continue_moving = false;
 		bool should_keep_falling = false;
-
+		bool should_bounce = false;
+		bool should_keep_charging = false;
 	};
 	observer_QA obs_questions;
 	observer_QA obs_answers;
@@ -48,7 +60,8 @@ public:
 
 	void start_walking();
 	void start_jumping();
-	void append_walking();
+	void append_action();
+
 
 	void start_iddle();
 	void start_jumping_forward();
@@ -56,11 +69,17 @@ public:
 	void start_falling();
 
 	void disappear_char();
+	void bounce_and_increment_counter();
+	void charging_snowball();
+	void check_rolling_movement();
 
 	bool is_moving();
+	bool is_walking();
 	bool is_falling();
 
+
 	bool is_iddle();
+	bool is_finishing_the_movement();
 
 	bool is_attacking();
 
@@ -68,6 +87,9 @@ public:
 
 	bool has_to_fall();
 	void dont_fall();
+
+	bool moving_between_states = false;
+
 
 protected:
 
@@ -78,6 +100,8 @@ protected:
 	std::vector<edge_t>* attacking_state = NULL;
 	std::vector<edge_t>* falling_state = NULL;
 	std::vector<edge_t>* dead_state = NULL;
+	std::vector<edge_t>* snowballed_state = NULL;
+
 
 	void set_processes();
 	void create_all_timers();
@@ -111,7 +135,12 @@ private:
 	void attack();
 	bool has_attacked();
 
+	//flags
 	bool attacked = false;
+
+	unsigned int amount_of_walls_hit = 0;
+
+
 };
 
 

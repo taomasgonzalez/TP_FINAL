@@ -8,6 +8,10 @@
 #include "Action_Info.h"
 #include "EventHandler.h"
 
+#define START_POINT_PACKAGE_ID_FOR_EA (40001)
+#define FINISH_POINT_PACKAGE_ID_FOR_EA (65535)
+
+
 class Enemy: public Character, public Observable
 {
 public:
@@ -38,6 +42,11 @@ public:
 
 	virtual bool is_iddle();
 
+	void set_blocked_enemy_movements(bool blocked_value);
+	void stop_staying_still_timer();
+	void start_staying_still_timer();
+
+
 protected:
 	//frozen_timer;
 	//falta implementar
@@ -59,10 +68,14 @@ protected:
 
 	Action_info action_4_obs;
 
-	bool is_staying_still = false;
+	bool blocked_enemy_movement = false;
 	double staying_still_time;
 
-	ALLEGRO_TIMER * staying_still_timer = NULL;
 	ALLEGRO_EVENT_QUEUE* enemy_timers = NULL;
+	ALLEGRO_TIMER * staying_still_timer = NULL;
+
+	uint16_t EA_package_ID= START_POINT_PACKAGE_ID_FOR_EA;
+
+private:
 };
 

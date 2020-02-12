@@ -8,7 +8,7 @@ Obj_Graf_Character::Obj_Graf_Character() : Obj_Graf(ID)
 	walking_pics = 0;								//This variables must be inited with their respective value
 	jumping_pics = 0;								//on the derived class
 	jumping_forw_pics = 0;
-	iddle_pics = 0;
+	idle_pics = 0;
 	attacking_pics = 0;
 	falling_pics = 0;
 	dying_pics = 0;
@@ -41,7 +41,7 @@ void Obj_Graf_Character::handle_walking()
 
 	if (reached_final_pos)		//veo si ya llego a la pos final 
 	{
-		//Through the observer a FINISHED_GRAPH_STEP_EventPackage is appended to the Character´s FSM
+		//Through the observer a FINISHED_GRAPH_STEP_EventPackage is appended to the Characterï¿½s FSM
 		if (!secuenceOver_)
 			notify_finished_drawing_step();
 
@@ -58,7 +58,7 @@ void Obj_Graf_Character::handle_walking()
 #ifdef DEBUG
 		std::cout << "Se termino la secuencia" << std::endl;
 		std::cout << pos.get_x_coord() << std::endl;
-		//cout << endl << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
+		//cout << endl << "Se imprimio el frame de Walk nï¿½" << walkActualImage << endl;
 #endif
 
 		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
@@ -72,9 +72,9 @@ void Obj_Graf_Character::handle_walking()
 
 
 		al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage / 2]), al_get_bitmap_height(chara_images->walkImages[walkActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-		//cout << "Se imprimio el frame de Walk n°" << walkActualImage << endl;
+		//cout << "Se imprimio el frame de Walk nï¿½" << walkActualImage << endl;
 		((walkActualImage + 1) < 2 * walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
-		std::cout << pos.get_x_coord() << std::endl;
+		//std::cout << pos.get_x_coord() << std::endl;
 
 		//al_draw_scaled_bitmap(chara_images->walkImages[walkActualImage], 0, 0, al_get_bitmap_width(chara_images->walkImages[walkActualImage]), al_get_bitmap_height(chara_images->walkImages[walkActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		//((walkActualImage+1) < walking_pics) ? walkActualImage++ : walkActualImage = 0;	// me ubico en el siguiente frame o se reinicia la secuancia
@@ -167,7 +167,7 @@ void Obj_Graf_Character::handle_jumping_forward()
 	al_draw_scaled_bitmap(chara_images->jumpImages[actualImage], 0, 0, al_get_bitmap_width(chara_images->jumpImages[actualImage]), al_get_bitmap_height(chara_images->jumpImages[actualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 }
 
-void Obj_Graf_Character::handle_iddle()
+void Obj_Graf_Character::handle_idle()
 {
 	actualImage = 0;
 

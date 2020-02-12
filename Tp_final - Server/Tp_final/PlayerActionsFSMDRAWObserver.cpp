@@ -59,11 +59,23 @@ void PlayerActionsFSMDRAWObserver::update() {
 		curr_state = player_DYING;
 	}
 
+	else if (fsm->obs_info.respawn_graph) {
+		dir = get_character_graph_direction(player->get_sense());
+		drawer->startDraw(player_RESPAWN, player->id, dir, player->pos_x, player->pos_y);
+		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
+		curr_state = player_IDLE;
+	}
+	else if (fsm->obs_info.stop_inmunity_graph) {
+		dir = get_character_graph_direction(player->get_sense());
+		drawer->startDraw(player_STOP_INMUNITY, player->id, dir, player->pos_x, player->pos_y);
+		curr_state = player_IDLE;
+	}
 	else if (fsm->obs_info.reset_graph) {
 		dir = get_character_graph_direction(player->get_sense());
 		drawer->startDraw(player_IDLE, player->id, dir, player->pos_x, player->pos_y);
 		curr_state = player_IDLE;
 	}
+
 	else if (fsm->obs_info.start_pushing_graph) {
 		dir = get_character_graph_direction(fsm->get_current_action_direction());
 		drawer->startDraw(player_PUSHING, player->id, dir, player->pos_x, player->pos_y);

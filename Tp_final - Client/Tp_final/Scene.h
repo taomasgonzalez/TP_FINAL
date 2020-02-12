@@ -26,6 +26,8 @@ public:
 ******************************************************************************/
 	//generadas por tommy para hacer mas facil el manejo de mapas
 	bool both_players_dead();
+	bool both_players_run_out_of_lives();
+
 	bool any_monsters_left();
 	bool did_we_win();  //I�m client, analyze if the game was won by the players
 	bool did_we_lose(); //I�m client, analyze if the game was lost by the players
@@ -58,6 +60,8 @@ public:
 
 	void control_enemy_actions();
 	void control_all_actions();
+	void restart_enemies();
+	void stop_all_enemies();
 /*******************************************************************************
 	OPERATING OVER MAPS
 ******************************************************************************/
@@ -85,6 +89,11 @@ public:
 	bool check_local_action = false;		//see where this flag is turn on or off
 	bool new_enemy_action = false;
 	bool should_hit = false;
+	bool should_tom_die = false;
+	bool should_nick_die = false;
+
+	bool avoid_character_scene_obs = false; //para evitar el loop infinito
+
 	bool load_graphic_level = false;
 	bool appended_event = false;
 	bool extern_future_event = false;
@@ -118,6 +127,11 @@ private:
 
 	//checkers
 	bool check_move(Action_info * package_to_be_analyze, bool character_check);
+	//bool check_walk(Direction_type walk_direction);
+	//bool check_jump(Direction_type walk_direction);
+	//bool check_straight_jump();
+	//bool check_foward_jump();
+
 	Direction_type load_direction(Position * extern_destination, Character* the_one_that_moves, bool* out_of_range);
 	bool check_attack(Action_info * package_to_be_analyze, bool proj_check);
 	bool check_enemy_action(Action_info * package_to_be_analyze);
@@ -150,7 +164,6 @@ private:
 	Player* find_nearest_player(int pos_x, int pos_y);
 
 	Userdata* data;
-	int curr_enemy_to_act_on = 0;
 
 	string map_string;
 };

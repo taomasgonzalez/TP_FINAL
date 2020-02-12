@@ -18,7 +18,7 @@ typedef unsigned char uchar;
 ************************************************************************************************************************/
 enum class Package_type {
 	ACK = 0x01, NAME = 0x10, NAME_IS = 0x11, MAP_IS = 0x12, GAME_START = 0x20, MOVE = 0x31, ATTACK = 0x32
-	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF, RESET = 0xFD,
+	, ACTION_REQUEST = 0x33, ENEMY_ACTION = 0x34, WE_WON = 0x40, PLAY_AGAIN = 0x50, GAME_OVER = 0x51, ERROR1 = 0xFE, QUIT = 0xFF, RESET = 0xFD
 };
 
 enum class Character_type { TOM = 'T', NICK = 'N' };
@@ -47,6 +47,22 @@ protected:
 
 };
 
+/******************************************************************************
+*******************************************************************************
+								NUMBERED_PACKAGE CLASS
+*******************************************************************************
+*******************************************************************************/
+class Numbered_package
+{
+public:
+	Numbered_package(uint16_t ID);
+
+	uint16_t give_me_your_ID();
+
+private:
+	uint16_t package_ID = 0;
+
+};
 
 
 /******************************************************************************
@@ -54,19 +70,19 @@ protected:
 							ACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_package : public Package
+class ACK_package : public Package, public Numbered_package
 {
 public:
-	ACK_package();
+	ACK_package(uint16_t ID);
+	std::string get_sendable_info();
 
 private:
 
 };
 
-
 /******************************************************************************
 *******************************************************************************
-							RESET_PACKAGE CLASS
+							RESET_package CLASS
 *******************************************************************************
 *******************************************************************************/
 class RESET_package : public Package
@@ -156,10 +172,10 @@ private:
 							MOVE_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class MOVE_package : public Package
+class MOVE_package : public Package, public Numbered_package
 {
 public:
-	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de);
+	MOVE_package(Item_type the_one_that_moves, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	Item_type give_me_the_character();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -179,10 +195,10 @@ private:
 							ATTACK_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ATTACK_package : public Package
+class ATTACK_package : public Package, public Numbered_package
 {
 public:
-	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de);
+	ATTACK_package(Item_type the_one_that_attacks, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	Item_type give_me_the_character();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -203,10 +219,10 @@ private:
 							ACTION_REQUEST_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACTION_REQUEST_package : public Package
+class ACTION_REQUEST_package : public Package, public Numbered_package
 {
 public:
-	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de, unsigned char col_de);
+	ACTION_REQUEST_package(Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	Action_type give_me_the_action();
 	unsigned char give_me_the_destination_row();
 	unsigned char give_me_the_destination_column();
@@ -226,10 +242,10 @@ private:
 							ENEMY_ACTION_PACKAGE CLASS
 *******************************************************************************
 *******************************************************************************/
-class ENEMY_ACTION_package : public Package
+class ENEMY_ACTION_package : public Package, public Numbered_package
 {
 public:
-	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de);
+	ENEMY_ACTION_package(uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
 	uchar give_me_the_monsterID();
 	Action_type give_me_the_action();
 	unsigned char give_me_the_destination_row();

@@ -6,6 +6,7 @@
 #include "EventPackageFactory.h"
 #include "Communication.h"
 #include "PackageFactory.h"
+
 /*******************************************************************************
 CLASE TIME_OUT
 ******************************************************************************/
@@ -15,6 +16,7 @@ enum class time_out_type {
 	Time_out_i_am_ready
 
 };
+
 
 
 
@@ -53,6 +55,8 @@ public:
 	bool control_enemies = false;
 
 	bool start_game = false;
+	bool reset_graphic = false;
+
 
 	//check flags
 	bool check_map = false;
@@ -136,7 +140,11 @@ public:
 	void save_enemy_action();
 
 	//debugging
-	void reset_game();
+
+
+	//saved_EventPackages
+	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
+	void save_an_EventPackage(EventPackage * package_to_be_saved);
 
 protected:
 	virtual void print_curr_state();
@@ -144,12 +152,12 @@ protected:
 	Communication* com = NULL;
 	Userdata * user_data = NULL;
 	LogicEventGenerator * ev_gen = NULL;
-private:
-
-
-
+	map<uint16_t, EventPackage*> saved_EventPackages;						// map of saved eventpackages
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
+
+private:
+
 	void execute_action();
 
 };
@@ -157,8 +165,6 @@ private:
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
 
-//Debugging
-void reset_game_r(void* data);
 							  //analyze
 void analayze_error_r(void* data);
 void analyze_we_won_r(void* data); //to do

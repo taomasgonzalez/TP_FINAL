@@ -14,5 +14,6 @@ struct Action_info {
 	Direction_type my_direction;
 	Item_type my_character;
 	bool valid = false;
+	uint16_t ID=0;
 };
 
