@@ -137,7 +137,8 @@ void start_moving_r(void* data) {
 	fsm->start_moving();
 }
 bool ProyectilesActionsFSM::first_logical_movement() {
-	return current_moving_vector->begin() == current_moving_iteration;
+	if (current_moving_vector != NULL)
+		return current_moving_vector->begin() == current_moving_iteration;
 }
 
 bool ProyectilesActionsFSM::can_perform_logical_movement() {
