@@ -43,8 +43,5 @@ protected:
 	AudioContainer::character_samples * chara_samples = NULL;
 
 	ALLEGRO_SAMPLE_ID* walking_sample_id;
-
-	//debug
-	int counter = 0;
 };
 

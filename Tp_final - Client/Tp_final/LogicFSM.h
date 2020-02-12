@@ -7,15 +7,26 @@
 #include "Communication.h"
 #include "PackageFactory.h"
 
+/*******************************************************************************
+CLASE TIME_OUT
+******************************************************************************/
+enum class time_out_type {
+	Time_out_move,
+	Time_out_quit,
+	Time_out_i_am_ready
+
+};
+
+
 
 
 class LogicFSM : public FSM
 {
 public:
-	LogicFSM(Userdata * data, LogicEventGenerator *event_gen, Scene* scene, Communication* com);
+	LogicFSM(Userdata* data, LogicEventGenerator* event_gen, Scene* scene, Communication* com);
 	~LogicFSM();
 
-	virtual void run_fsm(EventPackage * ev_pack);
+	virtual void run_fsm(EventPackage* ev_pack);
 
 	//setters
 	void start_playing();
@@ -30,6 +41,7 @@ public:
 	bool we_won = false;
 	bool we_lost = false;
 	bool finished_level = false;
+	bool restart_game = false;
 
 	bool waiting_for_ack = false;
 	bool reset_ack_timer = false;
@@ -46,6 +58,7 @@ public:
 	bool start_game = false;
 	bool reset_graphic = false;
 
+
 	//check flags
 	bool check_map = false;
 	bool valid_local_action = false;
@@ -59,7 +72,7 @@ public:
 	bool ld_play_again = false;
 	bool ld_game_over = false;
 
-								 //analyze
+	//analyze
 	void analayze_error();
 	void analyze_we_won(); //to do
 	void analyze_we_lost(); //to do
@@ -68,6 +81,8 @@ public:
 
 	//send
 	void send_map_is();
+	void check_map_reset_game_and_save_send_ack();
+	void send_first_map_is();
 	void send_ack();
 	void send_quit();
 	void send_name_is();
@@ -86,15 +101,16 @@ public:
 	void send_action_request_and_set_ack_time_out(); //for client
 	void send_action();
 
-	//EventGenerator
-	void active_blocking_timers(EventPackage * my_eventpackage);
-	void turn_off_blocking_timers(EventPackage * my_eventpackage);
-
 	//UI
 	void tell_user_send_ack_and_finish_game(); //to do
 	void ask_the_user_if_wants_to_play_again(); //to do
 	void ask_user_being_client_and_send_decition(); //to do
 	void ask_user_being_server_and_send_decition();
+
+	//EventGenerator
+	void active_blocking_timers(EventPackage* my_eventpackage);
+	void turn_off_blocking_timers(EventPackage* my_eventpackage);
+
 
 	//execute
 	void execute_receive_action_and_send_ack(); //for client
@@ -130,19 +146,19 @@ public:
 
 
 	//saved_EventPackages
-	EventPackage * give_me_the_saved_EventPackage(uint16_t ID);
-	void save_an_EventPackage(EventPackage * package_to_be_saved);
+	EventPackage* give_me_the_saved_EventPackage(uint16_t ID);
+	void save_an_EventPackage(EventPackage* package_to_be_saved);
 
 protected:
 	virtual void print_curr_state();
 	Scene* scenario = NULL;
 	Communication* com = NULL;
-	Userdata * user_data = NULL;
-	LogicEventGenerator * ev_gen = NULL;
-	map<unsigned int, EventPackage*> saved_EventPackages;						// map of saved eventpackages
-
+	Userdata* user_data = NULL;
+	LogicEventGenerator* ev_gen = NULL;
+	map<uint16_t, EventPackage*> saved_EventPackages;						// map of saved eventpackages
 	EventPackageFactory ev_pack_factory;
 	PackageFactory pack_factory;
+
 private:
 
 	void execute_action();
@@ -151,7 +167,6 @@ private:
 
 
 void do_nothing_r(void* data);//Dummy for the debugging of the protocol structure
-void reset_game_r(void* data); //For debugging
 
 							  //analyze
 void analayze_error_r(void* data);
@@ -162,6 +177,7 @@ void check_game_state_r(void* data);
 
 //send
 void send_map_is_r(void* data);
+void send_first_map_is_r(void* data);
 void send_ack_r(void* data);
 void send_quit_r(void* data);
 void send_name_is_r(void* data);
@@ -196,6 +212,7 @@ void execute_extern_action_r(void* data);
 
 //mapping
 void check_map_and_save_send_ack_r(void* data);
+void check_map_reset_game_and_save_send_ack_r(void* data);
 void check_sum_and_send_ack_r(void* data);
 
 //timers

@@ -104,6 +104,7 @@ private:
 	void load_crazy_general_bitmaps();
 
 	void fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string carpeta1, std::string carpeta3, std::string file, int limit, std::string carpeta2 = "");
+	void destroy_bitmaps(ALLEGRO_BITMAP*** curr_images, int limit);
 
 	void destroy_enemy_bitmaps();
 	void destroy_projectile_bitmaps();

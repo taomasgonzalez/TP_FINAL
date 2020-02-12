@@ -178,7 +178,7 @@ void LogicClientFSM::reset_game() {
 
 
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const char *)new_map.c_str(), 18);
 
 	saved_EventPackages.clear();
 	actual_state = Playing_state;

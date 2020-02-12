@@ -77,6 +77,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	DISAPPEARED,
 	FINISHED_DRAWING,
 	CHANGE_LEVEL,
+	RESTART_GAME,
 
 	//character events
 	JUMPED,
@@ -487,6 +488,15 @@ class CHANGE_LEVEL_EventPackage : public EventPackage
 {
 public:
 	CHANGE_LEVEL_EventPackage();
+
+private:
+
+};
+
+class RESTART_GAME_EventPackage : public EventPackage
+{
+public:
+	RESTART_GAME_EventPackage();
 
 private:
 

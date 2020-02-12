@@ -33,11 +33,13 @@ GraphicInterface::GraphicInterface()
 
 GraphicInterface::~GraphicInterface()
 {
+	al_destroy_font(font1);
+	al_destroy_font(font2);
 }
 
 void GraphicInterface::Init()
 {
-	if(!inited)
+	if (!inited)
 	{
 		al_ev_queue = al_create_event_queue();
 		al_register_event_source(al_ev_queue, al_get_keyboard_event_source());
@@ -56,12 +58,6 @@ void GraphicInterface::Init()
 		if (!font2)
 		{
 			cout << "ERROR: font unable to load" << endl;
-		}
-
-		image = al_load_bitmap(IMAGE_DIR);
-		if (!image)
-		{
-			fprintf(stderr, "failed to load image !\n");
 		}
 
 		inited = true;
@@ -146,14 +142,14 @@ menu_options GraphicInterface::start_game_scenario()
 	{
 		if (al_get_next_event(al_ev_queue, &event))
 		{
-				if (event.type == ALLEGRO_EVENT_TIMER)
+			if (event.type == ALLEGRO_EVENT_TIMER)
 				ticks++;
 		}
 	}
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
-	al_destroy_bitmap(image);
+	//	al_destroy_bitmap(image);
 	return op;
 }
 
@@ -161,6 +157,12 @@ void GraphicInterface::start_game_scenario_alt()
 {
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
+
+	image = al_load_bitmap(IMAGE_DIR);
+	if (!image)
+	{
+		fprintf(stderr, "failed to load image !\n");
+	}
 
 	ALLEGRO_EVENT event;
 	ALLEGRO_FONT* font;
@@ -182,7 +184,7 @@ void GraphicInterface::start_game_scenario_alt()
 		{
 			if (event.type == ALLEGRO_EVENT_KEY_UP)
 			{
-				if( event.keyboard.keycode == ALLEGRO_KEY_P){
+				if (event.keyboard.keycode == ALLEGRO_KEY_P) {
 					taken = true;
 					al_clear_to_color(al_map_rgb(0, 0, 0));
 					al_draw_scaled_bitmap(image, 0, 0, al_get_bitmap_width(image), al_get_bitmap_height(image), 0, 0, DISPLAY_W, DISPLAY_H, 0);
@@ -204,22 +206,29 @@ void GraphicInterface::start_game_scenario_alt()
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
+	al_destroy_font(font);
 	al_destroy_bitmap(image);
 }
 
 bool GraphicInterface::request_2_play_again()
 {
+	if (!inited)
+		Init();
+
 	bool playAgain;
 
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 	al_flip_display();
 
 	al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, REQUEST_2_PLAY_AGAIN);
+	al_destroy_font(font2);
 	font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 100 + DISPLAY_W / 100, 0);
 	al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, 2 * DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "Y for YES, N for NO");
+	al_destroy_font(font2);
 	font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 30 + DISPLAY_W / 30, 0);
 	al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "YES");
 	al_draw_text(font2, al_map_rgb(255, 255, 255), 3 * DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "NO");
+	al_destroy_font(font2);
 	al_flip_display();
 
 	bool taken = false;
@@ -240,8 +249,10 @@ bool GraphicInterface::request_2_play_again()
 					al_clear_to_color(al_map_rgb(0, 0, 0));
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 50 + DISPLAY_W / 50, 0);
 					al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, REQUEST_2_PLAY_AGAIN);
+					al_destroy_font(font2);
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 100 + DISPLAY_W / 100, 0);
 					al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, 2 * DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "Y for YES, N for NO");
+					al_destroy_font(font2);
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 30 + DISPLAY_W / 30, 0);
 					al_draw_text(font2, al_map_rgb(0, 255, 0), DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "YES");
 					al_draw_text(font2, al_map_rgb(255, 255, 255), 3 * DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "NO");
@@ -253,8 +264,10 @@ bool GraphicInterface::request_2_play_again()
 					al_clear_to_color(al_map_rgb(0, 0, 0));
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 50 + DISPLAY_W / 50, 0);
 					al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, REQUEST_2_PLAY_AGAIN);
+					al_destroy_font(font2);
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 100 + DISPLAY_W / 100, 0);
 					al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 2, 2 * DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "Y for YES, N for NO");
+					al_destroy_font(font2);
 					font2 = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 30 + DISPLAY_W / 30, 0);
 					al_draw_text(font2, al_map_rgb(255, 255, 255), DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "YES");
 					al_draw_text(font2, al_map_rgb(0, 255, 0), 3 * DISPLAY_W / 4, DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "NO");
@@ -281,6 +294,8 @@ bool GraphicInterface::request_2_play_again()
 
 void GraphicInterface::print_messaje(messaje msj)
 {
+	if (!inited)
+		Init();
 	ALLEGRO_FONT* font_small = NULL;
 	ALLEGRO_FONT* font_big = NULL;
 	ALLEGRO_FONT* font_intro = NULL;
@@ -517,6 +532,10 @@ void GraphicInterface::print_messaje(messaje msj)
 				ok = true;
 		}
 	}
+	al_destroy_font(font_big);
+	al_destroy_font(font_intro);
+	al_destroy_font(font_name);
+	al_destroy_font(font_small);
 }
 
 string GraphicInterface::make_request(const char* text)
@@ -535,8 +554,10 @@ string GraphicInterface::make_request(const char* text)
 	al_flip_display();
 
 	al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, text);
+	al_destroy_font(font);
 	font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 75 + DISPLAY_W / 75, 0);
 	al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 2, 2 * DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "press ENTER to continue");
+	al_destroy_font(font);
 	al_flip_display();
 
 	bool nameSet = false;
@@ -693,12 +714,14 @@ void GraphicInterface::update_display(string str)
 	al_clear_to_color(al_map_rgb(0, 0, 0));
 
 	al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 2, DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, REQUEST_USER_NAME_TEXT);
+	al_destroy_font(font);
 	font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 75 + DISPLAY_W / 75, 0);
 	if (!font)
 	{
 		cout << "ERROR: font unable to load" << endl;;
 	}
 	al_draw_text(font, al_map_rgb(255, 255, 255), DISPLAY_W / 2, 2 * DISPLAY_H / 3, ALLEGRO_ALIGN_CENTRE, "press ENTER to continue");
+	al_destroy_font(font);
 
 	font = al_load_ttf_font(AL_FONT_FILE, DISPLAY_W / 30 + DISPLAY_W / 30, 0);
 	if (!font)
@@ -706,5 +729,6 @@ void GraphicInterface::update_display(string str)
 		cout << "ERROR: font unable to load" << endl;;
 	}
 	al_draw_text(font, al_map_rgb(255, 0, 0), DISPLAY_W / 2, 2 * DISPLAY_H / 6, ALLEGRO_ALIGN_CENTRE, str.c_str());
+	al_destroy_font(font);
 	al_flip_display();
 }

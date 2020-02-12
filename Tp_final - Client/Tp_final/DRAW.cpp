@@ -36,8 +36,15 @@ DRAW::DRAW()
 
 DRAW::~DRAW()
 {
+	for (int i = 0; i < TOTAL_LEVELS; i++)
+		al_destroy_bitmap(this->backgrounds[i]);
+	al_destroy_bitmap(floor_top);
+	al_destroy_bitmap(floor_bottom);
+	al_destroy_bitmap(floor_corner_left);
+	al_destroy_bitmap(floor_corner_right);
 	delete images;
 	delete audio;
+	delete backgrounds;
 }
 
 Obj_Graf_Player* DRAW::createObjGraf(unsigned int ID, PLAYER_TYPE type)

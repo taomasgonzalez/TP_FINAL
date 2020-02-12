@@ -77,6 +77,7 @@ enum class Event_type  //Events that are usde by the internal function of the pr
 	DISAPPEARED,
 	FINISHED_DRAWING,
 	CHANGE_LEVEL,
+	RESTART_GAME,
 
 	//character events
 	JUMPED,
@@ -127,11 +128,11 @@ private:
 
 };
 
-class EventPackage: public Numbered_EventPackage
+class EventPackage : public Numbered_EventPackage
 {
 public:
-	EventPackage(Event_type event, uint16_t ID, bool is_local );
-	EventPackage(Action_info * info_checked);
+	EventPackage(Event_type event, uint16_t ID, bool is_local);
+	EventPackage(Action_info* info_checked);
 	virtual ~EventPackage();
 
 	Event_type give_me_your_event_type();
@@ -178,7 +179,7 @@ private:
 ACK_EventPackage CLASS
 *******************************************************************************
 *******************************************************************************/
-class ACK_EventPackage : public EventPackage 
+class ACK_EventPackage : public EventPackage
 {
 public:
 	ACK_EventPackage(uint16_t ID, bool is_local);
@@ -236,7 +237,7 @@ public:
 	MOVE_EventPackage(Direction_type direction_type, uint16_t ID); //local MOVE
 	MOVE_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern MOVE
 	MOVE_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//MOVE to be send by networking made from an AR
-	MOVE_EventPackage(Action_info * my_info);
+	MOVE_EventPackage(Action_info* my_info);
 	MOVE_EventPackage(MOVE_EventPackage* moved);
 
 	//to be completed when neeeded!!
@@ -259,7 +260,7 @@ public:
 	ATTACK_EventPackage(uint16_t ID); // local ATTACK
 	ATTACK_EventPackage(unsigned char fil_de, unsigned char col_de, uint16_t ID);			//extern ATTACK
 	ATTACK_EventPackage(Item_type my_character, unsigned char fil_de, unsigned char col_de, uint16_t ID);		//ATTACK to be send by networking made from an AR
-	ATTACK_EventPackage(Action_info * mmy_info);
+	ATTACK_EventPackage(Action_info* mmy_info);
 	ATTACK_EventPackage(ATTACK_EventPackage* moved);
 
 	//cualquier queja (que no sea de logica interna) quejarse a Tommy.
@@ -350,12 +351,12 @@ private:
 class MAP_IS_EventPackage : public EventPackage
 {
 public:
-	MAP_IS_EventPackage(bool is_local, const unsigned char * themap, unsigned char checksum);
-	char * give_me_the_map();
+	MAP_IS_EventPackage(bool is_local, char* themap, unsigned char checksum);
+	char* give_me_the_map();
 	unsigned char give_me_the_checksum();
 
 private:
-	char * map;
+	char* map;
 	unsigned char Checksum;
 };
 
@@ -369,7 +370,7 @@ class ENEMY_ACTION_EventPackage : public EventPackage, public Action_EventPackag
 {
 public:
 	ENEMY_ACTION_EventPackage(bool is_local, uchar the_MonsterID, Action_type the_action, unsigned char fil_de, unsigned char col_de, uint16_t ID);
-	ENEMY_ACTION_EventPackage(Action_info * ea_info);
+	ENEMY_ACTION_EventPackage(Action_info* ea_info);
 	ENEMY_ACTION_EventPackage(ENEMY_ACTION_EventPackage* enemy_action);
 
 
@@ -492,6 +493,14 @@ private:
 
 };
 
+class RESTART_GAME_EventPackage : public EventPackage
+{
+public:
+	RESTART_GAME_EventPackage();
+
+private:
+
+};
 
 /******************************************************************************
 *******************************************************************************

@@ -77,6 +77,9 @@ void AudioContainer::load_fatty_samples()
 void AudioContainer::destroy_all_samples()
 {
 	void destroy_chara_samples();
+	void destroy_enemy_samples();
+	void destroy_proyectile_samples();
+	void destroy_ball_samples();
 }
 
 void AudioContainer::destroy_player_samples()
@@ -109,6 +112,12 @@ void AudioContainer::destroy_proyectile_samples()
 {
 	al_destroy_sample(my_proyectile_samples_container.fire.impact_soundEffect);
 	al_destroy_sample(my_proyectile_samples_container.snow.impact_soundEffect);
+}
+
+void AudioContainer::destroy_ball_samples()
+{
+	al_destroy_sample(my_ball_samples.impact_soundEffect);
+	al_destroy_sample(my_ball_samples.move_soundEffect);
 }
 
 void AudioContainer::play_main_song(void)

@@ -175,7 +175,7 @@ void Obj_Graf_Character::handle_idle()
 	flip = (dir == Direction::Left) ? ALLEGRO_FLIP_HORIZONTAL : NULL;
 
 	al_draw_scaled_bitmap(chara_images->idleImages[idleActualImage / 2], 0, 0, al_get_bitmap_width(chara_images->idleImages[idleActualImage / 2]), al_get_bitmap_height(chara_images->idleImages[idleActualImage / 2]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
-	((idleActualImage + 1) < 2 * iddle_pics) ? idleActualImage++ : idleActualImage = 0;
+	((idleActualImage + 1) < 2 * idle_pics) ? idleActualImage++ : idleActualImage = 0;
 
 }
 

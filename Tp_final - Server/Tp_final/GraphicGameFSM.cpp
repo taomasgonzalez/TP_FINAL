@@ -5,6 +5,7 @@ void quit_graphic(void* data);
 void draw(void* data);
 void start_game_r(void* data);
 void change_level_r(void* data);
+void restart_game_r(void* data);
 
 #define FIRST_LEVEL (1)
 
@@ -31,6 +32,7 @@ GraphicGameFSM::GraphicGameFSM(DRAW* drawer) : FSM()
 	//playing_state->push_back({Event_type::LOCAL_QUIT, menu_state, quit_graphic});
 	//playing_state->push_back({Event_type::EXTERN_QUIT, menu_state, quit_graphic });
 	playing_state->push_back({ Event_type::CHANGE_LEVEL, playing_state, change_level_r });
+	playing_state->push_back({ Event_type::RESTART_GAME, playing_state, restart_game_r });
 
 	playing_state->push_back({ Event_type::LOCAL_QUIT, iddle_state, quit_graphic });
 	playing_state->push_back({ Event_type::EXTERN_QUIT, iddle_state, quit_graphic });
@@ -67,7 +69,12 @@ void GraphicGameFSM::change_level() {
 	level++;
 	drawer->setLevel(level);
 	graphics_inited = true;
+}
 
+void GraphicGameFSM::restart_game()
+{
+	level = 1;
+	drawer->setLevel(level);
 }
 
 
@@ -92,4 +99,10 @@ void change_level_r(void* data)
 {
 	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
 	fsm->change_level();
+}
+
+void restart_game_r(void* data)
+{
+	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
+	fsm->restart_game();
 }

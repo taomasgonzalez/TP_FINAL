@@ -90,6 +90,7 @@ LogicServerFSM::LogicServerFSM(Userdata* data, LogicEventGenerator* event_gen, S
 	Playing_state->push_back({ Event_type::FINISHED_LEVEL, this->Waiting_for_ACK_map_state, send_map_is_r });		//evento de software que se termino el nivel
 	Playing_state->push_back({ Event_type::WE_WON, this->Waiting_if_the_client_wants_to_play_again, send_we_won_r }); //we_won local generado por soft, le aviso a client que ganamos
 	Playing_state->push_back({ Event_type::GAME_OVER, this->Waiting_if_the_client_wants_to_play_again, send_we_lost_r });  //game_over local generado por soft, le aviso a client que perdimos
+	Playing_state->push_back({ Event_type::PLAY_AGAIN, this->Waiting_if_the_user_wants_to_play_again, ask_user_being_server_and_send_decition_r }); //se recibe un PLAY_AGAIN del client que quiere volver a jugar
 	Playing_state->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
 	Playing_state->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r }); //se recibe un quit por networking,
 	Playing_state->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
@@ -257,7 +258,7 @@ void LogicServerFSM::reset_game() {
 
 
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(), (unsigned char *)new_map.c_str(), 18);
 
 	saved_EventPackages.clear();
 	actual_state = Playing_state;

@@ -130,7 +130,7 @@ void Obj_Graf_Enemy::draw()
 }
 
 
-void Obj_Graf_Enemy::startDraw(Direction dir, void *state, POINT_& pos)
+void Obj_Graf_Enemy::startDraw(Direction dir, void* state, POINT_& pos)
 {
 	this->active = true;
 	if (dir != Direction::None)
@@ -138,7 +138,7 @@ void Obj_Graf_Enemy::startDraw(Direction dir, void *state, POINT_& pos)
 	this->pos.set_x_coord(pos.get_x_coord());
 	this->pos.set_y_coord(pos.get_y_coord());
 	this->InitalPos = pos;
-	this->state = *(ENEMY_STATE *)state;
+	this->state = *(ENEMY_STATE*)state;
 	this->actualImage = 0;			// comienza con la primera imagen
 	this->secuenceOver_ = false;
 	notified_half_jump = false;
@@ -209,7 +209,7 @@ void Obj_Graf_Enemy::handle_trapped(ENEMY_TYPE type, ENEMY_STATE trapped_state) 
 	else if (trapped_state == enemy_TRAPPED_2) {
 		trap2ActualImage = (trap2ticks % (pics_quantity_2 * 2)) / 2;
 		al_draw_scaled_bitmap(this_images->trap2Images[trap2ActualImage], 0, 0, al_get_bitmap_width(this_images->trap2Images[this->trap2ActualImage]),
-			al_get_bitmap_width(this_images->trap2Images[trap2ActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+			al_get_bitmap_height(this_images->trap2Images[trap2ActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		trap2ticks++;
 
 		if (trap2ticks > TICKS_TRAPPED)
@@ -220,8 +220,8 @@ void Obj_Graf_Enemy::handle_trapped(ENEMY_TYPE type, ENEMY_STATE trapped_state) 
 	}
 	else if (trapped_state == enemy_TRAPPED_3) {
 		trap3ActualImage = (trap3ticks % (pics_quantity_3 * 2)) / 2;
-		al_draw_scaled_bitmap(this_images->trap3Images[trap3ActualImage], 0, 0, al_get_bitmap_height(this_images->trap3Images[this->trap3ActualImage]),
-			al_get_bitmap_width(this_images->trap3Images[trap3ActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
+		al_draw_scaled_bitmap(this_images->trap3Images[trap3ActualImage], 0, 0, al_get_bitmap_width(this_images->trap3Images[this->trap3ActualImage]),
+			al_get_bitmap_height(this_images->trap3Images[trap3ActualImage]), pos.get_x_coord(), pos.get_y_coord(), BLOCK_SIZE, BLOCK_SIZE, flip);
 		trap3ticks++;
 
 		if (trap3ticks > TICKS_TRAPPED)
@@ -252,7 +252,7 @@ void Obj_Graf_Enemy::handle_inball_moving() {
 	else if (dir == Direction::Right)
 		reached_final_pos = pos.get_x_coord() >= (InitalPos.get_x_coord() + delta * BLOCK_SIZE);
 
-	if(actualImageInball == 0)
+	if (actualImageInball_moving == 0)
 		al_play_sample(this_samples->move_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 
 
@@ -346,7 +346,7 @@ void Obj_Graf_Enemy::handle_inball_falling() {
 
 void Obj_Graf_Enemy::handle_inball_destruction() {
 
-	if(actualDestructionImage == 0)
+	if (actualDestructionImage == 0)
 		al_play_sample(this_samples->impact_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 
 	if (actualDestructionImage < DESTRUCTION_PICS_BALL)															// si todavia no termino la secuancia que siga

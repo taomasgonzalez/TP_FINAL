@@ -41,6 +41,7 @@ public:
 	bool we_won = false;
 	bool we_lost = false;
 	bool finished_level = false;
+	bool restart_game = false;
 
 	bool waiting_for_ack = false;
 	bool reset_ack_timer = false;
@@ -80,6 +81,8 @@ public:
 
 	//send
 	void send_map_is();
+	void check_map_reset_game_and_save_send_ack();
+	void send_first_map_is();
 	void send_ack();
 	void send_quit();
 	void send_name_is();
@@ -174,6 +177,7 @@ void check_game_state_r(void* data);
 
 //send
 void send_map_is_r(void* data);
+void send_first_map_is_r(void* data);
 void send_ack_r(void* data);
 void send_quit_r(void* data);
 void send_name_is_r(void* data);

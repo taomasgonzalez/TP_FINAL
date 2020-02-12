@@ -112,5 +112,6 @@ private:
 	void destroy_player_samples();
 	void destroy_enemy_samples();
 	void destroy_proyectile_samples();
+	void destroy_ball_samples();
 };
 

@@ -35,13 +35,16 @@ Communication::Communication(Userdata * my_user_data) : Observable()
 
 Communication::~Communication()
 {
-	acceptor->close();
-	socket->close();
+	if (acceptor != NULL) {
+		acceptor->close();
+		delete acceptor;
+	}
+	if (socket != NULL) {
+		socket->close();
+		delete socket;
+	}
 	delete client_resolver;
-	delete acceptor;
-	delete socket;
 	delete IO_handler;
-	
 }
 
 

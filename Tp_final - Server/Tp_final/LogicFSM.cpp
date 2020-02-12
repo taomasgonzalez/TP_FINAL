@@ -256,6 +256,10 @@ void send_map_is_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->send_map_is();
 }
+void send_first_map_is_r(void* data) {
+	LogicFSM* fsm = (LogicFSM*)data;
+	fsm->send_first_map_is();
+}
 void load_enemy_action_and_send_ack_r(void* data) {
 
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -275,6 +279,7 @@ void load_action_and_send_it_back_r(void* data) {
 void start_game_and_send_ack_r(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
 	fsm->start_game_and_send_ack();
+	fsm->start_playing();
 }
 void set_ack_time_out(void* data) {
 	LogicFSM * fsm = (LogicFSM*)data;
@@ -561,7 +566,6 @@ void LogicFSM::analyze_we_lost() {
 
 	if (!error_ocurred)
 	{
-		finish_game();
 		ask_user_being_client_and_send_decition(); //By an Allegro interface
 		error_ocurred = false;
 	}
@@ -581,8 +585,9 @@ void LogicFSM::ask_user_being_client_and_send_decition() {
 		send_play_again();
 	else
 	{
-		com->sendMessage(pack_factory.event_package_2_package(new GAME_OVER_EventPackage())); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+		com->sendMessage(pack_factory.event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 		scenario->my_graphic_interface->print_messaje(GAME_OVER);
+		scenario->finish_game();
 	}
 	want_to_play_again = false;
 
@@ -595,15 +600,16 @@ void LogicFSM::ask_user_being_server_and_send_decition() {
 
 	if (want_to_play_again)
 		ev_gen->append_new_event(new PLAY_AGAIN_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft);
-	else
+	else {
 		ev_gen->append_new_event(new GAME_OVER_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft);
+	}
 
 }
 void LogicFSM::tell_user_send_ack_and_finish_game() {
 	send_ack();
 	finish_game();
 
-	scenario->my_graphic_interface->print_messaje(GAME_OVER);
+	scenario->my_graphic_interface->print_messaje(OTHER_PLAYER_NO);
 }
 
 void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdi�
@@ -621,6 +627,8 @@ void LogicFSM::send_we_lost() { //el servidor le avisa a client que se perdi�
 }
 void LogicFSM::send_game_over() {
 	com->sendMessage((new PackageFactory())->event_package_2_package(new GAME_OVER_EventPackage(true))); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	scenario->my_graphic_interface->print_messaje(GAME_OVER);
+	scenario->finish_game();
 }
 
 void LogicFSM::send_play_again() {
@@ -844,6 +852,46 @@ void LogicFSM::send_map_is() {
 	//	ev_gen->append_new_event(new CHANGE_LEVEL_EventPackage(), 0);
 
 	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, ( char*)scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
+	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
+	set_ack_time_out();
+}
+
+void LogicFSM::check_map_reset_game_and_save_send_ack()
+{
+	scenario->actual_map = -1;
+
+	EventPackage* event_to_be_checked = get_fsm_ev_pack();
+	MAP_IS_EventPackage* map_to_be_checked = (MAP_IS_EventPackage*)event_to_be_checked;
+
+	if (!scenario->is_the_map_okay((const unsigned char *)map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()))//I must check it first
+	{
+		ev_gen->empty_all_queues();
+		ev_gen->append_new_event(new ERROR_EventPackage(true), (int)LogicEventGenerator::LogicQueues::soft); //load ERROR if the map was corrupted in the trasmition
+	}
+	else
+	{
+		scenario->load_new_map(user_data->my_network_data.is_client(), (const char*)map_to_be_checked->give_me_the_map(), map_to_be_checked->give_me_the_checksum()); //If the map is okay, the program proceeds to load it
+		error_ocurred = false;
+	}
+
+	restart_game = true;
+	notify_obs();
+	restart_game = false;
+
+	if (!error_ocurred) //the map is valid, I should send an ACK
+		send_ack();
+}
+
+void LogicFSM::send_first_map_is() {
+	//i�m server, load the map from the txt
+	scenario->actual_map = -1;
+	scenario->load_new_map(user_data->my_network_data.is_client());
+	restart_game = true;
+	notify_obs();
+	restart_game = false;
+	//	ev_gen->append_new_event(new CHANGE_LEVEL_EventPackage(), 0);
+
+	MAP_IS_EventPackage* info_to_be_send = new MAP_IS_EventPackage(true, (char*)scenario->maps.at(scenario->actual_map)->give_me_the_original_map(), scenario->maps.at(this->scenario->actual_map)->give_me_the_checksum());
 	com->sendMessage(pack_factory.event_package_2_package(info_to_be_send)); //el event_package ya se forma en la fsm, se lo transforma y se lo manda
 	set_ack_time_out();
 }

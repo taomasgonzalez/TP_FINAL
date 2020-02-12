@@ -30,7 +30,6 @@ void ImageContainer::load_purple_bitmaps() {
 	fill_bitmap(&my_enemy_images_container.purple.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.purple.inballMoveImages, FOLDER_BALL, FOLDER_MOVING_BALL, FILE_MOVING_BALL, MOVING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.purple.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
-	fill_bitmap(&my_enemy_images_container.purple.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.purple.inballFallImages, FOLDER_BALL, FOLDER_FALLING_BALL, FILE_FALLING_BALL, FALLING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.purple.inballDestructiontImages, FOLDER_BALL, FOLDER_DESTRUCTION_BALL, FILE_DESTRUCTION_BALL, DESTRUCTION_PICS_BALL);
 }
@@ -45,7 +44,6 @@ void ImageContainer::load_fatty_bitmaps()
 	fill_bitmap(&my_enemy_images_container.fatty.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.fatty.inballMoveImages, FOLDER_BALL, FOLDER_MOVING_BALL, FILE_MOVING_BALL, MOVING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.fatty.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
-	fill_bitmap(&my_enemy_images_container.fatty.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.fatty.inballFallImages, FOLDER_BALL, FOLDER_FALLING_BALL, FILE_FALLING_BALL, FALLING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.fatty.inballDestructiontImages, FOLDER_BALL, FOLDER_DESTRUCTION_BALL, FILE_DESTRUCTION_BALL, DESTRUCTION_PICS_BALL);
 }
@@ -59,7 +57,6 @@ void ImageContainer::load_crazy_bitmaps()
 	// se cargan las imagenes de los enemigos en la bola
 	fill_bitmap(&my_enemy_images_container.crazy.inballIdleImages, FOLDER_BALL, FOLDER_IDLE_BALL, FILE_IDLE_BALL, IDLE_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.crazy.inballMoveImages, FOLDER_BALL, FOLDER_MOVING_BALL, FILE_MOVING_BALL, MOVING_PICS_BALL);
-	fill_bitmap(&my_enemy_images_container.crazy.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.crazy.inballPushImages, FOLDER_BALL, FOLDER_PUSHING_BALL, FILE_PUSHING_BALL, PUSHING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.crazy.inballFallImages, FOLDER_BALL, FOLDER_FALLING_BALL, FILE_FALLING_BALL, FALLING_PICS_BALL);
 	fill_bitmap(&my_enemy_images_container.crazy.inballDestructiontImages, FOLDER_BALL, FOLDER_DESTRUCTION_BALL, FILE_DESTRUCTION_BALL, DESTRUCTION_PICS_BALL);
@@ -157,8 +154,26 @@ void ImageContainer::fill_bitmap(ALLEGRO_BITMAP *** curr_images, std::string car
 	}
 }
 
+void ImageContainer::destroy_bitmaps(ALLEGRO_BITMAP*** curr_images, int limit)
+{
+	string imageDir;
+
+	for (int i = 0; i < limit; i++) {
+		al_destroy_bitmap((*curr_images)[i]);
+	}
+
+}
+
 void ImageContainer::destroy_enemy_bitmaps()
 {
+	destroy_bitmaps(&my_enemy_images_container.purple.trap1Images, TRAPPED_1_PICS_PURPLE);
+	destroy_bitmaps(&my_enemy_images_container.purple.trap2Images, TRAPPED_2_PICS_PURPLE);
+	destroy_bitmaps(&my_enemy_images_container.purple.trap3Images, TRAPPED_3_PICS_PURPLE);
+	destroy_bitmaps(&my_enemy_images_container.purple.inballIdleImages, IDLE_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.purple.inballMoveImages, MOVING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.purple.inballPushImages, PUSHING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.purple.inballFallImages, FALLING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.purple.inballDestructiontImages, DESTRUCTION_PICS_BALL);
 	// delete purple
 	delete[] my_enemy_images_container.purple.inballDestructiontImages;
 	delete[] my_enemy_images_container.purple.inballFallImages;
@@ -169,6 +184,14 @@ void ImageContainer::destroy_enemy_bitmaps()
 	delete[] my_enemy_images_container.purple.trap2Images;
 
 
+	destroy_bitmaps(&my_enemy_images_container.fatty.trap1Images, TRAPPED_1_PICS_FATTY);
+	destroy_bitmaps(&my_enemy_images_container.fatty.trap2Images, TRAPPED_2_PICS_FATTY);
+	destroy_bitmaps(&my_enemy_images_container.fatty.trap3Images, TRAPPED_3_PICS_FATTY);
+	destroy_bitmaps(&my_enemy_images_container.fatty.inballIdleImages, IDLE_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.fatty.inballMoveImages, MOVING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.fatty.inballPushImages, PUSHING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.fatty.inballFallImages, FALLING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.fatty.inballDestructiontImages, DESTRUCTION_PICS_BALL);
 	// delete fatty
 	delete[] my_enemy_images_container.fatty.inballDestructiontImages;
 	delete[] my_enemy_images_container.fatty.inballFallImages;
@@ -179,6 +202,14 @@ void ImageContainer::destroy_enemy_bitmaps()
 	delete[] my_enemy_images_container.fatty.trap2Images;
 
 
+	destroy_bitmaps(&my_enemy_images_container.crazy.trap1Images, TRAPPED_1_PICS_CRAZY);
+	destroy_bitmaps(&my_enemy_images_container.crazy.trap2Images, TRAPPED_2_PICS_CRAZY);
+	destroy_bitmaps(&my_enemy_images_container.crazy.trap3Images, TRAPPED_3_PICS_CRAZY);
+	destroy_bitmaps(&my_enemy_images_container.crazy.inballIdleImages, IDLE_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.crazy.inballMoveImages, MOVING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.crazy.inballPushImages, PUSHING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.crazy.inballFallImages, FALLING_PICS_BALL);
+	destroy_bitmaps(&my_enemy_images_container.crazy.inballDestructiontImages, DESTRUCTION_PICS_BALL);
 	// delete crazy
 	delete[] my_enemy_images_container.crazy.inballDestructiontImages;
 	delete[] my_enemy_images_container.crazy.inballFallImages;
@@ -191,12 +222,22 @@ void ImageContainer::destroy_enemy_bitmaps()
 
 void ImageContainer::destroy_projectile_bitmaps()
 {
+	destroy_bitmaps(&my_projectile_images_container.snowball.moveImages, MOVING_PICS_SNOW);
+	destroy_bitmaps(&my_projectile_images_container.snowball.decayImages, DECAYING_PICS_SNOW);
+	destroy_bitmaps(&my_projectile_images_container.snowball.impactImages, IMPACT_PICS_SNOW);
+	destroy_bitmaps(&my_projectile_images_container.snowball.fallImages, FALLING_PICS_SNOW);
+
 	// delete snow
 	delete[] my_projectile_images_container.snowball.decayImages;
 	delete[] my_projectile_images_container.snowball.fallImages;
 	delete[] my_projectile_images_container.snowball.impactImages;
 	delete[] my_projectile_images_container.snowball.moveImages;
 
+
+	destroy_bitmaps(&my_projectile_images_container.fire.moveImages, MOVING_PICS_FIRE);
+	destroy_bitmaps(&my_projectile_images_container.fire.decayImages, DECAYING_PICS_FIRE);
+	destroy_bitmaps(&my_projectile_images_container.fire.impactImages, IMPACT_PICS_FIRE);
+	destroy_bitmaps(&my_projectile_images_container.fire.fallImages, FALLING_PICS_FIRE);
 
 	// delete fire
 	delete[] my_projectile_images_container.fire.decayImages;
@@ -208,6 +249,14 @@ void ImageContainer::destroy_projectile_bitmaps()
 void ImageContainer::destroy_character_bitmaps()
 {
 	//delete tom
+	destroy_bitmaps(&my_character_images_container.tom.walkImages, WALKING_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.jumpImages, JUMPING_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.idleImages, IDLE_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.attackImages, ATTACKING_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.fallImages, FALLING_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.pushImages, PUSHING_PICS);
+	destroy_bitmaps(&my_character_images_container.tom.dieImages, DYING_PICS);
+
 	delete[] my_character_images_container.tom.attackImages;
 	delete[] my_character_images_container.tom.dieImages;
 	delete[] my_character_images_container.tom.fallImages;
@@ -218,6 +267,14 @@ void ImageContainer::destroy_character_bitmaps()
 
 
 	//delete nick
+	destroy_bitmaps(&my_character_images_container.nick.walkImages, WALKING_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.jumpImages, JUMPING_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.idleImages, IDLE_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.attackImages, ATTACKING_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.fallImages, FALLING_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.pushImages, PUSHING_PICS);
+	destroy_bitmaps(&my_character_images_container.nick.dieImages, DYING_PICS);
+
 	delete[] my_character_images_container.nick.attackImages;
 	delete[] my_character_images_container.nick.dieImages;
 	delete[] my_character_images_container.nick.fallImages;
@@ -227,6 +284,14 @@ void ImageContainer::destroy_character_bitmaps()
 	delete[] my_character_images_container.nick.walkImages;
 
 	//delete purple
+	destroy_bitmaps(&my_character_images_container.purple.walkImages, WALKING_PICS_PURPLE);
+	destroy_bitmaps(&my_character_images_container.purple.jumpImages, JUMPING_PICS_PURPLE);
+	destroy_bitmaps(&my_character_images_container.purple.idleImages, IDLE_PICS_PURPLE);
+	destroy_bitmaps(&my_character_images_container.purple.attackImages, ATTACKING_PICS_PURPLE);
+	destroy_bitmaps(&my_character_images_container.purple.fallImages, FALLING_PICS_PURPLE);
+	destroy_bitmaps(&my_character_images_container.purple.dieImages, DYING_PICS_PURPLE);
+
+
 	delete[] my_character_images_container.purple.attackImages;
 	delete[] my_character_images_container.purple.dieImages;
 	delete[] my_character_images_container.purple.fallImages;
@@ -235,6 +300,13 @@ void ImageContainer::destroy_character_bitmaps()
 	delete[] my_character_images_container.purple.walkImages;
 
 	//delete fatty
+	destroy_bitmaps(&my_character_images_container.fatty.walkImages, WALKING_PICS_FATTY);
+	destroy_bitmaps(&my_character_images_container.fatty.jumpImages, JUMPING_PICS_FATTY);
+	destroy_bitmaps(&my_character_images_container.fatty.idleImages, IDLE_PICS_FATTY);
+	destroy_bitmaps(&my_character_images_container.fatty.attackImages, ATTACKING_PICS_FATTY);
+	destroy_bitmaps(&my_character_images_container.fatty.fallImages, FALLING_PICS_FATTY);
+	destroy_bitmaps(&my_character_images_container.fatty.dieImages, DYING_PICS_FATTY);
+
 	delete[] my_character_images_container.fatty.attackImages;
 	delete[] my_character_images_container.fatty.dieImages;
 	delete[] my_character_images_container.fatty.fallImages;
@@ -243,6 +315,13 @@ void ImageContainer::destroy_character_bitmaps()
 	delete[] my_character_images_container.fatty.walkImages;
 
 	//delete crazy
+	destroy_bitmaps(&my_character_images_container.crazy.walkImages, WALKING_PICS_CRAZY);
+	destroy_bitmaps(&my_character_images_container.crazy.jumpImages, JUMPING_PICS_CRAZY);
+	destroy_bitmaps(&my_character_images_container.crazy.idleImages, IDLE_PICS_CRAZY);
+	destroy_bitmaps(&my_character_images_container.crazy.attackImages, ATTACKING_PICS_CRAZY);
+	destroy_bitmaps(&my_character_images_container.crazy.fallImages, FALLING_PICS_CRAZY);
+	destroy_bitmaps(&my_character_images_container.crazy.dieImages, DYING_PICS_CRAZY);
+
 	delete[] my_character_images_container.crazy.attackImages;
 	delete[] my_character_images_container.crazy.dieImages;
 	delete[] my_character_images_container.crazy.fallImages;

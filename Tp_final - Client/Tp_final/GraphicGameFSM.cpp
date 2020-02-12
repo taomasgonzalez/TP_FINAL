@@ -1,14 +1,15 @@
 #include "GraphicGameFSM.h"
 
-void do_nothing_graphic(void * data);
-void quit_graphic(void * data);
-void draw(void * data);
+void do_nothing_graphic(void* data);
+void quit_graphic(void* data);
+void draw(void* data);
 void start_game_r(void* data);
 void change_level_r(void* data);
+void restart_game_r(void* data);
 
 #define FIRST_LEVEL (1)
 
-GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
+GraphicGameFSM::GraphicGameFSM(DRAW* drawer) : FSM()
 {
 	this->drawer = drawer;
 
@@ -24,17 +25,18 @@ GraphicGameFSM::GraphicGameFSM(DRAW * drawer) : FSM()
 	//menu_state
 	menu_state->push_back({ Event_type::LOCAL_QUIT, menu_state, quit_graphic });
 	menu_state->push_back({ Event_type::EXTERN_QUIT, menu_state, quit_graphic });
-	menu_state->push_back({Event_type::END_OF_TABLE, menu_state, do_nothing_graphic });
+	menu_state->push_back({ Event_type::END_OF_TABLE, menu_state, do_nothing_graphic });
 
 	//playing_state
-	playing_state->push_back({Event_type::FPS_TICKED, playing_state, draw});
+	playing_state->push_back({ Event_type::FPS_TICKED, playing_state, draw });
 	//playing_state->push_back({Event_type::LOCAL_QUIT, menu_state, quit_graphic});
 	//playing_state->push_back({Event_type::EXTERN_QUIT, menu_state, quit_graphic });
 	playing_state->push_back({ Event_type::CHANGE_LEVEL, playing_state, change_level_r });
+	playing_state->push_back({ Event_type::RESTART_GAME, playing_state, restart_game_r });
 
-	playing_state->push_back({Event_type::LOCAL_QUIT, iddle_state, quit_graphic});
-	playing_state->push_back({Event_type::EXTERN_QUIT, iddle_state, quit_graphic });
-	playing_state->push_back({Event_type::END_OF_TABLE, playing_state, do_nothing_graphic });
+	playing_state->push_back({ Event_type::LOCAL_QUIT, iddle_state, quit_graphic });
+	playing_state->push_back({ Event_type::EXTERN_QUIT, iddle_state, quit_graphic });
+	playing_state->push_back({ Event_type::END_OF_TABLE, playing_state, do_nothing_graphic });
 
 	actual_state = iddle_state;
 	graphics_inited = false;
@@ -51,6 +53,7 @@ GraphicGameFSM::~GraphicGameFSM()
 }
 void GraphicGameFSM::start_game() {
 	//should start the graphic timer for fps events!!
+
 	drawer->setLevel(level);
 	Userdata::generating_graphic_events = true;
 
@@ -58,7 +61,7 @@ void GraphicGameFSM::start_game() {
 }
 
 void GraphicGameFSM::draw_tick() {
-		drawer->draw();
+	drawer->draw();
 }
 
 void GraphicGameFSM::change_level() {
@@ -66,18 +69,23 @@ void GraphicGameFSM::change_level() {
 	level++;
 	drawer->setLevel(level);
 	graphics_inited = true;
+}
 
+void GraphicGameFSM::restart_game()
+{
+	level = 1;
+	drawer->setLevel(level);
 }
 
 
 void do_nothing_graphic(void* data) {
 
 }
-void quit_graphic(void * data) {
-	GraphicGameFSM* fsm =(GraphicGameFSM*) data;
+void quit_graphic(void* data) {
+	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
 	//Userdata::generating_graphic_events = false;
 }
-void draw(void * data) {
+void draw(void* data) {
 	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
 	fsm->draw_tick();
 }
@@ -91,4 +99,10 @@ void change_level_r(void* data)
 {
 	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
 	fsm->change_level();
+}
+
+void restart_game_r(void* data)
+{
+	GraphicGameFSM* fsm = (GraphicGameFSM*)data;
+	fsm->restart_game();
 }

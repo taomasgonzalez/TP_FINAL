@@ -116,7 +116,7 @@ LogicServerFSM::LogicServerFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_if_the_client_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_client_wants_to_play_again, do_nothing_r });
 
 	//Waiting_if_the_user_wants_to_play_again
-	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_map_is_r });  //el usuario del servidor quiere volver a jugar
+	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::PLAY_AGAIN, this->Waiting_for_ACK_map_state, send_first_map_is_r });  //el usuario del servidor quiere volver a jugar
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::GAME_OVER, this->Waiting_if_the_user_wants_to_play_again, send_game_over_r }); //el usuario del servidor no quiere volver a jugar
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::ACK, NULL, finish_game_r });										//ACK del GAME_OVER del usuario del servidor
 	Waiting_if_the_user_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r }); //se recibe un envio un quit local, paso a esperar el ACK
@@ -187,6 +187,7 @@ void LogicServerFSM::run_fsm(EventPackage * ev_pack) {
 			al_stop_timer(control_timer);
 			while (al_get_next_event(control_ev_queue, &al_event));
 			may_control_enemies = true;
+			scenario->restart_enemies();
 		}
 
 	}
@@ -255,7 +256,7 @@ void LogicServerFSM::reset_game() {
 
 
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(), (const char *)new_map.c_str(), 18);
 
 	saved_EventPackages.clear();
 	actual_state = Playing_state;

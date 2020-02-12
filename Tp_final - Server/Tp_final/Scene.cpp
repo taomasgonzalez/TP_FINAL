@@ -482,16 +482,17 @@ bool Scene::both_players_run_out_of_lives(){
 
 void Scene::restart_enemies() {
 
-	int curr_enemy_to_act_on;
+	if(curr_enemies != NULL){
+		int curr_enemy_to_act_on;
 
-	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
-	{
-		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+		for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+		{
+			Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
 
-		curr_enemy->set_blocked_enemy_movements(false);
+			curr_enemy->set_blocked_enemy_movements(false);
 
+		}
 	}
-
 }
 
 void Scene::stop_all_enemies() {
@@ -533,8 +534,8 @@ bool Scene::game_is_finished() {
 
 void Scene::finish_game() {
 	game_finished = true;
-	notify_obs();
-	game_finished = false;
+	//notify_obs();
+	//game_finished = false;
 }
 
 
@@ -1046,38 +1047,43 @@ void Scene::append_new_auxilar_event(Action_info new_action_info) {
 void Scene::control_enemy_actions()
 {
 	//First is called control_enemies() if we have to fall
-	control_enemies();
+	int curr_enemy_to_act_on;
 
-	for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
-	{
-		Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
+	if (curr_enemies != NULL) {
+		control_enemies();
+		for (curr_enemy_to_act_on = 0; curr_enemy_to_act_on < curr_enemies->size(); curr_enemy_to_act_on++)
+		{
+			Enemy* curr_enemy = curr_enemies->at(curr_enemy_to_act_on);
 
-		if (curr_enemy->is_iddle()) {
-			enemy_action_info = curr_enemy->act();
+			if (curr_enemy->is_iddle()) {
+				enemy_action_info = curr_enemy->act();
 
-			if (enemy_action_info.valid) //So we don´t send a stay still
-			{
-				new_enemy_action = true;
-				notify_obs();					//ScenarioEventsObserver
-				new_enemy_action = false;
+				if (enemy_action_info.valid) //So we don´t send a stay still
+				{
+					new_enemy_action = true;
+					notify_obs();					//ScenarioEventsObserver
+					new_enemy_action = false;
+				}
 			}
 		}
 	}
-	
-
 }
+
 void Scene::control_enemies() {
-	for (int i = 0; i < curr_enemies->size(); i++)
-	{
-		Enemy* curr_enemy = curr_enemies->at(i);
-
-		if (check_if_has_to_fall(curr_enemy, false))
+	if (curr_enemies != NULL) {
+		for (int i = 0; i < curr_enemies->size(); i++)
 		{
-			curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
-			curr_enemy->set_blocked_enemy_movements(true); //If server the program blocks the generation of EA until the enemy stops falling
-		}
+			Enemy* curr_enemy = curr_enemies->at(i);
 
-		curr_enemies->at(i)->ev_handler->handle_event();
+			if (check_if_has_to_fall(curr_enemy, false))
+			{
+				curr_enemy->ev_handler->get_ev_gen()->append_new_event_front(new FELL_EventPackage());
+				curr_enemy->set_blocked_enemy_movements(true); //If server the program blocks the generation of EA until the enemy stops falling
+
+			}
+
+			curr_enemies->at(i)->ev_handler->handle_event();
+		}
 	}
 }
 void Scene::control_all_actions() {

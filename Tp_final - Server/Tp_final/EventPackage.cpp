@@ -498,7 +498,7 @@ MAP_IS_EventPackage METHODS DEFINITIONS
 /**************************************************************
 MAP_IS_EventPackage CONSTRUCTOR
 **************************************************************/
-MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  char * themap, unsigned char checksum) :EventPackage(Event_type::MAP_IS, is_local) {
+MAP_IS_EventPackage::MAP_IS_EventPackage(bool is_local,  char * themap, unsigned char checksum) :EventPackage(Event_type::MAP_IS,0, is_local) {
 
 	this->map = themap;
 	this->Checksum = checksum;
@@ -631,7 +631,12 @@ FINISHED_LEVEL_EventPackage::FINISHED_LEVEL_EventPackage() :EventPackage(Event_t
 
 }
 
-CHANGE_LEVEL_EventPackage::CHANGE_LEVEL_EventPackage() : EventPackage(Event_type::CHANGE_LEVEL) {
+CHANGE_LEVEL_EventPackage::CHANGE_LEVEL_EventPackage() : EventPackage(Event_type::CHANGE_LEVEL, 0, true) {
+
+
+}
+
+RESTART_GAME_EventPackage::RESTART_GAME_EventPackage() : EventPackage(Event_type::RESTART_GAME, 0, true) {
 
 
 }
@@ -639,7 +644,7 @@ CHANGE_LEVEL_EventPackage::CHANGE_LEVEL_EventPackage() : EventPackage(Event_type
 /**************************************************************
 NO_EVENT_EventPackage CONSTRUCTOR
 **************************************************************/
-NO_EVENT_EventPackage::NO_EVENT_EventPackage() :EventPackage(Event_type::NO_EVENT) {
+NO_EVENT_EventPackage::NO_EVENT_EventPackage() :EventPackage(Event_type::NO_EVENT, 0, true) {
 
 
 }

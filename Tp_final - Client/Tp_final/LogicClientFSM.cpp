@@ -81,12 +81,13 @@ LogicClientFSM::LogicClientFSM(Userdata * data, LogicEventGenerator *event_gen, 
 	Waiting_for_movement_state->push_back({ Event_type::END_OF_TABLE, this->Playing_state, do_nothing_r });
 
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::ACK, NULL, finish_game_r });	//ack of my game over from the server
-	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack_r });	//Client wants to play again, server too
+	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_reset_game_and_save_send_ack_r });	//Client wants to play again, server too
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::GAME_OVER, NULL, tell_user_send_ack_and_finish_game_r });	//Client wants to play again, server doesn�t 
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::LOCAL_QUIT, this->Waiting_for_ACK_quit_state, send_quit_r });	//se recibe un envio un quit local, paso a esperar el ACK
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::EXTERN_QUIT, NULL, send_ack_and_quit_r });		//se recibe un quit por networking,
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::ERROR1, NULL, analayze_error_r });
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::RESET, this->Playing_state, reset_game_r_c });
+	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::MAP_IS, this->Waiting_for_enemy_actions_state, check_map_and_save_send_ack_r });
 	Waiting_if_the_server_wants_to_play_again->push_back({ Event_type::END_OF_TABLE, this->Waiting_if_the_server_wants_to_play_again, do_nothing_r });
 
 
@@ -177,7 +178,7 @@ void LogicClientFSM::reset_game() {
 
 
 	scenario->actual_map = -1;
-	scenario->load_new_map(user_data->my_network_data.is_client(), (const unsigned char *)new_map.c_str(), 18);
+	scenario->load_new_map(user_data->my_network_data.is_client(), (unsigned char *)new_map.c_str(), 18);
 
 	saved_EventPackages.clear();
 	actual_state = Playing_state;

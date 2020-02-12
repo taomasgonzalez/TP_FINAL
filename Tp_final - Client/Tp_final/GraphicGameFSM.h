@@ -6,12 +6,13 @@
 class GraphicGameFSM : public FSM
 {
 public:
-	GraphicGameFSM(DRAW * drawer);
+	GraphicGameFSM(DRAW* drawer);
 	~GraphicGameFSM();
 
 	void start_game();
 	void draw_tick();
 	void change_level();
+	void restart_game();
 
 
 private:
