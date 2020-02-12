@@ -406,6 +406,7 @@
       <Filter>Source Files</Filter>
     </ClInclude>
     <ClInclude Include="AudioContainer.h" />
+    <ClInclude Include="PlayerSceneControllerObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

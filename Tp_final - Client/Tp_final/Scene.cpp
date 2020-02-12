@@ -61,6 +61,7 @@ Scene::Scene(Userdata* data, Item_type my_player, Item_type his_player):Observab
 Scene::~Scene()
 {
 	delete assistant_queue;
+	delete my_graphic_interface;
 }
 
 void Scene::execute_action(Action_info * action_to_be_executed, bool & should_be_hit)

@@ -399,6 +399,7 @@
     </ClInclude>
     <ClInclude Include="AudioContainer.h" />
     <ClInclude Include="PointsContainer.h" />
+    <ClInclude Include="PlayerSceneControllerObserver.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
