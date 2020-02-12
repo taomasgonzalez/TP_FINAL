@@ -148,7 +148,8 @@ void Enemy::stay_still(Action_info * next_enemy_action)
 	blocked_enemy_movement = true;
 	std::cout << "Se prendio el bloqueo de EAs desde stay_still" << std::endl;
 
-	al_start_timer(staying_still_timer);
+	if (staying_still_timer != NULL)
+		al_start_timer(staying_still_timer);
 }
 bool Enemy::can_make_movement()
 {
@@ -210,7 +211,8 @@ void Enemy::set_blocked_enemy_movements(bool blocked_value) {
 
 void Enemy::stop_staying_still_timer() {
 
-	al_stop_timer(staying_still_timer);
+	if (staying_still_timer != NULL)
+		al_stop_timer(staying_still_timer);
 }
 
 void Enemy::start_staying_still_timer() {

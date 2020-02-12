@@ -81,7 +81,8 @@ void EnemyActionsFSM::set_states()
 
 
 	freezing_state->push_back({ Event_type::GOT_HIT, freezing_state, got_hit_r });
-	freezing_state->push_back({ Event_type::FROZE, frozen_state, froze_r });
+	freezing_state->push_back({ Event_type::FROZE, dead_state, enemy_die_r });
+	//freezing_state->push_back({ Event_type::FROZE, frozen_state, froze_r });
 	freezing_state->push_back({ Event_type::PARTIALLY_UNFROZE, freezing_state, partially_unfroze_r });
 	freezing_state->push_back({ Event_type::UNFREEZE, iddle_state, unfreeze_r });
 	freezing_state->push_back({ Event_type::END_OF_TABLE, freezing_state, do_nothing_enemy_r });

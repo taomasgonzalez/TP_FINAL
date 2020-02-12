@@ -27,7 +27,7 @@ Obj_Graf_Projectile::Obj_Graf_Projectile(double ID, PROYECTILE_TYPE type, ImageC
 		break;
 	}
 
-	al_play_sample(samples->move_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);	//the move SE will be play right when the object is created
+//	al_play_sample(samples->move_soundEffect, 1.0, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);	//the move SE will be play right when the object is created
 }																						//being asumed that the will be moving when created
 
 Obj_Graf_Projectile::~Obj_Graf_Projectile()

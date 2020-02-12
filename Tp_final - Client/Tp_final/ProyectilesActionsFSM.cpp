@@ -116,7 +116,8 @@ void ProyectilesActionsFSM::continue_logical_movement()
 }
 
 bool ProyectilesActionsFSM::finished_logical_movement() {
-	return (current_moving_vector->end() == current_moving_iteration);
+	if(current_moving_vector != NULL)
+		return (current_moving_vector->end() == current_moving_iteration);
 }
 
 

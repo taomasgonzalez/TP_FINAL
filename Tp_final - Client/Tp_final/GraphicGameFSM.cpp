@@ -55,6 +55,7 @@ void GraphicGameFSM::start_game() {
 	//should start the graphic timer for fps events!!
 
 	drawer->setLevel(level);
+	drawer->play_main_song();
 	Userdata::generating_graphic_events = true;
 
 	//drawer->draw();

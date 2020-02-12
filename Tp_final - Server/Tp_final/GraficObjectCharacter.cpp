@@ -98,8 +98,8 @@ void Obj_Graf_Character::handle_jumping()
 	}
 	else
 	{
-		if(jump_ticks == 0)														//the music effect must only be set at the start of the jump
-			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+//		if(jump_ticks == 0)														//the music effect must only be set at the start of the jump
+//			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - (INITIAL_VEL_JUMP - ACELERTION * ++jump_ticks));															// muevo la posicion del dibujo
 		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
@@ -138,8 +138,8 @@ void Obj_Graf_Character::handle_jumping_forward()
 	}
 	else
 	{
-		if (jump_ticks == 0)														//the music effect must only be set at the start of the jump
-			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
+//		if (jump_ticks == 0)														//the music effect must only be set at the start of the jump
+//			al_play_sample(chara_samples->jump_soundEffect, 0.75, 0, 1.0, ALLEGRO_PLAYMODE_ONCE, 0);
 		(actualImage < (JUMPING_PICS - 1)) ? actualImage++ : NULL;																									// ubico el siguiente frame
 		pos.set_y_coord(pos.get_y_coord() - (INITIAL_VEL_JUMP - ACELERTION * ++jump_ticks));															// muevo la posicion del dibujo
 		if (!notified_half_jump && pos.get_y_coord() < (InitalPos.get_y_coord() - BLOCK_SIZE)) {
